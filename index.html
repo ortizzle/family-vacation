@@ -223,6 +223,31 @@
         }
         .pw-shake { animation: shake .4s ease; }
 
+        /* Schedule toggle */
+        .sched-toggle { display: flex; background: var(--snow); border-radius: 12px; padding: 4px; gap: 4px; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+        .toggle-btn { flex: 1; padding: 9px; border-radius: 9px; border: none; background: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-light); cursor: pointer; transition: all .2s; }
+        .toggle-btn.active { background: var(--forest-dark); color: white; }
+
+        /* Ship info card */
+        .ship-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+        .ship-stat { background: rgba(255,255,255,.12); border-radius: 10px; padding: 10px 12px; }
+        .ship-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: .8px; opacity: .7; margin-bottom: 3px; }
+        .ship-stat-value { font-size: 13px; font-weight: 600; }
+
+        /* Weather chips */
+        .weather-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+        .w-chip { background: var(--glacier-pale); border-radius: 100px; padding: 4px 10px; font-size: 11px; color: #1a5d6e; display: flex; align-items: center; gap: 3px; }
+        .w-chip-warn { background: var(--gold-pale); color: #7a4a00; }
+
+        /* Tips list */
+        .tip-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f0f4f0; font-size: 13px; color: var(--text-mid); line-height: 1.4; }
+        .tip-item:last-child { border-bottom: none; }
+        .tip-icon { flex-shrink: 0; font-size: 16px; }
+
+        /* Learn more links */
+        .learn-link { font-size: 11px; color: var(--glacier); text-decoration: none; display: inline-flex; align-items: center; gap: 2px; margin-top: 4px; }
+        .learn-link:hover { text-decoration: underline; }
+
         /* Family color legend */
         .family-legend { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; background: var(--snow); border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
         .legend-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); font-weight: 600; flex-shrink: 0; }
@@ -409,7 +434,183 @@
     <!-- ==================== SCHEDULE ==================== -->
     <section id="section-schedule" class="section">
         <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">The Itinerary</div>
-        <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Phoenix → Vancouver → Alaska → Home</div>
+        <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Tap a view — ship schedule or Ortiz family trip</div>
+        <div class="sched-toggle">
+            <button class="toggle-btn active" onclick="schedView('ship',this)">🛳️ Ship Schedule</button>
+            <button class="toggle-btn" onclick="schedView('ortiz',this)">🏔️ Ortiz Trip</button>
+        </div>
+        <!-- ===== SHIP VIEW ===== -->
+        <div id="sched-ship">
+            <div class="card" style="background:linear-gradient(135deg,var(--forest-dark),var(--forest-mid));color:white;margin-bottom:16px;">
+                <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.7;margin-bottom:6px;">Disney Wonder</div>
+                <div style="font-family:'Playfair Display',serif;font-size:20px;margin-bottom:2px;">Your Ship</div>
+                <div style="font-size:12px;opacity:.8;margin-bottom:12px;">Stateroom 6536 · Deck 6 · Deluxe Oceanview with Verandah</div>
+                <div class="ship-stat-grid">
+                    <div class="ship-stat"><div class="ship-stat-label">Guests</div><div class="ship-stat-value">1,754</div></div>
+                    <div class="ship-stat"><div class="ship-stat-label">Crew</div><div class="ship-stat-value">950</div></div>
+                    <div class="ship-stat"><div class="ship-stat-label">Decks</div><div class="ship-stat-value">11</div></div>
+                    <div class="ship-stat"><div class="ship-stat-label">Pools</div><div class="ship-stat-value">3</div></div>
+                </div>
+                <div style="margin-top:12px;font-size:12px;opacity:.8;line-height:1.6;">
+                    🍽️ <strong>Rotational Dining:</strong> Triton's → Tiana's Place → Animator's Palate<br>
+                    🍸 <strong>Palo</strong> (adults) on Deck 10 — you're booked!<br>
+                    🏊 <strong>Pools:</strong> Goofy's Family · AquaLab water play · Quiet Cove (adults)<br>
+                    🎭 Broadway shows · Character meets · Deck parties
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom:16px;">
+                <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)" style="padding-bottom:0;">
+                    <div>
+                        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">💡 Alaska Cruise Pro Tips</div>
+                        <div style="font-size:12px;color:var(--text-light);margin-top:2px;">12 cruises in — plus a few Alaska-specific ones</div>
+                    </div>
+                    <span class="acc-chevron"></span>
+                </div>
+                <div class="acc-body collapsed" style="margin-top:4px;">
+                    <div class="tip-item"><span class="tip-icon">🧅</span><span><strong>Layer everything.</strong> Temps swing 20°F+ from morning to afternoon. Base layer, fleece, waterproof shell — bring all three every port day.</span></div>
+                    <div class="tip-item"><span class="tip-icon">☂️</span><span><strong>Rain gear is non-negotiable.</strong> Even Skagway (the driest port) can surprise you. Ketchikan averages 160 inches of rain per year — pack ponchos for the kids.</span></div>
+                    <div class="tip-item"><span class="tip-icon">🌅</span><span><strong>Eye masks for sleeping.</strong> In June you'll have 19 hours of daylight. It won't get dark. Blackout curtains help, but an eye mask is your friend.</span></div>
+                    <div class="tip-item"><span class="tip-icon">🔭</span><span><strong>Binoculars on deck at all times.</strong> Humpbacks, orcas, bald eagles — they appear when you least expect it. Keep them accessible, not in the stateroom.</span></div>
+                    <div class="tip-item"><span class="tip-icon">🛳️</span><span><strong>Your verandah is gold.</strong> Alaska is one of the best routes for verandah use — scenic cruising, wildlife from bed, glacier day views. Use it constantly.</span></div>
+                    <div class="tip-item"><span class="tip-icon">📸</span><span><strong>Glacier Day character photo.</strong> Mickey & Minnie appear in their exclusive Alaska outfits. Best window is when the ship first enters Tracy Arm — be on deck early.</span></div>
+                    <div class="tip-item"><span class="tip-icon">🗺️</span><span><strong>Watch the navigation screen.</strong> Deck 4 lobby has a live ship position map. Kids love watching it update as you move through the Inside Passage.</span></div>
+                    <div class="tip-item"><span class="tip-icon">👟</span><span><strong>Waterproof shoes every port.</strong> Docks, gangways, and trails are wet. Leave the white sneakers for sea days.</span></div>
+                    <div class="tip-item"><span class="tip-icon">🧲</span><span><strong>Bring magnetic hooks.</strong> Stateroom walls are magnetic — hooks let you hang wet layers and gear without cluttering the small bathroom.</span></div>
+                    <div class="tip-item"><span class="tip-icon">👕</span><span><strong>Don't over-pack clothes.</strong> Laundry rooms are on board. Pack fewer outfits, wash mid-cruise, and leave room in your bag for Alaska souvenirs.</span></div>
+                </div>
+            </div>
+
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:12px;display:flex;align-items:center;gap:8px;">Cruise Days <span style="flex:1;height:1px;background:var(--stone-light);opacity:.4;display:block;"></span></div>
+
+            <div class="timeline-day">
+                <div class="timeline-line"><div class="day-dot" style="background:var(--glacier-pale);">🚢</div><div class="day-connector"></div></div>
+                <div class="timeline-content">
+                    <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)">
+                        <div><div class="day-label">Day 1 · June 15</div><div class="day-title">Embarkation — Vancouver</div><div class="day-time">Boarding from 12 PM · Departs 4:00 PM</div></div>
+                        <span class="acc-chevron"></span>
+                    </div>
+                    <div class="acc-body collapsed">
+                        <div class="weather-row"><span class="w-chip">🌡 58–65°F</span><span class="w-chip">🌤 Partly cloudy</span></div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Board, explore the ship, find your stateroom</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Mandatory muster drill before departure</div>
+                        <div class="activity-chip">Sailaway party on deck as Vancouver skyline fades</div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-day">
+                <div class="timeline-line"><div class="day-dot" style="background:#e8f5ee;">🌊</div><div class="day-connector"></div></div>
+                <div class="timeline-content">
+                    <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)">
+                        <div><div class="day-label">Day 2 · June 16</div><div class="day-title">Sea Day</div><div class="day-time">Sailing north through the Inside Passage</div></div>
+                        <span class="acc-chevron"></span>
+                    </div>
+                    <div class="acc-body collapsed">
+                        <div class="weather-row"><span class="w-chip">🌡 52–60°F on deck</span><span class="w-chip">🌥 Variable clouds</span></div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Palo Brunch — Ortiz & Stallings Adults ✓</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Pools, AquaLab, deck activities</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Broadway show in the Walt Disney Theatre</div>
+                        <div class="activity-chip">Watch for orcas and humpbacks from the deck 🐋</div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-day">
+                <div class="timeline-line"><div class="day-dot" style="background:#e8f5ee;">🌊</div><div class="day-connector"></div></div>
+                <div class="timeline-content">
+                    <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)">
+                        <div><div class="day-label">Day 3 · June 17</div><div class="day-title">Sea Day</div><div class="day-time">Entering Alaskan waters · Inside Passage</div></div>
+                        <span class="acc-chevron"></span>
+                    </div>
+                    <div class="acc-body collapsed">
+                        <div class="weather-row"><span class="w-chip">🌡 50–58°F on deck</span><span class="w-chip">🌥 Overcast likely</span></div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Wildlife watch from the verandah and forward decks 🦅</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Coastline becomes rugged and forested — stunning scenery</div>
+                        <div class="activity-chip">Navigation screen (Deck 4) shows position in the passage</div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-day">
+                <div class="timeline-line"><div class="day-dot" style="background:#e8f5ee;">⛰️</div><div class="day-connector"></div></div>
+                <div class="timeline-content">
+                    <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)">
+                        <div><div class="day-label">Day 4 · June 18</div><div class="day-title">Skagway</div><div class="day-time">Ashore 7:15 AM · All aboard 8:00 PM</div></div>
+                        <span class="acc-chevron"></span>
+                    </div>
+                    <div class="acc-body collapsed">
+                        <div class="weather-row"><span class="w-chip">🌡 50–66°F</span><span class="w-chip">⛅ Mostly sunny</span><span class="w-chip">✅ Driest port</span></div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Gold Rush boomtown — fully walkable historic downtown</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">White Pass & Yukon Route Railway — climbs to 2,885 ft</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">13+ hours ashore — longest port day of the cruise</div>
+                        <div class="activity-chip">See Plans tab for family-specific excursions</div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-day">
+                <div class="timeline-line"><div class="day-dot" style="background:var(--glacier-pale);">🏔️</div><div class="day-connector"></div></div>
+                <div class="timeline-content">
+                    <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)">
+                        <div><div class="day-label">Day 5 · June 19</div><div class="day-title">Juneau</div><div class="day-time">Ashore ~6:45 AM · All aboard ~4:45 PM</div></div>
+                        <span class="acc-chevron"></span>
+                    </div>
+                    <div class="acc-body collapsed">
+                        <div class="weather-row"><span class="w-chip">🌡 52–63°F</span><span class="w-chip">🌧 Light rain possible</span><span class="w-chip">🌿 Lush + green</span></div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Only US state capital with no road access — boat or plane only</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Mendenhall Glacier visible from town — 13 miles long</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Mount Roberts Tramway for panoramic views above the clouds</div>
+                        <div class="activity-chip">See Plans tab for family-specific excursions</div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-day">
+                <div class="timeline-line"><div class="day-dot" style="background:var(--gold-pale);">🌲</div><div class="day-connector"></div></div>
+                <div class="timeline-content">
+                    <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)">
+                        <div><div class="day-label">Day 6 · June 20</div><div class="day-title">Ketchikan</div><div class="day-time">Ashore 11:15 AM · All aboard 7:00 PM · Late start!</div></div>
+                        <span class="acc-chevron"></span>
+                    </div>
+                    <div class="acc-body collapsed">
+                        <div class="weather-row"><span class="w-chip">🌡 53–61°F</span><span class="w-chip w-chip-warn">🌧 Rain very likely</span><span class="w-chip">🌲 Rainforest city</span></div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">World's largest collection of standing totem poles</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Creek Street — historic boardwalk built over salmon-filled Ketchikan Creek</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Late start means a relaxed ship morning — enjoy breakfast on the verandah</div>
+                        <div class="activity-chip">See Plans tab for family-specific excursions</div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-day">
+                <div class="timeline-line"><div class="day-dot" style="background:var(--glacier-pale);">🧊</div><div class="day-connector"></div></div>
+                <div class="timeline-content">
+                    <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)">
+                        <div><div class="day-label">Day 7 · June 21</div><div class="day-title">Glacier Day</div><div class="day-time">Tracy Arm Fjord · Scenic cruising all day</div></div>
+                        <span class="acc-chevron"></span>
+                    </div>
+                    <div class="acc-body collapsed">
+                        <div class="weather-row"><span class="w-chip">🌡 45–55°F near ice</span><span class="w-chip">💨 Wind chill on deck</span><span class="w-chip">🌤 Often clear</span></div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Ship navigates a 30-mile fjord to reach Sawyer Glacier</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Glacial calving sounds like a cannon — watch and listen from the bow</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Blue ice = oldest, densest ice — absorbs all colors except blue</div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Mickey & Minnie in Alaska outfits — prime photo moment 📸</div>
+                        <div class="activity-chip">Palo Brunch #2 — Ortiz & Stallings Adults ✓</div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-day">
+                <div class="timeline-line"><div class="day-dot" style="background:#f3f0fa;">🏠</div></div>
+                <div class="timeline-content">
+                    <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)">
+                        <div><div class="day-label">Day 8 · June 22</div><div class="day-title">Disembarkation — Vancouver</div><div class="day-time">Off the ship by 8:00 AM</div></div>
+                        <span class="acc-chevron"></span>
+                    </div>
+                    <div class="acc-body collapsed">
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Set bags out the night before for early pickup</div>
+                        <div class="activity-chip">Transfer to YVR · WestJet home via Calgary</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== ORTIZ VIEW ===== -->
+        <div id="sched-ortiz" style="display:none">
         <div class="family-legend">
             <span class="legend-label">Key</span>
             <span class="legend-item li-o"><span class="legend-dot dot-o"></span>Ortiz</span>
@@ -610,6 +811,7 @@
                 </div>
             </div>
         </div>
+        </div><!-- end sched-ortiz -->
     </section>
 
     <!-- ==================== PORTS ==================== -->
@@ -645,8 +847,8 @@
                         <span style="background:var(--forest-dark);color:white;border-radius:100px;padding:3px 11px;font-size:11px;font-weight:600;">Fri · June 12</span>
                         <span style="font-size:14px;font-weight:600;color:var(--text-dark);">Easy Start — Steveston & Night Market</span>
                     </div>
-                    <div class="activity-chip" style="margin-bottom:6px;">🎣 <strong>Steveston Village</strong> — historic fishing boardwalk, Britannia Shipyards, fresh seafood (15 min from hotel)</div>
-                    <div class="activity-chip" style="margin-bottom:6px;">🏮 <strong>Richmond Night Market</strong> — 400+ vendors, Asian street food, live entertainment · Fri 7 PM–midnight</div>
+                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🎣 <strong>Steveston Village</strong> — historic fishing boardwalk, Britannia Shipyards, fresh seafood (15 min from hotel) <a class="learn-link" href="https://www.visitrichmond.com/explore/neighbourhoods/steveston" target="_blank" rel="noopener">↗ Learn more</a></div>
+                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🏮 <strong>Richmond Night Market</strong> — 400+ vendors, Asian street food, live entertainment · Fri 7 PM–midnight <a class="learn-link" href="https://richmondnightmarket.com" target="_blank" rel="noopener">↗ richmondnightmarket.com</a></div>
                     <div style="font-size:12px;color:var(--text-light);margin-top:6px;padding:0 2px;">💡 Night Market: 2431 Number 3 Rd, Richmond — short drive from River Rock</div>
                 </div>
                 <div style="border-top:1px solid #eef2ee;padding-top:16px;margin-bottom:16px;">
@@ -654,8 +856,8 @@
                         <span style="background:var(--forest-dark);color:white;border-radius:100px;padding:3px 11px;font-size:11px;font-weight:600;">Sat · June 13</span>
                         <span style="font-size:14px;font-weight:600;color:var(--text-dark);">North Shore Adventure</span>
                     </div>
-                    <div class="activity-chip" style="margin-bottom:6px;">🌉 <strong>Capilano Suspension Bridge</strong> — 450-ft bridge, Treetops Adventure, Cliffwalk, Raptors Ridge (birds of prey) · ~$79 adults / $28 kids · Book ahead!</div>
-                    <div class="activity-chip" style="margin-bottom:6px;">🚠 <strong>Grouse Mountain</strong> — Skyride gondola, grizzly bears Grinder & Coola, Lumberjack Show · free shuttle from Canada Place</div>
+                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🌉 <strong>Capilano Suspension Bridge</strong> — 450-ft bridge, Treetops Adventure, Cliffwalk, Raptors Ridge (birds of prey) · ~$79 adults / $28 kids · Book ahead! <a class="learn-link" href="https://www.capbridge.com" target="_blank" rel="noopener">↗ capbridge.com</a></div>
+                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🚠 <strong>Grouse Mountain</strong> — Skyride gondola, grizzly bears Grinder & Coola, Lumberjack Show · free shuttle from Canada Place <a class="learn-link" href="https://www.grousemountain.com" target="_blank" rel="noopener">↗ grousemountain.com</a></div>
                     <div style="background:var(--glacier-pale);border-radius:8px;padding:10px 12px;font-size:12px;color:#1a5d6e;margin-top:8px;line-height:1.5;">🔗 <strong>Alaska connection:</strong> Grinder & Coola are real grizzlies — guaranteed sighting before Alaska. The Grouse Lumberjack Show is a fun warm-up for Ketchikan's Great Alaskan Lumberjack Show.</div>
                 </div>
                 <div style="border-top:1px solid #eef2ee;padding-top:16px;margin-bottom:16px;">
@@ -663,9 +865,9 @@
                         <span style="background:var(--forest-dark);color:white;border-radius:100px;padding:3px 11px;font-size:11px;font-weight:600;">Sun · June 14</span>
                         <span style="font-size:14px;font-weight:600;color:var(--text-dark);">Stanley Park + Granville Island</span>
                     </div>
-                    <div class="activity-chip" style="margin-bottom:6px;">🌳 <strong>Stanley Park</strong> — seawall walk or bike ride, totem poles, beaches, mountain views</div>
-                    <div class="activity-chip" style="margin-bottom:6px;">🐠 <strong>Vancouver Aquarium</strong> — sea otters, belugas, jellyfish (inside the park, optional add-on)</div>
-                    <div class="activity-chip" style="margin-bottom:6px;">🛶 <strong>Granville Island</strong> — Public Market for lunch, Kids Market for Sedona & River</div>
+                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🌳 <strong>Stanley Park</strong> — seawall walk or bike ride, totem poles, beaches, mountain views <a class="learn-link" href="https://vancouver.ca/parks-recreation-culture/stanley-park.aspx" target="_blank" rel="noopener">↗ vancouver.ca</a></div>
+                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🐠 <strong>Vancouver Aquarium</strong> — sea otters, belugas, jellyfish (inside the park, optional add-on) <a class="learn-link" href="https://www.vanaqua.org" target="_blank" rel="noopener">↗ vanaqua.org</a></div>
+                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🛶 <strong>Granville Island</strong> — Public Market for lunch, Kids Market for Sedona & River <a class="learn-link" href="https://granvilleisland.com" target="_blank" rel="noopener">↗ granvilleisland.com</a></div>
                     <div style="background:var(--glacier-pale);border-radius:8px;padding:10px 12px;font-size:12px;color:#1a5d6e;margin-top:8px;line-height:1.5;">🔗 <strong>Alaska connection:</strong> The totem poles in Stanley Park are Haida and First Nations pieces — a perfect intro before Ketchikan's world-largest totem pole collection.</div>
                 </div>
                 <div style="border-top:1px solid #eef2ee;padding-top:16px;">
@@ -688,6 +890,7 @@
                 <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
             </div>
             <div class="acc-body port-body collapsed">
+                <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 50–66°F in June</span><span class="w-chip">⛅ Mostly sunny</span><span class="w-chip">✅ Driest port</span></div>
                 <div class="port-facts">
                     <div class="port-fact"><div class="port-fact-label">Population</div><div class="port-fact-value">~1,100</div></div>
                     <div class="port-fact"><div class="port-fact-label">Founded</div><div class="port-fact-value">1897</div></div>
@@ -709,6 +912,7 @@
                 <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
             </div>
             <div class="acc-body port-body collapsed">
+                <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 52–63°F in June</span><span class="w-chip">🌧 Light rain likely</span><span class="w-chip">🌿 Lush rainforest</span></div>
                 <div class="port-facts">
                     <div class="port-fact"><div class="port-fact-label">Population</div><div class="port-fact-value">~32,000</div></div>
                     <div class="port-fact"><div class="port-fact-label">Mendenhall Glacier</div><div class="port-fact-value">13 miles long</div></div>
@@ -730,6 +934,7 @@
                 <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
             </div>
             <div class="acc-body port-body collapsed">
+                <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 53–61°F in June</span><span class="w-chip w-chip-warn">🌧 Expect rain</span><span class="w-chip">☂ 160in/yr avg</span></div>
                 <div class="port-facts">
                     <div class="port-fact"><div class="port-fact-label">Population</div><div class="port-fact-value">~8,000</div></div>
                     <div class="port-fact"><div class="port-fact-label">Totem Poles</div><div class="port-fact-value">World's largest collection</div></div>
@@ -751,6 +956,7 @@
                 <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
             </div>
             <div class="acc-body port-body collapsed">
+                <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 45–55°F near ice</span><span class="w-chip">💨 Wind chill on deck</span><span class="w-chip">🌤 Often clear & vivid</span></div>
                 <div class="port-facts">
                     <div class="port-fact"><div class="port-fact-label">Fjord Length</div><div class="port-fact-value">~30 miles</div></div>
                     <div class="port-fact"><div class="port-fact-label">Glacier Type</div><div class="port-fact-value">Tidewater</div></div>
@@ -824,7 +1030,7 @@
             <div class="acc-body" style="padding-top:10px;">
                 <div class="exp-card booked" data-status="booked" data-families="ortiz,stallings">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">White Pass Scenic Railway</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$150–200/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="badge badge-booked">✓ Booked</span></div></div>
+                    <div class="exp-body"><div class="exp-name">White Pass Scenic Railway</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$150–200/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.wpyr.com" target="_blank" rel="noopener">↗ wpyr.com</a></div>
                 </div>
                 <div class="exp-card booked" data-status="booked" data-families="ortiz">
                     <div class="exp-dot dot-booked"></div>
@@ -866,7 +1072,7 @@
             <div class="acc-body" style="padding-top:10px;">
                 <div class="exp-card booked" data-status="booked" data-families="ortiz,stallings,simmons">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="exp-meta"><span class="exp-tag">~1.5 hrs</span><span class="exp-tag">$29–59/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="family-pill pill-sim">Simmons</span><span class="badge badge-booked">✓ Booked</span></div></div>
+                    <div class="exp-body"><div class="exp-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="exp-meta"><span class="exp-tag">~1.5 hrs</span><span class="exp-tag">$29–59/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="family-pill pill-sim">Simmons</span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://lumberjackshow.com" target="_blank" rel="noopener">↗ lumberjackshow.com</a></div>
                 </div>
                 <div class="exp-card maybe" data-status="maybe" data-families="ortiz,stallings">
                     <div class="exp-dot dot-maybe"></div>
@@ -1034,6 +1240,14 @@
     Object.entries(store).forEach(([id, val]) => {
         if (val) { const el = document.getElementById(id); if (el) el.classList.add('spotted'); }
     });
+
+    // Schedule view toggle
+    function schedView(view, btn) {
+        document.querySelectorAll('.sched-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('sched-ship').style.display = view === 'ship' ? '' : 'none';
+        document.getElementById('sched-ortiz').style.display = view === 'ortiz' ? '' : 'none';
+    }
 
     // Accordion
     function toggleAcc(trigger) {
