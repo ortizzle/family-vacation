@@ -171,9 +171,76 @@
         .pill-sim { background: var(--gold-pale); color: #7a4a00; }
         .onboard-cat-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-light); margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
         .onboard-cat-title::after { content: ''; flex: 1; height: 1px; background: #d1dcd6; }
+
+        /* Password screen */
+        #pw-screen {
+            position: fixed; inset: 0; z-index: 9999;
+            background: var(--forest-dark);
+            display: flex; align-items: center; justify-content: center;
+            padding: 32px 24px;
+        }
+        .pw-box {
+            width: 100%; max-width: 360px; text-align: center;
+        }
+        .pw-mountains {
+            width: 100%; margin-bottom: 28px;
+        }
+        .pw-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px; font-weight: 700;
+            color: #fff; margin-bottom: 6px;
+        }
+        .pw-subtitle {
+            font-size: 13px; color: var(--stone-light);
+            margin-bottom: 32px; line-height: 1.5;
+        }
+        .pw-input {
+            width: 100%; padding: 14px 18px;
+            border-radius: 12px; border: 1.5px solid rgba(255,255,255,.15);
+            background: rgba(255,255,255,.07);
+            color: #fff; font-size: 16px; font-family: 'Inter', sans-serif;
+            outline: none; text-align: center;
+            letter-spacing: 3px;
+            transition: border-color .2s;
+        }
+        .pw-input::placeholder { letter-spacing: 0; color: var(--stone-light); }
+        .pw-input:focus { border-color: var(--glacier); }
+        .pw-btn {
+            margin-top: 14px; width: 100%; padding: 14px;
+            border-radius: 12px; border: none;
+            background: var(--glacier); color: #fff;
+            font-size: 16px; font-weight: 600; font-family: 'Inter', sans-serif;
+            cursor: pointer; transition: background .2s;
+        }
+        .pw-btn:hover { background: var(--glacier-light); }
+        .pw-error {
+            margin-top: 12px; font-size: 13px;
+            color: #f87171; min-height: 18px;
+        }
+        @keyframes shake {
+            0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)}
+        }
+        .pw-shake { animation: shake .4s ease; }
     </style>
 </head>
 <body>
+
+<div id="pw-screen">
+    <div class="pw-box">
+        <svg class="pw-mountains" viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="0,120 60,40 110,65 180,10 250,55 310,28 360,50 360,120" fill="#2a5240" opacity=".7"/>
+            <polygon points="0,120 40,75 95,95 175,30 248,72 320,48 360,68 360,120" fill="#1f3d2d" opacity=".9"/>
+            <polygon points="172,30 186,68 158,68" fill="white" opacity=".15"/>
+            <rect x="0" y="113" width="360" height="7" fill="#3a9db5" opacity=".5"/>
+        </svg>
+        <div class="pw-title">Alaska Adventure 2026</div>
+        <div class="pw-subtitle">Ortiz · Stallings · Simmons<br>Enter the password to continue</div>
+        <input class="pw-input" id="pw-input" type="password" placeholder="Password" autocomplete="current-password"
+               onkeydown="if(event.key==='Enter')checkPw()">
+        <button class="pw-btn" onclick="checkPw()">Enter</button>
+        <div class="pw-error" id="pw-error"></div>
+    </div>
+</div>
 
 <header class="app-header">
     <svg style="position:absolute;bottom:0;left:0;right:0;width:100%;height:100%;" viewBox="0 0 430 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -710,6 +777,29 @@
 </nav>
 
 <script>
+    // Password gate
+    const APP_PASSWORD = 'alaska2026';
+    (function() {
+        if (sessionStorage.getItem('ak26-auth') === '1') {
+            document.getElementById('pw-screen').style.display = 'none';
+        }
+    })();
+    function checkPw() {
+        const input = document.getElementById('pw-input');
+        if (input.value === APP_PASSWORD) {
+            sessionStorage.setItem('ak26-auth', '1');
+            document.getElementById('pw-screen').style.display = 'none';
+        } else {
+            const err = document.getElementById('pw-error');
+            err.textContent = 'Incorrect password — try again';
+            input.classList.remove('pw-shake');
+            void input.offsetWidth;
+            input.classList.add('pw-shake');
+            input.value = '';
+            setTimeout(() => err.textContent = '', 3000);
+        }
+    }
+
     // Countdown
     (function() {
         const dep = new Date('2026-06-15T00:00:00');
