@@ -223,32 +223,60 @@
         }
         .pw-shake { animation: shake .4s ease; }
 
-        /* Bingo game */
+        /* Bingo game — 3D flip cards */
         .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
-        .bingo-cell { background: var(--snow); border-radius: 14px; padding: 12px 6px; text-align: center; cursor: pointer; box-shadow: var(--shadow-sm); border: 2px solid transparent; transition: all .2s; -webkit-tap-highlight-color: transparent; user-select: none; }
-        .bingo-cell.free { background: var(--glacier-pale); border-color: var(--glacier); cursor: default; }
-        .bingo-cell.spotted { background: var(--forest-dark); border-color: var(--forest-mid); }
-        .bingo-cell.spotted .bingo-name, .bingo-cell.spotted .bingo-fact { color: rgba(255,255,255,.7); }
-        .bingo-cell.spotted .bingo-emoji::after { content: ' ✓'; font-size: 12px; color: #86efac; vertical-align: top; }
-        .bingo-cell.bingo-win { animation: bingo-pulse .5s ease; }
-        .bingo-emoji { font-size: 30px; display: block; margin-bottom: 4px; }
+        .bingo-cell { min-height: 128px; border-radius: 14px; cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; perspective: 700px; box-shadow: var(--shadow-sm); border: 2px solid transparent; transition: border-color .2s, box-shadow .2s; }
+        .bingo-cell.free { border-color: var(--glacier); cursor: default; }
+        .bingo-cell.spotted { border-color: var(--forest-mid); }
+        .bingo-cell.bingo-win { box-shadow: 0 0 0 3px var(--gold), var(--shadow-sm); }
+        .bingo-inner { position: absolute; inset: 0; border-radius: 12px; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.4,0,.2,1); }
+        .bingo-cell.spotted .bingo-inner { transform: rotateY(180deg); }
+        .bingo-cell.bingo-win .bingo-inner { animation: bingo-pulse .55s ease; }
+        .bingo-front, .bingo-back { position: absolute; inset: 0; border-radius: 12px; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 6px; text-align: center; overflow: hidden; }
+        .bingo-front { background: var(--snow); }
+        .bingo-back { background: var(--forest-dark); transform: rotateY(180deg); justify-content: flex-start; padding: 9px 7px 7px; gap: 2px; }
+        .bingo-cell.free .bingo-front { background: var(--glacier-pale); }
+        .bingo-emoji { font-size: 28px; display: block; margin-bottom: 4px; }
         .bingo-name { font-size: 11px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
         .bingo-fact { font-size: 10px; color: var(--text-light); line-height: 1.3; }
         .free-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--glacier); margin-bottom: 4px; }
-        @keyframes bingo-pulse { 0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)} }
+        .bingo-back-emoji { font-size: 20px; display: block; margin-bottom: 2px; }
+        .bingo-back-name { font-size: 10px; font-weight: 700; color: white; margin-bottom: 5px; }
+        .bingo-back-fact { font-size: 9.5px; color: rgba(255,255,255,.82); line-height: 1.35; margin-bottom: 3px; padding: 3px 5px; background: rgba(255,255,255,.09); border-radius: 6px; width: 100%; }
+        .bingo-spotted-badge { font-size: 10px; font-weight: 700; color: #86efac; margin-top: 3px; letter-spacing: .5px; }
+        @keyframes bingo-pulse { 0%{transform:rotateY(180deg) scale(1)} 50%{transform:rotateY(180deg) scale(1.06)} 100%{transform:rotateY(180deg) scale(1)} }
 
         /* Bingo win banner */
         .bingo-banner { display: none; background: linear-gradient(135deg,var(--forest-dark),var(--glacier)); color: white; border-radius: 16px; padding: 16px 20px; text-align: center; margin-bottom: 16px; }
-        .bingo-banner.show { display: block; animation: bingo-pulse .4s ease; }
+        .bingo-banner.show { display: block; animation: bingo-banner-pop .4s cubic-bezier(.17,.67,.3,1.3); }
+        @keyframes bingo-banner-pop { 0%{transform:scale(.85);opacity:0} 100%{transform:scale(1);opacity:1} }
         .bingo-banner-title { font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 4px; }
         .bingo-banner-sub { font-size: 13px; opacity: .85; }
 
         /* Confetti */
-        .confetti-piece { position: fixed; width: 10px; height: 10px; border-radius: 2px; pointer-events: none; z-index: 9000; animation: confetti-fall linear forwards; }
+        .confetti-piece { position: fixed; pointer-events: none; z-index: 9000; animation: confetti-fall linear forwards; }
         @keyframes confetti-fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
 
-        /* Route map */
-        .route-map-wrap { background: #c8e8f5; border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+        /* Flashcards */
+        .fc-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 10px; }
+        .fc-nav-btn { background: var(--forest-dark); color: white; border: none; border-radius: 100px; width: 38px; height: 38px; font-size: 17px; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
+        .fc-nav-btn:active { opacity: .75; }
+        .fc-counter { font-size: 13px; color: var(--text-light); min-width: 54px; text-align: center; }
+        .fc-wrap { perspective: 1000px; margin-bottom: 10px; }
+        .fc-card { height: 210px; cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
+        .fc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.4,0,.2,1); }
+        .fc-card.flipped .fc-inner { transform: rotateY(180deg); }
+        .fc-front, .fc-back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 22px 20px; text-align: center; }
+        .fc-front { background: var(--forest-dark); }
+        .fc-back { background: linear-gradient(135deg, var(--glacier), var(--forest-mid)); transform: rotateY(180deg); }
+        .fc-cat { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--glacier-light); margin-bottom: 12px; }
+        .fc-q { font-family: 'Playfair Display', serif; font-size: 18px; color: white; line-height: 1.45; }
+        .fc-hint { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 14px; }
+        .fc-a { font-size: 14px; color: white; line-height: 1.55; font-weight: 500; }
+        .fc-back-hint { font-size: 11px; color: rgba(255,255,255,.55); margin-top: 14px; }
+        .fc-progress { display: flex; justify-content: center; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
+        .fc-dot { width: 7px; height: 7px; border-radius: 50%; background: #d1dcd6; transition: background .2s, transform .2s; }
+        .fc-dot.active { background: var(--forest-dark); transform: scale(1.3); }
 
         /* Educational content */
         .edu-section { margin-top: 16px; padding-top: 16px; border-top: 1px solid #eef2ee; }
@@ -841,45 +869,6 @@
         <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Port Guides</div>
         <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Tap a port to explore</div>
 
-        <div class="route-map-wrap">
-            <svg viewBox="0 0 340 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
-                <!-- Ocean background -->
-                <rect width="340" height="280" fill="#c8e8f5"/>
-                <!-- Alaska landmass -->
-                <polygon points="0,0 200,0 200,60 170,80 155,95 140,100 120,105 100,115 80,120 60,115 40,120 20,130 0,130" fill="#2a5240"/>
-                <text x="60" y="45" fill="rgba(255,255,255,.6)" font-size="13" font-family="'Inter',sans-serif" font-weight="700" letter-spacing="3">ALASKA</text>
-                <!-- Canadian coast / mainland -->
-                <polygon points="340,0 200,0 200,60 210,85 220,110 225,135 228,160 230,185 232,215 235,245 238,280 340,280" fill="#3d7055" opacity=".8"/>
-                <text x="250" y="160" fill="rgba(255,255,255,.45)" font-size="11" font-family="'Inter',sans-serif" font-weight="600" letter-spacing="2">CANADA</text>
-                <!-- Inside Passage islands -->
-                <ellipse cx="195" cy="175" rx="12" ry="30" fill="#2a5240" opacity=".7"/>
-                <ellipse cx="205" cy="220" rx="9" ry="22" fill="#2a5240" opacity=".6"/>
-                <ellipse cx="198" cy="248" rx="7" ry="14" fill="#2a5240" opacity=".6"/>
-                <ellipse cx="210" cy="135" rx="8" ry="18" fill="#3d7055" opacity=".5"/>
-                <!-- Cruise route line -->
-                <polyline points="218,265 212,240 208,210 204,180 196,148 188,120 175,100 165,88" fill="none" stroke="white" stroke-width="2.5" stroke-dasharray="6,3" opacity=".9"/>
-                <polyline points="165,88 170,98 178,112 186,138 194,165 202,195 208,225 215,255 218,265" fill="none" stroke="white" stroke-width="2" stroke-dasharray="4,4" opacity=".5"/>
-                <!-- Port dots -->
-                <!-- Vancouver -->
-                <circle cx="218" cy="265" r="6" fill="white" stroke="#3a9db5" stroke-width="2"/>
-                <text x="226" y="269" fill="white" font-size="10" font-family="'Inter',sans-serif" font-weight="700">Vancouver</text>
-                <!-- Ketchikan -->
-                <circle cx="208" cy="210" r="6" fill="white" stroke="#d48820" stroke-width="2"/>
-                <text x="216" y="214" fill="white" font-size="10" font-family="'Inter',sans-serif" font-weight="700">Ketchikan</text>
-                <!-- Juneau -->
-                <circle cx="196" cy="148" r="6" fill="white" stroke="#3a9db5" stroke-width="2"/>
-                <text x="204" y="152" fill="white" font-size="10" font-family="'Inter',sans-serif" font-weight="700">Juneau</text>
-                <!-- Glacier -->
-                <circle cx="178" cy="115" r="5" fill="#c8e8f5" stroke="white" stroke-width="2"/>
-                <text x="136" y="112" fill="rgba(255,255,255,.85)" font-size="9" font-family="'Inter',sans-serif">Glacier</text>
-                <!-- Skagway -->
-                <circle cx="165" cy="88" r="6" fill="white" stroke="#3d7055" stroke-width="2"/>
-                <text x="124" y="92" fill="white" font-size="10" font-family="'Inter',sans-serif" font-weight="700">Skagway</text>
-                <!-- Ship icon on route -->
-                <text x="200" y="182" font-size="14" text-anchor="middle">🛳️</text>
-            </svg>
-        </div>
-
         <div class="port-card">
             <div class="port-header port-header-vancouver acc-trigger" onclick="toggleAcc(this)">
                 <div class="port-day-badge">Pre-Cruise · June 12–15</div>
@@ -1057,7 +1046,7 @@
                     <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>Totem poles are like giant comic books carved in cedar! Each figure tells part of a story — a family's history, an important event, or a legend. They're read from bottom to top. The animals mean things: Eagle = peace and friendship, Raven = creation and mischief, Bear = strength and family. Look for these when you visit Totem Heritage Center!</div>
                     <div class="map-link-row">
                         <a class="map-link-btn" href="https://maps.google.com/?q=Ketchikan,Alaska" target="_blank" rel="noopener">📍 Map of Ketchikan</a>
-                        <a class="map-link-btn" href="https://lumberjackshow.com" target="_blank" rel="noopener">🪵 Lumberjack Show</a>
+                        <a class="map-link-btn" href="https://www.lumberjackshow.com" target="_blank" rel="noopener">🪵 Lumberjack Show</a>
                     </div>
                 </div>
             </div>
@@ -1117,20 +1106,88 @@
         </div>
 
         <div class="bingo-grid" id="bingo-grid">
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-whale"><span class="bingo-emoji">🐋</span><div class="bingo-name">Humpback Whale</div><div class="bingo-fact">Songs travel 100s of miles underwater</div></div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-eagle"><span class="bingo-emoji">🦅</span><div class="bingo-name">Bald Eagle</div><div class="bingo-fact">Alaska has the largest US population</div></div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-bear"><span class="bingo-emoji">🐻</span><div class="bingo-name">Brown Bear</div><div class="bingo-fact">20,000 calories a day before hibernation</div></div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-orca"><span class="bingo-emoji">🐬</span><div class="bingo-name">Orca</div><div class="bingo-fact">Each family pod has its own dialect</div></div>
-            <div class="bingo-cell free" id="b-free"><div class="free-label">⭐ FREE</div><span class="bingo-emoji">🌊</span><div class="bingo-name">Alaska!</div></div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-otter"><span class="bingo-emoji">🦦</span><div class="bingo-name">Sea Otter</div><div class="bingo-fact">Holds paws with other otters while sleeping</div></div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-seal"><span class="bingo-emoji">🦭</span><div class="bingo-name">Harbor Seal</div><div class="bingo-fact">Can dive 1,600 ft and hold breath 28 min</div></div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-puffin"><span class="bingo-emoji">🐦</span><div class="bingo-name">Tufted Puffin</div><div class="bingo-fact">Carries dozens of fish crosswise in its beak</div></div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-sealion"><span class="bingo-emoji">🦁</span><div class="bingo-name">Steller Sea Lion</div><div class="bingo-fact">Males can weigh 2,500 lbs — bigger than a car</div></div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-whale">
+                <div class="bingo-inner">
+                    <div class="bingo-front"><span class="bingo-emoji">🐋</span><div class="bingo-name">Humpback Whale</div><div class="bingo-fact">Songs travel 100s of miles underwater</div></div>
+                    <div class="bingo-back"><span class="bingo-back-emoji">🐋</span><div class="bingo-back-name">Humpback Whale</div><div class="bingo-back-fact">Up to 52 ft long & 40 tons</div><div class="bingo-back-fact">Migrates 10,000 mi/year</div><div class="bingo-back-fact">Leaps its whole body out of the water</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
+                </div>
+            </div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-eagle">
+                <div class="bingo-inner">
+                    <div class="bingo-front"><span class="bingo-emoji">🦅</span><div class="bingo-name">Bald Eagle</div><div class="bingo-fact">Alaska has the most in the US</div></div>
+                    <div class="bingo-back"><span class="bingo-back-emoji">🦅</span><div class="bingo-back-name">Bald Eagle</div><div class="bingo-back-fact">30,000+ in Alaska alone</div><div class="bingo-back-fact">Sees fish from 2 miles away</div><div class="bingo-back-fact">Wingspan up to 8 feet wide</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
+                </div>
+            </div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-bear">
+                <div class="bingo-inner">
+                    <div class="bingo-front"><span class="bingo-emoji">🐻</span><div class="bingo-name">Brown Bear</div><div class="bingo-fact">20,000 calories/day before hibernation</div></div>
+                    <div class="bingo-back"><span class="bingo-back-emoji">🐻</span><div class="bingo-back-name">Brown Bear</div><div class="bingo-back-fact">Smells food from 20 miles away</div><div class="bingo-back-fact">Cubs born during hibernation</div><div class="bingo-back-fact">Runs 35 mph — faster than humans</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
+                </div>
+            </div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-orca">
+                <div class="bingo-inner">
+                    <div class="bingo-front"><span class="bingo-emoji">🐬</span><div class="bingo-name">Orca</div><div class="bingo-fact">Each pod speaks its own dialect</div></div>
+                    <div class="bingo-back"><span class="bingo-back-emoji">🐬</span><div class="bingo-back-name">Orca</div><div class="bingo-back-fact">Nothing in the ocean hunts orcas</div><div class="bingo-back-fact">Calves stay with mom for life</div><div class="bingo-back-fact">Can live 80–90 years</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
+                </div>
+            </div>
+            <div class="bingo-cell free" id="b-free">
+                <div class="bingo-inner">
+                    <div class="bingo-front"><div class="free-label">⭐ FREE</div><span class="bingo-emoji">🌊</span><div class="bingo-name">Alaska!</div></div>
+                </div>
+            </div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-otter">
+                <div class="bingo-inner">
+                    <div class="bingo-front"><span class="bingo-emoji">🦦</span><div class="bingo-name">Sea Otter</div><div class="bingo-fact">Holds paws while sleeping</div></div>
+                    <div class="bingo-back"><span class="bingo-back-emoji">🦦</span><div class="bingo-back-name">Sea Otter</div><div class="bingo-back-fact">Wraps in kelp so it won't drift</div><div class="bingo-back-fact">1 million hairs per square inch</div><div class="bingo-back-fact">Uses rocks to crack shellfish</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
+                </div>
+            </div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-seal">
+                <div class="bingo-inner">
+                    <div class="bingo-front"><span class="bingo-emoji">🦭</span><div class="bingo-name">Harbor Seal</div><div class="bingo-fact">Dives 1,600 ft, holds breath 28 min</div></div>
+                    <div class="bingo-back"><span class="bingo-back-emoji">🦭</span><div class="bingo-back-name">Harbor Seal</div><div class="bingo-back-fact">Gives birth on Tracy Arm icebergs</div><div class="bingo-back-fact">Whiskers detect fish movement</div><div class="bingo-back-fact">Pups swim within hours of birth</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
+                </div>
+            </div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-puffin">
+                <div class="bingo-inner">
+                    <div class="bingo-front"><span class="bingo-emoji">🐦</span><div class="bingo-name">Tufted Puffin</div><div class="bingo-fact">Carries dozens of fish in its beak</div></div>
+                    <div class="bingo-back"><span class="bingo-back-emoji">🐦</span><div class="bingo-back-name">Tufted Puffin</div><div class="bingo-back-fact">Flaps wings 400 times/minute</div><div class="bingo-back-fact">Dives 200 ft underwater</div><div class="bingo-back-fact">Lives at sea most of the year</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
+                </div>
+            </div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-sealion">
+                <div class="bingo-inner">
+                    <div class="bingo-front"><span class="bingo-emoji">🦁</span><div class="bingo-name">Steller Sea Lion</div><div class="bingo-fact">Males up to 2,500 lbs</div></div>
+                    <div class="bingo-back"><span class="bingo-back-emoji">🦁</span><div class="bingo-back-name">Steller Sea Lion</div><div class="bingo-back-fact">Bigger than most cars</div><div class="bingo-back-fact">Holds breath up to 16 minutes</div><div class="bingo-back-fact">Colonies heard from miles away</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
+                </div>
+            </div>
         </div>
         <div style="text-align:center;margin-bottom:20px;">
             <button onclick="resetBingo()" style="border:1.5px solid #d1dcd6;background:none;border-radius:100px;padding:7px 18px;font-size:12px;font-weight:500;color:var(--text-light);cursor:pointer;font-family:'Inter',sans-serif;">Reset Bingo Card</button>
         </div>
-        <div style="margin-top:24px;" class="section-header">History & Culture</div>
+        <div class="section-header" style="margin-top:28px;">Alaska Flashcards</div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;margin-top:-8px;">Tap to flip · Learn before you go! 🎓</div>
+        <div class="fc-nav">
+            <button class="fc-nav-btn" onclick="fcNav(-1)">‹</button>
+            <span class="fc-counter" id="fc-counter">1 / 12</span>
+            <button class="fc-nav-btn" onclick="fcNav(1)">›</button>
+        </div>
+        <div class="fc-wrap">
+            <div class="fc-card" id="fc-card" onclick="fcFlip()">
+                <div class="fc-inner" id="fc-inner">
+                    <div class="fc-front">
+                        <div class="fc-cat" id="fc-cat">Category</div>
+                        <div class="fc-q" id="fc-q">Loading…</div>
+                        <div class="fc-hint">Tap to reveal answer →</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-a" id="fc-a">Answer</div>
+                        <div class="fc-back-hint">Tap to flip back</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fc-progress" id="fc-progress"></div>
+
+        <div style="margin-top:4px;" class="section-header">History & Culture</div>
         <div class="fact-card"><div class="fact-icon">⛏️</div><div><div class="fact-title">The Klondike Gold Rush (1896–1899)</div><div class="fact-body">Gold was discovered in Canada's Yukon Territory in 1896. Over 100,000 prospectors flooded through Skagway. Most found nothing. The White Pass route you're taking was the "easier" of two treacherous mountain trails.</div></div></div>
         <div class="fact-card"><div class="fact-icon">🏛️</div><div><div class="fact-title">Tlingit, Haida & Tsimshian Peoples</div><div class="fact-body">Southeast Alaska has been home to Indigenous peoples for over 10,000 years. The totem poles in Ketchikan are Tlingit and Haida art — each tells a story about family, history, and the natural world, meant to be read top to bottom like a visual family history carved in cedar.</div></div></div>
         <div class="fact-card"><div class="fact-icon">🧊</div><div><div class="fact-title">How Glaciers Form</div><div class="fact-body">Glaciers form when snow accumulates faster than it melts over hundreds of years. The weight compresses snow into dense blue-tinted ice. A tidewater glacier flows all the way to the ocean, where the ends "calve" in spectacular crashes. Mendenhall Glacier retreats about 100–150 feet per year.</div></div></div>
@@ -1215,7 +1272,7 @@
             <div class="acc-body" style="padding-top:10px;">
                 <div class="exp-card booked" data-status="booked" data-families="ortiz,stallings,simmons">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="exp-meta"><span class="exp-tag">~1.5 hrs</span><span class="exp-tag">$29–59/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="family-pill pill-sim">Simmons</span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://lumberjackshow.com" target="_blank" rel="noopener">↗ lumberjackshow.com</a></div>
+                    <div class="exp-body"><div class="exp-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="exp-meta"><span class="exp-tag">~1.5 hrs</span><span class="exp-tag">$29–59/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="family-pill pill-sim">Simmons</span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.lumberjackshow.com" target="_blank" rel="noopener">↗ lumberjackshow.com</a></div>
                 </div>
                 <div class="exp-card maybe" data-status="maybe" data-families="ortiz,stallings">
                     <div class="exp-dot dot-maybe"></div>
@@ -1479,6 +1536,52 @@
             }
         });
     }
+
+    // Flashcards
+    const FLASHCARDS = [
+        { cat: 'Geography', q: 'What is the capital of Alaska?', a: 'Juneau — and it can only be reached by sea or air. No roads connect it to the rest of North America!' },
+        { cat: 'Glaciers', q: 'Why is glacier ice blue?', a: 'It\'s compressed over hundreds of years until so dense it absorbs all colors of light — except blue, which bounces back to your eyes.' },
+        { cat: 'Glaciers', q: 'What is "calving"?', a: 'When a massive chunk of glacier breaks off and crashes into the sea. The sound echoes like a cannon. You may hear it on Glacier Day!' },
+        { cat: 'Wildlife', q: 'How many bald eagles live in Alaska?', a: 'Over 30,000 — more than any other US state. Watch for them perched in treetops and soaring over the ports.' },
+        { cat: 'Culture', q: 'What does "Ketchikan" mean?', a: 'In the Tlingit language it means "thundering wings of an eagle." The Tlingit people have lived here for over 10,000 years.' },
+        { cat: 'Wildlife', q: 'What is a "raft" of sea otters?', a: 'A group of sea otters holding paws so they don\'t drift apart while sleeping. Holding hands — just like your family!' },
+        { cat: 'History', q: 'What year did Alaska become a US state?', a: '1959 — the 49th state. Before that, the US bought it from Russia in 1867 for just $7.2 million ($140M today).' },
+        { cat: 'History', q: 'Why did 100,000 people rush to Skagway in 1898?', a: 'Gold was discovered in Canada\'s Yukon! The Klondike Gold Rush brought prospectors from all over the world — most found nothing and turned back.' },
+        { cat: 'Culture', q: 'What stories do totem poles tell?', a: 'Family histories, clan lineages, and important events — like an illustrated family tree carved in cedar, read from top to bottom.' },
+        { cat: 'Geography', q: 'What is the Inside Passage?', a: 'A protected coastal water route of islands, fjords, and channels from Washington to Alaska. Glaciers carved it over thousands of years.' },
+        { cat: 'Wildlife', q: 'How deep can a harbor seal dive?', a: '1,600 feet — deeper than the Empire State Building is tall — and they can hold their breath for 28 minutes.' },
+        { cat: 'Glaciers', q: 'How fast does Mendenhall Glacier retreat each year?', a: 'About 100–150 feet per year. When your grandparents were kids, it looked very different. Climate change is speeding up the melt.' },
+    ];
+    let fcIdx = 0;
+
+    function fcRender() {
+        const card = FLASHCARDS[fcIdx];
+        document.getElementById('fc-cat').textContent = card.cat;
+        document.getElementById('fc-q').textContent = card.q;
+        document.getElementById('fc-a').textContent = card.a;
+        document.getElementById('fc-counter').textContent = `${fcIdx + 1} / ${FLASHCARDS.length}`;
+        document.getElementById('fc-card').classList.remove('flipped');
+        document.querySelectorAll('.fc-dot').forEach((d, i) => d.classList.toggle('active', i === fcIdx));
+    }
+
+    function fcNav(dir) {
+        fcIdx = (fcIdx + dir + FLASHCARDS.length) % FLASHCARDS.length;
+        fcRender();
+    }
+
+    function fcFlip() {
+        document.getElementById('fc-card').classList.toggle('flipped');
+    }
+
+    (function initFlashcards() {
+        const prog = document.getElementById('fc-progress');
+        FLASHCARDS.forEach((_, i) => {
+            const d = document.createElement('div');
+            d.className = 'fc-dot' + (i === 0 ? ' active' : '');
+            prog.appendChild(d);
+        });
+        fcRender();
+    })();
 
     // Experience counts
     const cards = document.querySelectorAll('.exp-card');
