@@ -223,6 +223,45 @@
         }
         .pw-shake { animation: shake .4s ease; }
 
+        /* Bingo game */
+        .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+        .bingo-cell { background: var(--snow); border-radius: 14px; padding: 12px 6px; text-align: center; cursor: pointer; box-shadow: var(--shadow-sm); border: 2px solid transparent; transition: all .2s; -webkit-tap-highlight-color: transparent; user-select: none; }
+        .bingo-cell.free { background: var(--glacier-pale); border-color: var(--glacier); cursor: default; }
+        .bingo-cell.spotted { background: var(--forest-dark); border-color: var(--forest-mid); }
+        .bingo-cell.spotted .bingo-name, .bingo-cell.spotted .bingo-fact { color: rgba(255,255,255,.7); }
+        .bingo-cell.spotted .bingo-emoji::after { content: ' ✓'; font-size: 12px; color: #86efac; vertical-align: top; }
+        .bingo-cell.bingo-win { animation: bingo-pulse .5s ease; }
+        .bingo-emoji { font-size: 30px; display: block; margin-bottom: 4px; }
+        .bingo-name { font-size: 11px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
+        .bingo-fact { font-size: 10px; color: var(--text-light); line-height: 1.3; }
+        .free-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--glacier); margin-bottom: 4px; }
+        @keyframes bingo-pulse { 0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)} }
+
+        /* Bingo win banner */
+        .bingo-banner { display: none; background: linear-gradient(135deg,var(--forest-dark),var(--glacier)); color: white; border-radius: 16px; padding: 16px 20px; text-align: center; margin-bottom: 16px; }
+        .bingo-banner.show { display: block; animation: bingo-pulse .4s ease; }
+        .bingo-banner-title { font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 4px; }
+        .bingo-banner-sub { font-size: 13px; opacity: .85; }
+
+        /* Confetti */
+        .confetti-piece { position: fixed; width: 10px; height: 10px; border-radius: 2px; pointer-events: none; z-index: 9000; animation: confetti-fall linear forwards; }
+        @keyframes confetti-fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+        /* Route map */
+        .route-map-wrap { background: #c8e8f5; border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+
+        /* Educational content */
+        .edu-section { margin-top: 16px; padding-top: 16px; border-top: 1px solid #eef2ee; }
+        .edu-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .edu-title::after { content:''; flex:1; height:1px; background:#d1dcd6; }
+        .highlight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+        .highlight-item { background: var(--cream); border-radius: 10px; padding: 10px; display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-mid); font-weight: 500; }
+        .highlight-icon { font-size: 18px; flex-shrink: 0; }
+        .kids-callout { background: var(--gold-pale); border-left: 3px solid var(--gold); border-radius: 8px; padding: 12px 14px; font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+        .kids-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #92400e; margin-bottom: 6px; }
+        .map-link-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+        .map-link-btn { display: inline-flex; align-items: center; gap: 5px; background: var(--forest-dark); color: white; border-radius: 100px; padding: 7px 14px; font-size: 12px; font-weight: 600; text-decoration: none; }
+
         /* Schedule toggle */
         .sched-toggle { display: flex; background: var(--snow); border-radius: 12px; padding: 4px; gap: 4px; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
         .toggle-btn { flex: 1; padding: 9px; border-radius: 9px; border: none; background: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-light); cursor: pointer; transition: all .2s; }
@@ -297,23 +336,6 @@
     </style>
 </head>
 <body>
-
-<div id="pw-screen">
-    <div class="pw-box">
-        <svg class="pw-mountains" viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="0,120 60,40 110,65 180,10 250,55 310,28 360,50 360,120" fill="#2a5240" opacity=".7"/>
-            <polygon points="0,120 40,75 95,95 175,30 248,72 320,48 360,68 360,120" fill="#1f3d2d" opacity=".9"/>
-            <polygon points="172,30 186,68 158,68" fill="white" opacity=".15"/>
-            <rect x="0" y="113" width="360" height="7" fill="#3a9db5" opacity=".5"/>
-        </svg>
-        <div class="pw-title">Alaska Adventure 2026</div>
-        <div class="pw-subtitle">Ortiz · Stallings · Simmons<br>Enter the password to continue</div>
-        <input class="pw-input" id="pw-input" type="password" placeholder="Password" autocomplete="current-password"
-               onkeydown="if(event.key==='Enter')checkPw()">
-        <button class="pw-btn" onclick="checkPw()">Enter</button>
-        <div class="pw-error" id="pw-error"></div>
-    </div>
-</div>
 
 <header class="app-header">
     <svg style="position:absolute;bottom:0;left:0;right:0;width:100%;height:100%;" viewBox="0 0 430 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -817,7 +839,46 @@
     <!-- ==================== PORTS ==================== -->
     <section id="section-ports" class="section">
         <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Port Guides</div>
-        <div style="font-size:13px;color:var(--text-light);margin-bottom:20px;">Tap a port to explore</div>
+        <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Tap a port to explore</div>
+
+        <div class="route-map-wrap">
+            <svg viewBox="0 0 340 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+                <!-- Ocean background -->
+                <rect width="340" height="280" fill="#c8e8f5"/>
+                <!-- Alaska landmass -->
+                <polygon points="0,0 200,0 200,60 170,80 155,95 140,100 120,105 100,115 80,120 60,115 40,120 20,130 0,130" fill="#2a5240"/>
+                <text x="60" y="45" fill="rgba(255,255,255,.6)" font-size="13" font-family="'Inter',sans-serif" font-weight="700" letter-spacing="3">ALASKA</text>
+                <!-- Canadian coast / mainland -->
+                <polygon points="340,0 200,0 200,60 210,85 220,110 225,135 228,160 230,185 232,215 235,245 238,280 340,280" fill="#3d7055" opacity=".8"/>
+                <text x="250" y="160" fill="rgba(255,255,255,.45)" font-size="11" font-family="'Inter',sans-serif" font-weight="600" letter-spacing="2">CANADA</text>
+                <!-- Inside Passage islands -->
+                <ellipse cx="195" cy="175" rx="12" ry="30" fill="#2a5240" opacity=".7"/>
+                <ellipse cx="205" cy="220" rx="9" ry="22" fill="#2a5240" opacity=".6"/>
+                <ellipse cx="198" cy="248" rx="7" ry="14" fill="#2a5240" opacity=".6"/>
+                <ellipse cx="210" cy="135" rx="8" ry="18" fill="#3d7055" opacity=".5"/>
+                <!-- Cruise route line -->
+                <polyline points="218,265 212,240 208,210 204,180 196,148 188,120 175,100 165,88" fill="none" stroke="white" stroke-width="2.5" stroke-dasharray="6,3" opacity=".9"/>
+                <polyline points="165,88 170,98 178,112 186,138 194,165 202,195 208,225 215,255 218,265" fill="none" stroke="white" stroke-width="2" stroke-dasharray="4,4" opacity=".5"/>
+                <!-- Port dots -->
+                <!-- Vancouver -->
+                <circle cx="218" cy="265" r="6" fill="white" stroke="#3a9db5" stroke-width="2"/>
+                <text x="226" y="269" fill="white" font-size="10" font-family="'Inter',sans-serif" font-weight="700">Vancouver</text>
+                <!-- Ketchikan -->
+                <circle cx="208" cy="210" r="6" fill="white" stroke="#d48820" stroke-width="2"/>
+                <text x="216" y="214" fill="white" font-size="10" font-family="'Inter',sans-serif" font-weight="700">Ketchikan</text>
+                <!-- Juneau -->
+                <circle cx="196" cy="148" r="6" fill="white" stroke="#3a9db5" stroke-width="2"/>
+                <text x="204" y="152" fill="white" font-size="10" font-family="'Inter',sans-serif" font-weight="700">Juneau</text>
+                <!-- Glacier -->
+                <circle cx="178" cy="115" r="5" fill="#c8e8f5" stroke="white" stroke-width="2"/>
+                <text x="136" y="112" fill="rgba(255,255,255,.85)" font-size="9" font-family="'Inter',sans-serif">Glacier</text>
+                <!-- Skagway -->
+                <circle cx="165" cy="88" r="6" fill="white" stroke="#3d7055" stroke-width="2"/>
+                <text x="124" y="92" fill="white" font-size="10" font-family="'Inter',sans-serif" font-weight="700">Skagway</text>
+                <!-- Ship icon on route -->
+                <text x="200" y="182" font-size="14" text-anchor="middle">🛳️</text>
+            </svg>
+        </div>
 
         <div class="port-card">
             <div class="port-header port-header-vancouver acc-trigger" onclick="toggleAcc(this)">
@@ -901,6 +962,24 @@
                 <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Your Plans</div>
                 <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>White Pass Scenic Railway — Ortiz + Stallings</span></div>
                 <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>Musher's Camp & Sled Dog Experience — Ortiz</span></div>
+                <div class="edu-section">
+                    <div class="edu-title">History</div>
+                    <p style="font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:12px;">Gold was discovered in Canada's Yukon in 1896. Word reached the outside world in 1897 and 100,000 people stampeded north. Skagway went from a single homestead to Alaska's largest city — population 10,000 — almost overnight. Most prospectors found nothing. The White Pass trail you're riding was called the "Dead Horse Trail" because so many pack animals died on it. Skagway's entire historic downtown is now a National Historical Park.</p>
+                    <div class="edu-title">Top Highlights</div>
+                    <div class="highlight-grid">
+                        <div class="highlight-item"><span class="highlight-icon">🚂</span>White Pass Railway</div>
+                        <div class="highlight-item"><span class="highlight-icon">🐕</span>Musher's Camp</div>
+                        <div class="highlight-item"><span class="highlight-icon">🏛️</span>Gold Rush NHP</div>
+                        <div class="highlight-item"><span class="highlight-icon">🎭</span>Days of '98 Show</div>
+                        <div class="highlight-item"><span class="highlight-icon">🚶</span>Broadway St shops</div>
+                        <div class="highlight-item"><span class="highlight-icon">⛏️</span>Gold panning</div>
+                    </div>
+                    <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>A con man named "Soapy Smith" ran scams in Skagway — tricking miners out of their gold using fake telegraph offices and rigged card games. He's now one of Alaska's most famous villains! Ask a park ranger about him when you visit.</div>
+                    <div class="map-link-row">
+                        <a class="map-link-btn" href="https://maps.google.com/?q=Skagway,Alaska" target="_blank" rel="noopener">📍 Map of Skagway</a>
+                        <a class="map-link-btn" href="https://www.nps.gov/klgo/" target="_blank" rel="noopener">🏛️ NPS Gold Rush Park</a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -923,6 +1002,24 @@
                 <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Your Plans</div>
                 <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>5-Glacier Seaplane Exploration — Ortiz</span></div>
                 <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>Mendenhall Glacier Explorer — Stallings</span></div>
+                <div class="edu-section">
+                    <div class="edu-title">History</div>
+                    <p style="font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:12px;">Gold was discovered here in 1880 by prospectors Joe Juneau and Richard Harris — the city is named after Joe. Juneau became Alaska's capital in 1906. It's ringed by the Tongass National Forest (the largest in the US) and the Coast Mountain Range, making road construction impossible. Every Alaskan governor must fly or take a boat to the capital. The Mendenhall Glacier, just 12 miles from downtown, has been retreating since the 1700s and has lost over 1.75 miles since 1958.</p>
+                    <div class="edu-title">Top Highlights</div>
+                    <div class="highlight-grid">
+                        <div class="highlight-item"><span class="highlight-icon">✈️</span>5-Glacier Seaplane</div>
+                        <div class="highlight-item"><span class="highlight-icon">🧊</span>Mendenhall Glacier</div>
+                        <div class="highlight-item"><span class="highlight-icon">🚠</span>Mt. Roberts Tramway</div>
+                        <div class="highlight-item"><span class="highlight-icon">🐋</span>Whale watching</div>
+                        <div class="highlight-item"><span class="highlight-icon">🍺</span>Alaskan Brewery</div>
+                        <div class="highlight-item"><span class="highlight-icon">🌊</span>Tracy Arm preview</div>
+                    </div>
+                    <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>The Mendenhall Glacier is retreating about 100–150 feet every single year. Scientists think it could disappear completely by 2050. You're looking at something that won't exist when Sedona and River are your age! Can you spot the blue ice? Blue = the oldest, most compressed ice — over 3,000 years old.</div>
+                    <div class="map-link-row">
+                        <a class="map-link-btn" href="https://maps.google.com/?q=Juneau,Alaska" target="_blank" rel="noopener">📍 Map of Juneau</a>
+                        <a class="map-link-btn" href="https://www.nps.gov/places/mendenhall-glacier-visitor-center.htm" target="_blank" rel="noopener">🧊 Mendenhall NPS</a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -945,6 +1042,24 @@
                 <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Your Plans</div>
                 <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>Exclusive Great Alaskan Lumberjack Show — All families</span></div>
                 <div class="port-activity-item"><span style="color:var(--gold);">?</span><span>Alaska Bigfoot Adventures — Ortiz + Stallings (deciding)</span></div>
+                <div class="edu-section">
+                    <div class="edu-title">History & Culture</div>
+                    <p style="font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:12px;">The name Ketchikan comes from the Tlingit word <em>Kitschk-Hin</em> — "Thundering Wings of an Eagle." Tlingit, Haida, and Tsimshian peoples have lived here for thousands of years. Ketchikan grew as a salmon cannery hub in the late 1800s — at its peak, 13 canneries operated along the creek. Today it's home to the world's largest collection of standing totem poles: over 80 poles scattered across the city, each one a carved family history told in cedar.</p>
+                    <div class="edu-title">Top Highlights</div>
+                    <div class="highlight-grid">
+                        <div class="highlight-item"><span class="highlight-icon">🪵</span>Lumberjack Show</div>
+                        <div class="highlight-item"><span class="highlight-icon">🪶</span>Totem Heritage Ctr</div>
+                        <div class="highlight-item"><span class="highlight-icon">🛶</span>Creek Street</div>
+                        <div class="highlight-item"><span class="highlight-icon">🐟</span>Salmon in the creek</div>
+                        <div class="highlight-item"><span class="highlight-icon">🌧️</span>Pothole Pub (locals!)</div>
+                        <div class="highlight-item"><span class="highlight-icon">🦅</span>Eagle spotting</div>
+                    </div>
+                    <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>Totem poles are like giant comic books carved in cedar! Each figure tells part of a story — a family's history, an important event, or a legend. They're read from bottom to top. The animals mean things: Eagle = peace and friendship, Raven = creation and mischief, Bear = strength and family. Look for these when you visit Totem Heritage Center!</div>
+                    <div class="map-link-row">
+                        <a class="map-link-btn" href="https://maps.google.com/?q=Ketchikan,Alaska" target="_blank" rel="noopener">📍 Map of Ketchikan</a>
+                        <a class="map-link-btn" href="https://lumberjackshow.com" target="_blank" rel="noopener">🪵 Lumberjack Show</a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -967,6 +1082,24 @@
                 <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Your Plans</div>
                 <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>Glacier Explorer — Stallings</span></div>
                 <div class="port-activity-item"><span>🛳️</span><span>Scenic cruising from deck — everyone!</span></div>
+                <div class="edu-section">
+                    <div class="edu-title">Tracy Arm Fjord</div>
+                    <p style="font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:12px;">Tracy Arm is a 30-mile-long fjord carved by glaciers over thousands of years. At its head sit Sawyer and South Sawyer glaciers — massive rivers of ice that flow all the way to the sea. The Disney Wonder will navigate between iceberg-dotted waters with sheer granite walls rising 3,000 feet on both sides. The glacier ice you'll see is often electric blue — so old and compressed that it absorbs every wavelength of light except blue. When a house-sized chunk calves off into the water, the sound echoes off the canyon walls like a thunderclap.</p>
+                    <div class="edu-title">Top Highlights</div>
+                    <div class="highlight-grid">
+                        <div class="highlight-item"><span class="highlight-icon">🧊</span>Sawyer Glacier</div>
+                        <div class="highlight-item"><span class="highlight-icon">🧊</span>South Sawyer</div>
+                        <div class="highlight-item"><span class="highlight-icon">🦭</span>Harbor Seals on ice</div>
+                        <div class="highlight-item"><span class="highlight-icon">🦅</span>Bald Eagles</div>
+                        <div class="highlight-item"><span class="highlight-icon">🐬</span>Orca sightings</div>
+                        <div class="highlight-item"><span class="highlight-icon">🌊</span>Calving ice walls</div>
+                    </div>
+                    <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>Harbor seals actually give birth on the floating icebergs inside Tracy Arm! When the ship gets close, look for little seal pups resting on the ice floes. They use the icebergs as floating nurseries — safe from predators in the water below.</div>
+                    <div style="background:var(--glacier-pale);border-radius:10px;padding:12px 14px;font-size:12px;color:#1a5d6e;line-height:1.6;margin-top:14px;">
+                        <strong>Deck tips for Glacier Day:</strong><br>
+                        Layer up — it can be 20°F colder near the ice. The bow and upper decks give the best unobstructed views. Bring binoculars. Blue-tinted bergs are the oldest and most beautiful. Hot cocoa from the buffet hits different at the glacier. 🧤
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -975,17 +1108,27 @@
     <section id="section-alaska" class="section">
         <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Alaska 101</div>
         <div style="font-size:13px;color:var(--text-light);margin-bottom:20px;">Learn before you go · Track what you find</div>
-        <div class="section-header">Wildlife Spotting Checklist</div>
-        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;margin-top:-8px;">Tap each one when you spot it on the trip!</div>
-        <div class="wildlife-grid">
-            <div class="wildlife-card" onclick="toggleSpotted(this)" id="w-whale"><span class="wildlife-emoji">🐋</span><div class="wildlife-name">Humpback Whale</div><div class="wildlife-fact">Up to 60 feet long. Sings complex songs that travel hundreds of miles underwater.</div><div class="spotted-badge">✓ Spotted!</div></div>
-            <div class="wildlife-card" onclick="toggleSpotted(this)" id="w-eagle"><span class="wildlife-emoji">🦅</span><div class="wildlife-name">Bald Eagle</div><div class="wildlife-fact">Alaska has the largest bald eagle population in the US. Spot them near salmon streams.</div><div class="spotted-badge">✓ Spotted!</div></div>
-            <div class="wildlife-card" onclick="toggleSpotted(this)" id="w-bear"><span class="wildlife-emoji">🐻</span><div class="wildlife-name">Brown Bear</div><div class="wildlife-fact">Can eat 20,000 calories a day before hibernation. Watch near rivers in salmon season.</div><div class="spotted-badge">✓ Spotted!</div></div>
-            <div class="wildlife-card" onclick="toggleSpotted(this)" id="w-orca"><span class="wildlife-emoji">🐬</span><div class="wildlife-name">Orca</div><div class="wildlife-fact">Family pods stay together for life. Each pod has its own unique dialect of calls.</div><div class="spotted-badge">✓ Spotted!</div></div>
-            <div class="wildlife-card" onclick="toggleSpotted(this)" id="w-otter"><span class="wildlife-emoji">🦦</span><div class="wildlife-name">Sea Otter</div><div class="wildlife-fact">Wraps in kelp while sleeping so it doesn't drift. Holds paws with other otters.</div><div class="spotted-badge">✓ Spotted!</div></div>
-            <div class="wildlife-card" onclick="toggleSpotted(this)" id="w-seal"><span class="wildlife-emoji">🦭</span><div class="wildlife-name">Harbor Seal</div><div class="wildlife-fact">Often spotted on ice floes. Can dive to 1,600 feet and hold breath for 28 minutes.</div><div class="spotted-badge">✓ Spotted!</div></div>
-            <div class="wildlife-card" onclick="toggleSpotted(this)" id="w-puffin"><span class="wildlife-emoji">🐦</span><div class="wildlife-name">Tufted Puffin</div><div class="wildlife-fact">Spends most of its life at sea. Can carry dozens of fish crosswise in its beak at once.</div><div class="spotted-badge">✓ Spotted!</div></div>
-            <div class="wildlife-card" onclick="toggleSpotted(this)" id="w-sealion"><span class="wildlife-emoji">🦁</span><div class="wildlife-name">Steller Sea Lion</div><div class="wildlife-fact">Largest of the eared seals. Males can weigh over 2,500 lbs — bigger than a small car.</div><div class="spotted-badge">✓ Spotted!</div></div>
+        <div class="section-header">Wildlife Bingo</div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;margin-top:-8px;">Tap each animal when you spot it — get 3 in a row to win! 🎉</div>
+
+        <div class="bingo-banner" id="bingo-banner">
+            <div class="bingo-banner-title">🎉 BINGO!</div>
+            <div class="bingo-banner-sub" id="bingo-banner-sub">You spotted 3 in a row!</div>
+        </div>
+
+        <div class="bingo-grid" id="bingo-grid">
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-whale"><span class="bingo-emoji">🐋</span><div class="bingo-name">Humpback Whale</div><div class="bingo-fact">Songs travel 100s of miles underwater</div></div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-eagle"><span class="bingo-emoji">🦅</span><div class="bingo-name">Bald Eagle</div><div class="bingo-fact">Alaska has the largest US population</div></div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-bear"><span class="bingo-emoji">🐻</span><div class="bingo-name">Brown Bear</div><div class="bingo-fact">20,000 calories a day before hibernation</div></div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-orca"><span class="bingo-emoji">🐬</span><div class="bingo-name">Orca</div><div class="bingo-fact">Each family pod has its own dialect</div></div>
+            <div class="bingo-cell free" id="b-free"><div class="free-label">⭐ FREE</div><span class="bingo-emoji">🌊</span><div class="bingo-name">Alaska!</div></div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-otter"><span class="bingo-emoji">🦦</span><div class="bingo-name">Sea Otter</div><div class="bingo-fact">Holds paws with other otters while sleeping</div></div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-seal"><span class="bingo-emoji">🦭</span><div class="bingo-name">Harbor Seal</div><div class="bingo-fact">Can dive 1,600 ft and hold breath 28 min</div></div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-puffin"><span class="bingo-emoji">🐦</span><div class="bingo-name">Tufted Puffin</div><div class="bingo-fact">Carries dozens of fish crosswise in its beak</div></div>
+            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-sealion"><span class="bingo-emoji">🦁</span><div class="bingo-name">Steller Sea Lion</div><div class="bingo-fact">Males can weigh 2,500 lbs — bigger than a car</div></div>
+        </div>
+        <div style="text-align:center;margin-bottom:20px;">
+            <button onclick="resetBingo()" style="border:1.5px solid #d1dcd6;background:none;border-radius:100px;padding:7px 18px;font-size:12px;font-weight:500;color:var(--text-light);cursor:pointer;font-family:'Inter',sans-serif;">Reset Bingo Card</button>
         </div>
         <div style="margin-top:24px;" class="section-header">History & Culture</div>
         <div class="fact-card"><div class="fact-icon">⛏️</div><div><div class="fact-title">The Klondike Gold Rush (1896–1899)</div><div class="fact-body">Gold was discovered in Canada's Yukon Territory in 1896. Over 100,000 prospectors flooded through Skagway. Most found nothing. The White Pass route you're taking was the "easier" of two treacherous mountain trails.</div></div></div>
@@ -1190,29 +1333,6 @@
 </nav>
 
 <script>
-    // Password gate
-    const APP_PASSWORD = 'alaska2026';
-    (function() {
-        if (sessionStorage.getItem('ak26-auth') === '1') {
-            document.getElementById('pw-screen').style.display = 'none';
-        }
-    })();
-    function checkPw() {
-        const input = document.getElementById('pw-input');
-        if (input.value === APP_PASSWORD) {
-            sessionStorage.setItem('ak26-auth', '1');
-            document.getElementById('pw-screen').style.display = 'none';
-        } else {
-            const err = document.getElementById('pw-error');
-            err.textContent = 'Incorrect password — try again';
-            input.classList.remove('pw-shake');
-            void input.offsetWidth;
-            input.classList.add('pw-shake');
-            input.value = '';
-            setTimeout(() => err.textContent = '', 3000);
-        }
-    }
-
     // Countdown
     (function() {
         const dep = new Date('2026-06-15T00:00:00');
@@ -1230,16 +1350,86 @@
     }
 
     // Wildlife spotting
-    function toggleSpotted(card) {
-        card.classList.toggle('spotted');
-        const store = JSON.parse(localStorage.getItem('ak26-spotted') || '{}');
-        store[card.id] = card.classList.contains('spotted');
-        localStorage.setItem('ak26-spotted', JSON.stringify(store));
+    // Wildlife Bingo
+    const BINGO_IDS = ['b-whale','b-eagle','b-bear','b-orca',null,'b-otter','b-seal','b-puffin','b-sealion'];
+    const BINGO_WINS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+    function bingoBingo(cell) {
+        if (cell.classList.contains('free')) return;
+        cell.classList.toggle('spotted');
+        saveBingo();
+        checkBingo();
     }
-    const store = JSON.parse(localStorage.getItem('ak26-spotted') || '{}');
-    Object.entries(store).forEach(([id, val]) => {
-        if (val) { const el = document.getElementById(id); if (el) el.classList.add('spotted'); }
-    });
+
+    function checkBingo() {
+        const spotted = new Set(BINGO_IDS.map((id, i) => {
+            if (id === null) return i; // FREE space always active
+            const el = document.getElementById(id);
+            return el && el.classList.contains('spotted') ? i : -1;
+        }).filter(i => i >= 0));
+
+        let won = false;
+        for (const pattern of BINGO_WINS) {
+            if (pattern.every(i => spotted.has(i))) {
+                pattern.forEach(i => {
+                    const id = BINGO_IDS[i];
+                    if (id) { const el = document.getElementById(id); if (el) el.classList.add('bingo-win'); }
+                });
+                won = true;
+                break;
+            }
+        }
+        if (won) showBingoWin();
+    }
+
+    function showBingoWin() {
+        const banner = document.getElementById('bingo-banner');
+        if (banner.classList.contains('show')) return;
+        const total = BINGO_IDS.filter(id => id && document.getElementById(id)?.classList.contains('spotted')).length;
+        document.getElementById('bingo-banner-sub').textContent = `You spotted ${total} of 8 Alaska animals — BINGO! 🎉`;
+        banner.classList.add('show');
+        launchConfetti();
+    }
+
+    function launchConfetti() {
+        const colors = ['#3a9db5','#d48820','#3d7055','#fef3d8','#e0f5f8','#ffffff','#1a3328'];
+        for (let i = 0; i < 70; i++) {
+            const el = document.createElement('div');
+            el.className = 'confetti-piece';
+            const size = 6 + Math.random() * 10;
+            el.style.cssText = `
+                left:${Math.random()*100}vw;
+                top:-20px;
+                width:${size}px;
+                height:${size}px;
+                background:${colors[Math.floor(Math.random()*colors.length)]};
+                border-radius:${Math.random()>.5?'50%':'2px'};
+                animation-duration:${1.5+Math.random()*2}s;
+                animation-delay:${Math.random()*.8}s;
+            `;
+            document.body.appendChild(el);
+            el.addEventListener('animationend', () => el.remove());
+        }
+    }
+
+    function saveBingo() {
+        const state = {};
+        BINGO_IDS.forEach(id => { if (id) state[id] = !!document.getElementById(id)?.classList.contains('spotted'); });
+        localStorage.setItem('ak26-bingo', JSON.stringify(state));
+    }
+
+    function resetBingo() {
+        BINGO_IDS.forEach(id => { if (id) document.getElementById(id)?.classList.remove('spotted','bingo-win'); });
+        document.getElementById('bingo-banner').classList.remove('show');
+        localStorage.removeItem('ak26-bingo');
+    }
+
+    // Restore bingo state
+    (function() {
+        const saved = JSON.parse(localStorage.getItem('ak26-bingo') || '{}');
+        BINGO_IDS.forEach(id => { if (id && saved[id]) document.getElementById(id)?.classList.add('spotted'); });
+        checkBingo();
+    })();
 
     // Schedule view toggle
     function schedView(view, btn) {
