@@ -282,6 +282,9 @@
         .fc-progress { display: flex; justify-content: center; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
         .fc-dot { width: 7px; height: 7px; border-radius: 50%; background: #d1dcd6; transition: background .2s, transform .2s; }
         .fc-dot.active { background: var(--forest-dark); transform: scale(1.3); }
+        .fc-cats { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+        .fc-cat-btn { border: 1.5px solid #d1dcd6; background: none; border-radius: 100px; padding: 5px 13px; font-size: 11px; font-weight: 600; color: var(--text-light); cursor: pointer; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; transition: all .15s; white-space: nowrap; }
+        .fc-cat-btn.active { background: var(--forest-dark); border-color: var(--forest-dark); color: white; }
 
         /* Educational content */
         .edu-section { margin-top: 16px; padding-top: 16px; border-top: 1px solid #eef2ee; }
@@ -1141,7 +1144,16 @@
             <button onclick="resetBingo()" style="border:1.5px solid #d1dcd6;background:none;border-radius:100px;padding:7px 18px;font-size:12px;font-weight:500;color:var(--text-light);cursor:pointer;font-family:'Inter',sans-serif;">Reset Bingo Card</button>
         </div>
         <div class="section-header" style="margin-top:28px;">Alaska Flashcards</div>
-        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;margin-top:-8px;">Tap to flip · Learn before you go! 🎓</div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:14px;margin-top:-8px;">Pick a category · tap card to flip 🎓</div>
+        <div class="fc-cats">
+            <button class="fc-cat-btn active" onclick="fcSetCat('all',this)">All</button>
+            <button class="fc-cat-btn" onclick="fcSetCat('Wildlife',this)">🐾 Wildlife</button>
+            <button class="fc-cat-btn" onclick="fcSetCat('Geography',this)">🗺️ Geography</button>
+            <button class="fc-cat-btn" onclick="fcSetCat('Glaciers',this)">🧊 Glaciers</button>
+            <button class="fc-cat-btn" onclick="fcSetCat('History',this)">⛏️ History</button>
+            <button class="fc-cat-btn" onclick="fcSetCat('Culture',this)">🪶 Culture</button>
+            <button class="fc-cat-btn" onclick="fcSetCat('Ship Life',this)">🛳️ Ship Life</button>
+        </div>
         <div class="fc-nav">
             <button class="fc-nav-btn" onclick="fcNav(-1)">‹</button>
             <span class="fc-counter" id="fc-counter">1 / 12</span>
@@ -1592,38 +1604,96 @@
 
     // Flashcards
     const FLASHCARDS = [
-        { cat: 'Geography', q: 'What is the capital of Alaska?', a: 'Juneau — and it can only be reached by sea or air. No roads connect it to the rest of North America!' },
-        { cat: 'Glaciers', q: 'Why is glacier ice blue?', a: 'It\'s compressed over hundreds of years until so dense it absorbs all colors of light — except blue, which bounces back to your eyes.' },
-        { cat: 'Glaciers', q: 'What is "calving"?', a: 'When a massive chunk of glacier breaks off and crashes into the sea. The sound echoes like a cannon. You may hear it on Glacier Day!' },
-        { cat: 'Wildlife', q: 'How many bald eagles live in Alaska?', a: 'Over 30,000 — more than any other US state. Watch for them perched in treetops and soaring over the ports.' },
-        { cat: 'Culture', q: 'What does "Ketchikan" mean?', a: 'In the Tlingit language it means "thundering wings of an eagle." The Tlingit people have lived here for over 10,000 years.' },
-        { cat: 'Wildlife', q: 'What is a "raft" of sea otters?', a: 'A group of sea otters holding paws so they don\'t drift apart while sleeping. Holding hands — just like your family!' },
-        { cat: 'History', q: 'What year did Alaska become a US state?', a: '1959 — the 49th state. Before that, the US bought it from Russia in 1867 for just $7.2 million ($140M today).' },
-        { cat: 'History', q: 'Why did 100,000 people rush to Skagway in 1898?', a: 'Gold was discovered in Canada\'s Yukon! The Klondike Gold Rush brought prospectors from all over the world — most found nothing and turned back.' },
-        { cat: 'Culture', q: 'What stories do totem poles tell?', a: 'Family histories, clan lineages, and important events — like an illustrated family tree carved in cedar, read from top to bottom.' },
-        { cat: 'Geography', q: 'What is the Inside Passage?', a: 'A protected coastal water route of islands, fjords, and channels from Washington to Alaska. Glaciers carved it over thousands of years.' },
-        { cat: 'Wildlife', q: 'How deep can a harbor seal dive?', a: '1,600 feet — deeper than the Empire State Building is tall — and they can hold their breath for 28 minutes.' },
-        { cat: 'Glaciers', q: 'How fast does Mendenhall Glacier retreat each year?', a: 'About 100–150 feet per year. When your grandparents were kids, it looked very different. Climate change is speeding up the melt.' },
+        // Wildlife
+        { cat: 'Wildlife', q: 'How many bald eagles live in Alaska?', a: 'Over 30,000 — more than any other US state. They\'re so common in SE Alaska you\'ll spot them perched in treetops like pigeons.' },
+        { cat: 'Wildlife', q: 'What is a "raft" of sea otters?', a: 'A group holding paws while sleeping so they don\'t drift apart. They also wrap themselves in kelp to anchor in place overnight.' },
+        { cat: 'Wildlife', q: 'How deep can a harbor seal dive?', a: '1,600 feet — deeper than the Empire State Building is tall — while holding their breath for up to 28 minutes.' },
+        { cat: 'Wildlife', q: 'Why do orca family pods sound different from each other?', a: 'Every pod has its own unique dialect — a set of calls and clicks passed down through generations, like a family language.' },
+        { cat: 'Wildlife', q: 'How fast can a brown bear run?', a: 'Up to 35 mph — faster than the fastest human sprinter alive. And they can smell food from 20 miles away.' },
+        { cat: 'Wildlife', q: 'Why do Chinook salmon return to the exact stream where they were born?', a: 'A combination of Earth\'s magnetic field for long-distance navigation, then the unique chemical scent of their birth stream to find the final stretch.' },
+        { cat: 'Wildlife', q: 'What makes the Salmon Shark unusual among sharks?', a: 'It\'s warm-blooded — one of only a few sharks that can regulate its body temperature, keeping itself up to 20°F warmer than the surrounding water.' },
+        { cat: 'Wildlife', q: 'How does a Dall\'s Porpoise signal its top speed?', a: 'By creating a distinctive rooster-tail spray of water at the surface. They can swim 34 mph — and love riding the bow waves of ships.' },
+        { cat: 'Wildlife', q: 'How long does a Giant Pacific Octopus live?', a: 'Only 3–5 years. They die shortly after reproducing — but pack a lot into that time, growing from a speck to 150 lbs.' },
+        { cat: 'Wildlife', q: 'How does a sea star move and eat?', a: 'It pumps seawater through its body to power hundreds of tiny tube feet. To eat, it wraps around prey and pushes its stomach outside its body to digest it.' },
+        { cat: 'Wildlife', q: 'What makes Mountain Goat hooves so grippy on cliff faces?', a: 'Each hoof has a hard outer edge for gripping rock edges and a spongy, textured center that acts like a suction cup. They can stand on ledges 2 inches wide.' },
+        { cat: 'Wildlife', q: 'Why is the Raven sacred in Tlingit culture?', a: 'In Tlingit stories, Raven is the Trickster and Creator — he stole the sun to bring light to the world. Ravens are considered among the most intelligent birds alive.' },
+        { cat: 'Wildlife', q: 'What do Harlequin Ducks have in common with mice?', a: 'Their call — a high-pitched squeak that earned them the nickname "sea mice" from fishermen. They\'re also some of the toughest seabirds, living in raging surf year-round.' },
+        { cat: 'Wildlife', q: 'Where do harbor seals give birth in SE Alaska?', a: 'On the floating icebergs inside Tracy Arm Fjord. The ice keeps pups safely above the water and away from predators. Watch for them on Glacier Day!' },
+        { cat: 'Wildlife', q: 'How big can a Steller Sea Lion male get?', a: 'Up to 2,500 lbs — about the weight of a mid-size car. Females are much smaller at around 600 lbs. Their roaring colonies are heard from miles away.' },
+        { cat: 'Wildlife', q: 'What is the rarest spot on the Alaska bingo card and why?', a: 'The Wolf. The Alexander Archipelago wolf is a unique SE Alaska subspecies with only ~1,000 individuals spread across thousands of forested islands.' },
+        { cat: 'Wildlife', q: 'What can a Tufted Puffin carry in its beak at once?', a: 'Up to 10–12 small fish held crosswise — without dropping any. Its beak has backward-pointing spines that hold fish in place while it catches more.' },
+        // Geography
+        { cat: 'Geography', q: 'What is the capital of Alaska?', a: 'Juneau — and it can only be reached by sea or air. No roads connect it to the rest of North America. It\'s one of the only state capitals with no road access.' },
+        { cat: 'Geography', q: 'What is the Inside Passage?', a: 'A protected coastal water route of islands, fjords, and channels stretching from Washington to Alaska. Glaciers carved it over thousands of years.' },
+        { cat: 'Geography', q: 'How long is Alaska\'s coastline?', a: 'Over 33,000 miles — more than all other US states combined. The jagged fjords and island chains make it incredibly complex.' },
+        { cat: 'Geography', q: 'How big is Alaska compared to the rest of the US?', a: 'Twice the size of Texas. It\'s larger than the next three biggest states combined. About one-fifth of the entire US land area.' },
+        { cat: 'Geography', q: 'How much daylight is there in SE Alaska in June?', a: 'Up to 18 hours — the sun sets around 10 PM and rises again before 4 AM. Pack an eye mask for the ship cabin.' },
+        // Glaciers
+        { cat: 'Glaciers', q: 'Why is glacier ice blue?', a: 'It\'s been compressed for hundreds of years until so dense it absorbs all colors of light — except blue, which bounces back to your eyes.' },
+        { cat: 'Glaciers', q: 'What is "calving"?', a: 'When a massive chunk of glacier breaks off and crashes into the sea. The sound echoes off canyon walls like a cannon. You may hear it on Glacier Day!' },
+        { cat: 'Glaciers', q: 'How fast does Mendenhall Glacier retreat each year?', a: 'About 100–150 feet per year. When your grandparents were kids, it looked very different. Scientists say climate change is accelerating the melt.' },
+        { cat: 'Glaciers', q: 'What is a tidewater glacier?', a: 'A glacier that flows all the way from the mountains to the sea and calves icebergs directly into the water. Sawyer and South Sawyer in Tracy Arm are both tidewater glaciers.' },
+        { cat: 'Glaciers', q: 'How old is the ice inside a glacier?', a: 'Hundreds to thousands of years old — the blue ice deep inside a glacier fell as snow long before your great-great-grandparents were born.' },
+        // History
+        { cat: 'History', q: 'What year did Alaska become a US state?', a: '1959 — the 49th state. Before that, the US bought it from Russia in 1867 for just $7.2 million. Many called it "Seward\'s Folly" — a terrible deal.' },
+        { cat: 'History', q: 'Why did 100,000 people rush to Skagway in 1898?', a: 'Gold was discovered in Canada\'s Yukon in 1896. Word spread, and prospectors flooded in from around the world. Most found nothing and turned back.' },
+        { cat: 'History', q: 'Who was "Soapy Smith" and why is he famous?', a: 'Jefferson "Soapy" Smith was Skagway\'s most notorious con man. He ran fake telegraph offices, rigged gambling, and swindled miners out of their gold — until a showdown on the docks ended his run.' },
+        { cat: 'History', q: 'How fast was the White Pass Railway built?', a: 'Just 26 months — through some of the most rugged terrain in North America. Completed in 1900, it\'s still in service today. You\'ll ride it in Skagway.' },
+        // Culture
+        { cat: 'Culture', q: 'What does "Ketchikan" mean?', a: 'In the Tlingit language it means "thundering wings of an eagle." The Tlingit people have lived in this area for over 10,000 years.' },
+        { cat: 'Culture', q: 'What stories do totem poles tell?', a: 'Family histories, clan lineages, and important events — like an illustrated family tree carved in cedar. Each figure has specific meaning. Read them bottom to top.' },
+        { cat: 'Culture', q: 'Who are the three main Indigenous peoples of SE Alaska?', a: 'The Tlingit, Haida, and Tsimshian peoples. Each has distinct languages, art traditions, and territorial areas along the Inside Passage.' },
+        { cat: 'Culture', q: 'What does it mean when a totem pole figure is at the bottom?', a: 'The bottom figure is the most important — it\'s the most visible position and holds the weight of the whole pole. The story is read from bottom to top.' },
+        // Ship Life
+        { cat: 'Ship Life', q: 'What is "rotational dining" on Disney Cruise Line?', a: 'You eat at a different restaurant each night — but your same servers rotate with you. They learn your preferences and become part of your trip story.' },
+        { cat: 'Ship Life', q: 'What is Palo named after?', a: 'The long wooden poles used by Venetian gondoliers. The restaurant has Italian cuisine and panoramic ocean views — adults only, worth every penny.' },
+        { cat: 'Ship Life', q: 'Why is a verandah especially valuable on an Alaska cruise?', a: 'It\'s your private wildlife spotting deck, glacier-day front row, and port arrival balcony. On Alaska itineraries it\'s one of the most used amenities on the ship.' },
+        { cat: 'Ship Life', q: 'When does the sun set in SE Alaska in June?', a: 'Around 10 PM — and it rises again before 4 AM. The cabin curtains help, but an eye mask is your best friend for sleeping.' },
+        { cat: 'Ship Life', q: 'What is the Disney Navigator app used for onboard?', a: 'Daily schedules, restaurant menus, activity booking, port maps, and the ship\'s live position. It\'s the control center for your whole cruise — download it before you board.' },
     ];
+
     let fcIdx = 0;
+    let fcCategory = 'all';
+
+    function fcFiltered() {
+        return fcCategory === 'all' ? FLASHCARDS : FLASHCARDS.filter(c => c.cat === fcCategory);
+    }
 
     function fcRender() {
-        const card = FLASHCARDS[fcIdx];
+        const filtered = fcFiltered();
+        if (!filtered.length) return;
+        const card = filtered[fcIdx];
         document.getElementById('fc-cat').textContent = card.cat;
         document.getElementById('fc-q').textContent = card.q;
         document.getElementById('fc-a').textContent = card.a;
-        document.getElementById('fc-counter').textContent = `${fcIdx + 1} / ${FLASHCARDS.length}`;
+        document.getElementById('fc-counter').textContent = `${fcIdx + 1} / ${filtered.length}`;
         document.getElementById('fc-card').classList.remove('flipped');
         document.querySelectorAll('.fc-dot').forEach((d, i) => d.classList.toggle('active', i === fcIdx));
     }
 
     function fcNav(dir) {
-        fcIdx = (fcIdx + dir + FLASHCARDS.length) % FLASHCARDS.length;
+        const len = fcFiltered().length;
+        fcIdx = (fcIdx + dir + len) % len;
         fcRender();
     }
 
     function fcFlip() {
         document.getElementById('fc-card').classList.toggle('flipped');
+    }
+
+    function fcSetCat(cat, btn) {
+        fcCategory = cat;
+        fcIdx = 0;
+        document.querySelectorAll('.fc-cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const prog = document.getElementById('fc-progress');
+        prog.innerHTML = '';
+        fcFiltered().forEach((_, i) => {
+            const d = document.createElement('div');
+            d.className = 'fc-dot' + (i === 0 ? ' active' : '');
+            prog.appendChild(d);
+        });
+        fcRender();
     }
 
     (function initFlashcards() {
