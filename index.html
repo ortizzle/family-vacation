@@ -223,28 +223,35 @@
         }
         .pw-shake { animation: shake .4s ease; }
 
-        /* Bingo game — 3D flip cards */
+        /* Bingo game */
         .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
-        .bingo-cell { min-height: 128px; border-radius: 14px; cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; perspective: 700px; box-shadow: var(--shadow-sm); border: 2px solid transparent; transition: border-color .2s, box-shadow .2s; }
-        .bingo-cell.free { border-color: var(--glacier); cursor: default; }
-        .bingo-cell.spotted { border-color: var(--forest-mid); }
-        .bingo-cell.bingo-win { box-shadow: 0 0 0 3px var(--gold), var(--shadow-sm); }
-        .bingo-inner { position: absolute; inset: 0; border-radius: 12px; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.4,0,.2,1); }
-        .bingo-cell.spotted .bingo-inner { transform: rotateY(180deg); }
-        .bingo-cell.bingo-win .bingo-inner { animation: bingo-pulse .55s ease; }
-        .bingo-front, .bingo-back { position: absolute; inset: 0; border-radius: 12px; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 6px; text-align: center; overflow: hidden; }
-        .bingo-front { background: var(--snow); }
-        .bingo-back { background: var(--forest-dark); transform: rotateY(180deg); justify-content: flex-start; padding: 9px 7px 7px; gap: 2px; }
-        .bingo-cell.free .bingo-front { background: var(--glacier-pale); }
-        .bingo-emoji { font-size: 28px; display: block; margin-bottom: 4px; }
-        .bingo-name { font-size: 11px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
-        .bingo-fact { font-size: 10px; color: var(--text-light); line-height: 1.3; }
+        .bingo-cell { background: var(--snow); border-radius: 14px; padding: 14px 8px; text-align: center; cursor: pointer; box-shadow: var(--shadow-sm); border: 2px solid transparent; transition: all .2s; -webkit-tap-highlight-color: transparent; user-select: none; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 110px; }
+        .bingo-cell:active { transform: scale(.96); }
+        .bingo-cell.free { background: var(--glacier-pale); border-color: var(--glacier); cursor: default; }
+        .bingo-cell.spotted { background: var(--forest-dark); border-color: var(--forest-mid); }
+        .bingo-cell.spotted .bingo-name { color: white; }
+        .bingo-cell.spotted .bingo-cell-hint { color: rgba(255,255,255,.45); }
+        .bingo-cell.bingo-win { box-shadow: 0 0 0 3px var(--gold), var(--shadow-sm); animation: bingo-pulse .5s ease; }
+        .bingo-emoji { font-size: 32px; display: block; margin-bottom: 6px; }
+        .bingo-cell.spotted .bingo-emoji::after { content: ' ✓'; font-size: 11px; color: #86efac; vertical-align: super; }
+        .bingo-name { font-size: 11px; font-weight: 700; color: var(--text-dark); line-height: 1.3; margin-bottom: 3px; }
+        .bingo-cell-hint { font-size: 9px; color: var(--text-light); }
         .free-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--glacier); margin-bottom: 4px; }
-        .bingo-back-emoji { font-size: 20px; display: block; margin-bottom: 2px; }
-        .bingo-back-name { font-size: 10px; font-weight: 700; color: white; margin-bottom: 5px; }
-        .bingo-back-fact { font-size: 9.5px; color: rgba(255,255,255,.82); line-height: 1.35; margin-bottom: 3px; padding: 3px 5px; background: rgba(255,255,255,.09); border-radius: 6px; width: 100%; }
-        .bingo-spotted-badge { font-size: 10px; font-weight: 700; color: #86efac; margin-top: 3px; letter-spacing: .5px; }
-        @keyframes bingo-pulse { 0%{transform:rotateY(180deg) scale(1)} 50%{transform:rotateY(180deg) scale(1.06)} 100%{transform:rotateY(180deg) scale(1)} }
+        @keyframes bingo-pulse { 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
+
+        /* Animal detail modal */
+        .animal-sheet { background: white; border-radius: 24px 24px 0 0; padding: 28px 22px 48px; width: 100%; max-width: 430px; position: relative; animation: slide-up .3s cubic-bezier(.4,0,.2,1); max-height: 88vh; overflow-y: auto; }
+        @keyframes slide-up { from{transform:translateY(60px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .animal-close { position: absolute; top: 16px; right: 16px; background: #eef2ee; border: none; border-radius: 100px; width: 34px; height: 34px; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-mid); }
+        .animal-modal-emoji { font-size: 72px; display: block; text-align: center; margin-bottom: 6px; }
+        .animal-modal-name { font-family: 'Playfair Display', serif; font-size: 26px; text-align: center; color: var(--text-dark); margin-bottom: 20px; line-height: 1.2; }
+        .animal-facts-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+        .animal-fact-item { background: var(--cream); border-radius: 12px; padding: 12px 14px; font-size: 13px; color: var(--text-mid); line-height: 1.55; }
+        .animal-spot-tip { background: var(--glacier-pale); border-radius: 12px; padding: 12px 14px; font-size: 12px; color: #1a5d6e; line-height: 1.55; margin-bottom: 20px; }
+        .animal-spot-tip strong { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; opacity: .75; }
+        .animal-spot-btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; transition: all .2s; -webkit-tap-highlight-color: transparent; }
+        .animal-spot-btn.unspotted { background: var(--forest-dark); color: white; }
+        .animal-spot-btn.spotted-state { background: var(--cream); color: var(--forest-dark); border: 2px solid var(--forest-mid); }
 
         /* Bingo win banner */
         .bingo-banner { display: none; background: linear-gradient(135deg,var(--forest-dark),var(--glacier)); color: white; border-radius: 16px; padding: 16px 20px; text-align: center; margin-bottom: 16px; }
@@ -1106,59 +1113,15 @@
         </div>
 
         <div class="bingo-grid" id="bingo-grid">
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-whale">
-                <div class="bingo-inner">
-                    <div class="bingo-front"><span class="bingo-emoji">🐋</span><div class="bingo-name">Humpback Whale</div><div class="bingo-fact">Songs travel 100s of miles underwater</div></div>
-                    <div class="bingo-back"><span class="bingo-back-emoji">🐋</span><div class="bingo-back-name">Humpback Whale</div><div class="bingo-back-fact">Up to 52 ft long & 40 tons</div><div class="bingo-back-fact">Migrates 10,000 mi/year</div><div class="bingo-back-fact">Leaps its whole body out of the water</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
-                </div>
-            </div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-eagle">
-                <div class="bingo-inner">
-                    <div class="bingo-front"><span class="bingo-emoji">🦅</span><div class="bingo-name">Bald Eagle</div><div class="bingo-fact">Alaska has the most in the US</div></div>
-                    <div class="bingo-back"><span class="bingo-back-emoji">🦅</span><div class="bingo-back-name">Bald Eagle</div><div class="bingo-back-fact">30,000+ in Alaska alone</div><div class="bingo-back-fact">Sees fish from 2 miles away</div><div class="bingo-back-fact">Wingspan up to 8 feet wide</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
-                </div>
-            </div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-bear">
-                <div class="bingo-inner">
-                    <div class="bingo-front"><span class="bingo-emoji">🐻</span><div class="bingo-name">Brown Bear</div><div class="bingo-fact">20,000 calories/day before hibernation</div></div>
-                    <div class="bingo-back"><span class="bingo-back-emoji">🐻</span><div class="bingo-back-name">Brown Bear</div><div class="bingo-back-fact">Smells food from 20 miles away</div><div class="bingo-back-fact">Cubs born during hibernation</div><div class="bingo-back-fact">Runs 35 mph — faster than humans</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
-                </div>
-            </div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-orca">
-                <div class="bingo-inner">
-                    <div class="bingo-front"><span class="bingo-emoji">🐬</span><div class="bingo-name">Orca</div><div class="bingo-fact">Each pod speaks its own dialect</div></div>
-                    <div class="bingo-back"><span class="bingo-back-emoji">🐬</span><div class="bingo-back-name">Orca</div><div class="bingo-back-fact">Nothing in the ocean hunts orcas</div><div class="bingo-back-fact">Calves stay with mom for life</div><div class="bingo-back-fact">Can live 80–90 years</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
-                </div>
-            </div>
-            <div class="bingo-cell free" id="b-free">
-                <div class="bingo-inner">
-                    <div class="bingo-front"><div class="free-label">⭐ FREE</div><span class="bingo-emoji">🌊</span><div class="bingo-name">Alaska!</div></div>
-                </div>
-            </div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-otter">
-                <div class="bingo-inner">
-                    <div class="bingo-front"><span class="bingo-emoji">🦦</span><div class="bingo-name">Sea Otter</div><div class="bingo-fact">Holds paws while sleeping</div></div>
-                    <div class="bingo-back"><span class="bingo-back-emoji">🦦</span><div class="bingo-back-name">Sea Otter</div><div class="bingo-back-fact">Wraps in kelp so it won't drift</div><div class="bingo-back-fact">1 million hairs per square inch</div><div class="bingo-back-fact">Uses rocks to crack shellfish</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
-                </div>
-            </div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-seal">
-                <div class="bingo-inner">
-                    <div class="bingo-front"><span class="bingo-emoji">🦭</span><div class="bingo-name">Harbor Seal</div><div class="bingo-fact">Dives 1,600 ft, holds breath 28 min</div></div>
-                    <div class="bingo-back"><span class="bingo-back-emoji">🦭</span><div class="bingo-back-name">Harbor Seal</div><div class="bingo-back-fact">Gives birth on Tracy Arm icebergs</div><div class="bingo-back-fact">Whiskers detect fish movement</div><div class="bingo-back-fact">Pups swim within hours of birth</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
-                </div>
-            </div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-puffin">
-                <div class="bingo-inner">
-                    <div class="bingo-front"><span class="bingo-emoji">🐦</span><div class="bingo-name">Tufted Puffin</div><div class="bingo-fact">Carries dozens of fish in its beak</div></div>
-                    <div class="bingo-back"><span class="bingo-back-emoji">🐦</span><div class="bingo-back-name">Tufted Puffin</div><div class="bingo-back-fact">Flaps wings 400 times/minute</div><div class="bingo-back-fact">Dives 200 ft underwater</div><div class="bingo-back-fact">Lives at sea most of the year</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
-                </div>
-            </div>
-            <div class="bingo-cell" onclick="bingoBingo(this)" id="b-sealion">
-                <div class="bingo-inner">
-                    <div class="bingo-front"><span class="bingo-emoji">🦁</span><div class="bingo-name">Steller Sea Lion</div><div class="bingo-fact">Males up to 2,500 lbs</div></div>
-                    <div class="bingo-back"><span class="bingo-back-emoji">🦁</span><div class="bingo-back-name">Steller Sea Lion</div><div class="bingo-back-fact">Bigger than most cars</div><div class="bingo-back-fact">Holds breath up to 16 minutes</div><div class="bingo-back-fact">Colonies heard from miles away</div><div class="bingo-spotted-badge">✓ SPOTTED!</div></div>
-                </div>
-            </div>
+            <div class="bingo-cell" onclick="openAnimalModal('b-whale')" id="b-whale"><span class="bingo-emoji">🐋</span><div class="bingo-name">Humpback Whale</div><div class="bingo-cell-hint">Tap for details</div></div>
+            <div class="bingo-cell" onclick="openAnimalModal('b-eagle')" id="b-eagle"><span class="bingo-emoji">🦅</span><div class="bingo-name">Bald Eagle</div><div class="bingo-cell-hint">Tap for details</div></div>
+            <div class="bingo-cell" onclick="openAnimalModal('b-bear')" id="b-bear"><span class="bingo-emoji">🐻</span><div class="bingo-name">Brown Bear</div><div class="bingo-cell-hint">Tap for details</div></div>
+            <div class="bingo-cell" onclick="openAnimalModal('b-orca')" id="b-orca"><span class="bingo-emoji">🐬</span><div class="bingo-name">Orca</div><div class="bingo-cell-hint">Tap for details</div></div>
+            <div class="bingo-cell free" id="b-free"><div class="free-label">⭐ FREE</div><span class="bingo-emoji">🌊</span><div class="bingo-name">Alaska!</div></div>
+            <div class="bingo-cell" onclick="openAnimalModal('b-otter')" id="b-otter"><span class="bingo-emoji">🦦</span><div class="bingo-name">Sea Otter</div><div class="bingo-cell-hint">Tap for details</div></div>
+            <div class="bingo-cell" onclick="openAnimalModal('b-seal')" id="b-seal"><span class="bingo-emoji">🦭</span><div class="bingo-name">Harbor Seal</div><div class="bingo-cell-hint">Tap for details</div></div>
+            <div class="bingo-cell" onclick="openAnimalModal('b-puffin')" id="b-puffin"><span class="bingo-emoji">🐦</span><div class="bingo-name">Tufted Puffin</div><div class="bingo-cell-hint">Tap for details</div></div>
+            <div class="bingo-cell" onclick="openAnimalModal('b-sealion')" id="b-sealion"><span class="bingo-emoji">🦁</span><div class="bingo-name">Steller Sea Lion</div><div class="bingo-cell-hint">Tap for details</div></div>
         </div>
         <div style="text-align:center;margin-bottom:20px;">
             <button onclick="resetBingo()" style="border:1.5px solid #d1dcd6;background:none;border-radius:100px;padding:7px 18px;font-size:12px;font-weight:500;color:var(--text-light);cursor:pointer;font-family:'Inter',sans-serif;">Reset Bingo Card</button>
@@ -1380,6 +1343,17 @@
     </div>
 </div>
 
+<div class="modal-overlay hidden" id="modal-animal" onclick="if(event.target===this)closeAnimalModal()">
+    <div class="animal-sheet">
+        <button class="animal-close" onclick="closeAnimalModal()">✕</button>
+        <span class="animal-modal-emoji" id="modal-animal-emoji"></span>
+        <div class="animal-modal-name" id="modal-animal-name"></div>
+        <div class="animal-facts-list" id="modal-animal-facts"></div>
+        <div class="animal-spot-tip" id="modal-animal-tip"></div>
+        <button class="animal-spot-btn unspotted" id="modal-spot-btn" onclick="toggleSpottedFromModal()">Mark as Spotted ✓</button>
+    </div>
+</div>
+
 <nav class="bottom-nav">
     <button class="nav-item active" onclick="showSection('home',this)"><span class="nav-icon">🏔️</span><span class="nav-label">Home</span></button>
     <button class="nav-item" onclick="showSection('crew',this)"><span class="nav-icon">👨‍👩‍👧‍👦</span><span class="nav-label">Crew</span></button>
@@ -1406,16 +1380,55 @@
         window.scrollTo(0, 0);
     }
 
-    // Wildlife spotting
     // Wildlife Bingo
     const BINGO_IDS = ['b-whale','b-eagle','b-bear','b-orca',null,'b-otter','b-seal','b-puffin','b-sealion'];
     const BINGO_WINS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
-    function bingoBingo(cell) {
-        if (cell.classList.contains('free')) return;
-        cell.classList.toggle('spotted');
+    const ANIMAL_DATA = {
+        'b-whale': { emoji:'🐋', name:'Humpback Whale', facts:['Songs travel hundreds of miles through the ocean — each whale has its own unique melody','Grow up to 52 feet long and weigh 40 tons — as heavy as 8 elephants','Migrate up to 10,000 miles every year, one of Earth\'s longest animal journeys','"Breaching" means launching their entire body out of the water in a spectacular full leap'], tip:'Watch from the ship\'s deck during sea days and near Juneau. Look for a tall spout of water first — visible from far away.' },
+        'b-eagle': { emoji:'🦅', name:'Bald Eagle', facts:['Alaska has over 30,000 bald eagles — more than any other US state','Can spot a fish from 2 miles away with vision 8x sharper than a human\'s','Wingspan up to 8 feet wide — wider than most people are tall','Mates for life and returns to the same nest every year, adding more sticks each time'], tip:'Easy to spot perched in treetops near water in Skagway, Juneau, and Ketchikan. Dozens are common — watch the shoreline.' },
+        'b-bear': { emoji:'🐻', name:'Brown Bear', facts:['Eats up to 20,000 calories a day before hibernation — roughly 33 Big Macs','Can smell food from 20 miles away — the most sensitive nose of any land animal','Cubs are born during hibernation, tiny as a squirrel — the mom doesn\'t even fully wake up','Runs up to 35 mph — faster than any human sprinter alive'], tip:'Best chance at Musher\'s Camp in Skagway or on the 5-Glacier seaplane. Also watch riverbanks near Ketchikan during salmon runs.' },
+        'b-orca': { emoji:'🐬', name:'Orca', facts:['Every family pod has its own unique dialect — like a regional accent passed through generations','Nothing in the ocean hunts orcas — they are the absolute top of the food chain','Calves stay with their mother for their entire lives — one of the strongest family bonds in nature','The oldest known female lived to 105 years old'], tip:'Watch the open water during sea days in the Inside Passage. Pods travel together — if you see one dorsal fin, more are likely nearby.' },
+        'b-otter': { emoji:'🦦', name:'Sea Otter', facts:['Holds paws with other otters while sleeping so they don\'t drift apart — called a "raft"','Wraps itself in kelp before sleeping so ocean currents won\'t carry it away during the night','Has the densest fur of any animal — up to 1 million hairs per square inch (humans have 100,000 total)','One of very few animals that uses tools: rocks to crack open clam and abalone shells on their chest'], tip:'Look in calm, sheltered bays near kelp beds. Juneau and Ketchikan harbors are good spots — they float on their backs, which makes them easy to recognize.' },
+        'b-seal': { emoji:'🦭', name:'Harbor Seal', facts:['Can dive 1,600 feet deep — deeper than the Empire State Building is tall','Holds its breath for up to 28 minutes underwater','Harbor seals give birth on floating icebergs inside Tracy Arm Fjord — you may see pups on Glacier Day!','Whiskers are so sensitive they can detect the ripple trail left by a fish minutes after it swam past'], tip:'Almost guaranteed on Glacier Day — look for round spotted heads near icebergs, or pups resting on ice floes. Also common in all port harbors.' },
+        'b-puffin': { emoji:'🐦', name:'Tufted Puffin', facts:['Can carry 10–12 small fish crosswise in its beak at once without dropping any','Flaps its wings up to 400 times per minute — tiny and incredibly fast in flight','Dives up to 200 feet underwater chasing fish, using its wings to "fly" through the water','Lives most of its life far out at sea — only comes to land to breed in summer'], tip:'Best spotted on rocky cliff faces and sea stacks near Ketchikan. They\'re small — binoculars help. Look for the distinctive bright orange beak and yellow tufts.' },
+        'b-sealion': { emoji:'🦁', name:'Steller Sea Lion', facts:['Males can weigh 2,500 lbs — about the same as a mid-size car','Can stay underwater for up to 16 minutes on a single breath','Named after Georg Wilhelm Steller, the naturalist who first described them in 1742','Their barking colonies can be heard from miles away — you\'ll hear them before you see them'], tip:'Often haul out on harbor buoys, docks, and rocky outcroppings near Ketchikan and Juneau. Much larger than harbor seals — easy to tell apart.' },
+    };
+
+    let currentAnimalId = null;
+
+    function openAnimalModal(id) {
+        const animal = ANIMAL_DATA[id];
+        if (!animal) return;
+        currentAnimalId = id;
+        document.getElementById('modal-animal-emoji').textContent = animal.emoji;
+        document.getElementById('modal-animal-name').textContent = animal.name;
+        document.getElementById('modal-animal-facts').innerHTML = animal.facts.map(f => `<div class="animal-fact-item">${f}</div>`).join('');
+        document.getElementById('modal-animal-tip').innerHTML = `<strong>Where to spot it on your trip</strong>${animal.tip}`;
+        updateSpotBtn();
+        document.getElementById('modal-animal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAnimalModal() {
+        document.getElementById('modal-animal').classList.add('hidden');
+        document.body.style.overflow = '';
+        currentAnimalId = null;
+    }
+
+    function updateSpotBtn() {
+        const btn = document.getElementById('modal-spot-btn');
+        const isSpotted = document.getElementById(currentAnimalId)?.classList.contains('spotted');
+        btn.textContent = isSpotted ? '✓ Spotted! Tap to unmark' : 'Mark as Spotted  ✓';
+        btn.className = 'animal-spot-btn ' + (isSpotted ? 'spotted-state' : 'unspotted');
+    }
+
+    function toggleSpottedFromModal() {
+        if (!currentAnimalId) return;
+        document.getElementById(currentAnimalId).classList.toggle('spotted');
         saveBingo();
         checkBingo();
+        updateSpotBtn();
     }
 
     function checkBingo() {
