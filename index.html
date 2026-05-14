@@ -286,6 +286,33 @@
         .fc-cat-btn { border: 1.5px solid #d1dcd6; background: none; border-radius: 100px; padding: 5px 13px; font-size: 11px; font-weight: 600; color: var(--text-light); cursor: pointer; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; transition: all .15s; white-space: nowrap; }
         .fc-cat-btn.active { background: var(--forest-dark); border-color: var(--forest-dark); color: white; }
 
+        /* Mad Libs */
+        .ml-story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+        .ml-story-card { background: var(--snow); border-radius: 14px; padding: 14px 12px; text-align: center; cursor: pointer; box-shadow: var(--shadow-sm); border: 2px solid transparent; transition: all .2s; -webkit-tap-highlight-color: transparent; }
+        .ml-story-card:active { transform: scale(.97); border-color: var(--glacier); }
+        .ml-story-emoji { font-size: 28px; margin-bottom: 6px; }
+        .ml-story-title { font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; line-height: 1.3; }
+        .ml-story-teaser { font-size: 10px; color: var(--text-light); line-height: 1.4; }
+        .ml-progress-track { height: 4px; background: #eef2ee; border-radius: 2px; margin-bottom: 20px; }
+        .ml-progress-fill { height: 100%; background: var(--glacier); border-radius: 2px; transition: width .3s; }
+        .ml-prompt-card { background: var(--forest-dark); border-radius: 20px; padding: 28px 22px 22px; text-align: center; margin-bottom: 12px; }
+        .ml-word-num { font-size: 11px; color: rgba(255,255,255,.45); margin-bottom: 8px; letter-spacing: .5px; }
+        .ml-prompt-label { font-family: 'Playfair Display', serif; font-size: 21px; color: white; margin-bottom: 6px; line-height: 1.3; }
+        .ml-prompt-ex { font-size: 12px; color: rgba(255,255,255,.4); margin-bottom: 18px; }
+        .ml-input { width: 100%; border: 2px solid rgba(255,255,255,.2); background: rgba(255,255,255,.1); border-radius: 12px; padding: 13px 16px; font-size: 16px; color: white; font-family: 'Inter', sans-serif; text-align: center; outline: none; -webkit-appearance: none; }
+        .ml-input::placeholder { color: rgba(255,255,255,.3); }
+        .ml-input:focus { border-color: var(--glacier-light); }
+        .ml-next-btn { width: 100%; margin-top: 10px; padding: 14px; background: var(--glacier); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .ml-back-btn { width: 100%; padding: 10px; background: none; border: none; color: var(--text-light); font-size: 12px; cursor: pointer; font-family: 'Inter', sans-serif; margin-top: 2px; }
+        .ml-reveal-card { background: var(--snow); border-radius: 20px; padding: 22px 20px; box-shadow: var(--shadow-sm); margin-bottom: 14px; }
+        .ml-reveal-title { font-family: 'Playfair Display', serif; font-size: 19px; color: var(--text-dark); margin-bottom: 16px; text-align: center; line-height: 1.3; }
+        .ml-story-text { font-size: 13.5px; color: var(--text-mid); line-height: 1.85; }
+        .ml-word { background: var(--gold-pale); color: #a86000; font-weight: 700; border-radius: 4px; padding: 1px 5px; }
+        .ml-actions { display: flex; gap: 10px; }
+        .ml-action-btn { flex: 1; padding: 13px; border-radius: 12px; font-size: 13px; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; -webkit-tap-highlight-color: transparent; border: none; }
+        .ml-action-secondary { background: #eef2ee; color: var(--text-mid); }
+        .ml-action-primary { background: var(--forest-dark); color: white; }
+
         /* Educational content */
         .edu-section { margin-top: 16px; padding-top: 16px; border-top: 1px solid #eef2ee; }
         .edu-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
@@ -1182,6 +1209,57 @@
         <div class="fact-card"><div class="fact-icon">🧊</div><div><div class="fact-title">How Glaciers Form</div><div class="fact-body">Glaciers form when snow accumulates faster than it melts over hundreds of years. The weight compresses snow into dense blue-tinted ice. A tidewater glacier flows all the way to the ocean, where the ends "calve" in spectacular crashes. Mendenhall Glacier retreats about 100–150 feet per year.</div></div></div>
         <div class="fact-card"><div class="fact-icon">🐟</div><div><div class="fact-title">The Salmon Cycle</div><div class="fact-body">Alaska's five salmon species are born in freshwater, migrate to the ocean, then return to the exact stream where they were born to spawn — and die. Their bodies feed the entire rainforest ecosystem. June is the start of salmon season in Ketchikan.</div></div></div>
         <div class="fact-card"><div class="fact-icon">🌟</div><div><div class="fact-title">Alaska by the Numbers</div><div class="fact-body">Largest US state (twice the size of Texas). 3 million lakes. More coastline than all other US states combined. 17 of the 20 highest US peaks. In June, expect daylight until 10 PM or later — pack an eye mask.</div></div></div>
+
+        <div class="section-header" style="margin-top:28px;">Alaska Mad Libs</div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:16px;margin-top:-8px;">Fill in the blanks — then watch the chaos unfold 😄</div>
+
+        <div id="ml-select">
+            <div class="ml-story-grid">
+                <div class="ml-story-card" onclick="mlStart(0)">
+                    <div class="ml-story-emoji">🐋</div>
+                    <div class="ml-story-title">The Whale Who Crashed Dinner</div>
+                    <div class="ml-story-teaser">Animator's Palate gets an extra guest</div>
+                </div>
+                <div class="ml-story-card" onclick="mlStart(1)">
+                    <div class="ml-story-emoji">⛏️</div>
+                    <div class="ml-story-title">The Skagway Gold Rush</div>
+                    <div class="ml-story-teaser">Someone found gold. Or did they?</div>
+                </div>
+                <div class="ml-story-card" onclick="mlStart(2)">
+                    <div class="ml-story-emoji">📋</div>
+                    <div class="ml-story-title">Captain's Log: Glacier Day</div>
+                    <div class="ml-story-teaser">An official ship report goes sideways</div>
+                </div>
+                <div class="ml-story-card" onclick="mlStart(3)">
+                    <div class="ml-story-emoji">🪵</div>
+                    <div class="ml-story-title">The Lumberjack Showdown</div>
+                    <div class="ml-story-teaser">Ketchikan's lumberjacks meet their match</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ml-input-phase" class="hidden">
+            <div class="ml-progress-track"><div class="ml-progress-fill" id="ml-prog-fill" style="width:0%"></div></div>
+            <div class="ml-prompt-card">
+                <div class="ml-word-num" id="ml-word-num">Word 1 of 8</div>
+                <div class="ml-prompt-label" id="ml-prompt-label">an adjective</div>
+                <div class="ml-prompt-ex" id="ml-prompt-ex">e.g. sparkly</div>
+                <input class="ml-input" id="ml-input" type="text" placeholder="your word here…" autocomplete="off" autocorrect="off" autocapitalize="none">
+                <button class="ml-next-btn" onclick="mlNext()">Next →</button>
+            </div>
+            <button class="ml-back-btn" onclick="mlReset()">← Back to stories</button>
+        </div>
+
+        <div id="ml-reveal-phase" class="hidden">
+            <div class="ml-reveal-card">
+                <div class="ml-reveal-title" id="ml-reveal-title"></div>
+                <div class="ml-story-text" id="ml-story-text"></div>
+            </div>
+            <div class="ml-actions">
+                <button class="ml-action-btn ml-action-secondary" onclick="mlReset()">← All stories</button>
+                <button class="ml-action-btn ml-action-primary" onclick="mlReplay()">Try again 🎲</button>
+            </div>
+        </div>
     </section>
 
     <!-- ==================== EXPERIENCES / PLANS ==================== -->
@@ -1705,6 +1783,118 @@
         });
         fcRender();
     })();
+
+    // Mad Libs
+    const MADLIBS = [
+        {
+            title: 'The Whale Who Crashed Dinner', emoji: '🐋',
+            prompts: [
+                { hint: 'an adjective', ex: 'e.g. sparkly' },
+                { hint: 'a name from your group', ex: 'e.g. River' },
+                { hint: 'something you eat', ex: 'e.g. churro' },
+                { hint: 'a silly first name', ex: 'e.g. Gerald' },
+                { hint: 'a verb ending in -ing', ex: 'e.g. flossing' },
+                { hint: 'a number', ex: 'e.g. 47' },
+                { hint: 'an adjective', ex: 'e.g. bewildered' },
+                { hint: 'an exclamation', ex: 'e.g. Oh snap!' },
+            ],
+            render: (w) => `It was a perfectly <span class="ml-word">${w[0]}</span> evening at Animator's Palate when <span class="ml-word">${w[1]}</span> noticed something enormous pressed against the porthole. There, staring directly into the restaurant, was a humpback whale eating what appeared to be a <span class="ml-word">${w[2]}</span>. The whale — whose name badge clearly read <span class="ml-word">${w[3]}</span> — began <span class="ml-word">${w[4]}</span>ing at the diners until the Ortiz, Stallings, and Simmons families all screamed for <span class="ml-word">${w[5]}</span> full seconds. A crew member arrived and calmly explained it was just a very <span class="ml-word">${w[6]}</span> reflection. "<span class="ml-word">${w[7]}</span>," said everyone, and they went back to their soup.`
+        },
+        {
+            title: 'The Skagway Gold Rush', emoji: '⛏️',
+            prompts: [
+                { hint: 'an adjective', ex: 'e.g. dusty' },
+                { hint: 'a child\'s name from the trip', ex: 'e.g. River' },
+                { hint: 'a noun (something you carry)', ex: 'e.g. water bottle' },
+                { hint: 'a verb (past tense)', ex: 'e.g. tap-danced' },
+                { hint: 'an animal', ex: 'e.g. moose' },
+                { hint: 'an adult\'s name from the trip', ex: 'e.g. Veronica' },
+                { hint: 'an adjective', ex: 'e.g. suspicious' },
+                { hint: 'an exclamation', ex: 'e.g. Yee-haw!' },
+            ],
+            render: (w) => `The <span class="ml-word">${w[0]}</span> streets of Skagway hadn't seen commotion like this since 1898. <span class="ml-word">${w[1]}</span> announced they'd struck gold — which turned out to be a <span class="ml-word">${w[2]}</span> covered in glitter from the ship's craft table. The news <span class="ml-word">${w[3]}</span> through all three families instantly, startling a <span class="ml-word">${w[4]}</span> that had been minding its own business outside the railway station. <span class="ml-word">${w[5]}</span> tried to explain the misunderstanding to a park ranger, who looked deeply <span class="ml-word">${w[6]}</span> and simply pointed back toward the ship. "<span class="ml-word">${w[7]}</span>!" said the families, and they walked back wearing their matching lanyards.`
+        },
+        {
+            title: 'Captain\'s Log: Glacier Day', emoji: '📋',
+            prompts: [
+                { hint: 'an adjective (weather)', ex: 'e.g. frosty' },
+                { hint: 'a number', ex: 'e.g. 37' },
+                { hint: 'a name from your group', ex: 'e.g. Sedona' },
+                { hint: 'a noun (object)', ex: 'e.g. pool noodle' },
+                { hint: 'a verb ending in -ing', ex: 'e.g. moonwalking' },
+                { hint: 'an adjective', ex: 'e.g. frantic' },
+                { hint: 'a verb (past tense)', ex: 'e.g. somersaulted' },
+                { hint: 'an adjective', ex: 'e.g. philosophical' },
+            ],
+            render: (w) => `<em>OFFICIAL DISNEY WONDER SHIP LOG — June 21, 2026. Tracy Arm Fjord, 0700 hours.</em><br><br>Conditions: <span class="ml-word">${w[0]}</span>. Spotted <span class="ml-word">${w[1]}</span> icebergs, one of which appeared to be carrying <span class="ml-word">${w[2]}</span>'s missing <span class="ml-word">${w[3]}</span> from Tuesday. One passenger has been <span class="ml-word">${w[4]}</span>ing on the bow since 4 AM, claiming the glacier is "picking up speed." The glacier is not picking up speed. Hot cocoa was served to <span class="ml-word">${w[5]}</span> guests. The Ortiz, Stallings, and Simmons families <span class="ml-word">${w[6]}</span> simultaneously while attempting a group photo at the railing. Ice is blue. Everything is fine. Crew remains <span class="ml-word">${w[7]}</span>. End of log.`
+        },
+        {
+            title: 'The Lumberjack Showdown', emoji: '🪵',
+            prompts: [
+                { hint: 'an adjective', ex: 'e.g. majestic' },
+                { hint: 'a name from your group', ex: 'e.g. Joseph' },
+                { hint: 'a verb ending in -ing', ex: 'e.g. interpretive dancing' },
+                { hint: 'a noun (object)', ex: 'e.g. Croc shoe' },
+                { hint: 'a name from your group', ex: 'e.g. Sean' },
+                { hint: 'a verb (past tense)', ex: 'e.g. cartwheeled' },
+                { hint: 'a number', ex: 'e.g. 12' },
+                { hint: 'an adjective', ex: 'e.g. confused' },
+                { hint: 'an exclamation', ex: 'e.g. Timber!' },
+            ],
+            render: (w) => `The Great Alaskan Lumberjack Show had never encountered a crowd quite like the <span class="ml-word">${w[0]}</span> Ortiz-Stallings-Simmons group. It started when <span class="ml-word">${w[1]}</span> began <span class="ml-word">${w[2]}</span>ing in the front row, which the audience immediately loved. Then a log rolled off the stage and stopped directly beside a <span class="ml-word">${w[3]}</span> in the crowd. <span class="ml-word">${w[4]}</span> <span class="ml-word">${w[5]}</span>ed onto the competition platform by accident and was handed an axe by a lumberjack who assumed this was part of the show. The crowd chanted for <span class="ml-word">${w[6]}</span> straight minutes. The actual lumberjacks looked <span class="ml-word">${w[7]}</span>. Ketchikan has never fully recovered. "<span class="ml-word">${w[8]}</span>!" said everyone.`
+        },
+    ];
+
+    let mlStoryIdx = 0, mlWordIdx = 0, mlWords = [];
+
+    function mlStart(idx) {
+        mlStoryIdx = idx; mlWordIdx = 0; mlWords = [];
+        document.getElementById('ml-select').classList.add('hidden');
+        document.getElementById('ml-reveal-phase').classList.add('hidden');
+        document.getElementById('ml-input-phase').classList.remove('hidden');
+        mlShowPrompt();
+    }
+
+    function mlShowPrompt() {
+        const story = MADLIBS[mlStoryIdx];
+        if (mlWordIdx >= story.prompts.length) { mlReveal(); return; }
+        const p = story.prompts[mlWordIdx], total = story.prompts.length;
+        document.getElementById('ml-word-num').textContent = `Word ${mlWordIdx + 1} of ${total}`;
+        document.getElementById('ml-prompt-label').textContent = `Give me ${p.hint}`;
+        document.getElementById('ml-prompt-ex').textContent = p.ex;
+        document.getElementById('ml-prog-fill').style.width = `${(mlWordIdx / total) * 100}%`;
+        const inp = document.getElementById('ml-input');
+        inp.value = '';
+        setTimeout(() => inp.focus(), 80);
+    }
+
+    function mlNext() {
+        const val = document.getElementById('ml-input').value.trim();
+        if (!val) { document.getElementById('ml-input').focus(); return; }
+        mlWords.push(val);
+        mlWordIdx++;
+        mlShowPrompt();
+    }
+
+    function mlReveal() {
+        const story = MADLIBS[mlStoryIdx];
+        document.getElementById('ml-reveal-title').textContent = story.emoji + ' ' + story.title;
+        document.getElementById('ml-story-text').innerHTML = story.render(mlWords);
+        document.getElementById('ml-input-phase').classList.add('hidden');
+        document.getElementById('ml-prog-fill').style.width = '100%';
+        document.getElementById('ml-reveal-phase').classList.remove('hidden');
+    }
+
+    function mlReset() {
+        mlWords = []; mlWordIdx = 0;
+        document.getElementById('ml-input-phase').classList.add('hidden');
+        document.getElementById('ml-reveal-phase').classList.add('hidden');
+        document.getElementById('ml-select').classList.remove('hidden');
+    }
+
+    function mlReplay() { mlStart(mlStoryIdx); }
+
+    document.getElementById('ml-input').addEventListener('keydown', e => { if (e.key === 'Enter') mlNext(); });
 
     // Experience counts
     const cards = document.querySelectorAll('.exp-card');
