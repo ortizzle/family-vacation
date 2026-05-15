@@ -448,6 +448,22 @@
         .mission-item.done { opacity: .55; }
         .mission-item.done .mission-dot { background: var(--forest-mid); }
         .mission-item.done .mission-text { text-decoration: line-through; }
+
+        /* PACKING LIST */
+        .pack-category { background: var(--snow); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--shadow-sm); overflow: hidden; }
+        .pack-cat-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; }
+        .pack-cat-title { font-family: 'Playfair Display', serif; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+        .pack-cat-count { font-size: 12px; font-weight: 600; color: var(--text-light); background: #f1f5f2; border-radius: 20px; padding: 2px 9px; }
+        .pack-cat-count.done { background: #dcfce7; color: #15803d; }
+        .pack-items { padding: 0 16px 12px; }
+        .pack-item { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid #f1f5f2; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .pack-item:last-child { border-bottom: none; }
+        .pack-item input[type=checkbox] { width: 20px; height: 20px; border-radius: 5px; accent-color: var(--glacier); flex-shrink: 0; cursor: pointer; }
+        .pack-item-label { font-size: 14px; color: var(--text-dark); flex: 1; line-height: 1.3; }
+        .pack-item.checked .pack-item-label { text-decoration: line-through; color: var(--text-light); }
+        .pack-progress { height: 4px; background: #e8f0ec; }
+        .pack-progress-fill { height: 100%; background: var(--glacier); border-radius: 0; transition: width .3s; }
+        .pack-overall { background: var(--snow); border-radius: var(--radius); padding: 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
     </style>
 </head>
 <body>
@@ -1332,13 +1348,20 @@
             <div class="exp-summary-item"><div class="exp-summary-num" id="count-total">—</div><div class="exp-summary-label">Total</div></div>
         </div>
 
-        <div class="exp-filters">
-            <button class="exp-filter-btn active" onclick="setFilter('all',this)">All</button>
-            <button class="exp-filter-btn" onclick="setFilter('booked',this)">✓ Booked</button>
-            <button class="exp-filter-btn" onclick="setFilter('maybe',this)">? Deciding</button>
-            <button class="exp-filter-btn" onclick="setFilter('ortiz',this)">Ortiz</button>
-            <button class="exp-filter-btn" onclick="setFilter('stallings',this)">Stallings</button>
-            <button class="exp-filter-btn" onclick="setFilter('simmons',this)">Simmons</button>
+        <div style="margin-bottom:16px;">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-light);margin-bottom:6px;">Status</div>
+            <div class="exp-filters" style="margin-bottom:10px;">
+                <button class="exp-filter-btn exp-status-btn active" onclick="setStatusFilter('all',this)">All</button>
+                <button class="exp-filter-btn exp-status-btn" onclick="setStatusFilter('booked',this)">✓ Booked</button>
+                <button class="exp-filter-btn exp-status-btn" onclick="setStatusFilter('maybe',this)">? Deciding</button>
+            </div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-light);margin-bottom:6px;">Family</div>
+            <div class="exp-filters" style="margin-bottom:0;">
+                <button class="exp-filter-btn exp-family-btn active" onclick="setFamilyFilter('all',this)">All</button>
+                <button class="exp-filter-btn exp-family-btn" onclick="setFamilyFilter('ortiz',this)">Ortiz</button>
+                <button class="exp-filter-btn exp-family-btn" onclick="setFamilyFilter('stallings',this)">Stallings</button>
+                <button class="exp-filter-btn exp-family-btn" onclick="setFamilyFilter('simmons',this)">Simmons</button>
+            </div>
         </div>
 
         <div class="port-group" data-group="skagway">
@@ -1561,6 +1584,156 @@
         </div>
     </section>
 
+    <section id="section-pack" class="section">
+            <h2 style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Packing List</h2>
+            <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Alaska cruise · June 11–22</div>
+
+            <div class="pack-overall">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                    <span style="font-size:13px;font-weight:600;color:var(--text-dark);">Overall progress</span>
+                    <span id="pack-overall-label" style="font-size:13px;font-weight:700;color:var(--glacier);">0 / 0 packed</span>
+                </div>
+                <div class="pack-progress"><div class="pack-progress-fill" id="pack-overall-bar" style="width:0%"></div></div>
+            </div>
+
+            <!-- Documents & Essentials -->
+            <div class="pack-category" id="cat-docs">
+                <div class="pack-cat-header" onclick="togglePackCat('docs')">
+                    <div class="pack-cat-title">📋 Documents &amp; Essentials <span class="pack-cat-count" id="count-docs">0/8</span></div>
+                    <span id="chev-docs" style="color:var(--text-light);font-size:12px;">▾</span>
+                </div>
+                <div id="items-docs" class="pack-items">
+                    <label class="pack-item" id="pi-docs-1"><input type="checkbox" onchange="packToggle('docs-1',this)"> <span class="pack-item-label">Passports (all 4 family members)</span></label>
+                    <label class="pack-item" id="pi-docs-2"><input type="checkbox" onchange="packToggle('docs-2',this)"> <span class="pack-item-label">Disney Cruise booking confirmation #42702139</span></label>
+                    <label class="pack-item" id="pi-docs-3"><input type="checkbox" onchange="packToggle('docs-3',this)"> <span class="pack-item-label">Flight confirmations (WestJet 1741 &amp; 178 &amp; 1168)</span></label>
+                    <label class="pack-item" id="pi-docs-4"><input type="checkbox" onchange="packToggle('docs-4',this)"> <span class="pack-item-label">Travel insurance cards</span></label>
+                    <label class="pack-item" id="pi-docs-5"><input type="checkbox" onchange="packToggle('docs-5',this)"> <span class="pack-item-label">Credit &amp; debit cards</span></label>
+                    <label class="pack-item" id="pi-docs-6"><input type="checkbox" onchange="packToggle('docs-6',this)"> <span class="pack-item-label">Canadian dollars (hotel &amp; pre-cruise days)</span></label>
+                    <label class="pack-item" id="pi-docs-7"><input type="checkbox" onchange="packToggle('docs-7',this)"> <span class="pack-item-label">Hotel confirmation — River Rock Casino (PIN 3001)</span></label>
+                    <label class="pack-item" id="pi-docs-8"><input type="checkbox" onchange="packToggle('docs-8',this)"> <span class="pack-item-label">Private transfer confirmation (Richmond → Canada Place)</span></label>
+                </div>
+            </div>
+
+            <!-- Clothing -->
+            <div class="pack-category" id="cat-clothing">
+                <div class="pack-cat-header" onclick="togglePackCat('clothing')">
+                    <div class="pack-cat-title">👗 Clothing <span class="pack-cat-count" id="count-clothing">0/9</span></div>
+                    <span id="chev-clothing" style="color:var(--text-light);font-size:12px;">▾</span>
+                </div>
+                <div id="items-clothing" class="pack-items">
+                    <label class="pack-item" id="pi-clothing-1"><input type="checkbox" onchange="packToggle('clothing-1',this)"> <span class="pack-item-label">Warm base layer tops (thermal/merino wool)</span></label>
+                    <label class="pack-item" id="pi-clothing-2"><input type="checkbox" onchange="packToggle('clothing-2',this)"> <span class="pack-item-label">Fleece mid-layer jacket</span></label>
+                    <label class="pack-item" id="pi-clothing-3"><input type="checkbox" onchange="packToggle('clothing-3',this)"> <span class="pack-item-label">Casual daywear (t-shirts, jeans, leggings)</span></label>
+                    <label class="pack-item" id="pi-clothing-4"><input type="checkbox" onchange="packToggle('clothing-4',this)"> <span class="pack-item-label">Dress-up night outfits (semi-formal)</span></label>
+                    <label class="pack-item" id="pi-clothing-5"><input type="checkbox" onchange="packToggle('clothing-5',this)"> <span class="pack-item-label">Comfortable walking/hiking shoes</span></label>
+                    <label class="pack-item" id="pi-clothing-6"><input type="checkbox" onchange="packToggle('clothing-6',this)"> <span class="pack-item-label">Sandals or flip flops (pool/ship)</span></label>
+                    <label class="pack-item" id="pi-clothing-7"><input type="checkbox" onchange="packToggle('clothing-7',this)"> <span class="pack-item-label">Swimsuits</span></label>
+                    <label class="pack-item" id="pi-clothing-8"><input type="checkbox" onchange="packToggle('clothing-8',this)"> <span class="pack-item-label">Pajamas</span></label>
+                    <label class="pack-item" id="pi-clothing-9"><input type="checkbox" onchange="packToggle('clothing-9',this)"> <span class="pack-item-label">Extra underwear &amp; socks (pack more than you think)</span></label>
+                </div>
+            </div>
+
+            <!-- Outerwear -->
+            <div class="pack-category" id="cat-outer">
+                <div class="pack-cat-header" onclick="togglePackCat('outer')">
+                    <div class="pack-cat-title">🧥 Outerwear <span class="pack-cat-count" id="count-outer">0/5</span></div>
+                    <span id="chev-outer" style="color:var(--text-light);font-size:12px;">▾</span>
+                </div>
+                <div id="items-outer" class="pack-items">
+                    <label class="pack-item" id="pi-outer-1"><input type="checkbox" onchange="packToggle('outer-1',this)"> <span class="pack-item-label">Waterproof rain jacket (essential — Alaska is rainy!)</span></label>
+                    <label class="pack-item" id="pi-outer-2"><input type="checkbox" onchange="packToggle('outer-2',this)"> <span class="pack-item-label">Warm hat / beanie</span></label>
+                    <label class="pack-item" id="pi-outer-3"><input type="checkbox" onchange="packToggle('outer-3',this)"> <span class="pack-item-label">Gloves or mittens</span></label>
+                    <label class="pack-item" id="pi-outer-4"><input type="checkbox" onchange="packToggle('outer-4',this)"> <span class="pack-item-label">Buff / neck gaiter</span></label>
+                    <label class="pack-item" id="pi-outer-5"><input type="checkbox" onchange="packToggle('outer-5',this)"> <span class="pack-item-label">Sunglasses (glaciers are bright!)</span></label>
+                </div>
+            </div>
+
+            <!-- Health & Toiletries -->
+            <div class="pack-category" id="cat-health">
+                <div class="pack-cat-header" onclick="togglePackCat('health')">
+                    <div class="pack-cat-title">🩺 Health &amp; Toiletries <span class="pack-cat-count" id="count-health">0/8</span></div>
+                    <span id="chev-health" style="color:var(--text-light);font-size:12px;">▾</span>
+                </div>
+                <div id="items-health" class="pack-items">
+                    <label class="pack-item" id="pi-health-1"><input type="checkbox" onchange="packToggle('health-1',this)"> <span class="pack-item-label">Prescription medications (full supply + extra)</span></label>
+                    <label class="pack-item" id="pi-health-2"><input type="checkbox" onchange="packToggle('health-2',this)"> <span class="pack-item-label">Motion sickness meds / Sea-Bands</span></label>
+                    <label class="pack-item" id="pi-health-3"><input type="checkbox" onchange="packToggle('health-3',this)"> <span class="pack-item-label">Sunscreen SPF 50+ (yes, even in Alaska)</span></label>
+                    <label class="pack-item" id="pi-health-4"><input type="checkbox" onchange="packToggle('health-4',this)"> <span class="pack-item-label">Lip balm with SPF</span></label>
+                    <label class="pack-item" id="pi-health-5"><input type="checkbox" onchange="packToggle('health-5',this)"> <span class="pack-item-label">Insect repellent (for forest excursions)</span></label>
+                    <label class="pack-item" id="pi-health-6"><input type="checkbox" onchange="packToggle('health-6',this)"> <span class="pack-item-label">Basic first aid / pain relievers</span></label>
+                    <label class="pack-item" id="pi-health-7"><input type="checkbox" onchange="packToggle('health-7',this)"> <span class="pack-item-label">Hand sanitizer</span></label>
+                    <label class="pack-item" id="pi-health-8"><input type="checkbox" onchange="packToggle('health-8',this)"> <span class="pack-item-label">Toiletries &amp; personal care items</span></label>
+                </div>
+            </div>
+
+            <!-- Tech & Gear -->
+            <div class="pack-category" id="cat-tech">
+                <div class="pack-cat-header" onclick="togglePackCat('tech')">
+                    <div class="pack-cat-title">📱 Tech &amp; Gear <span class="pack-cat-count" id="count-tech">0/6</span></div>
+                    <span id="chev-tech" style="color:var(--text-light);font-size:12px;">▾</span>
+                </div>
+                <div id="items-tech" class="pack-items">
+                    <label class="pack-item" id="pi-tech-1"><input type="checkbox" onchange="packToggle('tech-1',this)"> <span class="pack-item-label">Phones + chargers + cables</span></label>
+                    <label class="pack-item" id="pi-tech-2"><input type="checkbox" onchange="packToggle('tech-2',this)"> <span class="pack-item-label">Portable battery packs (charged)</span></label>
+                    <label class="pack-item" id="pi-tech-3"><input type="checkbox" onchange="packToggle('tech-3',this)"> <span class="pack-item-label">Camera + extra memory cards</span></label>
+                    <label class="pack-item" id="pi-tech-4"><input type="checkbox" onchange="packToggle('tech-4',this)"> <span class="pack-item-label">Binoculars (wildlife spotting — don't skip this!)</span></label>
+                    <label class="pack-item" id="pi-tech-5"><input type="checkbox" onchange="packToggle('tech-5',this)"> <span class="pack-item-label">Waterproof phone cases / dry bags</span></label>
+                    <label class="pack-item" id="pi-tech-6"><input type="checkbox" onchange="packToggle('tech-6',this)"> <span class="pack-item-label">Headphones / earbuds</span></label>
+                </div>
+            </div>
+
+            <!-- Kids -->
+            <div class="pack-category" id="cat-kids">
+                <div class="pack-cat-header" onclick="togglePackCat('kids')">
+                    <div class="pack-cat-title">🧒 Kids <span class="pack-cat-count" id="count-kids">0/6</span></div>
+                    <span id="chev-kids" style="color:var(--text-light);font-size:12px;">▾</span>
+                </div>
+                <div id="items-kids" class="pack-items">
+                    <label class="pack-item" id="pi-kids-1"><input type="checkbox" onchange="packToggle('kids-1',this)"> <span class="pack-item-label">Tablets + headphones for flights</span></label>
+                    <label class="pack-item" id="pi-kids-2"><input type="checkbox" onchange="packToggle('kids-2',this)"> <span class="pack-item-label">Kids' medications (Tylenol, allergy, etc.)</span></label>
+                    <label class="pack-item" id="pi-kids-3"><input type="checkbox" onchange="packToggle('kids-3',this)"> <span class="pack-item-label">Favorite stuffed animal / comfort item</span></label>
+                    <label class="pack-item" id="pi-kids-4"><input type="checkbox" onchange="packToggle('kids-4',this)"> <span class="pack-item-label">Activity books / games for travel days</span></label>
+                    <label class="pack-item" id="pi-kids-5"><input type="checkbox" onchange="packToggle('kids-5',this)"> <span class="pack-item-label">Kids' sunscreen &amp; SPF lip balm</span></label>
+                    <label class="pack-item" id="pi-kids-6"><input type="checkbox" onchange="packToggle('kids-6',this)"> <span class="pack-item-label">Kids' rain jackets</span></label>
+                </div>
+            </div>
+
+            <!-- Cruise Essentials -->
+            <div class="pack-category" id="cat-cruise">
+                <div class="pack-cat-header" onclick="togglePackCat('cruise')">
+                    <div class="pack-cat-title">🚢 Cruise Essentials <span class="pack-cat-count" id="count-cruise">0/8</span></div>
+                    <span id="chev-cruise" style="color:var(--text-light);font-size:12px;">▾</span>
+                </div>
+                <div id="items-cruise" class="pack-items">
+                    <label class="pack-item" id="pi-cruise-1"><input type="checkbox" onchange="packToggle('cruise-1',this)"> <span class="pack-item-label">Disney Navigator app downloaded &amp; set up</span></label>
+                    <label class="pack-item" id="pi-cruise-2"><input type="checkbox" onchange="packToggle('cruise-2',this)"> <span class="pack-item-label">Lanyards for Key to the World cards</span></label>
+                    <label class="pack-item" id="pi-cruise-3"><input type="checkbox" onchange="packToggle('cruise-3',this)"> <span class="pack-item-label">Small day backpack for excursions</span></label>
+                    <label class="pack-item" id="pi-cruise-4"><input type="checkbox" onchange="packToggle('cruise-4',this)"> <span class="pack-item-label">Reusable water bottles</span></label>
+                    <label class="pack-item" id="pi-cruise-5"><input type="checkbox" onchange="packToggle('cruise-5',this)"> <span class="pack-item-label">Ziplock bags (waterproofing valuables on excursions)</span></label>
+                    <label class="pack-item" id="pi-cruise-6"><input type="checkbox" onchange="packToggle('cruise-6',this)"> <span class="pack-item-label">Evening bag / clutch for Palo &amp; formal nights</span></label>
+                    <label class="pack-item" id="pi-cruise-7"><input type="checkbox" onchange="packToggle('cruise-7',this)"> <span class="pack-item-label">Snacks for stateroom &amp; travel days</span></label>
+                    <label class="pack-item" id="pi-cruise-8"><input type="checkbox" onchange="packToggle('cruise-8',this)"> <span class="pack-item-label">Night light for kids' stateroom area</span></label>
+                </div>
+            </div>
+
+            <!-- Alaska Specific -->
+            <div class="pack-category" id="cat-alaska">
+                <div class="pack-cat-header" onclick="togglePackCat('alaska-pack')">
+                    <div class="pack-cat-title">🏔️ Alaska Specific <span class="pack-cat-count" id="count-alaska-pack">0/5</span></div>
+                    <span id="chev-alaska-pack" style="color:var(--text-light);font-size:12px;">▾</span>
+                </div>
+                <div id="items-alaska-pack" class="pack-items">
+                    <label class="pack-item" id="pi-alaska-1"><input type="checkbox" onchange="packToggle('alaska-1',this)"> <span class="pack-item-label">Waterproof day pack / drybag</span></label>
+                    <label class="pack-item" id="pi-alaska-2"><input type="checkbox" onchange="packToggle('alaska-2',this)"> <span class="pack-item-label">Wool or synthetic blend hiking socks</span></label>
+                    <label class="pack-item" id="pi-alaska-3"><input type="checkbox" onchange="packToggle('alaska-3',this)"> <span class="pack-item-label">Waterproof / sturdy footwear for excursions</span></label>
+                    <label class="pack-item" id="pi-alaska-4"><input type="checkbox" onchange="packToggle('alaska-4',this)"> <span class="pack-item-label">Cash for port shopping (USD accepted everywhere)</span></label>
+                    <label class="pack-item" id="pi-alaska-5"><input type="checkbox" onchange="packToggle('alaska-5',this)"> <span class="pack-item-label">Small umbrella or packable poncho</span></label>
+                </div>
+            </div>
+
+            <button onclick="clearPackList()" style="width:100%;padding:12px;background:none;border:1.5px solid #e2e8f0;border-radius:12px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text-light);cursor:pointer;margin-top:4px;">Reset all checkboxes</button>
+    </section>
+
 </main>
 
 <!-- Palo Brunch Menu Modal -->
@@ -1642,6 +1815,7 @@
     <button class="nav-item" onclick="showSection('alaska',this)"><span class="nav-icon">🦅</span><span class="nav-label">Alaska</span></button>
     <button class="nav-item" onclick="showSection('plans',this)"><span class="nav-icon">✅</span><span class="nav-label">Plans</span></button>
     <button class="nav-item" onclick="showSection('games',this)"><span class="nav-icon">🏆</span><span class="nav-label">Games</span></button>
+    <button class="nav-item" onclick="showSection('pack',this)"><span class="nav-icon">🧳</span><span class="nav-label">Pack</span></button>
 </nav>
 
 <script>
@@ -1837,14 +2011,29 @@
     }
 
     // Experience filters
-    function setFilter(f, btn) {
-        document.querySelectorAll('.exp-filter-btn').forEach(b => b.classList.remove('active'));
+    let _planStatus = 'all', _planFamily = 'all';
+
+    function setStatusFilter(f, btn) {
+        _planStatus = f;
+        document.querySelectorAll('.exp-status-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        applyExpFilters();
+    }
+
+    function setFamilyFilter(f, btn) {
+        _planFamily = f;
+        document.querySelectorAll('.exp-family-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyExpFilters();
+    }
+
+    function applyExpFilters() {
         document.querySelectorAll('.exp-card').forEach(card => {
             const status = card.dataset.status;
             const families = (card.dataset.families || '').split(',');
-            let show = f === 'all' || (f === 'booked' && status === 'booked') || (f === 'maybe' && status === 'maybe') || families.includes(f);
-            card.classList.toggle('hidden', !show);
+            const statusOk = _planStatus === 'all' || status === _planStatus;
+            const familyOk = _planFamily === 'all' || families.includes(_planFamily);
+            card.classList.toggle('hidden', !(statusOk && familyOk));
         });
         document.querySelectorAll('.port-group').forEach(group => {
             const visible = group.querySelectorAll('.exp-card:not(.hidden)');
@@ -1856,6 +2045,9 @@
             }
         });
     }
+
+    // keep old setFilter as alias for any other callers
+    function setFilter(f, btn) { applyExpFilters(); }
 
     // Flashcards
     const FLASHCARDS = [
@@ -2161,6 +2353,73 @@
             setTimeout(() => el.remove(), 700);
         }
     }
+
+    // Packing List
+    const PACK_CATEGORIES = {
+        docs: 8, clothing: 9, outer: 5, health: 8, tech: 6, kids: 6, cruise: 8, 'alaska-pack': 5
+    };
+    let packState = JSON.parse(localStorage.getItem('ak26_pack') || '{}');
+
+    function packToggle(id, el) {
+        packState[id] = el.checked;
+        localStorage.setItem('ak26_pack', JSON.stringify(packState));
+        el.closest('.pack-item').classList.toggle('checked', el.checked);
+        updatePackCounts();
+    }
+
+    function updatePackCounts() {
+        let totalChecked = 0, totalAll = 0;
+        for (const [cat, count] of Object.entries(PACK_CATEGORIES)) {
+            let checked = 0;
+            for (let i = 1; i <= count; i++) {
+                if (packState[cat + '-' + i]) checked++;
+            }
+            totalChecked += checked;
+            totalAll += count;
+            const el = document.getElementById('count-' + cat);
+            if (el) {
+                el.textContent = checked + '/' + count;
+                el.className = 'pack-cat-count' + (checked === count && count > 0 ? ' done' : '');
+            }
+        }
+        const lbl = document.getElementById('pack-overall-label');
+        const bar = document.getElementById('pack-overall-bar');
+        if (lbl) lbl.textContent = totalChecked + ' / ' + totalAll + ' packed';
+        if (bar) bar.style.width = (totalAll ? Math.round(totalChecked/totalAll*100) : 0) + '%';
+    }
+
+    function initPackList() {
+        for (const [cat, count] of Object.entries(PACK_CATEGORIES)) {
+            for (let i = 1; i <= count; i++) {
+                const key = cat + '-' + i;
+                const label = document.getElementById('pi-' + key);
+                if (!label) continue;
+                const cb = label.querySelector('input[type=checkbox]');
+                if (cb && packState[key]) { cb.checked = true; label.classList.add('checked'); }
+            }
+        }
+        updatePackCounts();
+    }
+
+    function togglePackCat(cat) {
+        const items = document.getElementById('items-' + cat);
+        const chev = document.getElementById('chev-' + cat);
+        if (!items) return;
+        const open = items.style.display !== 'none';
+        items.style.display = open ? 'none' : '';
+        if (chev) chev.textContent = open ? '▸' : '▾';
+    }
+
+    function clearPackList() {
+        if (!confirm('Reset all checkboxes?')) return;
+        packState = {};
+        localStorage.setItem('ak26_pack', JSON.stringify(packState));
+        document.querySelectorAll('.pack-item input[type=checkbox]').forEach(cb => { cb.checked = false; });
+        document.querySelectorAll('.pack-item').forEach(el => el.classList.remove('checked'));
+        updatePackCounts();
+    }
+
+    document.addEventListener('DOMContentLoaded', initPackList);
 </script>
 </body>
 </html>
