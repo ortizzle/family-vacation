@@ -165,7 +165,7 @@
         .exp-name { font-size: 15px; font-weight: 500; color: var(--text-dark); margin-bottom: 5px; line-height: 1.3; }
         .exp-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
         .exp-tag { background: var(--cream); border-radius: 100px; padding: 3px 9px; font-size: 11px; color: var(--text-light); }
-        .exp-families { display: flex; gap: 5px; flex-wrap: wrap; }
+        .exp-families { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
         .family-pill { border-radius: 100px; padding: 3px 9px; font-size: 11px; font-weight: 500; }
         .pill-o { background: var(--glacier-pale); color: #1a5d6e; }
         .pill-s { background: #e8f5ee; color: #1f4a2d; }
@@ -1375,6 +1375,18 @@
             </div>
         </div>
 
+        <!-- Day 2 · June 16 · Sea Day -->
+        <div class="port-group" data-group="day2">
+            <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
+                <span class="port-badge">🌊 Sea Day</span><span class="port-date">Day 2 · June 16</span>
+                <span class="acc-chevron open" style="margin-left:auto;"></span>
+            </div>
+            <div class="acc-body" style="padding-top:10px;">
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openModal('palo')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Brunch</div><div class="exp-meta"><span class="exp-tag">$55/pp</span><span class="exp-tag">Adults</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">View menu →</div></div></div>
+            </div>
+        </div>
+
+        <!-- Day 4 · June 18 · Skagway -->
         <div class="port-group" data-group="skagway">
             <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
                 <span class="port-badge">⛰️ Skagway</span><span class="port-date">Day 4 · June 18</span>
@@ -1383,23 +1395,24 @@
             <div class="acc-body" style="padding-top:10px;">
                 <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('white-pass')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">White Pass Scenic Railway</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$150–200/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.wpyr.com" target="_blank" rel="noopener">↗ wpyr.com</a><div class="exp-tap-hint">Tap for details →</div></div>
+                    <div class="exp-body"><div class="exp-name">White Pass Scenic Railway</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$150–200/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.wpyr.com" target="_blank" rel="noopener">↗ wpyr.com</a><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
                 <div class="exp-card booked tappable" data-status="booked" data-families="ortiz" onclick="openExpDetail('mushers-camp')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Musher's Camp & Sled Dog Experience</div><div class="exp-meta"><span class="exp-tag">~2–3 hrs</span><span class="exp-tag">$150–220/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
+                    <div class="exp-body"><div class="exp-name">Musher's Camp & Sled Dog Experience</div><div class="exp-meta"><span class="exp-tag">~2–3 hrs</span><span class="exp-tag">$150–220/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
                 <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('grizzly-falls')">
                     <div class="exp-dot dot-maybe"></div>
-                    <div class="exp-body"><div class="exp-name">Grizzly Falls Ziplining (SW23)</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$180–220/pp</span><span class="exp-tag">Ages 8+</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
+                    <div class="exp-body"><div class="exp-name">Grizzly Falls Ziplining (SW23)</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$180–220/pp</span><span class="exp-tag">Ages 8+</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
                 <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz,stallings" onclick="openExpDetail('ak-wildlife')">
                     <div class="exp-dot dot-maybe"></div>
-                    <div class="exp-body"><div class="exp-name">Alaska Nature & Wildlife Expedition (SW58)</div><div class="exp-meta"><span class="exp-tag">~6 hrs</span><span class="exp-tag">$184–220/pp</span><span class="exp-tag">Ages 6+</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
+                    <div class="exp-body"><div class="exp-name">Alaska Nature & Wildlife Expedition (SW58)</div><div class="exp-meta"><span class="exp-tag">~6 hrs</span><span class="exp-tag">$184–220/pp</span><span class="exp-tag">Ages 6+</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
             </div>
         </div>
 
+        <!-- Day 5 · June 19 · Juneau -->
         <div class="port-group" data-group="juneau">
             <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
                 <span class="port-badge">🏔️ Juneau</span><span class="port-date">Day 5 · June 19</span>
@@ -1408,15 +1421,16 @@
             <div class="acc-body" style="padding-top:10px;">
                 <div class="exp-card booked tappable" data-status="booked" data-families="ortiz" onclick="openExpDetail('seaplane')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">5-Glacier Seaplane Exploration (JU49)</div><div class="exp-meta"><span class="exp-tag">$359–399/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
+                    <div class="exp-body"><div class="exp-name">5-Glacier Seaplane Exploration (JU49)</div><div class="exp-meta"><span class="exp-tag">$359–399/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
                 <div class="exp-card booked tappable" data-status="booked" data-families="stallings" onclick="openExpDetail('mendenhall')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Mendenhall Glacier Explorer (JU11)</div><div class="exp-meta"><span class="exp-tag">$59–109/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-s">Stallings</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
+                    <div class="exp-body"><div class="exp-name">Mendenhall Glacier Explorer (JU11)</div><div class="exp-meta"><span class="exp-tag">$59–109/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
             </div>
         </div>
 
+        <!-- Day 6 · June 20 · Ketchikan -->
         <div class="port-group" data-group="ketchikan">
             <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
                 <span class="port-badge">🌲 Ketchikan</span><span class="port-date">Day 6 · June 20</span>
@@ -1425,15 +1439,16 @@
             <div class="acc-body" style="padding-top:10px;">
                 <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings,simmons" onclick="openExpDetail('lumberjack')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="exp-meta"><span class="exp-tag">~1.5 hrs</span><span class="exp-tag">$29–59/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="family-pill pill-sim">Simmons</span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.lumberjackshow.com" target="_blank" rel="noopener">↗ lumberjackshow.com</a><div class="exp-tap-hint">Tap for details →</div></div>
+                    <div class="exp-body"><div class="exp-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="exp-meta"><span class="exp-tag">~1.5 hrs</span><span class="exp-tag">$29–59/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="family-dot dot-sim" title="Simmons"></span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.lumberjackshow.com" target="_blank" rel="noopener">↗ lumberjackshow.com</a><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
                 <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz,stallings" onclick="openExpDetail('bigfoot')">
                     <div class="exp-dot dot-maybe"></div>
-                    <div class="exp-body"><div class="exp-name">Alaska Bigfoot Adventures (KE70)</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$184/pp</span><span class="exp-tag">Ages 6+</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
+                    <div class="exp-body"><div class="exp-name">Alaska Bigfoot Adventures (KE70)</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$184/pp</span><span class="exp-tag">Ages 6+</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
             </div>
         </div>
 
+        <!-- Day 7 · June 21 · Glacier Day -->
         <div class="port-group" data-group="glacier">
             <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
                 <span class="port-badge">🧊 Glacier Day</span><span class="port-date">Day 7 · June 21</span>
@@ -1442,11 +1457,13 @@
             <div class="acc-body" style="padding-top:10px;">
                 <div class="exp-card booked tappable" data-status="booked" data-families="stallings" onclick="openExpDetail('glacier-explorer')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Glacier Explorer (DG01)</div><div class="exp-meta"><span class="exp-tag">Stallings only</span></div><div class="exp-families"><span class="family-pill pill-s">Stallings</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
+                    <div class="exp-body"><div class="exp-name">Glacier Explorer (DG01)</div><div class="exp-meta"><span class="exp-tag">Stallings only</span></div><div class="exp-families"><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openModal('palo')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Brunch</div><div class="exp-meta"><span class="exp-tag">$55/pp</span><span class="exp-tag">Adults</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">View menu →</div></div></div>
             </div>
         </div>
 
+        <!-- Onboard · Sea Days -->
         <div class="port-group" data-group="onboard">
             <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
                 <span class="port-badge">🛳️ Onboard</span><span class="port-date">Sea Days</span>
@@ -1454,19 +1471,17 @@
             </div>
             <div class="acc-body" style="padding-top:10px;">
                 <div class="onboard-cat-title">Adult Dining</div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openModal('palo')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Brunch — Sea Day 2 (June 16)</div><div class="exp-meta"><span class="exp-tag">$55/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz Adults</span><span class="family-pill pill-s">Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">View menu →</div></div></div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openModal('palo')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Brunch — Sea Day 7 (June 21)</div><div class="exp-meta"><span class="exp-tag">$55/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz Adults</span><span class="family-pill pill-s">Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">View menu →</div></div></div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('palo-dinner')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Dinner</div><div class="exp-meta"><span class="exp-tag">$55/pp</span><span class="exp-tag">Any sea day</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz Adults</span><span class="family-pill pill-s">Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('palo-dinner')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Dinner</div><div class="exp-meta"><span class="exp-tag">$55/pp</span><span class="exp-tag">Any sea day</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
                 <div class="onboard-cat-title">Beverage Tastings</div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('mixology')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Mixology</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine</span><span class="family-pill pill-s">Veronica</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('martini')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Martini Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine · Chris</span><span class="family-pill pill-s">+ Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz,stallings" onclick="openExpDetail('wine')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Stem-to-Stern Wine Tasting</div><div class="exp-meta"><span class="exp-tag">~$55/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine</span><span class="family-pill pill-s">Veronica</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('tequila')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Tequila & Margarita Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('rum')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Rum Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Chris</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('mixology')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Mixology</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('martini')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Martini Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz,stallings" onclick="openExpDetail('wine')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Stem-to-Stern Wine Tasting</div><div class="exp-meta"><span class="exp-tag">~$55/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('tequila')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Tequila & Margarita Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('rum')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Rum Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
                 <div class="onboard-cat-title">Specialty</div>
-                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('behind-scenes')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Behind the Scenes Ship Tour</div><div class="exp-meta"><span class="exp-tag">$150+/pp</span><span class="exp-tag">Sea day</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine · Chris</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz" onclick="openExpDetail('photo-pkg')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Unlimited Photo Package</div><div class="exp-meta"><span class="exp-tag">Full cruise</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="stallings" onclick="openExpDetail('rainforest-room')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Rainforest Room (Length of Cruise)</div><div class="exp-meta"><span class="exp-tag">Spa · $150–220</span></div><div class="exp-families"><span class="family-pill pill-s">Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('behind-scenes')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Behind the Scenes Ship Tour</div><div class="exp-meta"><span class="exp-tag">$150+/pp</span><span class="exp-tag">Sea day</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz" onclick="openExpDetail('photo-pkg')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Unlimited Photo Package</div><div class="exp-meta"><span class="exp-tag">Full cruise</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="stallings" onclick="openExpDetail('rainforest-room')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Rainforest Room (Length of Cruise)</div><div class="exp-meta"><span class="exp-tag">Spa · $150–220</span></div><div class="exp-families"><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
             </div>
         </div>
         </div><!-- end plans-content -->
