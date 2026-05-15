@@ -464,6 +464,11 @@
         .pack-progress { height: 4px; background: #e8f0ec; }
         .pack-progress-fill { height: 100%; background: var(--glacier); border-radius: 0; transition: width .3s; }
         .pack-overall { background: var(--snow); border-radius: var(--radius); padding: 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
+
+        /* Plans/Pack pill toggle */
+        .section-pill-row { display: flex; background: var(--snow); border-radius: 12px; padding: 4px; gap: 4px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
+        .section-pill { flex: 1; padding: 9px; border-radius: 9px; border: none; background: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-light); cursor: pointer; transition: all .2s; }
+        .section-pill.active { background: var(--forest-dark); color: white; }
     </style>
 </head>
 <body>
@@ -1332,6 +1337,12 @@
 
     <!-- ==================== EXPERIENCES / PLANS ==================== -->
     <section id="section-plans" class="section">
+        <div class="section-pill-row">
+            <button class="section-pill active" onclick="showPlansPill('plans',this)">✅ Plans</button>
+            <button class="section-pill" onclick="showPlansPill('pack',this)">🧳 Pack</button>
+        </div>
+
+        <div id="plans-content">
         <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Our Plans</div>
         <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">All excursions and onboard reservations</div>
 
@@ -1370,21 +1381,21 @@
                 <span class="acc-chevron open" style="margin-left:auto;"></span>
             </div>
             <div class="acc-body" style="padding-top:10px;">
-                <div class="exp-card booked" data-status="booked" data-families="ortiz,stallings">
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('white-pass')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">White Pass Scenic Railway</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$150–200/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.wpyr.com" target="_blank" rel="noopener">↗ wpyr.com</a></div>
+                    <div class="exp-body"><div class="exp-name">White Pass Scenic Railway</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$150–200/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.wpyr.com" target="_blank" rel="noopener">↗ wpyr.com</a><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
-                <div class="exp-card booked" data-status="booked" data-families="ortiz">
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz" onclick="openExpDetail('mushers-camp')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Musher's Camp & Sled Dog Experience</div><div class="exp-meta"><span class="exp-tag">~2–3 hrs</span><span class="exp-tag">$150–220/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-booked">✓ Booked</span></div></div>
+                    <div class="exp-body"><div class="exp-name">Musher's Camp & Sled Dog Experience</div><div class="exp-meta"><span class="exp-tag">~2–3 hrs</span><span class="exp-tag">$150–220/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
-                <div class="exp-card maybe" data-status="maybe" data-families="ortiz">
+                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('grizzly-falls')">
                     <div class="exp-dot dot-maybe"></div>
-                    <div class="exp-body"><div class="exp-name">Grizzly Falls Ziplining (SW23)</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$180–220/pp</span><span class="exp-tag">Ages 8+</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-maybe">Deciding</span></div></div>
+                    <div class="exp-body"><div class="exp-name">Grizzly Falls Ziplining (SW23)</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$180–220/pp</span><span class="exp-tag">Ages 8+</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
-                <div class="exp-card maybe" data-status="maybe" data-families="ortiz,stallings">
+                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz,stallings" onclick="openExpDetail('ak-wildlife')">
                     <div class="exp-dot dot-maybe"></div>
-                    <div class="exp-body"><div class="exp-name">Alaska Nature & Wildlife Expedition (SW58)</div><div class="exp-meta"><span class="exp-tag">~6 hrs</span><span class="exp-tag">$184–220/pp</span><span class="exp-tag">Ages 6+</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="badge badge-maybe">Deciding</span></div></div>
+                    <div class="exp-body"><div class="exp-name">Alaska Nature & Wildlife Expedition (SW58)</div><div class="exp-meta"><span class="exp-tag">~6 hrs</span><span class="exp-tag">$184–220/pp</span><span class="exp-tag">Ages 6+</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
             </div>
         </div>
@@ -1395,13 +1406,13 @@
                 <span class="acc-chevron open" style="margin-left:auto;"></span>
             </div>
             <div class="acc-body" style="padding-top:10px;">
-                <div class="exp-card booked" data-status="booked" data-families="ortiz">
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz" onclick="openExpDetail('seaplane')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">5-Glacier Seaplane Exploration (JU49)</div><div class="exp-meta"><span class="exp-tag">$359–399/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-booked">✓ Booked</span></div></div>
+                    <div class="exp-body"><div class="exp-name">5-Glacier Seaplane Exploration (JU49)</div><div class="exp-meta"><span class="exp-tag">$359–399/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
-                <div class="exp-card booked" data-status="booked" data-families="stallings">
+                <div class="exp-card booked tappable" data-status="booked" data-families="stallings" onclick="openExpDetail('mendenhall')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Mendenhall Glacier Explorer (JU11)</div><div class="exp-meta"><span class="exp-tag">$59–109/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-s">Stallings</span><span class="badge badge-booked">✓ Booked</span></div></div>
+                    <div class="exp-body"><div class="exp-name">Mendenhall Glacier Explorer (JU11)</div><div class="exp-meta"><span class="exp-tag">$59–109/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-s">Stallings</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
             </div>
         </div>
@@ -1412,13 +1423,13 @@
                 <span class="acc-chevron open" style="margin-left:auto;"></span>
             </div>
             <div class="acc-body" style="padding-top:10px;">
-                <div class="exp-card booked" data-status="booked" data-families="ortiz,stallings,simmons">
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings,simmons" onclick="openExpDetail('lumberjack')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="exp-meta"><span class="exp-tag">~1.5 hrs</span><span class="exp-tag">$29–59/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="family-pill pill-sim">Simmons</span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.lumberjackshow.com" target="_blank" rel="noopener">↗ lumberjackshow.com</a></div>
+                    <div class="exp-body"><div class="exp-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="exp-meta"><span class="exp-tag">~1.5 hrs</span><span class="exp-tag">$29–59/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="family-pill pill-sim">Simmons</span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.lumberjackshow.com" target="_blank" rel="noopener">↗ lumberjackshow.com</a><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
-                <div class="exp-card maybe" data-status="maybe" data-families="ortiz,stallings">
+                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz,stallings" onclick="openExpDetail('bigfoot')">
                     <div class="exp-dot dot-maybe"></div>
-                    <div class="exp-body"><div class="exp-name">Alaska Bigfoot Adventures (KE70)</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$184/pp</span><span class="exp-tag">Ages 6+</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="badge badge-maybe">Deciding</span></div></div>
+                    <div class="exp-body"><div class="exp-name">Alaska Bigfoot Adventures (KE70)</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$184/pp</span><span class="exp-tag">Ages 6+</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="family-pill pill-s">Stallings</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
             </div>
         </div>
@@ -1429,9 +1440,9 @@
                 <span class="acc-chevron open" style="margin-left:auto;"></span>
             </div>
             <div class="acc-body" style="padding-top:10px;">
-                <div class="exp-card booked" data-status="booked" data-families="stallings">
+                <div class="exp-card booked tappable" data-status="booked" data-families="stallings" onclick="openExpDetail('glacier-explorer')">
                     <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Glacier Explorer (DG01)</div><div class="exp-meta"><span class="exp-tag">Stallings only</span></div><div class="exp-families"><span class="family-pill pill-s">Stallings</span><span class="badge badge-booked">✓ Booked</span></div></div>
+                    <div class="exp-body"><div class="exp-name">Glacier Explorer (DG01)</div><div class="exp-meta"><span class="exp-tag">Stallings only</span></div><div class="exp-families"><span class="family-pill pill-s">Stallings</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
                 </div>
             </div>
         </div>
@@ -1445,19 +1456,170 @@
                 <div class="onboard-cat-title">Adult Dining</div>
                 <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openModal('palo')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Brunch — Sea Day 2 (June 16)</div><div class="exp-meta"><span class="exp-tag">$55/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz Adults</span><span class="family-pill pill-s">Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">View menu →</div></div></div>
                 <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openModal('palo')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Brunch — Sea Day 7 (June 21)</div><div class="exp-meta"><span class="exp-tag">$55/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz Adults</span><span class="family-pill pill-s">Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">View menu →</div></div></div>
-                <div class="exp-card booked" data-status="booked" data-families="ortiz,stallings"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Dinner</div><div class="exp-meta"><span class="exp-tag">$55/pp</span><span class="exp-tag">Any sea day</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz Adults</span><span class="family-pill pill-s">Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div></div></div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('palo-dinner')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Dinner</div><div class="exp-meta"><span class="exp-tag">$55/pp</span><span class="exp-tag">Any sea day</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz Adults</span><span class="family-pill pill-s">Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
                 <div class="onboard-cat-title">Beverage Tastings</div>
-                <div class="exp-card booked" data-status="booked" data-families="ortiz,stallings"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Mixology</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine</span><span class="family-pill pill-s">Veronica</span><span class="badge badge-booked">✓ Booked</span></div></div></div>
-                <div class="exp-card booked" data-status="booked" data-families="ortiz,stallings"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Martini Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine · Chris</span><span class="family-pill pill-s">+ Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div></div></div>
-                <div class="exp-card maybe" data-status="maybe" data-families="ortiz,stallings"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Stem-to-Stern Wine Tasting</div><div class="exp-meta"><span class="exp-tag">~$55/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine</span><span class="family-pill pill-s">Veronica</span><span class="badge badge-maybe">Deciding</span></div></div></div>
-                <div class="exp-card maybe" data-status="maybe" data-families="ortiz"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Tequila & Margarita Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine</span><span class="badge badge-maybe">Deciding</span></div></div></div>
-                <div class="exp-card maybe" data-status="maybe" data-families="ortiz"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Rum Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Chris</span><span class="badge badge-maybe">Deciding</span></div></div></div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('mixology')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Mixology</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine</span><span class="family-pill pill-s">Veronica</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('martini')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Martini Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine · Chris</span><span class="family-pill pill-s">+ Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz,stallings" onclick="openExpDetail('wine')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Stem-to-Stern Wine Tasting</div><div class="exp-meta"><span class="exp-tag">~$55/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine</span><span class="family-pill pill-s">Veronica</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('tequila')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Tequila & Margarita Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('rum')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Rum Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-pill pill-o">Chris</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
                 <div class="onboard-cat-title">Specialty</div>
-                <div class="exp-card maybe" data-status="maybe" data-families="ortiz"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Behind the Scenes Ship Tour</div><div class="exp-meta"><span class="exp-tag">$150+/pp</span><span class="exp-tag">Sea day</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine · Chris</span><span class="badge badge-maybe">Deciding</span></div></div></div>
-                <div class="exp-card booked" data-status="booked" data-families="ortiz"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Unlimited Photo Package</div><div class="exp-meta"><span class="exp-tag">Full cruise</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-booked">✓ Booked</span></div></div></div>
-                <div class="exp-card booked" data-status="booked" data-families="stallings"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Rainforest Room (Length of Cruise)</div><div class="exp-meta"><span class="exp-tag">Spa · $150–220</span></div><div class="exp-families"><span class="family-pill pill-s">Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div></div></div>
+                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('behind-scenes')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Behind the Scenes Ship Tour</div><div class="exp-meta"><span class="exp-tag">$150+/pp</span><span class="exp-tag">Sea day</span></div><div class="exp-families"><span class="family-pill pill-o">Katherine · Chris</span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz" onclick="openExpDetail('photo-pkg')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Unlimited Photo Package</div><div class="exp-meta"><span class="exp-tag">Full cruise</span></div><div class="exp-families"><span class="family-pill pill-o">Ortiz</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="stallings" onclick="openExpDetail('rainforest-room')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Rainforest Room (Length of Cruise)</div><div class="exp-meta"><span class="exp-tag">Spa · $150–220</span></div><div class="exp-families"><span class="family-pill pill-s">Stallings Adults</span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
             </div>
         </div>
+        </div><!-- end plans-content -->
+
+        <div id="pack-content" style="display:none">
+        <h2 style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Packing List</h2>
+        <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Alaska cruise · June 11–22</div>
+
+        <div class="pack-overall">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:13px;font-weight:600;color:var(--text-dark);">Overall progress</span>
+                <span id="pack-overall-label" style="font-size:13px;font-weight:700;color:var(--glacier);">0 / 0 packed</span>
+            </div>
+            <div class="pack-progress"><div class="pack-progress-fill" id="pack-overall-bar" style="width:0%"></div></div>
+        </div>
+
+        <!-- Documents & Essentials -->
+        <div class="pack-category" id="cat-docs">
+            <div class="pack-cat-header" onclick="togglePackCat('docs')">
+                <div class="pack-cat-title">📋 Documents &amp; Essentials <span class="pack-cat-count" id="count-docs">0/8</span></div>
+                <span id="chev-docs" style="color:var(--text-light);font-size:12px;">▾</span>
+            </div>
+            <div id="items-docs" class="pack-items">
+                <label class="pack-item" id="pi-docs-1"><input type="checkbox" onchange="packToggle('docs-1',this)"> <span class="pack-item-label">Passports (all 4 family members)</span></label>
+                <label class="pack-item" id="pi-docs-2"><input type="checkbox" onchange="packToggle('docs-2',this)"> <span class="pack-item-label">Disney Cruise booking confirmation #42702139</span></label>
+                <label class="pack-item" id="pi-docs-3"><input type="checkbox" onchange="packToggle('docs-3',this)"> <span class="pack-item-label">Flight confirmations (WestJet 1741 &amp; 178 &amp; 1168)</span></label>
+                <label class="pack-item" id="pi-docs-4"><input type="checkbox" onchange="packToggle('docs-4',this)"> <span class="pack-item-label">Travel insurance cards</span></label>
+                <label class="pack-item" id="pi-docs-5"><input type="checkbox" onchange="packToggle('docs-5',this)"> <span class="pack-item-label">Credit &amp; debit cards</span></label>
+                <label class="pack-item" id="pi-docs-6"><input type="checkbox" onchange="packToggle('docs-6',this)"> <span class="pack-item-label">Canadian dollars (hotel &amp; pre-cruise days)</span></label>
+                <label class="pack-item" id="pi-docs-7"><input type="checkbox" onchange="packToggle('docs-7',this)"> <span class="pack-item-label">Hotel confirmation — River Rock Casino (PIN 3001)</span></label>
+                <label class="pack-item" id="pi-docs-8"><input type="checkbox" onchange="packToggle('docs-8',this)"> <span class="pack-item-label">Private transfer confirmation (Richmond → Canada Place)</span></label>
+            </div>
+        </div>
+
+        <!-- Clothing -->
+        <div class="pack-category" id="cat-clothing">
+            <div class="pack-cat-header" onclick="togglePackCat('clothing')">
+                <div class="pack-cat-title">👗 Clothing <span class="pack-cat-count" id="count-clothing">0/9</span></div>
+                <span id="chev-clothing" style="color:var(--text-light);font-size:12px;">▾</span>
+            </div>
+            <div id="items-clothing" class="pack-items">
+                <label class="pack-item" id="pi-clothing-1"><input type="checkbox" onchange="packToggle('clothing-1',this)"> <span class="pack-item-label">Warm base layer tops (thermal/merino wool)</span></label>
+                <label class="pack-item" id="pi-clothing-2"><input type="checkbox" onchange="packToggle('clothing-2',this)"> <span class="pack-item-label">Fleece mid-layer jacket</span></label>
+                <label class="pack-item" id="pi-clothing-3"><input type="checkbox" onchange="packToggle('clothing-3',this)"> <span class="pack-item-label">Casual daywear (t-shirts, jeans, leggings)</span></label>
+                <label class="pack-item" id="pi-clothing-4"><input type="checkbox" onchange="packToggle('clothing-4',this)"> <span class="pack-item-label">Dress-up night outfits (semi-formal)</span></label>
+                <label class="pack-item" id="pi-clothing-5"><input type="checkbox" onchange="packToggle('clothing-5',this)"> <span class="pack-item-label">Comfortable walking/hiking shoes</span></label>
+                <label class="pack-item" id="pi-clothing-6"><input type="checkbox" onchange="packToggle('clothing-6',this)"> <span class="pack-item-label">Sandals or flip flops (pool/ship)</span></label>
+                <label class="pack-item" id="pi-clothing-7"><input type="checkbox" onchange="packToggle('clothing-7',this)"> <span class="pack-item-label">Swimsuits</span></label>
+                <label class="pack-item" id="pi-clothing-8"><input type="checkbox" onchange="packToggle('clothing-8',this)"> <span class="pack-item-label">Pajamas</span></label>
+                <label class="pack-item" id="pi-clothing-9"><input type="checkbox" onchange="packToggle('clothing-9',this)"> <span class="pack-item-label">Extra underwear &amp; socks (pack more than you think)</span></label>
+            </div>
+        </div>
+
+        <!-- Outerwear -->
+        <div class="pack-category" id="cat-outer">
+            <div class="pack-cat-header" onclick="togglePackCat('outer')">
+                <div class="pack-cat-title">🧥 Outerwear <span class="pack-cat-count" id="count-outer">0/5</span></div>
+                <span id="chev-outer" style="color:var(--text-light);font-size:12px;">▾</span>
+            </div>
+            <div id="items-outer" class="pack-items">
+                <label class="pack-item" id="pi-outer-1"><input type="checkbox" onchange="packToggle('outer-1',this)"> <span class="pack-item-label">Waterproof rain jacket (essential — Alaska is rainy!)</span></label>
+                <label class="pack-item" id="pi-outer-2"><input type="checkbox" onchange="packToggle('outer-2',this)"> <span class="pack-item-label">Warm hat / beanie</span></label>
+                <label class="pack-item" id="pi-outer-3"><input type="checkbox" onchange="packToggle('outer-3',this)"> <span class="pack-item-label">Gloves or mittens</span></label>
+                <label class="pack-item" id="pi-outer-4"><input type="checkbox" onchange="packToggle('outer-4',this)"> <span class="pack-item-label">Buff / neck gaiter</span></label>
+                <label class="pack-item" id="pi-outer-5"><input type="checkbox" onchange="packToggle('outer-5',this)"> <span class="pack-item-label">Sunglasses (glaciers are bright!)</span></label>
+            </div>
+        </div>
+
+        <!-- Health & Toiletries -->
+        <div class="pack-category" id="cat-health">
+            <div class="pack-cat-header" onclick="togglePackCat('health')">
+                <div class="pack-cat-title">🩺 Health &amp; Toiletries <span class="pack-cat-count" id="count-health">0/8</span></div>
+                <span id="chev-health" style="color:var(--text-light);font-size:12px;">▾</span>
+            </div>
+            <div id="items-health" class="pack-items">
+                <label class="pack-item" id="pi-health-1"><input type="checkbox" onchange="packToggle('health-1',this)"> <span class="pack-item-label">Prescription medications (full supply + extra)</span></label>
+                <label class="pack-item" id="pi-health-2"><input type="checkbox" onchange="packToggle('health-2',this)"> <span class="pack-item-label">Motion sickness meds / Sea-Bands</span></label>
+                <label class="pack-item" id="pi-health-3"><input type="checkbox" onchange="packToggle('health-3',this)"> <span class="pack-item-label">Sunscreen SPF 50+ (yes, even in Alaska)</span></label>
+                <label class="pack-item" id="pi-health-4"><input type="checkbox" onchange="packToggle('health-4',this)"> <span class="pack-item-label">Lip balm with SPF</span></label>
+                <label class="pack-item" id="pi-health-5"><input type="checkbox" onchange="packToggle('health-5',this)"> <span class="pack-item-label">Insect repellent (for forest excursions)</span></label>
+                <label class="pack-item" id="pi-health-6"><input type="checkbox" onchange="packToggle('health-6',this)"> <span class="pack-item-label">Basic first aid / pain relievers</span></label>
+                <label class="pack-item" id="pi-health-7"><input type="checkbox" onchange="packToggle('health-7',this)"> <span class="pack-item-label">Hand sanitizer</span></label>
+                <label class="pack-item" id="pi-health-8"><input type="checkbox" onchange="packToggle('health-8',this)"> <span class="pack-item-label">Toiletries &amp; personal care items</span></label>
+            </div>
+        </div>
+
+        <!-- Tech & Gear -->
+        <div class="pack-category" id="cat-tech">
+            <div class="pack-cat-header" onclick="togglePackCat('tech')">
+                <div class="pack-cat-title">📱 Tech &amp; Gear <span class="pack-cat-count" id="count-tech">0/6</span></div>
+                <span id="chev-tech" style="color:var(--text-light);font-size:12px;">▾</span>
+            </div>
+            <div id="items-tech" class="pack-items">
+                <label class="pack-item" id="pi-tech-1"><input type="checkbox" onchange="packToggle('tech-1',this)"> <span class="pack-item-label">Phones + chargers + cables</span></label>
+                <label class="pack-item" id="pi-tech-2"><input type="checkbox" onchange="packToggle('tech-2',this)"> <span class="pack-item-label">Portable battery packs (charged)</span></label>
+                <label class="pack-item" id="pi-tech-3"><input type="checkbox" onchange="packToggle('tech-3',this)"> <span class="pack-item-label">Camera + extra memory cards</span></label>
+                <label class="pack-item" id="pi-tech-4"><input type="checkbox" onchange="packToggle('tech-4',this)"> <span class="pack-item-label">Binoculars (wildlife spotting — don't skip this!)</span></label>
+                <label class="pack-item" id="pi-tech-5"><input type="checkbox" onchange="packToggle('tech-5',this)"> <span class="pack-item-label">Waterproof phone cases / dry bags</span></label>
+                <label class="pack-item" id="pi-tech-6"><input type="checkbox" onchange="packToggle('tech-6',this)"> <span class="pack-item-label">Headphones / earbuds</span></label>
+            </div>
+        </div>
+
+        <!-- Kids -->
+        <div class="pack-category" id="cat-kids">
+            <div class="pack-cat-header" onclick="togglePackCat('kids')">
+                <div class="pack-cat-title">🧒 Kids <span class="pack-cat-count" id="count-kids">0/6</span></div>
+                <span id="chev-kids" style="color:var(--text-light);font-size:12px;">▾</span>
+            </div>
+            <div id="items-kids" class="pack-items">
+                <label class="pack-item" id="pi-kids-1"><input type="checkbox" onchange="packToggle('kids-1',this)"> <span class="pack-item-label">Tablets + headphones for flights</span></label>
+                <label class="pack-item" id="pi-kids-2"><input type="checkbox" onchange="packToggle('kids-2',this)"> <span class="pack-item-label">Kids' medications (Tylenol, allergy, etc.)</span></label>
+                <label class="pack-item" id="pi-kids-3"><input type="checkbox" onchange="packToggle('kids-3',this)"> <span class="pack-item-label">Favorite stuffed animal / comfort item</span></label>
+                <label class="pack-item" id="pi-kids-4"><input type="checkbox" onchange="packToggle('kids-4',this)"> <span class="pack-item-label">Activity books / games for travel days</span></label>
+                <label class="pack-item" id="pi-kids-5"><input type="checkbox" onchange="packToggle('kids-5',this)"> <span class="pack-item-label">Kids' sunscreen &amp; SPF lip balm</span></label>
+                <label class="pack-item" id="pi-kids-6"><input type="checkbox" onchange="packToggle('kids-6',this)"> <span class="pack-item-label">Kids' rain jackets</span></label>
+            </div>
+        </div>
+
+        <!-- Cruise Essentials -->
+        <div class="pack-category" id="cat-cruise">
+            <div class="pack-cat-header" onclick="togglePackCat('cruise')">
+                <div class="pack-cat-title">🚢 Cruise Essentials <span class="pack-cat-count" id="count-cruise">0/8</span></div>
+                <span id="chev-cruise" style="color:var(--text-light);font-size:12px;">▾</span>
+            </div>
+            <div id="items-cruise" class="pack-items">
+                <label class="pack-item" id="pi-cruise-1"><input type="checkbox" onchange="packToggle('cruise-1',this)"> <span class="pack-item-label">Disney Navigator app downloaded &amp; set up</span></label>
+                <label class="pack-item" id="pi-cruise-2"><input type="checkbox" onchange="packToggle('cruise-2',this)"> <span class="pack-item-label">Lanyards for Key to the World cards</span></label>
+                <label class="pack-item" id="pi-cruise-3"><input type="checkbox" onchange="packToggle('cruise-3',this)"> <span class="pack-item-label">Small day backpack for excursions</span></label>
+                <label class="pack-item" id="pi-cruise-4"><input type="checkbox" onchange="packToggle('cruise-4',this)"> <span class="pack-item-label">Reusable water bottles</span></label>
+                <label class="pack-item" id="pi-cruise-5"><input type="checkbox" onchange="packToggle('cruise-5',this)"> <span class="pack-item-label">Ziplock bags (waterproofing valuables on excursions)</span></label>
+                <label class="pack-item" id="pi-cruise-6"><input type="checkbox" onchange="packToggle('cruise-6',this)"> <span class="pack-item-label">Evening bag / clutch for Palo &amp; formal nights</span></label>
+                <label class="pack-item" id="pi-cruise-7"><input type="checkbox" onchange="packToggle('cruise-7',this)"> <span class="pack-item-label">Snacks for stateroom &amp; travel days</span></label>
+                <label class="pack-item" id="pi-cruise-8"><input type="checkbox" onchange="packToggle('cruise-8',this)"> <span class="pack-item-label">Night light for kids' stateroom area</span></label>
+            </div>
+        </div>
+
+        <!-- Alaska Specific -->
+        <div class="pack-category" id="cat-alaska">
+            <div class="pack-cat-header" onclick="togglePackCat('alaska-pack')">
+                <div class="pack-cat-title">🏔️ Alaska Specific <span class="pack-cat-count" id="count-alaska-pack">0/5</span></div>
+                <span id="chev-alaska-pack" style="color:var(--text-light);font-size:12px;">▾</span>
+            </div>
+            <div id="items-alaska-pack" class="pack-items">
+                <label class="pack-item" id="pi-alaska-1"><input type="checkbox" onchange="packToggle('alaska-1',this)"> <span class="pack-item-label">Waterproof day pack / drybag</span></label>
+                <label class="pack-item" id="pi-alaska-2"><input type="checkbox" onchange="packToggle('alaska-2',this)"> <span class="pack-item-label">Wool or synthetic blend hiking socks</span></label>
+                <label class="pack-item" id="pi-alaska-3"><input type="checkbox" onchange="packToggle('alaska-3',this)"> <span class="pack-item-label">Waterproof / sturdy footwear for excursions</span></label>
+                <label class="pack-item" id="pi-alaska-4"><input type="checkbox" onchange="packToggle('alaska-4',this)"> <span class="pack-item-label">Cash for port shopping (USD accepted everywhere)</span></label>
+                <label class="pack-item" id="pi-alaska-5"><input type="checkbox" onchange="packToggle('alaska-5',this)"> <span class="pack-item-label">Small umbrella or packable poncho</span></label>
+            </div>
+        </div>
+
+        <button onclick="clearPackList()" style="width:100%;padding:12px;background:none;border:1.5px solid #e2e8f0;border-radius:12px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text-light);cursor:pointer;margin-top:4px;">Reset all checkboxes</button>
+        </div><!-- end pack-content -->
     </section>
 
     <!-- GAMES SECTION -->
@@ -1584,155 +1746,6 @@
         </div>
     </section>
 
-    <section id="section-pack" class="section">
-            <h2 style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Packing List</h2>
-            <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Alaska cruise · June 11–22</div>
-
-            <div class="pack-overall">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-                    <span style="font-size:13px;font-weight:600;color:var(--text-dark);">Overall progress</span>
-                    <span id="pack-overall-label" style="font-size:13px;font-weight:700;color:var(--glacier);">0 / 0 packed</span>
-                </div>
-                <div class="pack-progress"><div class="pack-progress-fill" id="pack-overall-bar" style="width:0%"></div></div>
-            </div>
-
-            <!-- Documents & Essentials -->
-            <div class="pack-category" id="cat-docs">
-                <div class="pack-cat-header" onclick="togglePackCat('docs')">
-                    <div class="pack-cat-title">📋 Documents &amp; Essentials <span class="pack-cat-count" id="count-docs">0/8</span></div>
-                    <span id="chev-docs" style="color:var(--text-light);font-size:12px;">▾</span>
-                </div>
-                <div id="items-docs" class="pack-items">
-                    <label class="pack-item" id="pi-docs-1"><input type="checkbox" onchange="packToggle('docs-1',this)"> <span class="pack-item-label">Passports (all 4 family members)</span></label>
-                    <label class="pack-item" id="pi-docs-2"><input type="checkbox" onchange="packToggle('docs-2',this)"> <span class="pack-item-label">Disney Cruise booking confirmation #42702139</span></label>
-                    <label class="pack-item" id="pi-docs-3"><input type="checkbox" onchange="packToggle('docs-3',this)"> <span class="pack-item-label">Flight confirmations (WestJet 1741 &amp; 178 &amp; 1168)</span></label>
-                    <label class="pack-item" id="pi-docs-4"><input type="checkbox" onchange="packToggle('docs-4',this)"> <span class="pack-item-label">Travel insurance cards</span></label>
-                    <label class="pack-item" id="pi-docs-5"><input type="checkbox" onchange="packToggle('docs-5',this)"> <span class="pack-item-label">Credit &amp; debit cards</span></label>
-                    <label class="pack-item" id="pi-docs-6"><input type="checkbox" onchange="packToggle('docs-6',this)"> <span class="pack-item-label">Canadian dollars (hotel &amp; pre-cruise days)</span></label>
-                    <label class="pack-item" id="pi-docs-7"><input type="checkbox" onchange="packToggle('docs-7',this)"> <span class="pack-item-label">Hotel confirmation — River Rock Casino (PIN 3001)</span></label>
-                    <label class="pack-item" id="pi-docs-8"><input type="checkbox" onchange="packToggle('docs-8',this)"> <span class="pack-item-label">Private transfer confirmation (Richmond → Canada Place)</span></label>
-                </div>
-            </div>
-
-            <!-- Clothing -->
-            <div class="pack-category" id="cat-clothing">
-                <div class="pack-cat-header" onclick="togglePackCat('clothing')">
-                    <div class="pack-cat-title">👗 Clothing <span class="pack-cat-count" id="count-clothing">0/9</span></div>
-                    <span id="chev-clothing" style="color:var(--text-light);font-size:12px;">▾</span>
-                </div>
-                <div id="items-clothing" class="pack-items">
-                    <label class="pack-item" id="pi-clothing-1"><input type="checkbox" onchange="packToggle('clothing-1',this)"> <span class="pack-item-label">Warm base layer tops (thermal/merino wool)</span></label>
-                    <label class="pack-item" id="pi-clothing-2"><input type="checkbox" onchange="packToggle('clothing-2',this)"> <span class="pack-item-label">Fleece mid-layer jacket</span></label>
-                    <label class="pack-item" id="pi-clothing-3"><input type="checkbox" onchange="packToggle('clothing-3',this)"> <span class="pack-item-label">Casual daywear (t-shirts, jeans, leggings)</span></label>
-                    <label class="pack-item" id="pi-clothing-4"><input type="checkbox" onchange="packToggle('clothing-4',this)"> <span class="pack-item-label">Dress-up night outfits (semi-formal)</span></label>
-                    <label class="pack-item" id="pi-clothing-5"><input type="checkbox" onchange="packToggle('clothing-5',this)"> <span class="pack-item-label">Comfortable walking/hiking shoes</span></label>
-                    <label class="pack-item" id="pi-clothing-6"><input type="checkbox" onchange="packToggle('clothing-6',this)"> <span class="pack-item-label">Sandals or flip flops (pool/ship)</span></label>
-                    <label class="pack-item" id="pi-clothing-7"><input type="checkbox" onchange="packToggle('clothing-7',this)"> <span class="pack-item-label">Swimsuits</span></label>
-                    <label class="pack-item" id="pi-clothing-8"><input type="checkbox" onchange="packToggle('clothing-8',this)"> <span class="pack-item-label">Pajamas</span></label>
-                    <label class="pack-item" id="pi-clothing-9"><input type="checkbox" onchange="packToggle('clothing-9',this)"> <span class="pack-item-label">Extra underwear &amp; socks (pack more than you think)</span></label>
-                </div>
-            </div>
-
-            <!-- Outerwear -->
-            <div class="pack-category" id="cat-outer">
-                <div class="pack-cat-header" onclick="togglePackCat('outer')">
-                    <div class="pack-cat-title">🧥 Outerwear <span class="pack-cat-count" id="count-outer">0/5</span></div>
-                    <span id="chev-outer" style="color:var(--text-light);font-size:12px;">▾</span>
-                </div>
-                <div id="items-outer" class="pack-items">
-                    <label class="pack-item" id="pi-outer-1"><input type="checkbox" onchange="packToggle('outer-1',this)"> <span class="pack-item-label">Waterproof rain jacket (essential — Alaska is rainy!)</span></label>
-                    <label class="pack-item" id="pi-outer-2"><input type="checkbox" onchange="packToggle('outer-2',this)"> <span class="pack-item-label">Warm hat / beanie</span></label>
-                    <label class="pack-item" id="pi-outer-3"><input type="checkbox" onchange="packToggle('outer-3',this)"> <span class="pack-item-label">Gloves or mittens</span></label>
-                    <label class="pack-item" id="pi-outer-4"><input type="checkbox" onchange="packToggle('outer-4',this)"> <span class="pack-item-label">Buff / neck gaiter</span></label>
-                    <label class="pack-item" id="pi-outer-5"><input type="checkbox" onchange="packToggle('outer-5',this)"> <span class="pack-item-label">Sunglasses (glaciers are bright!)</span></label>
-                </div>
-            </div>
-
-            <!-- Health & Toiletries -->
-            <div class="pack-category" id="cat-health">
-                <div class="pack-cat-header" onclick="togglePackCat('health')">
-                    <div class="pack-cat-title">🩺 Health &amp; Toiletries <span class="pack-cat-count" id="count-health">0/8</span></div>
-                    <span id="chev-health" style="color:var(--text-light);font-size:12px;">▾</span>
-                </div>
-                <div id="items-health" class="pack-items">
-                    <label class="pack-item" id="pi-health-1"><input type="checkbox" onchange="packToggle('health-1',this)"> <span class="pack-item-label">Prescription medications (full supply + extra)</span></label>
-                    <label class="pack-item" id="pi-health-2"><input type="checkbox" onchange="packToggle('health-2',this)"> <span class="pack-item-label">Motion sickness meds / Sea-Bands</span></label>
-                    <label class="pack-item" id="pi-health-3"><input type="checkbox" onchange="packToggle('health-3',this)"> <span class="pack-item-label">Sunscreen SPF 50+ (yes, even in Alaska)</span></label>
-                    <label class="pack-item" id="pi-health-4"><input type="checkbox" onchange="packToggle('health-4',this)"> <span class="pack-item-label">Lip balm with SPF</span></label>
-                    <label class="pack-item" id="pi-health-5"><input type="checkbox" onchange="packToggle('health-5',this)"> <span class="pack-item-label">Insect repellent (for forest excursions)</span></label>
-                    <label class="pack-item" id="pi-health-6"><input type="checkbox" onchange="packToggle('health-6',this)"> <span class="pack-item-label">Basic first aid / pain relievers</span></label>
-                    <label class="pack-item" id="pi-health-7"><input type="checkbox" onchange="packToggle('health-7',this)"> <span class="pack-item-label">Hand sanitizer</span></label>
-                    <label class="pack-item" id="pi-health-8"><input type="checkbox" onchange="packToggle('health-8',this)"> <span class="pack-item-label">Toiletries &amp; personal care items</span></label>
-                </div>
-            </div>
-
-            <!-- Tech & Gear -->
-            <div class="pack-category" id="cat-tech">
-                <div class="pack-cat-header" onclick="togglePackCat('tech')">
-                    <div class="pack-cat-title">📱 Tech &amp; Gear <span class="pack-cat-count" id="count-tech">0/6</span></div>
-                    <span id="chev-tech" style="color:var(--text-light);font-size:12px;">▾</span>
-                </div>
-                <div id="items-tech" class="pack-items">
-                    <label class="pack-item" id="pi-tech-1"><input type="checkbox" onchange="packToggle('tech-1',this)"> <span class="pack-item-label">Phones + chargers + cables</span></label>
-                    <label class="pack-item" id="pi-tech-2"><input type="checkbox" onchange="packToggle('tech-2',this)"> <span class="pack-item-label">Portable battery packs (charged)</span></label>
-                    <label class="pack-item" id="pi-tech-3"><input type="checkbox" onchange="packToggle('tech-3',this)"> <span class="pack-item-label">Camera + extra memory cards</span></label>
-                    <label class="pack-item" id="pi-tech-4"><input type="checkbox" onchange="packToggle('tech-4',this)"> <span class="pack-item-label">Binoculars (wildlife spotting — don't skip this!)</span></label>
-                    <label class="pack-item" id="pi-tech-5"><input type="checkbox" onchange="packToggle('tech-5',this)"> <span class="pack-item-label">Waterproof phone cases / dry bags</span></label>
-                    <label class="pack-item" id="pi-tech-6"><input type="checkbox" onchange="packToggle('tech-6',this)"> <span class="pack-item-label">Headphones / earbuds</span></label>
-                </div>
-            </div>
-
-            <!-- Kids -->
-            <div class="pack-category" id="cat-kids">
-                <div class="pack-cat-header" onclick="togglePackCat('kids')">
-                    <div class="pack-cat-title">🧒 Kids <span class="pack-cat-count" id="count-kids">0/6</span></div>
-                    <span id="chev-kids" style="color:var(--text-light);font-size:12px;">▾</span>
-                </div>
-                <div id="items-kids" class="pack-items">
-                    <label class="pack-item" id="pi-kids-1"><input type="checkbox" onchange="packToggle('kids-1',this)"> <span class="pack-item-label">Tablets + headphones for flights</span></label>
-                    <label class="pack-item" id="pi-kids-2"><input type="checkbox" onchange="packToggle('kids-2',this)"> <span class="pack-item-label">Kids' medications (Tylenol, allergy, etc.)</span></label>
-                    <label class="pack-item" id="pi-kids-3"><input type="checkbox" onchange="packToggle('kids-3',this)"> <span class="pack-item-label">Favorite stuffed animal / comfort item</span></label>
-                    <label class="pack-item" id="pi-kids-4"><input type="checkbox" onchange="packToggle('kids-4',this)"> <span class="pack-item-label">Activity books / games for travel days</span></label>
-                    <label class="pack-item" id="pi-kids-5"><input type="checkbox" onchange="packToggle('kids-5',this)"> <span class="pack-item-label">Kids' sunscreen &amp; SPF lip balm</span></label>
-                    <label class="pack-item" id="pi-kids-6"><input type="checkbox" onchange="packToggle('kids-6',this)"> <span class="pack-item-label">Kids' rain jackets</span></label>
-                </div>
-            </div>
-
-            <!-- Cruise Essentials -->
-            <div class="pack-category" id="cat-cruise">
-                <div class="pack-cat-header" onclick="togglePackCat('cruise')">
-                    <div class="pack-cat-title">🚢 Cruise Essentials <span class="pack-cat-count" id="count-cruise">0/8</span></div>
-                    <span id="chev-cruise" style="color:var(--text-light);font-size:12px;">▾</span>
-                </div>
-                <div id="items-cruise" class="pack-items">
-                    <label class="pack-item" id="pi-cruise-1"><input type="checkbox" onchange="packToggle('cruise-1',this)"> <span class="pack-item-label">Disney Navigator app downloaded &amp; set up</span></label>
-                    <label class="pack-item" id="pi-cruise-2"><input type="checkbox" onchange="packToggle('cruise-2',this)"> <span class="pack-item-label">Lanyards for Key to the World cards</span></label>
-                    <label class="pack-item" id="pi-cruise-3"><input type="checkbox" onchange="packToggle('cruise-3',this)"> <span class="pack-item-label">Small day backpack for excursions</span></label>
-                    <label class="pack-item" id="pi-cruise-4"><input type="checkbox" onchange="packToggle('cruise-4',this)"> <span class="pack-item-label">Reusable water bottles</span></label>
-                    <label class="pack-item" id="pi-cruise-5"><input type="checkbox" onchange="packToggle('cruise-5',this)"> <span class="pack-item-label">Ziplock bags (waterproofing valuables on excursions)</span></label>
-                    <label class="pack-item" id="pi-cruise-6"><input type="checkbox" onchange="packToggle('cruise-6',this)"> <span class="pack-item-label">Evening bag / clutch for Palo &amp; formal nights</span></label>
-                    <label class="pack-item" id="pi-cruise-7"><input type="checkbox" onchange="packToggle('cruise-7',this)"> <span class="pack-item-label">Snacks for stateroom &amp; travel days</span></label>
-                    <label class="pack-item" id="pi-cruise-8"><input type="checkbox" onchange="packToggle('cruise-8',this)"> <span class="pack-item-label">Night light for kids' stateroom area</span></label>
-                </div>
-            </div>
-
-            <!-- Alaska Specific -->
-            <div class="pack-category" id="cat-alaska">
-                <div class="pack-cat-header" onclick="togglePackCat('alaska-pack')">
-                    <div class="pack-cat-title">🏔️ Alaska Specific <span class="pack-cat-count" id="count-alaska-pack">0/5</span></div>
-                    <span id="chev-alaska-pack" style="color:var(--text-light);font-size:12px;">▾</span>
-                </div>
-                <div id="items-alaska-pack" class="pack-items">
-                    <label class="pack-item" id="pi-alaska-1"><input type="checkbox" onchange="packToggle('alaska-1',this)"> <span class="pack-item-label">Waterproof day pack / drybag</span></label>
-                    <label class="pack-item" id="pi-alaska-2"><input type="checkbox" onchange="packToggle('alaska-2',this)"> <span class="pack-item-label">Wool or synthetic blend hiking socks</span></label>
-                    <label class="pack-item" id="pi-alaska-3"><input type="checkbox" onchange="packToggle('alaska-3',this)"> <span class="pack-item-label">Waterproof / sturdy footwear for excursions</span></label>
-                    <label class="pack-item" id="pi-alaska-4"><input type="checkbox" onchange="packToggle('alaska-4',this)"> <span class="pack-item-label">Cash for port shopping (USD accepted everywhere)</span></label>
-                    <label class="pack-item" id="pi-alaska-5"><input type="checkbox" onchange="packToggle('alaska-5',this)"> <span class="pack-item-label">Small umbrella or packable poncho</span></label>
-                </div>
-            </div>
-
-            <button onclick="clearPackList()" style="width:100%;padding:12px;background:none;border:1.5px solid #e2e8f0;border-radius:12px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text-light);cursor:pointer;margin-top:4px;">Reset all checkboxes</button>
-    </section>
 
 </main>
 
@@ -1796,6 +1809,24 @@
     </div>
 </div>
 
+<!-- Experience Detail Modal -->
+<div class="modal-overlay hidden" id="modal-exp" onclick="if(event.target===this)closeExpDetail()">
+    <div class="modal-sheet">
+        <div class="modal-handle-row">
+            <div class="modal-handle"></div>
+            <button class="modal-close-btn" onclick="closeExpDetail()">✕</button>
+        </div>
+        <div class="modal-scroll">
+            <div class="modal-header">
+                <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:6px;" id="exp-modal-port"></div>
+                <div class="modal-title" id="exp-modal-title"></div>
+                <div class="modal-subtitle" id="exp-modal-subtitle"></div>
+            </div>
+            <div id="exp-modal-body" style="padding:16px 20px 40px;"></div>
+        </div>
+    </div>
+</div>
+
 <div class="modal-overlay hidden" id="modal-animal" onclick="if(event.target===this)closeAnimalModal()">
     <div class="animal-sheet">
         <button class="animal-close" onclick="closeAnimalModal()">✕</button>
@@ -1815,7 +1846,6 @@
     <button class="nav-item" onclick="showSection('alaska',this)"><span class="nav-icon">🦅</span><span class="nav-label">Alaska</span></button>
     <button class="nav-item" onclick="showSection('plans',this)"><span class="nav-icon">✅</span><span class="nav-label">Plans</span></button>
     <button class="nav-item" onclick="showSection('games',this)"><span class="nav-icon">🏆</span><span class="nav-label">Games</span></button>
-    <button class="nav-item" onclick="showSection('pack',this)"><span class="nav-icon">🧳</span><span class="nav-label">Pack</span></button>
 </nav>
 
 <script>
@@ -1833,6 +1863,12 @@
         document.getElementById('section-' + name).classList.add('active');
         btn.classList.add('active');
         window.scrollTo(0, 0);
+        if (name === 'plans') {
+            const pc = document.getElementById('plans-content');
+            const pk = document.getElementById('pack-content');
+            if (pc && pk) { pc.style.display = ''; pk.style.display = 'none'; }
+            document.querySelectorAll('.section-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
+        }
     }
 
     // Wildlife Bingo
@@ -2264,6 +2300,386 @@
     function mlReplay() { mlStart(mlStoryIdx); }
 
     document.getElementById('ml-input').addEventListener('keydown', e => { if (e.key === 'Enter') mlNext(); });
+
+    // Plans/Pack pill toggle
+    function showPlansPill(tab, btn) {
+        document.querySelectorAll('.section-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('plans-content').style.display = tab === 'plans' ? '' : 'none';
+        document.getElementById('pack-content').style.display = tab === 'pack' ? '' : 'none';
+        window.scrollTo(0, 0);
+    }
+
+    // Experience detail modal
+    const EXP_DATA = {
+        'white-pass': {
+            port: '⛰️ Skagway · Day 4 · June 18',
+            title: 'White Pass Scenic Railway',
+            subtitle: '~3 hrs · $150–200/pp · Ortiz + Stallings',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Route</div>The White Pass & Yukon Route railway climbs 2,865 feet in just 20 miles — some of the steepest gradients of any railroad in North America. Built in 1898–1900 in just 26 months, it's a National Historic Civil Engineering Landmark.</div>
+                <div class="section-header">Highlights</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🏔️</span>Dead Horse Gulch overlook</div>
+                    <div class="highlight-item"><span class="highlight-icon">🌉</span>Steel cantilever bridge (215 ft high)</div>
+                    <div class="highlight-item"><span class="highlight-icon">🦅</span>Eagle nesting sites along route</div>
+                    <div class="highlight-item"><span class="highlight-icon">🛤️</span>Crossing into Canada at summit</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">💡</span>Sit on the right side going up for the best cliff-edge views over the valley.</div>
+                <div class="tip-item"><span class="tip-icon">📸</span>The Klondike Gold Rush National Historical Park narration plays through speakers — listen for the Soapy Smith stories.</div>
+                <div class="tip-item"><span class="tip-icon">🧥</span>It's colder at altitude — bring an extra layer even if it's warm in Skagway.</div>
+                <div class="tip-item"><span class="tip-icon">🕰️</span>Allow 30 min to walk from ship to depot — the railway station is a short distance from the pier.</div>
+                <div class="map-link-row"><a class="map-link-btn" href="https://www.wpyr.com" target="_blank" rel="noopener">↗ wpyr.com</a></div>
+            `
+        },
+        'mushers-camp': {
+            port: '⛰️ Skagway · Day 4 · June 18',
+            title: "Musher's Camp & Sled Dog Experience",
+            subtitle: '~2–3 hrs · $150–220/pp · Ortiz',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">Did You Know</div>The Iditarod Trail Sled Dog Race — 1,000 miles across Alaska — uses dogs like the ones you'll meet. These aren't pets performing a trick; they're world-class athletes bred for endurance in extreme cold.</div>
+                <div class="section-header">Highlights</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🐕</span>Meet the sled dogs up close</div>
+                    <div class="highlight-item"><span class="highlight-icon">🛷</span>Ride a wheeled sled (summer demo)</div>
+                    <div class="highlight-item"><span class="highlight-icon">🐾</span>Hold and cuddle the puppies</div>
+                    <div class="highlight-item"><span class="highlight-icon">🗣️</span>Mushers explain the sport</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">📸</span>The puppies are the highlight — River and Sedona will love this. Bring the camera.</div>
+                <div class="tip-item"><span class="tip-icon">🐕</span>Dogs are friendly and love attention. You can pet them freely — mushers will encourage it.</div>
+                <div class="tip-item"><span class="tip-icon">👟</span>Wear shoes you don't mind getting dirty — it's an outdoor working dog camp.</div>
+                <div class="tip-item"><span class="tip-icon">🕰️</span>This and White Pass Railway are both on June 18 — coordinate timing with Stallings since White Pass is shared.</div>
+            `
+        },
+        'grizzly-falls': {
+            port: '⛰️ Skagway · Day 4 · June 18',
+            title: 'Grizzly Falls Ziplining (SW23)',
+            subtitle: '~3 hrs · $180–220/pp · Ages 8+ · Ortiz — Still Deciding',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Course</div>Multi-line zipline through the Skagway River Valley rainforest, with lines up to 1,000 feet long and views of glaciers and waterfalls. One of the most scenic zip courses on any Alaska cruise port.</div>
+                <div class="section-header">What to Expect</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🌲</span>Coastal rainforest canopy</div>
+                    <div class="highlight-item"><span class="highlight-icon">💧</span>Views of Grizzly Falls</div>
+                    <div class="highlight-item"><span class="highlight-icon">🏔️</span>Glacier panoramas</div>
+                    <div class="highlight-item"><span class="highlight-icon">🪢</span>Multiple lines, varied lengths</div>
+                </div>
+                <div class="section-header">Deciding Factors</div>
+                <div class="tip-item"><span class="tip-icon">⚠️</span>Ages 8+ required — River (9) qualifies, Sedona (12) definitely qualifies.</div>
+                <div class="tip-item"><span class="tip-icon">🕰️</span>Skagway day is already packed (White Pass + Musher's Camp). A third activity may be tight — check excursion return times.</div>
+                <div class="tip-item"><span class="tip-icon">💰</span>At $180–220/pp this is the pricier option to weigh against the day's schedule.</div>
+                <div class="tip-item"><span class="tip-icon">🌧️</span>Operates rain or shine — and Skagway in June can be rainy. Wetsuits or ponchos may be provided.</div>
+            `
+        },
+        'ak-wildlife': {
+            port: '⛰️ Skagway · Day 4 · June 18',
+            title: 'Alaska Nature & Wildlife Expedition (SW58)',
+            subtitle: '~6 hrs · $184–220/pp · Ages 6+ · Ortiz + Stallings — Deciding',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Experience</div>A longer wilderness excursion into the Skagway River Valley — wildlife spotting for bears, eagles, and mountain goats, with stops at scenic overlooks and interpretive nature walks.</div>
+                <div class="section-header">What to Expect</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🐻</span>Bear spotting opportunities</div>
+                    <div class="highlight-item"><span class="highlight-icon">🦅</span>Bald eagle nesting areas</div>
+                    <div class="highlight-item"><span class="highlight-icon">🐐</span>Mountain goat cliffs</div>
+                    <div class="highlight-item"><span class="highlight-icon">🌿</span>Rainforest nature walk</div>
+                </div>
+                <div class="section-header">Deciding Factors</div>
+                <div class="tip-item"><span class="tip-icon">⏱️</span>At 6 hours this is a full-day commitment — Skagway has an 8 PM all-aboard, which gives time, but you'll miss Musher's Camp if you do this instead.</div>
+                <div class="tip-item"><span class="tip-icon">👨‍👩‍👧‍👦</span>Ages 6+ — the Simmons youngest (6) would qualify, but this is currently listed as Ortiz + Stallings only.</div>
+                <div class="tip-item"><span class="tip-icon">🦌</span>Wildlife sightings aren't guaranteed, but the Skagway Valley is genuinely productive in June.</div>
+            `
+        },
+        'seaplane': {
+            port: '🏔️ Juneau · Day 5 · June 19',
+            title: '5-Glacier Seaplane Exploration (JU49)',
+            subtitle: '$359–399/pp · All ages · Ortiz',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Flight</div>A floatplane tour over the Juneau Icefield — one of the largest contiguous ice masses in the Western Hemisphere. You'll fly over five named glaciers, with views impossible to get any other way.</div>
+                <div class="section-header">Highlights</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">✈️</span>DeHavilland Beaver floatplane</div>
+                    <div class="highlight-item"><span class="highlight-icon">🧊</span>Mendenhall + 4 more glaciers</div>
+                    <div class="highlight-item"><span class="highlight-icon">❄️</span>Juneau Icefield aerial views</div>
+                    <div class="highlight-item"><span class="highlight-icon">🌊</span>Floatplane water takeoff & landing</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">⚠️</span>Weather dependent — flights can be delayed or cancelled in low clouds. The operator will reschedule or refund. DCL protects you if it affects ship departure.</div>
+                <div class="tip-item"><span class="tip-icon">📸</span>Window seats give glacier views — request one when checking in. The pilot narrates the route.</div>
+                <div class="tip-item"><span class="tip-icon">👂</span>It's loud inside the floatplane — noise-canceling headphones provided but bring your own earplugs for kids.</div>
+                <div class="tip-item"><span class="tip-icon">🕰️</span>Juneau all-aboard is ~4:45 PM. Seaplane tours are typically 1.5–2 hrs including transfer — plenty of time to explore downtown after.</div>
+            `
+        },
+        'mendenhall': {
+            port: '🏔️ Juneau · Day 5 · June 19',
+            title: 'Mendenhall Glacier Explorer (JU11)',
+            subtitle: '$59–109/pp · All ages · Stallings',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Glacier</div>Mendenhall Glacier is 12 miles long and flows from the 1,500-square-mile Juneau Icefield. You can get close enough to hear it — the creak and crack of glacial movement is unforgettable.</div>
+                <div class="section-header">Highlights</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🧊</span>Face-to-face glacier views</div>
+                    <div class="highlight-item"><span class="highlight-icon">💧</span>Nugget Falls (200 ft waterfall)</div>
+                    <div class="highlight-item"><span class="highlight-icon">🐟</span>Sockeye salmon in Steep Creek</div>
+                    <div class="highlight-item"><span class="highlight-icon">🐻</span>Bears fishing the creek (June!)</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">🐻</span>June is when bears fish Steep Creek — rangers manage the viewing area. This is one of the most reliable bear-spotting spots in SE Alaska.</div>
+                <div class="tip-item"><span class="tip-icon">👟</span>Bring waterproof shoes — the lakeshore trail can be muddy and wet.</div>
+                <div class="tip-item"><span class="tip-icon">📸</span>Walk to the base of Nugget Falls for the best glacier photo backdrop — the scale of the ice is clearest from there.</div>
+                <div class="tip-item"><span class="tip-icon">🕰️</span>At $59–109 this is the most affordable glacier excursion on the trip — and arguably the most rewarding per dollar.</div>
+            `
+        },
+        'lumberjack': {
+            port: '🌲 Ketchikan · Day 6 · June 20',
+            title: 'Exclusive Great Alaskan Lumberjack Show (KE41)',
+            subtitle: '~1.5 hrs · $29–59/pp · All ages · All 3 Families',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Show</div>Professional lumberjack athletes compete in log rolling, axe throwing, tree climbing, and chainsaw sculpting — the same skills used in 19th-century logging camps. The "Exclusive" version is a private performance booked through Disney Cruise Line.</div>
+                <div class="section-header">Highlights</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🪓</span>Axe throwing competition</div>
+                    <div class="highlight-item"><span class="highlight-icon">🪵</span>Log rolling on the water</div>
+                    <div class="highlight-item"><span class="highlight-icon">🌲</span>90-ft tree climbing race</div>
+                    <div class="highlight-item"><span class="highlight-icon">🏆</span>Audience cheering teams</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">🎉</span>This is the one experience that's all three families together — a rare full-group moment on the trip.</div>
+                <div class="tip-item"><span class="tip-icon">📣</span>The audience gets split into teams — cheer loudly. The louder the crowd, the more the athletes play it up.</div>
+                <div class="tip-item"><span class="tip-icon">🕰️</span>Ketchikan all-aboard is 7 PM — late start (ashore 11:15 AM) means the afternoon is relaxed. Plenty of time to explore Creek Street after the show.</div>
+                <div class="tip-item"><span class="tip-icon">👧</span>Great for all ages including the youngest kids — physical action, clear story, loud fun.</div>
+                <div class="map-link-row"><a class="map-link-btn" href="https://www.lumberjackshow.com" target="_blank" rel="noopener">↗ lumberjackshow.com</a></div>
+            `
+        },
+        'bigfoot': {
+            port: '🌲 Ketchikan · Day 6 · June 20',
+            title: 'Alaska Bigfoot Adventures (KE70)',
+            subtitle: '~3 hrs · $184/pp · Ages 6+ · Ortiz + Stallings — Deciding',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Adventure</div>A Ketchikan-area wilderness tour with a Bigfoot search theme — includes forest hiking, wildlife spotting, and local legend storytelling. Bigfoot sightings in SE Alaska have a genuine (if unverified) local folklore tradition.</div>
+                <div class="section-header">What to Expect</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🌲</span>Temperate rainforest hiking</div>
+                    <div class="highlight-item"><span class="highlight-icon">🔍</span>"Evidence" hunting in the forest</div>
+                    <div class="highlight-item"><span class="highlight-icon">🦌</span>Wildlife spotting (deer, eagles)</div>
+                    <div class="highlight-item"><span class="highlight-icon">📖</span>Local Bigfoot legends & stories</div>
+                </div>
+                <div class="section-header">Deciding Factors</div>
+                <div class="tip-item"><span class="tip-icon">👧</span>The kids will love this — the Bigfoot theme makes a forest hike a treasure hunt. River (9) and Sedona (12) will be into it.</div>
+                <div class="tip-item"><span class="tip-icon">🕰️</span>Ketchikan ashore is 11:15 AM and all-aboard is 7 PM — plenty of time for this 3-hr excursion AND the Lumberjack Show (which is also booked for the same day).</div>
+                <div class="tip-item"><span class="tip-icon">💰</span>At $184/pp this adds up quickly for two families — the main deciding factor is budget vs. Lumberjack Show already being booked.</div>
+            `
+        },
+        'glacier-explorer': {
+            port: '🧊 Glacier Day · Day 7 · June 21',
+            title: 'Glacier Explorer (DG01)',
+            subtitle: 'Stallings · Tracy Arm Fjord',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">Tracy Arm Fjord</div>The ship enters Tracy Arm Fjord — a 30-mile-long glacially carved canyon with walls rising 3,000 feet on both sides. You'll navigate through floating icebergs to reach two active tidewater glaciers at the end.</div>
+                <div class="section-header">Highlights</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🧊</span>Sawyer Glacier up close</div>
+                    <div class="highlight-item"><span class="highlight-icon">💥</span>Calving iceberg events</div>
+                    <div class="highlight-item"><span class="highlight-icon">🦭</span>Harbor seal pups on ice floes</div>
+                    <div class="highlight-item"><span class="highlight-icon">🚤</span>Small vessel into the fjord</div>
+                </div>
+                <div class="section-header">What the Day Looks Like</div>
+                <div class="tip-item"><span class="tip-icon">⛵</span>Stallings boards a small excursion vessel to get closer to the glacier face than the main ship can go.</div>
+                <div class="tip-item"><span class="tip-icon">🏠</span>Ortiz and Simmons watch from the ship decks and verandah — also incredible, and the verandah (Stateroom 6536) is a private front-row seat.</div>
+                <div class="tip-item"><span class="tip-icon">📸</span>Have binoculars ready — both for the glaciers and for the harbor seal pups resting on icebergs near the glacier face.</div>
+                <div class="tip-item"><span class="tip-icon">🕰️</span>Dress in layers — the fjord is significantly colder than open sea, and standing on deck for hours requires real warmth.</div>
+            `
+        },
+        'palo-dinner': {
+            port: '🛳️ Onboard · Sea Day',
+            title: 'Palo Dinner',
+            subtitle: '$55/pp · Ortiz + Stallings Adults · Italian fine dining',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">About Palo</div>Palo is Disney Cruise Line's signature adults-only Italian restaurant — available only on ships with longer itineraries. The name means the long pole used by Venetian gondoliers. Panoramic ocean views, candlelit tables, exceptional service.</div>
+                <div class="section-header">What's Included</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🍷</span>Wine pairings available</div>
+                    <div class="highlight-item"><span class="highlight-icon">🦞</span>Fresh seafood & Italian classics</div>
+                    <div class="highlight-item"><span class="highlight-icon">🍰</span>Full dessert course</div>
+                    <div class="highlight-item"><span class="highlight-icon">🌊</span>Ocean view dining room</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">🍝</span>The soufflé must be ordered at the start of the meal — it takes 25 minutes to prepare. Don't forget to order it when you sit down.</div>
+                <div class="tip-item"><span class="tip-icon">🕯️</span>Request a window table when you check in — the ocean view at sunset (which at this latitude is very late) is stunning.</div>
+                <div class="tip-item"><span class="tip-icon">👗</span>Semi-formal attire expected — same dress code as formal dining nights.</div>
+                <div class="tip-item"><span class="tip-icon">🍷</span>Wine is à la carte — budget an extra $30–50/pp if you want to pair wines with courses.</div>
+            `
+        },
+        'mixology': {
+            port: '🛳️ Onboard · Sea Day 2 (June 16)',
+            title: 'Mixology Class',
+            subtitle: '~$45/pp · Katherine & Veronica',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Class</div>A hands-on cocktail-making class led by a Disney Wonder bartender — you learn to make 2–3 classic cocktails and take home the recipes. Held in one of the ship's bars (often Meridian or Pink).</div>
+                <div class="section-header">What to Expect</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🍹</span>Make 2–3 cocktails yourself</div>
+                    <div class="highlight-item"><span class="highlight-icon">📖</span>Learn shaking & muddling technique</div>
+                    <div class="highlight-item"><span class="highlight-icon">🥂</span>Drink what you make</div>
+                    <div class="highlight-item"><span class="highlight-icon">👩‍🍳</span>Expert bartender instruction</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">🕰️</span>Classes typically run 1 hour — check the Disney Navigator app on boarding day for the exact time to plan around Palo Brunch (also on Sea Day 2).</div>
+                <div class="tip-item"><span class="tip-icon">📝</span>Recipes are printed to take home — great souvenir.</div>
+                <div class="tip-item"><span class="tip-icon">🎉</span>Small group class — fun, social, and a good way to meet other adults on the ship.</div>
+            `
+        },
+        'martini': {
+            port: '🛳️ Onboard · Sea Day',
+            title: 'Martini Tasting',
+            subtitle: '~$45/pp · Katherine, Chris + Stallings Adults',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Tasting</div>A guided martini and specialty cocktail tasting — typically 4–6 drinks across gin, vodka, and creative variations. Held at one of the ship's upscale bars with a bartender narrating each recipe and spirit.</div>
+                <div class="section-header">What to Expect</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🍸</span>4–6 martini varieties</div>
+                    <div class="highlight-item"><span class="highlight-icon">🥃</span>Spirit background & tasting notes</div>
+                    <div class="highlight-item"><span class="highlight-icon">🫒</span>Classic & creative variations</div>
+                    <div class="highlight-item"><span class="highlight-icon">👥</span>Shared group experience</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">🍽️</span>Have a snack before — tasting 5+ martinis on an empty stomach hits differently on a sea day.</div>
+                <div class="tip-item"><span class="tip-icon">📅</span>Check the Navigator app on Day 1 to confirm the exact sea day — coordinator all 4 adults since it's a group event.</div>
+            `
+        },
+        'wine': {
+            port: '🛳️ Onboard · Sea Day',
+            title: 'Stem-to-Stern Wine Tasting',
+            subtitle: '~$55/pp · Katherine & Veronica — Still Deciding',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Experience</div>A walking wine tour through multiple DCL venue spaces, tasting curated wines from different regions paired with small bites. One of the most popular adult tastings on the Wonder.</div>
+                <div class="section-header">What to Expect</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🍷</span>5–6 regional wines</div>
+                    <div class="highlight-item"><span class="highlight-icon">🧀</span>Wine & food pairings</div>
+                    <div class="highlight-item"><span class="highlight-icon">🚶</span>Tour through ship venues</div>
+                    <div class="highlight-item"><span class="highlight-icon">🌍</span>Old & New World selections</div>
+                </div>
+                <div class="section-header">Deciding Factors</div>
+                <div class="tip-item"><span class="tip-icon">🕰️</span>Check it doesn't overlap with the Martini Tasting (also deciding) — both may be offered on the same sea days.</div>
+                <div class="tip-item"><span class="tip-icon">💰</span>At $55/pp it's the priciest tasting — but the walk-through format is unique compared to the sit-down tastings.</div>
+            `
+        },
+        'tequila': {
+            port: '🛳️ Onboard · Sea Day',
+            title: 'Tequila & Margarita Tasting',
+            subtitle: '~$45/pp · Katherine — Deciding',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Tasting</div>A guided tasting of premium tequilas — blanco, reposado, and añejo — with margarita variations. Led by the ship's bar team at one of the onboard venues.</div>
+                <div class="section-header">What to Expect</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🥃</span>3 tequila styles & ages</div>
+                    <div class="highlight-item"><span class="highlight-icon">🍋</span>Margarita variations</div>
+                    <div class="highlight-item"><span class="highlight-icon">🧂</span>Proper sipping technique</div>
+                    <div class="highlight-item"><span class="highlight-icon">🌮</span>Light snack pairings</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">📅</span>These tastings book up fast — check the Navigator app on Day 1 to secure spots if you decide to add it.</div>
+                <div class="tip-item"><span class="tip-icon">🥂</span>Consider whether you want this AND the Martini Tasting — that's a lot of drinking in one cruise week. Choose based on preference.</div>
+            `
+        },
+        'rum': {
+            port: '🛳️ Onboard · Sea Day',
+            title: 'Rum Tasting',
+            subtitle: '~$45/pp · Chris — Deciding',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Tasting</div>A guided tour through rum styles — white, aged, dark, and spiced — with cocktail applications demonstrated by the bar team. DCL's rum tastings often feature Caribbean and international selections.</div>
+                <div class="section-header">What to Expect</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🥃</span>4–5 rum styles & origins</div>
+                    <div class="highlight-item"><span class="highlight-icon">🍹</span>Cocktail demos with each rum</div>
+                    <div class="highlight-item"><span class="highlight-icon">📖</span>Rum history & production</div>
+                    <div class="highlight-item"><span class="highlight-icon">🌴</span>Caribbean & global selections</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">📅</span>Book on Day 1 using the Navigator app if you decide to add it — space is limited.</div>
+                <div class="tip-item"><span class="tip-icon">🍽️</span>Have lunch first — rum tastings on an empty stomach move quickly.</div>
+            `
+        },
+        'behind-scenes': {
+            port: '🛳️ Onboard · Sea Day',
+            title: 'Behind the Scenes Ship Tour',
+            subtitle: '$150+/pp · Katherine & Chris — Deciding',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Tour</div>An exclusive guided tour of areas of the ship not accessible to regular guests — the bridge, engine control room, crew areas, galley, and technical operations center. Very limited availability and books out fast.</div>
+                <div class="section-header">What You'll See</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🧭</span>The ship's navigation bridge</div>
+                    <div class="highlight-item"><span class="highlight-icon">⚙️</span>Engine control room</div>
+                    <div class="highlight-item"><span class="highlight-icon">👨‍🍳</span>Working galley kitchen</div>
+                    <div class="highlight-item"><span class="highlight-icon">🚢</span>Crew-only corridors & spaces</div>
+                </div>
+                <div class="section-header">Deciding Factors</div>
+                <div class="tip-item"><span class="tip-icon">🏆</span>With ~12 Disney cruises under your belt, this is genuinely one of the few new experiences left — a behind-the-curtain view of the ship.</div>
+                <div class="tip-item"><span class="tip-icon">📅</span>This sells out immediately — book the moment you can on Day 1 if you're interested.</div>
+                <div class="tip-item"><span class="tip-icon">💰</span>At $150+/pp it's the priciest onboard experience — but unique even for experienced DCL guests.</div>
+                <div class="tip-item"><span class="tip-icon">📸</span>Photography restrictions apply in some areas — confirm in advance what you can capture.</div>
+            `
+        },
+        'photo-pkg': {
+            port: '🛳️ Onboard · Full Cruise',
+            title: 'Unlimited Photo Package',
+            subtitle: 'Ortiz · Full cruise coverage',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">What's Included</div>All professional photos taken by Disney's photography team throughout the cruise — character meet-and-greets, formal portraits, port sendoffs, dinner photos, and candid shots. Digital download of everything.</div>
+                <div class="section-header">Make the Most of It</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">📸</span>Character greet photos included</div>
+                    <div class="highlight-item"><span class="highlight-icon">🎭</span>Formal portrait sessions</div>
+                    <div class="highlight-item"><span class="highlight-icon">🍽️</span>Dinner & Palo photos</div>
+                    <div class="highlight-item"><span class="highlight-icon">💻</span>Full digital download</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">📸</span>Seek out photographers proactively — they're positioned near the gangway, in the atrium, and at character locations. Don't wait for them to find you.</div>
+                <div class="tip-item"><span class="tip-icon">🎬</span>Ask photographers for candid shots, not just posed ones — the candid photos often end up being the favorites.</div>
+                <div class="tip-item"><span class="tip-icon">👗</span>Get a formal portrait session done early in the cruise — photographers fill up on the formal nights. Day 2 works well.</div>
+                <div class="tip-item"><span class="tip-icon">💾</span>Download before disembarkation — access may expire after the cruise ends.</div>
+            `
+        },
+        'rainforest-room': {
+            port: '🛳️ Onboard · Length of Cruise',
+            title: 'Rainforest Room Spa Access',
+            subtitle: '$150–220 · Stallings Adults · Senses Spa',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Rainforest Room</div>An adult-only hydrotherapy spa suite aboard the Disney Wonder — heated stone loungers, steam rooms, aromatic showers, and a mist room with ocean views. Length-of-cruise access means you can visit every day.</div>
+                <div class="section-header">What's Inside</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🔥</span>Heated stone tile loungers</div>
+                    <div class="highlight-item"><span class="highlight-icon">💨</span>Steam & aromatic mist rooms</div>
+                    <div class="highlight-item"><span class="highlight-icon">🚿</span>Tropical & aromatic showers</div>
+                    <div class="highlight-item"><span class="highlight-icon">🌊</span>Ocean-view relaxation area</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">⛰️</span>On Alaska cruises, the Rainforest Room is especially popular on cold port days — go early or on sea days to avoid the crowd.</div>
+                <div class="tip-item"><span class="tip-icon">🕰️</span>Best used in the evening after excursion days — warm up after a cold day in Skagway or Juneau.</div>
+                <div class="tip-item"><span class="tip-icon">👙</span>Bring your swimsuit — heated loungers and steam rooms require swimwear.</div>
+                <div class="tip-item"><span class="tip-icon">🤫</span>It's quiet and serene — it's genuinely a retreat. Leave phones in the locker.</div>
+            `
+        },
+    };
+
+    function openExpDetail(key) {
+        const exp = EXP_DATA[key];
+        if (!exp) return;
+        document.getElementById('exp-modal-port').textContent = exp.port;
+        document.getElementById('exp-modal-title').textContent = exp.title;
+        document.getElementById('exp-modal-subtitle').textContent = exp.subtitle;
+        document.getElementById('exp-modal-body').innerHTML = exp.body;
+        document.getElementById('modal-exp').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeExpDetail() {
+        document.getElementById('modal-exp').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
 
     // Experience counts
     const cards = document.querySelectorAll('.exp-card');
