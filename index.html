@@ -398,11 +398,15 @@
         .menu-row-price { font-size: 12px; color: var(--glacier); font-weight: 600; margin-top: 2px; }
 
         /* ── GAMES SECTION ── */
-        .game-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-        .game-tab { flex: 1; padding: 8px 4px; border-radius: 12px; border: 2px solid var(--stone-light); background: none; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; color: var(--text-light); cursor: pointer; transition: all .2s; opacity: .5; }
-        .game-tab.active { border-color: var(--glacier); color: var(--glacier); opacity: 1; background: var(--glacier-pale); }
-        .game-view { display: none; }
-        .game-view.active { display: block; }
+        .game-picker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 4px; }
+        .gpc { background: var(--snow); border-radius: 16px; padding: 18px 14px 14px; box-shadow: var(--shadow-sm); cursor: pointer; text-align: center; -webkit-tap-highlight-color: transparent; transition: transform .15s; border: 2px solid transparent; }
+        .gpc:active { transform: scale(.96); }
+        .gpc-emoji { font-size: 30px; margin-bottom: 8px; }
+        .gpc-title { font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 3px; }
+        .gpc-desc { font-size: 11px; color: var(--text-light); line-height: 1.3; }
+        .game-fullview { display: none; }
+        .game-fullview.active { display: block; }
+        .game-back-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--glacier); cursor: pointer; padding: 0; margin-bottom: 16px; -webkit-tap-highlight-color: transparent; }
 
         /* Photo Bingo — shared */
         .pb-board-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
@@ -549,6 +553,57 @@
         .ag-all-done-emoji { font-size:56px; margin-bottom:12px; }
         .ag-all-done-title { font-family:'Playfair Display',serif; font-size:28px; color:var(--forest-dark); margin-bottom:8px; }
         .ag-all-done-sub { font-size:14px; color:var(--text-light); line-height:1.5; }
+
+/* ── WORD SEARCH ── */
+.ws-word-list { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+.ws-word-chip { background:var(--snow); border:2px solid var(--stone-light); border-radius:100px; padding:4px 12px; font-size:11px; font-weight:700; color:var(--text-light); text-transform:uppercase; letter-spacing:1px; transition:all .2s; }
+.ws-word-chip.found { background:var(--forest-dark); border-color:var(--forest-dark); color:white; text-decoration:line-through; }
+.ws-grid-wrap { overflow-x:auto; display:flex; justify-content:center; margin-bottom:12px; }
+.ws-grid { display:inline-grid; gap:2px; user-select:none; }
+.ws-cell { width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; font-family:'Inter',sans-serif; color:var(--text-dark); border-radius:6px; cursor:pointer; background:var(--snow); -webkit-tap-highlight-color:transparent; transition:background .1s; }
+.ws-cell.selected { background:var(--glacier-pale); color:var(--glacier); }
+.ws-cell.found { background:var(--forest-dark); color:white; }
+.ws-cell.first-sel { background:var(--glacier); color:white; }
+.ws-status { text-align:center; font-size:13px; color:var(--text-light); margin-bottom:12px; min-height:20px; }
+.ws-reset-btn { width:100%; padding:13px; border:none; border-radius:14px; background:var(--glacier-pale); color:#1a5d6e; font-family:'Inter',sans-serif; font-size:13px; font-weight:700; cursor:pointer; }
+
+/* ── TRUE/FALSE + TRIVIA + EMOJI DECODER shared ── */
+.tf-progress-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.tf-progress-label { font-size:12px; color:var(--text-light); font-weight:500; }
+.tf-score-label { font-size:13px; font-weight:700; color:var(--forest-dark); }
+.tf-progress-bar { height:5px; background:var(--stone-light); border-radius:100px; margin-bottom:16px; }
+.tf-progress-fill { height:100%; background:var(--glacier); border-radius:100px; transition:width .4s ease; }
+.tf-card { background:var(--snow); border-radius:16px; padding:20px 18px; margin-bottom:16px; box-shadow:var(--shadow-sm); font-family:'Playfair Display',serif; font-size:19px; color:var(--text-dark); line-height:1.4; min-height:90px; display:flex; align-items:center; }
+.tf-feedback { min-height:36px; text-align:center; font-size:14px; font-weight:600; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:6px; border-radius:12px; padding:0 12px; }
+.tf-feedback.correct { background:#f0fdf4; color:#15803d; }
+.tf-feedback.wrong { background:#fef2f2; color:#dc2626; }
+.tf-btn-row { display:flex; gap:12px; margin-bottom:16px; }
+.tf-btn { flex:1; padding:16px 8px; border:none; border-radius:16px; font-family:'Inter',sans-serif; font-size:15px; font-weight:700; cursor:pointer; -webkit-tap-highlight-color:transparent; transition:transform .1s; }
+.tf-btn:active { transform:scale(.96); }
+.tf-btn-true { background:#dcfce7; color:#15803d; }
+.tf-btn-false { background:#fee2e2; color:#dc2626; }
+.tf-done { text-align:center; padding:28px 16px; }
+.tf-done-emoji { font-size:52px; margin-bottom:10px; }
+.tf-done-title { font-family:'Playfair Display',serif; font-size:26px; color:var(--forest-dark); margin-bottom:6px; }
+.tf-done-sub { font-size:14px; color:var(--text-light); line-height:1.5; }
+.triv-question { background:var(--snow); border-radius:16px; padding:20px 18px; margin-bottom:14px; box-shadow:var(--shadow-sm); font-family:'Playfair Display',serif; font-size:18px; color:var(--text-dark); line-height:1.4; }
+.triv-choices { display:flex; flex-direction:column; gap:9px; margin-bottom:14px; }
+.triv-choice { background:var(--snow); border:2px solid var(--stone-light); border-radius:14px; padding:13px 16px; font-family:'Inter',sans-serif; font-size:14px; font-weight:500; color:var(--text-dark); cursor:pointer; text-align:left; -webkit-tap-highlight-color:transparent; transition:all .15s; }
+.triv-choice:active { transform:scale(.98); }
+.triv-choice.correct { background:#f0fdf4; border-color:#22c55e; color:#15803d; font-weight:700; }
+.triv-choice.wrong { background:#fef2f2; border-color:#ef4444; color:#dc2626; }
+.triv-choice.disabled { pointer-events:none; opacity:.5; }
+.em-display { font-size:44px; text-align:center; background:var(--snow); border-radius:16px; padding:24px 18px; margin-bottom:14px; box-shadow:var(--shadow-sm); letter-spacing:4px; }
+
+/* ── WOULD YOU RATHER ── */
+.wyr-prompt { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-light); text-align:center; margin-bottom:14px; }
+.wyr-options { display:flex; flex-direction:column; gap:12px; margin-bottom:14px; }
+.wyr-option { background:var(--snow); border:2px solid var(--stone-light); border-radius:16px; padding:18px 16px; font-family:'Playfair Display',serif; font-size:17px; color:var(--text-dark); cursor:pointer; text-align:center; line-height:1.35; -webkit-tap-highlight-color:transparent; transition:all .15s; }
+.wyr-option:active { transform:scale(.98); }
+.wyr-option.chosen { background:var(--glacier-pale); border-color:var(--glacier); color:#1a5d6e; }
+.wyr-or { text-align:center; font-size:13px; font-weight:800; color:var(--text-light); text-transform:uppercase; letter-spacing:2px; }
+.wyr-result { background:var(--snow); border-radius:14px; padding:14px 16px; margin-bottom:14px; font-size:13px; color:var(--text-light); line-height:1.5; box-shadow:var(--shadow-sm); }
+.wyr-next-btn { width:100%; padding:13px; border:none; border-radius:14px; background:var(--forest-dark); color:white; font-family:'Inter',sans-serif; font-size:13px; font-weight:700; cursor:pointer; margin-bottom:4px; }
 
     </style>
 </head>
@@ -1720,159 +1775,226 @@
 
     <!-- GAMES SECTION -->
     <section id="section-games" class="section">
-        <div style="padding: 0 4px;">
+    <div style="padding: 0 4px;" id="games-container">
 
-            <!-- Sub-tab switcher -->
-            <div class="game-tabs">
-                <button class="game-tab active" onclick="showGameView('photobingo',this)">📸 Photo Bingo</button>
-                <button class="game-tab" onclick="showGameView('missions',this)">🗺️ Missions</button>
-                <button class="game-tab" onclick="showGameView('anagram',this)">🔤 Anagram</button>
+        <!-- PICKER GRID -->
+        <div id="games-picker">
+            <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Games</div>
+            <div style="font-size:13px;color:var(--text-light);margin-bottom:20px;">8 games for the whole crew</div>
+            <div class="game-picker-grid">
+                <div class="gpc" onclick="openGame('photobingo')"><div class="gpc-emoji">📸</div><div class="gpc-title">Photo Bingo</div><div class="gpc-desc">Snap Alaska moments</div></div>
+                <div class="gpc" onclick="openGame('missions')"><div class="gpc-emoji">🗺️</div><div class="gpc-title">Missions</div><div class="gpc-desc">Port challenges</div></div>
+                <div class="gpc" onclick="openGame('anagram')"><div class="gpc-emoji">🔤</div><div class="gpc-title">Anagram</div><div class="gpc-desc">Unscramble Alaska words</div></div>
+                <div class="gpc" onclick="openGame('wordsearch')"><div class="gpc-emoji">🔍</div><div class="gpc-title">Word Search</div><div class="gpc-desc">Find hidden words</div></div>
+                <div class="gpc" onclick="openGame('truefalse')"><div class="gpc-emoji">✅</div><div class="gpc-title">True or False</div><div class="gpc-desc">Alaska fact check</div></div>
+                <div class="gpc" onclick="openGame('trivia')"><div class="gpc-emoji">🧠</div><div class="gpc-title">Trivia</div><div class="gpc-desc">Multiple choice quiz</div></div>
+                <div class="gpc" onclick="openGame('emoji')"><div class="gpc-emoji">🤔</div><div class="gpc-title">Emoji Decoder</div><div class="gpc-desc">Guess what they mean</div></div>
+                <div class="gpc" onclick="openGame('wyr')"><div class="gpc-emoji">🤷</div><div class="gpc-title">Would You Rather</div><div class="gpc-desc">Alaska dilemmas</div></div>
             </div>
-
-            <!-- PHOTO BINGO -->
-            <div id="gameview-photobingo" class="game-view active">
-
-                <!-- Board selector -->
-                <div class="pb-board-tabs">
-                    <button class="pb-board-tab pb-board-tab-wild active" onclick="showPBBoard('wild',this)">🌲 Wilderness</button>
-                    <button class="pb-board-tab pb-board-tab-ship" onclick="showPBBoard('ship',this)">⚓ The Ship</button>
-                </div>
-
-                <!-- WILDERNESS BOARD -->
-                <div id="pb-board-wild" class="pb-board pb-board-wild active">
-                    <div class="pb-bingo-banner" id="pb-bingo-banner-wild">
-                        <div class="pb-bingo-title">🌲 BINGO!</div>
-                        <div class="pb-bingo-sub" id="pb-bingo-sub-wild">You spotted a line!</div>
-                    </div>
-                    <div class="pb-board-header">
-                        <div class="pb-board-label">Alaska Wilderness</div>
-                        <div class="pb-board-sublabel">Wildlife · Landscapes · Port Sights</div>
-                    </div>
-                    <div class="photo-bingo-grid">
-                        <div class="pb-cell" data-board="wild" data-pbid="0" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Whale Tail (Fluke)</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="1" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Real Bald Eagle</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="2" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Calving Glacier / Blue Ice</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="3" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Tall Totem Pole</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="4" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Waterfall</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="5" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Seaplane Taking Off</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="6" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Lumberjack Axe Throw</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="7" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Sled Dog / Husky</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="8" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Real Brown Bear</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="9" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Moose Sighting</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="10" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Gold Pan / Sluice</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="11" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Lighthouse</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="12" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Full Rain Gear Outfit</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="13" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Northern Lights</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="14" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Sea Otter Floating</div>
-                        <div class="pb-cell" data-board="wild" data-pbid="15" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Salmon in the Wild</div>
-                    </div>
-                </div>
-
-                <!-- SHIP BOARD -->
-                <div id="pb-board-ship" class="pb-board pb-board-ship">
-                    <div class="pb-bingo-banner" id="pb-bingo-banner-ship">
-                        <div class="pb-bingo-title">⚓ BINGO!</div>
-                        <div class="pb-bingo-sub" id="pb-bingo-sub-ship">You completed a row!</div>
-                    </div>
-                    <div class="pb-board-header">
-                        <div class="pb-board-label">Disney Wonder</div>
-                        <div class="pb-board-sublabel">Characters · Crew · Ship Moments</div>
-                    </div>
-                    <div class="photo-bingo-grid">
-                        <div class="pb-cell" data-board="ship" data-pbid="0" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Mickey in Alaska Gear</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="1" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Minnie in a Parka</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="2" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Goofy in Lumberjack Shirt</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="3" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Donald in Buffalo Plaid</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="4" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Chip & Dale Ranger Hats</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="5" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Hidden Mickey (Atrium)</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="6" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Photo with Dinner Server</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="7" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Mickey Bar on Deck</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="8" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Learn Server's Name + Hometown</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="9" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Photo with Stateroom Host</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="10" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Say Hi to a Cast Member by Name</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="11" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Pirate Night Costume</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="12" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Fancy Dining Table Setup</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="13" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Cruise Ship Funnel</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="14" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Bigfoot Souvenir</div>
-                        <div class="pb-cell" data-board="ship" data-pbid="15" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Characters at Deck Party</div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- PORT MISSIONS -->
-            <div id="gameview-missions" class="game-view">
-                <div class="mission-card">
-                    <div class="mission-port"><span>⚓ Skagway</span><span>June 17</span></div>
-                    <div class="mission-list">
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find a souvenir that costs exactly $18.98 (for 1898 Gold Rush).</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Take a photo with a sled dog or puppy at Musher's Camp.</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Spot the White Pass railway tracks.</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find out what the word "Skagway" means and tell a parent.</div></div>
-                    </div>
-                </div>
-                <div class="mission-card">
-                    <div class="mission-port"><span>🧊 Juneau</span><span>June 18</span></div>
-                    <div class="mission-list">
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Take a group selfie with the Mendenhall Glacier.</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Spot a whale spout or tail on the excursion.</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find someone wearing a 5-Glacier Seaplane shirt or hat.</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Eat something with local Salmon or Crab.</div></div>
-                    </div>
-                </div>
-                <div class="mission-card">
-                    <div class="mission-port"><span>🪵 Ketchikan</span><span>June 19</span></div>
-                    <div class="mission-list">
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Cheer the loudest at the Lumberjack show (get a parent on video).</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find Bigfoot evidence or a Bigfoot sign.</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Take a picture with the "Salmon Capital of the World" sign.</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find a totem pole with a bird on top.</div></div>
-                    </div>
-                </div>
-                <div class="mission-card">
-                    <div class="mission-port"><span>🚢 On the Ship</span><span>All Days</span></div>
-                    <div class="mission-list">
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Get a photo with a character in their Alaska winter gear.</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find the hidden Mickey in the ship's Atrium.</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Eat a Mickey Bar while wearing a jacket on the pool deck.</div></div>
-                        <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Learn a magic trick or joke at the Oceaneer Club/Edge.</div></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ANAGRAM -->
-            <div id="gameview-anagram" class="game-view">
-                <!-- build entirely with JS, just needs these anchor elements -->
-                <div class="ag-banner" id="ag-banner">
-                    <div class="ag-banner-title">🎉 Solved!</div>
-                    <div class="ag-banner-sub" id="ag-banner-sub"></div>
-                </div>
-                <div class="ag-progress-row">
-                    <span class="ag-progress-label" id="ag-progress-label">Word 1 of 20</span>
-                    <span class="ag-score-label" id="ag-score-label">Score: 0</span>
-                </div>
-                <div class="ag-progress-bar"><div class="ag-progress-fill" id="ag-progress-fill"></div></div>
-                <div class="ag-card" id="ag-card" style="display:none;">
-                    <div class="ag-cat" id="ag-cat"></div>
-                    <div class="ag-clue" id="ag-clue"></div>
-                </div>
-                <div class="ag-answer-row" id="ag-answer-row"></div>
-                <div class="ag-tiles-row" id="ag-tiles-row"></div>
-                <div class="ag-btn-row">
-                    <button class="ag-btn ag-btn-shuffle" onclick="agShuffle()">🔀 Shuffle</button>
-                    <button class="ag-btn ag-btn-hint" id="ag-hint-btn" onclick="agHint()">💡 Hint</button>
-                    <button class="ag-btn ag-btn-skip" onclick="agSkip()">Skip →</button>
-                </div>
-                <div class="ag-all-done" id="ag-all-done" style="display:none;">
-                    <div class="ag-all-done-emoji">🏆</div>
-                    <div class="ag-all-done-title">Alaska Expert!</div>
-                    <div class="ag-all-done-sub" id="ag-all-done-sub" style="white-space:pre-line"></div>
-                    <button class="ag-btn ag-btn-shuffle" style="margin-top:16px;" onclick="agRestart()">Play Again</button>
-                </div>
-            </div>
-
-
         </div>
+
+        <!-- PHOTO BINGO -->
+        <div id="gameview-photobingo" class="game-fullview">
+            <button class="game-back-btn" onclick="closeGame()">← Games</button>
+            <!-- Board selector -->
+            <div class="pb-board-tabs">
+                <button class="pb-board-tab pb-board-tab-wild active" onclick="showPBBoard('wild',this)">🌲 Wilderness</button>
+                <button class="pb-board-tab pb-board-tab-ship" onclick="showPBBoard('ship',this)">⚓ The Ship</button>
+            </div>
+            <!-- WILDERNESS BOARD -->
+            <div id="pb-board-wild" class="pb-board pb-board-wild active">
+                <div class="pb-bingo-banner" id="pb-bingo-banner-wild"><div class="pb-bingo-title">🌲 BINGO!</div><div class="pb-bingo-sub" id="pb-bingo-sub-wild">You spotted a line!</div></div>
+                <div class="pb-board-header"><div class="pb-board-label">Alaska Wilderness</div><div class="pb-board-sublabel">Wildlife · Landscapes · Port Sights</div></div>
+                <div class="photo-bingo-grid">
+                    <div class="pb-cell" data-board="wild" data-pbid="0" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Whale Tail (Fluke)</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="1" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Real Bald Eagle</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="2" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Calving Glacier / Blue Ice</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="3" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Tall Totem Pole</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="4" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Waterfall</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="5" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Seaplane Taking Off</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="6" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Lumberjack Axe Throw</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="7" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Sled Dog / Husky</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="8" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Real Brown Bear</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="9" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Moose Sighting</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="10" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Gold Pan / Sluice</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="11" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Lighthouse</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="12" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Full Rain Gear Outfit</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="13" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Northern Lights</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="14" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>A Sea Otter Floating</div>
+                    <div class="pb-cell" data-board="wild" data-pbid="15" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Salmon in the Wild</div>
+                </div>
+            </div>
+            <!-- SHIP BOARD -->
+            <div id="pb-board-ship" class="pb-board pb-board-ship">
+                <div class="pb-bingo-banner" id="pb-bingo-banner-ship"><div class="pb-bingo-title">⚓ BINGO!</div><div class="pb-bingo-sub" id="pb-bingo-sub-ship">You completed a row!</div></div>
+                <div class="pb-board-header"><div class="pb-board-label">Disney Wonder</div><div class="pb-board-sublabel">Characters · Crew · Ship Moments</div></div>
+                <div class="photo-bingo-grid">
+                    <div class="pb-cell" data-board="ship" data-pbid="0" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Mickey in Alaska Gear</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="1" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Minnie in a Parka</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="2" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Goofy in Lumberjack Shirt</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="3" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Donald in Buffalo Plaid</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="4" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Chip & Dale Ranger Hats</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="5" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Hidden Mickey (Atrium)</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="6" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Photo with Dinner Server</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="7" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Mickey Bar on Deck</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="8" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Learn Server's Name + Hometown</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="9" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Photo with Stateroom Host</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="10" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Say Hi to a Cast Member by Name</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="11" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Pirate Night Costume</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="12" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Fancy Dining Table Setup</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="13" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Cruise Ship Funnel</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="14" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Bigfoot Souvenir</div>
+                    <div class="pb-cell" data-board="ship" data-pbid="15" onclick="togglePhotoBingo(this)"><span class="pb-check">✓</span>Characters at Deck Party</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PORT MISSIONS -->
+        <div id="gameview-missions" class="game-fullview">
+            <button class="game-back-btn" onclick="closeGame()">← Games</button>
+            <div class="mission-card">
+                <div class="mission-port"><span>⚓ Skagway</span><span>June 18</span></div>
+                <div class="mission-list">
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find a souvenir that costs exactly $18.98 (for 1898 Gold Rush).</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Take a photo with a sled dog or puppy at Musher's Camp.</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Spot the White Pass railway tracks.</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find out what the word "Skagway" means and tell a parent.</div></div>
+                </div>
+            </div>
+            <div class="mission-card">
+                <div class="mission-port"><span>🧊 Juneau</span><span>June 19</span></div>
+                <div class="mission-list">
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Take a group selfie with the Mendenhall Glacier.</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Spot a whale spout or tail on the excursion.</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find someone wearing a 5-Glacier Seaplane shirt or hat.</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Eat something with local Salmon or Crab.</div></div>
+                </div>
+            </div>
+            <div class="mission-card">
+                <div class="mission-port"><span>🪵 Ketchikan</span><span>June 20</span></div>
+                <div class="mission-list">
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Cheer the loudest at the Lumberjack show (get a parent on video).</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find Bigfoot evidence or a Bigfoot sign.</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Take a picture with the "Salmon Capital of the World" sign.</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find a totem pole with a bird on top.</div></div>
+                </div>
+            </div>
+            <div class="mission-card">
+                <div class="mission-port"><span>🚢 On the Ship</span><span>All Days</span></div>
+                <div class="mission-list">
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Get a photo with a character in their Alaska winter gear.</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Find the hidden Mickey in the ship's Atrium.</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Eat a Mickey Bar while wearing a jacket on the pool deck.</div></div>
+                    <div class="mission-item" onclick="toggleMission(this)"><div class="mission-dot"></div><div class="mission-text">Learn a magic trick or joke at the Oceaneer Club/Edge.</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANAGRAM -->
+        <div id="gameview-anagram" class="game-fullview">
+            <button class="game-back-btn" onclick="closeGame()">← Games</button>
+            <div class="ag-banner" id="ag-banner"><div class="ag-banner-title">🎉 Solved!</div><div class="ag-banner-sub" id="ag-banner-sub"></div></div>
+            <div class="ag-progress-row"><span class="ag-progress-label" id="ag-progress-label">Word 1 of 20</span><span class="ag-score-label" id="ag-score-label">Score: 0</span></div>
+            <div class="ag-progress-bar"><div class="ag-progress-fill" id="ag-progress-fill"></div></div>
+            <div class="ag-card" id="ag-card" style="display:none;"><div class="ag-cat" id="ag-cat"></div><div class="ag-clue" id="ag-clue"></div></div>
+            <div class="ag-answer-row" id="ag-answer-row"></div>
+            <div class="ag-tiles-row" id="ag-tiles-row"></div>
+            <div class="ag-btn-row">
+                <button class="ag-btn ag-btn-shuffle" onclick="agShuffle()">🔀 Shuffle</button>
+                <button class="ag-btn ag-btn-hint" id="ag-hint-btn" onclick="agHint()">💡 Hint</button>
+                <button class="ag-btn ag-btn-skip" onclick="agSkip()">Skip →</button>
+            </div>
+            <div class="ag-all-done" id="ag-all-done" style="display:none;">
+                <div class="ag-all-done-emoji">🏆</div>
+                <div class="ag-all-done-title">Alaska Expert!</div>
+                <div class="ag-all-done-sub" id="ag-all-done-sub" style="white-space:pre-line"></div>
+                <button class="ag-btn ag-btn-shuffle" style="margin-top:16px;" onclick="agRestart()">Play Again</button>
+            </div>
+        </div>
+
+        <!-- WORD SEARCH -->
+        <div id="gameview-wordsearch" class="game-fullview">
+            <button class="game-back-btn" onclick="closeGame()">← Games</button>
+            <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:2px;">Word Search</div>
+            <div style="font-size:13px;color:var(--text-light);margin-bottom:12px;">Find all the Alaska words</div>
+            <div class="ws-word-list" id="ws-word-list"></div>
+            <div class="ws-grid-wrap"><div class="ws-grid" id="ws-grid"></div></div>
+            <div class="ws-status" id="ws-status"></div>
+            <button class="ws-reset-btn" onclick="wsInit()">New Game</button>
+        </div>
+
+        <!-- TRUE OR FALSE -->
+        <div id="gameview-truefalse" class="game-fullview">
+            <button class="game-back-btn" onclick="closeGame()">← Games</button>
+            <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:2px;">True or False</div>
+            <div class="tf-progress-row"><span class="tf-progress-label" id="tf-progress-label"></span><span class="tf-score-label" id="tf-score-label"></span></div>
+            <div class="tf-progress-bar"><div class="tf-progress-fill" id="tf-progress-fill"></div></div>
+            <div class="tf-card" id="tf-card"></div>
+            <div class="tf-feedback" id="tf-feedback"></div>
+            <div class="tf-btn-row">
+                <button class="tf-btn tf-btn-true" onclick="tfAnswer(true)">✅ True</button>
+                <button class="tf-btn tf-btn-false" onclick="tfAnswer(false)">❌ False</button>
+            </div>
+            <div class="tf-done" id="tf-done" style="display:none;">
+                <div class="tf-done-emoji">🎯</div>
+                <div class="tf-done-title" id="tf-done-title"></div>
+                <div class="tf-done-sub" id="tf-done-sub"></div>
+                <button class="ag-btn ag-btn-shuffle" style="margin-top:16px;" onclick="tfInit()">Play Again</button>
+            </div>
+        </div>
+
+        <!-- TRIVIA -->
+        <div id="gameview-trivia" class="game-fullview">
+            <button class="game-back-btn" onclick="closeGame()">← Games</button>
+            <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:2px;">Alaska Trivia</div>
+            <div class="tf-progress-row"><span class="tf-progress-label" id="triv-progress-label"></span><span class="tf-score-label" id="triv-score-label"></span></div>
+            <div class="tf-progress-bar"><div class="tf-progress-fill" id="triv-progress-fill"></div></div>
+            <div class="triv-question" id="triv-question"></div>
+            <div class="triv-choices" id="triv-choices"></div>
+            <div class="tf-feedback" id="triv-feedback"></div>
+            <div class="tf-done" id="triv-done" style="display:none;">
+                <div class="tf-done-emoji">🧠</div>
+                <div class="tf-done-title" id="triv-done-title"></div>
+                <div class="tf-done-sub" id="triv-done-sub"></div>
+                <button class="ag-btn ag-btn-shuffle" style="margin-top:16px;" onclick="trivInit()">Play Again</button>
+            </div>
+        </div>
+
+        <!-- EMOJI DECODER -->
+        <div id="gameview-emoji" class="game-fullview">
+            <button class="game-back-btn" onclick="closeGame()">← Games</button>
+            <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:2px;">Emoji Decoder</div>
+            <div class="tf-progress-row"><span class="tf-progress-label" id="em-progress-label"></span><span class="tf-score-label" id="em-score-label"></span></div>
+            <div class="tf-progress-bar"><div class="tf-progress-fill" id="em-progress-fill"></div></div>
+            <div class="em-display" id="em-display"></div>
+            <div class="triv-choices" id="em-choices"></div>
+            <div class="tf-feedback" id="em-feedback"></div>
+            <div class="tf-done" id="em-done" style="display:none;">
+                <div class="tf-done-emoji">🤩</div>
+                <div class="tf-done-title" id="em-done-title"></div>
+                <div class="tf-done-sub" id="em-done-sub"></div>
+                <button class="ag-btn ag-btn-shuffle" style="margin-top:16px;" onclick="emInit()">Play Again</button>
+            </div>
+        </div>
+
+        <!-- WOULD YOU RATHER -->
+        <div id="gameview-wyr" class="game-fullview">
+            <button class="game-back-btn" onclick="closeGame()">← Games</button>
+            <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:2px;">Would You Rather</div>
+            <div class="tf-progress-row"><span class="tf-progress-label" id="wyr-progress-label"></span><span style="font-size:11px;color:var(--text-light);">No wrong answers</span></div>
+            <div class="tf-progress-bar"><div class="tf-progress-fill" id="wyr-progress-fill"></div></div>
+            <div class="wyr-prompt">Would you rather…</div>
+            <div class="wyr-options" id="wyr-options"></div>
+            <div class="wyr-result" id="wyr-result" style="display:none;"></div>
+            <div class="tf-done" id="wyr-done" style="display:none;">
+                <div class="tf-done-emoji">🤷</div>
+                <div class="tf-done-title">That's a wrap!</div>
+                <div class="tf-done-sub">You made some tough calls out there.</div>
+                <button class="ag-btn ag-btn-shuffle" style="margin-top:16px;" onclick="wyrInit()">Play Again</button>
+            </div>
+        </div>
+
+    </div>
     </section>
 
 
@@ -2869,11 +2991,22 @@
 
     // ── GAMES ──
 
-    function showGameView(name, btn) {
-        document.querySelectorAll('.game-view').forEach(v => v.classList.remove('active'));
-        document.querySelectorAll('.game-tab').forEach(b => b.classList.remove('active'));
+    function openGame(name) {
+        document.getElementById('games-picker').style.display = 'none';
+        document.querySelectorAll('.game-fullview').forEach(v => v.classList.remove('active'));
         document.getElementById('gameview-' + name).classList.add('active');
-        btn.classList.add('active');
+        window.scrollTo(0, 0);
+        if (name === 'anagram' && !window._agStarted) { window._agStarted = true; agInit(); }
+        if (name === 'wordsearch' && !window._wsStarted) { window._wsStarted = true; wsInit(); }
+        if (name === 'truefalse' && !window._tfStarted) { window._tfStarted = true; tfInit(); }
+        if (name === 'trivia' && !window._trivStarted) { window._trivStarted = true; trivInit(); }
+        if (name === 'emoji' && !window._emStarted) { window._emStarted = true; emInit(); }
+        if (name === 'wyr' && !window._wyrStarted) { window._wyrStarted = true; wyrInit(); }
+    }
+    function closeGame() {
+        document.querySelectorAll('.game-fullview').forEach(v => v.classList.remove('active'));
+        document.getElementById('games-picker').style.display = '';
+        window.scrollTo(0, 0);
     }
 
     // Photo Bingo — two independent 4×4 boards
@@ -3229,19 +3362,424 @@
             agInit();
         }
 
-        // Initialize when the anagram tab is first shown
-        let agStarted = false;
-        const origShowGameView = window.showGameView;
-        window.showGameView = function(name, btn) {
-            origShowGameView(name, btn);
-            if (name === 'anagram' && !agStarted) { agStarted = true; agInit(); }
-        };
+        window._agStarted = false;
 
         window.agShuffle = agShuffle;
         window.agHint = agHint;
         window.agSkip = agSkip;
         window.agRestart = agRestart;
     })();
+
+// ── WORD SEARCH ──────────────────────────────────────────────────────────────
+(function() {
+    const WS_WORDS = ['ALASKA','GLACIER','SKAGWAY','JUNEAU','SALMON','PUFFIN','WHALE','EAGLE','TOTEM','ORCA','HUSKY','TRACY','FJORD','MUSHER'];
+    const ROWS = 14, COLS = 14;
+    let grid = [], placed = [], found = [], firstSel = null, selCells = [];
+
+    function wsInit() {
+        grid = Array.from({length:ROWS}, () => Array(COLS).fill(''));
+        placed = []; found = [];
+        const dirs = [[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
+        const shuffled = [...WS_WORDS].sort(() => Math.random()-.5);
+        shuffled.forEach(word => {
+            let placed_ok = false;
+            for (let attempt = 0; attempt < 200 && !placed_ok; attempt++) {
+                const dir = dirs[Math.floor(Math.random()*dirs.length)];
+                const r = Math.floor(Math.random()*ROWS);
+                const c = Math.floor(Math.random()*COLS);
+                const cells = [];
+                let ok = true;
+                for (let i = 0; i < word.length; i++) {
+                    const nr = r + dir[0]*i, nc = c + dir[1]*i;
+                    if (nr<0||nr>=ROWS||nc<0||nc>=COLS) { ok=false; break; }
+                    if (grid[nr][nc] && grid[nr][nc] !== word[i]) { ok=false; break; }
+                    cells.push([nr,nc]);
+                }
+                if (ok) {
+                    cells.forEach(([nr,nc],i) => grid[nr][nc] = word[i]);
+                    placed.push({word, cells});
+                    placed_ok = true;
+                }
+            }
+        });
+        // fill blanks
+        const alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) if (!grid[r][c]) grid[r][c] = alpha[Math.floor(Math.random()*26)];
+        firstSel = null; selCells = [];
+        renderWS();
+    }
+
+    function renderWS() {
+        // word chips
+        const chipEl = document.getElementById('ws-word-list');
+        chipEl.innerHTML = WS_WORDS.map(w => `<div class="ws-word-chip${found.includes(w)?' found':''}" id="wsc-${w}">${w}</div>`).join('');
+        // grid
+        const gridEl = document.getElementById('ws-grid');
+        gridEl.style.gridTemplateColumns = `repeat(${COLS}, 28px)`;
+        gridEl.innerHTML = '';
+        const foundCells = new Set();
+        placed.filter(p => found.includes(p.word)).forEach(p => p.cells.forEach(([r,c]) => foundCells.add(r+','+c)));
+        for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) {
+            const key = r+','+c;
+            const isSel = selCells.some(([sr,sc])=>sr===r&&sc===c);
+            const isFirst = firstSel && firstSel[0]===r && firstSel[1]===c;
+            let cls = 'ws-cell';
+            if (foundCells.has(key)) cls += ' found';
+            else if (isFirst) cls += ' first-sel';
+            else if (isSel) cls += ' selected';
+            const cell = document.createElement('div');
+            cell.className = cls;
+            cell.textContent = grid[r][c];
+            cell.dataset.r = r; cell.dataset.c = c;
+            cell.addEventListener('click', () => wsClick(r, c));
+            gridEl.appendChild(cell);
+        }
+        // status
+        document.getElementById('ws-status').textContent = found.length === WS_WORDS.length ? '🎉 All words found!' : `${found.length} / ${WS_WORDS.length} found`;
+    }
+
+    function wsClick(r, c) {
+        const foundCells = new Set();
+        placed.filter(p => found.includes(p.word)).forEach(p => p.cells.forEach(([fr,fc]) => foundCells.add(fr+','+fc)));
+        if (foundCells.has(r+','+c)) return;
+        if (!firstSel) {
+            firstSel = [r,c]; selCells = [[r,c]]; renderWS(); return;
+        }
+        // build line from firstSel to [r,c]
+        const [r0,c0] = firstSel;
+        const dr = r-r0, dc = c-c0;
+        const len = Math.max(Math.abs(dr), Math.abs(dc));
+        if (len === 0) { firstSel = null; selCells = []; renderWS(); return; }
+        // must be straight line
+        if (dr !== 0 && dc !== 0 && Math.abs(dr) !== Math.abs(dc)) { firstSel = [r,c]; selCells = [[r,c]]; renderWS(); return; }
+        const stepR = dr===0?0:dr/Math.abs(dr), stepC = dc===0?0:dc/Math.abs(dc);
+        const line = [];
+        for (let i=0;i<=len;i++) line.push([r0+stepR*i, c0+stepC*i]);
+        const selWord = line.map(([lr,lc])=>grid[lr][lc]).join('');
+        const selWordRev = selWord.split('').reverse().join('');
+        const match = placed.find(p => p.word===selWord || p.word===selWordRev);
+        if (match && !found.includes(match.word)) {
+            found.push(match.word);
+            firstSel = null; selCells = [];
+        } else {
+            firstSel = null; selCells = [];
+        }
+        renderWS();
+    }
+
+    window.wsInit = wsInit;
+})();
+
+// ── TRUE OR FALSE ─────────────────────────────────────────────────────────────
+(function() {
+    const TF_DATA = [
+        { q:'Alaska has more coastline than all other US states combined.', a:true, fact:'Alaska has about 33,904 miles of coastline — more than the rest of the US put together.' },
+        { q:'Juneau is accessible by road from the rest of Alaska.', a:false, fact:'Juneau can only be reached by air or sea — there are no roads connecting it to the Alaskan highway system.' },
+        { q:'The Disney Wonder was the second ship in Disney\'s cruise fleet.', a:true, fact:'Disney Wonder launched in 1999, one year after the Disney Magic.' },
+        { q:'Humpback whales can grow up to 60 feet long.', a:true, fact:'Humpbacks reach 48–63 feet and weigh up to 40 tons. Their songs can be heard up to 20 miles away.' },
+        { q:'Ketchikan is known as the "Salmon Capital of the World."', a:true, fact:'Ketchikan is famous for its salmon fishing and also has the world\'s largest collection of standing totem poles.' },
+        { q:'Alaska became a US state in 1959.', a:true, fact:'Alaska became the 49th state on January 3, 1959. Hawaii followed later that same year.' },
+        { q:'Bald eagles are only found in Alaska.', a:false, fact:'Bald eagles live throughout North America — but Alaska has the highest concentration, with over 30,000.' },
+        { q:'The Klondike Gold Rush started in 1897.', a:true, fact:'Gold was discovered in the Klondike in 1896 and news reached the US in 1897, sparking the rush to Skagway.' },
+        { q:'Orcas are technically a species of dolphin, not a whale.', a:true, fact:'Orcas (killer whales) are the largest member of the dolphin family, Delphinidae.' },
+        { q:'Brown bears can run up to 35 mph.', a:true, fact:'Despite their size, brown bears can sprint at 35 mph — faster than Usain Bolt\'s top speed.' },
+        { q:'Sea otters hold paws while sleeping so they don\'t drift apart.', a:true, fact:'This is called a "raft" — otters also wrap themselves in kelp to anchor in place overnight.' },
+        { q:'Alaska has 17 of the 20 highest mountain peaks in the United States.', a:true, fact:'Denali (20,310 ft) is the tallest in North America, and Alaska dominates the top 20 list.' },
+        { q:'The Disney Wonder\'s horn plays "When You Wish Upon a Star."', a:true, fact:'The horn plays the iconic melody — you\'ll hear it leaving port on embarkation day!' },
+        { q:'Puffins can fly at speeds of up to 55 mph.', a:true, fact:'Tufted puffins flap their wings up to 400 times per minute to reach that speed.' },
+        { q:'Tracy Arm Fjord contains two glaciers: North and South Sawyer.', a:true, fact:'Both Sawyer glaciers are active — you may see ice calving directly into the fjord.' },
+        { q:'The Mendenhall Glacier is growing longer every year.', a:false, fact:'The Mendenhall Glacier has retreated about 1.75 miles since 1958 due to climate change.' },
+        { q:'Skagway was once one of the largest cities in the Pacific Northwest.', a:true, fact:'At the height of the Gold Rush in 1898, Skagway had a population of around 20,000.' },
+        { q:'A group of sea otters is called a "raft."', a:true, fact:'Rafts can contain hundreds of otters resting together on the surface.' },
+        { q:'Alaska is larger than Texas, California, and Montana combined.', a:true, fact:'At 663,268 sq miles, Alaska is truly enormous — about 2.5 times the size of Texas alone.' },
+        { q:'The White Pass & Yukon Route railway was built in under two years.', a:true, fact:'It was completed in 1900 — an extraordinary engineering feat through some of the most rugged terrain on Earth.' },
+    ];
+    let queue = [], current = 0, score = 0, answered = false;
+
+    function tfInit() {
+        queue = [...TF_DATA].sort(() => Math.random()-.5);
+        current = 0; score = 0; answered = false;
+        document.getElementById('tf-done').style.display = 'none';
+        document.querySelectorAll('.tf-btn').forEach(b => b.style.display = '');
+        document.getElementById('tf-feedback').textContent = '';
+        document.getElementById('tf-feedback').className = 'tf-feedback';
+        tfLoad();
+    }
+
+    function tfLoad() {
+        if (current >= queue.length) { tfFinish(); return; }
+        const item = queue[current];
+        answered = false;
+        document.getElementById('tf-card').textContent = item.q;
+        document.getElementById('tf-feedback').textContent = '';
+        document.getElementById('tf-feedback').className = 'tf-feedback';
+        document.getElementById('tf-progress-label').textContent = `Question ${current+1} of ${queue.length}`;
+        document.getElementById('tf-score-label').textContent = `Score: ${score}`;
+        document.getElementById('tf-progress-fill').style.width = `${(current/queue.length)*100}%`;
+        document.querySelectorAll('.tf-btn').forEach(b => { b.disabled = false; b.style.opacity = ''; });
+    }
+
+    function tfAnswer(ans) {
+        if (answered) return;
+        answered = true;
+        const item = queue[current];
+        const correct = ans === item.a;
+        if (correct) score++;
+        const fb = document.getElementById('tf-feedback');
+        fb.className = 'tf-feedback ' + (correct ? 'correct' : 'wrong');
+        fb.textContent = (correct ? '✅ Correct! ' : '❌ Wrong! ') + item.fact;
+        document.querySelectorAll('.tf-btn').forEach(b => { b.disabled = true; b.style.opacity = '.5'; });
+        setTimeout(() => { current++; tfLoad(); }, 2200);
+    }
+
+    function tfFinish() {
+        document.getElementById('tf-done').style.display = 'block';
+        document.getElementById('tf-progress-fill').style.width = '100%';
+        const pct = Math.round((score/queue.length)*100);
+        document.getElementById('tf-done-title').textContent = `${score} / ${queue.length} correct`;
+        const msg = pct===100?'Perfect! You\'re an Alaska authority. 🏆':pct>=80?'Excellent Alaska knowledge!':pct>=60?'Solid — you know your stuff.':'Keep reading those flashcards!';
+        document.getElementById('tf-done-sub').textContent = msg;
+        document.querySelectorAll('.tf-btn').forEach(b => b.style.display = 'none');
+    }
+
+    window.tfInit = tfInit;
+    window.tfAnswer = tfAnswer;
+})();
+
+// ── TRIVIA ────────────────────────────────────────────────────────────────────
+(function() {
+    const TRIV_DATA = [
+        { q:'What year did Alaska become a US state?', correct:'1959', wrong:['1945','1963','1972'] },
+        { q:'What does "Palo" mean? (The name of the Disney adults-only restaurant)', correct:'The long pole used by Venetian gondoliers', wrong:['Sunset on the water','Fine Italian dining','Ocean breeze'] },
+        { q:'Which city is Alaska\'s capital?', correct:'Juneau', wrong:['Anchorage','Fairbanks','Skagway'] },
+        { q:'How fast can a brown bear run?', correct:'35 mph', wrong:['20 mph','45 mph','28 mph'] },
+        { q:'What is a group of floating sea otters called?', correct:'A raft', wrong:['A pod','A herd','A float'] },
+        { q:'The White Pass Railway was built during which event?', correct:'The Klondike Gold Rush', wrong:['World War II','The Alaska Purchase','Building the Alaska Railroad'] },
+        { q:'Ketchikan is best known as the world capital of what?', correct:'Salmon', wrong:['Crab','Timber','Gold'] },
+        { q:'Roughly how many glaciers does Alaska have?', correct:'Over 100,000', wrong:['About 5,000','Around 500','Exactly 50'] },
+        { q:'What song does the Disney Wonder\'s horn play?', correct:'When You Wish Upon a Star', wrong:['It\'s a Small World','Under the Sea','Be Our Guest'] },
+        { q:'Scientifically, orcas are a species of what?', correct:'Dolphin', wrong:['Whale','Shark','Porpoise'] },
+        { q:'What are the two glaciers in Tracy Arm Fjord called?', correct:'North & South Sawyer', wrong:['North & South Mendenhall','East & West Juneau','Upper & Lower Tracy'] },
+        { q:'How many bald eagles live in Alaska?', correct:'Over 30,000', wrong:['About 5,000','Around 1,000','Over 500,000'] },
+        { q:'What famous dessert at Palo must be ordered at the very start of your meal?', correct:'The chocolate soufflé', wrong:['Tiramisu','Panna cotta','Cannoli'] },
+        { q:'How many hours of daylight does Juneau get in mid-June?', correct:'About 19 hours', wrong:['About 12 hours','About 16 hours','About 22 hours'] },
+        { q:'What does "musher" refer to in Alaska?', correct:'A dog sled driver', wrong:['A gold prospector','A fishing guide','A totem pole carver'] },
+    ];
+    let queue = [], current = 0, score = 0, answered = false;
+
+    function trivInit() {
+        queue = [...TRIV_DATA].sort(() => Math.random()-.5);
+        current = 0; score = 0; answered = false;
+        document.getElementById('triv-done').style.display = 'none';
+        document.getElementById('triv-feedback').textContent = '';
+        document.getElementById('triv-feedback').className = 'tf-feedback';
+        trivLoad();
+    }
+
+    function trivLoad() {
+        if (current >= queue.length) { trivFinish(); return; }
+        const item = queue[current];
+        answered = false;
+        document.getElementById('triv-question').textContent = item.q;
+        document.getElementById('triv-progress-label').textContent = `Question ${current+1} of ${queue.length}`;
+        document.getElementById('triv-score-label').textContent = `Score: ${score}`;
+        document.getElementById('triv-progress-fill').style.width = `${(current/queue.length)*100}%`;
+        document.getElementById('triv-feedback').textContent = '';
+        document.getElementById('triv-feedback').className = 'tf-feedback';
+        // shuffle choices
+        const choices = [item.correct, ...item.wrong].sort(() => Math.random()-.5);
+        const el = document.getElementById('triv-choices');
+        el.innerHTML = '';
+        choices.forEach(ch => {
+            const btn = document.createElement('button');
+            btn.className = 'triv-choice';
+            btn.textContent = ch;
+            btn.addEventListener('click', () => trivAnswer(ch, item.correct));
+            el.appendChild(btn);
+        });
+    }
+
+    function trivAnswer(chosen, correct) {
+        if (answered) return;
+        answered = true;
+        const isCorrect = chosen === correct;
+        if (isCorrect) score++;
+        document.querySelectorAll('.triv-choice').forEach(btn => {
+            btn.classList.add('disabled');
+            if (btn.textContent === correct) btn.classList.add('correct');
+            else if (btn.textContent === chosen && !isCorrect) btn.classList.add('wrong');
+        });
+        const fb = document.getElementById('triv-feedback');
+        fb.className = 'tf-feedback ' + (isCorrect ? 'correct' : 'wrong');
+        fb.textContent = isCorrect ? '✅ Correct!' : `❌ The answer was: ${correct}`;
+        setTimeout(() => { current++; trivLoad(); }, 2000);
+    }
+
+    function trivFinish() {
+        document.getElementById('triv-done').style.display = 'block';
+        document.getElementById('triv-progress-fill').style.width = '100%';
+        const pct = Math.round((score/queue.length)*100);
+        document.getElementById('triv-done-title').textContent = `${score} / ${queue.length} correct (${pct}%)`;
+        const msg = pct===100?'Flawless. Alaska PhD level. 🎓':pct>=80?'Excellent — you really know this trip!':pct>=60?'Good effort — a few surprises in there.':'The flashcard section is your friend 😄';
+        document.getElementById('triv-done-sub').textContent = msg;
+    }
+
+    window.trivInit = trivInit;
+})();
+
+// ── EMOJI DECODER ─────────────────────────────────────────────────────────────
+(function() {
+    const EM_DATA = [
+        { emoji:'🐻🐟', answer:'Bear Catching Salmon', wrong:['Brown Bear Sleeping','Salmon Running Upstream','Fishing at Dawn'] },
+        { emoji:'🚂⛰️', answer:'White Pass Railway', wrong:['Mountain Highway','Gold Rush Train','Alaska Railroad'] },
+        { emoji:'❄️🏔️🚢', answer:'Glacier Day', wrong:['Snowy Mountain Cruise','Winter Sailing','Ice Climbing'] },
+        { emoji:'🦅🇺🇸', answer:'Bald Eagle', wrong:['American Flag Bird','National Park','Patriot Hawk'] },
+        { emoji:'🐕🛷❄️', answer:'Dog Sledding', wrong:['Husky in Snow','Sled Racing','Winter Dog Walk'] },
+        { emoji:'✈️🌊🏔️', answer:'Glacier Seaplane Tour', wrong:['Ocean Flight','Mountain Flyover','Alaskan Airways'] },
+        { emoji:'🐋💦', answer:'Whale Watching', wrong:['Ocean Swimming','Whale Breach','Blue Whale Swim'] },
+        { emoji:'🏴‍☠️🚢🎉', answer:'Pirate Night', wrong:['Ship Party','Pirate Cruise','Costume Ball'] },
+        { emoji:'💚🌌✨', answer:'Northern Lights', wrong:['Green Fireworks','Starry Night','Aurora Storm'] },
+        { emoji:'👑🐭🚢', answer:'Disney Wonder', wrong:['Mickey Mouse Cruise','Royal Ship','Princess Voyage'] },
+        { emoji:'🪵🪓🏆', answer:'Lumberjack Show', wrong:['Woodchopping Contest','Timber Sports','Log Race'] },
+        { emoji:'🥂🍝🌊', answer:'Palo Dinner', wrong:['Romantic Cruise Meal','Italian Night','Dinner at Sea'] },
+        { emoji:'⛏️💰🏃', answer:'Klondike Gold Rush', wrong:['Mining Contest','Treasure Hunt','Gold Fever'] },
+        { emoji:'🦦🤝', answer:'Sea Otters Holding Paws', wrong:['Otter Friends','Hand Holding Animals','Sea Otter Raft'] },
+        { emoji:'🌿🪵🗿', answer:'Totem Pole', wrong:['Jungle Carving','Wood Sculpture','Native Art'] },
+    ];
+    let queue = [], current = 0, score = 0, answered = false;
+
+    function emInit() {
+        queue = [...EM_DATA].sort(() => Math.random()-.5);
+        current = 0; score = 0; answered = false;
+        document.getElementById('em-done').style.display = 'none';
+        document.getElementById('em-feedback').textContent = '';
+        document.getElementById('em-feedback').className = 'tf-feedback';
+        emLoad();
+    }
+
+    function emLoad() {
+        if (current >= queue.length) { emFinish(); return; }
+        const item = queue[current];
+        answered = false;
+        document.getElementById('em-display').textContent = item.emoji;
+        document.getElementById('em-progress-label').textContent = `Puzzle ${current+1} of ${queue.length}`;
+        document.getElementById('em-score-label').textContent = `Score: ${score}`;
+        document.getElementById('em-progress-fill').style.width = `${(current/queue.length)*100}%`;
+        document.getElementById('em-feedback').textContent = '';
+        document.getElementById('em-feedback').className = 'tf-feedback';
+        const choices = [item.answer, ...item.wrong].sort(() => Math.random()-.5);
+        const el = document.getElementById('em-choices');
+        el.innerHTML = '';
+        choices.forEach(ch => {
+            const btn = document.createElement('button');
+            btn.className = 'triv-choice';
+            btn.textContent = ch;
+            btn.addEventListener('click', () => emAnswer(ch, item.answer));
+            el.appendChild(btn);
+        });
+    }
+
+    function emAnswer(chosen, correct) {
+        if (answered) return;
+        answered = true;
+        const isCorrect = chosen === correct;
+        if (isCorrect) score++;
+        document.querySelectorAll('#em-choices .triv-choice').forEach(btn => {
+            btn.classList.add('disabled');
+            if (btn.textContent === correct) btn.classList.add('correct');
+            else if (btn.textContent === chosen && !isCorrect) btn.classList.add('wrong');
+        });
+        const fb = document.getElementById('em-feedback');
+        fb.className = 'tf-feedback ' + (isCorrect ? 'correct' : 'wrong');
+        fb.textContent = isCorrect ? '✅ You got it!' : `❌ It was: ${correct}`;
+        setTimeout(() => { current++; emLoad(); }, 1800);
+    }
+
+    function emFinish() {
+        document.getElementById('em-done').style.display = 'block';
+        document.getElementById('em-progress-fill').style.width = '100%';
+        const pct = Math.round((score/queue.length)*100);
+        document.getElementById('em-done-title').textContent = `${score} / ${queue.length} decoded (${pct}%)`;
+        const msg = pct===100?'Emoji genius! Nothing gets past you. 🎯':pct>=80?'Sharp decoder — you speak emoji fluently.':pct>=60?'Not bad — a few tricky ones in there!':'Emojis: 1, You: 0. Rematch?';
+        document.getElementById('em-done-sub').textContent = msg;
+    }
+
+    window.emInit = emInit;
+})();
+
+// ── WOULD YOU RATHER ──────────────────────────────────────────────────────────
+(function() {
+    const WYR_DATA = [
+        { a:'Ride the White Pass Railway through the mountains', b:'Fly in a seaplane over 5 glaciers', funA:'Classic Gold Rush history at 2,865 ft elevation.', funB:'90 minutes of pure aerial glacier magic.' },
+        { a:'See a brown bear fishing in the wild', b:'Watch a humpback whale breach out of the water', funA:'Bears are everywhere in Alaska — but catching one fishing is special.', funB:'A full breach is a once-in-a-lifetime sight.' },
+        { a:'Eat fresh Alaskan king crab for every dinner', b:'Eat fresh Alaskan salmon for every dinner', funA:'King crab is legendary — but your wallet might cry.', funB:'Salmon is Alaska\'s pride and joy on the plate.' },
+        { a:'Drive a dog sled team through the snow', b:'Pilot a seaplane over Tracy Arm Fjord', funA:'You\'d be a musher! The dogs do most of the work though.', funB:'The views from 1,000 ft over the fjord are unreal.' },
+        { a:'Have Palo dinner every single night of the cruise', b:'Have unlimited Mickey Bars any time you want all week', funA:'$55/pp × 7 nights = $385 of Italian fine dining.', funB:'Mickey Bars on the pool deck in Alaska? Iconic.' },
+        { a:'See the Northern Lights dancing over the ship', b:'Watch a glacier calve a building-sized chunk of ice', funA:'Rare in June — which makes it even more magical.', funB:'The crack and boom of calving ice is something you never forget.' },
+        { a:'Win the Lumberjack Show axe-throwing contest', b:'Beat the top musher\'s time on a dog sled run', funA:'Axes: yes. Coordination: maybe not.', funB:'The record pace is 30 mph. With huskies.' },
+        { a:'Have Mickey Mouse as your personal tour guide for the whole trip', b:'Have every excursion on the trip be completely free', funA:'The world\'s most famous mouse showing you Alaska? Priceless.', funB:'Free seaplane + free railway + free lumberjack show = 😍' },
+        { a:'Find a genuine gold nugget in Skagway', b:'Spot 10 bald eagles in a single afternoon', funA:'Gold nuggets found in Skagway sell for hundreds of dollars.', funB:'10 eagles would make you a legitimate wildlife hero.' },
+        { a:'Swim with sea otters in Alaskan waters', b:'Kayak right up alongside a glacier', funA:'Water temperature: 45°F. Worth it? Absolutely.', funB:'Glaciers glow electric blue up close. Insane sight.' },
+        { a:'Live in Alaska for one full year', b:'Cruise the world for one full year', funA:'Winter: 5 hours of daylight. But the moose visits compensate.', funB:'350 days at sea, 50 ports, infinite sunsets.' },
+        { a:'Have Tracy Arm Fjord completely to yourself — no other boats', b:'Have perfect sunny 75°F weather at every single port', funA:'The fjord in total silence would be otherworldly.', funB:'Let\'s be honest — Alaska in the sun is extraordinary.' },
+        { a:'Get a private character breakfast with Mickey & Minnie', b:'Get a behind-the-scenes tour of the entire Disney Wonder', funA:'Mickey in his Alaska flannel at your personal breakfast table.', funB:'The ship has a morgue, a full hospital, and enough food to feed a small city.' },
+        { a:'Spend a day with a Tlingit elder learning Alaska Native culture', b:'Spend a day with an Alaskan bush pilot flying remote routes', funA:'The Tlingit have lived here for 10,000 years — the stories would be incredible.', funB:'Routes that don\'t appear on any map. Just you and wilderness.' },
+        { a:'Arrive at every port by helicopter', b:'Leave every port by seaplane', funA:'Helicopter arrivals: maximum dramatic entrance.', funB:'Seaplane departures: the most Alaska exit possible.' },
+    ];
+    let queue = [], current = 0, chosen = false;
+
+    function wyrInit() {
+        queue = [...WYR_DATA].sort(() => Math.random()-.5);
+        current = 0; chosen = false;
+        document.getElementById('wyr-done').style.display = 'none';
+        document.getElementById('wyr-result').style.display = 'none';
+        wyrLoad();
+    }
+
+    function wyrLoad() {
+        if (current >= queue.length) { wyrFinish(); return; }
+        const item = queue[current];
+        chosen = false;
+        document.getElementById('wyr-progress-label').textContent = `${current+1} of ${queue.length}`;
+        document.getElementById('wyr-progress-fill').style.width = `${(current/queue.length)*100}%`;
+        document.getElementById('wyr-result').style.display = 'none';
+        const el = document.getElementById('wyr-options');
+        el.innerHTML = `
+            <div class="wyr-option" id="wyr-a" onclick="wyrPick('a')">${item.a}</div>
+            <div class="wyr-or">— or —</div>
+            <div class="wyr-option" id="wyr-b" onclick="wyrPick('b')">${item.b}</div>
+        `;
+    }
+
+    function wyrPick(pick) {
+        if (chosen) return;
+        chosen = true;
+        const item = queue[current];
+        document.getElementById('wyr-a').classList.toggle('chosen', pick==='a');
+        document.getElementById('wyr-b').classList.toggle('chosen', pick==='b');
+        document.getElementById('wyr-a').onclick = null;
+        document.getElementById('wyr-b').onclick = null;
+        const result = document.getElementById('wyr-result');
+        result.style.display = 'block';
+        result.innerHTML = `<strong>${pick==='a'?'Option A':'Option B'}:</strong> ${pick==='a'?item.funA:item.funB}<br><br><button class="wyr-next-btn" onclick="wyrNext()">Next →</button>`;
+    }
+
+    function wyrNext() {
+        current++;
+        wyrLoad();
+    }
+
+    function wyrFinish() {
+        document.getElementById('wyr-done').style.display = 'block';
+        document.getElementById('wyr-result').style.display = 'none';
+        document.getElementById('wyr-progress-fill').style.width = '100%';
+        document.getElementById('wyr-options').innerHTML = '';
+    }
+
+    window.wyrInit = wyrInit;
+    window.wyrPick = wyrPick;
+    window.wyrNext = wyrNext;
+})();
 
 </script>
 </body>
