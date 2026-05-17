@@ -678,32 +678,23 @@
     <!-- ==================== HOME ==================== -->
     <section id="section-home" class="section active">
 
-        <!-- Quick nav tiles -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
-            <div class="card" style="cursor:pointer;text-align:center;padding:18px 8px;margin-bottom:0;-webkit-tap-highlight-color:transparent;" onclick="showSection('plans',document.querySelector('.nav-item[onclick*=plans]'))">
-                <div style="font-size:26px;margin-bottom:6px;">🗓️</div>
-                <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Trip</div>
-                <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Day-by-day schedule</div>
+        <!-- FIFA — first, because it starts June 11 before the cruise -->
+        <div class="card" style="background:linear-gradient(135deg,#1a4731 0%,#2d6a4f 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showPage('worldcup')">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Happening First · Starts June 11</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                <span style="font-size:28px;">⚽</span>
+                <div>
+                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">FIFA World Cup 2026</div>
+                    <div style="font-size:12px;opacity:.65;">USA · Canada · Mexico · 48 nations</div>
+                </div>
             </div>
-            <div class="card" style="cursor:pointer;text-align:center;padding:18px 8px;margin-bottom:0;-webkit-tap-highlight-color:transparent;" onclick="showPage('wonder')">
-                <div style="font-size:26px;margin-bottom:6px;">🛳️</div>
-                <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Ship Guide</div>
-                <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Disney Wonder tips</div>
-            </div>
-            <div class="card" style="cursor:pointer;text-align:center;padding:18px 8px;margin-bottom:0;-webkit-tap-highlight-color:transparent;" onclick="showSection('alaska',document.querySelector('.nav-item[onclick*=alaska]'))">
-                <div style="font-size:26px;margin-bottom:6px;">🦅</div>
-                <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Alaska 101</div>
-                <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Wildlife · flashcards</div>
-            </div>
-            <div class="card" style="cursor:pointer;text-align:center;padding:18px 8px;margin-bottom:0;-webkit-tap-highlight-color:transparent;" onclick="showSection('games',document.querySelector('.nav-item[onclick*=games]'))">
-                <div style="font-size:26px;margin-bottom:6px;">🎮</div>
-                <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Games</div>
-                <div style="font-size:11px;color:var(--text-light);margin-top:2px;">8 games to play</div>
-            </div>
+            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Vancouver host city · Attend Jun 13: Australia vs. Türkiye 9pm</div>
+            <div style="font-size:12px;opacity:.55;">Schedule · Fan Festival · BC Place tips →</div>
         </div>
 
+        <!-- Disney Wonder -->
         <div class="card" style="background:linear-gradient(135deg,#0d1f35 0%,#1e3f68 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showPage('wonder')">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Your Ship</div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Your Ship · June 15–22</div>
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
                 <span style="font-size:28px;">🛳️</span>
                 <div>
@@ -715,19 +706,48 @@
             <div style="font-size:12px;opacity:.55;">Dining · Shows · Kids Clubs · Alaska tips →</div>
         </div>
 
-        <!-- World Cup card -->
-        <div class="card" style="background:linear-gradient(135deg,#1a4731 0%,#2d6a4f 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showPage('worldcup')">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Happening While You're There</div>
+        <!-- Trip Schedule -->
+        <div class="card" style="background:linear-gradient(135deg,#3a2000 0%,#7a4a10 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showSection('plans',document.querySelector('.nav-item[onclick*=plans]'))">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Full Itinerary · Jun 11–22</div>
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                <span style="font-size:28px;">⚽</span>
+                <span style="font-size:28px;">🗓️</span>
                 <div>
-                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">FIFA World Cup 2026</div>
-                    <div style="font-size:12px;opacity:.65;">USA · Canada · Mexico</div>
+                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Trip Schedule</div>
+                    <div style="font-size:12px;opacity:.65;">Phoenix → Vancouver → Alaska → Home</div>
                 </div>
             </div>
-            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Vancouver is a host city · Matches during your stay</div>
-            <div style="font-size:12px;opacity:.55;">Schedule · BC Place · Tips for attending →</div>
+            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">4 days Vancouver · 7 nights at sea · 4 ports</div>
+            <div style="font-size:12px;opacity:.55;">Day-by-day · Flights · Ports · Activities →</div>
         </div>
+
+        <!-- Alaska 101 -->
+        <div class="card" style="background:linear-gradient(135deg,#062a38 0%,#0f5068 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showSection('alaska',document.querySelector('.nav-item[onclick*=alaska]'))">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Learn Before You Go</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                <span style="font-size:28px;">🦅</span>
+                <div>
+                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Alaska 101</div>
+                    <div style="font-size:12px;opacity:.65;">Wildlife · Geography · History · Culture</div>
+                </div>
+            </div>
+            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">24 animals · 37+ flashcards · Mad Libs</div>
+            <div style="font-size:12px;opacity:.55;">Spot animals · Study up · Play games →</div>
+        </div>
+
+        <!-- Games -->
+        <div class="card" style="background:linear-gradient(135deg,#1a0a38 0%,#3d1878 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showSection('games',document.querySelector('.nav-item[onclick*=games]'))">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Keep the Fun Going</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                <span style="font-size:28px;">🎮</span>
+                <div>
+                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Games</div>
+                    <div style="font-size:12px;opacity:.65;">8 games for the whole trip</div>
+                </div>
+            </div>
+            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Photo Bingo · Port Missions · Wildlife tracking</div>
+            <div style="font-size:12px;opacity:.55;">Wilderness + ship boards · Team challenges →</div>
+        </div>
+
     </section>
 
     <!-- ==================== CREW ==================== -->
@@ -1073,6 +1093,7 @@
       <div class="event-item tappable" onclick="openExpDetail('white-pass')"><div class="event-time">8:00 – 10:45 AM</div><div class="event-detail"><div class="event-name">White Pass Scenic Railway (SW09)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Payton · River · Christopher · Katherine · Joseph · Veronica · Sedona</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('white-pass')"><div class="event-time">8:00 – 10:45 AM</div><div class="event-detail"><div class="event-name">White Pass Scenic Railway (SW09)</div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Sade · Eli · Emory · Sean Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('mushers-camp')"><div class="event-time">1:30 – 5:00 PM</div><div class="event-detail"><div class="event-name">Musher's Camp &amp; Sled Dog Experience (SW24)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Joseph · Payton · Veronica · River · Katherine · Sedona · Christopher</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
+      <div class="event-item"><div class="event-time">3:00 PM</div><div class="event-detail"><div class="event-name">⚽ World Cup: 🇨🇦 Canada vs. 🇶🇦 Qatar · BC Place, Vancouver · Group B</div><div style="font-size:11px;color:var(--glacier);margin-top:2px;">Watch on ship screens if back on board — Canada's first group match!</div></div></div>
       <div class="event-item milestone"><div class="event-time">8:00 PM</div><div class="event-detail"><div class="event-name">🛳️ All Aboard</div></div></div>
     </div>
   </div>
@@ -1187,6 +1208,7 @@
       <div class="event-list-title">Today's Schedule</div>
       <div class="event-item"><div class="event-time">10:30 – 11:20 AM</div><div class="event-detail"><div class="event-name">50-Minute Massage · Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Katherine Ortiz</span></div></div></div>
       <div class="event-item"><div class="event-time">3:00 – 4:00 PM</div><div class="event-detail"><div class="event-name">Mixology <span class="ev-tag ev-tag-warn">21+</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Christopher · Katherine · Veronica · Joseph</span></div></div></div>
+      <div class="event-item"><div class="event-time">6:00 PM</div><div class="event-detail"><div class="event-name">⚽ World Cup: 🇳🇿 New Zealand vs. 🇪🇬 Egypt · BC Place, Vancouver · Group G</div><div style="font-size:11px;color:var(--glacier);margin-top:2px;">Last sea day — World Cup at the ship pub? Yes please.</div></div></div>
     </div>
   </div>
 </div>
@@ -1265,6 +1287,7 @@
             <div class="acc-body collapsed">
                 <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">🌉 Capilano Suspension Bridge — Treetops, Cliffwalk, Raptors Ridge</div>
                 <div class="activity-chip" style="margin-bottom:6px;">🚠 Grouse Mountain — grizzly bears, gondola, Lumberjack Show</div>
+                <div class="activity-chip" style="margin-bottom:6px;background:#e8f5ee;color:#1a5c38;font-weight:500;">⚽ Tonight: Australia vs. Türkiye · BC Place · 9:00 PM · Group D (World Cup!)</div>
                 <div style="font-size:11px;color:var(--glacier);padding:6px 2px;font-style:italic;">🔗 Alaska preview: real grizzly bears + lumberjack show before Ketchikan's version</div>
             </div>
         </div>
@@ -1771,6 +1794,12 @@
                 <div class="page-header-sub">June 11 – July 19, 2026 · USA · Canada · Mexico</div>
             </div>
         </div>
+        <div class="section-header">What is the World Cup?</div>
+        <div class="tip-item"><span class="tip-icon">⚽</span><strong>The FIFA World Cup</strong> is the biggest sporting event on the planet. Nearly every country on Earth tries to qualify — only 48 make the cut for 2026. It happens every four years. The last one was 2022 in Qatar.</div>
+        <div class="tip-item"><span class="tip-icon">🏆</span><strong>FIFA</strong> stands for Fédération Internationale de Football Association — the organization that governs global soccer. Think of them like the NFL, except every nation on Earth is a member.</div>
+        <div class="tip-item"><span class="tip-icon">🌎</span><strong>How it works:</strong> 48 teams are sorted into 12 groups of 4. Each team plays the other 3 in its group. The top 2 from each group — plus the 8 best 3rd-place teams — advance to a 32-team knockout bracket. One loss and you're done, all the way to the final.</div>
+        <div class="tip-item" style="margin-bottom:16px;"><span class="tip-icon">🎉</span><strong>Why it matters:</strong> Players like Messi, Ronaldo, and Mbappé spend their entire careers chasing this trophy. Fans from every country travel the world to watch their team. In 2026, it comes to your backyard — and you'll be there for it.</div>
+
         <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">You're There For It</div>The 2026 FIFA World Cup is the first hosted across three countries with 48 teams — the largest ever. Vancouver is a host city and your pre-cruise stay (June 11–15) overlaps with the group stage.</div>
         <table class="info-table">
             <tr><td>Teams</td><td>48 nations</td></tr>
@@ -1780,6 +1809,37 @@
             <tr><td>BC Place Capacity</td><td>~54,000</td></tr>
             <tr><td>Your Overlap</td><td>June 11–15 · Group stage</td></tr>
         </table>
+
+            <div class="section-header" style="margin-top:20px;">BC Place Match Schedule</div>
+            <div style="font-size:12px;color:var(--text-light);margin-bottom:10px;margin-top:-8px;">5 group stage matches at BC Place · Vancouver</div>
+
+            <table class="info-table" style="margin-bottom:8px;">
+                <tr style="background:#e8f5ee;"><td colspan="2" style="font-size:11px;font-weight:700;letter-spacing:.5px;color:#1a5c38;">✅ IN VANCOUVER — You can attend this one!</td></tr>
+                <tr><td>Date &amp; Time</td><td><strong>Sat, June 13 · 9:00 PM</strong></td></tr>
+                <tr><td>Match</td><td>🇦🇺 Australia vs. 🇹🇷 Türkiye</td></tr>
+                <tr><td>Group</td><td>Group D · BC Place</td></tr>
+                <tr><td>Note</td><td style="font-size:11px;color:var(--text-light);">Evening match — fits after a North Shore day</td></tr>
+            </table>
+
+            <table class="info-table" style="margin-bottom:8px;">
+                <tr style="background:#e8eef5;"><td colspan="2" style="font-size:11px;font-weight:700;letter-spacing:.5px;color:#1a3a5c;">🛳️ ON THE SHIP — Watch at the pub or a lounge screen</td></tr>
+                <tr><td>Date &amp; Time</td><td><strong>Thu, June 18 · 3:00 PM</strong></td></tr>
+                <tr><td>Match</td><td>🇨🇦 Canada vs. 🇶🇦 Qatar</td></tr>
+                <tr><td>Group</td><td>Group B · Skagway port day</td></tr>
+            </table>
+
+            <table class="info-table" style="margin-bottom:8px;">
+                <tr style="background:#e8eef5;"><td colspan="2" style="font-size:11px;font-weight:700;letter-spacing:.5px;color:#1a3a5c;">🛳️ ON THE SHIP — Last sea day, perfect for the pub</td></tr>
+                <tr><td>Date &amp; Time</td><td><strong>Sun, June 21 · 6:00 PM</strong></td></tr>
+                <tr><td>Match</td><td>🇳🇿 New Zealand vs. 🇪🇬 Egypt</td></tr>
+                <tr><td>Group</td><td>Group G · Last night at sea</td></tr>
+            </table>
+
+            <table class="info-table" style="margin-bottom:20px;">
+                <tr><td colspan="2" style="font-size:11px;color:var(--text-light);">After your cruise</td></tr>
+                <tr><td>Jun 24 · Noon</td><td>🇨🇭 Switzerland vs. 🇨🇦 Canada · Group B</td></tr>
+                <tr><td>Jun 26 · 8:00 PM</td><td>🇧🇪 Belgium vs. 🇳🇿 New Zealand · Group G</td></tr>
+            </table>
 
             <div class="section-header">Vancouver at BC Place</div>
             <div class="tip-item"><span class="tip-icon">🏟️</span><strong>BC Place Stadium</strong> is Vancouver's domed stadium in the heart of downtown — about 20–25 min from River Rock Hotel in Richmond. It hosted the 2010 Winter Olympics closing ceremony and the 2015 Women's World Cup final.</div>
@@ -1799,7 +1859,7 @@
 
             <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🌍</div><div><div class="fact-title">Why Three Countries?</div><div class="fact-body">The 2026 World Cup bid — called "United 2026" — was a joint proposal by the USA, Canada, and Mexico. It won over Morocco's bid in 2018. Sharing the tournament across North America means shorter travel for US and Canadian fans and an enormous economic boost for all three countries.</div></div></div>
             <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🇲🇽</div><div><div class="fact-title">Mexico Makes History</div><div class="fact-body">Mexico becomes the first country to host matches at three separate World Cups (1970, 1986, and 2026). The opening match is at the legendary Estadio Azteca in Mexico City on June 11 — the same day your family arrives in Vancouver.</div></div></div>
-            <div class="fact-card" style="margin-bottom:20px;"><div class="fact-icon">📺</div><div><div class="fact-title">On the Ship</div><div class="fact-body">The World Cup group stage runs through early July — you'll still be sailing during key matches. Disney Wonder has TV screens in bars and lounges that will almost certainly be showing matches. A World Cup game on a cruise ship in Alaska is a pretty unique experience.</div></div></div>
+            <div class="fact-card" style="margin-bottom:20px;"><div class="fact-icon">📺</div><div><div class="fact-title">On the Ship</div><div class="fact-body">The group stage runs right through your cruise. Two BC Place matches fall during your sailing — Canada vs. Qatar (Jun 18, Skagway day, 3pm) and New Zealand vs. Egypt (Jun 21, last sea day, 6pm). Disney Wonder's pub and lounges will almost certainly have screens on. Watching World Cup soccer on a cruise ship in Alaska sounds like a pretty great story.</div></div></div>
     </section>
 
 </main>
