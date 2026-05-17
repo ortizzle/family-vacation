@@ -678,7 +678,21 @@
     <!-- ==================== HOME ==================== -->
     <section id="section-home" class="section active">
 
-        <!-- FIFA — first, because it starts June 11 before the cruise -->
+        <!-- Trip Schedule — first, it's the master reference -->
+        <div class="card" style="background:linear-gradient(135deg,#3a2000 0%,#7a4a10 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showSection('plans',document.querySelector('.nav-item[onclick*=plans]'))">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Full Itinerary · Jun 11–22</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                <span style="font-size:28px;">🗓️</span>
+                <div>
+                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Trip Schedule</div>
+                    <div style="font-size:12px;opacity:.65;">Phoenix → Vancouver → Alaska → Home</div>
+                </div>
+            </div>
+            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">4 days Vancouver · 7 nights at sea · 4 ports</div>
+            <div style="font-size:12px;opacity:.55;">Day-by-day · Flights · Ports · Activities →</div>
+        </div>
+
+        <!-- FIFA — starts June 11, first event of the trip -->
         <div class="card" style="background:linear-gradient(135deg,#1a4731 0%,#2d6a4f 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showPage('worldcup')">
             <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Happening First · Starts June 11</div>
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
@@ -704,20 +718,6 @@
             </div>
             <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Alaska itinerary · June 15–22, 2026</div>
             <div style="font-size:12px;opacity:.55;">Dining · Shows · Kids Clubs · Alaska tips →</div>
-        </div>
-
-        <!-- Trip Schedule -->
-        <div class="card" style="background:linear-gradient(135deg,#3a2000 0%,#7a4a10 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showSection('plans',document.querySelector('.nav-item[onclick*=plans]'))">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Full Itinerary · Jun 11–22</div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                <span style="font-size:28px;">🗓️</span>
-                <div>
-                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Trip Schedule</div>
-                    <div style="font-size:12px;opacity:.65;">Phoenix → Vancouver → Alaska → Home</div>
-                </div>
-            </div>
-            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">4 days Vancouver · 7 nights at sea · 4 ports</div>
-            <div style="font-size:12px;opacity:.55;">Day-by-day · Flights · Ports · Activities →</div>
         </div>
 
         <!-- Alaska 101 -->
@@ -1073,18 +1073,18 @@
     <div class="did-you-know"><div class="dyk-label">Did You Know?</div>During the 1898 Gold Rush, over 100,000 prospectors flooded through Skagway. The White Pass &amp; Yukon Route railway you're riding was built in just 26 months through some of the most rugged terrain in North America.</div>
     <div class="edu-section">
       <div class="edu-title">Top Highlights</div>
-      <div class="highlight-grid">
-        <div class="highlight-item"><span class="highlight-icon">🚂</span>White Pass Railway</div>
-        <div class="highlight-item"><span class="highlight-icon">🐕</span>Musher's Camp</div>
-        <div class="highlight-item"><span class="highlight-icon">🏛️</span>Gold Rush NHP</div>
-        <div class="highlight-item"><span class="highlight-icon">🎭</span>Days of '98 Show</div>
-        <div class="highlight-item"><span class="highlight-icon">🚶</span>Broadway St shops</div>
-        <div class="highlight-item"><span class="highlight-icon">⛏️</span>Gold panning</div>
-      </div>
+      <div class="tip-item"><span class="tip-icon">🚂</span><strong>White Pass Scenic Railway</strong> ✅ Booked for all three families (8:00–10:45 AM — see Today's Schedule). The narrow-gauge train climbs 2,865 ft in 20 miles through sheer granite cliffs, hand-drilled tunnels, and suspension bridges. The same route 100,000 gold-rush prospectors struggled up on foot in 1898. Views are jaw-dropping — cameras out the whole way.</div>
+      <div class="tip-item"><span class="tip-icon">🐕</span><strong>Musher's Camp &amp; Sled Dogs</strong> ✅ Booked for Ortiz + Stallings (1:30–5:00 PM — see Today's Schedule). Meet real Iditarod racing dogs, learn how mushers train and care for them, and take a cart ride through the forest. Kids can hold and pet the puppies. Consistently one of the most-loved excursions of the whole cruise.</div>
+      <div class="tip-item"><span class="tip-icon">🏛️</span><strong>Klondike Gold Rush NHP</strong> Free, self-guided, right downtown. Park rangers in period costume give talks about Soapy Smith, the Chilkoot Trail, and life in 1898 Skagway. The visitor center film (~30 min) is excellent context before walking Broadway Street. The buildings themselves are original Gold Rush era — maintained by the NPS. <a href="https://www.nps.gov/klgo/" target="_blank" rel="noopener" style="color:var(--glacier);">nps.gov/klgo →</a></div>
+      <div class="tip-item"><span class="tip-icon">🎭</span><strong>Days of '98 Show</strong> The longest-running show in Alaska (performed since 1927) in the historic Eagles Hall on Broadway. Melodrama, can-can dancers, and the real story of con man Soapy Smith vs. the town hero Frank Reid — a showdown that ended with both men dead. About 45 min, runs multiple times daily. Good for the gap between morning and afternoon excursions. <a href="https://www.days98show.com" target="_blank" rel="noopener" style="color:var(--glacier);">days98show.com →</a></div>
+      <div class="tip-item"><span class="tip-icon">🚶</span><strong>Broadway Street</strong> Skagway's main street is a living Gold Rush museum — most buildings are original 1898 construction maintained by the NPS. Browse local art, gold nugget jewelry, and Alaska-made souvenirs. Street performers and ranger demonstrations pop up throughout the day. Worth 30–45 min of walking end to end.</div>
+      <div class="tip-item"><span class="tip-icon">⛏️</span><strong>Gold Panning</strong> Several spots along Broadway offer paid gold panning — real glacial sediment, and you keep what you find (usually small flakes, occasionally a nice nugget). The NPS visitor center sometimes hosts free demos. River and Sedona will absolutely love this.</div>
       <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>A con man named "Soapy Smith" ran scams in Skagway — tricking miners out of their gold using fake telegraph offices and rigged card games. He's now one of Alaska's most famous villains! Ask a park ranger about him when you visit.</div>
       <div class="map-link-row">
-        <a class="map-link-btn" href="https://maps.google.com/?q=Skagway,Alaska" target="_blank" rel="noopener">📍 Map of Skagway</a>
-        <a class="map-link-btn" href="https://www.nps.gov/klgo/" target="_blank" rel="noopener">🏛️ NPS Gold Rush Park</a>
+        <a class="map-link-btn" href="https://maps.google.com/?q=Skagway,Alaska" target="_blank" rel="noopener">📍 Map</a>
+        <a class="map-link-btn" href="https://www.nps.gov/klgo/" target="_blank" rel="noopener">🏛️ Gold Rush NHP</a>
+        <a class="map-link-btn" href="https://www.wpyr.com" target="_blank" rel="noopener">🚂 White Pass Rail</a>
+        <a class="map-link-btn" href="https://www.days98show.com" target="_blank" rel="noopener">🎭 Days of '98</a>
       </div>
     </div>
     <div class="event-list">
@@ -1118,18 +1118,18 @@
     <div class="did-you-know"><div class="dyk-label">Did You Know?</div>Juneau is the only U.S. state capital with no road access. It sits between two mountains and the Tongass National Forest. The Mendenhall Glacier retreats about 100–150 feet per year — it could disappear by 2050.</div>
     <div class="edu-section">
       <div class="edu-title">Top Highlights</div>
-      <div class="highlight-grid">
-        <div class="highlight-item"><span class="highlight-icon">✈️</span>5-Glacier Seaplane</div>
-        <div class="highlight-item"><span class="highlight-icon">🧊</span>Mendenhall Glacier</div>
-        <div class="highlight-item"><span class="highlight-icon">🚠</span>Mt. Roberts Tramway</div>
-        <div class="highlight-item"><span class="highlight-icon">🐋</span>Whale watching</div>
-        <div class="highlight-item"><span class="highlight-icon">🍺</span>Alaskan Brewery</div>
-        <div class="highlight-item"><span class="highlight-icon">🌊</span>Tracy Arm preview</div>
-      </div>
+      <div class="tip-item"><span class="tip-icon">✈️</span><strong>5-Glacier Seaplane</strong> ✅ Booked for the Ortiz family (10:30 AM–Noon — see Today's Schedule). A floatplane takes off from the Gastineau Channel and banks over five glaciers in the Juneau Icefield — the largest non-polar icefield in North America. The perspective from above is something you cannot get on the ground. River and Sedona will be stunned. Dress in warm layers — it's cold at altitude.</div>
+      <div class="tip-item"><span class="tip-icon">🧊</span><strong>Mendenhall Glacier</strong> ✅ Booked for the Stallings family (8:30 AM–Noon — see Today's Schedule). Only 12 miles from downtown, Mendenhall is the most accessible glacier in Alaska. The NPS visitor center sits right at the glacier face with views of the ice and Nugget Falls waterfall. In June there's a chance of ice caves. Pack layers — it's 15°F colder at the ice. <a href="https://www.nps.gov/places/mendenhall-glacier-visitor-center.htm" target="_blank" rel="noopener" style="color:var(--glacier);">Mendenhall NPS →</a></div>
+      <div class="tip-item"><span class="tip-icon">🚠</span><strong>Mt. Roberts Tramway</strong> A 6-minute gondola ride right from the cruise dock up to 1,800 ft elevation. Sweeping views of the Gastineau Channel, surrounding peaks, and the ship below. There's a nature center, an eagle sanctuary (live injured eagles), short hiking trails, and a restaurant at the top. ~$35/adult, $20/child. Great option for families with free afternoon time. <a href="https://www.goldbelttours.com/experiences/mt-roberts-tramway/" target="_blank" rel="noopener" style="color:var(--glacier);">goldbelttours.com →</a></div>
+      <div class="tip-item"><span class="tip-icon">🐋</span><strong>Alaska Whales &amp; Science Adventure</strong> ✅ Booked for the Simmons family (9:00 AM–2:30 PM — see Today's Schedule). Juneau's waters are prime humpback habitat in June. For everyone else: watch from the ship as you enter and leave the channel — humpbacks often surface near the route. Keep binoculars ready.</div>
+      <div class="tip-item"><span class="tip-icon">🍺</span><strong>Alaskan Brewing Co.</strong> Alaska's most celebrated craft brewery, started in 1986 from a recipe found in a turn-of-the-century newspaper. Free tours and tastings. About 15 min from the dock (cab ~$15 each way). The Alaskan Amber is the flagship. Adults-only for tastings, but kids are welcome in the gift shop. Good option for adults with free time after morning excursions. <a href="https://www.alaskanbeer.com" target="_blank" rel="noopener" style="color:var(--glacier);">alaskanbeer.com →</a></div>
+      <div class="tip-item"><span class="tip-icon">🌊</span><strong>Tracy Arm Fjord</strong> You cruised Tracy Arm the day before (Day 3). If you didn't make it on deck, Juneau sits near the same fjord system — the entire Inside Passage here is glacier-carved. Mendenhall and the seaplane route both show you the same geological story up close.</div>
       <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>The Mendenhall Glacier is retreating about 100–150 feet every single year. You're looking at something that might not exist when Sedona and River are grown up! Can you spot the blue ice? Blue = the oldest, most compressed ice — over 3,000 years old.</div>
       <div class="map-link-row">
-        <a class="map-link-btn" href="https://maps.google.com/?q=Juneau,Alaska" target="_blank" rel="noopener">📍 Map of Juneau</a>
-        <a class="map-link-btn" href="https://www.nps.gov/places/mendenhall-glacier-visitor-center.htm" target="_blank" rel="noopener">🧊 Mendenhall NPS</a>
+        <a class="map-link-btn" href="https://maps.google.com/?q=Juneau,Alaska" target="_blank" rel="noopener">📍 Map</a>
+        <a class="map-link-btn" href="https://www.nps.gov/places/mendenhall-glacier-visitor-center.htm" target="_blank" rel="noopener">🧊 Mendenhall</a>
+        <a class="map-link-btn" href="https://www.goldbelttours.com/experiences/mt-roberts-tramway/" target="_blank" rel="noopener">🚠 Tramway</a>
+        <a class="map-link-btn" href="https://www.alaskanbeer.com" target="_blank" rel="noopener">🍺 Alaskan Brewing</a>
       </div>
     </div>
     <div class="event-list">
@@ -1162,18 +1162,18 @@
     <div class="did-you-know"><div class="dyk-label">Did You Know?</div>Ketchikan is one of the rainiest cities in the US. Locals say: "If you can't see the mountains, it's raining. If you can see them, it's about to rain." The lush temperate rainforest it creates is spectacular in June.</div>
     <div class="edu-section">
       <div class="edu-title">Top Highlights</div>
-      <div class="highlight-grid">
-        <div class="highlight-item"><span class="highlight-icon">🪵</span>Lumberjack Show</div>
-        <div class="highlight-item"><span class="highlight-icon">🪶</span>Totem Heritage Ctr</div>
-        <div class="highlight-item"><span class="highlight-icon">🛶</span>Creek Street</div>
-        <div class="highlight-item"><span class="highlight-icon">🐟</span>Salmon in the creek</div>
-        <div class="highlight-item"><span class="highlight-icon">🌧️</span>Pothole Pub (locals!)</div>
-        <div class="highlight-item"><span class="highlight-icon">🦅</span>Eagle spotting</div>
-      </div>
-      <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>Totem poles are like giant comic books carved in cedar! Each figure tells part of a story — a family's history, an important event, or a legend. Eagle = peace, Raven = mischief, Bear = strength. Look for these at Totem Heritage Center!</div>
+      <div class="tip-item"><span class="tip-icon">🪵</span><strong>Great Alaskan Lumberjack Show</strong> ✅ Booked for all three families (3:30–5:30 PM — see Today's Schedule). A competitive show featuring real logging skills: log rolling, springboard chopping, axe throwing, and 50-ft tree climbing. Teams represent the US and Canada. The outdoor stadium has covered seating — it runs rain or shine, and in Ketchikan it will rain. Kids can get close to the competitors after the show. <a href="https://www.lumberjackshow.com" target="_blank" rel="noopener" style="color:var(--glacier);">lumberjackshow.com →</a></div>
+      <div class="tip-item"><span class="tip-icon">🪶</span><strong>Totem Heritage Center</strong> The world's largest collection of original, unrestored totem poles — 33 poles recovered from abandoned Tlingit and Haida villages in the 1970s. These aren't tourist reproductions; some are over 150 years old. Guides explain the stories carved into each pole (Eagle = nobility, Raven = transformation, Bear = strength). About $8/adult, $5/child. 10-min walk from the dock. <a href="https://www.visit-ketchikan.com/things-to-do/totem-heritage-center/" target="_blank" rel="noopener" style="color:var(--glacier);">Visit Ketchikan →</a></div>
+      <div class="tip-item"><span class="tip-icon">🛶</span><strong>Creek Street</strong> Ketchikan's most photographed spot — a row of colorful historic buildings on stilts built over Ketchikan Creek. In the early 1900s it was the city's red-light district; today it's boutique shops, galleries, and the Dolly's House Museum. Walk the boardwalk and look down into the creek below — salmon fight the current right beneath your feet in summer.</div>
+      <div class="tip-item"><span class="tip-icon">🐟</span><strong>Salmon in the Creek</strong> June marks the start of salmon season, and Ketchikan Creek runs right through downtown. Salmon surge upstream to spawn and you can watch them from the boardwalk — free, no excursion needed. Dozens of fish fighting the current inches below you. River and Sedona will absolutely lose their minds over this.</div>
+      <div class="tip-item"><span class="tip-icon">🌧️</span><strong>Pothole Pub</strong> A no-frills local bar that Ketchikan residents actually go to — a world away from the cruise-ship souvenir strip. Cash only, cheap drinks, and locals who will happily talk to visitors. Good adult option after the Lumberjack Show wraps up. Kids version: grab fresh fish and chips at one of the waterfront stands.</div>
+      <div class="tip-item"><span class="tip-icon">🦅</span><strong>Eagle Spotting</strong> Ketchikan has an abundance of bald eagles — look up along the waterfront, fishing piers, and trees near the creek. When salmon are running, eagles hunt right near the water. No excursion needed: just look up as you walk around town. Your best free wildlife moment of the whole trip, and it requires zero planning.</div>
+      <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>Totem poles are like giant comic books carved in cedar! Each figure tells part of a story — a family's history, an important event, or a legend. Eagle = nobility, Raven = transformation, Bear = strength. Look for these at Totem Heritage Center — some of the poles here are over 150 years old!</div>
       <div class="map-link-row">
-        <a class="map-link-btn" href="https://maps.google.com/?q=Ketchikan,Alaska" target="_blank" rel="noopener">📍 Map of Ketchikan</a>
+        <a class="map-link-btn" href="https://maps.google.com/?q=Ketchikan,Alaska" target="_blank" rel="noopener">📍 Map</a>
         <a class="map-link-btn" href="https://www.lumberjackshow.com" target="_blank" rel="noopener">🪵 Lumberjack Show</a>
+        <a class="map-link-btn" href="https://www.visit-ketchikan.com/things-to-do/totem-heritage-center/" target="_blank" rel="noopener">🪶 Totem Center</a>
+        <a class="map-link-btn" href="https://www.visit-ketchikan.com/things-to-do/creek-street/" target="_blank" rel="noopener">🛶 Creek Street</a>
       </div>
     </div>
     <div class="event-list">
