@@ -361,6 +361,22 @@
 
         /* Accordion */
         .acc-trigger { cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
+
+        /* Event timeline items */
+        .event-list { display:flex; flex-direction:column; gap:8px; margin-top:14px; padding-top:14px; border-top:1px solid #eef2ee; }
+        .event-list-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:var(--text-light); margin-bottom:2px; }
+        .event-item { display:flex; gap:12px; align-items:flex-start; }
+        .event-item.milestone { opacity:.65; }
+        .event-time { font-size:11px; font-weight:700; color:var(--glacier); min-width:82px; padding-top:2px; white-space:nowrap; }
+        .event-item.milestone .event-time { color:var(--text-light); }
+        .event-detail { flex:1; }
+        .event-name { font-size:13px; font-weight:600; color:var(--text-dark); margin-bottom:3px; }
+        .event-dots-row { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
+        .event-names { font-size:11px; color:var(--text-light); }
+        .ev-tag { display:inline-block; background:var(--glacier-pale); color:#1a5d6e; border-radius:100px; padding:1px 7px; font-size:10px; font-weight:700; margin-left:4px; }
+        .ev-tag-warn { background:#fff4e0; color:#9a6200; }
+        .port-header-seaday { background: linear-gradient(135deg, #1e3f68 0%, #2d5f8a 100%); }
+        .port-header-glacier-view { background: linear-gradient(135deg, #1a5d6e 0%, #0d3d4f 100%); }
         .acc-chevron { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: rgba(0,0,0,.07); font-style: normal; transition: transform .25s ease; flex-shrink: 0; }
         .acc-chevron::after { content: '›'; font-size: 16px; line-height: 1; color: var(--text-light); }
         .acc-chevron.open { transform: rotate(90deg); }
@@ -1111,235 +1127,6 @@
         </div><!-- end sched-ortiz -->
     </section>
 
-    <!-- ==================== PORTS ==================== -->
-    <section id="section-ports" class="section">
-        <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Port Guides</div>
-        <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Tap a port to explore</div>
-
-        <div class="port-card">
-            <div class="port-header port-header-vancouver acc-trigger" onclick="toggleAcc(this)">
-                <div class="port-day-badge">Pre-Cruise · June 12–15</div>
-                <div class="port-name">Vancouver</div>
-                <div class="port-tagline">Canada's Pacific Gateway</div>
-                <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
-            </div>
-            <div class="acc-body port-body collapsed">
-                <div style="background:var(--glacier-pale);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:var(--text-mid);">
-                    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#1a5d6e;margin-bottom:6px;">Your Base Camp</div>
-                    <strong>River Rock Casino Hotel</strong> · Richmond, BC<br>
-                    <span style="font-size:12px;opacity:.8;">8888 River Road · Check-in June 11 · Check-out June 15</span>
-                </div>
-                <div class="port-facts">
-                    <div class="port-fact"><div class="port-fact-label">Metro Population</div><div class="port-fact-value">~2.5M</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Province</div><div class="port-fact-value">British Columbia</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Currency</div><div class="port-fact-value">Canadian Dollar</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Your Days</div><div class="port-fact-value">June 11–15</div></div>
-                </div>
-                <div class="did-you-know">
-                    <div class="dyk-label">Did You Know?</div>
-                    Richmond is one of the best places in North America for authentic Asian cuisine — many food writers call it the best Chinese food outside of Asia. The Richmond Night Market, one of the largest in North America, runs all summer right near your hotel.
-                </div>
-                <div style="border-top:1px solid #eef2ee;padding-top:16px;margin-bottom:16px;">
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                        <span style="background:var(--forest-dark);color:white;border-radius:100px;padding:3px 11px;font-size:11px;font-weight:600;">Fri · June 12</span>
-                        <span style="font-size:14px;font-weight:600;color:var(--text-dark);">Easy Start — Steveston & Night Market</span>
-                    </div>
-                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🎣 <strong>Steveston Village</strong> — historic fishing boardwalk, Britannia Shipyards, fresh seafood (15 min from hotel) <a class="learn-link" href="https://www.visitrichmond.com/explore/neighbourhoods/steveston" target="_blank" rel="noopener">↗ Learn more</a></div>
-                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🏮 <strong>Richmond Night Market</strong> — 400+ vendors, Asian street food, live entertainment · Fri 7 PM–midnight <a class="learn-link" href="https://richmondnightmarket.com" target="_blank" rel="noopener">↗ richmondnightmarket.com</a></div>
-                    <div style="font-size:12px;color:var(--text-light);margin-top:6px;padding:0 2px;">💡 Night Market: 2431 Number 3 Rd, Richmond — short drive from River Rock</div>
-                </div>
-                <div style="border-top:1px solid #eef2ee;padding-top:16px;margin-bottom:16px;">
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                        <span style="background:var(--forest-dark);color:white;border-radius:100px;padding:3px 11px;font-size:11px;font-weight:600;">Sat · June 13</span>
-                        <span style="font-size:14px;font-weight:600;color:var(--text-dark);">North Shore Adventure</span>
-                    </div>
-                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🌉 <strong>Capilano Suspension Bridge</strong> — 450-ft bridge, Treetops Adventure, Cliffwalk, Raptors Ridge (birds of prey) · ~$79 adults / $28 kids · Book ahead! <a class="learn-link" href="https://www.capbridge.com" target="_blank" rel="noopener">↗ capbridge.com</a></div>
-                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🚠 <strong>Grouse Mountain</strong> — Skyride gondola, grizzly bears Grinder & Coola, Lumberjack Show · free shuttle from Canada Place <a class="learn-link" href="https://www.grousemountain.com" target="_blank" rel="noopener">↗ grousemountain.com</a></div>
-                    <div style="background:var(--glacier-pale);border-radius:8px;padding:10px 12px;font-size:12px;color:#1a5d6e;margin-top:8px;line-height:1.5;">🔗 <strong>Alaska connection:</strong> Grinder & Coola are real grizzlies — guaranteed sighting before Alaska. The Grouse Lumberjack Show is a fun warm-up for Ketchikan's Great Alaskan Lumberjack Show.</div>
-                </div>
-                <div style="border-top:1px solid #eef2ee;padding-top:16px;margin-bottom:16px;">
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                        <span style="background:var(--forest-dark);color:white;border-radius:100px;padding:3px 11px;font-size:11px;font-weight:600;">Sun · June 14</span>
-                        <span style="font-size:14px;font-weight:600;color:var(--text-dark);">Stanley Park + Granville Island</span>
-                    </div>
-                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🌳 <strong>Stanley Park</strong> — seawall walk or bike ride, totem poles, beaches, mountain views <a class="learn-link" href="https://vancouver.ca/parks-recreation-culture/stanley-park.aspx" target="_blank" rel="noopener">↗ vancouver.ca</a></div>
-                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🐠 <strong>Vancouver Aquarium</strong> — sea otters, belugas, jellyfish (inside the park, optional add-on) <a class="learn-link" href="https://www.vanaqua.org" target="_blank" rel="noopener">↗ vanaqua.org</a></div>
-                    <div class="activity-chip" style="margin-bottom:6px;flex-wrap:wrap;gap:4px;">🛶 <strong>Granville Island</strong> — Public Market for lunch, Kids Market for Sedona & River <a class="learn-link" href="https://granvilleisland.com" target="_blank" rel="noopener">↗ granvilleisland.com</a></div>
-                    <div style="background:var(--glacier-pale);border-radius:8px;padding:10px 12px;font-size:12px;color:#1a5d6e;margin-top:8px;line-height:1.5;">🔗 <strong>Alaska connection:</strong> The totem poles in Stanley Park are Haida and First Nations pieces — a perfect intro before Ketchikan's world-largest totem pole collection.</div>
-                </div>
-                <div style="border-top:1px solid #eef2ee;padding-top:16px;">
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                        <span style="background:var(--glacier);color:white;border-radius:100px;padding:3px 11px;font-size:11px;font-weight:600;">Mon · June 15</span>
-                        <span style="font-size:14px;font-weight:600;color:var(--text-dark);">Boarding Day 🛳️</span>
-                    </div>
-                    <div class="activity-chip" style="margin-bottom:6px;">Checkout 11:00 AM · River Rock Casino Hotel</div>
-                    <div class="activity-chip" style="margin-bottom:6px;">Private transfer → Canada Place Cruise Terminal</div>
-                    <div class="activity-chip" style="background:var(--glacier-pale);color:#1a5d6e;font-weight:500;">Disney Wonder boards at 4:00 PM · Adventure begins!</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="port-card">
-            <div class="port-header port-header-skagway acc-trigger" onclick="toggleAcc(this)">
-                <div class="port-day-badge">Day 4 · June 18</div>
-                <div class="port-name">Skagway</div>
-                <div class="port-tagline">Gateway to the Klondike Gold Rush</div>
-                <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
-            </div>
-            <div class="acc-body port-body collapsed">
-                <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 50–66°F in June</span><span class="w-chip">⛅ Mostly sunny</span><span class="w-chip">✅ Driest port</span></div>
-                <div class="port-facts">
-                    <div class="port-fact"><div class="port-fact-label">Population</div><div class="port-fact-value">~1,100</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Founded</div><div class="port-fact-value">1897</div></div>
-                    <div class="port-fact"><div class="port-fact-label">White Pass Summit</div><div class="port-fact-value">2,885 ft</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Time Ashore</div><div class="port-fact-value">~12.75 hrs</div></div>
-                </div>
-                <div class="did-you-know"><div class="dyk-label">Did You Know?</div>During the 1898 Gold Rush, over 100,000 prospectors flooded through Skagway. The White Pass & Yukon Route railway you're riding was built in just 26 months through some of the most rugged terrain in North America.</div>
-                <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Your Plans</div>
-                <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>White Pass Scenic Railway — Ortiz + Stallings</span></div>
-                <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>Musher's Camp & Sled Dog Experience — Ortiz</span></div>
-                <div class="edu-section">
-                    <div class="edu-title">History</div>
-                    <p style="font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:12px;">Gold was discovered in Canada's Yukon in 1896. Word reached the outside world in 1897 and 100,000 people stampeded north. Skagway went from a single homestead to Alaska's largest city — population 10,000 — almost overnight. Most prospectors found nothing. The White Pass trail you're riding was called the "Dead Horse Trail" because so many pack animals died on it. Skagway's entire historic downtown is now a National Historical Park.</p>
-                    <div class="edu-title">Top Highlights</div>
-                    <div class="highlight-grid">
-                        <div class="highlight-item"><span class="highlight-icon">🚂</span>White Pass Railway</div>
-                        <div class="highlight-item"><span class="highlight-icon">🐕</span>Musher's Camp</div>
-                        <div class="highlight-item"><span class="highlight-icon">🏛️</span>Gold Rush NHP</div>
-                        <div class="highlight-item"><span class="highlight-icon">🎭</span>Days of '98 Show</div>
-                        <div class="highlight-item"><span class="highlight-icon">🚶</span>Broadway St shops</div>
-                        <div class="highlight-item"><span class="highlight-icon">⛏️</span>Gold panning</div>
-                    </div>
-                    <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>A con man named "Soapy Smith" ran scams in Skagway — tricking miners out of their gold using fake telegraph offices and rigged card games. He's now one of Alaska's most famous villains! Ask a park ranger about him when you visit.</div>
-                    <div class="map-link-row">
-                        <a class="map-link-btn" href="https://maps.google.com/?q=Skagway,Alaska" target="_blank" rel="noopener">📍 Map of Skagway</a>
-                        <a class="map-link-btn" href="https://www.nps.gov/klgo/" target="_blank" rel="noopener">🏛️ NPS Gold Rush Park</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="port-card">
-            <div class="port-header port-header-juneau acc-trigger" onclick="toggleAcc(this)">
-                <div class="port-day-badge">Day 5 · June 19</div>
-                <div class="port-name">Juneau</div>
-                <div class="port-tagline">Alaska's Roadless Capital</div>
-                <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
-            </div>
-            <div class="acc-body port-body collapsed">
-                <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 52–63°F in June</span><span class="w-chip">🌧 Light rain likely</span><span class="w-chip">🌿 Lush rainforest</span></div>
-                <div class="port-facts">
-                    <div class="port-fact"><div class="port-fact-label">Population</div><div class="port-fact-value">~32,000</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Mendenhall Glacier</div><div class="port-fact-value">13 miles long</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Road Access</div><div class="port-fact-value">None — air or sea only</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Annual Rainfall</div><div class="port-fact-value">~60 inches</div></div>
-                </div>
-                <div class="did-you-know"><div class="dyk-label">Did You Know?</div>Juneau is the only U.S. state capital with no road access. It sits between two mountains and the Tongass National Forest — the largest national forest in the country. Mendenhall Glacier retreats about 100–150 feet per year.</div>
-                <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Your Plans</div>
-                <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>5-Glacier Seaplane Exploration — Ortiz</span></div>
-                <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>Mendenhall Glacier Explorer — Stallings</span></div>
-                <div class="edu-section">
-                    <div class="edu-title">History</div>
-                    <p style="font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:12px;">Gold was discovered here in 1880 by prospectors Joe Juneau and Richard Harris — the city is named after Joe. Juneau became Alaska's capital in 1906. It's ringed by the Tongass National Forest (the largest in the US) and the Coast Mountain Range, making road construction impossible. Every Alaskan governor must fly or take a boat to the capital. The Mendenhall Glacier, just 12 miles from downtown, has been retreating since the 1700s and has lost over 1.75 miles since 1958.</p>
-                    <div class="edu-title">Top Highlights</div>
-                    <div class="highlight-grid">
-                        <div class="highlight-item"><span class="highlight-icon">✈️</span>5-Glacier Seaplane</div>
-                        <div class="highlight-item"><span class="highlight-icon">🧊</span>Mendenhall Glacier</div>
-                        <div class="highlight-item"><span class="highlight-icon">🚠</span>Mt. Roberts Tramway</div>
-                        <div class="highlight-item"><span class="highlight-icon">🐋</span>Whale watching</div>
-                        <div class="highlight-item"><span class="highlight-icon">🍺</span>Alaskan Brewery</div>
-                        <div class="highlight-item"><span class="highlight-icon">🌊</span>Tracy Arm preview</div>
-                    </div>
-                    <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>The Mendenhall Glacier is retreating about 100–150 feet every single year. Scientists think it could disappear completely by 2050. You're looking at something that won't exist when Sedona and River are your age! Can you spot the blue ice? Blue = the oldest, most compressed ice — over 3,000 years old.</div>
-                    <div class="map-link-row">
-                        <a class="map-link-btn" href="https://maps.google.com/?q=Juneau,Alaska" target="_blank" rel="noopener">📍 Map of Juneau</a>
-                        <a class="map-link-btn" href="https://www.nps.gov/places/mendenhall-glacier-visitor-center.htm" target="_blank" rel="noopener">🧊 Mendenhall NPS</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="port-card">
-            <div class="port-header port-header-ketchikan acc-trigger" onclick="toggleAcc(this)">
-                <div class="port-day-badge">Day 6 · June 20</div>
-                <div class="port-name">Ketchikan</div>
-                <div class="port-tagline">Salmon Capital of the World</div>
-                <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
-            </div>
-            <div class="acc-body port-body collapsed">
-                <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 53–61°F in June</span><span class="w-chip w-chip-warn">🌧 Expect rain</span><span class="w-chip">☂ 160in/yr avg</span></div>
-                <div class="port-facts">
-                    <div class="port-fact"><div class="port-fact-label">Population</div><div class="port-fact-value">~8,000</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Totem Poles</div><div class="port-fact-value">World's largest collection</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Annual Rainfall</div><div class="port-fact-value">~160 inches</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Late Start Day</div><div class="port-fact-value">Ashore 11:15 AM</div></div>
-                </div>
-                <div class="did-you-know"><div class="dyk-label">Did You Know?</div>Ketchikan is one of the rainiest cities in the US. Locals say: "If you can't see the mountains, it's raining. If you can see them, it's about to rain." The lush temperate rainforest it creates is spectacular in June.</div>
-                <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Your Plans</div>
-                <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>Exclusive Great Alaskan Lumberjack Show — All families</span></div>
-                <div class="port-activity-item"><span style="color:var(--gold);">?</span><span>Alaska Bigfoot Adventures — Ortiz + Stallings (deciding)</span></div>
-                <div class="edu-section">
-                    <div class="edu-title">History & Culture</div>
-                    <p style="font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:12px;">The name Ketchikan comes from the Tlingit word <em>Kitschk-Hin</em> — "Thundering Wings of an Eagle." Tlingit, Haida, and Tsimshian peoples have lived here for thousands of years. Ketchikan grew as a salmon cannery hub in the late 1800s — at its peak, 13 canneries operated along the creek. Today it's home to the world's largest collection of standing totem poles: over 80 poles scattered across the city, each one a carved family history told in cedar.</p>
-                    <div class="edu-title">Top Highlights</div>
-                    <div class="highlight-grid">
-                        <div class="highlight-item"><span class="highlight-icon">🪵</span>Lumberjack Show</div>
-                        <div class="highlight-item"><span class="highlight-icon">🪶</span>Totem Heritage Ctr</div>
-                        <div class="highlight-item"><span class="highlight-icon">🛶</span>Creek Street</div>
-                        <div class="highlight-item"><span class="highlight-icon">🐟</span>Salmon in the creek</div>
-                        <div class="highlight-item"><span class="highlight-icon">🌧️</span>Pothole Pub (locals!)</div>
-                        <div class="highlight-item"><span class="highlight-icon">🦅</span>Eagle spotting</div>
-                    </div>
-                    <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>Totem poles are like giant comic books carved in cedar! Each figure tells part of a story — a family's history, an important event, or a legend. They're read from bottom to top. The animals mean things: Eagle = peace and friendship, Raven = creation and mischief, Bear = strength and family. Look for these when you visit Totem Heritage Center!</div>
-                    <div class="map-link-row">
-                        <a class="map-link-btn" href="https://maps.google.com/?q=Ketchikan,Alaska" target="_blank" rel="noopener">📍 Map of Ketchikan</a>
-                        <a class="map-link-btn" href="https://www.lumberjackshow.com" target="_blank" rel="noopener">🪵 Lumberjack Show</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="port-card">
-            <div class="port-header port-header-glacier acc-trigger" onclick="toggleAcc(this)">
-                <div class="port-day-badge">Day 7 · June 21</div>
-                <div class="port-name">Glacier Day</div>
-                <div class="port-tagline">Tracy Arm · Scenic Cruising</div>
-                <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
-            </div>
-            <div class="acc-body port-body collapsed">
-                <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 45–55°F near ice</span><span class="w-chip">💨 Wind chill on deck</span><span class="w-chip">🌤 Often clear & vivid</span></div>
-                <div class="port-facts">
-                    <div class="port-fact"><div class="port-fact-label">Fjord Length</div><div class="port-fact-value">~30 miles</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Glacier Type</div><div class="port-fact-value">Tidewater</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Ice Age</div><div class="port-fact-value">Up to 1,000 yrs</div></div>
-                    <div class="port-fact"><div class="port-fact-label">Blue Ice</div><div class="port-fact-value">= oldest, densest ice</div></div>
-                </div>
-                <div class="did-you-know"><div class="dyk-label">Did You Know?</div>When a chunk of glacier breaks off, it's called "calving" — the sound can be as loud as a cannon. The brilliant blue color comes from ancient ice so compressed it absorbs all colors except blue.</div>
-                <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Your Plans</div>
-                <div class="port-activity-item"><span style="color:#22c55e;">✓</span><span>Glacier Explorer — Stallings</span></div>
-                <div class="port-activity-item"><span>🛳️</span><span>Scenic cruising from deck — everyone!</span></div>
-                <div class="edu-section">
-                    <div class="edu-title">Tracy Arm Fjord</div>
-                    <p style="font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:12px;">Tracy Arm is a 30-mile-long fjord carved by glaciers over thousands of years. At its head sit Sawyer and South Sawyer glaciers — massive rivers of ice that flow all the way to the sea. The Disney Wonder will navigate between iceberg-dotted waters with sheer granite walls rising 3,000 feet on both sides. The glacier ice you'll see is often electric blue — so old and compressed that it absorbs every wavelength of light except blue. When a house-sized chunk calves off into the water, the sound echoes off the canyon walls like a thunderclap.</p>
-                    <div class="edu-title">Top Highlights</div>
-                    <div class="highlight-grid">
-                        <div class="highlight-item"><span class="highlight-icon">🧊</span>Sawyer Glacier</div>
-                        <div class="highlight-item"><span class="highlight-icon">🧊</span>South Sawyer</div>
-                        <div class="highlight-item"><span class="highlight-icon">🦭</span>Harbor Seals on ice</div>
-                        <div class="highlight-item"><span class="highlight-icon">🦅</span>Bald Eagles</div>
-                        <div class="highlight-item"><span class="highlight-icon">🐬</span>Orca sightings</div>
-                        <div class="highlight-item"><span class="highlight-icon">🌊</span>Calving ice walls</div>
-                    </div>
-                    <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>Harbor seals actually give birth on the floating icebergs inside Tracy Arm! When the ship gets close, look for little seal pups resting on the ice floes. They use the icebergs as floating nurseries — safe from predators in the water below.</div>
-                    <div style="background:var(--glacier-pale);border-radius:10px;padding:12px 14px;font-size:12px;color:#1a5d6e;line-height:1.6;margin-top:14px;">
-                        <strong>Deck tips for Glacier Day:</strong><br>
-                        Layer up — it can be 20°F colder near the ice. The bow and upper decks give the best unobstructed views. Bring binoculars. Blue-tinted bergs are the oldest and most beautiful. Hot cocoa from the buffet hits different at the glacier. 🧤
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- ==================== ALASKA 101 ==================== -->
     <section id="section-alaska" class="section">
         <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Alaska 101</div>
@@ -1482,147 +1269,275 @@
         </div>
 
         <div id="plans-content">
-        <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Our Plans</div>
-        <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">All excursions and onboard reservations</div>
+<div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Our Trip</div>
+<div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Day-by-day · All families</div>
 
-        <div class="family-legend">
-            <span class="legend-label">Key</span>
-            <span class="legend-item li-o"><span class="legend-dot dot-o"></span>Ortiz</span>
-            <span class="legend-item li-s"><span class="legend-dot dot-s"></span>Stallings</span>
-            <span class="legend-item li-sim"><span class="legend-dot dot-sim"></span>Simmons</span>
-        </div>
+<div class="family-legend">
+  <span class="legend-label">Key</span>
+  <span class="legend-item li-o"><span class="legend-dot dot-o"></span>Ortiz</span>
+  <span class="legend-item li-s"><span class="legend-dot dot-s"></span>Stallings</span>
+  <span class="legend-item li-sim"><span class="legend-dot dot-sim"></span>Simmons</span>
+</div>
 
-        <div class="exp-summary">
-            <div class="exp-summary-item"><div class="exp-summary-num" id="count-booked">—</div><div class="exp-summary-label">Booked</div></div>
-            <div class="exp-summary-item"><div class="exp-summary-num" id="count-maybe">—</div><div class="exp-summary-label">Deciding</div></div>
-            <div class="exp-summary-item"><div class="exp-summary-num" id="count-total">—</div><div class="exp-summary-label">Total</div></div>
-        </div>
+<!-- DAY 1 — Vancouver / Embarkation -->
+<div class="port-card">
+  <div class="port-header port-header-vancouver acc-trigger" onclick="toggleAcc(this)">
+    <div class="port-day-badge">Day 1 · Mon June 15</div>
+    <div class="port-name">Vancouver</div>
+    <div class="port-tagline">Embarkation Day · Disney Wonder</div>
+    <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
+  </div>
+  <div class="acc-body port-body collapsed">
+    <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 62–68°F</span><span class="w-chip">⛅ Partly cloudy</span><span class="w-chip">🛳️ Boards 4:00 PM</span></div>
+    <div class="port-facts">
+      <div class="port-fact"><div class="port-fact-label">Terminal</div><div class="port-fact-value">Canada Place</div></div>
+      <div class="port-fact"><div class="port-fact-label">Hotel Checkout</div><div class="port-fact-value">11:00 AM · River Rock</div></div>
+      <div class="port-fact"><div class="port-fact-label">Disney Wonder Departs</div><div class="port-fact-value">4:00 PM</div></div>
+      <div class="port-fact"><div class="port-fact-label">Pre-Cruise Days</div><div class="port-fact-value">June 12–15 · Richmond BC</div></div>
+    </div>
+    <div class="did-you-know"><div class="dyk-label">Pre-Cruise</div>River Rock Casino Hotel · Richmond, BC · 8888 River Road. Your base camp for June 11–15. Close to the Richmond Night Market and a short drive to downtown Vancouver.</div>
+    <div class="event-list">
+      <div class="event-list-title">Today's Schedule</div>
+      <div class="event-item milestone"><div class="event-time">All Day</div><div class="event-detail"><div class="event-name">Rainforest Room Pass — Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Joseph · Veronica Stallings</span></div></div></div>
+      <div class="event-item milestone"><div class="event-time">All Day</div><div class="event-detail"><div class="event-name">Unlimited Photo Package</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Christopher Ortiz</span></div></div></div>
+      <div class="event-item"><div class="event-time">4:00 PM</div><div class="event-detail"><div class="event-name">🛳️ Welcome Aboard!</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="family-dot dot-sim"></span><span class="event-names">All families</span></div></div></div>
+    </div>
+  </div>
+</div>
 
-        <div style="margin-bottom:16px;">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-light);margin-bottom:6px;">Status</div>
-            <div class="exp-filters" style="margin-bottom:10px;">
-                <button class="exp-filter-btn exp-status-btn active" onclick="setStatusFilter('all',this)">All</button>
-                <button class="exp-filter-btn exp-status-btn" onclick="setStatusFilter('booked',this)">✓ Booked</button>
-                <button class="exp-filter-btn exp-status-btn" onclick="setStatusFilter('maybe',this)">? Deciding</button>
-            </div>
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-light);margin-bottom:6px;">Family</div>
-            <div class="exp-filters" style="margin-bottom:0;">
-                <button class="exp-filter-btn exp-family-btn active" onclick="setFamilyFilter('all',this)">All</button>
-                <button class="exp-filter-btn exp-family-btn" onclick="setFamilyFilter('ortiz',this)">Ortiz</button>
-                <button class="exp-filter-btn exp-family-btn" onclick="setFamilyFilter('stallings',this)">Stallings</button>
-                <button class="exp-filter-btn exp-family-btn" onclick="setFamilyFilter('simmons',this)">Simmons</button>
-            </div>
-        </div>
+<!-- DAY 2 — At Sea -->
+<div class="port-card">
+  <div class="port-header port-header-seaday acc-trigger" onclick="toggleAcc(this)">
+    <div class="port-day-badge">Day 2 · Tue June 16</div>
+    <div class="port-name">At Sea</div>
+    <div class="port-tagline">Inside Passage · Heading North</div>
+    <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
+  </div>
+  <div class="acc-body port-body collapsed">
+    <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 55–62°F</span><span class="w-chip">🌤 Partly cloudy</span><span class="w-chip">🕐 ~17 hrs daylight</span></div>
+    <div class="port-facts">
+      <div class="port-fact"><div class="port-fact-label">Route</div><div class="port-fact-value">Inside Passage</div></div>
+      <div class="port-fact"><div class="port-fact-label">Daylight</div><div class="port-fact-value">~17 hours</div></div>
+      <div class="port-fact"><div class="port-fact-label">Wildlife Chance</div><div class="port-fact-value">Orca, Porpoise, Eagles</div></div>
+      <div class="port-fact"><div class="port-fact-label">Tip</div><div class="port-fact-value">Watch the bow at dusk</div></div>
+    </div>
+    <div class="did-you-know"><div class="dyk-label">Inside Passage</div>The Inside Passage is a sheltered coastal route through British Columbia and Alaska — a 1,000-mile network of channels, fjords, and island-sheltered waterways. Keep an eye on the water; dolphins and orca often follow cruise ships through here.</div>
+    <div class="event-list">
+      <div class="event-list-title">Today's Schedule</div>
+      <div class="event-item"><div class="event-time">9:30 – 10:30 AM</div><div class="event-detail"><div class="event-name">Whiskey Tasting <span class="ev-tag ev-tag-warn">21+</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Christopher · Joseph · Veronica</span></div></div></div>
+      <div class="event-item tappable" onclick="openModal('palo')"><div class="event-time">Noon – 1:30 PM</div><div class="event-detail"><div class="event-name">Palo Brunch · Palo <span class="ev-tag">$55/pp</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Christopher · Katherine · Joseph · Veronica</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
+    </div>
+  </div>
+</div>
 
-        <!-- Day 2 · June 16 · Sea Day -->
-        <div class="port-group" data-group="day2">
-            <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
-                <span class="port-badge">🌊 Sea Day</span><span class="port-date">Day 2 · June 16</span>
-                <span class="acc-chevron open" style="margin-left:auto;"></span>
-            </div>
-            <div class="acc-body" style="padding-top:10px;">
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openModal('palo')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Brunch</div><div class="exp-meta"><span class="exp-tag">$55/pp</span><span class="exp-tag">Adults</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">View menu →</div></div></div>
-            </div>
-        </div>
+<!-- DAY 3 — Glacier Viewing / Stikine Icecap -->
+<div class="port-card">
+  <div class="port-header port-header-glacier-view acc-trigger" onclick="toggleAcc(this)">
+    <div class="port-day-badge">Day 3 · Wed June 17</div>
+    <div class="port-name">Glacier Viewing</div>
+    <div class="port-tagline">Stikine Icecap · Scenic Cruising</div>
+    <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
+  </div>
+  <div class="acc-body port-body collapsed">
+    <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 45–55°F near ice</span><span class="w-chip">💨 Wind chill on deck</span><span class="w-chip">🌤 Often clear</span></div>
+    <div class="port-facts">
+      <div class="port-fact"><div class="port-fact-label">Area</div><div class="port-fact-value">Stikine Icecap</div></div>
+      <div class="port-fact"><div class="port-fact-label">Ice Type</div><div class="port-fact-value">Tidewater glaciers</div></div>
+      <div class="port-fact"><div class="port-fact-label">Ice Age</div><div class="port-fact-value">Up to 1,000 yrs old</div></div>
+      <div class="port-fact"><div class="port-fact-label">Blue Ice</div><div class="port-fact-value">= oldest, densest ice</div></div>
+    </div>
+    <div class="did-you-know"><div class="dyk-label">Did You Know?</div>When a chunk of glacier breaks off, it's called "calving" — the sound can be as loud as a cannon. The brilliant blue color comes from ancient ice so compressed it absorbs all colors except blue. Layer up — it's 15–20°F colder near the ice.</div>
+    <div class="event-list">
+      <div class="event-list-title">Today's Schedule</div>
+      <div class="event-item tappable" onclick="openModal('palo')"><div class="event-time">11:30 AM – 1:00 PM</div><div class="event-detail"><div class="event-name">Palo Brunch · Palo <span class="ev-tag">$55/pp</span></div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Sean · Sade Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
+      <div class="event-item"><div class="event-time">12:30 – 2:59 PM</div><div class="event-detail"><div class="event-name">Glacier Explorer (DG01) <span class="ev-tag">Excursion</span></div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Veronica · Joseph · Payton Stallings</span></div></div></div>
+      <div class="event-item"><div class="event-time">5:00 – 6:00 PM</div><div class="event-detail"><div class="event-name">Martini Tasting <span class="ev-tag ev-tag-warn">21+</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Katherine · Christopher Ortiz</span></div></div></div>
+      <div class="event-item tappable" onclick="openModal('palo-dinner')"><div class="event-time">6:00 – 7:30 PM</div><div class="event-detail"><div class="event-name">Palo Dinner · Palo <span class="ev-tag">$55/pp</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Veronica · Katherine · Christopher · Joseph</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
+      <div class="event-item tappable" onclick="openModal('palo-dinner')"><div class="event-time">6:00 – 7:30 PM</div><div class="event-detail"><div class="event-name">Palo Dinner · Palo <span class="ev-tag">$55/pp</span></div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Sean · Sade Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
+    </div>
+  </div>
+</div>
 
-        <!-- Day 3 · June 17 · Sea Day -->
-        <div class="port-group" data-group="day3">
-            <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
-                <span class="port-badge">🌊 Sea Day</span><span class="port-date">Day 3 · June 17</span>
-                <span class="acc-chevron open" style="margin-left:auto;"></span>
-            </div>
-            <div class="acc-body" style="padding-top:10px;">
-                <div class="onboard-cat-title">Adult Dining</div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openModal('palo-dinner')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Dinner</div><div class="exp-meta"><span class="exp-tag">$55/pp</span><span class="exp-tag">Any sea day</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">View menu →</div></div></div>
-                <div class="onboard-cat-title">Beverage Tastings</div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('mixology')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Mixology</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('martini')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Martini Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz,stallings" onclick="openExpDetail('wine')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Stem-to-Stern Wine Tasting</div><div class="exp-meta"><span class="exp-tag">~$55/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('tequila')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Tequila & Margarita Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('rum')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Rum Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="onboard-cat-title">Specialty</div>
-                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('behind-scenes')"><div class="exp-dot dot-maybe"></div><div class="exp-body"><div class="exp-name">Behind the Scenes Ship Tour</div><div class="exp-meta"><span class="exp-tag">$150+/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz" onclick="openExpDetail('photo-pkg')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Unlimited Photo Package</div><div class="exp-meta"><span class="exp-tag">Full cruise</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="stallings" onclick="openExpDetail('rainforest-room')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Rainforest Room (Length of Cruise)</div><div class="exp-meta"><span class="exp-tag">Spa · $150–220</span></div><div class="exp-families"><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
-            </div>
-        </div>
+<!-- DAY 4 — Skagway -->
+<div class="port-card">
+  <div class="port-header port-header-skagway acc-trigger" onclick="toggleAcc(this)">
+    <div class="port-day-badge">Day 4 · Thu June 18</div>
+    <div class="port-name">Skagway</div>
+    <div class="port-tagline">Gateway to the Klondike Gold Rush</div>
+    <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
+  </div>
+  <div class="acc-body port-body collapsed">
+    <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 50–66°F</span><span class="w-chip">⛅ Mostly sunny</span><span class="w-chip">✅ Driest port</span></div>
+    <div class="port-facts">
+      <div class="port-fact"><div class="port-fact-label">Population</div><div class="port-fact-value">~1,100</div></div>
+      <div class="port-fact"><div class="port-fact-label">Founded</div><div class="port-fact-value">1897</div></div>
+      <div class="port-fact"><div class="port-fact-label">White Pass Summit</div><div class="port-fact-value">2,885 ft</div></div>
+      <div class="port-fact"><div class="port-fact-label">Time Ashore</div><div class="port-fact-value">~12.75 hrs</div></div>
+    </div>
+    <div class="did-you-know"><div class="dyk-label">Did You Know?</div>During the 1898 Gold Rush, over 100,000 prospectors flooded through Skagway. The White Pass &amp; Yukon Route railway you're riding was built in just 26 months through some of the most rugged terrain in North America.</div>
+    <div class="edu-section">
+      <div class="edu-title">Top Highlights</div>
+      <div class="highlight-grid">
+        <div class="highlight-item"><span class="highlight-icon">🚂</span>White Pass Railway</div>
+        <div class="highlight-item"><span class="highlight-icon">🐕</span>Musher's Camp</div>
+        <div class="highlight-item"><span class="highlight-icon">🏛️</span>Gold Rush NHP</div>
+        <div class="highlight-item"><span class="highlight-icon">🎭</span>Days of '98 Show</div>
+        <div class="highlight-item"><span class="highlight-icon">🚶</span>Broadway St shops</div>
+        <div class="highlight-item"><span class="highlight-icon">⛏️</span>Gold panning</div>
+      </div>
+      <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>A con man named "Soapy Smith" ran scams in Skagway — tricking miners out of their gold using fake telegraph offices and rigged card games. He's now one of Alaska's most famous villains! Ask a park ranger about him when you visit.</div>
+      <div class="map-link-row">
+        <a class="map-link-btn" href="https://maps.google.com/?q=Skagway,Alaska" target="_blank" rel="noopener">📍 Map of Skagway</a>
+        <a class="map-link-btn" href="https://www.nps.gov/klgo/" target="_blank" rel="noopener">🏛️ NPS Gold Rush Park</a>
+      </div>
+    </div>
+    <div class="event-list">
+      <div class="event-list-title">Today's Schedule</div>
+      <div class="event-item milestone"><div class="event-time">7:15 AM</div><div class="event-detail"><div class="event-name">⚓ Guests Ashore</div></div></div>
+      <div class="event-item tappable" onclick="openExpDetail('white-pass')"><div class="event-time">8:00 – 10:45 AM</div><div class="event-detail"><div class="event-name">White Pass Scenic Railway (SW09)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Payton · River · Christopher · Katherine · Joseph · Veronica · Sedona</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
+      <div class="event-item tappable" onclick="openExpDetail('white-pass')"><div class="event-time">8:00 – 10:45 AM</div><div class="event-detail"><div class="event-name">White Pass Scenic Railway (SW09)</div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Sade · Eli · Emory · Sean Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
+      <div class="event-item tappable" onclick="openExpDetail('mushers-camp')"><div class="event-time">1:30 – 5:00 PM</div><div class="event-detail"><div class="event-name">Musher's Camp &amp; Sled Dog Experience (SW24)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Joseph · Payton · Veronica · River · Katherine · Sedona · Christopher</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
+      <div class="event-item milestone"><div class="event-time">8:00 PM</div><div class="event-detail"><div class="event-name">🛳️ All Aboard</div></div></div>
+    </div>
+  </div>
+</div>
 
-        <!-- Day 4 · June 18 · Skagway -->
-        <div class="port-group" data-group="skagway">
-            <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
-                <span class="port-badge">⛰️ Skagway</span><span class="port-date">Day 4 · June 18</span>
-                <span class="acc-chevron open" style="margin-left:auto;"></span>
-            </div>
-            <div class="acc-body" style="padding-top:10px;">
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('white-pass')">
-                    <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">White Pass Scenic Railway</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$150–200/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.wpyr.com" target="_blank" rel="noopener">↗ wpyr.com</a><div class="exp-tap-hint">Tap for details →</div></div>
-                </div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz" onclick="openExpDetail('mushers-camp')">
-                    <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Musher's Camp & Sled Dog Experience</div><div class="exp-meta"><span class="exp-tag">~2–3 hrs</span><span class="exp-tag">$150–220/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
-                </div>
-                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz" onclick="openExpDetail('grizzly-falls')">
-                    <div class="exp-dot dot-maybe"></div>
-                    <div class="exp-body"><div class="exp-name">Grizzly Falls Ziplining (SW23)</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$180–220/pp</span><span class="exp-tag">Ages 8+</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
-                </div>
-                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz,stallings" onclick="openExpDetail('ak-wildlife')">
-                    <div class="exp-dot dot-maybe"></div>
-                    <div class="exp-body"><div class="exp-name">Alaska Nature & Wildlife Expedition (SW58)</div><div class="exp-meta"><span class="exp-tag">~6 hrs</span><span class="exp-tag">$184–220/pp</span><span class="exp-tag">Ages 6+</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
-                </div>
-            </div>
-        </div>
+<!-- DAY 5 — Juneau -->
+<div class="port-card">
+  <div class="port-header port-header-juneau acc-trigger" onclick="toggleAcc(this)">
+    <div class="port-day-badge">Day 5 · Fri June 19</div>
+    <div class="port-name">Juneau</div>
+    <div class="port-tagline">Alaska's Roadless Capital</div>
+    <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
+  </div>
+  <div class="acc-body port-body collapsed">
+    <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 52–63°F</span><span class="w-chip">🌧 Light rain likely</span><span class="w-chip">🌿 Lush rainforest</span></div>
+    <div class="port-facts">
+      <div class="port-fact"><div class="port-fact-label">Population</div><div class="port-fact-value">~32,000</div></div>
+      <div class="port-fact"><div class="port-fact-label">Mendenhall Glacier</div><div class="port-fact-value">13 miles long</div></div>
+      <div class="port-fact"><div class="port-fact-label">Road Access</div><div class="port-fact-value">None — air or sea only</div></div>
+      <div class="port-fact"><div class="port-fact-label">Annual Rainfall</div><div class="port-fact-value">~60 inches</div></div>
+    </div>
+    <div class="did-you-know"><div class="dyk-label">Did You Know?</div>Juneau is the only U.S. state capital with no road access. It sits between two mountains and the Tongass National Forest. The Mendenhall Glacier retreats about 100–150 feet per year — it could disappear by 2050.</div>
+    <div class="edu-section">
+      <div class="edu-title">Top Highlights</div>
+      <div class="highlight-grid">
+        <div class="highlight-item"><span class="highlight-icon">✈️</span>5-Glacier Seaplane</div>
+        <div class="highlight-item"><span class="highlight-icon">🧊</span>Mendenhall Glacier</div>
+        <div class="highlight-item"><span class="highlight-icon">🚠</span>Mt. Roberts Tramway</div>
+        <div class="highlight-item"><span class="highlight-icon">🐋</span>Whale watching</div>
+        <div class="highlight-item"><span class="highlight-icon">🍺</span>Alaskan Brewery</div>
+        <div class="highlight-item"><span class="highlight-icon">🌊</span>Tracy Arm preview</div>
+      </div>
+      <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>The Mendenhall Glacier is retreating about 100–150 feet every single year. You're looking at something that might not exist when Sedona and River are grown up! Can you spot the blue ice? Blue = the oldest, most compressed ice — over 3,000 years old.</div>
+      <div class="map-link-row">
+        <a class="map-link-btn" href="https://maps.google.com/?q=Juneau,Alaska" target="_blank" rel="noopener">📍 Map of Juneau</a>
+        <a class="map-link-btn" href="https://www.nps.gov/places/mendenhall-glacier-visitor-center.htm" target="_blank" rel="noopener">🧊 Mendenhall NPS</a>
+      </div>
+    </div>
+    <div class="event-list">
+      <div class="event-list-title">Today's Schedule</div>
+      <div class="event-item milestone"><div class="event-time">6:45 AM</div><div class="event-detail"><div class="event-name">⚓ Guests Ashore</div></div></div>
+      <div class="event-item tappable" onclick="openExpDetail('mendenhall')"><div class="event-time">8:30 AM – Noon</div><div class="event-detail"><div class="event-name">Mendenhall Glacier Explorer (JU11)</div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Payton · Joseph · Veronica Stallings</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
+      <div class="event-item"><div class="event-time">9:00 AM – 2:30 PM</div><div class="event-detail"><div class="event-name">Alaska Whales &amp; Science Adventure (JU33)</div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Eli · Sean · Emory · Sade Simmons</span></div></div></div>
+      <div class="event-item tappable" onclick="openExpDetail('seaplane')"><div class="event-time">10:30 AM – Noon</div><div class="event-detail"><div class="event-name">5-Glacier Seaplane Exploration (JU49)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Katherine · Sedona · Christopher · River Ortiz</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
+      <div class="event-item milestone"><div class="event-time">4:45 PM</div><div class="event-detail"><div class="event-name">🛳️ All Aboard</div></div></div>
+    </div>
+  </div>
+</div>
 
-        <!-- Day 5 · June 19 · Juneau -->
-        <div class="port-group" data-group="juneau">
-            <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
-                <span class="port-badge">🏔️ Juneau</span><span class="port-date">Day 5 · June 19</span>
-                <span class="acc-chevron open" style="margin-left:auto;"></span>
-            </div>
-            <div class="acc-body" style="padding-top:10px;">
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz" onclick="openExpDetail('seaplane')">
-                    <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">5-Glacier Seaplane Exploration (JU49)</div><div class="exp-meta"><span class="exp-tag">$359–399/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
-                </div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="stallings" onclick="openExpDetail('mendenhall')">
-                    <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Mendenhall Glacier Explorer (JU11)</div><div class="exp-meta"><span class="exp-tag">$59–109/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
-                </div>
-            </div>
-        </div>
+<!-- DAY 6 — Ketchikan -->
+<div class="port-card">
+  <div class="port-header port-header-ketchikan acc-trigger" onclick="toggleAcc(this)">
+    <div class="port-day-badge">Day 6 · Sat June 20</div>
+    <div class="port-name">Ketchikan</div>
+    <div class="port-tagline">Salmon Capital of the World</div>
+    <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
+  </div>
+  <div class="acc-body port-body collapsed">
+    <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 53–61°F</span><span class="w-chip w-chip-warn">🌧 Expect rain</span><span class="w-chip">☂ 160in/yr avg</span></div>
+    <div class="port-facts">
+      <div class="port-fact"><div class="port-fact-label">Population</div><div class="port-fact-value">~8,000</div></div>
+      <div class="port-fact"><div class="port-fact-label">Totem Poles</div><div class="port-fact-value">World's largest collection</div></div>
+      <div class="port-fact"><div class="port-fact-label">Annual Rainfall</div><div class="port-fact-value">~160 inches</div></div>
+      <div class="port-fact"><div class="port-fact-label">Late Start Day</div><div class="port-fact-value">Ashore 11:15 AM</div></div>
+    </div>
+    <div class="did-you-know"><div class="dyk-label">Did You Know?</div>Ketchikan is one of the rainiest cities in the US. Locals say: "If you can't see the mountains, it's raining. If you can see them, it's about to rain." The lush temperate rainforest it creates is spectacular in June.</div>
+    <div class="edu-section">
+      <div class="edu-title">Top Highlights</div>
+      <div class="highlight-grid">
+        <div class="highlight-item"><span class="highlight-icon">🪵</span>Lumberjack Show</div>
+        <div class="highlight-item"><span class="highlight-icon">🪶</span>Totem Heritage Ctr</div>
+        <div class="highlight-item"><span class="highlight-icon">🛶</span>Creek Street</div>
+        <div class="highlight-item"><span class="highlight-icon">🐟</span>Salmon in the creek</div>
+        <div class="highlight-item"><span class="highlight-icon">🌧️</span>Pothole Pub (locals!)</div>
+        <div class="highlight-item"><span class="highlight-icon">🦅</span>Eagle spotting</div>
+      </div>
+      <div class="kids-callout"><div class="kids-label">🧒 Kids Corner</div>Totem poles are like giant comic books carved in cedar! Each figure tells part of a story — a family's history, an important event, or a legend. Eagle = peace, Raven = mischief, Bear = strength. Look for these at Totem Heritage Center!</div>
+      <div class="map-link-row">
+        <a class="map-link-btn" href="https://maps.google.com/?q=Ketchikan,Alaska" target="_blank" rel="noopener">📍 Map of Ketchikan</a>
+        <a class="map-link-btn" href="https://www.lumberjackshow.com" target="_blank" rel="noopener">🪵 Lumberjack Show</a>
+      </div>
+    </div>
+    <div class="event-list">
+      <div class="event-list-title">Today's Schedule</div>
+      <div class="event-item milestone"><div class="event-time">11:15 AM</div><div class="event-detail"><div class="event-name">⚓ Guests Ashore</div></div></div>
+      <div class="event-item tappable" onclick="openExpDetail('bigfoot')"><div class="event-time">11:30 AM – 2:00 PM</div><div class="event-detail"><div class="event-name">Alaska Bigfoot Adventures (KE70)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Payton · River · Christopher · Katherine · Sedona · Joseph · Veronica</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
+      <div class="event-item tappable" onclick="openExpDetail('lumberjack')"><div class="event-time">3:30 – 5:30 PM</div><div class="event-detail"><div class="event-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Joseph · Veronica · Sedona · Payton · River · Christopher · Katherine</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
+      <div class="event-item tappable" onclick="openExpDetail('lumberjack')"><div class="event-time">3:30 – 5:30 PM</div><div class="event-detail"><div class="event-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Emory · Sean · Sade · Eli Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
+      <div class="event-item milestone"><div class="event-time">7:00 PM</div><div class="event-detail"><div class="event-name">🛳️ All Aboard</div></div></div>
+    </div>
+  </div>
+</div>
 
-        <!-- Day 6 · June 20 · Ketchikan -->
-        <div class="port-group" data-group="ketchikan">
-            <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
-                <span class="port-badge">🌲 Ketchikan</span><span class="port-date">Day 6 · June 20</span>
-                <span class="acc-chevron open" style="margin-left:auto;"></span>
-            </div>
-            <div class="acc-body" style="padding-top:10px;">
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings,simmons" onclick="openExpDetail('lumberjack')">
-                    <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="exp-meta"><span class="exp-tag">~1.5 hrs</span><span class="exp-tag">$29–59/pp</span><span class="exp-tag">All ages</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="family-dot dot-sim" title="Simmons"></span><span class="badge badge-booked">✓ Booked</span></div><a class="learn-link" href="https://www.lumberjackshow.com" target="_blank" rel="noopener">↗ lumberjackshow.com</a><div class="exp-tap-hint">Tap for details →</div></div>
-                </div>
-                <div class="exp-card maybe tappable" data-status="maybe" data-families="ortiz,stallings" onclick="openExpDetail('bigfoot')">
-                    <div class="exp-dot dot-maybe"></div>
-                    <div class="exp-body"><div class="exp-name">Alaska Bigfoot Adventures (KE70)</div><div class="exp-meta"><span class="exp-tag">~3 hrs</span><span class="exp-tag">$184/pp</span><span class="exp-tag">Ages 6+</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-maybe">Deciding</span></div><div class="exp-tap-hint">Tap for details →</div></div>
-                </div>
-            </div>
-        </div>
+<!-- DAY 7 — At Sea -->
+<div class="port-card">
+  <div class="port-header port-header-seaday acc-trigger" onclick="toggleAcc(this)">
+    <div class="port-day-badge">Day 7 · Sun June 21</div>
+    <div class="port-name">At Sea</div>
+    <div class="port-tagline">Last Full Day · Heading Home</div>
+    <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
+  </div>
+  <div class="acc-body port-body collapsed">
+    <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 58–65°F</span><span class="w-chip">🌤 Partly cloudy</span><span class="w-chip">🌊 Heading south</span></div>
+    <div class="port-facts">
+      <div class="port-fact"><div class="port-fact-label">Route</div><div class="port-fact-value">Inside Passage south</div></div>
+      <div class="port-fact"><div class="port-fact-label">Destination</div><div class="port-fact-value">Vancouver · June 22</div></div>
+      <div class="port-fact"><div class="port-fact-label">Tip</div><div class="port-fact-value">Pack tonight — off ship 8 AM</div></div>
+      <div class="port-fact"><div class="port-fact-label">Best Activity</div><div class="port-fact-value">Deck views &amp; pool</div></div>
+    </div>
+    <div class="did-you-know"><div class="dyk-label">Last Full Day</div>Soak it in — last night at sea. Pack your bags tonight so disembarkation morning is smooth. The Disney Wonder docks in Vancouver early, and everyone is off by 8:00 AM.</div>
+    <div class="event-list">
+      <div class="event-list-title">Today's Schedule</div>
+      <div class="event-item"><div class="event-time">10:30 – 11:20 AM</div><div class="event-detail"><div class="event-name">50-Minute Massage · Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Katherine Ortiz</span></div></div></div>
+      <div class="event-item"><div class="event-time">3:00 – 4:00 PM</div><div class="event-detail"><div class="event-name">Mixology <span class="ev-tag ev-tag-warn">21+</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Christopher · Katherine · Veronica · Joseph</span></div></div></div>
+    </div>
+  </div>
+</div>
 
-        <!-- Day 7 · June 21 · Glacier Day -->
-        <div class="port-group" data-group="glacier">
-            <div class="port-group-header acc-trigger" onclick="toggleAcc(this)">
-                <span class="port-badge">🧊 Glacier Day</span><span class="port-date">Day 7 · June 21</span>
-                <span class="acc-chevron open" style="margin-left:auto;"></span>
-            </div>
-            <div class="acc-body" style="padding-top:10px;">
-                <div class="exp-card booked tappable" data-status="booked" data-families="stallings" onclick="openExpDetail('glacier-explorer')">
-                    <div class="exp-dot dot-booked"></div>
-                    <div class="exp-body"><div class="exp-name">Glacier Explorer (DG01)</div><div class="exp-meta"><span class="exp-tag">Stallings only</span></div><div class="exp-families"><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div>
-                </div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openModal('palo')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Brunch</div><div class="exp-meta"><span class="exp-tag">$55/pp</span><span class="exp-tag">Adults</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">View menu →</div></div></div>
-            </div>
-        </div>
+<!-- DAY 8 — Disembarkation -->
+<div class="port-card">
+  <div class="port-header port-header-vancouver acc-trigger" onclick="toggleAcc(this)">
+    <div class="port-day-badge">Day 8 · Mon June 22</div>
+    <div class="port-name">Vancouver</div>
+    <div class="port-tagline">Disembarkation · Adventure Complete</div>
+    <div style="margin-top:10px;display:flex;justify-content:flex-end;"><span class="acc-chevron"></span></div>
+  </div>
+  <div class="acc-body port-body collapsed">
+    <div class="weather-row" style="margin-bottom:12px;"><span class="w-chip">🌡 62–68°F</span><span class="w-chip">⛅ Partly cloudy</span><span class="w-chip">🏠 Homeward bound</span></div>
+    <div class="port-facts">
+      <div class="port-fact"><div class="port-fact-label">Off Ship By</div><div class="port-fact-value">8:00 AM</div></div>
+      <div class="port-fact"><div class="port-fact-label">Terminal</div><div class="port-fact-value">Canada Place</div></div>
+      <div class="port-fact"><div class="port-fact-label">Tip</div><div class="port-fact-value">Tag bags night before</div></div>
+      <div class="port-fact"><div class="port-fact-label">Return Flights</div><div class="port-fact-value">WestJet back to PHX</div></div>
+    </div>
+    <div class="event-list">
+      <div class="event-list-title">Today's Schedule</div>
+      <div class="event-item milestone"><div class="event-time">By 8:00 AM</div><div class="event-detail"><div class="event-name">🏁 All guests off ship · Adventure complete!</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="family-dot dot-sim"></span><span class="event-names">All families</span></div></div></div>
+    </div>
+  </div>
+</div>
+
         </div><!-- end plans-content -->
 
         <div id="pack-content" style="display:none">
@@ -2147,9 +2062,8 @@
     <button class="nav-item active" onclick="showSection('home',this)"><span class="nav-icon">🏔️</span><span class="nav-label">Home</span></button>
     <button class="nav-item" onclick="showSection('crew',this)"><span class="nav-icon">👨‍👩‍👧‍👦</span><span class="nav-label">Crew</span></button>
     <button class="nav-item" onclick="showSection('schedule',this)"><span class="nav-icon">📅</span><span class="nav-label">Schedule</span></button>
-    <button class="nav-item" onclick="showSection('ports',this)"><span class="nav-icon">⚓</span><span class="nav-label">Ports</span></button>
     <button class="nav-item" onclick="showSection('alaska',this)"><span class="nav-icon">🦅</span><span class="nav-label">Alaska</span></button>
-    <button class="nav-item" onclick="showSection('plans',this)"><span class="nav-icon">✅</span><span class="nav-label">Plans</span></button>
+    <button class="nav-item" onclick="showSection('plans',this)"><span class="nav-icon">🗓️</span><span class="nav-label">Trip</span></button>
     <button class="nav-item" onclick="showSection('games',this)"><span class="nav-icon">🏆</span><span class="nav-label">Games</span></button>
 </nav>
 
