@@ -664,36 +664,46 @@
 
     <!-- ==================== HOME ==================== -->
     <section id="section-home" class="section active">
-        <div style="padding-top:4px;margin-bottom:16px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:12px;">Quick Stats</div>
-            <div class="stat-grid">
-                <div class="stat-card"><div class="stat-number">3</div><div class="stat-label">Families</div></div>
-                <div class="stat-card"><div class="stat-number">7</div><div class="stat-label">Nights at Sea</div></div>
-                <div class="stat-card"><div class="stat-number">3</div><div class="stat-label">Ports of Call</div></div>
-                <div class="stat-card"><div class="stat-number" style="font-size:24px;padding-top:4px;">12+</div><div class="stat-label">Experiences Booked</div></div>
+
+        <!-- Countdown hero -->
+        <div style="text-align:center;padding:24px 16px 20px;border-radius:18px;background:linear-gradient(135deg,#0d1f35 0%,#1e3f68 100%);color:white;margin-bottom:16px;">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:2px;opacity:.55;margin-bottom:10px;">Setting sail in</div>
+            <div id="home-days" style="font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:#d4af37;line-height:1;">—</div>
+            <div style="font-size:13px;opacity:.6;margin-top:4px;letter-spacing:.5px;">days</div>
+            <div style="width:40px;height:1px;background:rgba(212,175,55,.4);margin:12px auto;"></div>
+            <div style="font-size:12px;opacity:.5;">June 15, 2026 · Disney Wonder · Vancouver</div>
+        </div>
+
+        <!-- Quick stats -->
+        <div class="stat-grid" style="margin-bottom:16px;">
+            <div class="stat-card"><div class="stat-number">3</div><div class="stat-label">Families</div></div>
+            <div class="stat-card"><div class="stat-number">7</div><div class="stat-label">Nights</div></div>
+            <div class="stat-card"><div class="stat-number">3</div><div class="stat-label">Ports</div></div>
+            <div class="stat-card"><div class="stat-number">15+</div><div class="stat-label">Events</div></div>
+        </div>
+
+        <!-- Quick nav tiles -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+            <div class="card" style="cursor:pointer;text-align:center;padding:18px 8px;margin-bottom:0;-webkit-tap-highlight-color:transparent;" onclick="showSection('plans',document.querySelector('.nav-item[onclick*=plans]'))">
+                <div style="font-size:26px;margin-bottom:6px;">🗓️</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Trip</div>
+                <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Day-by-day schedule</div>
             </div>
-        </div>
-        <div class="card" style="background:linear-gradient(135deg,var(--forest-dark),var(--forest-mid));color:white;cursor:pointer;" onclick="openModal('palo')">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.7;margin-bottom:8px;">First Big Plan After Boarding</div>
-            <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:4px;">Palo Brunch</div>
-            <div style="font-size:13px;opacity:.85;margin-bottom:10px;">Sea Day 2 · Ortiz + Stallings Adults</div>
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-                <span class="badge badge-booked">✓ Booked</span>
-                <span style="font-size:12px;opacity:.65;">View menu →</span>
+            <div class="card" style="cursor:pointer;text-align:center;padding:18px 8px;margin-bottom:0;-webkit-tap-highlight-color:transparent;" onclick="openModal('wonder')">
+                <div style="font-size:26px;margin-bottom:6px;">🛳️</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Ship Guide</div>
+                <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Disney Wonder tips</div>
             </div>
-        </div>
-        <div class="card">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--glacier);margin-bottom:10px;">Alaska Fast Fact</div>
-            <div style="font-family:'Playfair Display',serif;font-size:17px;line-height:1.3;margin-bottom:8px;">"Juneau is the only U.S. state capital you cannot reach by road."</div>
-            <div style="font-size:13px;color:var(--text-light);line-height:1.5;">Accessible only by air or sea — your ship arrival is a genuinely special entry into the city.</div>
-        </div>
-        <div class="card">
-            <div class="card-sub">Still Deciding</div>
-            <div style="font-family:'Playfair Display',serif;font-size:16px;margin-bottom:14px;">Experiences to Confirm</div>
-            <div class="activity-chip" style="margin-bottom:6px;"><span>Grizzly Falls Ziplining — Skagway</span><span class="badge badge-maybe">Maybe</span></div>
-            <div class="activity-chip" style="margin-bottom:6px;"><span>Alaska Bigfoot Adventures — Ketchikan</span><span class="badge badge-maybe">Maybe</span></div>
-            <div class="activity-chip" style="margin-bottom:6px;"><span>Behind the Scenes Ship Tour</span><span class="badge badge-maybe">Maybe</span></div>
-            <div class="activity-chip"><span>Stem-to-Stern Wine Tasting</span><span class="badge badge-maybe">Maybe</span></div>
+            <div class="card" style="cursor:pointer;text-align:center;padding:18px 8px;margin-bottom:0;-webkit-tap-highlight-color:transparent;" onclick="showSection('alaska',document.querySelector('.nav-item[onclick*=alaska]'))">
+                <div style="font-size:26px;margin-bottom:6px;">🦅</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Alaska 101</div>
+                <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Wildlife · flashcards</div>
+            </div>
+            <div class="card" style="cursor:pointer;text-align:center;padding:18px 8px;margin-bottom:0;-webkit-tap-highlight-color:transparent;" onclick="showSection('games',document.querySelector('.nav-item[onclick*=games]'))">
+                <div style="font-size:26px;margin-bottom:6px;">🎮</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Games</div>
+                <div style="font-size:11px;color:var(--text-light);margin-top:2px;">8 games to play</div>
+            </div>
         </div>
 
         <div class="card" style="background:linear-gradient(135deg,#0d1f35 0%,#1e3f68 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="openModal('wonder')">
@@ -835,10 +845,10 @@
                     </div>
                     <div class="acc-body collapsed">
                         <div class="weather-row"><span class="w-chip">🌡 52–60°F on deck</span><span class="w-chip">🌥 Variable clouds</span></div>
-                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Palo Brunch — Ortiz & Stallings Adults ✓</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">Pools, AquaLab, deck activities</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">Broadway show in the Walt Disney Theatre</div>
-                        <div class="activity-chip">Watch for orcas and humpbacks from the deck 🐋</div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>9:30 AM · Whiskey Tasting (21+)</span><span style="display:flex;gap:3px;"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>Noon · Palo Brunch ✓</span><span style="display:flex;gap:3px;"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Pools, AquaLab, deck activities · everyone</div>
+                        <div class="activity-chip">Watch for orcas &amp; humpbacks from the deck 🐋</div>
                     </div>
                 </div>
             </div>
@@ -846,14 +856,16 @@
                 <div class="timeline-line"><div class="day-dot" style="background:#e8f5ee;">🌊</div><div class="day-connector"></div></div>
                 <div class="timeline-content">
                     <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)">
-                        <div><div class="day-label">Day 3 · June 17</div><div class="day-title">Sea Day</div><div class="day-time">Entering Alaskan waters · Inside Passage</div></div>
+                        <div><div class="day-label">Day 3 · June 17</div><div class="day-title">Glacier Viewing</div><div class="day-time">Stikine Icecap · Scenic cruising</div></div>
                         <span class="acc-chevron"></span>
                     </div>
                     <div class="acc-body collapsed">
-                        <div class="weather-row"><span class="w-chip">🌡 50–58°F on deck</span><span class="w-chip">🌥 Overcast likely</span></div>
-                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Wildlife watch from the verandah and forward decks 🦅</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">Coastline becomes rugged and forested — stunning scenery</div>
-                        <div class="activity-chip">Navigation screen (Deck 4) shows position in the passage</div>
+                        <div class="weather-row"><span class="w-chip">🌡 45–55°F near ice</span><span class="w-chip">💨 Wind chill on deck</span><span class="w-chip">🌤 Often clear</span></div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>11:30 AM · Palo Brunch ✓</span><span style="display:flex;gap:3px;"><span class="family-dot dot-sim"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>12:30 PM · Glacier Explorer excursion</span><span style="display:flex;gap:3px;"><span class="family-dot dot-s"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>5:00 PM · Martini Tasting (21+)</span><span style="display:flex;gap:3px;"><span class="family-dot dot-o"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>6:00 PM · Palo Dinner ✓</span><span style="display:flex;gap:3px;"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="family-dot dot-sim"></span></span></div>
+                        <div class="activity-chip">Layer up on deck — 15–20°F colder near the ice 🧊</div>
                     </div>
                 </div>
             </div>
@@ -866,10 +878,10 @@
                     </div>
                     <div class="acc-body collapsed">
                         <div class="weather-row"><span class="w-chip">🌡 50–66°F</span><span class="w-chip">⛅ Mostly sunny</span><span class="w-chip">✅ Driest port</span></div>
-                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Gold Rush boomtown — fully walkable historic downtown</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">White Pass & Yukon Route Railway — climbs to 2,885 ft</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">13+ hours ashore — longest port day of the cruise</div>
-                        <div class="activity-chip">See Plans tab for family-specific excursions</div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>8:00 AM · White Pass Scenic Railway ✓</span><span style="display:flex;gap:3px;"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="family-dot dot-sim"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>1:30 PM · Musher's Camp &amp; Sled Dogs ✓</span><span style="display:flex;gap:3px;"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Gold Rush boomtown — walkable historic downtown</div>
+                        <div class="activity-chip">13+ hours ashore — longest port day of the cruise</div>
                     </div>
                 </div>
             </div>
@@ -882,10 +894,10 @@
                     </div>
                     <div class="acc-body collapsed">
                         <div class="weather-row"><span class="w-chip">🌡 52–63°F</span><span class="w-chip">🌧 Light rain possible</span><span class="w-chip">🌿 Lush + green</span></div>
-                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Only US state capital with no road access — boat or plane only</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">Mendenhall Glacier visible from town — 13 miles long</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">Mount Roberts Tramway for panoramic views above the clouds</div>
-                        <div class="activity-chip">See Plans tab for family-specific excursions</div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>8:30 AM · Mendenhall Glacier Explorer ✓</span><span style="display:flex;gap:3px;"><span class="family-dot dot-s"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>9:00 AM · Whales &amp; Science Adventure ✓</span><span style="display:flex;gap:3px;"><span class="family-dot dot-sim"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>10:30 AM · 5-Glacier Seaplane ✓</span><span style="display:flex;gap:3px;"><span class="family-dot dot-o"></span></span></div>
+                        <div class="activity-chip">Only US state capital with no road access 🛥️</div>
                     </div>
                 </div>
             </div>
@@ -898,10 +910,10 @@
                     </div>
                     <div class="acc-body collapsed">
                         <div class="weather-row"><span class="w-chip">🌡 53–61°F</span><span class="w-chip w-chip-warn">🌧 Rain very likely</span><span class="w-chip">🌲 Rainforest city</span></div>
-                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">World's largest collection of standing totem poles</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">Creek Street — historic boardwalk built over salmon-filled Ketchikan Creek</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">Late start means a relaxed ship morning — enjoy breakfast on the verandah</div>
-                        <div class="activity-chip">See Plans tab for family-specific excursions</div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>11:30 AM · Bigfoot Adventures ✓</span><span style="display:flex;gap:3px;"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>3:30 PM · Lumberjack Show ✓</span><span style="display:flex;gap:3px;"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="family-dot dot-sim"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Late start — relaxed ship morning, ashore at 11:15 AM</div>
+                        <div class="activity-chip">World's largest totem pole collection 🪶</div>
                     </div>
                 </div>
             </div>
@@ -909,16 +921,15 @@
                 <div class="timeline-line"><div class="day-dot" style="background:var(--glacier-pale);">🧊</div><div class="day-connector"></div></div>
                 <div class="timeline-content">
                     <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)">
-                        <div><div class="day-label">Day 7 · June 21</div><div class="day-title">Glacier Day</div><div class="day-time">Tracy Arm Fjord · Scenic cruising all day</div></div>
+                        <div><div class="day-label">Day 7 · June 21</div><div class="day-title">At Sea</div><div class="day-time">Last full day · Heading home</div></div>
                         <span class="acc-chevron"></span>
                     </div>
                     <div class="acc-body collapsed">
-                        <div class="weather-row"><span class="w-chip">🌡 45–55°F near ice</span><span class="w-chip">💨 Wind chill on deck</span><span class="w-chip">🌤 Often clear</span></div>
-                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">Ship navigates a 30-mile fjord to reach Sawyer Glacier</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">Glacial calving sounds like a cannon — watch and listen from the bow</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">Blue ice = oldest, densest ice — absorbs all colors except blue</div>
-                        <div class="activity-chip" style="margin-bottom:6px;">Mickey & Minnie in Alaska outfits — prime photo moment 📸</div>
-                        <div class="activity-chip">Palo Brunch #2 — Ortiz & Stallings Adults ✓</div>
+                        <div class="weather-row"><span class="w-chip">🌡 58–65°F</span><span class="w-chip">🌤 Partly cloudy</span><span class="w-chip">🌊 Southbound</span></div>
+                        <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>10:30 AM · 50-min Massage · Senses Spa</span><span style="display:flex;gap:3px;"><span class="family-dot dot-o"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>3:00 PM · Mixology (21+)</span><span style="display:flex;gap:3px;"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span></span></div>
+                        <div class="activity-chip" style="margin-bottom:6px;">Pack bags tonight — off ship by 8:00 AM tomorrow</div>
+                        <div class="activity-chip">Movies Under the Stars · last night at sea 🎬</div>
                     </div>
                 </div>
             </div>
@@ -2170,6 +2181,20 @@
         }
         if (name === 'games') { closeGame(); }
     }
+
+    // Home countdown
+    (function() {
+        const sail = new Date('2026-06-15T16:00:00');
+        function tick() {
+            const diff = sail - new Date();
+            const el = document.getElementById('home-days');
+            if (!el) return;
+            if (diff <= 0) { el.textContent = '🚢'; return; }
+            el.textContent = Math.floor(diff / 86400000);
+        }
+        tick();
+        setInterval(tick, 60000);
+    })();
 
     // Wildlife Bingo
     const BINGO_IDS = [
