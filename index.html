@@ -511,72 +511,41 @@
         .treat-card-desc { font-size: 12px; color: var(--text-light); line-height: 1.4; }
         .treat-earned { background: #dcfce7; color: #15803d; border-radius: 100px; font-size: 10px; font-weight: 700; padding: 2px 8px; display: inline-block; margin-top: 4px; }
 
-        /* ── CROSSWORD ── */
-        .cw-wrap { overflow-x: auto; display: flex; justify-content: center; margin-bottom: 16px; }
-        .cw-grid { display: inline-grid; gap: 2px; background: #555; border: 2px solid #555; border-radius: 4px; flex-shrink: 0; }
-        .cw-cell-wrap { position: relative; width: 33px; height: 33px; }
-        .cw-black { width: 33px; height: 33px; background: #333; }
-        .cw-input {
-            width: 33px; height: 33px;
-            border: none; background: var(--snow);
-            text-align: center; font-family: 'Inter', sans-serif;
-            font-size: 16px; font-weight: 700; color: var(--text-dark);
-            text-transform: uppercase; cursor: pointer;
-            padding: 0; outline: none;
-            caret-color: transparent;
-            border-radius: 0;
-            -webkit-appearance: none;
-        }
-        .cw-input.cw-highlighted { background: var(--glacier-pale); }
-        .cw-input.cw-active { background: var(--glacier); color: white; }
-        .cw-input.cw-correct { background: #22c55e; color: white; }
-        .cw-input.cw-incorrect { background: #ef4444; color: white; }
-        .cw-num {
-            position: absolute; top: 1px; left: 2px;
-            font-size: 7px; font-weight: 700; color: var(--text-light);
-            line-height: 1; pointer-events: none; z-index: 2;
-        }
-        .cw-num.cw-num-on-active { color: rgba(255,255,255,.8); }
-        .cw-clues { margin-bottom: 16px; }
-        .cw-clue-section { background: var(--snow); border-radius: 14px; margin-bottom: 10px; box-shadow: var(--shadow-sm); overflow: hidden; }
-        .cw-clue-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 16px; cursor: pointer; -webkit-tap-highlight-color: transparent;
-            font-size: 13px; font-weight: 700; color: var(--text-dark);
-        }
-        .cw-clue-header-arrow { font-size: 12px; color: var(--text-light); transition: transform .25s; }
-        .cw-clue-header-arrow.open { transform: rotate(180deg); }
-        .cw-clue-list { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
-        .cw-clue-list.open { max-height: 800px; }
-        .cw-clue-item {
-            display: flex; gap: 10px; padding: 9px 16px;
-            border-top: 1px solid #f0f4f0; cursor: pointer;
-            -webkit-tap-highlight-color: transparent; font-size: 13px; color: var(--text-mid);
-        }
-        .cw-clue-item:hover { background: var(--glacier-pale); }
-        .cw-clue-num { font-weight: 700; color: var(--glacier); flex-shrink: 0; min-width: 22px; }
-        .cw-actions { display: flex; gap: 10px; margin-bottom: 16px; }
-        .cw-btn {
-            flex: 1; padding: 12px; border: none; border-radius: 12px;
-            font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
-            cursor: pointer; -webkit-tap-highlight-color: transparent;
-        }
-        .cw-btn-check { background: var(--forest-dark); color: white; }
-        .cw-btn-reset { background: #f0f4f0; color: var(--text-mid); }
-        .cw-banner {
-            display: none; background: linear-gradient(135deg, var(--forest-dark), var(--glacier));
-            color: white; border-radius: 16px; padding: 18px 20px;
-            text-align: center; margin-bottom: 16px;
-        }
-        .cw-banner.show { display: block; animation: bingo-banner-pop .4s cubic-bezier(.17,.67,.3,1.3); }
-        .cw-banner-title { font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 4px; }
-        .cw-banner-sub { font-size: 13px; opacity: .85; }
-        .cw-active-clue {
-            background: var(--glacier-pale); border-radius: 10px; padding: 9px 14px;
-            font-size: 13px; color: #1a5d6e; margin-bottom: 12px; min-height: 38px;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .cw-active-clue-num { font-weight: 700; flex-shrink: 0; }
+        /* ── ANAGRAM GAME ── */
+        .ag-banner { display:none; background:linear-gradient(135deg,var(--forest-dark),var(--glacier)); color:white; border-radius:16px; padding:16px 20px; text-align:center; margin-bottom:14px; animation:bingo-banner-pop .4s cubic-bezier(.17,.67,.3,1.3); }
+        .ag-banner.show { display:block; }
+        .ag-banner-title { font-family:'Playfair Display',serif; font-size:26px; margin-bottom:2px; }
+        .ag-banner-sub { font-size:13px; opacity:.85; }
+        .ag-progress-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+        .ag-progress-label { font-size:12px; color:var(--text-light); font-weight:500; }
+        .ag-score-label { font-size:13px; font-weight:700; color:var(--forest-dark); }
+        .ag-progress-bar { height:5px; background:var(--stone-light); border-radius:100px; margin-bottom:16px; }
+        .ag-progress-fill { height:100%; background:var(--glacier); border-radius:100px; transition:width .4s ease; }
+        .ag-card { background:var(--snow); border-radius:16px; padding:16px 18px; margin-bottom:18px; box-shadow:var(--shadow-sm); }
+        .ag-cat { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-light); margin-bottom:6px; }
+        .ag-clue { font-family:'Playfair Display',serif; font-size:18px; color:var(--text-dark); line-height:1.35; }
+        .ag-answer-row { display:flex; flex-wrap:wrap; justify-content:center; gap:6px; min-height:52px; margin-bottom:14px; padding:4px 0; }
+        .ag-slot { width:42px; height:46px; border-radius:10px; border:2px dashed var(--stone-light); display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; font-family:'Inter',sans-serif; color:var(--text-dark); background:white; cursor:pointer; transition:all .15s; text-transform:uppercase; -webkit-tap-highlight-color:transparent; }
+        .ag-slot:empty { cursor:default; }
+        .ag-slot.filled { border-color:var(--glacier); border-style:solid; background:var(--glacier-pale); }
+        .ag-slot.correct { border-color:#22c55e; background:#f0fdf4; animation:ag-correct-pop .3s cubic-bezier(.17,.67,.3,1.3); }
+        .ag-slot.wrong { border-color:#ef4444; background:#fef2f2; animation:ag-shake .4s ease; }
+        @keyframes ag-correct-pop { 0%{transform:scale(1)} 50%{transform:scale(1.15)} 100%{transform:scale(1)} }
+        @keyframes ag-shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-5px)} 40%,80%{transform:translateX(5px)} }
+        .ag-tiles-row { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; min-height:54px; margin-bottom:20px; }
+        .ag-tile { width:44px; height:48px; border-radius:12px; background:var(--forest-dark); color:white; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; font-family:'Inter',sans-serif; cursor:pointer; transition:transform .1s, opacity .2s, background .2s; box-shadow:0 3px 8px rgba(0,0,0,.18); -webkit-tap-highlight-color:transparent; text-transform:uppercase; user-select:none; }
+        .ag-tile:active { transform:scale(.92); }
+        .ag-tile.used { opacity:0; pointer-events:none; }
+        .ag-btn-row { display:flex; gap:10px; margin-bottom:4px; }
+        .ag-btn { flex:1; padding:13px; border:none; border-radius:14px; font-family:'Inter',sans-serif; font-size:13px; font-weight:700; cursor:pointer; -webkit-tap-highlight-color:transparent; transition:transform .1s; }
+        .ag-btn:active { transform:scale(.97); }
+        .ag-btn-shuffle { background:var(--glacier-pale); color:#1a5d6e; }
+        .ag-btn-skip { background:var(--cream); color:var(--text-light); }
+        .ag-all-done { text-align:center; padding:32px 16px; }
+        .ag-all-done-emoji { font-size:56px; margin-bottom:12px; }
+        .ag-all-done-title { font-family:'Playfair Display',serif; font-size:28px; color:var(--forest-dark); margin-bottom:8px; }
+        .ag-all-done-sub { font-size:14px; color:var(--text-light); line-height:1.5; }
+
     </style>
 </head>
 <body>
@@ -1753,7 +1722,7 @@
             <div class="game-tabs">
                 <button class="game-tab active" onclick="showGameView('photobingo',this)">📸 Photo Bingo</button>
                 <button class="game-tab" onclick="showGameView('missions',this)">🗺️ Missions</button>
-                <button class="game-tab" onclick="showGameView('crossword',this)">✏️ Crossword</button>
+                <button class="game-tab" onclick="showGameView('anagram',this)">🔤 Anagram</button>
             </div>
 
             <!-- PHOTO BINGO -->
@@ -1867,54 +1836,36 @@
                 </div>
             </div>
 
-            <!-- CROSSWORD -->
-            <div id="gameview-crossword" class="game-view">
-                <div class="cw-banner" id="cw-banner">
-                    <div class="cw-banner-title">🎉 SOLVED!</div>
-                    <div class="cw-banner-sub">Alaska experts!</div>
+            <!-- ANAGRAM -->
+            <div id="gameview-anagram" class="game-view">
+                <!-- build entirely with JS, just needs these anchor elements -->
+                <div class="ag-banner" id="ag-banner">
+                    <div class="ag-banner-title">🎉 Solved!</div>
+                    <div class="ag-banner-sub" id="ag-banner-sub"></div>
                 </div>
-                <div class="cw-active-clue" id="cw-active-clue">
-                    <span class="cw-active-clue-num" id="cw-active-clue-num"></span>
-                    <span id="cw-active-clue-text">Tap a square to begin</span>
+                <div class="ag-progress-row">
+                    <span class="ag-progress-label" id="ag-progress-label">Word 1 of 20</span>
+                    <span class="ag-score-label" id="ag-score-label">Score: 0</span>
                 </div>
-                <div class="cw-wrap">
-                    <div class="cw-grid" id="cw-grid"></div>
+                <div class="ag-progress-bar"><div class="ag-progress-fill" id="ag-progress-fill"></div></div>
+                <div class="ag-card">
+                    <div class="ag-cat" id="ag-cat"></div>
+                    <div class="ag-clue" id="ag-clue"></div>
                 </div>
-                <div class="cw-actions">
-                    <button class="cw-btn cw-btn-check" onclick="cwCheck()">Check Answers</button>
-                    <button class="cw-btn cw-btn-reset" onclick="cwReset()">Reset</button>
+                <div class="ag-answer-row" id="ag-answer-row"></div>
+                <div class="ag-tiles-row" id="ag-tiles-row"></div>
+                <div class="ag-btn-row">
+                    <button class="ag-btn ag-btn-shuffle" onclick="agShuffle()">🔀 Shuffle</button>
+                    <button class="ag-btn ag-btn-skip" onclick="agSkip()">Skip →</button>
                 </div>
-                <div class="cw-clues">
-                    <div class="cw-clue-section">
-                        <div class="cw-clue-header" onclick="cwToggleClues('across')">
-                            <span>Across</span>
-                            <span class="cw-clue-header-arrow" id="cw-arrow-across">▾</span>
-                        </div>
-                        <div class="cw-clue-list" id="cw-clues-across">
-                            <div class="cw-clue-item" onclick="cwJumpToWord('2A')"><span class="cw-clue-num">2</span><span>Gold Rush port town we visit — gateway to the Klondike</span></div>
-                            <div class="cw-clue-item" onclick="cwJumpToWord('4A')"><span class="cw-clue-num">4</span><span>The 49th state — our destination!</span></div>
-                            <div class="cw-clue-item" onclick="cwJumpToWord('5A')"><span class="cw-clue-num">5</span><span>Pink fish famous in Alaskan rivers and at dinner</span></div>
-                            <div class="cw-clue-item" onclick="cwJumpToWord('7A')"><span class="cw-clue-num">7</span><span>Sea bird with a colorful beak found on Alaskan coasts</span></div>
-                            <div class="cw-clue-item" onclick="cwJumpToWord('8A')"><span class="cw-clue-num">8</span><span>A feeling of amazement — and our ship's name!</span></div>
-                            <div class="cw-clue-item" onclick="cwJumpToWord('9A')"><span class="cw-clue-num">9</span><span>A carved wooden pole — a Native Alaskan art form</span></div>
-                        </div>
-                    </div>
-                    <div class="cw-clue-section">
-                        <div class="cw-clue-header" onclick="cwToggleClues('down')">
-                            <span>Down</span>
-                            <span class="cw-clue-header-arrow" id="cw-arrow-down">▾</span>
-                        </div>
-                        <div class="cw-clue-list" id="cw-clues-down">
-                            <div class="cw-clue-item" onclick="cwJumpToWord('1D')"><span class="cw-clue-num">1</span><span>The largest ocean mammal you might spot on the cruise</span></div>
-                            <div class="cw-clue-item" onclick="cwJumpToWord('3D')"><span class="cw-clue-num">3</span><span>A massive river of ice flowing toward the sea</span></div>
-                            <div class="cw-clue-item" onclick="cwJumpToWord('6D')"><span class="cw-clue-num">6</span><span>A sled dog handler — expert of the Iditarod</span></div>
-                            <div class="cw-clue-item" onclick="cwJumpToWord('9D')"><span class="cw-clue-num">9</span><span>___ Arm Fjord — the stunning glacier inlet we sail into</span></div>
-                            <div class="cw-clue-item" onclick="cwJumpToWord('10D')"><span class="cw-clue-num">10</span><span>Killer whale — also spotted in Alaskan waters</span></div>
-                            <div class="cw-clue-item" onclick="cwJumpToWord('11D')"><span class="cw-clue-num">11</span><span>Majestic bird — Alaska's and America's symbol</span></div>
-                        </div>
-                    </div>
+                <div class="ag-all-done" id="ag-all-done" style="display:none;">
+                    <div class="ag-all-done-emoji">🏆</div>
+                    <div class="ag-all-done-title">Alaska Expert!</div>
+                    <div class="ag-all-done-sub" id="ag-all-done-sub" style="white-space:pre-line"></div>
+                    <button class="ag-btn ag-btn-shuffle" style="margin-top:16px;" onclick="agRestart()">Play Again</button>
                 </div>
             </div>
+
 
         </div>
     </section>
@@ -3061,418 +3012,211 @@
 
     document.addEventListener('DOMContentLoaded', initPackList);
 
-    // ── CROSSWORD ──────────────────────────────────────────────────────────────
+    // ── ANAGRAM GAME ──────────────────────────────────────────────────────────
     (function() {
-        // Grid: 12 rows × 10 cols (0-indexed)
-        // null = black cell
-        // Each white cell: { letter, a: acrossWordId|null, d: downWordId|null }
-
-        // Word definitions — numbered in grid reading order (row-by-row, left-to-right)
-        // Verified intersections (all confirmed correct):
-        //   (0,6)=G: SKAGWAY[3]=G, GLACIER[0]=G ✓
-        //   (1,6)=L: ALASKA[1]=L,  GLACIER[1]=L ✓
-        //   (2,6)=A: SALMON[1]=A,  GLACIER[2]=A ✓
-        //   (2,8)=M: SALMON[3]=M,  MUSHER[0]=M  ✓
-        //   (4,6)=I: PUFFIN[4]=I,  GLACIER[4]=I ✓
-        //   (5,6)=E: WONDER[4]=E,  GLACIER[5]=E ✓
-        //   (7,1)=T: TOTEM[0]=T,   TRACY[0]=T   ✓
-        //   (7,2)=O: TOTEM[1]=O,   ORCA[0]=O    ✓
-        //   (7,4)=E: TOTEM[3]=E,   EAGLE[0]=E   ✓
-        // Grid: 12 rows × 11 cols (cols 0-10)
-        // Adjacency: GLACIER (col=6, rows 0-6) ends at (6,6); (7,6) is black. ✓
-        const CW_WORDS = [
-            { id:'1D',  dir:'D', num:1,  answer:'WHALE',   row:0, col:0 },
-            { id:'2A',  dir:'A', num:2,  answer:'SKAGWAY', row:0, col:3 },
-            { id:'3D',  dir:'D', num:3,  answer:'GLACIER', row:0, col:6 },
-            { id:'4A',  dir:'A', num:4,  answer:'ALASKA',  row:1, col:5 },
-            { id:'5A',  dir:'A', num:5,  answer:'SALMON',  row:2, col:5 },
-            { id:'6D',  dir:'D', num:6,  answer:'MUSHER',  row:2, col:8 },
-            { id:'7A',  dir:'A', num:7,  answer:'PUFFIN',  row:4, col:2 },
-            { id:'8A',  dir:'A', num:8,  answer:'WONDER',  row:5, col:2 },
-            { id:'9A',  dir:'A', num:9,  answer:'TOTEM',   row:7, col:1 },
-            { id:'9D',  dir:'D', num:9,  answer:'TRACY',   row:7, col:1 },
-            { id:'10D', dir:'D', num:10, answer:'ORCA',    row:7, col:2 },
-            { id:'11D', dir:'D', num:11, answer:'EAGLE',   row:7, col:4 },
+        const WORDS = [
+            { word:'ALASKA',    clue:'The 49th state — our destination',                    cat:'🗺️ Geography' },
+            { word:'GLACIER',   clue:'A massive slow-moving river of ice',                  cat:'🌨️ Nature'    },
+            { word:'SKAGWAY',   clue:'Gold Rush port — our first stop',                     cat:'⛰️ Ports'     },
+            { word:'JUNEAU',    clue:"Alaska's capital city",                               cat:'🏔️ Ports'     },
+            { word:'KETCHIKAN', clue:'The Salmon Capital of the World',                     cat:'🌲 Ports'     },
+            { word:'SALMON',    clue:'Famous Alaskan fish — pink and delicious',            cat:'🐟 Wildlife'  },
+            { word:'PUFFIN',    clue:'Sea bird with a colorful triangular beak',            cat:'🐦 Wildlife'  },
+            { word:'MUSHER',    clue:'Person who drives a dog sled',                        cat:'🐕 Alaska'    },
+            { word:'WONDER',    clue:'Name of our Disney cruise ship',                      cat:'🚢 Ship'      },
+            { word:'TOTEM',     clue:'Carved wooden pole — Native Alaskan art form',        cat:'🗿 Culture'   },
+            { word:'WHALE',     clue:'Massive ocean mammal we hope to spot',                cat:'🐋 Wildlife'  },
+            { word:'EAGLE',     clue:"America's national bird — all over Alaska",           cat:'🦅 Wildlife'  },
+            { word:'ORCA',      clue:'Killer whale spotted in Alaskan waters',              cat:'🐬 Wildlife'  },
+            { word:'HUSKY',     clue:'Fluffy sled dog breed we meet at Musher\'s Camp',     cat:'🐕 Alaska'    },
+            { word:'AURORA',    clue:'Northern lights — a rare June treat',                 cat:'✨ Nature'    },
+            { word:'SEAPLANE',  clue:'How we see 5 glaciers over Juneau',                   cat:'✈️ Excursion' },
+            { word:'FJORD',     clue:'Narrow sea inlet carved by glaciers',                 cat:'🌊 Nature'    },
+            { word:'MICKEY',    clue:'Famous Disney mouse sailing with us',                 cat:'🏰 Disney'    },
+            { word:'KLONDIKE',  clue:'Famous Gold Rush region near Skagway',                cat:'⛏️ History'   },
+            { word:'TRACY',     clue:'___ Arm — the glacier fjord we sail into on Day 7',   cat:'🧊 Nature'    },
         ];
 
-        const ROWS = 12, COLS = 11;
+        let queue = [], current = 0, score = 0;
+        let tileLetters = [];   // array of {letter, used} for scramble tiles
+        let answerSlots = [];   // array of {letter|null, tileIdx|null} for answer
 
-        // Build the grid array
-        const grid = [];
-        for (let r = 0; r < ROWS; r++) {
-            grid[r] = [];
-            for (let c = 0; c < COLS; c++) grid[r][c] = null;
-        }
-
-        // Place each word into the grid
-        CW_WORDS.forEach(w => {
-            for (let i = 0; i < w.answer.length; i++) {
-                const r = w.dir === 'A' ? w.row : w.row + i;
-                const c = w.dir === 'A' ? w.col + i : w.col;
-                if (!grid[r][c]) grid[r][c] = { letter: w.answer[i], a: null, d: null };
-                grid[r][c].letter = w.answer[i]; // safety
-                if (w.dir === 'A') grid[r][c].a = w.id;
-                else grid[r][c].d = w.id;
+        function shuffle(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
             }
-        });
-
-        // Assign clue numbers to cells (first cell of each word)
-        const cellNums = {}; // "r,c" -> number
-        CW_WORDS.forEach(w => {
-            const key = w.row + ',' + w.col;
-            if (!cellNums[key]) cellNums[key] = w.num;
-        });
-
-        // State
-        let cwState = {}; // "r,c" -> entered letter
-        let cwActive = null; // { r, c, wordId }
-        let cwDir = 'A'; // current direction preference
-
-        // Persist
-        const CW_KEY = 'ak26-crossword';
-        try { cwState = JSON.parse(localStorage.getItem(CW_KEY) || '{}'); } catch(e) { cwState = {}; }
-
-        function cwSave() {
-            try { localStorage.setItem(CW_KEY, JSON.stringify(cwState)); } catch(e) {}
+            return arr;
         }
 
-        // Build DOM grid
-        function cwBuildGrid() {
-            const gridEl = document.getElementById('cw-grid');
-            if (!gridEl) return;
-            gridEl.style.gridTemplateColumns = 'repeat(' + COLS + ', 33px)';
-            gridEl.style.gridTemplateRows = 'repeat(' + ROWS + ', 33px)';
-            gridEl.innerHTML = '';
-
-            for (let r = 0; r < ROWS; r++) {
-                for (let c = 0; c < COLS; c++) {
-                    const cell = grid[r][c];
-                    if (!cell) {
-                        const blk = document.createElement('div');
-                        blk.className = 'cw-black';
-                        gridEl.appendChild(blk);
-                    } else {
-                        const wrap = document.createElement('div');
-                        wrap.className = 'cw-cell-wrap';
-
-                        const key = r + ',' + c;
-                        if (cellNums[key]) {
-                            const num = document.createElement('span');
-                            num.className = 'cw-num';
-                            num.id = 'cwnum-' + r + '-' + c;
-                            num.textContent = cellNums[key];
-                            wrap.appendChild(num);
-                        }
-
-                        const inp = document.createElement('input');
-                        inp.type = 'text';
-                        inp.maxLength = 1;
-                        inp.className = 'cw-input';
-                        inp.id = 'cwinp-' + r + '-' + c;
-                        inp.autocomplete = 'off';
-                        inp.autocorrect = 'off';
-                        inp.autocapitalize = 'characters';
-                        inp.spellcheck = false;
-                        if (cwState[key]) inp.value = cwState[key];
-
-                        inp.addEventListener('focus', () => cwCellFocus(r, c, inp));
-                        inp.addEventListener('click', () => cwCellClick(r, c, inp));
-                        inp.addEventListener('keydown', (e) => cwKeyDown(e, r, c));
-                        inp.addEventListener('input', (e) => cwInput(e, r, c, inp));
-
-                        wrap.appendChild(inp);
-                        gridEl.appendChild(wrap);
-                    }
-                }
-            }
+        function scramble(word) {
+            // ensure scrambled != original
+            let letters = word.split('');
+            let tries = 0;
+            do { shuffle(letters); tries++; } while (letters.join('') === word && tries < 20);
+            return letters;
         }
 
-        function cwGetWordForCell(r, c, preferDir) {
-            const cell = grid[r][c];
-            if (!cell) return null;
-            if (preferDir === 'A' && cell.a) return cell.a;
-            if (preferDir === 'D' && cell.d) return cell.d;
-            if (cell.a) return cell.a;
-            if (cell.d) return cell.d;
-            return null;
+        function agInit() {
+            queue = shuffle([...WORDS]);
+            current = 0; score = 0;
+            document.getElementById('ag-all-done').style.display = 'none';
+            document.getElementById('ag-banner').classList.remove('show');
+            agLoadWord();
         }
 
-        function cwHighlightWord(wordId) {
-            // Clear all highlights
-            document.querySelectorAll('.cw-input').forEach(el => {
-                el.classList.remove('cw-highlighted', 'cw-active');
+        function agLoadWord() {
+            const banner = document.getElementById('ag-banner');
+            banner.classList.remove('show');
+
+            if (current >= queue.length) { agFinish(); return; }
+
+            const item = queue[current];
+            const word = item.word;
+
+            document.getElementById('ag-cat').textContent = item.cat;
+            document.getElementById('ag-clue').textContent = item.clue;
+            document.getElementById('ag-progress-label').textContent = `Word ${current + 1} of ${queue.length}`;
+            document.getElementById('ag-score-label').textContent = `Score: ${score}`;
+            document.getElementById('ag-progress-fill').style.width = `${(current / queue.length) * 100}%`;
+
+            // build tile state
+            tileLetters = scramble(word).map(l => ({ letter: l, used: false }));
+            answerSlots = Array(word.length).fill(null).map(() => ({ letter: null, tileIdx: null }));
+
+            renderTiles();
+            renderSlots();
+        }
+
+        function renderTiles() {
+            const row = document.getElementById('ag-tiles-row');
+            row.innerHTML = '';
+            tileLetters.forEach((t, i) => {
+                const el = document.createElement('div');
+                el.className = 'ag-tile' + (t.used ? ' used' : '');
+                el.textContent = t.letter;
+                el.dataset.idx = i;
+                el.addEventListener('click', () => agPlaceTile(i));
+                row.appendChild(el);
             });
-            document.querySelectorAll('.cw-num').forEach(el => el.classList.remove('cw-num-on-active'));
-            if (!wordId) return;
+        }
 
-            const word = CW_WORDS.find(w => w.id === wordId);
-            if (!word) return;
+        function renderSlots() {
+            const row = document.getElementById('ag-answer-row');
+            row.innerHTML = '';
+            answerSlots.forEach((s, i) => {
+                const el = document.createElement('div');
+                el.className = 'ag-slot' + (s.letter ? ' filled' : '');
+                el.textContent = s.letter || '';
+                el.dataset.idx = i;
+                if (s.letter) el.addEventListener('click', () => agReturnTile(i));
+                row.appendChild(el);
+            });
+        }
 
-            for (let i = 0; i < word.answer.length; i++) {
-                const r = word.dir === 'A' ? word.row : word.row + i;
-                const c = word.dir === 'A' ? word.col + i : word.col;
-                const inp = document.getElementById('cwinp-' + r + '-' + c);
-                if (inp) inp.classList.add('cw-highlighted');
+        function agPlaceTile(tileIdx) {
+            if (tileLetters[tileIdx].used) return;
+            const nextEmpty = answerSlots.findIndex(s => s.letter === null);
+            if (nextEmpty === -1) return;
+            tileLetters[tileIdx].used = true;
+            answerSlots[nextEmpty] = { letter: tileLetters[tileIdx].letter, tileIdx };
+            renderTiles();
+            renderSlots();
+            // check if complete
+            if (answerSlots.every(s => s.letter !== null)) agCheck();
+        }
+
+        function agReturnTile(slotIdx) {
+            const slot = answerSlots[slotIdx];
+            if (!slot || slot.letter === null) return;
+            tileLetters[slot.tileIdx].used = false;
+            answerSlots[slotIdx] = { letter: null, tileIdx: null };
+            renderTiles();
+            renderSlots();
+        }
+
+        function agCheck() {
+            const answer = answerSlots.map(s => s.letter).join('');
+            const correct = answer === queue[current].word;
+            const slots = document.getElementById('ag-answer-row').querySelectorAll('.ag-slot');
+
+            if (correct) {
+                slots.forEach(s => { s.classList.remove('wrong'); s.classList.add('correct'); });
+                score++;
+                document.getElementById('ag-score-label').textContent = `Score: ${score}`;
+                const banner = document.getElementById('ag-banner');
+                banner.classList.add('show');
+                document.getElementById('ag-banner-sub').textContent = queue[current].word + ' — nice one!';
+                setTimeout(() => {
+                    banner.classList.remove('show');
+                    current++;
+                    agLoadWord();
+                }, 1400);
+            } else {
+                slots.forEach(s => { s.classList.remove('correct'); s.classList.add('wrong'); });
+                setTimeout(() => {
+                    // return all tiles
+                    answerSlots.forEach((_, i) => {
+                        if (answerSlots[i].tileIdx !== null) tileLetters[answerSlots[i].tileIdx].used = false;
+                        answerSlots[i] = { letter: null, tileIdx: null };
+                    });
+                    renderTiles();
+                    renderSlots();
+                }, 600);
             }
         }
 
-        function cwSetActive(r, c, wordId) {
-            cwHighlightWord(wordId);
-            cwActive = { r, c, wordId };
-            const inp = document.getElementById('cwinp-' + r + '-' + c);
-            if (inp) {
-                inp.classList.remove('cw-highlighted');
-                inp.classList.add('cw-active');
-            }
-            // Update number label color
-            const numEl = document.getElementById('cwnum-' + r + '-' + c);
-            if (numEl) numEl.classList.add('cw-num-on-active');
-            // Update active clue bar
-            cwUpdateClueBar(wordId);
+        function agShuffle() {
+            // return all placed tiles then re-scramble
+            answerSlots.forEach((_, i) => {
+                if (answerSlots[i].tileIdx !== null) tileLetters[answerSlots[i].tileIdx].used = false;
+                answerSlots[i] = { letter: null, tileIdx: null };
+            });
+            const unused = tileLetters.filter(t => !t.used);
+            shuffle(unused);
+            let ui = 0;
+            tileLetters = tileLetters.map(t => t.used ? t : unused[ui++]);
+            renderTiles();
+            renderSlots();
         }
 
-        const CW_CLUES = {
-            '2A':  '2A: Gold Rush port town we visit — gateway to the Klondike',
-            '4A':  '4A: The 49th state — our destination!',
-            '5A':  '5A: Pink fish famous in Alaskan rivers and at dinner',
-            '7A':  '7A: Sea bird with a colorful beak found on Alaskan coasts',
-            '8A':  '8A: A feeling of amazement — and our ship\'s name!',
-            '9A':  '9A: A carved wooden pole — a Native Alaskan art form',
-            '1D':  '1D: The largest ocean mammal you might spot on the cruise',
-            '3D':  '3D: A massive river of ice flowing toward the sea',
-            '6D':  '6D: A sled dog handler — expert of the Iditarod',
-            '9D':  '9D: ___ Arm Fjord — the stunning glacier inlet we sail into',
-            '10D': '10D: Killer whale — also spotted in Alaskan waters',
-            '11D': '11D: Majestic bird — Alaska\'s and America\'s symbol',
+        function agSkip() {
+            current++;
+            agLoadWord();
+        }
+
+        function agFinish() {
+            const allDone = document.getElementById('ag-all-done');
+            allDone.style.display = 'block';
+            document.getElementById('ag-progress-fill').style.width = '100%';
+            document.getElementById('ag-progress-label').textContent = `Complete!`;
+            document.getElementById('ag-score-label').textContent = `Score: ${score}`;
+            const pct = Math.round((score / queue.length) * 100);
+            let msg = pct === 100 ? 'Perfect score — you know Alaska cold! 🧊' :
+                      pct >= 80  ? 'Almost perfect — you\'re basically a local.' :
+                      pct >= 60  ? 'Solid. Alaska knowledge is building nicely.' :
+                                   'Keep practicing — the cruise is coming!';
+            document.getElementById('ag-all-done-sub').textContent = `${score} / ${queue.length} correct (${pct}%)\n${msg}`;
+        }
+
+        function agRestart() {
+            document.getElementById('ag-all-done').style.display = 'none';
+            agInit();
+        }
+
+        // Initialize when the anagram tab is first shown
+        let agStarted = false;
+        const origShowGameView = window.showGameView;
+        window.showGameView = function(name, btn) {
+            origShowGameView(name, btn);
+            if (name === 'anagram' && !agStarted) { agStarted = true; agInit(); }
         };
 
-        function cwUpdateClueBar(wordId) {
-            const numEl = document.getElementById('cw-active-clue-num');
-            const textEl = document.getElementById('cw-active-clue-text');
-            if (!wordId) {
-                if (numEl) numEl.textContent = '';
-                if (textEl) textEl.textContent = 'Tap a square to begin';
-                return;
-            }
-            const clue = CW_CLUES[wordId] || '';
-            // clue format: "2A: text..." or "11D: text..."
-            const colonIdx = clue.indexOf(': ');
-            if (colonIdx > -1) {
-                if (numEl) numEl.textContent = clue.slice(0, colonIdx) + ':';
-                if (textEl) textEl.textContent = clue.slice(colonIdx + 2);
-            } else {
-                if (numEl) numEl.textContent = wordId + ':';
-                if (textEl) textEl.textContent = clue;
-            }
-        }
-
-        function cwCellFocus(r, c, inp) {
-            // On focus, select current word (or toggle direction)
-            const cell = grid[r][c];
-            if (!cell) return;
-            let wordId = cwActive && cwActive.r === r && cwActive.c === c
-                ? cwGetWordForCell(r, c, cwDir === 'A' ? 'D' : 'A')
-                : cwGetWordForCell(r, c, cwDir);
-            if (!wordId) wordId = cwGetWordForCell(r, c, 'A') || cwGetWordForCell(r, c, 'D');
-            cwDir = wordId && CW_WORDS.find(w => w.id === wordId)?.dir || cwDir;
-            cwSetActive(r, c, wordId);
-        }
-
-        function cwCellClick(r, c, inp) {
-            // Toggle direction on re-tap of same cell
-            if (cwActive && cwActive.r === r && cwActive.c === c) {
-                const cell = grid[r][c];
-                if (cell && cell.a && cell.d) {
-                    cwDir = cwDir === 'A' ? 'D' : 'A';
-                    const wordId = cwGetWordForCell(r, c, cwDir);
-                    cwSetActive(r, c, wordId);
-                    return;
-                }
-            }
-            cwCellFocus(r, c, inp);
-        }
-
-        function cwAdvance(r, c, wordId) {
-            if (!wordId) return;
-            const word = CW_WORDS.find(w => w.id === wordId);
-            if (!word) return;
-            // Find position of r,c in word
-            let pos = -1;
-            for (let i = 0; i < word.answer.length; i++) {
-                const wr = word.dir === 'A' ? word.row : word.row + i;
-                const wc = word.dir === 'A' ? word.col + i : word.col;
-                if (wr === r && wc === c) { pos = i; break; }
-            }
-            if (pos < 0 || pos >= word.answer.length - 1) return;
-            const nr = word.dir === 'A' ? r : r + 1;
-            const nc = word.dir === 'A' ? c + 1 : c;
-            const nextInp = document.getElementById('cwinp-' + nr + '-' + nc);
-            if (nextInp) {
-                nextInp.focus();
-                cwSetActive(nr, nc, wordId);
-            }
-        }
-
-        function cwRetreat(r, c, wordId) {
-            if (!wordId) return;
-            const word = CW_WORDS.find(w => w.id === wordId);
-            if (!word) return;
-            let pos = -1;
-            for (let i = 0; i < word.answer.length; i++) {
-                const wr = word.dir === 'A' ? word.row : word.row + i;
-                const wc = word.dir === 'A' ? word.col + i : word.col;
-                if (wr === r && wc === c) { pos = i; break; }
-            }
-            if (pos <= 0) return;
-            const pr = word.dir === 'A' ? r : r - 1;
-            const pc = word.dir === 'A' ? c - 1 : c;
-            const prevInp = document.getElementById('cwinp-' + pr + '-' + pc);
-            if (prevInp) {
-                prevInp.focus();
-                cwSetActive(pr, pc, wordId);
-            }
-        }
-
-        function cwKeyDown(e, r, c) {
-            const wordId = cwActive ? cwActive.wordId : null;
-            if (e.key === 'Backspace' || e.key === 'Delete') {
-                const key = r + ',' + c;
-                const inp = document.getElementById('cwinp-' + r + '-' + c);
-                if (inp && inp.value) {
-                    inp.value = '';
-                    delete cwState[key];
-                    cwSave();
-                    cwClearCheck(r, c, inp);
-                } else {
-                    cwRetreat(r, c, wordId);
-                    if (wordId) {
-                        const word = CW_WORDS.find(w => w.id === wordId);
-                        if (word) {
-                            let pos = -1;
-                            for (let i = 0; i < word.answer.length; i++) {
-                                const wr = word.dir==='A' ? word.row : word.row+i;
-                                const wc = word.dir==='A' ? word.col+i : word.col;
-                                if (wr===r && wc===c) { pos=i; break; }
-                            }
-                            if (pos > 0) {
-                                const pr = word.dir==='A' ? r : r-1;
-                                const pc = word.dir==='A' ? c-1 : c;
-                                const prevKey = pr+','+pc;
-                                const prevInp = document.getElementById('cwinp-'+pr+'-'+pc);
-                                if (prevInp) { prevInp.value=''; delete cwState[prevKey]; cwSave(); cwClearCheck(pr,pc,prevInp); }
-                            }
-                        }
-                    }
-                }
-                e.preventDefault();
-                return;
-            }
-            if (e.key === 'ArrowRight') { cwMoveArrow(r, c, 0, 1); e.preventDefault(); }
-            if (e.key === 'ArrowLeft')  { cwMoveArrow(r, c, 0, -1); e.preventDefault(); }
-            if (e.key === 'ArrowDown')  { cwMoveArrow(r, c, 1, 0); e.preventDefault(); }
-            if (e.key === 'ArrowUp')    { cwMoveArrow(r, c, -1, 0); e.preventDefault(); }
-        }
-
-        function cwMoveArrow(r, c, dr, dc) {
-            const nr = r + dr, nc = c + dc;
-            if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) return;
-            if (!grid[nr][nc]) return;
-            const inp = document.getElementById('cwinp-' + nr + '-' + nc);
-            if (inp) { inp.focus(); }
-        }
-
-        function cwInput(e, r, c, inp) {
-            let val = inp.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(-1);
-            inp.value = val;
-            cwClearCheck(r, c, inp);
-            const key = r + ',' + c;
-            if (val) {
-                cwState[key] = val;
-                cwSave();
-                cwAdvance(r, c, cwActive ? cwActive.wordId : null);
-            } else {
-                delete cwState[key];
-                cwSave();
-            }
-        }
-
-        function cwClearCheck(r, c, inp) {
-            if (!inp) inp = document.getElementById('cwinp-' + r + '-' + c);
-            if (!inp) return;
-            inp.classList.remove('cw-correct', 'cw-incorrect');
-        }
-
-        function cwCheck() {
-            let allCorrect = true;
-            for (let r = 0; r < ROWS; r++) {
-                for (let c = 0; c < COLS; c++) {
-                    const cell = grid[r][c];
-                    if (!cell) continue;
-                    const inp = document.getElementById('cwinp-' + r + '-' + c);
-                    if (!inp) continue;
-                    inp.classList.remove('cw-correct', 'cw-incorrect', 'cw-highlighted', 'cw-active');
-                    const val = inp.value.toUpperCase();
-                    if (!val) { allCorrect = false; continue; }
-                    if (val === cell.letter) {
-                        inp.classList.add('cw-correct');
-                    } else {
-                        inp.classList.add('cw-incorrect');
-                        allCorrect = false;
-                    }
-                }
-            }
-            if (allCorrect) {
-                const banner = document.getElementById('cw-banner');
-                if (banner) banner.classList.add('show');
-            }
-        }
-
-        function cwReset() {
-            cwState = {};
-            cwSave();
-            for (let r = 0; r < ROWS; r++) {
-                for (let c = 0; c < COLS; c++) {
-                    if (!grid[r][c]) continue;
-                    const inp = document.getElementById('cwinp-' + r + '-' + c);
-                    if (inp) { inp.value = ''; inp.classList.remove('cw-correct','cw-incorrect','cw-highlighted','cw-active'); }
-                }
-            }
-            const banner = document.getElementById('cw-banner');
-            if (banner) banner.classList.remove('show');
-            cwActive = null;
-            cwUpdateClueBar(null);
-        }
-
-        function cwToggleClues(dir) {
-            const list = document.getElementById('cw-clues-' + dir);
-            const arrow = document.getElementById('cw-arrow-' + dir);
-            if (!list) return;
-            const open = list.classList.toggle('open');
-            if (arrow) arrow.classList.toggle('open', open);
-        }
-
-        function cwJumpToWord(wordId) {
-            const word = CW_WORDS.find(w => w.id === wordId);
-            if (!word) return;
-            cwDir = word.dir;
-            const inp = document.getElementById('cwinp-' + word.row + '-' + word.col);
-            if (inp) {
-                inp.focus();
-                cwSetActive(word.row, word.col, wordId);
-                // Scroll grid into view
-                inp.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        }
-
-        // Expose globals needed by inline HTML onclick handlers
-        window.cwCheck = cwCheck;
-        window.cwReset = cwReset;
-        window.cwToggleClues = cwToggleClues;
-        window.cwJumpToWord = cwJumpToWord;
-
-        // Initialize on DOM ready
-        document.addEventListener('DOMContentLoaded', cwBuildGrid);
+        window.agShuffle = agShuffle;
+        window.agSkip = agSkip;
+        window.agRestart = agRestart;
     })();
+
 </script>
 </body>
 </html>
