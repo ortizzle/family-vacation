@@ -1502,7 +1502,7 @@
             </div>
             <div class="acc-body" style="padding-top:10px;">
                 <div class="onboard-cat-title">Adult Dining</div>
-                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('palo-dinner')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Dinner</div><div class="exp-meta"><span class="exp-tag">$55/pp</span><span class="exp-tag">Any sea day</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
+                <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openModal('palo-dinner')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Palo Dinner</div><div class="exp-meta"><span class="exp-tag">$55/pp</span><span class="exp-tag">Any sea day</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">View menu →</div></div></div>
                 <div class="onboard-cat-title">Beverage Tastings</div>
                 <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('mixology')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Mixology</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
                 <div class="exp-card booked tappable" data-status="booked" data-families="ortiz,stallings" onclick="openExpDetail('martini')"><div class="exp-dot dot-booked"></div><div class="exp-body"><div class="exp-name">Martini Tasting</div><div class="exp-meta"><span class="exp-tag">~$45/pp</span></div><div class="exp-families"><span class="family-dot dot-o" title="Ortiz"></span><span class="family-dot dot-s" title="Stallings"></span><span class="badge badge-booked">✓ Booked</span></div><div class="exp-tap-hint">Tap for details →</div></div></div>
@@ -1978,6 +1978,57 @@
             <div class="menu-row"><div class="menu-row-name">Palo Bloody Mary</div><div class="menu-row-price">$10.50</div></div>
             <div class="menu-row"><div class="menu-row-name">Bellini</div><div class="menu-row-price">$5</div></div>
             <div class="menu-row"><div class="menu-row-name">Balsamic Grande</div><div class="menu-row-price">$12</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- Palo Dinner Menu Modal -->
+<div class="modal-overlay hidden" id="modal-palo-dinner" onclick="if(event.target===this)closeModal('palo-dinner')">
+    <div class="modal-sheet">
+        <div class="modal-handle-row">
+            <div class="modal-handle"></div>
+            <button class="modal-close-btn" onclick="closeModal('palo-dinner')">✕</button>
+        </div>
+        <div class="modal-scroll">
+            <div class="modal-header">
+                <div class="modal-title">Palo Dinner</div>
+                <div class="modal-subtitle">Italian fine dining · $55/person · Ortiz & Stallings Adults<br>Adults-only · Panoramic ocean views · Deck 10</div>
+            </div>
+            <div class="modal-included">🍫 <strong>Order the soufflé first.</strong> It takes 25 minutes — tell your server the moment you sit down or you'll miss it.</div>
+            <div class="menu-cat">Antipasti</div>
+            <div class="menu-row"><div class="menu-row-name">Antipasto Table</div><div class="menu-row-desc">Prosciutto, bresaola, coppa, marinated olives, roasted peppers, bruschetta, Parmigiano-Reggiano</div></div>
+            <div class="menu-row"><div class="menu-row-name">Carpaccio di Manzo</div><div class="menu-row-desc">Thinly sliced beef tenderloin, arugula, capers, shaved Parmigiano, lemon olive oil</div></div>
+            <div class="menu-row"><div class="menu-row-name">Gamberi all'Aglio</div><div class="menu-row-desc">Garlic-sautéed tiger shrimp, white wine, lemon, fresh herbs</div></div>
+            <div class="menu-row"><div class="menu-row-name">Bruschetta al Pomodoro</div><div class="menu-row-desc">Grilled bread, heirloom tomatoes, basil, extra-virgin olive oil</div></div>
+            <div class="menu-cat">Soups & Salads</div>
+            <div class="menu-row"><div class="menu-row-name">Zuppa del Giorno</div><div class="menu-row-desc">Chef's soup of the day</div></div>
+            <div class="menu-row"><div class="menu-row-name">Insalata Caesar</div><div class="menu-row-desc">Romaine hearts, house-made Caesar dressing, Parmigiano, herb croutons</div></div>
+            <div class="menu-row"><div class="menu-row-name">Insalata Mista</div><div class="menu-row-desc">Mixed greens, cherry tomatoes, cucumber, balsamic vinaigrette</div></div>
+            <div class="menu-cat">Pasta</div>
+            <div class="menu-row"><div class="menu-row-name">Pappardelle al Ragù</div><div class="menu-row-desc">Slow-braised short rib ragù, fresh pappardelle, Parmigiano-Reggiano</div></div>
+            <div class="menu-row"><div class="menu-row-name">Gnocchi di Patate</div><div class="menu-row-desc">Potato gnocchi, Gorgonzola cream, toasted walnuts, chives</div></div>
+            <div class="menu-row"><div class="menu-row-name">Risotto del Giorno</div><div class="menu-row-desc">Chef's daily risotto selection</div></div>
+            <div class="menu-row"><div class="menu-row-name">Tortellini Panna e Prosciutto</div><div class="menu-row-desc">Cheese tortellini, cream sauce, prosciutto, peas</div></div>
+            <div class="menu-cat">Entrées</div>
+            <div class="menu-row"><div class="menu-row-name">Aragosta e Gamberi</div><div class="menu-row-desc">Lobster tail & tiger shrimp, drawn butter, roasted asparagus, lemon</div></div>
+            <div class="menu-row"><div class="menu-row-name">Branzino al Forno</div><div class="menu-row-desc">Roasted Mediterranean sea bass, capers, olives, cherry tomatoes, white wine</div></div>
+            <div class="menu-row"><div class="menu-row-name">Salmone in Crosta</div><div class="menu-row-desc">Herb-crusted Atlantic salmon, asparagus, lemon beurre blanc</div></div>
+            <div class="menu-row"><div class="menu-row-name">Costolette di Agnello</div><div class="menu-row-desc">Herb-crusted lamb chops, roasted garlic jus, fingerling potatoes, haricots verts</div></div>
+            <div class="menu-row"><div class="menu-row-name">Filetto di Manzo</div><div class="menu-row-desc">Beef tenderloin, roasted fingerling potatoes, wild mushroom sauce, red wine demi-glace</div></div>
+            <div class="menu-row"><div class="menu-row-name">Petto di Pollo</div><div class="menu-row-desc">Pan-roasted chicken breast, mushroom cream sauce, polenta, seasonal vegetables</div></div>
+            <div class="menu-row"><div class="menu-row-name">Risotto al Tartufo Nero</div><div class="menu-row-desc">Black truffle risotto, Parmigiano foam · vegetarian</div></div>
+            <div class="menu-cat">Desserts</div>
+            <div class="menu-row"><div class="menu-row-name">Soufflé al Cioccolato ★</div><div class="menu-row-desc">Warm dark chocolate soufflé, vanilla gelato · order at the start of your meal</div></div>
+            <div class="menu-row"><div class="menu-row-name">Soufflé alla Vaniglia ★</div><div class="menu-row-desc">Warm vanilla soufflé, raspberry coulis · order at the start of your meal</div></div>
+            <div class="menu-row"><div class="menu-row-name">Tiramisù</div><div class="menu-row-desc">Espresso-soaked ladyfingers, mascarpone cream, cocoa</div></div>
+            <div class="menu-row"><div class="menu-row-name">Panna Cotta alla Vaniglia</div><div class="menu-row-desc">Vanilla bean panna cotta, mixed berry coulis</div></div>
+            <div class="menu-row"><div class="menu-row-name">Torta al Limoncello</div><div class="menu-row-desc">Limoncello almond layer cake, lemon curd</div></div>
+            <div class="menu-row"><div class="menu-row-name">Gelati Assortiti</div><div class="menu-row-desc">Selection of artisan gelato — ask your server for today's flavors</div></div>
+            <div class="menu-row"><div class="menu-row-name">Formaggi Italiani</div><div class="menu-row-desc">Artisan Italian cheese selection, honeycomb, fruit compote, crostini</div></div>
+            <div class="menu-cat">Wine & Cocktails (à la carte)</div>
+            <div class="menu-row"><div class="menu-row-name">Wine by the glass</div><div class="menu-row-price">$12–18</div></div>
+            <div class="menu-row"><div class="menu-row-name">Bottle selections</div><div class="menu-row-price">$40–90+</div></div>
+            <div class="menu-row"><div class="menu-row-name">Cocktails & digestivi</div><div class="menu-row-price">$10–14</div></div>
         </div>
     </div>
 </div>
