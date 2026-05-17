@@ -392,6 +392,8 @@
         .exp-card.tappable { cursor: pointer; transition: transform .15s; }
         .exp-card.tappable:active { transform: scale(.98); }
         .exp-tap-hint { font-size: 11px; color: var(--glacier); margin-top: 6px; }
+        .event-item.tappable { cursor: pointer; -webkit-tap-highlight-color: transparent; border-radius: 10px; transition: background .12s; }
+        .event-item.tappable:active { background: var(--glacier-pale); }
 
         /* Palo Menu Modal */
         .modal-overlay { position: fixed; inset: 0; background: rgba(26,51,40,.72); z-index: 500; display: flex; align-items: flex-end; justify-content: center; backdrop-filter: blur(4px); }
@@ -1350,7 +1352,7 @@
     <div class="event-list">
       <div class="event-list-title">Today's Schedule</div>
       <div class="event-item tappable" onclick="openModal('palo')"><div class="event-time">11:30 AM – 1:00 PM</div><div class="event-detail"><div class="event-name">Palo Brunch · Palo <span class="ev-tag">$55/pp</span></div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Sean · Sade Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
-      <div class="event-item"><div class="event-time">12:30 – 2:59 PM</div><div class="event-detail"><div class="event-name">Glacier Explorer (DG01) <span class="ev-tag">Excursion</span></div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Veronica · Joseph · Payton Stallings</span></div></div></div>
+      <div class="event-item tappable" onclick="openExpDetail('glacier-explorer')"><div class="event-time">12:30 – 2:59 PM</div><div class="event-detail"><div class="event-name">Glacier Explorer (DG01)</div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Veronica · Joseph · Payton Stallings</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item"><div class="event-time">5:00 – 6:00 PM</div><div class="event-detail"><div class="event-name">Martini Tasting <span class="ev-tag ev-tag-warn">21+</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Katherine · Christopher Ortiz</span></div></div></div>
       <div class="event-item tappable" onclick="openModal('palo-dinner')"><div class="event-time">6:00 – 7:30 PM</div><div class="event-detail"><div class="event-name">Palo Dinner · Palo <span class="ev-tag">$55/pp</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Veronica · Katherine · Christopher · Joseph</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
       <div class="event-item tappable" onclick="openModal('palo-dinner')"><div class="event-time">6:00 – 7:30 PM</div><div class="event-detail"><div class="event-name">Palo Dinner · Palo <span class="ev-tag">$55/pp</span></div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Sean · Sade Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
@@ -1439,7 +1441,7 @@
       <div class="event-list-title">Today's Schedule</div>
       <div class="event-item milestone"><div class="event-time">6:45 AM</div><div class="event-detail"><div class="event-name">⚓ Guests Ashore</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('mendenhall')"><div class="event-time">8:30 AM – Noon</div><div class="event-detail"><div class="event-name">Mendenhall Glacier Explorer (JU11)</div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Payton · Joseph · Veronica Stallings</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
-      <div class="event-item"><div class="event-time">9:00 AM – 2:30 PM</div><div class="event-detail"><div class="event-name">Alaska Whales &amp; Science Adventure (JU33)</div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Eli · Sean · Emory · Sade Simmons</span></div></div></div>
+      <div class="event-item tappable" onclick="openExpDetail('ak-whales')"><div class="event-time">9:00 AM – 2:30 PM</div><div class="event-detail"><div class="event-name">Alaska Whales &amp; Science Adventure (JU33)</div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Eli · Sean · Emory · Sade Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('seaplane')"><div class="event-time">10:30 AM – Noon</div><div class="event-detail"><div class="event-name">5-Glacier Seaplane Exploration (JU49)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Katherine · Sedona · Christopher · River Ortiz</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item milestone"><div class="event-time">4:45 PM</div><div class="event-detail"><div class="event-name">🛳️ All Aboard</div></div></div>
     </div>
@@ -2650,6 +2652,29 @@
                 <div class="tip-item"><span class="tip-icon">👟</span>Bring waterproof shoes — the lakeshore trail can be muddy and wet.</div>
                 <div class="tip-item"><span class="tip-icon">📸</span>Walk to the base of Nugget Falls for the best glacier photo backdrop — the scale of the ice is clearest from there.</div>
                 <div class="tip-item"><span class="tip-icon">🕰️</span>At $59–109 this is the most affordable glacier excursion on the trip — and arguably the most rewarding per dollar.</div>
+            `
+        },
+        'ak-whales': {
+            port: '🏔️ Juneau · Day 5 · June 19',
+            title: 'Alaska Whales & Science Adventure (JU33)',
+            subtitle: '~5.5 hrs · All ages · Simmons',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">The Experience</div>One of the longest whale-watching excursions available from Juneau — a research-style adventure that combines naturalist-led wildlife spotting with onboard science education. Longer time on the water means dramatically better odds of seeing humpbacks breaching.</div>
+                <div class="section-header">Highlights</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">🐋</span>Humpback whale sightings</div>
+                    <div class="highlight-item"><span class="highlight-icon">🔭</span>Marine biologist on board</div>
+                    <div class="highlight-item"><span class="highlight-icon">🦭</span>Harbor seals & sea lions</div>
+                    <div class="highlight-item"><span class="highlight-icon">🦅</span>Bald eagle spotting</div>
+                    <div class="highlight-item"><span class="highlight-icon">🐬</span>Orca & Dall's porpoise</div>
+                    <div class="highlight-item"><span class="highlight-icon">🔬</span>Hands-on science activities</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">🐋</span>June is prime humpback season — whales are feeding heavily after returning from Hawaii. Bubble-net feeding is common and spectacular.</div>
+                <div class="tip-item"><span class="tip-icon">🌊</span>The longer time on water (vs. shorter tours) significantly increases wildlife sighting chances — the naturalist guides know feeding grounds.</div>
+                <div class="tip-item"><span class="tip-icon">🤢</span>Open-water conditions can be choppy. If anyone is prone to seasickness, take medicine before boarding.</div>
+                <div class="tip-item"><span class="tip-icon">📸</span>Bring binoculars — whale spouts can be spotted from far before the boat gets close. The camera-ready moments happen fast.</div>
+                <div class="tip-item"><span class="tip-icon">🧒</span>The science component is designed for kids — Eli and Emory will enjoy the hands-on marine biology activities between sightings.</div>
             `
         },
         'lumberjack': {
