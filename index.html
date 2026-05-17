@@ -2830,11 +2830,16 @@
         document.body.style.overflow = '';
     }
 
-    // Experience counts
-    const cards = document.querySelectorAll('.exp-card');
-    document.getElementById('count-booked').textContent = [...cards].filter(c => c.dataset.status === 'booked').length;
-    document.getElementById('count-maybe').textContent = [...cards].filter(c => c.dataset.status === 'maybe').length;
-    document.getElementById('count-total').textContent = cards.length;
+    // Experience counts (elements may not exist if home stats removed)
+    (function() {
+        const cards = document.querySelectorAll('.exp-card');
+        const booked = [...cards].filter(c => c.dataset.status === 'booked').length;
+        const maybe  = [...cards].filter(c => c.dataset.status === 'maybe').length;
+        const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+        el('count-booked', booked);
+        el('count-maybe',  maybe);
+        el('count-total',  cards.length);
+    })();
 
     // ── GAMES ──
 
