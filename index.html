@@ -540,7 +540,11 @@
         .ag-btn { flex:1; padding:13px; border:none; border-radius:14px; font-family:'Inter',sans-serif; font-size:13px; font-weight:700; cursor:pointer; -webkit-tap-highlight-color:transparent; transition:transform .1s; }
         .ag-btn:active { transform:scale(.97); }
         .ag-btn-shuffle { background:var(--glacier-pale); color:#1a5d6e; }
+        .ag-btn-hint { background:var(--gold-pale); color:#7a4a00; }
+        .ag-btn-hint.used { background:var(--cream); color:var(--text-light); opacity:.6; pointer-events:none; }
         .ag-btn-skip { background:var(--cream); color:var(--text-light); }
+        @keyframes ag-fade-in { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+        .ag-card.revealed { animation:ag-fade-in .25s ease both; }
         .ag-all-done { text-align:center; padding:32px 16px; }
         .ag-all-done-emoji { font-size:56px; margin-bottom:12px; }
         .ag-all-done-title { font-family:'Playfair Display',serif; font-size:28px; color:var(--forest-dark); margin-bottom:8px; }
@@ -1848,7 +1852,7 @@
                     <span class="ag-score-label" id="ag-score-label">Score: 0</span>
                 </div>
                 <div class="ag-progress-bar"><div class="ag-progress-fill" id="ag-progress-fill"></div></div>
-                <div class="ag-card">
+                <div class="ag-card" id="ag-card" style="display:none;">
                     <div class="ag-cat" id="ag-cat"></div>
                     <div class="ag-clue" id="ag-clue"></div>
                 </div>
@@ -1856,6 +1860,7 @@
                 <div class="ag-tiles-row" id="ag-tiles-row"></div>
                 <div class="ag-btn-row">
                     <button class="ag-btn ag-btn-shuffle" onclick="agShuffle()">🔀 Shuffle</button>
+                    <button class="ag-btn ag-btn-hint" id="ag-hint-btn" onclick="agHint()">💡 Hint</button>
                     <button class="ag-btn ag-btn-skip" onclick="agSkip()">Skip →</button>
                 </div>
                 <div class="ag-all-done" id="ag-all-done" style="display:none;">
@@ -3037,7 +3042,7 @@
             { word:'TRACY',     clue:'___ Arm — the glacier fjord we sail into on Day 7',   cat:'🧊 Nature'    },
         ];
 
-        let queue = [], current = 0, score = 0;
+        let queue = [], current = 0, score = 0, hints = 0;
         let tileLetters = [];   // array of {letter, used} for scramble tiles
         let answerSlots = [];   // array of {letter|null, tileIdx|null} for answer
 
@@ -3059,7 +3064,7 @@
 
         function agInit() {
             queue = shuffle([...WORDS]);
-            current = 0; score = 0;
+            current = 0; score = 0; hints = 0;
             document.getElementById('ag-all-done').style.display = 'none';
             document.getElementById('ag-banner').classList.remove('show');
             agLoadWord();
@@ -3079,6 +3084,14 @@
             document.getElementById('ag-progress-label').textContent = `Word ${current + 1} of ${queue.length}`;
             document.getElementById('ag-score-label').textContent = `Score: ${score}`;
             document.getElementById('ag-progress-fill').style.width = `${(current / queue.length) * 100}%`;
+
+            // reset hint state
+            const card = document.getElementById('ag-card');
+            const hintBtn = document.getElementById('ag-hint-btn');
+            card.style.display = 'none';
+            card.classList.remove('revealed');
+            hintBtn.classList.remove('used');
+            hintBtn.textContent = '💡 Hint';
 
             // build tile state
             tileLetters = scramble(word).map(l => ({ letter: l, used: false }));
@@ -3166,6 +3179,16 @@
             }
         }
 
+        function agHint() {
+            const card = document.getElementById('ag-card');
+            const hintBtn = document.getElementById('ag-hint-btn');
+            hints++;
+            card.style.display = 'block';
+            card.classList.add('revealed');
+            hintBtn.classList.add('used');
+            hintBtn.textContent = '💡 Hinted';
+        }
+
         function agShuffle() {
             // return all placed tiles then re-scramble
             answerSlots.forEach((_, i) => {
@@ -3192,11 +3215,13 @@
             document.getElementById('ag-progress-label').textContent = `Complete!`;
             document.getElementById('ag-score-label').textContent = `Score: ${score}`;
             const pct = Math.round((score / queue.length) * 100);
-            let msg = pct === 100 ? 'Perfect score — you know Alaska cold! 🧊' :
-                      pct >= 80  ? 'Almost perfect — you\'re basically a local.' :
-                      pct >= 60  ? 'Solid. Alaska knowledge is building nicely.' :
+            let msg = pct === 100 && hints === 0 ? 'Perfect — no hints needed! Alaska expert! 🧊' :
+                      pct === 100 ? 'Perfect score! 🧊' :
+                      pct >= 80  ? 'Almost perfect — basically a local.' :
+                      pct >= 60  ? 'Solid. Alaska knowledge is building.' :
                                    'Keep practicing — the cruise is coming!';
-            document.getElementById('ag-all-done-sub').textContent = `${score} / ${queue.length} correct (${pct}%)\n${msg}`;
+            const hintNote = hints === 0 ? 'No hints used 🎯' : `${hints} hint${hints > 1 ? 's' : ''} used`;
+            document.getElementById('ag-all-done-sub').textContent = `${score} / ${queue.length} correct (${pct}%)\n${hintNote}\n${msg}`;
         }
 
         function agRestart() {
@@ -3213,6 +3238,7 @@
         };
 
         window.agShuffle = agShuffle;
+        window.agHint = agHint;
         window.agSkip = agSkip;
         window.agRestart = agRestart;
     })();
