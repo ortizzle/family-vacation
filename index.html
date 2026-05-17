@@ -695,6 +695,19 @@
             <div class="activity-chip" style="margin-bottom:6px;"><span>Behind the Scenes Ship Tour</span><span class="badge badge-maybe">Maybe</span></div>
             <div class="activity-chip"><span>Stem-to-Stern Wine Tasting</span><span class="badge badge-maybe">Maybe</span></div>
         </div>
+
+        <div class="card" style="background:linear-gradient(135deg,#0d1f35 0%,#1e3f68 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="openModal('wonder')">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Your Ship</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                <span style="font-size:28px;">🛳️</span>
+                <div>
+                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Disney Wonder</div>
+                    <div style="font-size:12px;opacity:.65;">964 ft · 11 decks · ~1,750 guests</div>
+                </div>
+            </div>
+            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Alaska itinerary · June 15–22, 2026</div>
+            <div style="font-size:12px;opacity:.55;">Dining · Shows · Kids Clubs · Alaska tips →</div>
+        </div>
     </section>
 
     <!-- ==================== CREW ==================== -->
@@ -1921,6 +1934,71 @@
 </main>
 
 <!-- Palo Brunch Menu Modal -->
+<div class="modal-overlay hidden" id="modal-wonder" onclick="if(event.target===this)closeModal('wonder')">
+    <div class="modal-sheet">
+        <div class="modal-handle-row">
+            <div class="modal-handle"></div>
+            <button class="modal-close-btn" onclick="closeModal('wonder')">✕</button>
+        </div>
+        <div class="modal-scroll">
+            <div class="modal-header">
+                <div style="font-size:32px;margin-bottom:8px;">🛳️</div>
+                <div class="modal-title">Disney Wonder</div>
+                <div class="modal-subtitle">Your home for 7 nights · June 15–22, 2026<br>Alaska Itinerary · Disney Cruise Line</div>
+            </div>
+            <div class="port-facts" style="margin-bottom:18px;">
+                <div class="port-fact"><div class="port-fact-label">Length</div><div class="port-fact-value">964 ft</div></div>
+                <div class="port-fact"><div class="port-fact-label">Decks</div><div class="port-fact-value">11</div></div>
+                <div class="port-fact"><div class="port-fact-label">Guests</div><div class="port-fact-value">~1,750–2,400</div></div>
+                <div class="port-fact"><div class="port-fact-label">Crew</div><div class="port-fact-value">~950</div></div>
+                <div class="port-fact"><div class="port-fact-label">Built</div><div class="port-fact-value">1999</div></div>
+                <div class="port-fact"><div class="port-fact-label">Refurbished</div><div class="port-fact-value">2016</div></div>
+            </div>
+            <div class="did-you-know" style="margin-bottom:18px;"><div class="dyk-label">Did You Know?</div>Disney Wonder is only the second Disney cruise ship ever built. Her horn plays "When You Wish Upon a Star." The Mickey ears on the funnel are a signature of every Disney ship — and the classic navy-and-yellow hull is a nod to the golden age of ocean liners.</div>
+            <div class="section-header">Alaska Cruise Tips</div>
+            <div class="tip-item"><span class="tip-icon">🧊</span><strong>Glacier Day (Day 3):</strong> Head to the bow or upper-forward decks early. The ship gets close enough to hear calving — the crack echoes off canyon walls. Layer up; it's 15–20°F colder near the ice.</div>
+            <div class="tip-item"><span class="tip-icon">🌅</span><strong>Midnight sun:</strong> In June, it stays light until 10–11 PM. Pack a sleep mask — the stateroom curtains don't block it all. Kids especially won't want to sleep.</div>
+            <div class="tip-item"><span class="tip-icon">📱</span><strong>Disney Navigator app:</strong> Download before you sail. Shows daily schedule, restaurant times, character meet locations, and your activity reservations — no cell service needed onboard.</div>
+            <div class="tip-item"><span class="tip-icon">🐋</span><strong>Wildlife deck watching:</strong> The Inside Passage is rich in orca, humpbacks, and Dall's porpoise. Early mornings (6–8 AM) and evenings at the bow are the best times. Bring binoculars.</div>
+            <div class="tip-item"><span class="tip-icon">🏴‍☠️</span><strong>Pirate Night:</strong> One evening becomes a full deck party with costumes, fireworks at sea, and a character deck show. Wear your pirate gear!</div>
+            <div class="tip-item"><span class="tip-icon">🎵</span><strong>Horn signals:</strong> 3 blasts = leaving port. The kids will love anticipating the departure horn in each Alaskan port.</div>
+            <div class="section-header" style="margin-top:20px;">Dining Venues</div>
+            <div class="highlight-grid" style="margin-bottom:12px;">
+                <div class="highlight-item"><span class="highlight-icon">🎨</span>Animator's Palate</div>
+                <div class="highlight-item"><span class="highlight-icon">🧜</span>Triton's</div>
+                <div class="highlight-item"><span class="highlight-icon">🎷</span>Tiana's Place</div>
+                <div class="highlight-item"><span class="highlight-icon">🍽️</span>Cabanas (buffet)</div>
+                <div class="highlight-item"><span class="highlight-icon">🍕</span>Pinocchio's Pizza</div>
+                <div class="highlight-item"><span class="highlight-icon">🌟</span>Palo (adults, booked)</div>
+            </div>
+            <div class="tip-item"><span class="tip-icon">🎨</span><strong>Animator's Palate:</strong> The signature Disney dining experience — animated characters appear on screens around you as dinner progresses. Your servers rotate with you each night (rotational dining).</div>
+            <div class="tip-item"><span class="tip-icon">🎷</span><strong>Tiana's Place:</strong> New Orleans-themed, added in the 2016 refurb. Jazz soundtrack, bayou-inspired menu, Tiana character appearances.</div>
+            <div class="tip-item"><span class="tip-icon">☕</span><strong>Cove Café:</strong> Adult-only coffee bar on Deck 9 with specialty drinks and peaceful seating. Hidden gem for a quiet morning while the kids sleep in.</div>
+            <div class="section-header" style="margin-top:20px;">Entertainment</div>
+            <div class="highlight-grid" style="margin-bottom:12px;">
+                <div class="highlight-item"><span class="highlight-icon">❄️</span>Frozen the Musical</div>
+                <div class="highlight-item"><span class="highlight-icon">🏴‍☠️</span>Pirate Night Show</div>
+                <div class="highlight-item"><span class="highlight-icon">🎬</span>Movies Under Stars</div>
+                <div class="highlight-item"><span class="highlight-icon">🎤</span>Live music nightly</div>
+                <div class="highlight-item"><span class="highlight-icon">🎭</span>Stage shows (3 total)</div>
+                <div class="highlight-item"><span class="highlight-icon">🤝</span>Character meets</div>
+            </div>
+            <div class="tip-item"><span class="tip-icon">❄️</span><strong>Frozen the Musical:</strong> Broadway-quality production — one of the best shows at sea. Book times early in the Navigator app. The kids will love it.</div>
+            <div class="tip-item"><span class="tip-icon">🎬</span><strong>Movies Under the Stars:</strong> Deck 9 outdoor screen plays Disney films nightly. Blankets and hot cocoa provided — perfect Alaska evening activity as you sail through fjords.</div>
+            <div class="section-header" style="margin-top:20px;">Kids Clubs</div>
+            <div class="tip-item"><span class="tip-icon">🧒</span><strong>Oceaneer Club/Lab (ages 3–12):</strong> Immersive themed spaces — Marvel, Star Wars, Frozen, and more. Drop-off or accompanied. River (9) fits perfectly.</div>
+            <div class="tip-item"><span class="tip-icon">🎮</span><strong>Edge (ages 11–14):</strong> Tween hangout with games, activities, and a separate social space. Sedona (12) and Payton are right in the sweet spot.</div>
+            <div class="tip-item"><span class="tip-icon">🕐</span><strong>Club hours:</strong> Open after breakfast through ~midnight. Kids get wristbands on Day 1. Parents can drop off and pick up freely throughout the cruise.</div>
+            <div class="section-header" style="margin-top:20px;">Ship Trivia 🎯</div>
+            <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🎵</div><div><div class="fact-title">The Whistle</div><div class="fact-body">Disney Wonder's ship horn plays "When You Wish Upon a Star" — you'll hear it every time the ship departs a port. It's surprisingly emotional, especially leaving Vancouver for the first time.</div></div></div>
+            <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🐠</div><div><div class="fact-title">Hidden Mickeys</div><div class="fact-body">Disney hides Mickey Mouse silhouettes all over the ship — in carpet patterns, artwork, railings, and menus. There are dozens. Make it a competition between the kids to find them.</div></div></div>
+            <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🏊</div><div><div class="fact-title">Three Pool Decks</div><div class="fact-body">Mickey Pool (kids splash zone), Donald Pool (family), and Quiet Cove Pool (adults 18+ only, Deck 9). The Cove Café is right there — ideal for adults while kids are in the clubs.</div></div></div>
+            <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">📻</div><div><div class="fact-title">No Cell, No Problem</div><div class="fact-body">Once at sea, cell service disappears. Disney's Navigator app works free on ship WiFi — use it for everything. The ship also has "wave phones" for room-to-room calls between families.</div></div></div>
+            <div class="fact-card" style="margin-bottom:20px;"><div class="fact-icon">🌊</div><div><div class="fact-title">Rotational Dining</div><div class="fact-body">You rotate between three main restaurants — but your servers rotate with you. By Day 2, they'll know every family member's name and the kids' drink orders. It's the small Disney touch that makes it feel like home.</div></div></div>
+        </div>
+    </div>
+</div>
+
 <div class="modal-overlay hidden" id="modal-palo" onclick="if(event.target===this)closeModal('palo')">
     <div class="modal-sheet">
         <div class="modal-handle-row">
