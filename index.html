@@ -115,6 +115,17 @@
         .port-fact { background: var(--cream); border-radius: 10px; padding: 12px; }
         .port-fact-label { font-size: 10px; text-transform: uppercase; letter-spacing: .8px; color: var(--text-light); margin-bottom: 4px; }
         .port-fact-value { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+
+        /* Info table for dedicated pages */
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; background: var(--snow); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); }
+        .info-table td { padding: 10px 14px; font-size: 13px; border-bottom: 1px solid #eef2ee; vertical-align: middle; }
+        .info-table td:first-child { color: var(--text-light); font-size: 11px; text-transform: uppercase; letter-spacing: .8px; font-weight: 600; width: 42%; }
+        .info-table td:last-child { font-weight: 600; color: var(--text-dark); }
+        .info-table tr:last-child td { border-bottom: none; }
+        .page-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #eef2ee; }
+        .page-header-emoji { font-size: 36px; flex-shrink: 0; }
+        .page-header-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; line-height: 1.2; }
+        .page-header-sub { font-size: 12px; color: var(--text-light); margin-top: 3px; }
         .did-you-know { background: var(--gold-pale); border-left: 3px solid var(--gold); border-radius: 8px; padding: 12px 14px; font-size: 13px; color: var(--text-mid); line-height: 1.5; margin-bottom: 14px; }
         .dyk-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #92400e; margin-bottom: 6px; }
         .port-activity-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0f4f0; font-size: 13px; }
@@ -1688,26 +1699,24 @@
     </div>
     </section>
 
-
-</main>
-
-<!-- Palo Brunch Menu Modal -->
-<section id="section-wonder" class="section">
-    <div style="padding-bottom:4px;">
-        <button class="game-back-btn" onclick="showPage('home')" style="margin-bottom:16px;padding:4px 0;">← Home</button>
-            <div class="modal-header">
-                <div style="font-size:32px;margin-bottom:8px;">🛳️</div>
-                <div class="modal-title">Disney Wonder</div>
-                <div class="modal-subtitle">Your home for 7 nights · June 15–22, 2026<br>Alaska Itinerary · Disney Cruise Line</div>
+    <!-- ==================== DISNEY WONDER PAGE ==================== -->
+    <section id="section-wonder" class="section">
+        <button class="game-back-btn" onclick="showPage('home')" style="margin-bottom:14px;padding:4px 0;">← Home</button>
+        <div class="page-header">
+            <span class="page-header-emoji">🛳️</span>
+            <div>
+                <div class="page-header-title">Disney Wonder</div>
+                <div class="page-header-sub">Your home for 7 nights · June 15–22, 2026 · Alaska Itinerary</div>
             </div>
-            <div class="port-facts" style="margin-bottom:18px;">
-                <div class="port-fact"><div class="port-fact-label">Length</div><div class="port-fact-value">964 ft</div></div>
-                <div class="port-fact"><div class="port-fact-label">Decks</div><div class="port-fact-value">11</div></div>
-                <div class="port-fact"><div class="port-fact-label">Guests</div><div class="port-fact-value">~1,750–2,400</div></div>
-                <div class="port-fact"><div class="port-fact-label">Crew</div><div class="port-fact-value">~950</div></div>
-                <div class="port-fact"><div class="port-fact-label">Built</div><div class="port-fact-value">1999</div></div>
-                <div class="port-fact"><div class="port-fact-label">Refurbished</div><div class="port-fact-value">2016</div></div>
-            </div>
+        </div>
+        <table class="info-table">
+            <tr><td>Length</td><td>964 ft</td></tr>
+            <tr><td>Decks</td><td>11</td></tr>
+            <tr><td>Guests</td><td>~1,750–2,400</td></tr>
+            <tr><td>Crew</td><td>~950</td></tr>
+            <tr><td>Built</td><td>1999</td></tr>
+            <tr><td>Refurbished</td><td>2016</td></tr>
+        </table>
             <div class="did-you-know" style="margin-bottom:18px;"><div class="dyk-label">Did You Know?</div>Disney Wonder is only the second Disney cruise ship ever built. Her horn plays "When You Wish Upon a Star." The Mickey ears on the funnel are a signature of every Disney ship — and the classic navy-and-yellow hull is a nod to the golden age of ocean liners.</div>
             <div class="section-header">Alaska Cruise Tips</div>
             <div class="tip-item"><span class="tip-icon">🧊</span><strong>Glacier Day (Day 3):</strong> Head to the bow or upper-forward decks early. The ship gets close enough to hear calving — the crack echoes off canyon walls. Layer up; it's 15–20°F colder near the ice.</div>
@@ -1749,28 +1758,27 @@
             <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🏊</div><div><div class="fact-title">Three Pool Decks</div><div class="fact-body">Mickey Pool (kids splash zone), Donald Pool (family), and Quiet Cove Pool (adults 18+ only, Deck 9). The Cove Café is right there — ideal for adults while kids are in the clubs.</div></div></div>
             <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">📻</div><div><div class="fact-title">No Cell, No Problem</div><div class="fact-body">Once at sea, cell service disappears. Disney's Navigator app works free on ship WiFi — use it for everything. The ship also has "wave phones" for room-to-room calls between families.</div></div></div>
             <div class="fact-card" style="margin-bottom:20px;"><div class="fact-icon">🌊</div><div><div class="fact-title">Rotational Dining</div><div class="fact-body">You rotate between three main restaurants — but your servers rotate with you. By Day 2, they'll know every family member's name and the kids' drink orders. It's the small Disney touch that makes it feel like home.</div></div></div>
-    </div>
-</section>
+    </section>
 
-<section id="section-worldcup" class="section">
-    <div style="padding-bottom:4px;">
-        <button class="game-back-btn" onclick="showPage('home')" style="margin-bottom:16px;padding:4px 0;">← Home</button>
-            <div class="modal-header">
-                <div style="font-size:32px;margin-bottom:8px;">⚽</div>
-                <div class="modal-title">FIFA World Cup 2026</div>
-                <div class="modal-subtitle">June 11 – July 19, 2026<br>United 2026 · USA · Canada · Mexico</div>
+    <!-- ==================== FIFA WORLD CUP PAGE ==================== -->
+    <section id="section-worldcup" class="section">
+        <button class="game-back-btn" onclick="showPage('home')" style="margin-bottom:14px;padding:4px 0;">← Home</button>
+        <div class="page-header">
+            <span class="page-header-emoji">⚽</span>
+            <div>
+                <div class="page-header-title">FIFA World Cup 2026</div>
+                <div class="page-header-sub">June 11 – July 19, 2026 · USA · Canada · Mexico</div>
             </div>
-
-            <div class="did-you-know" style="margin-bottom:18px;"><div class="dyk-label">You're There For It</div>The 2026 FIFA World Cup is the first ever hosted across three countries and the first with 48 teams — making it the largest World Cup in history. Vancouver is one of Canada's host cities, and your pre-cruise stay (June 11–15) overlaps with the group stage. BC Place could have matches happening while you're exploring the city.</div>
-
-            <div class="port-facts" style="margin-bottom:18px;">
-                <div class="port-fact"><div class="port-fact-label">Teams</div><div class="port-fact-value">48 nations</div></div>
-                <div class="port-fact"><div class="port-fact-label">Matches</div><div class="port-fact-value">104 total</div></div>
-                <div class="port-fact"><div class="port-fact-label">Host Cities</div><div class="port-fact-value">16 across 3 countries</div></div>
-                <div class="port-fact"><div class="port-fact-label">Vancouver Venue</div><div class="port-fact-value">BC Place Stadium</div></div>
-                <div class="port-fact"><div class="port-fact-label">BC Place Capacity</div><div class="port-fact-value">~54,000</div></div>
-                <div class="port-fact"><div class="port-fact-label">Your Overlap</div><div class="port-fact-value">June 11–15 · Group stage</div></div>
-            </div>
+        </div>
+        <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">You're There For It</div>The 2026 FIFA World Cup is the first hosted across three countries with 48 teams — the largest ever. Vancouver is a host city and your pre-cruise stay (June 11–15) overlaps with the group stage.</div>
+        <table class="info-table">
+            <tr><td>Teams</td><td>48 nations</td></tr>
+            <tr><td>Matches</td><td>104 total</td></tr>
+            <tr><td>Host Cities</td><td>16 across 3 countries</td></tr>
+            <tr><td>Vancouver Venue</td><td>BC Place Stadium</td></tr>
+            <tr><td>BC Place Capacity</td><td>~54,000</td></tr>
+            <tr><td>Your Overlap</td><td>June 11–15 · Group stage</td></tr>
+        </table>
 
             <div class="section-header">Vancouver at BC Place</div>
             <div class="tip-item"><span class="tip-icon">🏟️</span><strong>BC Place Stadium</strong> is Vancouver's domed stadium in the heart of downtown — about 20–25 min from River Rock Hotel in Richmond. It hosted the 2010 Winter Olympics closing ceremony and the 2015 Women's World Cup final.</div>
@@ -1791,8 +1799,9 @@
             <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🌍</div><div><div class="fact-title">Why Three Countries?</div><div class="fact-body">The 2026 World Cup bid — called "United 2026" — was a joint proposal by the USA, Canada, and Mexico. It won over Morocco's bid in 2018. Sharing the tournament across North America means shorter travel for US and Canadian fans and an enormous economic boost for all three countries.</div></div></div>
             <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🇲🇽</div><div><div class="fact-title">Mexico Makes History</div><div class="fact-body">Mexico becomes the first country to host matches at three separate World Cups (1970, 1986, and 2026). The opening match is at the legendary Estadio Azteca in Mexico City on June 11 — the same day your family arrives in Vancouver.</div></div></div>
             <div class="fact-card" style="margin-bottom:20px;"><div class="fact-icon">📺</div><div><div class="fact-title">On the Ship</div><div class="fact-body">The World Cup group stage runs through early July — you'll still be sailing during key matches. Disney Wonder has TV screens in bars and lounges that will almost certainly be showing matches. A World Cup game on a cruise ship in Alaska is a pretty unique experience.</div></div></div>
-    </div>
-</section>
+    </section>
+
+</main>
 
 <div class="modal-overlay hidden" id="modal-palo" onclick="if(event.target===this)closeModal('palo')">
     <div class="modal-sheet">
