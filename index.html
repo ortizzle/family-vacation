@@ -998,7 +998,7 @@
     <div class="did-you-know"><div class="dyk-label">Pre-Cruise</div>River Rock Casino Hotel · Richmond, BC · 8888 River Road. Your base camp for June 11–15. Close to the Richmond Night Market and a short drive to downtown Vancouver.</div>
     <div class="event-list">
       <div class="event-list-title">Today's Schedule</div>
-      <div class="event-item milestone"><div class="event-time">All Day</div><div class="event-detail"><div class="event-name">Rainforest Room Pass — Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Joseph · Veronica Stallings</span></div></div></div>
+      <div class="event-item milestone tappable" onclick="openExpDetail('rainforest-room')"><div class="event-time">All Day</div><div class="event-detail"><div class="event-name">Rainforest Room Pass — Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Joseph · Veronica Stallings</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item milestone"><div class="event-time">All Day</div><div class="event-detail"><div class="event-name">Unlimited Photo Package</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Christopher Ortiz</span></div></div></div>
       <div class="event-item"><div class="event-time">4:00 PM</div><div class="event-detail"><div class="event-name">🛳️ Welcome Aboard!</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="family-dot dot-sim"></span><span class="event-names">All families</span></div></div></div>
     </div>
@@ -1228,7 +1228,7 @@
     <div class="did-you-know"><div class="dyk-label">Last Full Day</div>Soak it in — last night at sea. Pack your bags tonight so disembarkation morning is smooth. The Disney Wonder docks in Vancouver early, and everyone is off by 8:00 AM.</div>
     <div class="event-list">
       <div class="event-list-title">Today's Schedule</div>
-      <div class="event-item"><div class="event-time">10:30 – 11:20 AM</div><div class="event-detail"><div class="event-name">50-Minute Massage · Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Katherine Ortiz</span></div></div></div>
+      <div class="event-item tappable" onclick="openExpDetail('massage')"><div class="event-time">10:30 – 11:20 AM</div><div class="event-detail"><div class="event-name">50-Minute Massage · Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Katherine Ortiz</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('mixology')"><div class="event-time">3:00 – 4:00 PM</div><div class="event-detail"><div class="event-name">Mixology <span class="ev-tag ev-tag-warn">21+</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Christopher · Katherine · Veronica · Joseph</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item"><div class="event-time">6:00 PM</div><div class="event-detail"><div class="event-name">⚽ World Cup: 🇳🇿 New Zealand vs. 🇪🇬 Egypt · BC Place, Vancouver · Group G</div><div style="font-size:11px;color:var(--glacier);margin-top:2px;">Last sea day — World Cup at the ship pub? Yes please.</div></div></div>
     </div>
@@ -1864,6 +1864,14 @@
                 <tr><td>Jun 24 · Noon</td><td>🇨🇭 Switzerland vs. 🇨🇦 Canada · Group B</td></tr>
                 <tr><td>Jun 26 · 8:00 PM</td><td>🇧🇪 Belgium vs. 🇳🇿 New Zealand · Group G</td></tr>
             </table>
+
+            <div class="section-header">Follow Live</div>
+            <div class="tip-item" style="margin-bottom:10px;"><span class="tip-icon">📡</span>Bookmark these for match days — works in the ship's browser on Wi-Fi too.</div>
+            <div class="map-link-row" style="margin-bottom:20px;">
+                <a class="map-link-btn" href="https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener">⚽ FIFA Official</a>
+                <a class="map-link-btn" href="https://www.espn.com/soccer/scoreboard" target="_blank" rel="noopener">📺 ESPN Scores</a>
+                <a class="map-link-btn" href="https://www.google.com/search?q=FIFA+World+Cup+2026+live+score" target="_blank" rel="noopener">🔍 Google Live</a>
+            </div>
 
             <div class="section-header">Vancouver at BC Place</div>
             <div class="tip-item"><span class="tip-icon">🏟️</span><strong>BC Place Stadium</strong> is Vancouver's domed stadium in the heart of downtown — about 20–25 min from River Rock Hotel in Richmond. It hosted the 2010 Winter Olympics closing ceremony and the 2015 Women's World Cup final.</div>
@@ -2898,6 +2906,26 @@
                 <div class="tip-item"><span class="tip-icon">🎬</span>Ask photographers for candid shots, not just posed ones — the candid photos often end up being the favorites.</div>
                 <div class="tip-item"><span class="tip-icon">👗</span>Get a formal portrait session done early in the cruise — photographers fill up on the formal nights. Day 2 works well.</div>
                 <div class="tip-item"><span class="tip-icon">💾</span>Download before disembarkation — access may expire after the cruise ends.</div>
+            `
+        },
+        'massage': {
+            port: '🛳️ Onboard · Last Sea Day (June 21)',
+            title: '50-Minute Massage · Senses Spa',
+            subtitle: 'Katherine Ortiz · Senses Spa',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">Senses Spa</div>Disney Wonder's full-service adult spa on Deck 9. The 50-minute massage is one of the most popular bookings on the ship — a classic Swedish or deep-tissue treatment in a private ocean-view treatment room.</div>
+                <div class="section-header">What to Expect</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">💆</span>50-min full-body massage</div>
+                    <div class="highlight-item"><span class="highlight-icon">🌊</span>Private ocean-view room</div>
+                    <div class="highlight-item"><span class="highlight-icon">🧴</span>Aromatherapy oils included</div>
+                    <div class="highlight-item"><span class="highlight-icon">🛁</span>Access to relaxation lounge</div>
+                </div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">⏰</span>Booked for 10:30–11:20 AM — perfect timing on the last sea day before mixology at 3 PM.</div>
+                <div class="tip-item"><span class="tip-icon">💧</span>Drink plenty of water before and after — the massage is more effective and the post-treatment fatigue is real.</div>
+                <div class="tip-item"><span class="tip-icon">🚿</span>Arrive 10–15 min early to use the spa's pre-treatment showers and relax before the appointment.</div>
+                <div class="tip-item"><span class="tip-icon">🤫</span>Tip in cash — the spa adds gratuity automatically but a small extra in cash is always appreciated.</div>
             `
         },
         'rainforest-room': {
