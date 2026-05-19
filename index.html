@@ -639,6 +639,41 @@
 .wyr-result { background:var(--snow); border-radius:14px; padding:14px 16px; margin-bottom:14px; font-size:13px; color:var(--text-light); line-height:1.5; box-shadow:var(--shadow-sm); }
 .wyr-next-btn { width:100%; padding:13px; border:none; border-radius:14px; background:var(--forest-dark); color:white; font-family:'Inter',sans-serif; font-size:13px; font-weight:700; cursor:pointer; margin-bottom:4px; }
 
+/* ── ALASKA PASSPORT ── */
+.passport-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.passport-stamp { aspect-ratio: 1; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; border: 2.5px dashed #b0c4b8; background: var(--snow); transition: all .2s; -webkit-tap-highlight-color: transparent; text-align: center; padding: 8px; }
+.passport-stamp.stamped { background: var(--glacier-pale); border: 2.5px solid var(--glacier); box-shadow: 0 0 0 4px rgba(74,157,181,.15); }
+.passport-stamp:active { transform: scale(.93); }
+.passport-stamp .ps-emoji { font-size: 26px; margin-bottom: 4px; }
+.passport-stamp .ps-name { font-size: 10px; font-weight: 700; color: var(--text-mid); letter-spacing: .5px; line-height: 1.2; }
+.passport-stamp .ps-date { font-size: 9px; color: var(--text-light); margin-top: 2px; }
+.passport-stamp.stamped .ps-name { color: var(--glacier); }
+.passport-stamp .ps-check { font-size: 18px; display: none; }
+.passport-stamp.stamped .ps-check { display: block; }
+.passport-stamp.stamped .ps-emoji { display: none; }
+
+/* ── DAILY MVP ── */
+.mvp-day { background: var(--snow); border-radius: var(--radius); margin-bottom: 10px; box-shadow: var(--shadow-sm); overflow: hidden; }
+.mvp-day-header { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.mvp-day-label { font-size: 12px; font-weight: 700; color: var(--text-dark); }
+.mvp-day-sub { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+.mvp-day-body { padding: 0 16px 16px; border-top: 1px solid #eef2ee; }
+.mvp-row { margin-top: 12px; }
+.mvp-row-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 5px; }
+.mvp-input { width: 100%; background: var(--cream); border: 1.5px solid #dde8e2; border-radius: 8px; padding: 8px 10px; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text-dark); outline: none; resize: none; }
+.mvp-input:focus { border-color: var(--glacier); }
+
+/* ── DINING ROTATION ── */
+.dining-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eef2ee; }
+.dining-row:last-child { border-bottom: none; }
+.dining-night { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--text-light); width: 44px; flex-shrink: 0; }
+.dining-emoji { font-size: 22px; width: 32px; text-align: center; flex-shrink: 0; }
+.dining-info { flex: 1; }
+.dining-name { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+.dining-date { font-size: 11px; color: var(--text-light); }
+.dining-palo { font-size: 10px; color: #92400e; font-weight: 600; margin-top: 2px; }
+.dining-tonight { background: var(--glacier); color: white; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px; letter-spacing: .5px; flex-shrink: 0; }
+
     </style>
 </head>
 <body>
@@ -748,6 +783,20 @@
             </div>
             <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Photo Bingo · Port Missions · Wildlife tracking</div>
             <div style="font-size:12px;opacity:.55;">Wilderness + ship boards · Team challenges →</div>
+        </div>
+
+        <!-- Emergency Info -->
+        <div class="card" style="background:linear-gradient(135deg,#3d0a0a 0%,#7a1a1a 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showPage('emergency')">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Quick Reference</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                <span style="font-size:28px;">🆘</span>
+                <div>
+                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Emergency Info</div>
+                    <div style="font-size:12px;opacity:.65;">Stateroom · Ship · Contacts</div>
+                </div>
+            </div>
+            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Key numbers and info if something goes wrong</div>
+            <div style="font-size:12px;opacity:.55;">Stateroom · Medical · Meeting point →</div>
         </div>
 
     </section>
@@ -934,6 +983,32 @@
                 <button class="ml-action-btn ml-action-primary" onclick="mlReplay()">Try again 🎲</button>
             </div>
         </div>
+
+        <div class="section-header" style="margin-top:24px;">Alaska Passport</div>
+        <div class="did-you-know" style="margin-bottom:14px;"><div class="dyk-label">Collect Your Stamps</div>Tap each destination when you arrive to stamp your passport. All 5 stamps = you've done Alaska right.</div>
+        <div class="passport-grid" id="passport-grid">
+          <div class="passport-stamp" id="ps-vancouver" onclick="stampPort('vancouver')">
+            <span class="ps-check">✅</span><span class="ps-emoji">⚓</span>
+            <div class="ps-name">Vancouver</div><div class="ps-date">Jun 15</div>
+          </div>
+          <div class="passport-stamp" id="ps-skagway" onclick="stampPort('skagway')">
+            <span class="ps-check">✅</span><span class="ps-emoji">🏔️</span>
+            <div class="ps-name">Skagway</div><div class="ps-date">Jun 18</div>
+          </div>
+          <div class="passport-stamp" id="ps-juneau" onclick="stampPort('juneau')">
+            <span class="ps-check">✅</span><span class="ps-emoji">🧊</span>
+            <div class="ps-name">Juneau</div><div class="ps-date">Jun 19</div>
+          </div>
+          <div class="passport-stamp" id="ps-ketchikan" onclick="stampPort('ketchikan')">
+            <span class="ps-check">✅</span><span class="ps-emoji">🪵</span>
+            <div class="ps-name">Ketchikan</div><div class="ps-date">Jun 20</div>
+          </div>
+          <div class="passport-stamp" id="ps-openwater" onclick="stampPort('openwater')">
+            <span class="ps-check">✅</span><span class="ps-emoji">🌊</span>
+            <div class="ps-name">Open Water</div><div class="ps-date">Jun 21</div>
+          </div>
+        </div>
+        <div id="passport-complete" style="display:none;text-align:center;padding:12px;background:var(--glacier-pale);border-radius:12px;margin-bottom:20px;font-size:14px;font-weight:700;color:var(--glacier);">🎉 Passport Complete! Alaska Explored.</div>
     </section>
 
     <!-- ==================== EXPERIENCES / PLANS ==================== -->
@@ -1527,6 +1602,12 @@
     <section id="section-games" class="section">
     <div style="padding: 0 4px;" id="games-container">
 
+        <div class="section-header">Daily MVP 🏆</div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;margin-top:-8px;">End-of-day awards · tap a day to fill in</div>
+        <div id="mvp-list">
+          <!-- JS renders these -->
+        </div>
+
         <!-- PICKER GRID -->
         <div id="games-picker">
             <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Games</div>
@@ -1765,6 +1846,52 @@
             <tr><td>Built</td><td>1999</td></tr>
             <tr><td>Refurbished</td><td>2016</td></tr>
         </table>
+        <div class="section-header" style="margin-top:20px;">Dining Rotation</div>
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:10px;margin-top:-8px;">Main dining · confirm exact rotation on board via Navigator app</div>
+        <div style="background:var(--snow);border-radius:var(--radius);padding:4px 16px;box-shadow:var(--shadow-sm);margin-bottom:16px;">
+          <div class="dining-row">
+            <div class="dining-night">Night 1</div>
+            <div class="dining-emoji">🎨</div>
+            <div class="dining-info"><div class="dining-name">Animator's Palate</div><div class="dining-date">Mon Jun 15</div></div>
+            <span class="dining-tonight" id="dn-1" style="display:none;">Tonight</span>
+          </div>
+          <div class="dining-row">
+            <div class="dining-night">Night 2</div>
+            <div class="dining-emoji">🧜</div>
+            <div class="dining-info"><div class="dining-name">Triton's</div><div class="dining-date">Tue Jun 16</div><div class="dining-palo">☕ Palo Brunch this day — Ortiz + Stallings adults</div></div>
+            <span class="dining-tonight" id="dn-2" style="display:none;">Tonight</span>
+          </div>
+          <div class="dining-row">
+            <div class="dining-night">Night 3</div>
+            <div class="dining-emoji">🎷</div>
+            <div class="dining-info"><div class="dining-name">Tiana's Place</div><div class="dining-date">Wed Jun 17</div><div class="dining-palo">🍷 Palo Dinner — Ortiz + Stallings + Simmons adults</div></div>
+            <span class="dining-tonight" id="dn-3" style="display:none;">Tonight</span>
+          </div>
+          <div class="dining-row">
+            <div class="dining-night">Night 4</div>
+            <div class="dining-emoji">🎨</div>
+            <div class="dining-info"><div class="dining-name">Animator's Palate</div><div class="dining-date">Thu Jun 18</div></div>
+            <span class="dining-tonight" id="dn-4" style="display:none;">Tonight</span>
+          </div>
+          <div class="dining-row">
+            <div class="dining-night">Night 5</div>
+            <div class="dining-emoji">🧜</div>
+            <div class="dining-info"><div class="dining-name">Triton's</div><div class="dining-date">Fri Jun 19</div></div>
+            <span class="dining-tonight" id="dn-5" style="display:none;">Tonight</span>
+          </div>
+          <div class="dining-row">
+            <div class="dining-night">Night 6</div>
+            <div class="dining-emoji">🎷</div>
+            <div class="dining-info"><div class="dining-name">Tiana's Place</div><div class="dining-date">Sat Jun 20</div></div>
+            <span class="dining-tonight" id="dn-6" style="display:none;">Tonight</span>
+          </div>
+          <div class="dining-row">
+            <div class="dining-night">Night 7</div>
+            <div class="dining-emoji">🎨</div>
+            <div class="dining-info"><div class="dining-name">Animator's Palate</div><div class="dining-date">Sun Jun 21</div></div>
+            <span class="dining-tonight" id="dn-7" style="display:none;">Tonight</span>
+          </div>
+        </div>
             <div class="did-you-know" style="margin-bottom:18px;"><div class="dyk-label">Did You Know?</div>Disney Wonder is only the second Disney cruise ship ever built. Her horn plays "When You Wish Upon a Star." The Mickey ears on the funnel are a signature of every Disney ship — and the classic navy-and-yellow hull is a nod to the golden age of ocean liners.</div>
             <div class="section-header">Alaska Cruise Tips</div>
             <div class="tip-item"><span class="tip-icon">🧊</span><strong>Glacier Day (Day 3):</strong> Head to the bow or upper-forward decks early. The ship gets close enough to hear calving — the crack echoes off canyon walls. Layer up; it's 15–20°F colder near the ice.</div>
@@ -1892,6 +2019,54 @@
             <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🌍</div><div><div class="fact-title">Why Three Countries?</div><div class="fact-body">The 2026 World Cup bid — called "United 2026" — was a joint proposal by the USA, Canada, and Mexico. It won over Morocco's bid in 2018. Sharing the tournament across North America means shorter travel for US and Canadian fans and an enormous economic boost for all three countries.</div></div></div>
             <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🇲🇽</div><div><div class="fact-title">Mexico Makes History</div><div class="fact-body">Mexico becomes the first country to host matches at three separate World Cups (1970, 1986, and 2026). The opening match is at the legendary Estadio Azteca in Mexico City on June 11 — the same day your family arrives in Vancouver.</div></div></div>
             <div class="fact-card" style="margin-bottom:20px;"><div class="fact-icon">📺</div><div><div class="fact-title">On the Ship</div><div class="fact-body">The group stage runs right through your cruise. Two BC Place matches fall during your sailing — Canada vs. Qatar (Jun 18, Skagway day, 3pm) and New Zealand vs. Egypt (Jun 21, last sea day, 6pm). Disney Wonder's pub and lounges will almost certainly have screens on. Watching World Cup soccer on a cruise ship in Alaska sounds like a pretty great story.</div></div></div>
+    </section>
+
+    <!-- ==================== EMERGENCY INFO ==================== -->
+    <section id="section-emergency" class="section">
+        <button class="game-back-btn" onclick="showPage('home')" style="margin-bottom:14px;padding:4px 0;">← Home</button>
+        <div class="page-header">
+            <span class="page-header-emoji">🆘</span>
+            <div>
+                <div class="page-header-title">Emergency Info</div>
+                <div class="page-header-sub">Keep this page handy · screenshot it too</div>
+            </div>
+        </div>
+
+        <div class="section-header">Staterooms</div>
+        <table class="info-table" style="margin-bottom:16px;">
+            <tr><td>Ortiz</td><td><strong>Stateroom 6536</strong></td></tr>
+            <tr><td>Stallings</td><td><strong>Stateroom TBD</strong></td></tr>
+            <tr><td>Simmons</td><td><strong>Stateroom TBD</strong></td></tr>
+        </table>
+
+        <div class="section-header">On the Ship</div>
+        <table class="info-table" style="margin-bottom:16px;">
+            <tr><td>Medical Center</td><td>Deck 1, Forward · 24/7</td></tr>
+            <tr><td>Guest Services</td><td>Deck 3, Atrium · 24/7</td></tr>
+            <tr><td>Room-to-Room</td><td>Wave phones in every stateroom</td></tr>
+            <tr><td>Security</td><td>Dial <strong>7·SAFE</strong> from any ship phone</td></tr>
+            <tr><td>Family Meeting Point</td><td>Deck 9 Pool Area (if separated onboard)</td></tr>
+        </table>
+
+        <div class="section-header">Shore Emergencies</div>
+        <table class="info-table" style="margin-bottom:16px;">
+            <tr><td>Canada (Vancouver)</td><td><strong>911</strong></td></tr>
+            <tr><td>USA / Alaska ports</td><td><strong>911</strong></td></tr>
+            <tr><td>Disney Port Agent</td><td>Check Navigator app · port-specific</td></tr>
+            <tr><td>If you miss the ship</td><td>Call Disney Cruise Line: <strong>+1 (800) 951-3532</strong></td></tr>
+        </table>
+
+        <div class="section-header">Key Contacts</div>
+        <table class="info-table" style="margin-bottom:16px;">
+            <tr><td>Disney Cruise Line</td><td>+1 (800) 951-3532</td></tr>
+            <tr><td>River Rock Hotel</td><td>+1 (604) 247-8900 · Richmond BC</td></tr>
+            <tr><td>US Embassy Canada</td><td>+1 (613) 688-5335 (Ottawa)</td></tr>
+        </table>
+
+        <div class="did-you-know"><div class="dyk-label">If You Miss the Ship</div>Don't panic. Disney's port agent knows every passenger and will help. Call DCL immediately at the number above. The ship will not leave without making sure every guest is accounted for — they track everyone through the gangway scanner.</div>
+
+        <div class="tip-item" style="margin-top:12px;"><span class="tip-icon">📸</span><strong>Screenshot this page</strong> before you set sail — it'll be available offline even without ship Wi-Fi.</div>
+        <div class="tip-item"><span class="tip-icon">👨‍👩‍👧</span><strong>Family meeting point onshore:</strong> if separated in a port, go back to the <strong>ship gangway</strong> — the crew will reunite families there.</div>
     </section>
 
 </main>
@@ -3960,6 +4135,82 @@
     window.wyrPick = wyrPick;
     window.wyrNext = wyrNext;
 })();
+
+    // Alaska Passport
+    (function() {
+        const KEY = 'ak26-passport';
+        const state = JSON.parse(localStorage.getItem(KEY) || '{}');
+        function render() {
+            const ports = ['vancouver','skagway','juneau','ketchikan','openwater'];
+            ports.forEach(p => {
+                const el = document.getElementById('ps-' + p);
+                if (el) el.classList.toggle('stamped', !!state[p]);
+            });
+            const allDone = ports.every(p => state[p]);
+            const comp = document.getElementById('passport-complete');
+            if (comp) comp.style.display = allDone ? '' : 'none';
+        }
+        window.stampPort = function(port) {
+            state[port] = !state[port];
+            localStorage.setItem(KEY, JSON.stringify(state));
+            render();
+        };
+        render();
+    })();
+
+    // Daily MVP
+    (function() {
+        const KEY = 'ak26-mvp';
+        const state = JSON.parse(localStorage.getItem(KEY) || '{}');
+        const days = [
+            { id: 'd1', label: 'Day 1 · Mon Jun 15', sub: 'Vancouver · Embarkation' },
+            { id: 'd2', label: 'Day 2 · Tue Jun 16', sub: 'At Sea · Inside Passage' },
+            { id: 'd3', label: 'Day 3 · Wed Jun 17', sub: 'Glacier Viewing' },
+            { id: 'd4', label: 'Day 4 · Thu Jun 18', sub: 'Skagway' },
+            { id: 'd5', label: 'Day 5 · Fri Jun 19', sub: 'Juneau' },
+            { id: 'd6', label: 'Day 6 · Sat Jun 20', sub: 'Ketchikan' },
+            { id: 'd7', label: 'Day 7 · Sun Jun 21', sub: 'At Sea · Last Night' },
+            { id: 'd8', label: 'Day 8 · Mon Jun 22', sub: 'Vancouver · Disembarkation' },
+        ];
+        const cats = [
+            { key: 'moment', label: '🌟 Best Moment', placeholder: 'What was the highlight?' },
+            { key: 'meal',   label: '🍽️ Best Meal',    placeholder: 'Dish, restaurant, or snack…' },
+            { key: 'wild',   label: '🦅 Best Wildlife', placeholder: 'What did you spot?' },
+        ];
+        const list = document.getElementById('mvp-list');
+        if (!list) return;
+        list.innerHTML = days.map(day => `
+            <div class="mvp-day">
+                <div class="mvp-day-header acc-trigger" onclick="toggleAcc(this)">
+                    <div><div class="mvp-day-label">${day.label}</div><div class="mvp-day-sub">${day.sub}</div></div>
+                    <span class="acc-chevron"></span>
+                </div>
+                <div class="acc-body collapsed">
+                    <div class="mvp-day-body">
+                        ${cats.map(cat => `
+                        <div class="mvp-row">
+                            <div class="mvp-row-label">${cat.label}</div>
+                            <textarea class="mvp-input" rows="2" placeholder="${cat.placeholder}" data-day="${day.id}" data-cat="${cat.key}" oninput="saveMvp(this)">${(state[day.id] && state[day.id][cat.key]) || ''}</textarea>
+                        </div>`).join('')}
+                    </div>
+                </div>
+            </div>`).join('');
+
+        window.saveMvp = function(el) {
+            const { day, cat } = el.dataset;
+            if (!state[day]) state[day] = {};
+            state[day][cat] = el.value;
+            localStorage.setItem(KEY, JSON.stringify(state));
+        };
+    })();
+
+    // Dining rotation — highlight tonight
+    (function() {
+        const map = { '2026-06-15': 1, '2026-06-16': 2, '2026-06-17': 3, '2026-06-18': 4, '2026-06-19': 5, '2026-06-20': 6, '2026-06-21': 7 };
+        const today = new Date().toISOString().slice(0, 10);
+        const night = map[today];
+        if (night) { const el = document.getElementById('dn-' + night); if (el) el.style.display = ''; }
+    })();
 
 </script>
 </body>
