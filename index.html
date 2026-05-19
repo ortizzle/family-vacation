@@ -664,8 +664,9 @@
 .mvp-input:focus { border-color: var(--glacier); }
 
 /* ── DINING ROTATION ── */
-.dining-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eef2ee; }
+.dining-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eef2ee; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity .12s; }
 .dining-row:last-child { border-bottom: none; }
+.dining-row:active { opacity: .7; }
 .dining-night { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--text-light); width: 44px; flex-shrink: 0; }
 .dining-emoji { font-size: 22px; width: 32px; text-align: center; flex-shrink: 0; }
 .dining-info { flex: 1; }
@@ -673,6 +674,17 @@
 .dining-date { font-size: 11px; color: var(--text-light); }
 .dining-palo { font-size: 10px; color: #92400e; font-weight: 600; margin-top: 2px; }
 .dining-tonight { background: var(--glacier); color: white; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px; letter-spacing: .5px; flex-shrink: 0; }
+.dining-menu-arrow { font-size: 13px; color: var(--glacier); flex-shrink: 0; }
+/* ── DINING MENU MODAL ── */
+.menu-section { padding: 0 20px; margin-bottom: 18px; }
+.menu-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-light); margin-bottom: 8px; border-bottom: 1px solid #eef2ee; padding-bottom: 5px; }
+.menu-item { padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,.04); }
+.menu-item:last-child { border-bottom: none; }
+.menu-item-name { font-size: 13px; font-weight: 600; color: var(--text-dark); }
+.menu-item-desc { font-size: 11px; color: var(--text-light); margin-top: 1px; line-height: 1.4; }
+.menu-tag { display: inline-block; background: var(--glacier-pale); color: #0c4a6e; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 10px; letter-spacing: .5px; margin-top: 3px; }
+.menu-tag.alaska { background: #e8f0e8; color: #1a4731; }
+.menu-tag.special { background: #fef3c7; color: #92400e; }
 
     </style>
 </head>
@@ -1849,47 +1861,54 @@
         <div class="section-header" style="margin-top:20px;">Dining Rotation</div>
         <div style="font-size:11px;color:var(--text-light);margin-bottom:10px;margin-top:-8px;">Main dining · confirm exact rotation on board via Navigator app</div>
         <div style="background:var(--snow);border-radius:var(--radius);padding:4px 16px;box-shadow:var(--shadow-sm);margin-bottom:16px;">
-          <div class="dining-row">
+          <div class="dining-row" onclick="openDiningMenu('ap-1')">
             <div class="dining-night">Night 1</div>
             <div class="dining-emoji">🎨</div>
             <div class="dining-info"><div class="dining-name">Animator's Palate</div><div class="dining-date">Mon Jun 15</div></div>
             <span class="dining-tonight" id="dn-1" style="display:none;">Tonight</span>
+            <span class="dining-menu-arrow">›</span>
           </div>
-          <div class="dining-row">
+          <div class="dining-row" onclick="openDiningMenu('tr-1')">
             <div class="dining-night">Night 2</div>
             <div class="dining-emoji">🧜</div>
             <div class="dining-info"><div class="dining-name">Triton's</div><div class="dining-date">Tue Jun 16</div><div class="dining-palo">☕ Palo Brunch this day — Ortiz + Stallings adults</div></div>
             <span class="dining-tonight" id="dn-2" style="display:none;">Tonight</span>
+            <span class="dining-menu-arrow">›</span>
           </div>
-          <div class="dining-row">
+          <div class="dining-row" onclick="openDiningMenu('ti-1')">
             <div class="dining-night">Night 3</div>
             <div class="dining-emoji">🎷</div>
             <div class="dining-info"><div class="dining-name">Tiana's Place</div><div class="dining-date">Wed Jun 17</div><div class="dining-palo">🍷 Palo Dinner — Ortiz + Stallings + Simmons adults</div></div>
             <span class="dining-tonight" id="dn-3" style="display:none;">Tonight</span>
+            <span class="dining-menu-arrow">›</span>
           </div>
-          <div class="dining-row">
+          <div class="dining-row" onclick="openDiningMenu('ap-2')">
             <div class="dining-night">Night 4</div>
             <div class="dining-emoji">🎨</div>
             <div class="dining-info"><div class="dining-name">Animator's Palate</div><div class="dining-date">Thu Jun 18</div></div>
             <span class="dining-tonight" id="dn-4" style="display:none;">Tonight</span>
+            <span class="dining-menu-arrow">›</span>
           </div>
-          <div class="dining-row">
+          <div class="dining-row" onclick="openDiningMenu('tr-2')">
             <div class="dining-night">Night 5</div>
             <div class="dining-emoji">🧜</div>
             <div class="dining-info"><div class="dining-name">Triton's</div><div class="dining-date">Fri Jun 19</div></div>
             <span class="dining-tonight" id="dn-5" style="display:none;">Tonight</span>
+            <span class="dining-menu-arrow">›</span>
           </div>
-          <div class="dining-row">
+          <div class="dining-row" onclick="openDiningMenu('ti-2')">
             <div class="dining-night">Night 6</div>
             <div class="dining-emoji">🎷</div>
             <div class="dining-info"><div class="dining-name">Tiana's Place</div><div class="dining-date">Sat Jun 20</div></div>
             <span class="dining-tonight" id="dn-6" style="display:none;">Tonight</span>
+            <span class="dining-menu-arrow">›</span>
           </div>
-          <div class="dining-row">
+          <div class="dining-row" onclick="openDiningMenu('ap-3')">
             <div class="dining-night">Night 7</div>
             <div class="dining-emoji">🎨</div>
             <div class="dining-info"><div class="dining-name">Animator's Palate</div><div class="dining-date">Sun Jun 21</div></div>
             <span class="dining-tonight" id="dn-7" style="display:none;">Tonight</span>
+            <span class="dining-menu-arrow">›</span>
           </div>
         </div>
             <div class="did-you-know" style="margin-bottom:18px;"><div class="dyk-label">Did You Know?</div>Disney Wonder is only the second Disney cruise ship ever built. Her horn plays "When You Wish Upon a Star." The Mickey ears on the funnel are a signature of every Disney ship — and the classic navy-and-yellow hull is a nod to the golden age of ocean liners.</div>
@@ -2216,6 +2235,29 @@
             <div id="hl-booked" style="background:#e8f5ee;color:#1a5c38;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;margin:4px 20px 12px;"></div>
             <div id="hl-body" style="padding:0 20px 16px;font-size:13px;color:var(--text-dark);line-height:1.65;"></div>
             <div class="map-link-row" id="hl-links" style="padding:0 20px 36px;flex-wrap:wrap;gap:8px;"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-dining" onclick="if(event.target===this)closeDiningMenu()">
+    <div class="modal-sheet">
+        <div class="modal-handle-row">
+            <div class="modal-handle"></div>
+            <button class="modal-close-btn" onclick="closeDiningMenu()">✕</button>
+        </div>
+        <div class="modal-scroll">
+            <div class="modal-header" style="padding-bottom:8px;">
+                <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:4px;" id="dm-night"></div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+                    <span id="dm-icon" style="font-size:32px;flex-shrink:0;line-height:1;"></span>
+                    <div>
+                        <div class="modal-title" id="dm-title" style="margin:0;font-size:20px;"></div>
+                        <div id="dm-theme" style="font-size:11px;color:var(--text-light);margin-top:2px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="dm-note" style="background:#fef3c7;color:#92400e;padding:8px 12px;border-radius:8px;font-size:11px;font-weight:600;margin:0 20px 14px;display:none;"></div>
+            <div id="dm-body"></div>
         </div>
     </div>
 </div>
@@ -3300,6 +3342,217 @@
 <p>No excursion, no cost, no planning needed. Just look up as you walk around town. Your best chance at a zero-effort wildlife sighting of the entire trip. Bring binoculars. Wildlife Bingo tip: this is your most reliable spot for bald eagle — also watch for ravens near the totem parks, larger than most people expect.</p>`
       }
     };
+
+    // ── DINING MENUS ──
+    const DINING_MENUS = {
+      'ap-1': {
+        night: 'Night 1 · Mon Jun 15', icon: '🎨', title: "Animator's Palate",
+        theme: 'Classic Disney Animation',
+        starters: [
+          { name: 'Smoked Salmon Tartar', desc: 'With dill, capers, and lemon crème fraîche' },
+          { name: 'Black Truffle Pasta Purseittes', desc: 'Delicate pasta parcels in champagne cream sauce', tag: 'Fan Favorite' },
+          { name: 'Serrano Ham & Manchego', desc: 'Thinly sliced with fig jam and toasted crostini' },
+          { name: 'Tomato Tarte with Goat Cheese', desc: 'Herb oil and balsamic glaze' },
+        ],
+        mains: [
+          { name: 'Ginger-Teriyaki Angus Beef Tenderloin', desc: 'On wasabi mash with grilled asparagus' },
+          { name: 'Herb-Crusted Pork Chop', desc: 'Sun-dried tomato risotto and roasted garlic jus' },
+          { name: 'Lemon-Thyme Chicken Breast', desc: 'Sour cream potatoes and haricots verts' },
+          { name: 'Grilled Tuna Steak', desc: 'With caponata, olive tapenade, and basil oil' },
+          { name: 'Penne Bolognese', desc: 'Slow-braised meat sauce, Parmigiano-Reggiano' },
+        ],
+        desserts: [
+          { name: 'Warm Sticky Date Pudding', desc: 'Butterscotch sauce and vanilla ice cream', tag: 'Fan Favorite' },
+          { name: 'Crunchy Walnut Cake', desc: 'Dark chocolate mousse and praline' },
+          { name: 'Chocolate Fudge Cheesecake', desc: 'Raspberry coulis' },
+          { name: "Cookies 'n' Cream Sundae", desc: 'House-made cookies, whipped cream' },
+          { name: 'Lemon Icebox Pie', desc: 'Tangy lemon curd in graham cracker crust' },
+        ]
+      },
+      'tr-1': {
+        night: 'Night 2 · Tue Jun 16', icon: '🧜', title: "Triton's",
+        theme: 'The Little Mermaid · Classic French',
+        starters: [
+          { name: "Gaston's Escargot Gratinée", desc: 'Burgundy snails baked with garlic herb butter and toasted baguette' },
+          { name: 'Iced Lobster & Shrimp', desc: 'With asparagus, cocktail sauce, and lemon' },
+          { name: 'Duck Confit', desc: 'Pulled duck with Craisins, walnuts, and port reduction' },
+          { name: 'Fried Brie', desc: 'Golden-breaded brie with orange-cranberry chutney' },
+        ],
+        mains: [
+          { name: 'Filet Steak with Béarnaise', desc: 'Château-style roasted tenderloin, pommes dauphine' },
+          { name: 'Rack of Lamb', desc: 'Burgundy rosemary sauce, gratin dauphinois' },
+          { name: 'Oven-Baked Salmon Royale', desc: 'Smoked salmon crust, beurre blanc, dill potatoes' },
+          { name: 'Roasted Duck Breast', desc: 'Honey parsnip mash and cherry compote' },
+          { name: 'Lobster Pasta', desc: 'Linguine with lobster medallions in brandy cream' },
+        ],
+        desserts: [
+          { name: 'Grand Marnier Soufflé', desc: 'Served tableside with crème anglaise', tag: 'Must Try' },
+          { name: 'Apple Tarte Tatin', desc: 'Caramelised apples, puff pastry, vanilla ice cream' },
+          { name: 'Tahitian Vanilla Crème Brûlée', desc: 'Torched sugar crust, fresh berries' },
+          { name: 'Strawberry Shortcake Sundae', desc: 'Vanilla ice cream, strawberry compote, chantilly' },
+          { name: 'Classic Opera Gateau', desc: 'Layered coffee and dark chocolate sponge' },
+        ]
+      },
+      'ti-1': {
+        night: 'Night 3 · Wed Jun 17', icon: '🎷', title: "Tiana's Place",
+        theme: 'Princess & the Frog · New Orleans Jazz Supper Club',
+        note: '🍷 Palo Dinner for adults tonight — kids may dine here with Tiana crew',
+        starters: [
+          { name: 'Alaskan Smoked Salmon Timbale', desc: 'Cucumber ribbons, dill cream, tobiko caviar', tag: 'Alaska' },
+          { name: 'Louisiana Hot Crab Dip', desc: 'Warm artichoke-crab dip with Creole spiced croutons', tag: 'Fan Favorite' },
+          { name: 'Duck & Pistachio Terrine', desc: 'Cumberland sauce and pickled cornichons' },
+        ],
+        mains: [
+          { name: 'Baked Filet of Bering Sea Halibut', desc: 'Dill cream sauce, herbed fingerling potatoes', tag: 'Alaska' },
+          { name: 'Lime-Marinated Jumbo Shrimp', desc: 'Jambalaya rice with andouille sausage and Creole sauce' },
+          { name: "Big Daddy's New York Sirloin", desc: 'Truffle potatoes, red wine veal jus, crispy onions' },
+          { name: 'Oven-Roasted Turkey Breast', desc: 'Cranberry relish, cornbread stuffing, turkey jus' },
+        ],
+        desserts: [
+          { name: "Prince Naveen's Flourless Chocolate Cake", desc: 'Dark hazelnut sauce and gold leaf' },
+          { name: 'Baked Alaska', desc: 'Meringue-topped ice cream terrine, flambéed tableside', tag: 'Must Try' },
+          { name: 'Louisiana Root Beer Crème', desc: 'Cherry parfait and whipped cream' },
+          { name: 'Banoffee Cream Pie', desc: 'Toffee sauce, banana, chantilly cream' },
+        ]
+      },
+      'ap-2': {
+        night: 'Night 4 · Thu Jun 18', icon: '🎨', title: "Animator's Palate",
+        theme: '"Drawings Come to Life" — Interactive Animation Show',
+        note: '✨ Tonight is the famous Drawings Come to Life show — watch your drawing appear on the big screens!',
+        starters: [
+          { name: 'Smoked Salmon Tartar', desc: 'With dill, capers, and lemon crème fraîche' },
+          { name: 'Black Truffle Pasta Purseittes', desc: 'Pasta parcels in champagne cream sauce', tag: 'Fan Favorite' },
+          { name: 'Serrano Ham & Manchego', desc: 'With fig jam and toasted crostini' },
+          { name: 'Tomato Tarte with Goat Cheese', desc: 'Herb oil and balsamic glaze' },
+        ],
+        mains: [
+          { name: 'Roasted Filet of Beef Wellington', desc: 'Puff pastry, mushroom duxelle, Madeira jus', tag: 'Special' },
+          { name: 'Herb-Crusted Rack of Lamb', desc: 'Ratatouille provençale, rosemary jus', tag: 'Special' },
+          { name: 'Roasted Alaskan Salmon Steak', desc: 'Truffle red wine jus, baby leeks and capers', tag: 'Alaska' },
+          { name: 'Lemon-Thyme Chicken Breast', desc: 'Sour cream potatoes and haricots verts' },
+          { name: 'Penne Bolognese', desc: 'Slow-braised meat sauce, Parmigiano-Reggiano' },
+        ],
+        desserts: [
+          { name: 'Warm Sticky Date Pudding', desc: 'Butterscotch sauce and vanilla ice cream', tag: 'Fan Favorite' },
+          { name: 'Apple Crumble Rice Pudding', desc: 'Warm spiced crumble topping — new for 2026', tag: 'New' },
+          { name: 'Key Lime Pie', desc: 'Graham cracker crust, lime curd, meringue — new for 2026', tag: 'New' },
+          { name: 'Chocolate Beetroot Cake', desc: 'Rich dark chocolate, cream cheese frosting — new for 2026', tag: 'New' },
+          { name: "Cookies 'n' Cream Sundae", desc: 'House-made cookies, whipped cream' },
+        ]
+      },
+      'tr-2': {
+        night: 'Night 5 · Fri Jun 19', icon: '🧜', title: "Triton's",
+        theme: 'Alaska Regional Menu · Local Catch Night',
+        note: '🐟 Tonight features Alaska-sourced specialties — the regional menu runs alongside the classic options.',
+        starters: [
+          { name: "Gaston's Escargot Gratinée", desc: 'Burgundy snails baked with garlic herb butter' },
+          { name: 'Dill & Meyer Lemon–Marinated Shrimp', desc: 'Chilled prawns, avocado mousse, micro greens', tag: 'Alaska' },
+          { name: 'French Onion Soup', desc: 'Gruyère crouton, rich beef broth' },
+          { name: 'Red Wine Bosc Pear Salad', desc: 'Gorgonzola, candied walnuts, aged balsamic' },
+        ],
+        mains: [
+          { name: 'Roasted Bering Sea Halibut Filet', desc: 'On minted peas with lemon beurre blanc', tag: 'Alaska' },
+          { name: 'Pan-Seared Venison Medallions', desc: 'Port wine sauce, wild mushrooms, celery root purée', tag: 'Alaska' },
+          { name: 'Oven-Baked Lobster Tail', desc: 'Lemon-pesto mash, drawn butter, grilled asparagus', tag: 'Alaska' },
+          { name: 'Filet Steak with Béarnaise', desc: 'Château-style, pommes dauphine' },
+          { name: 'Conchiglie Pasta', desc: 'Roasted vegetables, basil, pecorino' },
+        ],
+        desserts: [
+          { name: 'Grand Marnier Soufflé', desc: 'Served tableside with crème anglaise', tag: 'Must Try' },
+          { name: 'Tahitian Vanilla Crème Brûlée', desc: 'Torched sugar crust, fresh berries' },
+          { name: 'Classic Opera Gateau', desc: 'Layered coffee and dark chocolate sponge' },
+          { name: 'Strawberry Shortcake Sundae', desc: 'Vanilla ice cream, strawberry compote, chantilly' },
+        ]
+      },
+      'ti-2': {
+        night: 'Night 6 · Sat Jun 20', icon: '🎷', title: "Tiana's Place",
+        theme: 'Princess & the Frog · Saturday Night Specialties',
+        starters: [
+          { name: 'Alaskan Smoked Salmon Timbale', desc: 'Cucumber ribbons, dill cream, tobiko caviar', tag: 'Alaska' },
+          { name: 'Louisiana Hot Crab Dip', desc: 'Warm artichoke-crab dip, Creole croutons', tag: 'Fan Favorite' },
+          { name: 'Duck & Pistachio Terrine', desc: 'Cumberland sauce and pickled cornichons' },
+        ],
+        mains: [
+          { name: "Big Daddy's Roasted Prime Rib", desc: 'Red wine veal sauce, creamy horseradish, au jus', tag: 'Fan Favorite' },
+          { name: 'Sautéed Gulf Shrimp & Grits', desc: 'Stone-ground grits, andouille sausage, Cajun butter', tag: 'Must Try' },
+          { name: 'Cajun Spiced Sea Bass', desc: 'On shrimp jambalaya rice, blackened seasoning' },
+          { name: 'Roasted Creole Half Chicken', desc: 'Pecan bread pudding, red pepper jelly, Creole jus' },
+        ],
+        desserts: [
+          { name: 'Baked Alaska', desc: 'Meringue-topped ice cream terrine, flambéed tableside', tag: 'Must Try' },
+          { name: "Prince Naveen's Flourless Chocolate Cake", desc: 'Dark hazelnut sauce and gold leaf' },
+          { name: 'Banoffee Cream Pie', desc: 'Toffee sauce, banana, chantilly cream' },
+          { name: 'Louisiana Root Beer Crème', desc: 'Cherry parfait and whipped cream' },
+        ]
+      },
+      'ap-3': {
+        night: 'Night 7 · Sun Jun 21', icon: '🎨', title: "Animator's Palate",
+        theme: 'Final Night · Seas the Day',
+        note: '🏴‍☠️ Pirate Night deck party happens tonight — dinner then head up for fireworks at sea!',
+        starters: [
+          { name: 'Smoked Salmon Tartar', desc: 'With dill, capers, and lemon crème fraîche' },
+          { name: 'Black Truffle Pasta Purseittes', desc: 'Pasta parcels in champagne cream sauce', tag: 'Fan Favorite' },
+          { name: 'Tomato Tarte with Goat Cheese', desc: 'Herb oil and balsamic glaze' },
+          { name: 'Serrano Ham & Manchego', desc: 'Fig jam and toasted crostini' },
+        ],
+        mains: [
+          { name: 'Roasted Filet of Beef Wellington', desc: 'Puff pastry, mushroom duxelle, Madeira jus' },
+          { name: 'Herb-Crusted Rack of Lamb', desc: 'Ratatouille provençale, rosemary jus' },
+          { name: 'Roasted Alaskan Salmon Steak', desc: 'Truffle red wine jus, baby leeks', tag: 'Alaska' },
+          { name: 'Ginger-Teriyaki Angus Beef Tenderloin', desc: 'Wasabi mash and grilled asparagus' },
+          { name: 'Penne Bolognese', desc: 'Slow-braised meat sauce, Parmigiano-Reggiano' },
+        ],
+        desserts: [
+          { name: 'Warm Sticky Date Pudding', desc: 'Butterscotch sauce and vanilla ice cream', tag: 'Fan Favorite' },
+          { name: 'Apple Crumble Rice Pudding', desc: 'Warm spiced crumble — new for 2026', tag: 'New' },
+          { name: 'Chocolate Beetroot Cake', desc: 'Dark chocolate, cream cheese frosting — new for 2026', tag: 'New' },
+          { name: 'Key Lime Pie', desc: 'Graham cracker crust, lime curd, meringue — new for 2026', tag: 'New' },
+          { name: "Cookies 'n' Cream Sundae", desc: 'House-made cookies, whipped cream' },
+        ]
+      }
+    };
+
+    function openDiningMenu(key) {
+        const m = DINING_MENUS[key];
+        if (!m) return;
+        document.getElementById('dm-night').textContent = m.night;
+        document.getElementById('dm-icon').textContent = m.icon;
+        document.getElementById('dm-title').textContent = m.title;
+        document.getElementById('dm-theme').textContent = m.theme;
+        const noteEl = document.getElementById('dm-note');
+        if (m.note) { noteEl.textContent = m.note; noteEl.style.display = ''; }
+        else { noteEl.style.display = 'none'; }
+
+        const tagClass = { 'Fan Favorite': '', 'Must Try': '', 'Alaska': 'alaska', 'Special': 'special', 'New': 'special' };
+        function renderItems(items) {
+            return items.map(i => `
+              <div class="menu-item">
+                <div class="menu-item-name">${i.name}${i.tag ? ` <span class="menu-tag ${tagClass[i.tag]||''}">${i.tag}</span>` : ''}</div>
+                ${i.desc ? `<div class="menu-item-desc">${i.desc}</div>` : ''}
+              </div>`).join('');
+        }
+        document.getElementById('dm-body').innerHTML = `
+          <div class="menu-section">
+            <div class="menu-section-title">Starters</div>
+            ${renderItems(m.starters)}
+          </div>
+          <div class="menu-section">
+            <div class="menu-section-title">Mains</div>
+            ${renderItems(m.mains)}
+          </div>
+          <div class="menu-section">
+            <div class="menu-section-title">Desserts</div>
+            ${renderItems(m.desserts)}
+          </div>
+          <div style="padding:0 20px 36px;font-size:10px;color:var(--text-light);line-height:1.5;">Menus based on typical Alaska sailing. Actual items may vary — confirm onboard via the Navigator app.</div>`;
+        document.getElementById('modal-dining').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeDiningMenu() {
+        document.getElementById('modal-dining').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
 
     function openHighlight(id) {
         const h = HIGHLIGHT_DATA[id];
