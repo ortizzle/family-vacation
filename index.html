@@ -1092,11 +1092,11 @@
   <div class="acc-body port-body collapsed">
     <div class="port-facts">
       <div class="port-fact"><div class="port-fact-label">Terminal</div><div class="port-fact-value">Canada Place</div></div>
-      <div class="port-fact"><div class="port-fact-label">Hotel Checkout</div><div class="port-fact-value">11:00 AM · River Rock</div></div>
+      <div class="port-fact" style="cursor:pointer;" onclick="openHighlight('river-rock')"><div class="port-fact-label">Hotel Checkout</div><div class="port-fact-value">11:00 AM · River Rock 🏨 →</div></div>
       <div class="port-fact"><div class="port-fact-label">Disney Wonder Departs</div><div class="port-fact-value">4:00 PM</div></div>
       <div class="port-fact"><div class="port-fact-label">Pre-Cruise Days</div><div class="port-fact-value">June 12–15 · Richmond BC</div></div>
     </div>
-    <div class="did-you-know"><div class="dyk-label">Pre-Cruise</div>River Rock Casino Hotel · Richmond, BC · 8888 River Road. Your base camp for June 11–15. Close to the Richmond Night Market and a short drive to downtown Vancouver.</div>
+    <div class="did-you-know" style="cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="openHighlight('river-rock')"><div class="dyk-label">Pre-Cruise Hotel · Tap for details →</div>🏨 River Rock Casino Resort · Richmond, BC · 8888 River Road. Your base camp for June 11–15. Pool, spa, river views, and easy Canada Line access to Canada Place.</div>
     <div class="event-list">
       <div class="event-list-title">Today's Schedule</div>
       <div class="event-item milestone tappable" onclick="openExpDetail('rainforest-room')"><div class="event-time">All Day</div><div class="event-detail"><div class="event-name">Rainforest Room Pass — Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Joseph · Veronica Stallings</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
@@ -1643,12 +1643,6 @@
     <section id="section-games" class="section">
     <div style="padding: 0 4px;" id="games-container">
 
-        <div class="section-header">Daily MVP 🏆</div>
-        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;margin-top:-8px;">End-of-day awards · tap a day to fill in</div>
-        <div id="mvp-list">
-          <!-- JS renders these -->
-        </div>
-
         <!-- PICKER GRID -->
         <div id="games-picker">
             <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Games</div>
@@ -1663,6 +1657,12 @@
                 <div class="gpc" onclick="openGame('emoji')"><div class="gpc-emoji">🤔</div><div class="gpc-title">Emoji Decoder</div><div class="gpc-desc">Guess what they mean</div></div>
                 <div class="gpc" onclick="openGame('wyr')"><div class="gpc-emoji">🤷</div><div class="gpc-title">Would You Rather</div><div class="gpc-desc">Alaska dilemmas</div></div>
             </div>
+        </div>
+
+        <div class="section-header" style="margin-top:20px;">Daily MVP 🏆</div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;margin-top:-8px;">End-of-day awards · tap a day to fill in</div>
+        <div id="mvp-list">
+          <!-- JS renders these -->
         </div>
 
         <!-- PHOTO BINGO -->
@@ -3418,6 +3418,39 @@
         title: 'Eagle Spotting',
         body: `<p style="margin-bottom:10px;">Ketchikan has an exceptional density of bald eagles — look up along the waterfront, fishing piers, boat masts, and trees near the creek. When salmon are running in June, eagles hunt right along the water's edge.</p>
 <p>No excursion, no cost, no planning needed. Just look up as you walk around town. Your best chance at a zero-effort wildlife sighting of the entire trip. Bring binoculars. Wildlife Bingo tip: this is your most reliable spot for bald eagle — also watch for ravens near the totem parks, larger than most people expect.</p>`
+      },
+      'river-rock': {
+        port: 'Pre-Cruise · Richmond, BC · Jun 11–15',
+        icon: '🏨',
+        title: 'River Rock Casino Resort',
+        booked: '✓ Confirmed — PIN 3001',
+        body: `<p style="margin-bottom:12px;">Your base camp for the four days before boarding. River Rock sits right on the Fraser River in Richmond — a relaxed, self-contained resort with easy access to both Vancouver and the cruise terminal.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Address</div>
+    <div style="font-size:12px;color:#222;">8888 River Road<br>Richmond, BC V6X 3Y8</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Phone</div>
+    <div style="font-size:12px;color:#222;">+1 (604) 247-8900</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Check-in</div>
+    <div style="font-size:12px;color:#222;">Wed Jun 11 · 3:00 PM</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Check-out</div>
+    <div style="font-size:12px;color:#222;">Mon Jun 15 · 11:00 AM</div>
+  </div>
+</div>
+<p style="margin-bottom:8px;"><strong>Getting to Canada Place (boarding):</strong> ~25 min by car or Uber. Canada Line SkyTrain from Bridgeport Station (5 min walk from hotel) runs directly to Waterfront Station — a short walk to Canada Place. No parking hassle.</p>
+<p style="margin-bottom:8px;"><strong>Amenities:</strong> Outdoor pool, hot tub, full-service spa, multiple restaurants including Arriva (Italian) and Curve (casual), free parking, YVR airport shuttle.</p>
+<p><strong>Nearby:</strong> Richmond Night Market (15 min, open evenings), Steveston fishing village (20 min drive), downtown Vancouver (30 min Canada Line).</p>`,
+        links: [
+          { label: '🌐 Hotel Website', url: 'https://www.riverrock.com/' },
+          { label: '📍 Google Maps', url: 'https://maps.google.com/?q=River+Rock+Casino+Resort+8888+River+Road+Richmond+BC' },
+          { label: '🚇 Canada Line Map', url: 'https://www.translink.ca/rider-guide/transit-system/skytrain/canada-line' },
+        ]
       }
     };
 
