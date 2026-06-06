@@ -1594,6 +1594,66 @@
                   <a href="https://www.google.com/search?q=Vancouver+BC+weather" target="_blank" rel="noopener" style="background:#d4edda;color:#155724;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;text-decoration:none;">📡 Live forecast →</a>
                 </div>
                 <p style="font-size:13px;color:var(--text-mid);margin:0 0 12px;line-height:1.5;">Big day — North Shore in the morning, FIFA match tonight at 9 PM.</p>
+
+                <!-- Capilano booked confirmation -->
+                <div style="background:linear-gradient(135deg,#e8f5ee,#f0faf2);border:1.5px solid #a8d9bb;border-radius:12px;padding:12px 14px;margin-bottom:14px;">
+                  <div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px;">✅ Booked · Capilano Suspension Bridge</div>
+                  <div style="font-size:12px;color:#2d6a4f;line-height:1.5;">8:30 AM Entry · Order #20260606-7695159 · 2.5 hrs</div>
+                </div>
+
+                <!-- Morning transit + activity timeline -->
+                <div style="margin-bottom:14px;">
+                  <div style="font-size:11px;font-weight:700;color:var(--text-light);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;">🚇 Getting There — Canada Line + Shuttle</div>
+
+                  <div class="event-item" style="margin-bottom:6px;">
+                    <div class="event-time" style="min-width:60px;">7:00 AM</div>
+                    <div class="event-detail">
+                      <div class="event-name">Depart River Rock Hotel</div>
+                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Walk to Templeton Station (Canada Line) · ~3 min</div>
+                    </div>
+                  </div>
+
+                  <div class="event-item" style="margin-bottom:6px;">
+                    <div class="event-time" style="min-width:60px;">7:05 AM</div>
+                    <div class="event-detail">
+                      <div class="event-name">🚇 Canada Line SkyTrain</div>
+                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Templeton → Waterfront Station · ~30 min · runs every 5–8 min</div>
+                    </div>
+                  </div>
+
+                  <div class="event-item" style="margin-bottom:6px;">
+                    <div class="event-time" style="min-width:60px;">7:35 AM</div>
+                    <div class="event-detail">
+                      <div class="event-name">🚌 Capilano Free Shuttle</div>
+                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Waterfront (Canada Place exit) → Capilano · ~20 min · departs every 30 min from 8 AM, catch the 7:40 or board early</div>
+                    </div>
+                  </div>
+
+                  <div class="event-item tappable milestone" onclick="openHighlight('van-capilano')" style="margin-bottom:6px;">
+                    <div class="event-time" style="min-width:60px;">8:15 AM</div>
+                    <div class="event-detail">
+                      <div class="event-name">🌉 Arrive Capilano · Collect Tickets</div>
+                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Show Order #20260606-7695159 · Entry at 8:30 · Tap for details →</div>
+                    </div>
+                  </div>
+
+                  <div class="event-item" style="margin-bottom:6px;">
+                    <div class="event-time" style="min-width:60px;">8:30 – 11:00 AM</div>
+                    <div class="event-detail">
+                      <div class="event-name">🌉 Capilano Suspension Bridge Park</div>
+                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Suspension Bridge · Treetops Adventure · Cliffwalk · Raptors Ridge</div>
+                    </div>
+                  </div>
+
+                  <div class="event-item" style="margin-bottom:6px;">
+                    <div class="event-time" style="min-width:60px;">~11:15 AM</div>
+                    <div class="event-detail">
+                      <div class="event-name">🚠 Optional: Grouse Mountain</div>
+                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">~10 min drive from Capilano · Gondola + Grizzly Bears</div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="highlight-grid">
                   <div class="highlight-item" onclick="openHighlight('van-capilano')">
                     <span class="highlight-icon">🌉</span>Capilano Bridge
@@ -3968,28 +4028,73 @@
         port: 'Jun 13 · North Shore · North Vancouver',
         icon: '🌉',
         title: 'Capilano Suspension Bridge',
-        body: `<p style="margin-bottom:12px;">A 450-foot suspension bridge swaying 230 feet above the Capilano River — then Treetops Adventure (7 bridges through old-growth forest canopy), Cliffwalk (cantilevered walkways on the canyon face), and Raptors Ridge (birds of prey demonstrations). One of the top family experiences near Vancouver. Plan 2.5–3 hours.</p>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+        booked: '✅ Booked · 8:30 AM · Order #20260606-7695159',
+        body: `
+<div style="background:linear-gradient(135deg,#e8f5ee,#f0faf2);border:1.5px solid #a8d9bb;border-radius:10px;padding:11px 13px;margin-bottom:14px;">
+  <div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.6px;text-transform:uppercase;margin-bottom:4px;">✅ Confirmed Booking</div>
+  <div style="font-size:12px;color:#2d6a4f;line-height:1.6;">Entry: <strong>8:30 AM</strong> · Duration: ~2.5 hours<br>Order #20260606-7695159</div>
+</div>
+
+<p style="margin-bottom:12px;font-size:13px;line-height:1.6;">A 450-foot-long suspension bridge swaying <strong>230 feet above the Capilano River gorge</strong> — then Treetops Adventure (7 bridges through old-growth forest canopy), Cliffwalk (cantilevered glass walkways jutting out from the canyon cliff face), and Raptors Ridge (live birds of prey demos). One of BC's most iconic family experiences.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
   <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Distance</div>
-    <div style="font-size:12px;color:#222;">~30 min<br>from River Rock</div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Entry Time</div>
+    <div style="font-size:12px;color:#222;font-weight:600;">8:30 AM</div>
   </div>
   <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Cost</div>
-    <div style="font-size:12px;color:#222;">~$75 CAD adults<br>~$43 kids 6–12, free &lt;6</div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Done By</div>
+    <div style="font-size:12px;color:#222;font-weight:600;">~11:00 AM</div>
   </div>
   <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Hours</div>
-    <div style="font-size:12px;color:#222;">8 AM – 8 PM daily</div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Bridge Height</div>
+    <div style="font-size:12px;color:#222;">230 ft above<br>the river</div>
   </div>
   <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Time Needed</div>
-    <div style="font-size:12px;color:#222;">2.5–3 hours</div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Bridge Length</div>
+    <div style="font-size:12px;color:#222;">450 feet<br>(137 m)</div>
   </div>
 </div>
-<p style="margin-bottom:8px;"><strong>Tips:</strong> Buy tickets online to skip the gate line. A free shuttle runs from the downtown Waterfront area — saves on parking and drops you right at the entrance. Combine with Grouse Mountain for a full North Shore day.</p>`,
+
+<div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;">🌉 What's Included</div>
+<div class="tip-item"><span class="tip-icon">🌉</span><strong>Suspension Bridge:</strong> The main event — a swaying cable bridge above the canyon. Hold on to the kids!</div>
+<div class="tip-item"><span class="tip-icon">🌲</span><strong>Treetops Adventure:</strong> 7 suspension bridges strung between 250-year-old Douglas firs — you're walking in the forest canopy.</div>
+<div class="tip-item"><span class="tip-icon">🧗</span><strong>Cliffwalk:</strong> Cantilevered glass-and-steel walkways bolted into the granite cliff face over the gorge. Thrilling views straight down.</div>
+<div class="tip-item"><span class="tip-icon">🦅</span><strong>Raptors Ridge:</strong> Live birds of prey — owls, falcons, eagles. Free-flying demos happen throughout the day.</div>
+
+<div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.8px;text-transform:uppercase;margin:14px 0 8px;">🚇 Getting There — Canada Line + Shuttle</div>
+<div style="background:#f4f8f4;border-radius:10px;padding:12px;margin-bottom:12px;">
+  <div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="display:flex;align-items:flex-start;gap:8px;">
+      <div style="font-size:11px;font-weight:700;color:#555;min-width:52px;">7:00 AM</div>
+      <div style="font-size:12px;color:#333;line-height:1.5;">Walk to <strong>Templeton Station</strong> (~3 min from River Rock lobby) and board the Canada Line SkyTrain</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:8px;">
+      <div style="font-size:11px;font-weight:700;color:#555;min-width:52px;">7:05 AM</div>
+      <div style="font-size:12px;color:#333;line-height:1.5;">🚇 <strong>Canada Line</strong> — Templeton → Waterfront Station (~30 min, trains every 5–8 min). Automated SkyTrain, no transfers needed.</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:8px;">
+      <div style="font-size:11px;font-weight:700;color:#555;min-width:52px;">7:35 AM</div>
+      <div style="font-size:12px;color:#333;line-height:1.5;">🚌 <strong>Capilano Free Shuttle</strong> — departs from Canada Place/Waterfront area. Runs every 30 min starting 8 AM. Early arrival means a short wait — grab a coffee at the station.</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:8px;">
+      <div style="font-size:11px;font-weight:700;color:#555;min-width:52px;">8:15 AM</div>
+      <div style="font-size:12px;color:#333;line-height:1.5;">🌉 Arrive Capilano — show order confirmation, collect wristbands, ready for 8:30 entry</div>
+    </div>
+  </div>
+</div>
+
+<div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;">💡 Did You Know?</div>
+<div class="did-you-know"><div class="dyk-label">Ancient Forest</div>The Douglas firs you'll walk through in Treetops Adventure are over 1,300 years old — some of the oldest trees in BC. They were already centuries-old when Columbus landed in the Americas.</div>
+<div class="did-you-know"><div class="dyk-label">Original Bridge</div>The first Capilano Suspension Bridge was built in 1889 by Scottish civil engineer George Grant Mackay — originally made of hemp rope and cedar planks. The modern steel-cable version opened in 1956.</div>
+<div class="did-you-know"><div class="dyk-label">Canyon Depth</div>The Capilano River has carved a canyon nearly 300 feet deep through ancient granite. You'll see the canyon walls up close on Cliffwalk — the glass sections let you look straight down.</div>
+<div class="did-you-know"><div class="dyk-label">Alaska Connection</div>The Pacific temperate rainforest you'll walk through at Capilano is the same ecosystem type as southeast Alaska — a perfect preview of the forests you'll see in Ketchikan and Juneau.</div>
+
+<div class="tip-item" style="margin-top:12px;"><span class="tip-icon">🎟️</span><strong>You're all set:</strong> Tickets pre-purchased online (Order #20260606-7695159). Head straight to the ticket collection / entry gate — no need to wait in the booking line.</div>
+`,
         links: [
           { label: '🌐 Capilano Bridge', url: 'https://www.capbridge.com' },
+          { label: '🚇 TransLink Trip Planner', url: 'https://tripplanning.translink.ca/' },
           { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Capilano+Suspension+Bridge+North+Vancouver' },
         ]
       },
