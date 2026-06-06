@@ -1545,8 +1545,37 @@
                   <span style="background:#e8f4fd;color:#1e40af;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;">📅 Actual forecast</span>
                   <a href="https://www.google.com/search?q=Richmond+BC+weather" target="_blank" rel="noopener" style="background:#d4edda;color:#155724;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;text-decoration:none;">📡 Live →</a>
                 </div>
-                <div class="activity-chip" style="margin-bottom:6px;">Check in: River Rock Casino Hotel, Richmond</div>
-                <div class="activity-chip">⚽ World Cup group stage begins today at Estadio Azteca</div>
+                <div class="event-item" style="margin-bottom:6px;">
+                  <div class="event-time" style="min-width:60px;">7:55 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">✈️ Land at YVR</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">WestJet 1741 · International arrivals → customs + luggage ~45 min</div>
+                  </div>
+                </div>
+                <div class="event-item" style="margin-bottom:6px;">
+                  <div class="event-time" style="min-width:60px;">~8:45 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🚇 Canada Line from YVR</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">YVR-Airport Station → Templeton Station · ~35 min · follow "Canada Line" signs in arrivals</div>
+                  </div>
+                </div>
+                <div class="event-item" style="margin-bottom:6px;">
+                  <div class="event-time" style="min-width:60px;">~9:20 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🏨 Check in · River Rock Casino Resort</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Templeton Station exits directly to the hotel · drop bags · freshen up</div>
+                  </div>
+                </div>
+                <div class="event-item tappable" onclick="openHighlight('van-fifafest')" style="margin-bottom:6px;">
+                  <div class="event-time" style="min-width:60px;">~9:45 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">⚽ FIFA Fan Festival — Opening Night!</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Canada Line: Templeton → Commercial-Broadway → Bus/rideshare to PNE · ~40 min · Tap for transit details →</div>
+                  </div>
+                </div>
+                <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:9px 12px;margin-top:4px;font-size:12px;color:#7b5800;line-height:1.5;">
+                  ⏰ <strong>Heads up:</strong> It's opening night — the energy will be great but you'll be arriving late after travel. Check <a href="https://www.vancouverfwc26.ca" target="_blank" style="color:#7b5800;">vancouverfwc26.ca</a> for closing time. June 12 is an easy backup if you'd rather crash after the flight.
+                </div>
             </div>
         </div>
     </div>
@@ -1574,6 +1603,9 @@
                   </div>
                   <div class="highlight-item" onclick="openHighlight('van-nightmarket')">
                     <span class="highlight-icon">🏮</span>Night Market
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('van-eats')">
+                    <span class="highlight-icon">🍽️</span>Family Eats
                   </div>
                 </div>
             </div>
@@ -1697,8 +1729,8 @@
                   <div class="highlight-item" onclick="openHighlight('van-granville')">
                     <span class="highlight-icon">🛶</span>Granville Island
                   </div>
-                  <div class="highlight-item" onclick="openHighlight('van-nightmarket')">
-                    <span class="highlight-icon">🏮</span>Night Market
+                  <div class="highlight-item" onclick="openHighlight('van-eats')">
+                    <span class="highlight-icon">🍽️</span>Family Eats
                   </div>
                 </div>
                 <div style="background:#e0f5f5;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;font-weight:600;color:#1a5d6e;">🏮 Richmond Night Market tonight — last chance! 7 PM, 5 min from hotel</div>
@@ -3994,32 +4026,146 @@
         ]
       },
 
+      'van-eats': {
+        port: 'Jun 11–15 · Vancouver & Richmond',
+        icon: '🍽️',
+        title: 'Family-Friendly Eats',
+        body: `<p style="margin-bottom:12px;font-size:13px;line-height:1.6;">Vancouver and Richmond are two of the best food cities in North America. Here's what works great for a multigenerational group with kids — organized by where you'll be each day.</p>
+
+<div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;">🏨 Near River Rock Hotel (Richmond)</div>
+
+<div style="background:#f9fafb;border-radius:10px;padding:12px;margin-bottom:10px;">
+  <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:2px;">🍜 Parker Place Market Food Court</div>
+  <div style="font-size:11px;color:#666;margin-bottom:5px;">4380 No. 3 Rd, Richmond · ~10 min drive</div>
+  <div style="font-size:12px;color:#333;line-height:1.5;">One of the most authentic Asian food courts in North America — dumplings, BBQ pork, pho, Japanese curry, bubble tea, and more. Everyone picks what they want, prices are fantastic, and kids love the variety. A Richmond institution.</div>
+</div>
+
+<div style="background:#f9fafb;border-radius:10px;padding:12px;margin-bottom:10px;">
+  <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:2px;">🍔 White Spot</div>
+  <div style="font-size:11px;color:#666;margin-bottom:5px;">Multiple locations · ~5–10 min drive</div>
+  <div style="font-size:12px;color:#333;line-height:1.5;">BC's original family restaurant since 1928. Burgers, fish &amp; chips, salads, great kids' menu. The "Triple-O" sauce is famous. Comfortable booths, fast service, and reliably good for all ages. The right call for a no-drama family dinner.</div>
+</div>
+
+<div style="background:#f9fafb;border-radius:10px;padding:12px;margin-bottom:14px;">
+  <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:2px;">🍣 Minami Restaurant</div>
+  <div style="font-size:11px;color:#666;margin-bottom:5px;">Downtown Vancouver · ~35 min via Canada Line</div>
+  <div style="font-size:12px;color:#333;line-height:1.5;">Upscale but family-welcoming aburi (flame-pressed) sushi right on the waterfront. If the adults want a proper Vancouver dining experience, this is it. Beautiful plates — River will love the presentation. Reservations recommended.</div>
+</div>
+
+<div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;">🎣 Steveston Village (Jun 12)</div>
+
+<div style="background:#f9fafb;border-radius:10px;padding:12px;margin-bottom:10px;">
+  <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:2px;">🐟 Dave's Fish &amp; Chips</div>
+  <div style="font-size:11px;color:#666;margin-bottom:5px;">Steveston Harbour · walkable from the docks</div>
+  <div style="font-size:12px;color:#333;line-height:1.5;">The most famous fish &amp; chips in Steveston. Halibut or cod, battered fresh, with chunky fries. Eat at the picnic tables on the harbour — expect a short wait but it's worth it. Kids and adults unanimous.</div>
+</div>
+
+<div style="background:#f9fafb;border-radius:10px;padding:12px;margin-bottom:14px;">
+  <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:2px;">🍦 Steveston Ice Cream &amp; Café</div>
+  <div style="font-size:11px;color:#666;margin-bottom:5px;">Steveston Village · dessert stop</div>
+  <div style="font-size:12px;color:#333;line-height:1.5;">After fish &amp; chips, walk along the boardwalk to the ice cream shop. Excellent soft serve and scooped flavours. Perfect family stop in the harbour village.</div>
+</div>
+
+<div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;">🌉 North Shore (Jun 13 · After Capilano)</div>
+
+<div style="background:#f9fafb;border-radius:10px;padding:12px;margin-bottom:10px;">
+  <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:2px;">🍺 Tap &amp; Barrel Shipyards</div>
+  <div style="font-size:11px;color:#666;margin-bottom:5px;">125 Victory Ship Way, North Vancouver · Lonsdale Quay waterfront</div>
+  <div style="font-size:12px;color:#333;line-height:1.5;">Big, relaxed waterfront pub with stunning views of Vancouver's skyline across the inlet. Burgers, flatbreads, fish, great kids' menu. Perfect for a long lunch after Capilano — everyone can decompress with a view. Family-friendly until evening.</div>
+</div>
+
+<div style="background:#f9fafb;border-radius:10px;padding:12px;margin-bottom:14px;">
+  <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:2px;">🥣 Burgoo Neighbourhood Bistro</div>
+  <div style="font-size:11px;color:#666;margin-bottom:5px;">3 locations · North Van and Vancouver</div>
+  <div style="font-size:12px;color:#333;line-height:1.5;">Comfort food done right — soups, stews, grilled sandwiches, mac &amp; cheese. Very relaxed, family-welcoming atmosphere. Great for a group that's not all hungry for the same thing.</div>
+</div>
+
+<div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;">🌊 Granville Island (Jun 14)</div>
+
+<div style="background:#f9fafb;border-radius:10px;padding:12px;margin-bottom:10px;">
+  <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:2px;">🏪 Granville Island Public Market</div>
+  <div style="font-size:11px;color:#666;margin-bottom:5px;">On the island · open daily</div>
+  <div style="font-size:12px;color:#333;line-height:1.5;">The best option for a group with varied tastes — over 50 vendors with fresh produce, chowder, sushi, crepes, pastries, and local specialties. Graze at your own pace. Go early to beat the crowds. Kids go wild for the fresh-made crepes and the candy stalls.</div>
+</div>
+
+<div style="background:#f9fafb;border-radius:10px;padding:12px;margin-bottom:8px;">
+  <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:2px;">🐟 Go Fish</div>
+  <div style="font-size:11px;color:#666;margin-bottom:5px;">1505 W 1st Ave · outside the market, on the waterfront</div>
+  <div style="font-size:12px;color:#333;line-height:1.5;">Outdoor seafood shack — incredible salmon tacos and fish &amp; chips with local Pacific fish. Cash-only, picnic seating, short lines early. One of Vancouver's true institutions. Get there before noon.</div>
+</div>
+
+<div class="tip-item" style="margin-top:10px;"><span class="tip-icon">💳</span><strong>Payment tip:</strong> Most Vancouver restaurants take cards. Richmond food courts sometimes prefer cash — bring ~$40 CAD for the Parker Place court.</div>
+<div class="tip-item"><span class="tip-icon">🍵</span><strong>Bubble tea:</strong> Richmond is bubble tea heaven. Let the kids try one — Happy Lemon and Gong Cha have locations all around. River will love choosing the toppings.</div>
+`,
+        links: [
+          { label: '📍 Parker Place Market', url: 'https://maps.google.com/?q=Parker+Place+Food+Court+Richmond+BC' },
+          { label: '📍 Granville Island Market', url: 'https://maps.google.com/?q=Granville+Island+Public+Market+Vancouver' },
+          { label: '📍 Tap & Barrel Shipyards', url: 'https://maps.google.com/?q=Tap+and+Barrel+Shipyards+North+Vancouver' },
+        ]
+      },
+
       'van-fifafest': {
         port: 'Jun 11–15 · FIFA Fan Festival · PNE Grounds',
         icon: '⚽',
         title: 'FIFA Fan Festival',
-        body: `<p style="margin-bottom:12px;">The official FIFA fan experience runs June 11–July 19 at PNE Grounds (Hastings Park) in East Vancouver. Free general admission. Giant screens broadcasting live matches, live music with Canadian and global artists, family soccer games, obstacle courses, interactive FIFA exhibits, food vendors, and merchandise. The amphitheatre has premium reserved seating available for a fee on big match days.</p>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+        body: `<p style="margin-bottom:12px;font-size:13px;line-height:1.6;">The official FIFA fan experience at <strong>PNE Grounds (Hastings Park)</strong> in East Vancouver — June 11 through July 19. Free general admission. Giant screens for live match broadcasts, live music, family soccer games, obstacle courses, interactive exhibits, food vendors, and merchandise. The main amphitheatre has premium reserved seating for big match days.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
   <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Distance</div>
-    <div style="font-size:12px;color:#222;">~35 min from<br>River Rock</div>
-  </div>
-  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Cost</div>
-    <div style="font-size:12px;color:#222;">Free general admission<br>Premium seating extra</div>
-  </div>
-  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Hours</div>
-    <div style="font-size:12px;color:#222;">Opens Jun 11<br>Check site for daily hrs</div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Admission</div>
+    <div style="font-size:12px;color:#222;font-weight:600;">Free general</div>
   </div>
   <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
     <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Best For</div>
-    <div style="font-size:12px;color:#222;">All ages —<br>especially match days</div>
+    <div style="font-size:12px;color:#222;">All ages · match days</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Travel Time</div>
+    <div style="font-size:12px;color:#222;">~40 min from<br>River Rock</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Match Near You</div>
+    <div style="font-size:12px;color:#222;">Jun 13 · 9 PM<br>Australia vs Türkiye</div>
   </div>
 </div>
-<p style="margin-bottom:8px;"><strong>Tips:</strong> Best on match days — arrive an hour before kickoff for the atmosphere. Canada Line to Commercial-Broadway, then bus or rideshare east to Hastings Park.</p>`,
+
+<div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;">🚇 Getting There — Canada Line + Bus</div>
+<div style="background:#f4f8f4;border-radius:10px;padding:12px;margin-bottom:14px;">
+  <div style="display:flex;flex-direction:column;gap:9px;">
+    <div style="display:flex;align-items:flex-start;gap:8px;">
+      <div style="font-size:20px;flex-shrink:0;">🚶</div>
+      <div style="font-size:12px;color:#333;line-height:1.5;"><strong>Step 1 — Walk to Templeton Station</strong><br>~3 min from the River Rock hotel lobby. The Canada Line platform is right beside the hotel.</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:8px;">
+      <div style="font-size:20px;flex-shrink:0;">🚇</div>
+      <div style="font-size:12px;color:#333;line-height:1.5;"><strong>Step 2 — Canada Line north to Commercial-Broadway</strong><br>~22 min, trains every 5–8 min. Ride direction: <em>Waterfront</em>. Exit at <strong>Commercial-Broadway Station</strong>.</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:8px;">
+      <div style="font-size:20px;flex-shrink:0;">🚌</div>
+      <div style="font-size:12px;color:#333;line-height:1.5;"><strong>Step 3A — Bus #20 (budget option)</strong><br>From Commercial-Broadway, catch the #20 E Hastings heading east. ~15–20 min to Hastings Park / PNE. Exit at "Renfrew" or "Cassiar" stop.</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:8px;">
+      <div style="font-size:20px;flex-shrink:0;">🚗</div>
+      <div style="font-size:12px;color:#333;line-height:1.5;"><strong>Step 3B — Rideshare (fastest)</strong><br>Uber or Lyft from Commercial-Broadway to PNE Grounds · ~8–10 min · ~$12–16 CAD. Best option on match nights when buses will be crowded.</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:8px;">
+      <div style="font-size:20px;flex-shrink:0;">📍</div>
+      <div style="font-size:12px;color:#333;line-height:1.5;"><strong>Arrive: PNE Grounds (Hastings Park)</strong><br>2901 E Hastings St, Vancouver. Main entry on the south side off Hastings Street.</div>
+    </div>
+  </div>
+</div>
+
+<div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;">⏰ Best Times to Visit</div>
+<div class="tip-item"><span class="tip-icon">🌅</span><strong>Opening Night (Jun 11):</strong> Festive energy — they're kicking off the whole tournament. Worth going even if you arrive late from the airport, just check closing time.</div>
+<div class="tip-item"><span class="tip-icon">🎉</span><strong>Match Day Afternoons (4–7 PM):</strong> The sweet spot — crowds building, live music going, not yet packed to capacity. Great for kids.</div>
+<div class="tip-item"><span class="tip-icon">⚽</span><strong>Jun 13 Match Night (arrive ~7:30 PM):</strong> Australia vs Türkiye kicks off at 9 PM at BC Place. Go to the Fan Fest first to watch on the big screen — incredible atmosphere before you head to the stadium or watch the match live at the fest.</div>
+<div class="tip-item"><span class="tip-icon">🚫</span><strong>Avoid:</strong> 1 hour before and after kickoff at BC Place — transit and rideshare get very crowded. Build in extra time on match nights.</div>
+
+<div class="tip-item" style="margin-top:12px;"><span class="tip-icon">👨‍👩‍👧‍👦</span><strong>Kid-friendly zones:</strong> Look for the family soccer pitches and obstacle courses — River has enough space to run around while the adults take in the vibe. Bring sunscreen.</div>
+`,
         links: [
           { label: '🌐 FIFA Fan Fest', url: 'https://www.vancouverfwc26.ca' },
+          { label: '🚇 TransLink Trip Planner', url: 'https://tripplanning.translink.ca/' },
           { label: '📍 PNE Grounds', url: 'https://maps.google.com/?q=PNE+Grounds+Hastings+Park+Vancouver' },
         ]
       },
