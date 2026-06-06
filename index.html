@@ -410,6 +410,35 @@
         .day-acc-header .acc-chevron { margin-top: 16px; }
         .port-group-header { display: flex; align-items: center; gap: 10px; margin-bottom: 0; }
 
+        /* Transport accordion — compact inline toggle */
+        .transport-acc-trigger {
+          display: inline-flex; align-items: center; gap: 5px;
+          font-size: 11px; font-weight: 600; color: #1a6b8a;
+          cursor: pointer; padding: 4px 10px 4px 8px; border-radius: 20px;
+          background: #e2f2f8; border: 1px solid #9ecfe4;
+          user-select: none; -webkit-tap-highlight-color: transparent;
+          margin: 2px 0 6px;
+        }
+        .transport-acc-trigger:active { opacity: .7; }
+        .t-chevron { font-size: 11px; display: inline-block; transition: transform .22s ease; }
+        .t-chevron.open { transform: rotate(90deg); }
+
+        /* Transit route diagram */
+        .transit-route { display: flex; flex-direction: column; padding-left: 14px; border-left: 2.5px solid #4a9db5; margin: 8px 0 6px; }
+        .transit-route.green { border-left-color: #68a882; }
+        .tr-stop { position: relative; padding: 5px 0 5px 14px; }
+        .tr-stop::before { content: ''; position: absolute; left: -9px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; border-radius: 50%; background: #4a9db5; border: 2px solid #fff; box-shadow: 0 0 0 1px #4a9db5; }
+        .transit-route.green .tr-stop::before { background: #68a882; box-shadow: 0 0 0 1px #68a882; }
+        .tr-stop.transfer::before { background: #f5b014; box-shadow: 0 0 0 1px #f5b014; width: 14px; height: 14px; left: -10px; }
+        .tr-stop.end::before { background: #c8102e; box-shadow: 0 0 0 1px #c8102e; }
+        .tr-station { font-size: 12px; font-weight: 700; color: #1a3a50; line-height: 1.3; }
+        .tr-note { display: block; font-size: 10px; font-weight: 500; color: #5a7a8a; margin-top: 1px; }
+        .tr-badge { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; padding: 1px 5px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
+        .tr-badge-line { background: #071d6b; color: #fff; }
+        .tr-badge-bus { background: #e65c00; color: #fff; }
+        .tr-badge-shuttle { background: #1a5c38; color: #fff; }
+        .tr-badge-walk { background: #888; color: #fff; }
+
         /* Clickable experience cards */
         .exp-card.tappable { cursor: pointer; transition: transform .15s; }
         .exp-card.tappable:active { transform: scale(.98); }
@@ -1545,36 +1574,87 @@
                   <span style="background:#e8f4fd;color:#1e40af;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;">📅 Actual forecast</span>
                   <a href="https://www.google.com/search?q=Richmond+BC+weather" target="_blank" rel="noopener" style="background:#d4edda;color:#155724;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;text-decoration:none;">📡 Live →</a>
                 </div>
-                <div class="event-item" style="margin-bottom:6px;">
+                <!-- Main events -->
+                <div class="event-item" style="margin-bottom:4px;">
                   <div class="event-time" style="min-width:60px;">7:55 PM</div>
                   <div class="event-detail">
-                    <div class="event-name">✈️ Land at YVR</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">WestJet 1741 · International arrivals → customs + luggage ~45 min</div>
+                    <div class="event-name">✈️ Land at YVR · WestJet 1741</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">International arrivals · customs + luggage ~45 min</div>
                   </div>
                 </div>
-                <div class="event-item" style="margin-bottom:6px;">
-                  <div class="event-time" style="min-width:60px;">~8:45 PM</div>
-                  <div class="event-detail">
-                    <div class="event-name">🚇 Canada Line from YVR</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">YVR-Airport Station → Templeton Station · ~35 min · follow "Canada Line" signs in arrivals</div>
+
+                <!-- YVR → Hotel transport toggle -->
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Getting There</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">YVR-Airport Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+                      <span class="tr-note">Follow "Canada Line" signs in International Arrivals hall · tap Compass Card or credit card</span>
+                    </div>
+                    <div class="tr-stop">
+                      <div class="tr-station">~35 min · direction: Waterfront</div>
+                      <span class="tr-note">Trains every 5–8 min · automated, no driver · $4.50 CAD</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">Templeton Station → River Rock Hotel</div>
+                      <span class="tr-note">Exit station, hotel is connected · 3 min walk to lobby</span>
+                    </div>
                   </div>
                 </div>
-                <div class="event-item" style="margin-bottom:6px;">
+
+                <div class="event-item" style="margin-bottom:4px;margin-top:2px;">
                   <div class="event-time" style="min-width:60px;">~9:20 PM</div>
                   <div class="event-detail">
                     <div class="event-name">🏨 Check in · River Rock Casino Resort</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Templeton Station exits directly to the hotel · drop bags · freshen up</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Drop bags · freshen up · then head out to the festival</div>
                   </div>
                 </div>
-                <div class="event-item tappable" onclick="openHighlight('van-fifafest')" style="margin-bottom:6px;">
+
+                <div class="event-item tappable" onclick="openHighlight('van-fifafest')" style="margin-bottom:4px;">
                   <div class="event-time" style="min-width:60px;">~9:45 PM</div>
                   <div class="event-detail">
                     <div class="event-name">⚽ FIFA Fan Festival — Opening Night!</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Canada Line: Templeton → Commercial-Broadway → Bus/rideshare to PNE · ~40 min · Tap for transit details →</div>
+                    <div style="font-size:11px;color:var(--glacier);margin-top:2px;">Tap for details & full transit route →</div>
                   </div>
                 </div>
-                <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:9px 12px;margin-top:4px;font-size:12px;color:#7b5800;line-height:1.5;">
-                  ⏰ <strong>Heads up:</strong> It's opening night — the energy will be great but you'll be arriving late after travel. Check <a href="https://www.vancouverfwc26.ca" target="_blank" style="color:#7b5800;">vancouverfwc26.ca</a> for closing time. June 12 is an easy backup if you'd rather crash after the flight.
+
+                <!-- Hotel → FIFA transport toggle -->
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Getting There</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">Templeton Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+                      <span class="tr-note">3 min walk from hotel lobby</span>
+                    </div>
+                    <div class="tr-stop transfer">
+                      <div class="tr-station">Commercial-Broadway Station</div>
+                      <span class="tr-note">~22 min north · exit here · transfer point</span>
+                    </div>
+                    <div class="tr-stop">
+                      <div class="tr-station">Bus #20 E Hastings <span class="tr-badge tr-badge-bus">Bus</span></div>
+                      <span class="tr-note">~15–20 min east toward PNE · exit at Renfrew or Cassiar St</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">PNE Grounds · Hastings Park <span class="tr-badge tr-badge-shuttle">or Rideshare ~$14</span></div>
+                      <span class="tr-note">Total ~40 min · rideshare from Commercial-Broadway is ~8 min</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:9px 12px;margin-top:6px;font-size:12px;color:#7b5800;line-height:1.5;">
+                  ⏰ <strong>Heads up:</strong> Opening night energy will be great — but you're arriving late after travel. Check <a href="https://www.vancouverfwc26.ca" target="_blank" style="color:#7b5800;">vancouverfwc26.ca</a> for closing time. June 12 is an easy backup if you'd rather crash after the flight.
+                </div>
+                <div class="highlight-grid" style="margin-top:12px;">
+                  <div class="highlight-item" onclick="openHighlight('van-transit')">
+                    <span class="highlight-icon">🚇</span>Transit Guide
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('river-rock')">
+                    <span class="highlight-icon">🏨</span>River Rock Hotel
+                  </div>
                 </div>
             </div>
         </div>
@@ -1607,6 +1687,9 @@
                   <div class="highlight-item" onclick="openHighlight('van-eats')">
                     <span class="highlight-icon">🍽️</span>Family Eats
                   </div>
+                  <div class="highlight-item" onclick="openHighlight('van-transit')">
+                    <span class="highlight-icon">🚇</span>Transit Guide
+                  </div>
                 </div>
             </div>
         </div>
@@ -1633,56 +1716,53 @@
                   <div style="font-size:12px;color:#2d6a4f;line-height:1.5;">8:30 AM Entry · Order #20260606-7695159 · 2.5 hrs</div>
                 </div>
 
-                <!-- Morning transit + activity timeline -->
-                <div style="margin-bottom:14px;">
-                  <div style="font-size:11px;font-weight:700;color:var(--text-light);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;">🚇 Getting There — Canada Line + Shuttle</div>
+                <!-- Primary events -->
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">7:00 AM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🚶 Depart River Rock Hotel</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Head to Templeton Station · ~3 min walk</div>
+                  </div>
+                </div>
 
-                  <div class="event-item" style="margin-bottom:6px;">
-                    <div class="event-time" style="min-width:60px;">7:00 AM</div>
-                    <div class="event-detail">
-                      <div class="event-name">Depart River Rock Hotel</div>
-                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Walk to Templeton Station (Canada Line) · ~3 min</div>
+                <!-- Capilano transport toggle -->
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Getting There</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">Templeton Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+                      <span class="tr-note">7:05 AM · 3 min walk from hotel · direction: Waterfront</span>
+                    </div>
+                    <div class="tr-stop transfer">
+                      <div class="tr-station">Waterfront Station</div>
+                      <span class="tr-note">~7:35 AM · ~30 min ride · exit toward Canada Place</span>
+                    </div>
+                    <div class="tr-stop">
+                      <div class="tr-station">Capilano Free Shuttle <span class="tr-badge tr-badge-shuttle">Free</span></div>
+                      <span class="tr-note">Departs Canada Place/Waterfront · runs every 30 min · ~20 min ride</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">Capilano Suspension Bridge Park</div>
+                      <span class="tr-note">~8:15 AM arrival · collect tickets at gate · 8:30 entry</span>
                     </div>
                   </div>
+                </div>
 
-                  <div class="event-item" style="margin-bottom:6px;">
-                    <div class="event-time" style="min-width:60px;">7:05 AM</div>
-                    <div class="event-detail">
-                      <div class="event-name">🚇 Canada Line SkyTrain</div>
-                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Templeton → Waterfront Station · ~30 min · runs every 5–8 min</div>
-                    </div>
+                <div class="event-item tappable milestone" onclick="openHighlight('van-capilano')" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">8:30 – 11:00 AM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🌉 Capilano Suspension Bridge Park <span class="ev-tag">✅ Booked</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Suspension Bridge · Treetops · Cliffwalk · Raptors Ridge · Tap for details →</div>
                   </div>
+                </div>
 
-                  <div class="event-item" style="margin-bottom:6px;">
-                    <div class="event-time" style="min-width:60px;">7:35 AM</div>
-                    <div class="event-detail">
-                      <div class="event-name">🚌 Capilano Free Shuttle</div>
-                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Waterfront (Canada Place exit) → Capilano · ~20 min · departs every 30 min from 8 AM, catch the 7:40 or board early</div>
-                    </div>
-                  </div>
-
-                  <div class="event-item tappable milestone" onclick="openHighlight('van-capilano')" style="margin-bottom:6px;">
-                    <div class="event-time" style="min-width:60px;">8:15 AM</div>
-                    <div class="event-detail">
-                      <div class="event-name">🌉 Arrive Capilano · Collect Tickets</div>
-                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Show Order #20260606-7695159 · Entry at 8:30 · Tap for details →</div>
-                    </div>
-                  </div>
-
-                  <div class="event-item" style="margin-bottom:6px;">
-                    <div class="event-time" style="min-width:60px;">8:30 – 11:00 AM</div>
-                    <div class="event-detail">
-                      <div class="event-name">🌉 Capilano Suspension Bridge Park</div>
-                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Suspension Bridge · Treetops Adventure · Cliffwalk · Raptors Ridge</div>
-                    </div>
-                  </div>
-
-                  <div class="event-item" style="margin-bottom:6px;">
-                    <div class="event-time" style="min-width:60px;">~11:15 AM</div>
-                    <div class="event-detail">
-                      <div class="event-name">🚠 Optional: Grouse Mountain</div>
-                      <div style="font-size:11px;color:var(--text-light);margin-top:2px;">~10 min drive from Capilano · Gondola + Grizzly Bears</div>
-                    </div>
+                <div class="event-item" style="margin-bottom:14px;">
+                  <div class="event-time" style="min-width:72px;">~11:15 AM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🚠 Optional: Grouse Mountain</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">~10 min drive from Capilano · Gondola + Grizzly Bears</div>
                   </div>
                 </div>
 
@@ -1696,8 +1776,8 @@
                   <div class="highlight-item" onclick="openHighlight('van-fifamatch')">
                     <span class="highlight-icon">🏟️</span>FIFA Match Tonight
                   </div>
-                  <div class="highlight-item" onclick="openHighlight('van-fifafest')">
-                    <span class="highlight-icon">⚽</span>FIFA Fan Festival
+                  <div class="highlight-item" onclick="openHighlight('van-transit')">
+                    <span class="highlight-icon">🚇</span>Transit Guide
                   </div>
                 </div>
                 <div style="background:#e8f5ee;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;font-weight:600;color:#1a5c38;">⚽ Tonight: Australia vs. Türkiye · BC Place · 9:00 PM</div>
@@ -3037,6 +3117,15 @@
         body.classList.toggle('collapsed', !isClosed);
         if (chevron) chevron.classList.toggle('open', isClosed);
     }
+    function toggleTransport(trigger) {
+        const body = trigger.nextElementSibling;
+        if (!body || !body.classList.contains('acc-body')) return;
+        const chevron = trigger.querySelector('.t-chevron');
+        const isClosed = body.classList.contains('collapsed');
+        body.classList.toggle('collapsed', !isClosed);
+        if (chevron) chevron.classList.toggle('open', isClosed);
+        trigger.querySelector('.t-label').textContent = isClosed ? 'Hide transit steps' : '🚇 Getting There';
+    }
 
     // Modal
     function openModal(id) {
@@ -4023,6 +4112,103 @@
         links: [
           { label: '🌐 Night Market', url: 'https://www.nightmarket.ca' },
           { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Richmond+Night+Market+8351+River+Road' },
+        ]
+      },
+
+      'van-transit': {
+        port: 'Jun 11–15 · Vancouver & Richmond',
+        icon: '🚇',
+        title: 'Vancouver Transit Guide',
+        body: `<p style="margin-bottom:12px;font-size:13px;line-height:1.6;">Your hotel at River Rock (Templeton Station) sits directly on the Canada Line SkyTrain — the same line that connects the airport, downtown, and your transfer point for East Vancouver. All four of your main routes use it. Trains run every <strong>5–8 minutes</strong> from 5 AM to 1 AM. Tap any credit card or debit card to pay (~$3–5 CAD per trip).</p>
+
+<div style="background:#e2f2f8;border-radius:10px;padding:10px 13px;margin-bottom:16px;font-size:12px;color:#1a3a50;line-height:1.5;">
+  🏨 <strong>River Rock Hotel → Templeton Station:</strong> 3 min walk from the lobby, signs posted throughout the hotel. The platform is literally next door.
+</div>
+
+<!-- Route 1 -->
+<div style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#1a5c38;margin-bottom:6px;">Route 1 — YVR Airport → Hotel</div>
+<div style="font-size:11px;color:#555;margin-bottom:6px;">~35 min · Use on arrival night (June 11)</div>
+<div class="transit-route" style="margin-bottom:16px;">
+  <div class="tr-stop">
+    <div class="tr-station">YVR-Airport Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+    <span class="tr-note">Follow "Canada Line / SkyTrain" signs in International Arrivals · tap credit card on reader</span>
+  </div>
+  <div class="tr-stop">
+    <div class="tr-station">No transfer needed — ride all the way south</div>
+    <span class="tr-note">Sit back · automated train · 8 stops · ~35 min</span>
+  </div>
+  <div class="tr-stop end">
+    <div class="tr-station">Templeton Station → River Rock Hotel</div>
+    <span class="tr-note">Exit, hotel entrance is 3 min walk · look for signs to "River Rock Casino"</span>
+  </div>
+</div>
+
+<!-- Route 2 -->
+<div style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#1a5c38;margin-bottom:6px;">Route 2 — Hotel → Downtown / Canada Place</div>
+<div style="font-size:11px;color:#555;margin-bottom:6px;">~30 min · Boarding day (June 15) + general use</div>
+<div class="transit-route" style="margin-bottom:16px;">
+  <div class="tr-stop">
+    <div class="tr-station">Templeton Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+    <span class="tr-note">Direction: Waterfront · every 5–8 min</span>
+  </div>
+  <div class="tr-stop end">
+    <div class="tr-station">Waterfront Station → Canada Place</div>
+    <span class="tr-note">~30 min · exit and walk 3 min to Canada Place / cruise terminal · also accessible from Burrard or Vancouver City Centre stations</span>
+  </div>
+</div>
+
+<!-- Route 3 -->
+<div style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#1a5c38;margin-bottom:6px;">Route 3 — Hotel → Capilano Suspension Bridge</div>
+<div style="font-size:11px;color:#555;margin-bottom:6px;">~55 min · June 13 · Depart 7:00 AM</div>
+<div class="transit-route" style="margin-bottom:16px;">
+  <div class="tr-stop">
+    <div class="tr-station">Templeton Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+    <span class="tr-note">7:05 AM · direction: Waterfront</span>
+  </div>
+  <div class="tr-stop transfer">
+    <div class="tr-station">Waterfront Station — transfer to shuttle</div>
+    <span class="tr-note">~7:35 AM · exit toward Canada Place on the north side</span>
+  </div>
+  <div class="tr-stop">
+    <div class="tr-station">Capilano Free Shuttle <span class="tr-badge tr-badge-shuttle">Free</span></div>
+    <span class="tr-note">Departs Canada Place/Waterfront · runs every 30 min · ~20 min ride to park entrance</span>
+  </div>
+  <div class="tr-stop end">
+    <div class="tr-station">Capilano Suspension Bridge Park</div>
+    <span class="tr-note">~8:15 AM arrival · collect tickets · 8:30 AM entry</span>
+  </div>
+</div>
+
+<!-- Route 4 -->
+<div style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#1a5c38;margin-bottom:6px;">Route 4 — Hotel → FIFA Fan Festival (PNE Grounds)</div>
+<div style="font-size:11px;color:#555;margin-bottom:6px;">~40 min · June 11–13</div>
+<div class="transit-route" style="margin-bottom:14px;">
+  <div class="tr-stop">
+    <div class="tr-station">Templeton Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+    <span class="tr-note">Direction: Waterfront · every 5–8 min</span>
+  </div>
+  <div class="tr-stop transfer">
+    <div class="tr-station">Commercial-Broadway Station — transfer</div>
+    <span class="tr-note">~22 min · exit here · this is your hub for East Van</span>
+  </div>
+  <div class="tr-stop">
+    <div class="tr-station">Bus #20 East Hastings <span class="tr-badge tr-badge-bus">Bus</span></div>
+    <span class="tr-note">~15–20 min east · exit at Renfrew or Cassiar St · OR rideshare ~$14, ~8 min</span>
+  </div>
+  <div class="tr-stop end">
+    <div class="tr-station">PNE Grounds · 2901 E Hastings St</div>
+    <span class="tr-note">Main entrance on south side of Hastings Street</span>
+  </div>
+</div>
+
+<div class="tip-item"><span class="tip-icon">💳</span><strong>Payment:</strong> Tap any Visa, Mastercard, or Amex directly on the fare gate reader — no Compass Card needed. Kids under 13 ride free.</div>
+<div class="tip-item"><span class="tip-icon">🌙</span><strong>Late nights:</strong> Canada Line runs until ~1 AM. On FIFA match nights (June 13) expect crowded trains after the final whistle — give yourself 15 extra minutes.</div>
+<div class="tip-item"><span class="tip-icon">📡</span><strong>Live departures:</strong> TransLink app shows real-time arrivals at Templeton Station so you can time your walk from the hotel.</div>
+`,
+        links: [
+          { label: '🚇 TransLink Trip Planner', url: 'https://tripplanning.translink.ca/' },
+          { label: '🗺️ Canada Line Map', url: 'https://www.translink.ca/rider-guide/transit-system/skytrain/canada-line' },
+          { label: '📍 Templeton Station', url: 'https://maps.google.com/?q=Templeton+SkyTrain+Station+Richmond+BC' },
         ]
       },
 
