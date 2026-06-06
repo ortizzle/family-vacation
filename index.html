@@ -447,6 +447,85 @@
         .dt-hard-btn { background:var(--snow); border:2px solid #e2e8f0; border-radius:12px; padding:11px 6px; cursor:pointer; font-family:'Inter',sans-serif; font-size:12px; font-weight:600; color:var(--text-dark); transition:all .15s; -webkit-tap-highlight-color:transparent; }
         .dt-hard-btn:active { transform:scale(.95); border-color:var(--glacier); }
         .dt-hard-btn:disabled { opacity:.4; pointer-events:none; }
+
+        /* ── DISNEY WONDER TRIVIA THEME ─────────────────────────────────── */
+        #gameview-disneytrivia {
+            background: linear-gradient(165deg, #071524 0%, #0d1f3c 55%, #102548 100%);
+            border-radius: 20px;
+            padding: 16px 14px 28px;
+            margin: -4px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Starfield dot pattern */
+        #gameview-disneytrivia::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,.09) 1px, transparent 1px);
+            background-size: 26px 26px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* Bottom wave shimmer */
+        #gameview-disneytrivia::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 80px;
+            background: linear-gradient(to top, rgba(200,16,46,.06), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+        #gameview-disneytrivia > * { position: relative; z-index: 1; }
+        /* Nav buttons */
+        #gameview-disneytrivia .game-back-btn { background:rgba(255,255,255,.1); color:rgba(255,255,255,.85); border:1px solid rgba(255,255,255,.2); border-radius:100px; }
+        #gameview-disneytrivia .game-reset-btn { background:rgba(255,255,255,.07); color:rgba(255,255,255,.6); border:1px solid rgba(255,255,255,.15); border-radius:100px; }
+        /* Title */
+        .dt-title { font-family:'Playfair Display',serif; font-size:24px; color:#f5b014; margin-bottom:2px; text-shadow:0 2px 14px rgba(245,176,20,.35); }
+        .dt-subtitle { font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:rgba(255,255,255,.32); margin-bottom:8px; }
+        .dt-wave { margin:4px 0 14px; }
+        /* Category screen text */
+        #gameview-disneytrivia #dt-cat-screen > div:first-child { color:rgba(255,255,255,.65); }
+        /* Mode toggle */
+        #gameview-disneytrivia .dt-mode-btn { background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.18); color:rgba(255,255,255,.7); }
+        #gameview-disneytrivia .dt-mode-btn.dt-mode-active { background:#f5b014; border-color:#f5b014; color:#071524; font-weight:700; }
+        /* Mode description box */
+        #gameview-disneytrivia #dt-mode-desc { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.72); border-radius:12px; }
+        /* Category buttons — porthole style */
+        #gameview-disneytrivia .dt-cat-btn { background:rgba(255,255,255,.07); border:2px solid rgba(255,255,255,.18); color:white; box-shadow:0 4px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.07); }
+        #gameview-disneytrivia .dt-cat-btn:active { background:rgba(245,176,20,.18); border-color:rgba(245,176,20,.7); }
+        #gameview-disneytrivia .dt-cat-btn > div:nth-child(2) { color:rgba(255,255,255,.95); }
+        #gameview-disneytrivia .dt-cat-btn > div:nth-child(3) { color:rgba(255,255,255,.48); }
+        #gameview-disneytrivia #dt-cat-screen > div:last-child { color:rgba(255,255,255,.32); }
+        /* Quiz — progress */
+        #gameview-disneytrivia #dt-cat-label { color:rgba(255,255,255,.48); }
+        #gameview-disneytrivia #dt-mode-badge { background:#c8102e; }
+        #gameview-disneytrivia .tf-progress-label { color:rgba(255,255,255,.55); }
+        #gameview-disneytrivia .tf-score-label { color:#f5b014; }
+        #gameview-disneytrivia .tf-progress-bar { background:rgba(255,255,255,.14); }
+        #gameview-disneytrivia .tf-progress-fill { background:#c8102e; }
+        /* Question card */
+        #gameview-disneytrivia .triv-question { background:rgba(255,255,255,.06); border:1px solid rgba(245,176,20,.35); color:white; box-shadow:0 0 28px rgba(245,176,20,.1),0 4px 18px rgba(0,0,0,.35); }
+        /* Answer choices */
+        #gameview-disneytrivia .triv-choice { background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.2); color:rgba(255,255,255,.9); }
+        #gameview-disneytrivia .triv-choice.correct { background:rgba(245,176,20,.2); border-color:#f5b014; color:#ffd166; font-weight:700; }
+        #gameview-disneytrivia .triv-choice.wrong { background:rgba(200,16,46,.25); border-color:#c8102e; color:#ff9aaa; }
+        #gameview-disneytrivia .triv-choice.disabled { opacity:.4; }
+        /* Feedback */
+        #gameview-disneytrivia .tf-feedback { color:rgba(255,255,255,.88); padding:10px 14px; text-align:left; justify-content:flex-start; line-height:1.5; }
+        #gameview-disneytrivia .tf-feedback.correct { background:rgba(245,176,20,.14); border-left:3px solid #f5b014; }
+        #gameview-disneytrivia .tf-feedback.wrong { background:rgba(200,16,46,.2); border-left:3px solid #c8102e; }
+        /* Hard mode */
+        #gameview-disneytrivia .dt-hard-btn { background:rgba(255,255,255,.09); border-color:rgba(255,255,255,.22); color:rgba(255,255,255,.9); }
+        #gameview-disneytrivia .dt-hard-btn:active { border-color:#f5b014; }
+        #gameview-disneytrivia #dt-hint-text { background:rgba(245,176,20,.1); border-color:rgba(245,176,20,.4); color:rgba(255,255,255,.88); }
+        /* Next button */
+        #gameview-disneytrivia #dt-next-btn { background:linear-gradient(135deg,#f5b014 0%,#d99a08 100%); color:#071524; box-shadow:0 4px 18px rgba(245,176,20,.4); font-weight:800; }
+        /* Done / finish screen */
+        #gameview-disneytrivia .tf-done { background:rgba(255,255,255,.05); border:1px solid rgba(245,176,20,.25); border-radius:18px; padding:24px 16px; box-shadow:0 0 36px rgba(245,176,20,.07); }
+        #gameview-disneytrivia .tf-done-title { color:#ffd166; }
+        #gameview-disneytrivia .tf-done-sub { color:rgba(255,255,255,.68); }
         .gpc:active { transform: scale(.96); }
         .gpc-emoji { font-size: 30px; margin-bottom: 8px; }
         .gpc-title { font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 3px; }
@@ -1993,7 +2072,16 @@
         <!-- DISNEY TRIVIA -->
         <div id="gameview-disneytrivia" class="game-fullview">
             <div class="game-nav-row"><button class="game-back-btn" onclick="dtBack()">← Back</button><button class="game-reset-btn" onclick="dtReset()">↺ Categories</button></div>
-            <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:2px;">🏰 Disney Trivia</div>
+            <div class="dt-title">🏰 Disney Trivia</div>
+            <div class="dt-subtitle">Disney Wonder · Alaska 2026</div>
+            <div class="dt-wave">
+                <svg viewBox="0 0 360 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;height:16px;">
+                    <path d="M0 8 C60 0 120 16 180 8 C240 0 300 16 360 8" stroke="rgba(245,176,20,0.38)" stroke-width="1.5" fill="none"/>
+                    <circle cx="90" cy="4" r="1.5" fill="rgba(245,176,20,0.28)"/>
+                    <circle cx="180" cy="8" r="2.5" fill="rgba(245,176,20,0.6)"/>
+                    <circle cx="270" cy="4" r="1.5" fill="rgba(245,176,20,0.28)"/>
+                </svg>
+            </div>
 
             <!-- Category selector -->
             <div id="dt-cat-screen">
