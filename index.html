@@ -1851,6 +1851,9 @@
                 <button class="tf-btn tf-btn-true" onclick="tfAnswer(true)">✅ True</button>
                 <button class="tf-btn tf-btn-false" onclick="tfAnswer(false)">❌ False</button>
             </div>
+            <div style="text-align:center;margin-bottom:12px;">
+                <button id="tf-next-btn" onclick="tfNext()" style="display:none;background:var(--glacier);color:white;border:none;border-radius:100px;padding:12px 36px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;letter-spacing:.3px;">Next →</button>
+            </div>
             <div class="tf-done" id="tf-done" style="display:none;">
                 <div class="tf-done-emoji">🎯</div>
                 <div class="tf-done-title" id="tf-done-title"></div>
@@ -4554,6 +4557,7 @@
         document.getElementById('tf-score-label').textContent = `Score: ${score}`;
         document.getElementById('tf-progress-fill').style.width = `${(current/queue.length)*100}%`;
         document.querySelectorAll('.tf-btn').forEach(b => { b.disabled = false; b.style.opacity = ''; });
+        document.getElementById('tf-next-btn').style.display = 'none';
     }
 
     function tfAnswer(ans) {
@@ -4566,7 +4570,12 @@
         fb.className = 'tf-feedback ' + (correct ? 'correct' : 'wrong');
         fb.textContent = (correct ? '✅ Correct! ' : '❌ Wrong! ') + item.fact;
         document.querySelectorAll('.tf-btn').forEach(b => { b.disabled = true; b.style.opacity = '.5'; });
-        setTimeout(() => { current++; tfLoad(); }, 2200);
+        document.getElementById('tf-next-btn').style.display = '';
+    }
+
+    function tfNext() {
+        current++;
+        tfLoad();
     }
 
     function tfFinish() {
@@ -4581,6 +4590,7 @@
 
     window.tfInit = tfInit;
     window.tfAnswer = tfAnswer;
+    window.tfNext = tfNext;
 })();
 
 // ── TRIVIA ────────────────────────────────────────────────────────────────────
