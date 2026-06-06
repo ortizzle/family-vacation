@@ -1701,10 +1701,12 @@
             </div>
         </div>
 
+        <div id="mvp-section">
         <div class="section-header" style="margin-top:20px;">Daily MVP 🏆</div>
         <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;margin-top:-8px;">End-of-day awards · tap a day to fill in</div>
         <div id="mvp-list">
           <!-- JS renders these -->
+        </div>
         </div>
 
         <!-- PHOTO BINGO -->
@@ -4018,6 +4020,7 @@
 
     function openGame(name) {
         document.getElementById('games-picker').style.display = 'none';
+        document.getElementById('mvp-section').style.display = 'none';
         document.querySelectorAll('.game-fullview').forEach(v => v.classList.remove('active'));
         document.getElementById('gameview-' + name).classList.add('active');
         window.scrollTo(0, 0);
@@ -4031,6 +4034,7 @@
     function closeGame() {
         document.querySelectorAll('.game-fullview').forEach(v => v.classList.remove('active'));
         document.getElementById('games-picker').style.display = '';
+        document.getElementById('mvp-section').style.display = '';
         window.scrollTo(0, 0);
     }
 
