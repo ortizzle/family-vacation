@@ -440,6 +440,8 @@
         /* ── GAMES SECTION ── */
         .game-picker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 4px; }
         .gpc { background: var(--snow); border-radius: 16px; padding: 18px 14px 14px; box-shadow: var(--shadow-sm); cursor: pointer; text-align: center; -webkit-tap-highlight-color: transparent; transition: transform .15s; border: 2px solid transparent; }
+        .dt-cat-btn { background:var(--snow); border:2px solid #e2e8f0; border-radius:16px; padding:16px 12px; cursor:pointer; text-align:center; -webkit-tap-highlight-color:transparent; transition:all .15s; font-family:'Inter',sans-serif; box-shadow:var(--shadow-sm); }
+        .dt-cat-btn:active { transform:scale(.96); border-color:var(--gold); }
         .gpc:active { transform: scale(.96); }
         .gpc-emoji { font-size: 30px; margin-bottom: 8px; }
         .gpc-title { font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 3px; }
@@ -1753,16 +1755,17 @@
         <!-- PICKER GRID -->
         <div id="games-picker">
             <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Games</div>
-            <div style="font-size:13px;color:var(--text-light);margin-bottom:20px;">8 games for the whole crew</div>
+            <div style="font-size:13px;color:var(--text-light);margin-bottom:20px;">9 games for the whole crew</div>
             <div class="game-picker-grid">
                 <div class="gpc" onclick="openGame('photobingo')"><div class="gpc-emoji">📸</div><div class="gpc-title">Photo Bingo</div><div class="gpc-desc">Snap Alaska moments</div></div>
                 <div class="gpc" onclick="openGame('missions')"><div class="gpc-emoji">🗺️</div><div class="gpc-title">Missions</div><div class="gpc-desc">Port challenges</div></div>
                 <div class="gpc" onclick="openGame('anagram')"><div class="gpc-emoji">🔤</div><div class="gpc-title">Anagram</div><div class="gpc-desc">Unscramble Alaska words</div></div>
                 <div class="gpc" onclick="openGame('wordsearch')"><div class="gpc-emoji">🔍</div><div class="gpc-title">Word Search</div><div class="gpc-desc">Find hidden words</div></div>
                 <div class="gpc" onclick="openGame('truefalse')"><div class="gpc-emoji">✅</div><div class="gpc-title">True or False</div><div class="gpc-desc">Alaska fact check</div></div>
-                <div class="gpc" onclick="openGame('trivia')"><div class="gpc-emoji">🧠</div><div class="gpc-title">Trivia</div><div class="gpc-desc">Multiple choice quiz</div></div>
+                <div class="gpc" onclick="openGame('trivia')"><div class="gpc-emoji">🧠</div><div class="gpc-title">Alaska Trivia</div><div class="gpc-desc">Multiple choice quiz</div></div>
                 <div class="gpc" onclick="openGame('emoji')"><div class="gpc-emoji">🤔</div><div class="gpc-title">Emoji Decoder</div><div class="gpc-desc">Guess what they mean</div></div>
                 <div class="gpc" onclick="openGame('wyr')"><div class="gpc-emoji">🤷</div><div class="gpc-title">Would You Rather</div><div class="gpc-desc">Alaska dilemmas</div></div>
+                <div class="gpc" onclick="openGame('disneytrivia')" style="border-color:var(--gold);background:linear-gradient(135deg,#fffbf0,#fff9e6);grid-column:span 2;display:flex;flex-direction:row;align-items:center;gap:14px;text-align:left;padding:16px 18px;"><div style="font-size:36px;flex-shrink:0;">🏰</div><div><div class="gpc-title" style="font-size:14px;">Disney Trivia</div><div class="gpc-desc">Cruise life · Characters · Parks · Songs — 50 questions across 4 categories</div></div></div>
             </div>
         </div>
 
@@ -1975,6 +1978,65 @@
                 <div class="tf-done-title">That's a wrap!</div>
                 <div class="tf-done-sub">You made some tough calls out there.</div>
                 <button class="ag-btn ag-btn-shuffle" style="margin-top:16px;" onclick="wyrInit()">Play Again</button>
+            </div>
+        </div>
+
+        <!-- DISNEY TRIVIA -->
+        <div id="gameview-disneytrivia" class="game-fullview">
+            <div class="game-nav-row"><button class="game-back-btn" onclick="closeGame()">← Games</button><button class="game-reset-btn" onclick="dtReset()">↺ Categories</button></div>
+            <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:2px;">🏰 Disney Trivia</div>
+
+            <!-- Category selector -->
+            <div id="dt-cat-screen">
+                <div style="font-size:13px;color:var(--text-mid);margin:10px 0 16px;line-height:1.5;">Study up before the cruise — Disney Cruise Line hosts trivia every sea day. Pick a category:</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;">
+                    <button class="dt-cat-btn" onclick="dtStart('all')">
+                        <div style="font-size:24px;margin-bottom:4px;">🎲</div>
+                        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">All Categories</div>
+                        <div style="font-size:11px;color:var(--text-light);margin-top:2px;">50 questions</div>
+                    </button>
+                    <button class="dt-cat-btn" onclick="dtStart('cruise')">
+                        <div style="font-size:24px;margin-bottom:4px;">🚢</div>
+                        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Cruise Life</div>
+                        <div style="font-size:11px;color:var(--text-light);margin-top:2px;">15 questions</div>
+                    </button>
+                    <button class="dt-cat-btn" onclick="dtStart('films')">
+                        <div style="font-size:24px;margin-bottom:4px;">🎬</div>
+                        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Characters &amp; Films</div>
+                        <div style="font-size:11px;color:var(--text-light);margin-top:2px;">15 questions</div>
+                    </button>
+                    <button class="dt-cat-btn" onclick="dtStart('parks')">
+                        <div style="font-size:24px;margin-bottom:4px;">🏰</div>
+                        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Parks &amp; Magic</div>
+                        <div style="font-size:11px;color:var(--text-light);margin-top:2px;">10 questions</div>
+                    </button>
+                    <button class="dt-cat-btn" onclick="dtStart('songs')" style="grid-column:span 2;">
+                        <div style="font-size:24px;margin-bottom:4px;">🎵</div>
+                        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Songs &amp; Quotes</div>
+                        <div style="font-size:11px;color:var(--text-light);margin-top:2px;">10 questions</div>
+                    </button>
+                </div>
+                <div style="font-size:11px;color:var(--text-light);text-align:center;margin-top:12px;">🏆 DCL hosts live trivia on sea days — this is your practice run!</div>
+            </div>
+
+            <!-- Quiz screen -->
+            <div id="dt-quiz-screen" style="display:none;">
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:10px;" id="dt-cat-label"></div>
+                <div class="tf-progress-row"><span class="tf-progress-label" id="dt-progress-label"></span><span class="tf-score-label" id="dt-score-label"></span></div>
+                <div class="tf-progress-bar"><div class="tf-progress-fill" id="dt-progress-fill"></div></div>
+                <div class="triv-question" id="dt-question"></div>
+                <div class="triv-choices" id="dt-choices"></div>
+                <div class="tf-feedback" id="dt-feedback"></div>
+                <div style="text-align:center;margin:10px 0 16px;">
+                    <button id="dt-next-btn" onclick="dtNext()" style="display:none;background:var(--gold);color:white;border:none;border-radius:100px;padding:12px 36px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;letter-spacing:.3px;">Next →</button>
+                </div>
+                <div class="tf-done" id="dt-done" style="display:none;">
+                    <div class="tf-done-emoji">🏰</div>
+                    <div class="tf-done-title" id="dt-done-title"></div>
+                    <div class="tf-done-sub" id="dt-done-sub"></div>
+                    <button class="ag-btn" style="margin-top:16px;background:var(--glacier);color:white;border:none;border-radius:100px;padding:12px 28px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;" onclick="dtReset()">Change Category</button>
+                    <button class="ag-btn" style="margin-top:10px;background:var(--forest-light);color:white;border:none;border-radius:100px;padding:12px 28px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;" onclick="dtReplay()">Play Again ↺</button>
+                </div>
             </div>
         </div>
 
@@ -4098,6 +4160,7 @@
         if (name === 'trivia' && !window._trivStarted) { window._trivStarted = true; trivInit(); }
         if (name === 'emoji' && !window._emStarted) { window._emStarted = true; emInit(); }
         if (name === 'wyr' && !window._wyrStarted) { window._wyrStarted = true; wyrInit(); }
+        if (name === 'disneytrivia') { dtReset(); }
     }
     function closeGame() {
         document.querySelectorAll('.game-fullview').forEach(v => v.classList.remove('active'));
@@ -4737,6 +4800,151 @@
     }
 
     window.trivInit = trivInit;
+})();
+
+// ── DISNEY TRIVIA ──────────────────────────────────────────────────────────────
+(function() {
+    const DT_DATA = [
+        // ── CRUISE LIFE ──────────────────────────────────────────────────────
+        { cat:'cruise', q:'What song does the Disney Wonder\'s horn play when departing port?', correct:'When You Wish Upon a Star', wrong:['It\'s a Small World','Be Our Guest','Under the Sea'], fact:'Every Disney ship\'s horn plays a famous Disney melody — the Wonder\'s is the classic Pinocchio wish song.' },
+        { cat:'cruise', q:'What is the name of the adults-only Italian restaurant on Disney Wonder?', correct:'Palo', wrong:['Remy','Carioca\'s','Lumiere\'s'], fact:'"Palo" means "the long pole used by Venetian gondoliers" — a nod to Italy\'s famous canals.' },
+        { cat:'cruise', q:'The famous Palo dessert that MUST be ordered at the very start of the meal is…', correct:'The chocolate soufflé', wrong:['Tiramisu','Crème brûlée','Panna cotta'], fact:'Soufflés take 30+ minutes to bake, so you must order it the moment you sit down. Worth every minute.' },
+        { cat:'cruise', q:'Disney Cruise Line\'s private island in the Bahamas is called?', correct:'Castaway Cay', wrong:['Paradise Island','Treasure Cove','Discovery Island'], fact:'Castaway Cay is a 1,000-acre island — DCL has exclusive use of the whole thing. Alaska cruises don\'t stop here, but it\'s famous!' },
+        { cat:'cruise', q:'Which Broadway-style show plays on Disney Wonder during Alaska sailings?', correct:'Frozen, A Musical Spectacular', wrong:['The Little Mermaid Live','Beauty and the Beast','Disney Dreams'], fact:'Fitting for Alaska! The full Broadway-quality Frozen show runs in the Walt Disney Theatre on the Wonder.' },
+        { cat:'cruise', q:'The Golden Mickeys on-stage show is modeled after what real-world ceremony?', correct:'The Academy Awards (Oscars)', wrong:['The Emmy Awards','The Grammy Awards','The Tony Awards'], fact:'Characters "win awards" for their Disney film performances — it\'s a clip show, concert, and live revue all in one.' },
+        { cat:'cruise', q:'How many rotating dinner restaurants do Disney ships feature (not counting specialty dining)?', correct:'3', wrong:['2','4','5'], fact:'Disney invented rotational dining — your servers literally rotate WITH you between the 3 restaurants each night.' },
+        { cat:'cruise', q:'What year was Disney Cruise Line founded?', correct:'1998', wrong:['1990','1996','2002'], fact:'The first Disney ship, Disney Magic, set sail in 1998. The Disney Wonder followed in 1999.' },
+        { cat:'cruise', q:'What is the nightly activity guide given to each Disney cruise stateroom called?', correct:'Personal Navigator', wrong:['Daily Planner','Ship Compass','Sea Schedule'], fact:'The Personal Navigator (or its digital version in the Navigator App) lists every activity, show time, and dining option for the day.' },
+        { cat:'cruise', q:'What themed party does every Disney cruise host, featuring fireworks and pirate costumes?', correct:'Pirate Night', wrong:['Galaxy Night','Princess Night','Marvel Night'], fact:'Captain Jack Sparrow crashes the deck party and fireworks light up the sea — it\'s one of the most popular events on any Disney cruise.' },
+        { cat:'cruise', q:'Animator\'s Palate on Disney Wonder is famous for a show where guests see their drawings…', correct:'Come to life on the restaurant walls', wrong:['Projected onto their plates','Printed on the menu','Turned into 3D figurines'], fact:'You sketch a Disney character, and by the end of dinner, your drawing animates on the screens surrounding you. Pure Disney magic.' },
+        { cat:'cruise', q:'The adults-only pool area on Disney ships is called?', correct:'Quiet Cove', wrong:['Serenity Bay','The Retreat','Adults Haven'], fact:'Quiet Cove has a hot tub and bar — and no kids allowed. A peaceful escape from the main pool\'s splash zone chaos.' },
+        { cat:'cruise', q:'What is the large poolside LED screen on Disney ships called?', correct:'Funnel Vision', wrong:['Bow Screen','Sea Cinema','Deck Display'], fact:'Funnel Vision is built INTO the famous yellow funnel — you can watch movies and events from the pool deck.' },
+        { cat:'cruise', q:'Tiana\'s Place on Disney Wonder is themed after which Disney film?', correct:'The Princess and the Frog', wrong:['Moana','Encanto','Coco'], fact:'Tiana\'s Place features live jazz, New Orleans-inspired cuisine, and decor that transforms throughout the evening.' },
+        { cat:'cruise', q:'On a Disney cruise, what does "rotational dining" mean?', correct:'Your servers move with you to a different restaurant each night', wrong:['You rotate through a buffet line','The restaurant tables spin','You eat at a different time each night'], fact:'Your same server team follows you to each restaurant, getting to know your family — it\'s one of DCL\'s most beloved innovations.' },
+
+        // ── CHARACTERS & FILMS ───────────────────────────────────────────────
+        { cat:'films', q:'What was Mickey Mouse\'s original name before Walt Disney changed it?', correct:'Mortimer Mouse', wrong:['Steamboat Willie','Charlie Mouse','Oswald the Rabbit'], fact:'Walt\'s wife Lillian talked him out of "Mortimer." Good call — Mickey Mouse has a much better ring to it.' },
+        { cat:'films', q:'What is the name of the snowman in Frozen?', correct:'Olaf', wrong:['Sven','Hans','Kristoff'], fact:'Olaf dreams of experiencing summer — "I\'m gonna be a happy snowman!" His warm optimism is one of the film\'s biggest draws.' },
+        { cat:'films', q:'What are Ursula\'s two eel sidekicks in The Little Mermaid?', correct:'Flotsam and Jetsam', wrong:['Scuttle and Sebastian','Flounder and Sebastian','Gill and Bloat'], fact:'"Flotsam" is floating wreckage and "Jetsam" is discarded cargo — appropriately sinister names for Ursula\'s sneaky minions.' },
+        { cat:'films', q:'What does "Hakuna Matata" mean in Swahili?', correct:'No worries', wrong:['Be brave','Circle of life','King of the jungle'], fact:'"Hakuna Matata" is a real Swahili phrase. The Lion King made it one of the most recognized foreign phrases worldwide.' },
+        { cat:'films', q:'What insect sings "When You Wish Upon a Star" in Pinocchio?', correct:'Jiminy Cricket', wrong:['A butterfly','A grasshopper','A firefly'], fact:'Jiminy Cricket became Pinocchio\'s conscience — and his wish-upon-a-star solo became Disney\'s unofficial anthem.' },
+        { cat:'films', q:'What does "Bella Notte" mean? (the song from Lady and the Tramp)', correct:'Beautiful Night', wrong:['Good Evening','Candlelit Dinner','Moonlit Sky'], fact:'"Bella Notte" plays during the iconic spaghetti-and-meatball dinner scene — one of the most romantic moments in Disney history.' },
+        { cat:'films', q:'What was Walt Disney\'s first animated feature film?', correct:'Snow White and the Seven Dwarfs', wrong:['Fantasia','Pinocchio','Dumbo'], fact:'Released in 1937, Snow White was called "Disney\'s Folly" before it opened. It became the highest-grossing film of 1938.' },
+        { cat:'films', q:'Which Pixar film was the FIRST to include a post-credits scene?', correct:'Finding Nemo', wrong:['Toy Story','Monsters Inc.','The Incredibles'], fact:'After the credits, the anglerfish from the film\'s opening returns — and the little pelican finally eats it. A funny payoff.' },
+        { cat:'films', q:'What treat does Dumbo shoot from his trunk in the circus?', correct:'Peanuts', wrong:['Candy','Confetti','Popcorn'], fact:'In the opening circus act, Dumbo accidentally inhales peanuts and sneezes himself into the air — launching his flying career.' },
+        { cat:'films', q:'What is the name of Elsa and Anna\'s kingdom in Frozen?', correct:'Arendelle', wrong:['Enchanto','Narnia','Avalor'], fact:'Arendelle is inspired by Norway — fitting since the Disney Wonder\'s Norway Pavilion ride "Frozen Ever After" is at EPCOT.' },
+        { cat:'films', q:'In Toy Story, what is the name of the boy who owns Buzz Lightyear and Woody?', correct:'Andy', wrong:['Sid','Rex','Hamm'], fact:'Andy\'s name is written on the bottom of Woody\'s boot. That detail pays off emotionally all the way in Toy Story 3.' },
+        { cat:'films', q:'Who is the main villain in The Little Mermaid?', correct:'Ursula', wrong:['Maleficent','Gaston','Cruella de Vil'], fact:'Ursula was inspired by drag queen Divine — her dramatic personality, purple complexion, and flair make her one of Disney\'s best villains.' },
+        { cat:'films', q:'Who sings "Let It Go" in Frozen?', correct:'Elsa (Idina Menzel)', wrong:['Anna','Kristoff','Olaf'], fact:'"Let It Go" won the Academy Award for Best Original Song and became one of the best-selling Disney singles ever recorded.' },
+        { cat:'films', q:'What is the name of Simba\'s father in The Lion King?', correct:'Mufasa', wrong:['Scar','Rafiki','Zazu'], fact:'Mufasa was voiced by James Earl Jones — the same voice as Darth Vader. His memorable line: "Remember who you are."' },
+        { cat:'films', q:'Mickey Mouse first appeared with synchronized sound in which short film?', correct:'Steamboat Willie (1928)', wrong:['Plane Crazy','Fantasia','The Barn Dance'], fact:'Steamboat Willie debuted November 18, 1928 — now celebrated as Mickey Mouse\'s official birthday each year.' },
+
+        // ── PARKS & MAGIC ────────────────────────────────────────────────────
+        { cat:'parks', q:'What year did Disneyland first open its gates?', correct:'1955', wrong:['1960','1965','1950'], fact:'Opening day on July 17, 1955 was broadcast live on ABC. Walt called it "the happiest place on earth."' },
+        { cat:'parks', q:'What does EPCOT stand for?', correct:'Experimental Prototype Community of Tomorrow', wrong:['Every Person Can Observe Tomorrow','Especially Planned City of Tomorrow','Exploration Park for Children of Tomorrow'], fact:'Walt Disney\'s original EPCOT vision was a real functioning city — the theme park version opened in 1982, 16 years after his death.' },
+        { cat:'parks', q:'What year did Disneyland Paris open (originally as "Euro Disney")?', correct:'1992', wrong:['1990','1995','1988'], fact:'Euro Disney opened April 12, 1992 — it was renamed Disneyland Paris in 1994 after the "Euro Disney" branding struggled culturally.' },
+        { cat:'parks', q:'Walt Disney World is located near which Florida city?', correct:'Orlando', wrong:['Miami','Tampa','Jacksonville'], fact:'Walt chose Orlando for its warm weather, central location, and cheap land. He bought 27,000 acres — about the size of San Francisco.' },
+        { cat:'parks', q:'What is the signature castle at Walt Disney World\'s Magic Kingdom?', correct:'Cinderella Castle', wrong:['Sleeping Beauty Castle','Snow White\'s Castle','Belle\'s Castle'], fact:'Cinderella Castle is 189 feet tall — exactly one foot shorter than the height that would require an aviation warning light on top.' },
+        { cat:'parks', q:'The Norway Pavilion at EPCOT is home to which Frozen-themed ride?', correct:'Frozen Ever After', wrong:['Maelstrom (retired)','Elsa\'s Ice Journey','The Viking Voyage'], fact:'Frozen Ever After replaced the Maelstrom ride in 2016. The Norway Pavilion became the most visited EPCOT World Showcase stop.' },
+        { cat:'parks', q:'Which Disney park\'s slogan is "The Happiest Place on Earth"?', correct:'Disneyland (California)', wrong:['Walt Disney World','Tokyo Disneyland','Disneyland Paris'], fact:'Walt Disney World\'s slogan is "The Most Magical Place on Earth" — a subtle but important distinction between the two flagship parks.' },
+        { cat:'parks', q:'What are the 4 themed "lands" you find in every traditional Disney Magic Kingdom?', correct:'Fantasyland, Tomorrowland, Adventureland, Frontierland', wrong:['Fantasyland, Tomorrowland, Discoveryland, Frontierland','Fantasyland, Futureland, Adventureland, Frontierland','Fantasyland, Tomorrowland, Enchantedland, Frontierland'], fact:'These four original lands opened with Disneyland in 1955. Walt designed them to represent the past, future, adventure, and fantasy.' },
+        { cat:'parks', q:'Which country has a Disney park where cast members must follow strict appearance guidelines including NO facial hair for men?', correct:'Japan (Tokyo Disney)', wrong:['USA','France','China'], fact:'Tokyo Disneyland and DisneySea are operated by the Oriental Land Company under Disney license — and maintain incredibly strict Disney standards.' },
+        { cat:'parks', q:'What iconic Disney attraction invites guests to "it\'s a small world after all"?', correct:'"it\'s a small world" — a slow boat ride through doll-filled nations', wrong:['The Haunted Mansion','Pirates of the Caribbean','Space Mountain'], fact:'"it\'s a small world" was created for the 1964 World\'s Fair. The song was designed to be simple enough to work in ANY language.' },
+
+        // ── SONGS & QUOTES ───────────────────────────────────────────────────
+        { cat:'songs', q:'Which Disney song features the lyric "Be our guest, be our guest, put our service to the test"?', correct:'"Be Our Guest" from Beauty and the Beast', wrong:['"A Whole New World" from Aladdin','"Under the Sea" from The Little Mermaid','"Kiss the Girl" from The Little Mermaid'], fact:'"Be Our Guest" was originally written for Belle\'s father Maurice — it was rewritten for Belle when test audiences loved her more.' },
+        { cat:'songs', q:'What does Elsa build during her iconic "Let It Go" sequence in Frozen?', correct:'An ice palace (ice castle)', wrong:['A snow fort','A frozen bridge','An ice village'], fact:'The ice palace sequence took Disney\'s effects team over a year to animate. The ice physics engine they built became industry standard.' },
+        { cat:'songs', q:'Which Disney song includes the lyric "I can go the distance, I will find my way"?', correct:'"Go the Distance" from Hercules', wrong:['"A Star is Born" from Aladdin','"I\'ll Make a Man Out of You" from Mulan','"Almost There" from The Princess and the Frog'], fact:'"Go the Distance" by Michael Bolton was nominated for an Academy Award. The Hercules soundtrack was Alan Menken\'s 8th Disney film.' },
+        { cat:'songs', q:'What is the opening song of The Lion King?', correct:'"Circle of Life"', wrong:['"Hakuna Matata"','"Can You Feel the Love Tonight"','"I Just Can\'t Wait to Be King"'], fact:'Elton John wrote the music and Tim Rice wrote the lyrics. "Circle of Life" plays over the iconic Pride Rock sunrise — chills every time.' },
+        { cat:'songs', q:'In Pinocchio, who originally sang "When You Wish Upon a Star"?', correct:'Cliff Edwards as Jiminy Cricket', wrong:['Walt Disney himself','Louis Armstrong','Bing Crosby'], fact:'"When You Wish Upon a Star" won the 1940 Academy Award for Best Original Song — it became the official Disney theme song.' },
+        { cat:'songs', q:'What song does Moana sing when she makes the decision to sail beyond the reef?', correct:'"How Far I\'ll Go"', wrong:['"You\'re Welcome"','"Shiny"','"Where You Are"'], fact:'"How Far I\'ll Go" was written by Lin-Manuel Miranda (of Hamilton fame) and became an instant Disney classic upon the film\'s 2016 release.' },
+        { cat:'songs', q:'"A Whole New World" is the love song from which Disney film?', correct:'Aladdin', wrong:['Pocahontas','The Little Mermaid','Beauty and the Beast'], fact:'"A Whole New World" won the Academy Award for Best Original Song in 1993 — it\'s the only Disney song to top the Billboard Hot 100.' },
+        { cat:'songs', q:'Which Disney song starts with the lyric "Look at this stuff, isn\'t it neat?"', correct:'"Part of Your World" from The Little Mermaid', wrong:['"Shiny" from Moana','"Reflection" from Mulan','"Something There" from Beauty and the Beast'], fact:'This song was almost CUT from the film — early test audiences lost attention. Jeffrey Katzenberg overruled the cut. Good call.' },
+        { cat:'songs', q:'"You\'ve Got a Friend in Me" is the theme from which Pixar film?', correct:'Toy Story', wrong:['Monsters Inc.','Finding Nemo','A Bug\'s Life'], fact:'Written and performed by Randy Newman, "You\'ve Got a Friend in Me" became one of the most recognizable Pixar songs ever written.' },
+        { cat:'songs', q:'Which Disney song famously tells us "Someday my prince will come"?', correct:'"Someday My Prince Will Come" from Snow White', wrong:['"A Dream Is a Wish Your Heart Makes" from Cinderella','"Once Upon a Dream" from Sleeping Beauty','"Part of Your World" from The Little Mermaid'], fact:'Snow White\'s wishing well song (1937) is the oldest Disney princess song — written over 85 years before the latest Disney films.' },
+    ];
+
+    let dtQueue = [], dtCurrent = 0, dtScore = 0, dtAnswered = false, dtCategory = 'all';
+    const DT_LABELS = { all:'All Categories 🎲', cruise:'Cruise Life 🚢', films:'Characters & Films 🎬', parks:'Parks & Magic 🏰', songs:'Songs & Quotes 🎵' };
+
+    function dtStart(cat) {
+        dtCategory = cat;
+        dtQueue = (cat === 'all' ? [...DT_DATA] : DT_DATA.filter(d => d.cat === cat)).sort(() => Math.random() - .5);
+        dtCurrent = 0; dtScore = 0; dtAnswered = false;
+        document.getElementById('dt-cat-screen').style.display = 'none';
+        document.getElementById('dt-quiz-screen').style.display = '';
+        document.getElementById('dt-cat-label').textContent = DT_LABELS[cat];
+        document.getElementById('dt-done').style.display = 'none';
+        document.getElementById('dt-feedback').textContent = '';
+        document.getElementById('dt-feedback').className = 'tf-feedback';
+        dtLoad();
+    }
+
+    function dtLoad() {
+        if (dtCurrent >= dtQueue.length) { dtFinish(); return; }
+        const item = dtQueue[dtCurrent];
+        dtAnswered = false;
+        document.getElementById('dt-question').textContent = item.q;
+        document.getElementById('dt-progress-label').textContent = `Question ${dtCurrent + 1} of ${dtQueue.length}`;
+        document.getElementById('dt-score-label').textContent = `Score: ${dtScore}`;
+        document.getElementById('dt-progress-fill').style.width = `${(dtCurrent / dtQueue.length) * 100}%`;
+        document.getElementById('dt-feedback').textContent = '';
+        document.getElementById('dt-feedback').className = 'tf-feedback';
+        document.getElementById('dt-next-btn').style.display = 'none';
+        document.getElementById('dt-done').style.display = 'none';
+        const choices = [item.correct, ...item.wrong].sort(() => Math.random() - .5);
+        const el = document.getElementById('dt-choices');
+        el.innerHTML = '';
+        choices.forEach(ch => {
+            const btn = document.createElement('button');
+            btn.className = 'triv-choice';
+            btn.textContent = ch;
+            btn.addEventListener('click', () => dtAnswer(ch, item));
+            el.appendChild(btn);
+        });
+    }
+
+    function dtAnswer(chosen, item) {
+        if (dtAnswered) return;
+        dtAnswered = true;
+        const isCorrect = chosen === item.correct;
+        if (isCorrect) dtScore++;
+        document.querySelectorAll('#dt-choices .triv-choice').forEach(btn => {
+            btn.classList.add('disabled');
+            if (btn.textContent === item.correct) btn.classList.add('correct');
+            else if (btn.textContent === chosen && !isCorrect) btn.classList.add('wrong');
+        });
+        const fb = document.getElementById('dt-feedback');
+        fb.className = 'tf-feedback ' + (isCorrect ? 'correct' : 'wrong');
+        fb.textContent = (isCorrect ? '✅ Correct! ' : `❌ Answer: ${item.correct}. `) + (item.fact || '');
+        document.getElementById('dt-next-btn').style.display = '';
+    }
+
+    function dtNext() { dtCurrent++; dtLoad(); }
+
+    function dtFinish() {
+        document.getElementById('dt-done').style.display = 'block';
+        document.getElementById('dt-choices').innerHTML = '';
+        document.getElementById('dt-feedback').textContent = '';
+        document.getElementById('dt-next-btn').style.display = 'none';
+        document.getElementById('dt-progress-fill').style.width = '100%';
+        const pct = Math.round((dtScore / dtQueue.length) * 100);
+        document.getElementById('dt-done-title').textContent = `${dtScore} / ${dtQueue.length} correct (${pct}%)`;
+        const msg = pct === 100 ? '🏆 Perfect score! You\'re ready to WIN Disney Trivia night on the ship!' :
+                    pct >= 80  ? '⭐ Disney expert status! The other cruise guests won\'t know what hit them.' :
+                    pct >= 60  ? '🎉 Solid effort — a few more rounds and you\'ll be unstoppable.' :
+                                 '📚 Keep practicing! DCL trivia is competitive — you\'ve got until June 15!';
+        document.getElementById('dt-done-sub').textContent = msg;
+    }
+
+    function dtReset() {
+        document.getElementById('dt-cat-screen').style.display = '';
+        document.getElementById('dt-quiz-screen').style.display = 'none';
+    }
+
+    function dtReplay() { dtStart(dtCategory); }
+
+    window.dtStart = dtStart; window.dtNext = dtNext; window.dtReset = dtReset; window.dtReplay = dtReplay;
 })();
 
 // ── EMOJI DECODER ─────────────────────────────────────────────────────────────
