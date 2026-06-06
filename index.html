@@ -442,6 +442,11 @@
         .gpc { background: var(--snow); border-radius: 16px; padding: 18px 14px 14px; box-shadow: var(--shadow-sm); cursor: pointer; text-align: center; -webkit-tap-highlight-color: transparent; transition: transform .15s; border: 2px solid transparent; }
         .dt-cat-btn { background:var(--snow); border:2px solid #e2e8f0; border-radius:16px; padding:16px 12px; cursor:pointer; text-align:center; -webkit-tap-highlight-color:transparent; transition:all .15s; font-family:'Inter',sans-serif; box-shadow:var(--shadow-sm); }
         .dt-cat-btn:active { transform:scale(.96); border-color:var(--gold); }
+        .dt-mode-btn { flex:1; background:var(--snow); border:2px solid #e2e8f0; border-radius:100px; padding:10px 12px; cursor:pointer; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; color:var(--text-mid); transition:all .15s; -webkit-tap-highlight-color:transparent; }
+        .dt-mode-btn.dt-mode-active { background:var(--forest-dark); border-color:var(--forest-dark); color:white; }
+        .dt-hard-btn { background:var(--snow); border:2px solid #e2e8f0; border-radius:12px; padding:11px 6px; cursor:pointer; font-family:'Inter',sans-serif; font-size:12px; font-weight:600; color:var(--text-dark); transition:all .15s; -webkit-tap-highlight-color:transparent; }
+        .dt-hard-btn:active { transform:scale(.95); border-color:var(--glacier); }
+        .dt-hard-btn:disabled { opacity:.4; pointer-events:none; }
         .gpc:active { transform: scale(.96); }
         .gpc-emoji { font-size: 30px; margin-bottom: 8px; }
         .gpc-title { font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 3px; }
@@ -1983,12 +1988,22 @@
 
         <!-- DISNEY TRIVIA -->
         <div id="gameview-disneytrivia" class="game-fullview">
-            <div class="game-nav-row"><button class="game-back-btn" onclick="closeGame()">← Games</button><button class="game-reset-btn" onclick="dtReset()">↺ Categories</button></div>
+            <div class="game-nav-row"><button class="game-back-btn" onclick="dtBack()">← Back</button><button class="game-reset-btn" onclick="dtReset()">↺ Categories</button></div>
             <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:2px;">🏰 Disney Trivia</div>
 
             <!-- Category selector -->
             <div id="dt-cat-screen">
-                <div style="font-size:13px;color:var(--text-mid);margin:10px 0 16px;line-height:1.5;">Study up before the cruise — Disney Cruise Line hosts trivia every sea day. Pick a category:</div>
+                <div style="font-size:13px;color:var(--text-mid);margin:10px 0 14px;line-height:1.5;">Study up before the cruise — DCL hosts trivia every sea day. Pick a mode, then a category:</div>
+
+                <!-- Mode toggle -->
+                <div style="display:flex;gap:8px;margin-bottom:18px;">
+                    <button id="dt-mode-btn-normal" class="dt-mode-btn dt-mode-active" onclick="dtSetMode('normal')">📋 Normal</button>
+                    <button id="dt-mode-btn-hard" class="dt-mode-btn" onclick="dtSetMode('hard')">🔥 Hard Mode</button>
+                </div>
+                <div id="dt-mode-desc" style="font-size:12px;color:var(--text-light);background:#f0fdf4;border-radius:10px;padding:10px 12px;margin-bottom:14px;line-height:1.5;">
+                    📋 <strong>Normal:</strong> Four choices shown — pick the right one.
+                </div>
+
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;">
                     <button class="dt-cat-btn" onclick="dtStart('all')">
                         <div style="font-size:24px;margin-bottom:4px;">🎲</div>
@@ -2021,11 +2036,35 @@
 
             <!-- Quiz screen -->
             <div id="dt-quiz-screen" style="display:none;">
-                <div style="font-size:11px;color:var(--text-light);margin-bottom:10px;" id="dt-cat-label"></div>
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+                    <span id="dt-cat-label"></span>
+                    <span id="dt-mode-badge" style="background:var(--forest-light);color:white;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;letter-spacing:.3px;display:none;">🔥 HARD</span>
+                </div>
                 <div class="tf-progress-row"><span class="tf-progress-label" id="dt-progress-label"></span><span class="tf-score-label" id="dt-score-label"></span></div>
                 <div class="tf-progress-bar"><div class="tf-progress-fill" id="dt-progress-fill"></div></div>
                 <div class="triv-question" id="dt-question"></div>
+
+                <!-- Normal mode choices -->
                 <div class="triv-choices" id="dt-choices"></div>
+
+                <!-- Hard mode controls -->
+                <div id="dt-hard-row" style="display:none;margin-bottom:12px;">
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+                        <button id="dt-hint-btn" onclick="dtShowHint()" class="dt-hard-btn">💡 Hint</button>
+                        <button id="dt-choices-btn" onclick="dtRevealChoices()" class="dt-hard-btn">📋 Choices</button>
+                        <button id="dt-reveal-btn" onclick="dtRevealAnswer()" class="dt-hard-btn">👁 Reveal</button>
+                    </div>
+                    <div id="dt-hint-text" style="display:none;background:#fef9e7;border:1px solid #f9ca24;border-radius:10px;padding:10px 12px;font-size:13px;color:var(--text-mid);margin-bottom:8px;"></div>
+                    <!-- Self-grade (shown after Reveal) -->
+                    <div id="dt-self-grade" style="display:none;">
+                        <div style="font-size:12px;color:var(--text-light);text-align:center;margin-bottom:8px;">Did you know it?</div>
+                        <div style="display:flex;gap:10px;">
+                            <button onclick="dtSelfGrade(true)" style="flex:1;background:#22c55e;color:white;border:none;border-radius:100px;padding:13px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;">✓ Knew it</button>
+                            <button onclick="dtSelfGrade(false)" style="flex:1;background:#ef4444;color:white;border:none;border-radius:100px;padding:13px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;">↺ Try Again</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="tf-feedback" id="dt-feedback"></div>
                 <div style="text-align:center;margin:10px 0 16px;">
                     <button id="dt-next-btn" onclick="dtNext()" style="display:none;background:var(--gold);color:white;border:none;border-radius:100px;padding:12px 36px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;letter-spacing:.3px;">Next →</button>
@@ -4865,15 +4904,53 @@
     ];
 
     let dtQueue = [], dtCurrent = 0, dtScore = 0, dtAnswered = false, dtCategory = 'all';
+    let dtMode = 'normal';          // 'normal' | 'hard'
+    let dtHardKnew = 0;             // hard mode: questions answered from memory
+    let dtHardTotal = 0;            // hard mode: questions completed (not looped back)
+    let dtHintUsed = false;         // did player use hint on current question?
+    let dtChoicesRevealed = false;  // did player reveal choices on current question?
     const DT_LABELS = { all:'All Categories 🎲', cruise:'Cruise Life 🚢', films:'Characters & Films 🎬', parks:'Parks & Magic 🏰', songs:'Songs & Quotes 🎵' };
+
+    function dtSetMode(mode) {
+        dtMode = mode;
+        document.getElementById('dt-mode-btn-normal').classList.toggle('dt-mode-active', mode === 'normal');
+        document.getElementById('dt-mode-btn-hard').classList.toggle('dt-mode-active', mode === 'hard');
+        const desc = document.getElementById('dt-mode-desc');
+        if (mode === 'normal') {
+            desc.innerHTML = '📋 <strong>Normal:</strong> Four choices shown — pick the right one.';
+            desc.style.background = '#f0fdf4'; desc.style.border = '';
+        } else {
+            desc.innerHTML = '🔥 <strong>Hard Mode:</strong> No choices — think of the answer, then use 💡 Hint, 📋 Choices, or 👁 Reveal. Missed ones loop back until you get them.';
+            desc.style.background = '#fff5f5'; desc.style.border = '1px solid #fca5a5';
+        }
+    }
+
+    function dtBack() {
+        // If quiz is showing → go back to category screen; otherwise → games picker
+        if (document.getElementById('dt-quiz-screen').style.display !== 'none') {
+            dtReset();
+        } else {
+            closeGame();
+        }
+    }
+
+    function dtAutoHint(correct) {
+        const clean = correct.replace(/^["'"']|["'"']$/g, '').trim();
+        const words = clean.split(/\s+/);
+        const first = words[0][0].toUpperCase();
+        if (words.length === 1) return `Starts with "${first}" · ${clean.length} letters`;
+        return `Starts with "${first}" · ${words.length} words`;
+    }
 
     function dtStart(cat) {
         dtCategory = cat;
         dtQueue = (cat === 'all' ? [...DT_DATA] : DT_DATA.filter(d => d.cat === cat)).sort(() => Math.random() - .5);
-        dtCurrent = 0; dtScore = 0; dtAnswered = false;
+        dtCurrent = 0; dtScore = 0; dtAnswered = false; dtHardKnew = 0; dtHardTotal = 0;
         document.getElementById('dt-cat-screen').style.display = 'none';
         document.getElementById('dt-quiz-screen').style.display = '';
         document.getElementById('dt-cat-label').textContent = DT_LABELS[cat];
+        const badge = document.getElementById('dt-mode-badge');
+        badge.style.display = dtMode === 'hard' ? '' : 'none';
         document.getElementById('dt-done').style.display = 'none';
         document.getElementById('dt-feedback').textContent = '';
         document.getElementById('dt-feedback').className = 'tf-feedback';
@@ -4883,25 +4960,44 @@
     function dtLoad() {
         if (dtCurrent >= dtQueue.length) { dtFinish(); return; }
         const item = dtQueue[dtCurrent];
-        dtAnswered = false;
+        dtAnswered = false; dtHintUsed = false; dtChoicesRevealed = false;
         document.getElementById('dt-question').textContent = item.q;
-        document.getElementById('dt-progress-label').textContent = `Question ${dtCurrent + 1} of ${dtQueue.length}`;
-        document.getElementById('dt-score-label').textContent = `Score: ${dtScore}`;
-        document.getElementById('dt-progress-fill').style.width = `${(dtCurrent / dtQueue.length) * 100}%`;
+        const total = dtQueue.length;
+        const shown = Math.min(dtCurrent + 1, total);
+        document.getElementById('dt-progress-label').textContent = `Question ${shown} of ${total}`;
+        document.getElementById('dt-score-label').textContent = dtMode === 'hard' ? `Memory: ${dtHardKnew}` : `Score: ${dtScore}`;
+        document.getElementById('dt-progress-fill').style.width = `${(dtCurrent / total) * 100}%`;
         document.getElementById('dt-feedback').textContent = '';
         document.getElementById('dt-feedback').className = 'tf-feedback';
         document.getElementById('dt-next-btn').style.display = 'none';
         document.getElementById('dt-done').style.display = 'none';
-        const choices = [item.correct, ...item.wrong].sort(() => Math.random() - .5);
-        const el = document.getElementById('dt-choices');
-        el.innerHTML = '';
-        choices.forEach(ch => {
-            const btn = document.createElement('button');
-            btn.className = 'triv-choice';
-            btn.textContent = ch;
-            btn.addEventListener('click', () => dtAnswer(ch, item));
-            el.appendChild(btn);
-        });
+        document.getElementById('dt-hint-text').style.display = 'none';
+        document.getElementById('dt-hint-text').textContent = '';
+
+        if (dtMode === 'hard') {
+            // Hard mode: hide choices, show action buttons
+            document.getElementById('dt-choices').innerHTML = '';
+            document.getElementById('dt-choices').style.display = 'none';
+            document.getElementById('dt-hard-row').style.display = '';
+            document.getElementById('dt-self-grade').style.display = 'none';
+            document.getElementById('dt-hint-btn').disabled = false;
+            document.getElementById('dt-choices-btn').disabled = false;
+            document.getElementById('dt-reveal-btn').disabled = false;
+        } else {
+            // Normal mode
+            document.getElementById('dt-hard-row').style.display = 'none';
+            document.getElementById('dt-choices').style.display = '';
+            const choices = [item.correct, ...item.wrong].sort(() => Math.random() - .5);
+            const el = document.getElementById('dt-choices');
+            el.innerHTML = '';
+            choices.forEach(ch => {
+                const btn = document.createElement('button');
+                btn.className = 'triv-choice';
+                btn.textContent = ch;
+                btn.addEventListener('click', () => dtAnswer(ch, item));
+                el.appendChild(btn);
+            });
+        }
     }
 
     function dtAnswer(chosen, item) {
@@ -4917,7 +5013,84 @@
         const fb = document.getElementById('dt-feedback');
         fb.className = 'tf-feedback ' + (isCorrect ? 'correct' : 'wrong');
         fb.textContent = (isCorrect ? '✅ Correct! ' : `❌ Answer: ${item.correct}. `) + (item.fact || '');
+        document.getElementById('dt-score-label').textContent = `Score: ${dtScore}`;
         document.getElementById('dt-next-btn').style.display = '';
+        // Hide hard mode controls if choices were revealed in hard mode
+        document.getElementById('dt-hard-row').style.display = 'none';
+    }
+
+    // Hard mode helpers
+    function dtShowHint() {
+        dtHintUsed = true;
+        document.getElementById('dt-hint-btn').disabled = true;
+        const item = dtQueue[dtCurrent];
+        const hint = document.getElementById('dt-hint-text');
+        hint.textContent = '💡 ' + dtAutoHint(item.correct);
+        hint.style.display = '';
+    }
+
+    function dtRevealChoices() {
+        dtChoicesRevealed = true;
+        document.getElementById('dt-choices-btn').disabled = true;
+        document.getElementById('dt-reveal-btn').disabled = true;
+        document.getElementById('dt-hint-btn').disabled = true;
+        // Show choices — switches to normal-mode answer flow for this question
+        const item = dtQueue[dtCurrent];
+        document.getElementById('dt-choices').style.display = '';
+        const choices = [item.correct, ...item.wrong].sort(() => Math.random() - .5);
+        const el = document.getElementById('dt-choices');
+        el.innerHTML = '';
+        choices.forEach(ch => {
+            const btn = document.createElement('button');
+            btn.className = 'triv-choice';
+            btn.textContent = ch;
+            btn.addEventListener('click', () => dtAnswer(ch, item));
+            el.appendChild(btn);
+        });
+    }
+
+    function dtRevealAnswer() {
+        if (dtAnswered) return;
+        document.getElementById('dt-hint-btn').disabled = true;
+        document.getElementById('dt-choices-btn').disabled = true;
+        document.getElementById('dt-reveal-btn').disabled = true;
+        const item = dtQueue[dtCurrent];
+        // Show answer in feedback area
+        const fb = document.getElementById('dt-feedback');
+        fb.className = 'tf-feedback';
+        fb.style.background = '#fffbeb';
+        fb.textContent = `👁 Answer: ${item.correct}`;
+        // Show self-grade
+        document.getElementById('dt-self-grade').style.display = '';
+    }
+
+    function dtSelfGrade(knew) {
+        dtAnswered = true;
+        document.getElementById('dt-self-grade').style.display = 'none';
+        const item = dtQueue[dtCurrent];
+        const fb = document.getElementById('dt-feedback');
+        if (knew) {
+            dtHardKnew++;
+            dtHardTotal++;
+            fb.className = 'tf-feedback correct';
+            fb.style.background = '';
+            fb.textContent = '✅ Nice! ' + (item.fact || '');
+            document.getElementById('dt-score-label').textContent = `Memory: ${dtHardKnew}`;
+            document.getElementById('dt-next-btn').style.display = '';
+        } else {
+            dtHardTotal++;
+            fb.className = 'tf-feedback wrong';
+            fb.style.background = '';
+            fb.textContent = `↺ Looping back! "${item.correct}" — ${item.fact || ''}`;
+            document.getElementById('dt-score-label').textContent = `Memory: ${dtHardKnew}`;
+            // Shuffle current item back into the queue 2–5 spots ahead
+            const ahead = Math.min(dtCurrent + 2 + Math.floor(Math.random() * 4), dtQueue.length);
+            const [looped] = dtQueue.splice(dtCurrent, 1);
+            dtQueue.splice(ahead, 0, looped);
+            // Update progress label to reflect new length
+            document.getElementById('dt-progress-label').textContent = `Question ${dtCurrent + 1} of ${dtQueue.length}`;
+            document.getElementById('dt-next-btn').style.display = '';
+        }
     }
 
     function dtNext() { dtCurrent++; dtLoad(); }
@@ -4925,26 +5098,44 @@
     function dtFinish() {
         document.getElementById('dt-done').style.display = 'block';
         document.getElementById('dt-choices').innerHTML = '';
+        document.getElementById('dt-hard-row').style.display = 'none';
         document.getElementById('dt-feedback').textContent = '';
+        document.getElementById('dt-feedback').style.background = '';
         document.getElementById('dt-next-btn').style.display = 'none';
         document.getElementById('dt-progress-fill').style.width = '100%';
-        const pct = Math.round((dtScore / dtQueue.length) * 100);
-        document.getElementById('dt-done-title').textContent = `${dtScore} / ${dtQueue.length} correct (${pct}%)`;
-        const msg = pct === 100 ? '🏆 Perfect score! You\'re ready to WIN Disney Trivia night on the ship!' :
-                    pct >= 80  ? '⭐ Disney expert status! The other cruise guests won\'t know what hit them.' :
-                    pct >= 60  ? '🎉 Solid effort — a few more rounds and you\'ll be unstoppable.' :
-                                 '📚 Keep practicing! DCL trivia is competitive — you\'ve got until June 15!';
-        document.getElementById('dt-done-sub').textContent = msg;
+
+        if (dtMode === 'hard') {
+            const total = dtHardTotal;
+            const pct = total > 0 ? Math.round((dtHardKnew / total) * 100) : 0;
+            document.getElementById('dt-done-title').textContent = `${dtHardKnew} / ${total} from memory (${pct}%)`;
+            const msg = pct === 100 ? '🏆 Flawless memory! You crushed Hard Mode — trivia night is YOURS.' :
+                        pct >= 80  ? '⭐ Impressive recall. A couple slipped by, but you\'re ready for the ship.' :
+                        pct >= 50  ? '🎯 Good effort on Hard Mode! A few more rounds and it\'ll stick.' :
+                                     '💪 Hard Mode is hard! Keep practicing — try a category you know better.';
+            document.getElementById('dt-done-sub').textContent = msg;
+        } else {
+            const pct = Math.round((dtScore / dtQueue.length) * 100);
+            document.getElementById('dt-done-title').textContent = `${dtScore} / ${dtQueue.length} correct (${pct}%)`;
+            const msg = pct === 100 ? '🏆 Perfect score! You\'re ready to WIN Disney Trivia night on the ship!' :
+                        pct >= 80  ? '⭐ Disney expert status! The other cruise guests won\'t know what hit them.' :
+                        pct >= 60  ? '🎉 Solid effort — a few more rounds and you\'ll be unstoppable.' :
+                                     '📚 Keep practicing! DCL trivia is competitive — you\'ve got until June 15!';
+            document.getElementById('dt-done-sub').textContent = msg;
+        }
     }
 
     function dtReset() {
         document.getElementById('dt-cat-screen').style.display = '';
         document.getElementById('dt-quiz-screen').style.display = 'none';
+        document.getElementById('dt-feedback').style.background = '';
     }
 
     function dtReplay() { dtStart(dtCategory); }
 
     window.dtStart = dtStart; window.dtNext = dtNext; window.dtReset = dtReset; window.dtReplay = dtReplay;
+    window.dtBack = dtBack; window.dtSetMode = dtSetMode;
+    window.dtShowHint = dtShowHint; window.dtRevealChoices = dtRevealChoices;
+    window.dtRevealAnswer = dtRevealAnswer; window.dtSelfGrade = dtSelfGrade;
 })();
 
 // ── EMOJI DECODER ─────────────────────────────────────────────────────────────
