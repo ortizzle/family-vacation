@@ -596,7 +596,10 @@
         .ag-btn-shuffle { background:var(--glacier-pale); color:#1a5d6e; }
         .ag-btn-hint { background:var(--gold-pale); color:#7a4a00; }
         .ag-btn-hint.used { background:var(--cream); color:var(--text-light); opacity:.6; pointer-events:none; }
+        .ag-btn-reveal { background:#fef2f2; color:#991b1b; }
+        .ag-btn-reveal.used { background:var(--cream); color:var(--text-light); opacity:.6; pointer-events:none; }
         .ag-btn-skip { background:var(--cream); color:var(--text-light); }
+        .ag-slot.revealed { border-color:var(--gold); border-style:solid; background:var(--gold-pale); }
         @keyframes ag-fade-in { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
         .ag-card.revealed { animation:ag-fade-in .25s ease both; }
         .ag-all-done { text-align:center; padding:32px 16px; }
@@ -1891,6 +1894,7 @@
             <div class="ag-btn-row">
                 <button class="ag-btn ag-btn-shuffle" onclick="agShuffle()">🔀 Shuffle</button>
                 <button class="ag-btn ag-btn-hint" id="ag-hint-btn" onclick="agHint()">💡 Hint</button>
+                <button class="ag-btn ag-btn-reveal" id="ag-reveal-btn" onclick="agReveal()">👁 Reveal</button>
                 <button class="ag-btn ag-btn-skip" onclick="agSkip()">Skip →</button>
             </div>
             <div class="ag-all-done" id="ag-all-done" style="display:none;">
@@ -4381,7 +4385,7 @@
             { word:'TRACY',     clue:'___ Arm — the glacier fjord we sail into on Day 7',   cat:'🧊 Nature'    },
         ];
 
-        let queue = [], current = 0, score = 0, hints = 0;
+        let queue = [], current = 0, score = 0, hints = 0, reveals = 0;
         let tileLetters = [];   // array of {letter, used} for scramble tiles
         let answerSlots = [];   // array of {letter|null, tileIdx|null} for answer
 
@@ -4403,7 +4407,7 @@
 
         function agInit() {
             queue = shuffle([...WORDS]);
-            current = 0; score = 0; hints = 0;
+            current = 0; score = 0; hints = 0; reveals = 0;
             document.getElementById('ag-all-done').style.display = 'none';
             document.getElementById('ag-banner').classList.remove('show');
             agLoadWord();
@@ -4424,13 +4428,17 @@
             document.getElementById('ag-score-label').textContent = `Score: ${score}`;
             document.getElementById('ag-progress-fill').style.width = `${(current / queue.length) * 100}%`;
 
-            // reset hint state
+            // reset hint/reveal state
             const card = document.getElementById('ag-card');
             const hintBtn = document.getElementById('ag-hint-btn');
+            const revealBtn = document.getElementById('ag-reveal-btn');
             card.style.display = 'none';
             card.classList.remove('revealed');
             hintBtn.classList.remove('used');
             hintBtn.textContent = '💡 Hint';
+            revealBtn.classList.remove('used');
+            revealBtn.disabled = false;
+            document.querySelectorAll('#gameview-anagram .ag-btn').forEach(b => b.disabled = false);
 
             // build tile state
             tileLetters = scramble(word).map(l => ({ letter: l, used: false }));
@@ -4547,6 +4555,48 @@
             agLoadWord();
         }
 
+        function agReveal() {
+            const word = queue[current].word;
+            reveals++;
+            // Mark reveal button used
+            const revealBtn = document.getElementById('ag-reveal-btn');
+            revealBtn.classList.add('used');
+            // Disable all buttons during reveal
+            document.querySelectorAll('#gameview-anagram .ag-btn').forEach(b => b.disabled = true);
+            // Return any placed tiles
+            answerSlots.forEach((_, i) => {
+                if (answerSlots[i].tileIdx !== null) tileLetters[answerSlots[i].tileIdx].used = false;
+                answerSlots[i] = { letter: null, tileIdx: null };
+            });
+            // Fill slots with the correct answer letters
+            word.split('').forEach((letter, i) => {
+                const tileIdx = tileLetters.findIndex((t, ti) => t.letter === letter && !t.used);
+                if (tileIdx !== -1) {
+                    tileLetters[tileIdx].used = true;
+                    answerSlots[i] = { letter, tileIdx };
+                }
+            });
+            renderTiles();
+            // Render slots with amber "revealed" style
+            const row = document.getElementById('ag-answer-row');
+            row.innerHTML = '';
+            answerSlots.forEach(s => {
+                const el = document.createElement('div');
+                el.className = 'ag-slot filled revealed';
+                el.textContent = s.letter || '';
+                row.appendChild(el);
+            });
+            // Also show the hint card if not already shown
+            const card = document.getElementById('ag-card');
+            card.style.display = 'block';
+            card.classList.add('revealed');
+            // Auto-advance after 2s
+            setTimeout(() => {
+                current++;
+                agLoadWord();
+            }, 2000);
+        }
+
         function agFinish() {
             const allDone = document.getElementById('ag-all-done');
             allDone.style.display = 'block';
@@ -4554,13 +4604,16 @@
             document.getElementById('ag-progress-label').textContent = `Complete!`;
             document.getElementById('ag-score-label').textContent = `Score: ${score}`;
             const pct = Math.round((score / queue.length) * 100);
-            let msg = pct === 100 && hints === 0 ? 'Perfect — no hints needed! Alaska expert! 🧊' :
+            let msg = pct === 100 && hints === 0 && reveals === 0 ? 'Perfect — no help needed! Alaska expert! 🧊' :
                       pct === 100 ? 'Perfect score! 🧊' :
                       pct >= 80  ? 'Almost perfect — basically a local.' :
                       pct >= 60  ? 'Solid. Alaska knowledge is building.' :
                                    'Keep practicing — the cruise is coming!';
-            const hintNote = hints === 0 ? 'No hints used 🎯' : `${hints} hint${hints > 1 ? 's' : ''} used`;
-            document.getElementById('ag-all-done-sub').textContent = `${score} / ${queue.length} correct (${pct}%)\n${hintNote}\n${msg}`;
+            const helpParts = [];
+            if (hints > 0) helpParts.push(`${hints} hint${hints > 1 ? 's' : ''}`);
+            if (reveals > 0) helpParts.push(`${reveals} reveal${reveals > 1 ? 's' : ''}`);
+            const helpNote = helpParts.length === 0 ? 'No hints or reveals used 🎯' : helpParts.join(', ') + ' used';
+            document.getElementById('ag-all-done-sub').textContent = `${score} / ${queue.length} solved (${pct}%)\n${helpNote}\n${msg}`;
         }
 
         function agRestart() {
@@ -4573,6 +4626,7 @@
         window.agInit = agInit;
         window.agShuffle = agShuffle;
         window.agHint = agHint;
+        window.agReveal = agReveal;
         window.agSkip = agSkip;
         window.agRestart = agRestart;
     })();
