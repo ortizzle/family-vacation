@@ -491,7 +491,8 @@
         #gameview-disneytrivia .dt-mode-btn { background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.28); color:#ffffff; }
         #gameview-disneytrivia .dt-mode-btn.dt-mode-active { background:#f5b014; border-color:#f5b014; color:#071524; font-weight:700; }
         /* Mode description box */
-        #gameview-disneytrivia #dt-mode-desc { background:rgba(0,8,20,.45); border:1px solid rgba(255,255,255,.18); color:#ffffff; border-radius:12px; }
+        #gameview-disneytrivia #dt-mode-desc { background:rgba(0,80,30,.35); border:1px solid rgba(255,255,255,.18); color:#ffffff; border-radius:12px; }
+        #gameview-disneytrivia #dt-mode-desc.dt-mode-desc-hard { background:rgba(120,0,20,.4); border-color:rgba(200,16,46,.4); }
         /* Category buttons */
         #gameview-disneytrivia .dt-cat-btn { background:rgba(0,8,20,.5); border:2px solid rgba(255,255,255,.28); color:white; box-shadow:0 4px 18px rgba(0,0,0,.4); }
         #gameview-disneytrivia .dt-cat-btn:active { background:rgba(245,176,20,.2); border-color:#f5b014; }
@@ -2086,50 +2087,50 @@
 
             <!-- Category selector -->
             <div id="dt-cat-screen">
-                <div style="font-size:13px;color:var(--text-mid);margin:10px 0 14px;line-height:1.5;">Study up before the cruise — DCL hosts trivia every sea day. Pick a mode, then a category:</div>
+                <div style="font-size:13px;margin:10px 0 14px;line-height:1.5;">Study up before the cruise — DCL hosts trivia every sea day. Pick a mode, then a category:</div>
 
                 <!-- Mode toggle -->
                 <div style="display:flex;gap:8px;margin-bottom:18px;">
                     <button id="dt-mode-btn-normal" class="dt-mode-btn dt-mode-active" onclick="dtSetMode('normal')">📋 Normal</button>
                     <button id="dt-mode-btn-hard" class="dt-mode-btn" onclick="dtSetMode('hard')">🔥 Hard Mode</button>
                 </div>
-                <div id="dt-mode-desc" style="font-size:12px;color:var(--text-light);background:#f0fdf4;border-radius:10px;padding:10px 12px;margin-bottom:14px;line-height:1.5;">
+                <div id="dt-mode-desc" style="font-size:12px;border-radius:10px;padding:10px 12px;margin-bottom:14px;line-height:1.5;">
                     📋 <strong>Normal:</strong> Four choices shown — pick the right one.
                 </div>
 
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;">
                     <button class="dt-cat-btn" onclick="dtStart('all')">
                         <div style="font-size:24px;margin-bottom:4px;">🎲</div>
-                        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">All Categories</div>
-                        <div style="font-size:11px;color:var(--text-light);margin-top:2px;">50 questions</div>
+                        <div style="font-size:13px;font-weight:700;">All Categories</div>
+                        <div style="font-size:11px;margin-top:2px;">50 questions</div>
                     </button>
                     <button class="dt-cat-btn" onclick="dtStart('cruise')">
                         <div style="font-size:24px;margin-bottom:4px;">🚢</div>
-                        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Cruise Life</div>
-                        <div style="font-size:11px;color:var(--text-light);margin-top:2px;">15 questions</div>
+                        <div style="font-size:13px;font-weight:700;">Cruise Life</div>
+                        <div style="font-size:11px;margin-top:2px;">15 questions</div>
                     </button>
                     <button class="dt-cat-btn" onclick="dtStart('films')">
                         <div style="font-size:24px;margin-bottom:4px;">🎬</div>
-                        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Characters &amp; Films</div>
-                        <div style="font-size:11px;color:var(--text-light);margin-top:2px;">15 questions</div>
+                        <div style="font-size:13px;font-weight:700;">Characters &amp; Films</div>
+                        <div style="font-size:11px;margin-top:2px;">15 questions</div>
                     </button>
                     <button class="dt-cat-btn" onclick="dtStart('parks')">
                         <div style="font-size:24px;margin-bottom:4px;">🏰</div>
-                        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Parks &amp; Magic</div>
-                        <div style="font-size:11px;color:var(--text-light);margin-top:2px;">10 questions</div>
+                        <div style="font-size:13px;font-weight:700;">Parks &amp; Magic</div>
+                        <div style="font-size:11px;margin-top:2px;">10 questions</div>
                     </button>
                     <button class="dt-cat-btn" onclick="dtStart('songs')" style="grid-column:span 2;">
                         <div style="font-size:24px;margin-bottom:4px;">🎵</div>
-                        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Songs &amp; Quotes</div>
-                        <div style="font-size:11px;color:var(--text-light);margin-top:2px;">10 questions</div>
+                        <div style="font-size:13px;font-weight:700;">Songs &amp; Quotes</div>
+                        <div style="font-size:11px;margin-top:2px;">10 questions</div>
                     </button>
                 </div>
-                <div style="font-size:11px;color:var(--text-light);text-align:center;margin-top:12px;">🏆 DCL hosts live trivia on sea days — this is your practice run!</div>
+                <div style="font-size:11px;text-align:center;margin-top:12px;">🏆 DCL hosts live trivia on sea days — this is your practice run!</div>
             </div>
 
             <!-- Quiz screen -->
             <div id="dt-quiz-screen" style="display:none;">
-                <div style="font-size:11px;color:var(--text-light);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+                <div style="font-size:11px;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
                     <span id="dt-cat-label"></span>
                     <span id="dt-mode-badge" style="background:var(--forest-light);color:white;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;letter-spacing:.3px;display:none;">🔥 HARD</span>
                 </div>
@@ -5144,12 +5145,11 @@
         document.getElementById('dt-mode-btn-normal').classList.toggle('dt-mode-active', mode === 'normal');
         document.getElementById('dt-mode-btn-hard').classList.toggle('dt-mode-active', mode === 'hard');
         const desc = document.getElementById('dt-mode-desc');
+        desc.classList.toggle('dt-mode-desc-hard', mode === 'hard');
         if (mode === 'normal') {
             desc.innerHTML = '📋 <strong>Normal:</strong> Four choices shown — pick the right one.';
-            desc.style.background = '#f0fdf4'; desc.style.border = '';
         } else {
             desc.innerHTML = '🔥 <strong>Hard Mode:</strong> No choices — think of the answer, then use 💡 Hint, 📋 Choices, or 👁 Reveal. Missed ones loop back until you get them.';
-            desc.style.background = '#fff5f5'; desc.style.border = '1px solid #fca5a5';
         }
     }
 
