@@ -1482,7 +1482,7 @@
     <div class="did-you-know"><div class="dyk-label">Last Full Day</div>Soak it in — last night at sea. Pack your bags tonight so disembarkation morning is smooth. The Disney Wonder docks in Vancouver early, and everyone is off by 8:00 AM.</div>
     <div class="event-list">
       <div class="event-list-title">Today's Schedule</div>
-      <div class="event-item tappable" onclick="openExpDetail('massage')"><div class="event-time">10:30 – 11:20 AM</div><div class="event-detail"><div class="event-name">50-Minute Massage · Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Katherine Ortiz</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
+      <div class="event-item tappable milestone" onclick="openExpDetail('couples-massage')"><div class="event-time">8:00 – 9:30 AM</div><div class="event-detail"><div class="event-name">💆 Couples Massage · Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Christopher &amp; Katherine Ortiz</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('mixology')"><div class="event-time">3:00 – 4:00 PM</div><div class="event-detail"><div class="event-name">Mixology <span class="ev-tag ev-tag-warn">21+</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Christopher · Katherine · Veronica · Joseph</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item"><div class="event-time">6:00 PM</div><div class="event-detail"><div class="event-name">⚽ World Cup: 🇳🇿 New Zealand vs. 🇪🇬 Egypt · BC Place, Vancouver · Group G</div><div style="font-size:11px;color:var(--glacier);margin-top:2px;">Last sea day — World Cup at the ship pub? Yes please.</div></div></div>
       <div class="event-item"><div class="event-time">6:15 PM</div><div class="event-detail"><div class="event-name">🎭 Disney Dreams — An Enchanted Classic — Early Show <span class="ev-tag">Ship Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · The signature finale show of the cruise</div></div></div>
@@ -3595,6 +3595,35 @@
                 <div class="tip-item"><span class="tip-icon">💾</span>Download before disembarkation — access may expire after the cruise ends.</div>
             `
         },
+        'couples-massage': {
+            port: '🛳️ Onboard · Last Sea Day (June 21)',
+            title: 'Couples Massage · Senses Spa',
+            subtitle: '✅ Booked · Christopher &amp; Katherine · 8:00 AM',
+            body: `
+                <div class="did-you-know" style="margin-bottom:16px;"><div class="dyk-label">Senses Spa — Deck 9</div>A side-by-side 80-minute couples massage in a private oceanview treatment room at the Disney Wonder's award-winning Senses Spa. One of the most romantic experiences available at sea — and the perfect way to start your last full day before heading home.</div>
+                <div class="section-header">What to Expect</div>
+                <div class="highlight-grid">
+                    <div class="highlight-item"><span class="highlight-icon">💆</span>Side-by-side treatment tables</div>
+                    <div class="highlight-item"><span class="highlight-icon">🌊</span>Private oceanview room</div>
+                    <div class="highlight-item"><span class="highlight-icon">🧴</span>Choose your massage style</div>
+                    <div class="highlight-item"><span class="highlight-icon">🛁</span>Relaxation lounge access</div>
+                    <div class="highlight-item"><span class="highlight-icon">🕯️</span>Dim lighting &amp; soft music</div>
+                    <div class="highlight-item"><span class="highlight-icon">🍓</span>Champagne &amp; fruit optional</div>
+                </div>
+                <div class="section-header">Massage Style Options</div>
+                <div class="tip-item"><span class="tip-icon">🤲</span><strong>Swedish:</strong> Long, flowing strokes for full relaxation — the classic choice. Best if you want to fully unwind.</div>
+                <div class="tip-item"><span class="tip-icon">💪</span><strong>Deep Tissue:</strong> Targeted pressure on muscle knots — ideal if anyone's sore from excursion days.</div>
+                <div class="tip-item"><span class="tip-icon">🌿</span><strong>Aromatherapy:</strong> Swedish technique with essential oils chosen for your mood — calming, energizing, or romantic blends available.</div>
+                <div class="tip-item"><span class="tip-icon">🌋</span><strong>Hot Stone:</strong> Heated volcanic stones melt tension from tired muscles — a favorite for the last sea day.</div>
+                <div class="section-header">Insider Tips</div>
+                <div class="tip-item"><span class="tip-icon">⏰</span>8:00 AM is an ideal time — spa is quiet, you'll finish by 9:30 and have the whole morning to enjoy the deck views sailing south through the Inside Passage.</div>
+                <div class="tip-item"><span class="tip-icon">🚿</span>Arrive 15 minutes early — Senses Spa has pre-treatment showers and a heated relaxation room to settle in before your appointment.</div>
+                <div class="tip-item"><span class="tip-icon">💧</span>Drink plenty of water before and after — couples massages are longer sessions and post-treatment fatigue is real.</div>
+                <div class="tip-item"><span class="tip-icon">📵</span>Leave phones in the locker. The spa has a strict quiet policy — it's one of the few truly device-free spaces on the ship.</div>
+                <div class="tip-item"><span class="tip-icon">🤫</span>Gratuity is added automatically (18%) but a small cash tip is always appreciated for exceptional service.</div>
+                <div class="tip-item"><span class="tip-icon">🎒</span>Wear your swimsuit under a robe — relaxation lounge includes heated loungers, steam, and aromatherapy showers you can use before and after.</div>
+            `
+        },
         'massage': {
             port: '🛳️ Onboard · Last Sea Day (June 21)',
             title: '50-Minute Massage · Senses Spa',
@@ -3609,7 +3638,6 @@
                     <div class="highlight-item"><span class="highlight-icon">🛁</span>Access to relaxation lounge</div>
                 </div>
                 <div class="section-header">Insider Tips</div>
-                <div class="tip-item"><span class="tip-icon">⏰</span>Booked for 10:30–11:20 AM — perfect timing on the last sea day before mixology at 3 PM.</div>
                 <div class="tip-item"><span class="tip-icon">💧</span>Drink plenty of water before and after — the massage is more effective and the post-treatment fatigue is real.</div>
                 <div class="tip-item"><span class="tip-icon">🚿</span>Arrive 10–15 min early to use the spa's pre-treatment showers and relax before the appointment.</div>
                 <div class="tip-item"><span class="tip-icon">🤫</span>Tip in cash — the spa adds gratuity automatically but a small extra in cash is always appreciated.</div>
