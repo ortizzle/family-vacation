@@ -1420,9 +1420,18 @@
                 <span class="acc-chevron"></span>
             </div>
             <div class="acc-body collapsed">
-                <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">🎣 Steveston Village — boardwalk, Britannia Shipyards, fresh seafood</div>
-                <div class="activity-chip" style="margin-bottom:6px;">⚽ <strong>FIFA Fan Festival</strong> — PNE Grounds, Hastings Park · Free entry · Live match broadcasts, live music, soccer games, food vendors · Open all day</div>
-                <div class="activity-chip">🏮 Richmond Night Market — 400+ vendors · Fri until midnight</div>
+                <p style="font-size:13px;color:var(--text-mid);margin:10px 0 12px;line-height:1.5;">Easing into the trip — stay close to Richmond. FIFA Fan Festival is open from today.</p>
+                <div class="highlight-grid">
+                  <div class="highlight-item" onclick="openHighlight('van-steveston')">
+                    <span class="highlight-icon">🎣</span>Steveston Village
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('van-fifafest')">
+                    <span class="highlight-icon">⚽</span>FIFA Fan Festival
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('van-nightmarket')">
+                    <span class="highlight-icon">🏮</span>Night Market
+                  </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1434,10 +1443,22 @@
                 <span class="acc-chevron"></span>
             </div>
             <div class="acc-body collapsed">
-                <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">🌉 Capilano Suspension Bridge — Treetops, Cliffwalk, Raptors Ridge</div>
-                <div class="activity-chip" style="margin-bottom:6px;">🚠 Grouse Mountain — grizzly bears, gondola, Lumberjack Show</div>
-                <div class="activity-chip" style="margin-bottom:6px;background:#e8f5ee;color:#1a5c38;font-weight:500;">⚽ Tonight: Australia vs. Türkiye · BC Place · 9:00 PM · Group D (World Cup!)</div>
-                <div style="font-size:11px;color:var(--glacier);padding:6px 2px;font-style:italic;">🔗 Alaska preview: real grizzly bears + lumberjack show before Ketchikan's version</div>
+                <p style="font-size:13px;color:var(--text-mid);margin:10px 0 12px;line-height:1.5;">Big day — North Shore in the morning, FIFA match tonight at 9 PM.</p>
+                <div class="highlight-grid">
+                  <div class="highlight-item" onclick="openHighlight('van-capilano')">
+                    <span class="highlight-icon">🌉</span>Capilano Bridge
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('van-grouse')">
+                    <span class="highlight-icon">🚠</span>Grouse Mountain
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('van-fifamatch')">
+                    <span class="highlight-icon">🏟️</span>FIFA Match Tonight
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('van-fifafest')">
+                    <span class="highlight-icon">⚽</span>FIFA Fan Festival
+                  </div>
+                </div>
+                <div style="background:#e8f5ee;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;font-weight:600;color:#1a5c38;">⚽ Tonight: Australia vs. Türkiye · BC Place · 9:00 PM</div>
             </div>
         </div>
     </div>
@@ -1449,10 +1470,22 @@
                 <span class="acc-chevron"></span>
             </div>
             <div class="acc-body collapsed">
-                <div class="activity-chip" style="margin-top:8px;margin-bottom:6px;">🌳 Stanley Park — seawall, totem poles, beach</div>
-                <div class="activity-chip" style="margin-bottom:6px;">🐠 Vancouver Aquarium — sea otters, belugas (optional add-on)</div>
-                <div class="activity-chip" style="margin-bottom:6px;">🛶 Granville Island — Public Market + Kids Market</div>
-                <div style="font-size:11px;color:var(--glacier);padding:6px 2px;font-style:italic;">🔗 Alaska preview: totem poles here → world's largest collection in Ketchikan</div>
+                <p style="font-size:13px;color:var(--text-mid);margin:10px 0 12px;line-height:1.5;">Last full day — city exploration before tomorrow's big boarding.</p>
+                <div class="highlight-grid">
+                  <div class="highlight-item" onclick="openHighlight('van-stanley')">
+                    <span class="highlight-icon">🌳</span>Stanley Park
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('van-aquarium')">
+                    <span class="highlight-icon">🐠</span>Vancouver Aquarium
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('van-granville')">
+                    <span class="highlight-icon">🛶</span>Granville Island
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('van-nightmarket')">
+                    <span class="highlight-icon">🏮</span>Night Market
+                  </div>
+                </div>
+                <div style="background:#e0f5f5;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;font-weight:600;color:#1a5d6e;">🏮 Richmond Night Market tonight — last chance! 7 PM, 5 min from hotel</div>
             </div>
         </div>
     </div>
@@ -3459,6 +3492,278 @@
           { label: '🌐 Hotel Website', url: 'https://www.riverrock.com/' },
           { label: '📍 Google Maps', url: 'https://maps.google.com/?q=River+Rock+Casino+Resort+8888+River+Road+Richmond+BC' },
           { label: '🚇 Canada Line Map', url: 'https://www.translink.ca/rider-guide/transit-system/skytrain/canada-line' },
+        ]
+      },
+
+      // VANCOUVER PRE-CRUISE ACTIVITIES
+      'van-steveston': {
+        port: 'Jun 12 · Steveston Village · Richmond BC',
+        icon: '🎣',
+        title: 'Steveston Fishing Village',
+        body: `<p style="margin-bottom:12px;">Historic fishing village on the Fraser River, 20 min south of River Rock. Walk the boardwalk, watch the fishing boats, and grab fresh-off-the-boat seafood. The Gulf of Georgia Cannery is a national historic site — fascinating for kids who want to understand how the salmon industry shaped BC. Low-key, free to explore, and very family-friendly. Great for a relaxed first morning in Vancouver.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Distance</div>
+    <div style="font-size:12px;color:#222;">20 min drive<br>from River Rock</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Cost</div>
+    <div style="font-size:12px;color:#222;">Free to explore<br>Cannery ~$10 CAD/adult</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Hours</div>
+    <div style="font-size:12px;color:#222;">Open daily</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Best For</div>
+    <div style="font-size:12px;color:#222;">All ages</div>
+  </div>
+</div>
+<p style="margin-bottom:8px;"><strong>Tips:</strong> Murakami's Fish Market has the freshest local salmon. Ice cream at Steveston Cafe is a must. Parking is easy and free on the waterfront.</p>`,
+        links: [
+          { label: '🌐 Steveston Village', url: 'https://stevestonvillage.com' },
+          { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Steveston+Village+Richmond+BC' },
+        ]
+      },
+
+      'van-nightmarket': {
+        port: 'Jun 12–14 · Richmond Night Market · Fri–Sun',
+        icon: '🏮',
+        title: 'Richmond Night Market',
+        body: `<p style="margin-bottom:12px;">One of the largest night markets in North America — just 5 min from River Rock. Over 400 food stalls featuring Asian street food, bubble tea, skewers, mango ice cream, and more, plus 100+ merchandise vendors and live performances. Runs Friday–Sunday evenings. Kids absolutely love it.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Distance</div>
+    <div style="font-size:12px;color:#222;">5 min drive<br>8351 River Road</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Cost</div>
+    <div style="font-size:12px;color:#222;">$5 CAD adults<br>Free under 10</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Hours</div>
+    <div style="font-size:12px;color:#222;">Fri–Sun<br>7 PM – midnight</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Best For</div>
+    <div style="font-size:12px;color:#222;">All ages —<br>kids love it</div>
+  </div>
+</div>
+<p style="margin-bottom:8px;"><strong>Tips:</strong> Go hungry. Arrive at 7 PM to beat the crowd. Cash is faster but cards accepted. Bubble tea and Taiwanese popcorn chicken are must-haves.</p>`,
+        links: [
+          { label: '🌐 Night Market', url: 'https://www.nightmarket.ca' },
+          { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Richmond+Night+Market+8351+River+Road' },
+        ]
+      },
+
+      'van-fifafest': {
+        port: 'Jun 11–15 · FIFA Fan Festival · PNE Grounds',
+        icon: '⚽',
+        title: 'FIFA Fan Festival',
+        body: `<p style="margin-bottom:12px;">The official FIFA fan experience runs June 11–July 19 at PNE Grounds (Hastings Park) in East Vancouver. Free general admission. Giant screens broadcasting live matches, live music with Canadian and global artists, family soccer games, obstacle courses, interactive FIFA exhibits, food vendors, and merchandise. The amphitheatre has premium reserved seating available for a fee on big match days.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Distance</div>
+    <div style="font-size:12px;color:#222;">~35 min from<br>River Rock</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Cost</div>
+    <div style="font-size:12px;color:#222;">Free general admission<br>Premium seating extra</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Hours</div>
+    <div style="font-size:12px;color:#222;">Opens Jun 11<br>Check site for daily hrs</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Best For</div>
+    <div style="font-size:12px;color:#222;">All ages —<br>especially match days</div>
+  </div>
+</div>
+<p style="margin-bottom:8px;"><strong>Tips:</strong> Best on match days — arrive an hour before kickoff for the atmosphere. Canada Line to Commercial-Broadway, then bus or rideshare east to Hastings Park.</p>`,
+        links: [
+          { label: '🌐 FIFA Fan Fest', url: 'https://www.vancouverfwc26.ca' },
+          { label: '📍 PNE Grounds', url: 'https://maps.google.com/?q=PNE+Grounds+Hastings+Park+Vancouver' },
+        ]
+      },
+
+      'van-capilano': {
+        port: 'Jun 13 · North Shore · North Vancouver',
+        icon: '🌉',
+        title: 'Capilano Suspension Bridge',
+        body: `<p style="margin-bottom:12px;">A 450-foot suspension bridge swaying 230 feet above the Capilano River — then Treetops Adventure (7 bridges through old-growth forest canopy), Cliffwalk (cantilevered walkways on the canyon face), and Raptors Ridge (birds of prey demonstrations). One of the top family experiences near Vancouver. Plan 2.5–3 hours.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Distance</div>
+    <div style="font-size:12px;color:#222;">~30 min<br>from River Rock</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Cost</div>
+    <div style="font-size:12px;color:#222;">~$75 CAD adults<br>~$43 kids 6–12, free &lt;6</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Hours</div>
+    <div style="font-size:12px;color:#222;">8 AM – 8 PM daily</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Time Needed</div>
+    <div style="font-size:12px;color:#222;">2.5–3 hours</div>
+  </div>
+</div>
+<p style="margin-bottom:8px;"><strong>Tips:</strong> Buy tickets online to skip the gate line. A free shuttle runs from the downtown Waterfront area — saves on parking and drops you right at the entrance. Combine with Grouse Mountain for a full North Shore day.</p>`,
+        links: [
+          { label: '🌐 Capilano Bridge', url: 'https://www.capbridge.com' },
+          { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Capilano+Suspension+Bridge+North+Vancouver' },
+        ]
+      },
+
+      'van-grouse': {
+        port: 'Jun 13 · North Shore · North Vancouver',
+        icon: '🚠',
+        title: 'Grouse Mountain',
+        body: `<p style="margin-bottom:12px;">Gondola up to 3,700 feet with panoramic views of Vancouver and the ocean. At the top: the Grizzly Bear Refuge (two resident grizzlies — a great Alaska preview!), the Eye of the Wind turbine walkway, lumberjack shows, and wildlife talks. The Lumberjack Show here is a fun taster before the professional one you'll see in Ketchikan.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Distance</div>
+    <div style="font-size:12px;color:#222;">~35 min<br>from River Rock</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Cost</div>
+    <div style="font-size:12px;color:#222;">~$75 CAD adults<br>~$40 CAD kids</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Hours</div>
+    <div style="font-size:12px;color:#222;">Gondola from<br>9 AM daily</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Alaska Preview</div>
+    <div style="font-size:12px;color:#222;">Grizzlies here →<br>wild ones in Alaska</div>
+  </div>
+</div>
+<p style="margin-bottom:8px;"><strong>Tips:</strong> Check the lumberjack show schedule at the top — runs 2–3 times daily. Grizzly bears are at the refuge year-round. Layers recommended even in June — it's noticeably cooler at the summit.</p>`,
+        links: [
+          { label: '🌐 Grouse Mountain', url: 'https://www.grousemountain.com' },
+          { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Grouse+Mountain+North+Vancouver' },
+        ]
+      },
+
+      'van-fifamatch': {
+        port: 'Sat Jun 13 · BC Place · 9:00 PM',
+        icon: '🏟️',
+        title: 'Australia vs. Türkiye — FIFA World Cup',
+        booked: 'Check ticket availability at FIFA.com',
+        body: `<p style="margin-bottom:12px;">Group D match at BC Place — Vancouver's domed stadium downtown, 25–30 min from River Rock. Australia and Türkiye both qualified through competitive paths and this is an attractive group-stage matchup. BC Place holds ~55,000 in soccer configuration. The atmosphere is electric — World Cup group stage games are loud, fun, and very family-friendly.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Venue</div>
+    <div style="font-size:12px;color:#222;">BC Place<br>777 Pacific Blvd</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Date / Time</div>
+    <div style="font-size:12px;color:#222;">Sat Jun 13<br>9:00 PM</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Getting There</div>
+    <div style="font-size:12px;color:#222;">Canada Line →<br>Olympic Village or Yaletown</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Capacity</div>
+    <div style="font-size:12px;color:#222;">~55,000<br>World Cup config</div>
+  </div>
+</div>
+<p style="margin-bottom:8px;"><strong>Tips:</strong> Canada Line SkyTrain from Bridgeport (near River Rock) is the easiest option — avoid driving, no parking near BC Place on match nights. Arrive 60–90 min early for the pregame atmosphere. Gates open ~2.5 hours before kickoff.</p>`,
+        links: [
+          { label: '🎟️ FIFA Tickets', url: 'https://www.fifa.com/en/tournaments/mens/worldcup/canada-usa-mexico-2026/tickets' },
+          { label: '📍 BC Place', url: 'https://maps.google.com/?q=BC+Place+Stadium+Vancouver' },
+        ]
+      },
+
+      'van-stanley': {
+        port: 'Jun 14 · Stanley Park · Vancouver',
+        icon: '🌳',
+        title: 'Stanley Park',
+        body: `<p style="margin-bottom:12px;">A 1,000-acre old-growth forest park on a peninsula jutting into Burrard Inlet — one of the great urban parks in the world. The 9 km seawall is perfect for walking or renting bikes as a family. Brockton Point has a cluster of totem poles — a great primer for what you'll see in Ketchikan (the world's largest collection). Views across to the North Shore mountains are stunning on a clear day.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Distance</div>
+    <div style="font-size:12px;color:#222;">~30 min via<br>Canada Line to Burrard</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Cost</div>
+    <div style="font-size:12px;color:#222;">Free to enter<br>Parking ~$6 CAD/hr</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Hours</div>
+    <div style="font-size:12px;color:#222;">Open 24 hrs</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Alaska Preview</div>
+    <div style="font-size:12px;color:#222;">Totem poles here →<br>Ketchikan's collection</div>
+  </div>
+</div>
+<p style="margin-bottom:8px;"><strong>Tips:</strong> Rent bikes at the park entrance near the seawall start — Spokes Bicycle Rentals is right there. The totem poles are a 5-min walk from the main parking area. Horse-drawn tram tours run in summer if the little ones get tired.</p>`,
+        links: [
+          { label: '🌐 Stanley Park', url: 'https://vancouver.ca/parks-recreation-culture/stanley-park.aspx' },
+          { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Stanley+Park+Vancouver' },
+        ]
+      },
+
+      'van-aquarium': {
+        port: 'Jun 14 · Inside Stanley Park · Vancouver',
+        icon: '🐠',
+        title: 'Vancouver Aquarium',
+        body: `<p style="margin-bottom:12px;">Canada's largest aquarium sits inside Stanley Park. Sea otters, Pacific white-sided dolphins, beluga whales, giant Pacific octopus, and a huge variety of Pacific Northwest marine life. Plan 2–3 hours. If the kids love marine wildlife, this is the perfect warm-up before spotting the real thing in Alaska — orcas, humpbacks, sea otters — from the ship.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Location</div>
+    <div style="font-size:12px;color:#222;">Inside Stanley Park</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Cost</div>
+    <div style="font-size:12px;color:#222;">~$45 CAD adults<br>~$30 CAD kids</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Hours</div>
+    <div style="font-size:12px;color:#222;">10 AM – 5 PM daily</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Alaska Preview</div>
+    <div style="font-size:12px;color:#222;">Sea otters &amp; belugas<br>before the wild ones</div>
+  </div>
+</div>
+<p style="margin-bottom:8px;"><strong>Tips:</strong> Buy online — timed entry required. The sea otter and dolphin areas are the biggest hit with kids. The jellyfish gallery is surprisingly mesmerizing for all ages.</p>`,
+        links: [
+          { label: '🌐 Vancouver Aquarium', url: 'https://www.vanaqua.org' },
+          { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Vancouver+Aquarium' },
+        ]
+      },
+
+      'van-granville': {
+        port: 'Jun 14 · Granville Island · Vancouver',
+        icon: '🛶',
+        title: 'Granville Island Public Market',
+        body: `<p style="margin-bottom:12px;">A converted industrial island under the Granville Street Bridge — the Public Market has one of the best collections of fresh food, artisan baked goods, local seafood, and prepared food stalls in Canada. The Kids Market next door is an indoor play and toy market that young kids love. Arrive hungry. Easily 2–3 hours.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Distance</div>
+    <div style="font-size:12px;color:#222;">~30 min<br>from River Rock</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Cost</div>
+    <div style="font-size:12px;color:#222;">Free to enter<br>Budget $20–40/person food</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Hours</div>
+    <div style="font-size:12px;color:#222;">Market 9 AM – 7 PM daily</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Best For</div>
+    <div style="font-size:12px;color:#222;">Food lovers +<br>kids (Kids Market)</div>
+  </div>
+</div>
+<p style="margin-bottom:8px;"><strong>Tips:</strong> The False Creek Ferry ($4 CAD each way) is a fun mini-boat ride to get there from downtown — kids love it. Try the cheese at Stuart's and grab a tea from the Granville Island Tea shop. The Net Loft has great local craft shopping.</p>`,
+        links: [
+          { label: '🌐 Granville Island', url: 'https://granvilleisland.com' },
+          { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Granville+Island+Public+Market+Vancouver' },
         ]
       }
     };
