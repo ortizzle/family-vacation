@@ -80,7 +80,55 @@
         .stat-number { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 700; color: var(--glacier); line-height: 1; }
         .stat-label { font-size: 11px; color: var(--text-light); margin-top: 4px; text-transform: uppercase; letter-spacing: .5px; }
 
-        /* FAMILY CARDS */
+        /* MINI POSTER BANNERS — Vancouver & Cruise page headers (echoes the Home poster, scaled down).
+           NOTE: these live outside #section-home, so poster colors are literal hex, not var(--gold) etc. */
+        .mini-poster-banner {
+            position: relative; overflow: hidden; text-align: center;
+            border-radius: 14px; padding: 18px 16px 16px; margin: 0 0 18px;
+            background: linear-gradient(135deg, #1a2744 0%, #1e3d2c 100%);
+            border: 1px solid rgba(200,146,42,0.35);
+        }
+        .mini-poster-banner::before {
+            content: ''; position: absolute; inset: 5px; border-radius: 10px;
+            border: 0.5px solid rgba(200,146,42,0.18); pointer-events: none;
+        }
+        .mpb-eyebrow {
+            position: relative; font-family: 'Josefin Sans', sans-serif; font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 0.28em; text-transform: uppercase; color: #e4b84a; margin-bottom: 12px;
+        }
+        .mpb-crew-row {
+            position: relative; display: flex; align-items: center; justify-content: center;
+            gap: 6px; margin-bottom: 16px;
+        }
+        .mpb-crew-row .legend-dot { width: 8px; height: 8px; }
+        .mpb-crew-label {
+            font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.82rem;
+            color: #f2ead8; opacity: .9; margin-left: 4px;
+        }
+        .mpb-countdown { position: relative; display: flex; justify-content: center; gap: 10px; }
+        .mpb-cd-cell {
+            background: rgba(242,234,216,0.07); border: 1px solid rgba(200,146,42,0.4);
+            border-radius: 4px; padding: 9px 18px; min-width: 86px;
+        }
+        .mpb-cd-num { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: #e4b84a; line-height: 1; }
+        .mpb-cd-label {
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.5rem; text-transform: uppercase;
+            letter-spacing: 0.12em; color: #f2ead8; opacity: .65; margin-top: 5px; line-height: 1.35;
+        }
+
+        /* Vancouver variant — subtle red/white Canadian-flag-inspired accents */
+        .mpb-vancouver {
+            background: linear-gradient(135deg, #6b1410 0%, #1a2744 50%, #6b1410 100%);
+            border-color: rgba(255,255,255,0.3);
+        }
+        .mpb-vancouver::before { border-color: rgba(255,255,255,0.22); }
+        .mpb-badge {
+            position: relative; display: inline-block; font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.56rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+            color: #fff; background: #d52b1e; border-radius: 100px; padding: 4px 12px; margin-bottom: 12px;
+        }
+        .mpb-vancouver .mpb-cd-cell { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08); }
+        .mpb-vancouver .mpb-cd-num { color: #fff; }
 
         /* VANCOUVER — sticky day-tab navigation (scoped to ortiz-content only) */
         .van-day-tabs {
@@ -1511,9 +1559,21 @@
         </div>
 
         <div id="plans-content">
-<div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Our Trip</div>
-<div style="font-size:13px;color:var(--text-light);margin-bottom:10px;">Day-by-day · All families</div>
+<div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Cruise</div>
+<div style="font-size:13px;color:var(--text-light);margin-bottom:10px;">Day-by-day · All families · Disney Wonder</div>
 <div class="title-flourish"><span></span><em>✦</em><span></span></div>
+
+<div class="mini-poster-banner mpb-cruise">
+    <div class="mpb-eyebrow">✦ Aboard the Disney Wonder ✦</div>
+    <div class="mpb-crew-row">
+        <span class="legend-dot dot-o"></span><span class="legend-dot dot-s"></span><span class="legend-dot dot-sim"></span>
+        <span class="mpb-crew-label">Ortiz · Stallings · Simmons</span>
+    </div>
+    <div class="mpb-countdown">
+        <div class="mpb-cd-cell"><div class="mpb-cd-num" id="mpbDaysBoarding">—</div><div class="mpb-cd-label">Days to<br>Boarding</div></div>
+        <div class="mpb-cd-cell"><div class="mpb-cd-num">7</div><div class="mpb-cd-label">Nights<br>at Sea</div></div>
+    </div>
+</div>
 
 <div class="family-legend">
   <span class="legend-label">Key</span>
@@ -2105,6 +2165,17 @@
     <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Vancouver</div>
     <div style="font-size:13px;color:var(--text-light);margin-bottom:10px;">Pre-Cruise · June 11–15 · British Columbia</div>
     <div class="title-flourish"><span></span><em>✦</em><span></span></div>
+
+    <div class="mini-poster-banner mpb-vancouver">
+        <div class="mpb-badge">🍁 British Columbia, Canada</div>
+        <div class="mpb-crew-row">
+            <span class="legend-dot dot-o"></span><span class="legend-dot dot-s"></span><span class="legend-dot dot-sim"></span>
+            <span class="mpb-crew-label">Ortiz · Stallings · Simmons</span>
+        </div>
+        <div class="mpb-countdown">
+            <div class="mpb-cd-cell"><div class="mpb-cd-num" id="mpbDaysVancouver">—</div><div class="mpb-cd-label">Days to<br>Vancouver</div></div>
+        </div>
+    </div>
 
 <!-- VANCOUVER TIPS -->
 <div class="card" style="margin-bottom:16px;">
@@ -3498,6 +3569,19 @@
         const pdb = document.getElementById('posterDaysBoarding');
         if (pdv) pdv.textContent = dv || '🛫';
         if (pdb) pdb.textContent = db || '🚢';
+    })();
+
+    // Mini-poster banner countdowns (Vancouver & Cruise page headers)
+    (function() {
+        const now = new Date();
+        const vancouver = new Date('2026-06-11T00:00:00');
+        const boarding  = new Date('2026-06-15T16:00:00');
+        const dv = Math.max(0, Math.ceil((vancouver - now) / 86400000));
+        const db = Math.max(0, Math.ceil((boarding  - now) / 86400000));
+        const mdv = document.getElementById('mpbDaysVancouver');
+        const mdb = document.getElementById('mpbDaysBoarding');
+        if (mdv) mdv.textContent = dv || '🛫';
+        if (mdb) mdb.textContent = db || '🚢';
     })();
 
     // Navigation
