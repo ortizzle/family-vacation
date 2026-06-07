@@ -1285,13 +1285,6 @@
                     <div class="poster-card-subtitle">Inside Passage · Jun 15–22</div>
                 </div>
 
-                <!-- Packing List -->
-                <div class="poster-card" onclick="showPage('pack')">
-                    <span class="poster-card-icon">🧳</span>
-                    <div class="poster-card-title">Packing List</div>
-                    <div class="poster-card-subtitle">Checklist · 8 categories</div>
-                </div>
-
                 <!-- Disney Wonder -->
                 <div class="poster-card" onclick="showPage('wonder')">
                     <span class="poster-card-icon">🛳️</span>
@@ -1341,6 +1334,58 @@
                 </div>
 
             </div>
+
+            <!-- ============ TRIP RESOURCES (fast-access tools) ============ -->
+            <div class="poster-grid-header" style="margin-top:28px;"><span></span>Trip Resources<span></span></div>
+            <div class="poster-grid">
+
+                <!-- Packing List -->
+                <div class="poster-card wide" onclick="showPage('pack')">
+                    <span class="poster-card-icon">🧳</span>
+                    <div class="poster-card-text">
+                        <div class="poster-card-title">Packing List</div>
+                        <div class="poster-card-subtitle">Checklist · 8 categories · tap to open</div>
+                    </div>
+                    <span class="poster-card-arrow">→</span>
+                </div>
+
+            </div>
+
+            <!-- CURRENCY CONVERTER — embedded for fast access, no page switch needed -->
+            <div class="card" style="margin:14px 0 0;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                    <span style="font-size:18px;">💱</span>
+                    <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Quick Currency Converter</div>
+                </div>
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:14px;">USD ⇄ CAD · approx. rate, updated periodically</div>
+
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="flex:1;">
+                        <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-bottom:4px;">🇺🇸 US Dollars</label>
+                        <div style="display:flex;align-items:center;background:var(--glacier-pale);border-radius:10px;padding:8px 12px;">
+                            <span style="font-size:15px;font-weight:700;color:var(--glacier);margin-right:4px;">$</span>
+                            <input id="conv-usd" type="number" inputmode="decimal" placeholder="0" oninput="convertCurrency('usd')" style="border:none;background:none;outline:none;font-size:17px;font-weight:700;color:var(--text-dark);width:100%;font-family:'Inter',sans-serif;">
+                        </div>
+                    </div>
+                    <div style="font-size:18px;color:var(--text-light);margin-top:16px;">⇄</div>
+                    <div style="flex:1;">
+                        <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-bottom:4px;">🇨🇦 Canadian Dollars</label>
+                        <div style="display:flex;align-items:center;background:#fdf2f2;border-radius:10px;padding:8px 12px;">
+                            <span style="font-size:15px;font-weight:700;color:#c8102e;margin-right:4px;">$</span>
+                            <input id="conv-cad" type="number" inputmode="decimal" placeholder="0" oninput="convertCurrency('cad')" style="border:none;background:none;outline:none;font-size:17px;font-weight:700;color:var(--text-dark);width:100%;font-family:'Inter',sans-serif;">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
+                    <button class="conv-quick-btn" onclick="convertQuick(20)">$20</button>
+                    <button class="conv-quick-btn" onclick="convertQuick(50)">$50</button>
+                    <button class="conv-quick-btn" onclick="convertQuick(100)">$100</button>
+                    <button class="conv-quick-btn" onclick="convertQuick(200)">$200</button>
+                </div>
+                <div style="font-size:10px;color:var(--text-light);margin-top:10px;line-height:1.5;">📌 Rate used: 1 USD ≈ 1.37 CAD (1 CAD ≈ 0.73 USD). Rates fluctuate daily — check <a href="https://www.google.com/search?q=usd+to+cad" target="_blank" style="color:var(--glacier);">live rate</a> before big purchases. Most cards charge no foreign transaction fee on Visa/Mastercard networks — confirm with your bank.</div>
+            </div>
+
         </div>
 
     </section>
@@ -2487,40 +2532,6 @@
     </div>
 </div>
 
-<!-- CURRENCY CONVERTER -->
-<div class="card" style="margin-bottom:16px;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-        <span style="font-size:18px;">💱</span>
-        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Quick Currency Converter</div>
-    </div>
-    <div style="font-size:11px;color:var(--text-light);margin-bottom:14px;">USD ⇄ CAD · approx. rate, updated periodically</div>
-
-    <div style="display:flex;align-items:center;gap:10px;">
-        <div style="flex:1;">
-            <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-bottom:4px;">🇺🇸 US Dollars</label>
-            <div style="display:flex;align-items:center;background:var(--glacier-pale);border-radius:10px;padding:8px 12px;">
-                <span style="font-size:15px;font-weight:700;color:var(--glacier);margin-right:4px;">$</span>
-                <input id="conv-usd" type="number" inputmode="decimal" placeholder="0" oninput="convertCurrency('usd')" style="border:none;background:none;outline:none;font-size:17px;font-weight:700;color:var(--text-dark);width:100%;font-family:'Inter',sans-serif;">
-            </div>
-        </div>
-        <div style="font-size:18px;color:var(--text-light);margin-top:16px;">⇄</div>
-        <div style="flex:1;">
-            <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-bottom:4px;">🇨🇦 Canadian Dollars</label>
-            <div style="display:flex;align-items:center;background:#fdf2f2;border-radius:10px;padding:8px 12px;">
-                <span style="font-size:15px;font-weight:700;color:#c8102e;margin-right:4px;">$</span>
-                <input id="conv-cad" type="number" inputmode="decimal" placeholder="0" oninput="convertCurrency('cad')" style="border:none;background:none;outline:none;font-size:17px;font-weight:700;color:var(--text-dark);width:100%;font-family:'Inter',sans-serif;">
-            </div>
-        </div>
-    </div>
-
-    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
-        <button class="conv-quick-btn" onclick="convertQuick(20)">$20</button>
-        <button class="conv-quick-btn" onclick="convertQuick(50)">$50</button>
-        <button class="conv-quick-btn" onclick="convertQuick(100)">$100</button>
-        <button class="conv-quick-btn" onclick="convertQuick(200)">$200</button>
-    </div>
-    <div style="font-size:10px;color:var(--text-light);margin-top:10px;line-height:1.5;">📌 Rate used: 1 USD ≈ 1.37 CAD (1 CAD ≈ 0.73 USD). Rates fluctuate daily — check <a href="https://www.google.com/search?q=usd+to+cad" target="_blank" style="color:var(--glacier);">live rate</a> before big purchases. Most cards charge no foreign transaction fee on Visa/Mastercard networks — confirm with your bank.</div>
-</div>
 
 <!-- VANCOUVER MAP CARD -->
 <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
