@@ -249,6 +249,13 @@
         /* ALASKA 101 */
         .section-header { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-light); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .section-header::after { content: ''; flex: 1; height: 1px; background: var(--stone-light); opacity: .4; }
+
+        /* Small ornamental flourish under page titles — a quiet visual echo of the
+           Home poster's divider motif, rendered in the app's existing gold token
+           so bright/bubbly sections keep their palette untouched. */
+        .title-flourish { display: flex; align-items: center; gap: 8px; margin: 0 0 16px; color: var(--gold); opacity: .55; }
+        .title-flourish span { display: inline-block; width: 30px; height: 1px; background: currentColor; opacity: .5; }
+        .title-flourish em { font-style: normal; font-size: 11px; line-height: 1; }
         .wildlife-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .wildlife-card { background: var(--snow); border-radius: 12px; padding: 16px; text-align: center; box-shadow: var(--shadow-sm); cursor: pointer; transition: transform .15s; border: 2px solid transparent; }
         .wildlife-card.spotted { background: var(--glacier-pale); border-color: var(--glacier); }
@@ -1359,7 +1366,8 @@
     <!-- ==================== ALASKA 101 ==================== -->
     <section id="section-alaska" class="section">
         <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Alaska 101</div>
-        <div style="font-size:13px;color:var(--text-light);margin-bottom:20px;">Learn before you go · Track what you find</div>
+        <div style="font-size:13px;color:var(--text-light);margin-bottom:10px;">Learn before you go · Track what you find</div>
+        <div class="title-flourish"><span></span><em>✦</em><span></span></div>
         <div class="section-header">Wildlife Bingo</div>
         <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;margin-top:-8px;">Tap an animal for facts — mark it spotted to play. Get 5 in a row to win! 🎉</div>
 
@@ -1526,7 +1534,8 @@
 
         <div id="plans-content">
 <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Our Trip</div>
-<div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Day-by-day · All families</div>
+<div style="font-size:13px;color:var(--text-light);margin-bottom:10px;">Day-by-day · All families</div>
+<div class="title-flourish"><span></span><em>✦</em><span></span></div>
 
 <div class="family-legend">
   <span class="legend-label">Key</span>
@@ -1963,7 +1972,8 @@
 
         <div id="ortiz-content" style="display:none">
     <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Vancouver</div>
-    <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Pre-Cruise · June 11–15 · British Columbia</div>
+    <div style="font-size:13px;color:var(--text-light);margin-bottom:10px;">Pre-Cruise · June 11–15 · British Columbia</div>
+    <div class="title-flourish"><span></span><em>✦</em><span></span></div>
 
 <!-- VANCOUVER TIPS -->
 <div class="card" style="margin-bottom:16px;">
