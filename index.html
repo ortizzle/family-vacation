@@ -93,6 +93,38 @@
         .member-chip { background: var(--cream); border-radius: 100px; padding: 6px 14px; font-size: 13px; color: var(--text-mid); display: flex; align-items: center; gap: 6px; }
         .member-age { font-size: 11px; color: var(--text-light); }
 
+        /* VANCOUVER — sticky day-tab navigation (scoped to ortiz-content only) */
+        .van-day-tabs {
+            position: sticky; top: 0; z-index: 50;
+            display: flex; gap: 4px;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; -ms-overflow-style: none;
+            background: var(--forest-dark);
+            margin: 0 -16px 16px; padding: 10px 16px;
+        }
+        .van-day-tabs::-webkit-scrollbar { display: none; }
+        .van-day-tab {
+            flex: 0 0 auto;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 7px 16px 6px;
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+            border-bottom: 2px solid transparent;
+            color: rgba(255,255,255,.45);
+            transition: color .2s ease, border-color .2s ease;
+        }
+        .van-day-tab .van-day-num {
+            font-family: 'Playfair Display', serif; font-weight: 700;
+            font-size: 1rem; line-height: 1; color: inherit;
+        }
+        .van-day-tab .van-day-date {
+            font-family: 'Inter', sans-serif; font-size: .5rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: .12em;
+            margin-top: 4px; color: inherit; opacity: .85;
+        }
+        .van-day-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+        .van-day-panel { display: none; }
+        .van-day-panel.active { display: block; }
+
         /* TIMELINE */
         .timeline-day { display: flex; gap: 16px; margin-bottom: 4px; }
         .timeline-line { display: flex; flex-direction: column; align-items: center; width: 48px; flex-shrink: 0; }
@@ -1878,6 +1910,31 @@
 
     <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:12px;">Day by Day</div>
 
+    <!-- Sticky day-tab bar -->
+    <div class="van-day-tabs">
+        <div class="van-day-tab active" data-day="van-d1" onclick="switchVanDay('van-d1')">
+            <div class="van-day-num">11</div>
+            <div class="van-day-date">Thu Jun 11</div>
+        </div>
+        <div class="van-day-tab" data-day="van-d2" onclick="switchVanDay('van-d2')">
+            <div class="van-day-num">12</div>
+            <div class="van-day-date">Fri Jun 12</div>
+        </div>
+        <div class="van-day-tab" data-day="van-d3" onclick="switchVanDay('van-d3')">
+            <div class="van-day-num">13</div>
+            <div class="van-day-date">Sat Jun 13</div>
+        </div>
+        <div class="van-day-tab" data-day="van-d4" onclick="switchVanDay('van-d4')">
+            <div class="van-day-num">14</div>
+            <div class="van-day-date">Sun Jun 14</div>
+        </div>
+        <div class="van-day-tab" data-day="van-d5" onclick="switchVanDay('van-d5')">
+            <div class="van-day-num">15</div>
+            <div class="van-day-date">Mon Jun 15</div>
+        </div>
+    </div>
+
+    <div class="van-day-panel active" id="van-d1">
     <div class="timeline-day">
         <div class="timeline-line"><div class="day-dot" style="background:#f3f0fa;">✈️</div><div class="day-connector"></div></div>
         <div class="timeline-content">
@@ -1977,6 +2034,9 @@
             </div>
         </div>
     </div>
+    </div><!-- /.van-day-panel#van-d1 -->
+
+    <div class="van-day-panel" id="van-d2">
     <div class="timeline-day">
         <div class="timeline-line"><div class="day-dot" style="background:#f3f0fa;">🎣</div><div class="day-connector"></div></div>
         <div class="timeline-content">
@@ -2012,6 +2072,9 @@
             </div>
         </div>
     </div>
+    </div><!-- /.van-day-panel#van-d2 -->
+
+    <div class="van-day-panel" id="van-d3">
     <div class="timeline-day">
         <div class="timeline-line"><div class="day-dot" style="background:#f3f0fa;">🌲</div><div class="day-connector"></div></div>
         <div class="timeline-content">
@@ -2102,6 +2165,9 @@
             </div>
         </div>
     </div>
+    </div><!-- /.van-day-panel#van-d3 -->
+
+    <div class="van-day-panel" id="van-d4">
     <div class="timeline-day">
         <div class="timeline-line"><div class="day-dot" style="background:#f3f0fa;">🌊</div><div class="day-connector"></div></div>
         <div class="timeline-content">
@@ -2135,6 +2201,9 @@
             </div>
         </div>
     </div>
+    </div><!-- /.van-day-panel#van-d4 -->
+
+    <div class="van-day-panel" id="van-d5">
     <div class="timeline-day">
         <div class="timeline-line"><div class="day-dot" style="background:#f3f0fa;">🚐</div><div class="day-connector"></div></div>
         <div class="timeline-content">
@@ -2147,6 +2216,7 @@
             </div>
         </div>
     </div>
+    </div><!-- /.van-day-panel#van-d5 -->
 
     <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin:20px 0 12px;">Return · June 22</div>
 
@@ -3484,6 +3554,22 @@
         if (!usdEl) return;
         usdEl.value = amount;
         convertCurrency('usd');
+    }
+
+    // Vancouver day-tab navigation (sticky tab bar in Ortiz/Vancouver pre-cruise content)
+    function switchVanDay(dayId) {
+        document.querySelectorAll('.van-day-panel').forEach(p => {
+            p.classList.toggle('active', p.id === dayId);
+        });
+        let activeTab = null;
+        document.querySelectorAll('.van-day-tab').forEach(t => {
+            const isActive = t.dataset.day === dayId;
+            t.classList.toggle('active', isActive);
+            if (isActive) activeTab = t;
+        });
+        if (activeTab) {
+            activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
     }
 
     // Modal
