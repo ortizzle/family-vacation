@@ -85,12 +85,18 @@
         .mini-poster-banner {
             position: relative; overflow: hidden; text-align: center;
             border-radius: 14px; padding: 18px 16px 16px; margin: 0 0 18px;
-            background: linear-gradient(135deg, #1a2744 0%, #1e3d2c 100%);
+            background: linear-gradient(160deg, #1e3d2c 0%, #16301f 100%);
             border: 1px solid rgba(200,146,42,0.35);
         }
         .mini-poster-banner::before {
             content: ''; position: absolute; inset: 5px; border-radius: 10px;
             border: 0.5px solid rgba(200,146,42,0.18); pointer-events: none;
+        }
+        .mini-poster-banner::after {
+            content: ''; position: absolute; top: 30%; left: 50%; transform: translate(-50%,-50%);
+            width: 200px; height: 200px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(200,146,42,0.16) 0%, rgba(200,146,42,0) 70%);
+            pointer-events: none;
         }
         .mpb-eyebrow {
             position: relative; font-family: 'Josefin Sans', sans-serif; font-size: 0.6rem; font-weight: 700;
@@ -116,19 +122,14 @@
             letter-spacing: 0.12em; color: #f2ead8; opacity: .65; margin-top: 5px; line-height: 1.35;
         }
 
-        /* Vancouver variant — subtle red/white Canadian-flag-inspired accents */
-        .mpb-vancouver {
-            background: linear-gradient(135deg, #6b1410 0%, #1a2744 50%, #6b1410 100%);
-            border-color: rgba(255,255,255,0.3);
-        }
-        .mpb-vancouver::before { border-color: rgba(255,255,255,0.22); }
+        /* Vancouver variant — same forest/gold poster theme as Home, with a
+           small Canadian-flag-red accent badge as the only themed touch */
+        .mpb-vancouver::before { border-color: rgba(213,43,30,0.2); }
         .mpb-badge {
             position: relative; display: inline-block; font-family: 'Josefin Sans', sans-serif;
             font-size: 0.56rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-            color: #fff; background: #d52b1e; border-radius: 100px; padding: 4px 12px; margin-bottom: 12px;
+            color: #fff; background: #b5302a; border-radius: 100px; padding: 4px 12px; margin-bottom: 12px;
         }
-        .mpb-vancouver .mpb-cd-cell { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08); }
-        .mpb-vancouver .mpb-cd-num { color: #fff; }
 
         /* VANCOUVER — sticky day-tab navigation (scoped to ortiz-content only) */
         .van-day-tabs {
