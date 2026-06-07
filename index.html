@@ -90,7 +90,7 @@
             overflow-x: auto; -webkit-overflow-scrolling: touch;
             scrollbar-width: none; -ms-overflow-style: none;
             background: var(--forest-dark);
-            margin: 0 -16px 16px; padding: 10px 16px;
+            margin: -16px -16px 16px; padding: 10px 16px;
         }
         .van-day-tabs::-webkit-scrollbar { display: none; }
         .van-day-tab {
@@ -122,7 +122,7 @@
             overflow-x: auto; -webkit-overflow-scrolling: touch;
             scrollbar-width: none; -ms-overflow-style: none;
             background: var(--forest-dark);
-            margin: 0 -16px 16px; padding: 10px 16px;
+            margin: -16px -16px 16px; padding: 10px 16px;
         }
         .cruise-day-tabs::-webkit-scrollbar { display: none; }
         .cruise-day-tab {
@@ -735,9 +735,6 @@
         .pack-overall { background: var(--snow); border-radius: var(--radius); padding: 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
 
         /* Plans/Pack pill toggle */
-        .section-pill-row { display: flex; background: var(--snow); border-radius: 12px; padding: 4px; gap: 4px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
-        .section-pill { flex: 1; padding: 9px; border-radius: 9px; border: none; background: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-light); cursor: pointer; transition: all .2s; }
-        .section-pill.active { background: var(--forest-dark); color: white; }
 
         /* ── AVATAR PICKER ── */
         .avatar-section-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-light); margin: 12px 0 8px; }
@@ -1288,6 +1285,13 @@
                     <div class="poster-card-subtitle">Inside Passage · Jun 15–22</div>
                 </div>
 
+                <!-- Packing List -->
+                <div class="poster-card" onclick="showPage('pack')">
+                    <span class="poster-card-icon">🧳</span>
+                    <div class="poster-card-title">Packing List</div>
+                    <div class="poster-card-subtitle">Checklist · 8 categories</div>
+                </div>
+
                 <!-- Disney Wonder -->
                 <div class="poster-card" onclick="showPage('wonder')">
                     <span class="poster-card-icon">🛳️</span>
@@ -1506,21 +1510,8 @@
 
     <!-- ==================== CRUISE ==================== -->
     <section id="section-cruise" class="section">
-        <div class="section-pill-row">
-            <button class="section-pill active" onclick="showCruisePill('itinerary',this)">🚢 Itinerary</button>
-            <button class="section-pill" onclick="showCruisePill('pack',this)">🧳 Pack</button>
-        </div>
-
         <div id="plans-content">
-<div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Cruise</div>
-<div style="font-size:13px;color:var(--text-light);margin-bottom:10px;">Day-by-day · All families · Disney Wonder</div>
-<div class="title-flourish"><span></span><em>✦</em><span></span></div>
-
-<!-- Sticky cruise day-tab bar -->
-<div class="day-tab-bar-row">
-    <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);">Day by Day <span class="cruise-day-progress" id="cruise-day-progress"></span></div>
-    <button class="jump-today-btn" id="cruise-jump-today" type="button">📍 Jump to Today</button>
-</div>
+<!-- Sticky cruise day-tab bar — flush with shared header/countdown -->
 <div class="cruise-day-tabs">
     <div class="cruise-day-tab active" data-day="cruise-d1" onclick="switchCruiseDay('cruise-d1')">
         <div class="cruise-day-num">Day 1</div>
@@ -1555,6 +1546,14 @@
         <div class="cruise-day-date">Mon Jun 22</div>
     </div>
 </div>
+
+<div class="day-tab-bar-row">
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);">Day by Day <span class="cruise-day-progress" id="cruise-day-progress"></span></div>
+    <button class="jump-today-btn" id="cruise-jump-today" type="button">📍 Jump to Today</button>
+</div>
+<div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Cruise</div>
+<div style="font-size:13px;color:var(--text-light);margin-bottom:10px;">Day-by-day · All families · Disney Wonder</div>
+<div class="title-flourish"><span></span><em>✦</em><span></span></div>
 
 <div class="cruise-day-panel active" id="cruise-d1">
 <!-- DAY 1 — Vancouver / Embarkation -->
@@ -1948,10 +1947,19 @@
 </div>
 
         </div><!-- end plans-content -->
+    </section>
 
-        <div id="pack-content" style="display:none">
-        <h2 style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Packing List</h2>
-        <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Alaska cruise · June 11–22</div>
+    <!-- ==================== PACKING LIST PAGE ==================== -->
+    <section id="section-pack" class="section">
+        <button class="game-back-btn" onclick="showPage('home')" style="margin-bottom:14px;padding:4px 0;">← Home</button>
+        <div class="page-header">
+            <span class="page-header-emoji">🧳</span>
+            <div>
+                <div class="page-header-title">Packing List</div>
+                <div class="page-header-sub">Alaska cruise · June 11–22</div>
+            </div>
+        </div>
+        <div id="pack-content">
 
         <div class="pack-overall">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
@@ -2103,16 +2111,7 @@
     <!-- ==================== VANCOUVER ==================== -->
     <section id="section-vancouver" class="section">
         <div id="ortiz-content">
-    <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Vancouver</div>
-    <div style="font-size:13px;color:var(--text-light);margin-bottom:10px;">Pre-Cruise · June 11–15 · British Columbia</div>
-    <div class="title-flourish"><span></span><em>✦</em><span></span></div>
-
-    <div class="day-tab-bar-row">
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);">Day by Day</div>
-        <button class="jump-today-btn" id="van-jump-today" type="button">📍 Jump to Today</button>
-    </div>
-
-    <!-- Sticky day-tab bar -->
+    <!-- Sticky day-tab bar — flush with shared header/countdown -->
     <div class="van-day-tabs">
         <div class="van-day-tab active" data-day="van-d1" onclick="switchVanDay('van-d1')">
             <div class="van-day-num">11</div>
@@ -2135,6 +2134,14 @@
             <div class="van-day-date">Mon Jun 15</div>
         </div>
     </div>
+
+    <div class="day-tab-bar-row">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);">Day by Day</div>
+        <button class="jump-today-btn" id="van-jump-today" type="button">📍 Jump to Today</button>
+    </div>
+    <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Vancouver</div>
+    <div style="font-size:13px;color:var(--text-light);margin-bottom:10px;">Pre-Cruise · June 11–15 · British Columbia</div>
+    <div class="title-flourish"><span></span><em>✦</em><span></span></div>
 
     <div class="van-day-panel active" id="van-d1">
     <div class="timeline-day">
@@ -3482,7 +3489,7 @@
 <nav class="bottom-nav">
     <button class="nav-item active" onclick="showSection('home',this)"><span class="nav-icon">🏔️</span><span class="nav-label">Home</span></button>
     <button class="nav-item" onclick="showSection('vancouver',this)"><span class="nav-icon">🏙️</span><span class="nav-label">Vancouver</span></button>
-    <button class="nav-item" onclick="showSection('cruise',this)"><span class="nav-icon">🗓️</span><span class="nav-label">Cruise</span></button>
+    <button class="nav-item" onclick="showSection('cruise',this)"><span class="nav-icon">🚢</span><span class="nav-label">Cruise</span></button>
     <button class="nav-item" onclick="showSection('alaska',this)"><span class="nav-icon">🦅</span><span class="nav-label">Alaska</span></button>
     <button class="nav-item" onclick="showSection('games',this)"><span class="nav-icon">🏆</span><span class="nav-label">Games</span></button>
 </nav>
@@ -3519,12 +3526,6 @@
         document.getElementById('section-' + name).classList.add('active');
         btn.classList.add('active');
         window.scrollTo(0, 0);
-        if (name === 'cruise') {
-            document.getElementById('plans-content').style.display = '';
-            const pk = document.getElementById('pack-content');
-            if (pk) pk.style.display = 'none';
-            document.querySelectorAll('#section-cruise .section-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
-        }
         if (name === 'games') { closeGame(); }
     }
 
@@ -4167,24 +4168,13 @@
 
     document.getElementById('ml-input').addEventListener('keydown', e => { if (e.key === 'Enter') mlNext(); });
 
-    // Cruise Itinerary/Pack pill toggle
-    function showCruisePill(tab, btn) {
-        document.getElementById('plans-content').style.display = tab === 'itinerary' ? '' : 'none';
-        document.getElementById('pack-content').style.display = tab === 'pack' ? '' : 'none';
-        document.querySelectorAll('#section-cruise .section-pill').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-    }
     function goToPhase(tab) {
         if (tab === 'ortiz') {
             // Navigate to Vancouver section
             showSection('vancouver', document.querySelector('.nav-item[onclick*=vancouver]'));
         } else {
-            // Navigate to Cruise section and activate the correct pill ('plans' -> Itinerary, 'pack' -> Pack)
+            // Navigate to Cruise section
             showSection('cruise', document.querySelector('.nav-item[onclick*=cruise]'));
-            const pillTab = tab === 'pack' ? 'pack' : 'itinerary';
-            const pillMap = { itinerary: 0, pack: 1 };
-            const pills = document.querySelectorAll('#section-cruise .section-pill');
-            if (pills[pillMap[pillTab]]) showCruisePill(pillTab, pills[pillMap[pillTab]]);
         }
         window.scrollTo(0, 0);
     }

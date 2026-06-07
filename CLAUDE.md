@@ -55,6 +55,7 @@ Two navigation patterns coexist:
 | `worldcup` | `section-worldcup` | FIFA card on Home |
 | `emergency` | `section-emergency` | Emergency card on Home |
 | `keepsake` | `section-keepsake` | Trip Keepsake card on Home |
+| `pack` | `section-pack` | Packing List card on Home (formerly a pill-toggle tab inside Cruise) |
 
 ## Home cards (in order)
 
