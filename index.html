@@ -157,6 +157,41 @@
         .cruise-day-panel { display: none; }
         .cruise-day-panel.active { display: block; }
 
+        /* Shared: "Today" badge on day-tabs (Vancouver + Cruise + MVP) */
+        .day-tab-today-badge {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: .42rem; font-weight: 700;
+            letter-spacing: .1em; text-transform: uppercase;
+            background: var(--gold); color: #1a1a0e;
+            border-radius: 20px; padding: 1px 6px;
+            margin-top: 4px; line-height: 1.4;
+        }
+        .van-day-tab.is-today .van-day-num,
+        .cruise-day-tab.is-today .cruise-day-num,
+        .mvp-day-tab.is-today .mvp-day-num { color: var(--gold-light, var(--gold)); }
+
+        /* Shared: "Jump to Today" pill button + cruise day-progress hint */
+        .day-tab-bar-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: -10px 0 14px; }
+        .jump-today-btn {
+            display: none;
+            flex: 0 0 auto;
+            align-items: center; gap: 4px;
+            font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+            letter-spacing: .03em;
+            background: var(--glacier-pale); color: var(--glacier);
+            border: none; border-radius: 100px;
+            padding: 6px 14px;
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+        }
+        .jump-today-btn.is-visible { display: inline-flex; }
+        .jump-today-btn:active { transform: scale(.96); }
+        .cruise-day-progress {
+            font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
+            color: var(--text-light); white-space: nowrap;
+        }
+        .cruise-day-progress strong { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--glacier); font-weight: 700; }
+
         /* TIMELINE */
         .timeline-day { display: flex; gap: 16px; margin-bottom: 4px; }
         .timeline-line { display: flex; flex-direction: column; align-items: center; width: 48px; flex-shrink: 0; }
@@ -1531,7 +1566,10 @@
 </div>
 
 <!-- Sticky cruise day-tab bar -->
-<div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:12px;">Day by Day</div>
+<div class="day-tab-bar-row">
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);">Day by Day <span class="cruise-day-progress" id="cruise-day-progress"></span></div>
+    <button class="jump-today-btn" id="cruise-jump-today" type="button">📍 Jump to Today</button>
+</div>
 <div class="cruise-day-tabs">
     <div class="cruise-day-tab active" data-day="cruise-d1" onclick="switchCruiseDay('cruise-d1')">
         <div class="cruise-day-num">Day 1</div>
@@ -2000,7 +2038,10 @@
   </div>
 </div>
 
-    <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:12px;">Day by Day</div>
+    <div class="day-tab-bar-row">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);">Day by Day</div>
+        <button class="jump-today-btn" id="van-jump-today" type="button">📍 Jump to Today</button>
+    </div>
 
     <!-- Sticky day-tab bar -->
     <div class="van-day-tabs">
@@ -3677,22 +3718,63 @@
         });
         if (activeTab) {
             activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            const progressEl = document.getElementById('cruise-day-progress');
+            if (progressEl) {
+                const n = activeTab.dataset.day.replace('cruise-d', '');
+                progressEl.innerHTML = '· <strong>Day ' + n + '</strong> of 8';
+            }
         }
     }
 
+    // Shared helper: returns the day-panel id matching today's date for a given
+    // prefix/start-date/length window, or null if today falls outside that window.
+    function getTodayDayId(prefix, startDateStr, numDays) {
+        const now = new Date();
+        const start = new Date(startDateStr + 'T00:00:00');
+        const end = new Date(startDateStr + 'T00:00:00');
+        end.setDate(end.getDate() + numDays - 1);
+        end.setHours(23, 59, 59, 999);
+        if (now < start || now > end) return null;
+        const diff = Math.floor((now - start) / 86400000) + 1;
+        const clamped = Math.min(numDays, Math.max(1, diff));
+        return prefix + '-d' + clamped;
+    }
+
+    // Adds a small "Today" badge to the tab matching todayId, and wires up an
+    // optional "Jump to Today" button (shown only while today falls in range).
+    function markTodayTab(tabClass, jumpBtnId, todayId, switchFn) {
+        if (todayId) {
+            const tab = document.querySelector('.' + tabClass + '[data-day="' + todayId + '"]');
+            if (tab && !tab.querySelector('.day-tab-today-badge')) {
+                tab.classList.add('is-today');
+                const badge = document.createElement('span');
+                badge.className = 'day-tab-today-badge';
+                badge.textContent = 'Today';
+                tab.appendChild(badge);
+            }
+        }
+        const jumpBtn = document.getElementById(jumpBtnId);
+        if (jumpBtn) {
+            if (todayId) {
+                jumpBtn.classList.add('is-visible');
+                jumpBtn.onclick = function() { switchFn(todayId); };
+            } else {
+                jumpBtn.classList.remove('is-visible');
+            }
+        }
+    }
+
+    const _cruiseTodayId = getTodayDayId('cruise', '2026-06-15', 8);
+    const _vanTodayId    = getTodayDayId('van', '2026-06-11', 5);
+
     // On load, default the cruise tab view to today's day-of-cruise (if currently sailing), else Day 1
     (function() {
-        const now = new Date();
-        const cruiseStart = new Date('2026-06-15T00:00:00');
-        const cruiseEnd   = new Date('2026-06-22T23:59:59');
-        let dayId = 'cruise-d1';
-        if (now >= cruiseStart && now <= cruiseEnd) {
-            const diff = Math.floor((now - cruiseStart) / 86400000) + 1;
-            const clamped = Math.min(8, Math.max(1, diff));
-            dayId = 'cruise-d' + clamped;
-        }
+        const dayId = _cruiseTodayId || 'cruise-d1';
         if (document.getElementById(dayId)) switchCruiseDay(dayId);
     })();
+
+    markTodayTab('van-day-tab', 'van-jump-today', _vanTodayId, switchVanDay);
+    markTodayTab('cruise-day-tab', 'cruise-jump-today', _cruiseTodayId, switchCruiseDay);
 
     // Modal
     function openModal(id) {
