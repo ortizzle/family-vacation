@@ -1141,8 +1141,9 @@
         .poster-card.wide .poster-card-arrow { font-size: 1.1rem; color: var(--gold); flex-shrink: 0; }
 
         /* ---- BOTTOM NAV restyle (poster look — global chrome) ---- */
-        .bottom-nav { background: var(--ink, #1a1a0e) !important; border-top: 1px solid rgba(200,146,42,0.3) !important; }
-        .nav-item { position: relative; color: rgba(242,234,216,0.4) !important; }
+        /* Forest-green to match the app header / countdown banner / day-tab bars */
+        .bottom-nav { background: var(--forest-dark, #1a3328) !important; border-top: 1px solid rgba(200,146,42,0.25) !important; }
+        .nav-item { position: relative; color: rgba(255,255,255,.55) !important; }
         .nav-item.active { color: var(--gold-light, #e4b84a) !important; }
         .nav-item.active::before {
             content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
@@ -1244,12 +1245,12 @@
                 <div class="poster-crew-entry">
                     <span class="poster-crew-dot" style="background:var(--forest-light);"></span>
                     <div class="poster-crew-name">Stallings</div>
-                    <div class="poster-crew-count">Veronica · Joseph + Kids</div>
+                    <div class="poster-crew-count">3 travelers</div>
                 </div>
                 <div class="poster-crew-entry">
                     <span class="poster-crew-dot" style="background:#d48820;"></span>
                     <div class="poster-crew-name">Simmons</div>
-                    <div class="poster-crew-count">Sade · Sean + Kids</div>
+                    <div class="poster-crew-count">4 travelers</div>
                 </div>
             </div>
         </div>
@@ -1323,16 +1324,6 @@
                     <span class="poster-card-arrow">→</span>
                 </div>
 
-                <!-- Emergency Info — wide -->
-                <div class="poster-card wide" onclick="showPage('emergency')">
-                    <span class="poster-card-icon">🆘</span>
-                    <div class="poster-card-text">
-                        <div class="poster-card-title">Emergency Info</div>
-                        <div class="poster-card-subtitle">Stateroom · Medical · Contacts</div>
-                    </div>
-                    <span class="poster-card-arrow">→</span>
-                </div>
-
             </div>
 
             <!-- ============ TRIP RESOURCES (fast-access tools) ============ -->
@@ -1384,6 +1375,18 @@
                     <button class="conv-quick-btn" onclick="convertQuick(200)">$200</button>
                 </div>
                 <div style="font-size:10px;color:var(--text-light);margin-top:10px;line-height:1.5;">📌 Rate used: 1 USD ≈ 1.37 CAD (1 CAD ≈ 0.73 USD). Rates fluctuate daily — check <a href="https://www.google.com/search?q=usd+to+cad" target="_blank" style="color:var(--glacier);">live rate</a> before big purchases. Most cards charge no foreign transaction fee on Visa/Mastercard networks — confirm with your bank.</div>
+            </div>
+
+            <!-- Emergency Info — wide, anchors the very bottom of Trip Resources -->
+            <div class="poster-grid" style="margin-top:14px;">
+                <div class="poster-card wide" onclick="showPage('emergency')">
+                    <span class="poster-card-icon">🆘</span>
+                    <div class="poster-card-text">
+                        <div class="poster-card-title">Emergency Info</div>
+                        <div class="poster-card-subtitle">Stateroom · Medical · Contacts</div>
+                    </div>
+                    <span class="poster-card-arrow">→</span>
+                </div>
             </div>
 
         </div>
