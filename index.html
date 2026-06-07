@@ -857,32 +857,34 @@
     <section id="section-home" class="section active">
 
         <!-- Trip: two phase cards -->
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+        <div style="display:flex;flex-direction:column;gap:0;">
 
             <!-- Vancouver Pre-Cruise -->
-            <div class="card" style="background:linear-gradient(135deg,#1a3a50 0%,#1e6b8a 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-bottom:0;padding:14px 16px;" onclick="goToPhase('ortiz')">
-                <div style="display:flex;align-items:center;gap:12px;">
-                    <span style="font-size:28px;flex-shrink:0;">🏙️</span>
-                    <div style="flex:1;min-width:0;">
-                        <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;opacity:.55;margin-bottom:2px;">Jun 11–15 · Pre-Cruise</div>
-                        <div style="font-family:'Playfair Display',serif;font-size:18px;line-height:1.2;">Vancouver</div>
-                        <div style="font-size:11px;opacity:.65;margin-top:2px;">4 days · FIFA · Capilano · River Rock</div>
+            <div class="card" style="background:linear-gradient(135deg,#1a3a50 0%,#1e6b8a 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="goToPhase('ortiz')">
+                <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Pre-Cruise · Jun 11–15</div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                    <span style="font-size:28px;">🏙️</span>
+                    <div>
+                        <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Vancouver</div>
+                        <div style="font-size:12px;opacity:.65;">British Columbia · River Rock Hotel</div>
                     </div>
-                    <span style="font-size:18px;opacity:.5;flex-shrink:0;">›</span>
                 </div>
+                <div style="font-size:12px;opacity:.7;margin-bottom:10px;">4 days · FIFA World Cup · Capilano Bridge · Stanley Park</div>
+                <div style="font-size:12px;opacity:.55;">Day-by-day · Transit guide · Canadian tips →</div>
             </div>
 
             <!-- Alaska Sailing -->
-            <div class="card" style="background:linear-gradient(135deg,#071524 0%,#0d1f3c 60%,#102548 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-bottom:0;padding:14px 16px;" onclick="goToPhase('plans')">
-                <div style="display:flex;align-items:center;gap:12px;">
-                    <span style="font-size:28px;flex-shrink:0;">🛳️</span>
-                    <div style="flex:1;min-width:0;">
-                        <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;opacity:.55;margin-bottom:2px;">Jun 15–22 · Disney Wonder</div>
-                        <div style="font-family:'Playfair Display',serif;font-size:18px;line-height:1.2;">Alaska Sailing</div>
-                        <div style="font-size:11px;opacity:.65;margin-top:2px;">7 nights · 4 ports · Inside Passage</div>
+            <div class="card" style="background:linear-gradient(135deg,#071524 0%,#0d1f3c 60%,#102548 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="goToPhase('plans')">
+                <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Alaska Cruise · Jun 15–22</div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                    <span style="font-size:28px;">🛳️</span>
+                    <div>
+                        <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Alaska Sailing</div>
+                        <div style="font-size:12px;opacity:.65;">Disney Wonder · Inside Passage</div>
                     </div>
-                    <span style="font-size:18px;opacity:.5;flex-shrink:0;">›</span>
                 </div>
+                <div style="font-size:12px;opacity:.7;margin-bottom:10px;">7 nights · Skagway · Juneau · Ketchikan · Tracy Arm</div>
+                <div style="font-size:12px;opacity:.55;">Ports · Route · Ship info →</div>
             </div>
 
         </div>
@@ -1566,10 +1568,81 @@
         </div><!-- end plans-content -->
 
         <div id="ortiz-content" style="display:none">
-    <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Ortiz Trip</div>
-    <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Phoenix → Vancouver → Alaska → Home</div>
+    <div style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;padding-top:4px;">Vancouver</div>
+    <div style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Pre-Cruise · June 11–15 · British Columbia</div>
 
-    <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:12px;">Pre-Cruise · Vancouver</div>
+<!-- VANCOUVER TIPS -->
+<div class="card" style="margin-bottom:16px;">
+    <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)" style="padding-bottom:0;">
+        <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text-dark);">🍁 Vancouver & Canada Tips</div>
+            <div style="font-size:12px;color:var(--text-light);margin-top:2px;">Tap to expand</div>
+        </div>
+        <span class="acc-chevron"></span>
+    </div>
+    <div class="acc-body collapsed" style="margin-top:4px;">
+        <div class="tip-item"><span class="tip-icon">🕐</span><span><strong>No jet lag.</strong> Vancouver is Pacific Time — same as Phoenix in summer (both on PDT). Your body clock won't notice a thing.</span></div>
+        <div class="tip-item"><span class="tip-icon">💵</span><span><strong>Canadian dollars.</strong> 1 USD ≈ 1.37 CAD. Credit cards work everywhere. Bring ~$60 CAD cash for food courts (Parker Place) and Richmond Night Market stalls.</span></div>
+        <div class="tip-item"><span class="tip-icon">🚇</span><span><strong>Tap to ride the SkyTrain.</strong> No tickets needed — tap your Visa, Mastercard, or Amex directly on the fare gate. Kids under 13 ride free. Trains every 5–8 minutes.</span></div>
+        <div class="tip-item"><span class="tip-icon">🌧️</span><span><strong>Pack rain gear, especially June 13.</strong> Vancouver June averages 13 rainy days. June 13 (North Shore day) is forecast as the wettest — ponchos for the kids, waterproof jacket for adults.</span></div>
+        <div class="tip-item"><span class="tip-icon">🌡️</span><span><strong>Layer up.</strong> Expect 63–72°F days but cooler mornings and evenings. A light fleece or zip-up is perfect after 7 PM, especially on the North Shore.</span></div>
+        <div class="tip-item"><span class="tip-icon">📱</span><span><strong>US phones work in Canada</strong> but most carriers charge roaming. Check your plan — many include Canada (T-Mobile does by default). Turn on "international data" before landing.</span></div>
+        <div class="tip-item"><span class="tip-icon">✈️</span><span><strong>Customs at YVR.</strong> Fill out the CBSA declaration on your phone before landing (paper forms available too). Be honest — fruit, meat, and large amounts of cash must be declared. Standard tourist entry, no visa needed for US citizens.</span></div>
+        <div class="tip-item"><span class="tip-icon">🍽️</span><span><strong>Tipping is the same as the US.</strong> 15–20% at restaurants, $2–3 per taxi or rideshare ride. Some Richmond food court stalls have tip prompts — 0% is totally fine there.</span></div>
+        <div class="tip-item"><span class="tip-icon">🏙️</span><span><strong>Richmond vs Vancouver.</strong> Your hotel is in Richmond (suburb, 30 min south of downtown). Richmond has its own amazing food scene. "Going to Vancouver" means taking the Canada Line north — ~30 min, $4.50 CAD.</span></div>
+        <div class="tip-item"><span class="tip-icon">🆘</span><span><strong>Emergency is still 911.</strong> Same number as the US. BC Health care is excellent. The nearest urgent care to River Rock is Richmond Hospital (~10 min drive).</span></div>
+    </div>
+</div>
+
+<!-- VANCOUVER MAP CARD -->
+<div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
+  <div style="background:linear-gradient(150deg,#1a3a50 0%,#1e6b8a 60%,#2a9d8f 100%);padding:20px 16px 16px;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;opacity:.07;font-size:120px;line-height:1;text-align:center;overflow:hidden;pointer-events:none;">🏔️🌲🌊</div>
+    <div style="position:relative;">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6);margin-bottom:6px;">Greater Vancouver Area</div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;color:white;margin-bottom:2px;">Your Base: Richmond, BC</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.7);">River Rock Hotel · June 11–15</div>
+    </div>
+  </div>
+  <div style="padding:14px 16px 6px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+      <div style="text-align:center;background:#e2f2f8;border-radius:10px;padding:10px 6px;">
+        <div style="font-size:18px;font-weight:800;color:#1e6b8a;line-height:1;">4</div>
+        <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-top:2px;">Days</div>
+      </div>
+      <div style="text-align:center;background:#e8f5ee;border-radius:10px;padding:10px 6px;">
+        <div style="font-size:18px;font-weight:800;color:#1a5c38;line-height:1;">3</div>
+        <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-top:2px;">Adventures</div>
+      </div>
+      <div style="text-align:center;background:#fff8e1;border-radius:10px;padding:10px 6px;">
+        <div style="font-size:18px;font-weight:800;color:#d97706;line-height:1;">1</div>
+        <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-top:2px;">FIFA Match</div>
+      </div>
+      <div style="text-align:center;background:#fef2f2;border-radius:10px;padding:10px 6px;">
+        <div style="font-size:18px;font-weight:800;color:#dc2626;line-height:1;">~30</div>
+        <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-top:2px;">Min to DT</div>
+      </div>
+    </div>
+  </div>
+  <!-- Vancouver area facts accordion -->
+  <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)" style="padding:0 16px 14px;margin-top:-4px;">
+    <div style="font-size:13px;font-weight:700;color:var(--text-dark);">🏔️ Vancouver Fun Facts</div>
+    <span class="acc-chevron"></span>
+  </div>
+  <div class="acc-body collapsed" style="padding:0 16px 16px;">
+    <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🌲</div><div><div class="fact-title">Third-Largest City in Canada</div><div class="fact-body">Greater Vancouver has 2.6 million people, making it Canada's third-largest metro after Toronto and Montreal. Richmond — your home base — is a city of 230,000 within that metro, famous for having North America's most authentic Chinese food scene outside of China.</div></div></div>
+    <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🎬</div><div><div class="fact-title">Hollywood North</div><div class="fact-body">Vancouver is one of the world's biggest film and TV production hubs — sometimes called "Hollywood North." The X-Files, Deadpool, Twilight, and dozens of Marvel films were shot here. You'll likely walk past an active film set without knowing it.</div></div></div>
+    <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🌧️</div><div><div class="fact-title">Rain Capital of Canada</div><div class="fact-body">Vancouver is the rainiest major city in Canada, averaging 166 rainy days per year. June is the last of the wet months before the gorgeous dry summer. Locals wear rain jackets like a second skin and rarely use umbrellas — take note.</div></div></div>
+    <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🏔️</div><div><div class="fact-title">Mountains Meet Ocean</div><div class="fact-body">Vancouver is one of the few cities where you can ski in the morning and kayak in the ocean in the afternoon. The North Shore mountains (where Capilano is) rise to 4,000+ feet just 20 minutes from downtown. On a clear day the view from the city includes snow-capped peaks.</div></div></div>
+    <div class="fact-card"><div class="fact-icon">⚽</div><div><div class="fact-title">FIFA World Cup 2026 Host</div><div class="fact-body">Vancouver's BC Place stadium is one of 16 host venues across USA, Canada, and Mexico for the 2026 FIFA World Cup — the largest World Cup in history with 48 teams. The group stage matches happening during your stay make you part of a once-in-a-generation event.</div></div></div>
+  </div>
+  <div class="map-link-row" style="padding:0 16px 16px;">
+    <a class="map-link-btn" href="https://maps.google.com/?q=Richmond+BC+Canada" target="_blank">📍 Richmond on Google Maps</a>
+    <a class="map-link-btn" href="https://maps.google.com/?q=Vancouver+BC+Canada" target="_blank">🏙️ Vancouver on Google Maps</a>
+  </div>
+</div>
+
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:12px;">Day by Day</div>
 
     <div class="timeline-day">
         <div class="timeline-line"><div class="day-dot" style="background:#f3f0fa;">✈️</div><div class="day-connector"></div></div>
