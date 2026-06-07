@@ -125,6 +125,38 @@
         .van-day-panel { display: none; }
         .van-day-panel.active { display: block; }
 
+        /* CRUISE — sticky day-tab navigation (scoped to plans-content / cruise itinerary only) */
+        .cruise-day-tabs {
+            position: sticky; top: 0; z-index: 50;
+            display: flex; gap: 4px;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; -ms-overflow-style: none;
+            background: var(--forest-dark);
+            margin: 0 -16px 16px; padding: 10px 16px;
+        }
+        .cruise-day-tabs::-webkit-scrollbar { display: none; }
+        .cruise-day-tab {
+            flex: 0 0 auto;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 7px 14px 6px;
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+            border-bottom: 2px solid transparent;
+            color: rgba(255,255,255,.45);
+            transition: color .2s ease, border-color .2s ease;
+        }
+        .cruise-day-tab .cruise-day-num {
+            font-family: 'Playfair Display', serif; font-weight: 700;
+            font-size: 1rem; line-height: 1; color: inherit;
+        }
+        .cruise-day-tab .cruise-day-date {
+            font-family: 'Inter', sans-serif; font-size: .5rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: .12em;
+            margin-top: 4px; color: inherit; opacity: .85;
+        }
+        .cruise-day-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+        .cruise-day-panel { display: none; }
+        .cruise-day-panel.active { display: block; }
+
         /* TIMELINE */
         .timeline-day { display: flex; gap: 16px; margin-bottom: 4px; }
         .timeline-line { display: flex; flex-direction: column; align-items: center; width: 48px; flex-shrink: 0; }
@@ -1498,6 +1530,44 @@
   </div>
 </div>
 
+<!-- Sticky cruise day-tab bar -->
+<div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:12px;">Day by Day</div>
+<div class="cruise-day-tabs">
+    <div class="cruise-day-tab active" data-day="cruise-d1" onclick="switchCruiseDay('cruise-d1')">
+        <div class="cruise-day-num">Day 1</div>
+        <div class="cruise-day-date">Mon Jun 15</div>
+    </div>
+    <div class="cruise-day-tab" data-day="cruise-d2" onclick="switchCruiseDay('cruise-d2')">
+        <div class="cruise-day-num">Day 2</div>
+        <div class="cruise-day-date">Tue Jun 16</div>
+    </div>
+    <div class="cruise-day-tab" data-day="cruise-d3" onclick="switchCruiseDay('cruise-d3')">
+        <div class="cruise-day-num">Day 3</div>
+        <div class="cruise-day-date">Wed Jun 17</div>
+    </div>
+    <div class="cruise-day-tab" data-day="cruise-d4" onclick="switchCruiseDay('cruise-d4')">
+        <div class="cruise-day-num">Day 4</div>
+        <div class="cruise-day-date">Thu Jun 18</div>
+    </div>
+    <div class="cruise-day-tab" data-day="cruise-d5" onclick="switchCruiseDay('cruise-d5')">
+        <div class="cruise-day-num">Day 5</div>
+        <div class="cruise-day-date">Fri Jun 19</div>
+    </div>
+    <div class="cruise-day-tab" data-day="cruise-d6" onclick="switchCruiseDay('cruise-d6')">
+        <div class="cruise-day-num">Day 6</div>
+        <div class="cruise-day-date">Sat Jun 20</div>
+    </div>
+    <div class="cruise-day-tab" data-day="cruise-d7" onclick="switchCruiseDay('cruise-d7')">
+        <div class="cruise-day-num">Day 7</div>
+        <div class="cruise-day-date">Sun Jun 21</div>
+    </div>
+    <div class="cruise-day-tab" data-day="cruise-d8" onclick="switchCruiseDay('cruise-d8')">
+        <div class="cruise-day-num">Day 8</div>
+        <div class="cruise-day-date">Mon Jun 22</div>
+    </div>
+</div>
+
+<div class="cruise-day-panel active" id="cruise-d1">
 <!-- DAY 1 — Vancouver / Embarkation -->
 <div class="port-card">
   <div class="port-header port-header-vancouver acc-trigger" onclick="toggleAcc(this)">
@@ -1528,6 +1598,9 @@
   </div>
 </div>
 
+</div><!-- /.cruise-day-panel#cruise-d1 -->
+
+<div class="cruise-day-panel" id="cruise-d2">
 <!-- DAY 2 — At Sea -->
 <div class="port-card">
   <div class="port-header port-header-seaday acc-trigger" onclick="toggleAcc(this)">
@@ -1557,6 +1630,9 @@
   </div>
 </div>
 
+</div><!-- /.cruise-day-panel#cruise-d2 -->
+
+<div class="cruise-day-panel" id="cruise-d3">
 <!-- DAY 3 — Glacier Viewing / Stikine Icecap -->
 <div class="port-card">
   <div class="port-header port-header-glacier-view acc-trigger" onclick="toggleAcc(this)">
@@ -1590,6 +1666,9 @@
   </div>
 </div>
 
+</div><!-- /.cruise-day-panel#cruise-d3 -->
+
+<div class="cruise-day-panel" id="cruise-d4">
 <!-- DAY 4 — Skagway -->
 <div class="port-card">
   <div class="port-header port-header-skagway acc-trigger" onclick="toggleAcc(this)">
@@ -1640,6 +1719,9 @@
   </div>
 </div>
 
+</div><!-- /.cruise-day-panel#cruise-d4 -->
+
+<div class="cruise-day-panel" id="cruise-d5">
 <!-- DAY 5 — Juneau -->
 <div class="port-card">
   <div class="port-header port-header-juneau acc-trigger" onclick="toggleAcc(this)">
@@ -1690,6 +1772,9 @@
   </div>
 </div>
 
+</div><!-- /.cruise-day-panel#cruise-d5 -->
+
+<div class="cruise-day-panel" id="cruise-d6">
 <!-- DAY 6 — Ketchikan -->
 <div class="port-card">
   <div class="port-header port-header-ketchikan acc-trigger" onclick="toggleAcc(this)">
@@ -1740,6 +1825,9 @@
   </div>
 </div>
 
+</div><!-- /.cruise-day-panel#cruise-d6 -->
+
+<div class="cruise-day-panel" id="cruise-d7">
 <!-- DAY 7 — At Sea -->
 <div class="port-card">
   <div class="port-header port-header-seaday acc-trigger" onclick="toggleAcc(this)">
@@ -1771,6 +1859,9 @@
   </div>
 </div>
 
+</div><!-- /.cruise-day-panel#cruise-d7 -->
+
+<div class="cruise-day-panel" id="cruise-d8">
 <!-- DAY 8 — Disembarkation -->
 <div class="port-card">
   <div class="port-header port-header-vancouver acc-trigger" onclick="toggleAcc(this)">
@@ -1795,6 +1886,7 @@
     </div>
   </div>
 </div>
+</div><!-- /.cruise-day-panel#cruise-d8 -->
 
         </div><!-- end plans-content -->
 
@@ -3571,6 +3663,36 @@
             activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         }
     }
+
+    // Disney Wonder cruise day-tab navigation (sticky tab bar in Trip/cruise itinerary)
+    function switchCruiseDay(dayId) {
+        document.querySelectorAll('.cruise-day-panel').forEach(p => {
+            p.classList.toggle('active', p.id === dayId);
+        });
+        let activeTab = null;
+        document.querySelectorAll('.cruise-day-tab').forEach(t => {
+            const isActive = t.dataset.day === dayId;
+            t.classList.toggle('active', isActive);
+            if (isActive) activeTab = t;
+        });
+        if (activeTab) {
+            activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+    }
+
+    // On load, default the cruise tab view to today's day-of-cruise (if currently sailing), else Day 1
+    (function() {
+        const now = new Date();
+        const cruiseStart = new Date('2026-06-15T00:00:00');
+        const cruiseEnd   = new Date('2026-06-22T23:59:59');
+        let dayId = 'cruise-d1';
+        if (now >= cruiseStart && now <= cruiseEnd) {
+            const diff = Math.floor((now - cruiseStart) / 86400000) + 1;
+            const clamped = Math.min(8, Math.max(1, diff));
+            dayId = 'cruise-d' + clamped;
+        }
+        if (document.getElementById(dayId)) switchCruiseDay(dayId);
+    })();
 
     // Modal
     function openModal(id) {
