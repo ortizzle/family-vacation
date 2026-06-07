@@ -3871,6 +3871,41 @@
     markTodayTab('van-day-tab', 'van-jump-today', _vanTodayId, switchVanDay);
     markTodayTab('cruise-day-tab', 'cruise-jump-today', _cruiseTodayId, switchCruiseDay);
 
+    // Swipe gestures — let visitors flick left/right across a day panel to move
+    // between days, instead of only tapping the sticky tab bar. Shared across
+    // Vancouver, Cruise, and Daily MVP day-tab systems (same panel/tab shape).
+    // Swipe left = next day, swipe right = previous day; vertical scrolls are
+    // ignored so it doesn't fight normal page scrolling.
+    function enableDaySwipe(panelSelector, prefix, numDays, switchFn) {
+        let startX = 0, startY = 0, tracking = false;
+        document.querySelectorAll(panelSelector).forEach(panel => {
+            panel.addEventListener('touchstart', function(e) {
+                if (e.touches.length !== 1) { tracking = false; return; }
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                tracking = true;
+            }, { passive: true });
+            panel.addEventListener('touchend', function(e) {
+                if (!tracking) return;
+                tracking = false;
+                const t = e.changedTouches[0];
+                const dx = t.clientX - startX;
+                const dy = t.clientY - startY;
+                if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
+                const active = document.querySelector(panelSelector + '.active');
+                if (!active) return;
+                const n = parseInt(active.id.replace(prefix + '-d', ''), 10);
+                if (isNaN(n)) return;
+                const next = n + (dx < 0 ? 1 : -1);
+                if (next < 1 || next > numDays) return;
+                switchFn(prefix + '-d' + next);
+            }, { passive: true });
+        });
+    }
+    window.enableDaySwipe = enableDaySwipe;
+    enableDaySwipe('.van-day-panel', 'van', 5, switchVanDay);
+    enableDaySwipe('.cruise-day-panel', 'cruise', 8, switchCruiseDay);
+
     // "Today at a Glance" — surfaces a live highlight of today's plans on the
     // poster home, pulled straight from the matching Vancouver/Cruise day panel
     // so the content stays single-sourced. Hidden entirely outside trip dates.
@@ -6889,6 +6924,9 @@
             if (mvpToday && document.getElementById(mvpToday)) switchMvpDay(mvpToday);
             markTodayTab('mvp-day-tab', 'mvp-jump-today', mvpToday, switchMvpDay);
         }
+
+        // Swipe between days (panels are rendered fresh here, so wire it up post-render)
+        if (typeof enableDaySwipe === 'function') enableDaySwipe('.mvp-day-panel', 'mvp', 8, switchMvpDay);
     })();
 
     // Trip Keepsake
