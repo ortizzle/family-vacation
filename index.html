@@ -3890,7 +3890,7 @@
     // Vancouver, Cruise, and Daily MVP day-tab systems (same panel/tab shape).
     // Swipe left = next day, swipe right = previous day; vertical scrolls are
     // ignored so it doesn't fight normal page scrolling.
-    function enableDaySwipe(panelSelector, prefix, numDays, switchFn) {
+    function enableDaySwipe(panelSelector, switchFn) {
         let startX = 0, startY = 0, tracking = false;
         document.querySelectorAll(panelSelector).forEach(panel => {
             panel.addEventListener('touchstart', function(e) {
@@ -3906,19 +3906,20 @@
                 const dx = t.clientX - startX;
                 const dy = t.clientY - startY;
                 if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
+                const panels = [...document.querySelectorAll(panelSelector)];
                 const active = document.querySelector(panelSelector + '.active');
                 if (!active) return;
-                const n = parseInt(active.id.replace(prefix + '-d', ''), 10);
-                if (isNaN(n)) return;
-                const next = n + (dx < 0 ? 1 : -1);
-                if (next < 1 || next > numDays) return;
-                switchFn(prefix + '-d' + next);
+                const idx = panels.indexOf(active);
+                if (idx === -1) return;
+                const nextIdx = idx + (dx < 0 ? 1 : -1);
+                if (nextIdx < 0 || nextIdx >= panels.length) return;
+                switchFn(panels[nextIdx].id);
             }, { passive: true });
         });
     }
     window.enableDaySwipe = enableDaySwipe;
-    enableDaySwipe('.van-day-panel', 'van', 5, switchVanDay);
-    enableDaySwipe('.cruise-day-panel', 'cruise', 8, switchCruiseDay);
+    enableDaySwipe('.van-day-panel', switchVanDay);
+    enableDaySwipe('.cruise-day-panel', switchCruiseDay);
 
     // "Today at a Glance" — surfaces a live highlight of today's plans on the
     // poster home, pulled straight from the matching Vancouver/Cruise day panel
@@ -6871,15 +6872,24 @@
     (function() {
         const KEY = 'ak26-mvp';
         const state = JSON.parse(localStorage.getItem(KEY) || '{}');
+        // NOTE: 'v1'-'v4' (Jun 11-14, Vancouver pre-cruise) use NEW ids placed ahead of the
+        // original 'd1'-'d8' (Jun 15-22, cruise) so existing ak26-mvp localStorage entries
+        // keep pointing at the same calendar days. Display "Day N" numbers are derived from
+        // array position below, so the new days slot in as Day 1-4 and the cruise days
+        // shift to Day 5-12 automatically.
         const days = [
-            { id: 'd1', label: 'Day 1 · Mon Jun 15', date: 'Mon Jun 15', sub: 'Vancouver · Embarkation' },
-            { id: 'd2', label: 'Day 2 · Tue Jun 16', date: 'Tue Jun 16', sub: 'At Sea · Inside Passage' },
-            { id: 'd3', label: 'Day 3 · Wed Jun 17', date: 'Wed Jun 17', sub: 'Glacier Viewing' },
-            { id: 'd4', label: 'Day 4 · Thu Jun 18', date: 'Thu Jun 18', sub: 'Skagway' },
-            { id: 'd5', label: 'Day 5 · Fri Jun 19', date: 'Fri Jun 19', sub: 'Juneau' },
-            { id: 'd6', label: 'Day 6 · Sat Jun 20', date: 'Sat Jun 20', sub: 'Ketchikan' },
-            { id: 'd7', label: 'Day 7 · Sun Jun 21', date: 'Sun Jun 21', sub: 'At Sea · Last Night' },
-            { id: 'd8', label: 'Day 8 · Mon Jun 22', date: 'Mon Jun 22', sub: 'Vancouver · Disembarkation' },
+            { id: 'v1', date: 'Thu Jun 11', sub: 'Travel Day · Phoenix → Vancouver' },
+            { id: 'v2', date: 'Fri Jun 12', sub: 'Steveston + Night Market' },
+            { id: 'v3', date: 'Sat Jun 13', sub: 'North Shore Adventure' },
+            { id: 'v4', date: 'Sun Jun 14', sub: 'Stanley Park + Granville Island' },
+            { id: 'd1', date: 'Mon Jun 15', sub: 'Vancouver · Embarkation' },
+            { id: 'd2', date: 'Tue Jun 16', sub: 'At Sea · Inside Passage' },
+            { id: 'd3', date: 'Wed Jun 17', sub: 'Glacier Viewing' },
+            { id: 'd4', date: 'Thu Jun 18', sub: 'Skagway' },
+            { id: 'd5', date: 'Fri Jun 19', sub: 'Juneau' },
+            { id: 'd6', date: 'Sat Jun 20', sub: 'Ketchikan' },
+            { id: 'd7', date: 'Sun Jun 21', sub: 'At Sea · Last Night' },
+            { id: 'd8', date: 'Mon Jun 22', sub: 'Vancouver · Disembarkation' },
         ];
         const cats = [
             { key: 'moment', label: '🌟 Best Moment', placeholder: 'What was the highlight?' },
@@ -6898,7 +6908,7 @@
         const panelsHtml = days.map((day, i) => `
             <div class="mvp-day-panel${i === 0 ? ' active' : ''}" id="mvp-${day.id}">
                 <div class="mvp-panel-header">
-                    <div class="mvp-day-label">${day.label}</div>
+                    <div class="mvp-day-label">Day ${i + 1} · ${day.date}</div>
                     <div class="mvp-day-sub">${day.sub}</div>
                 </div>
                 <div class="mvp-day-body">
@@ -6936,27 +6946,46 @@
             localStorage.setItem(KEY, JSON.stringify(state));
         };
 
-        // Mirror the cruise itinerary's date-window so "today" lines up with the same calendar day
-        if (typeof getTodayDayId === 'function' && typeof markTodayTab === 'function') {
-            const mvpToday = getTodayDayId('mvp', '2026-06-15', 8);
+        // Find "today" across the full 12-day window (Jun 11-22). Unlike getTodayDayId
+        // (which assumes uniform 'prefix-d{n}' ids), MVP mixes 'v1'-'v4' and 'd1'-'d8'
+        // ids — so map the day-of-trip number to the matching entry in `days` directly.
+        if (typeof markTodayTab === 'function') {
+            let mvpToday = null;
+            const mvpStart = new Date('2026-06-11T00:00:00');
+            const mvpEnd = new Date('2026-06-11T00:00:00');
+            mvpEnd.setDate(mvpEnd.getDate() + days.length - 1);
+            mvpEnd.setHours(23, 59, 59, 999);
+            const now = new Date();
+            if (now >= mvpStart && now <= mvpEnd) {
+                const diff = Math.floor((now - mvpStart) / 86400000) + 1;
+                const clamped = Math.min(days.length, Math.max(1, diff));
+                mvpToday = 'mvp-' + days[clamped - 1].id;
+            }
             if (mvpToday && document.getElementById(mvpToday)) switchMvpDay(mvpToday);
             markTodayTab('mvp-day-tab', 'mvp-jump-today', mvpToday, switchMvpDay);
         }
 
         // Swipe between days (panels are rendered fresh here, so wire it up post-render)
-        if (typeof enableDaySwipe === 'function') enableDaySwipe('.mvp-day-panel', 'mvp', 8, switchMvpDay);
+        if (typeof enableDaySwipe === 'function') enableDaySwipe('.mvp-day-panel', switchMvpDay);
     })();
 
     // Trip Keepsake
+    // Mirrors the Daily MVP's 12-day window (Jun 11-22): 'v1'-'v4' are the new Vancouver
+    // pre-cruise days, 'd1'-'d8' are the original cruise days (ids unchanged so existing
+    // ak26-mvp entries keep lining up; only the display "Day N" numbering shifts to fit).
     const KEEPSAKE_DAYS = [
-        { id: 'd1', label: 'Day 1', date: 'Jun 15' },
-        { id: 'd2', label: 'Day 2', date: 'Jun 16' },
-        { id: 'd3', label: 'Day 3', date: 'Jun 17' },
-        { id: 'd4', label: 'Day 4', date: 'Jun 18' },
-        { id: 'd5', label: 'Day 5', date: 'Jun 19' },
-        { id: 'd6', label: 'Day 6', date: 'Jun 20' },
-        { id: 'd7', label: 'Day 7', date: 'Jun 21' },
-        { id: 'd8', label: 'Day 8', date: 'Jun 22' },
+        { id: 'v1', label: 'Day 1', date: 'Jun 11' },
+        { id: 'v2', label: 'Day 2', date: 'Jun 12' },
+        { id: 'v3', label: 'Day 3', date: 'Jun 13' },
+        { id: 'v4', label: 'Day 4', date: 'Jun 14' },
+        { id: 'd1', label: 'Day 5', date: 'Jun 15' },
+        { id: 'd2', label: 'Day 6', date: 'Jun 16' },
+        { id: 'd3', label: 'Day 7', date: 'Jun 17' },
+        { id: 'd4', label: 'Day 8', date: 'Jun 18' },
+        { id: 'd5', label: 'Day 9', date: 'Jun 19' },
+        { id: 'd6', label: 'Day 10', date: 'Jun 20' },
+        { id: 'd7', label: 'Day 11', date: 'Jun 21' },
+        { id: 'd8', label: 'Day 12', date: 'Jun 22' },
     ];
 
     function renderKeepsake() {
