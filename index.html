@@ -1080,6 +1080,48 @@
         }
         .poster-ship-banner span { color: var(--gold-light); opacity: 1; }
 
+        /* ---- TODAY AT A GLANCE (live, only shown during the trip) ---- */
+        .poster-glance-card {
+            display: none;
+            position: relative;
+            background: var(--cream);
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            margin: 1.4rem 1rem 0;
+            padding: 1.15rem 1.3rem 1.25rem;
+            text-align: center;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .poster-glance-card.is-visible { display: block; }
+        .poster-glance-card::before, .poster-glance-card::after {
+            content: ''; position: absolute; left: 14px; right: 14px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .poster-glance-card::before { top: 6px; }
+        .poster-glance-card::after { bottom: 6px; }
+        .poster-glance-eyebrow {
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.55rem; font-weight: 600;
+            letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 9px;
+        }
+        .poster-glance-day {
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.62rem; font-weight: 600;
+            letter-spacing: 0.14em; text-transform: uppercase; color: var(--rust); margin-bottom: 4px;
+        }
+        .poster-glance-title {
+            font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700;
+            font-size: 1.35rem; color: var(--navy); line-height: 1.2; margin-bottom: 4px;
+        }
+        .poster-glance-sub {
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.7rem; color: var(--muted);
+            letter-spacing: 0.02em; line-height: 1.45;
+        }
+        .poster-glance-cta {
+            display: inline-block; margin-top: 12px;
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold);
+        }
+
         /* ---- SECTION CARDS GRID ---- */
         .poster-grid-wrap { background: var(--parchment); padding: 2rem 1rem 7rem; }
         .poster-grid-header {
@@ -1240,6 +1282,15 @@
 
         <!-- ============ SHIP BANNER ============ -->
         <div class="poster-ship-banner">Disney Wonder · <span>June 15–22</span> · Inside Passage · Stateroom <span>6536</span></div>
+
+        <!-- ============ TODAY AT A GLANCE (live during the trip) ============ -->
+        <div class="poster-glance-card" id="poster-glance-card">
+            <div class="poster-glance-eyebrow">✦ Today at a Glance ✦</div>
+            <div class="poster-glance-day" id="poster-glance-day"></div>
+            <div class="poster-glance-title" id="poster-glance-title"></div>
+            <div class="poster-glance-sub" id="poster-glance-sub"></div>
+            <div class="poster-glance-cta">View full day →</div>
+        </div>
 
         <!-- ============ SECTION CARDS GRID ============ -->
         <div class="poster-grid-wrap">
@@ -3818,6 +3869,60 @@
 
     markTodayTab('van-day-tab', 'van-jump-today', _vanTodayId, switchVanDay);
     markTodayTab('cruise-day-tab', 'cruise-jump-today', _cruiseTodayId, switchCruiseDay);
+
+    // "Today at a Glance" — surfaces a live highlight of today's plans on the
+    // poster home, pulled straight from the matching Vancouver/Cruise day panel
+    // so the content stays single-sourced. Hidden entirely outside trip dates.
+    function renderTodayGlance() {
+        const card = document.getElementById('poster-glance-card');
+        if (!card) return;
+        const dayEl = document.getElementById('poster-glance-day');
+        const titleEl = document.getElementById('poster-glance-title');
+        const subEl = document.getElementById('poster-glance-sub');
+
+        let phase = null, dayId = null;
+        if (_vanTodayId) { phase = 'van'; dayId = _vanTodayId; }
+        else if (_cruiseTodayId) { phase = 'cruise'; dayId = _cruiseTodayId; }
+
+        if (!phase) {
+            card.classList.remove('is-visible');
+            card.onclick = null;
+            return;
+        }
+
+        const panel = document.getElementById(dayId);
+        let dayLine = '', title = '', sub = '';
+
+        if (phase === 'van') {
+            const n = dayId.replace('van-d', '');
+            const labelEl = panel && panel.querySelector('.day-label');
+            const titleSrc = panel && panel.querySelector('.day-title');
+            dayLine = 'Vancouver · Day ' + n + ' of 4';
+            title = titleSrc ? titleSrc.textContent : 'Pre-Cruise';
+            sub = labelEl ? labelEl.textContent : '';
+            card.onclick = function() {
+                goToPhase('ortiz');
+                setTimeout(function() { switchVanDay(dayId); }, 60);
+            };
+        } else {
+            const n = dayId.replace('cruise-d', '');
+            const nameEl = panel && panel.querySelector('.port-name');
+            const taglineEl = panel && panel.querySelector('.port-tagline');
+            dayLine = 'Aboard the Wonder · Day ' + n + ' of 8';
+            title = nameEl ? nameEl.textContent : 'At Sea';
+            sub = taglineEl ? taglineEl.textContent : '';
+            card.onclick = function() {
+                goToPhase('plans');
+                setTimeout(function() { switchCruiseDay(dayId); }, 60);
+            };
+        }
+
+        if (dayEl) dayEl.textContent = dayLine;
+        if (titleEl) titleEl.textContent = title;
+        if (subEl) subEl.textContent = sub;
+        card.classList.add('is-visible');
+    }
+    renderTodayGlance();
 
     // Modal
     function openModal(id) {
