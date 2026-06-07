@@ -900,6 +900,39 @@
 .mvp-input { width: 100%; background: var(--cream); border: 1.5px solid #dde8e2; border-radius: 8px; padding: 8px 10px; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text-dark); outline: none; resize: none; }
 .mvp-input:focus { border-color: var(--glacier); }
 
+/* MVP — sticky day-tab navigation (mirrors Vancouver/Cruise day-tab pattern) */
+.mvp-day-tabs {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; gap: 4px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; -ms-overflow-style: none;
+    background: var(--forest-dark);
+    margin: 0 -16px 16px; padding: 10px 16px;
+}
+.mvp-day-tabs::-webkit-scrollbar { display: none; }
+.mvp-day-tab {
+    flex: 0 0 auto;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 7px 14px 6px;
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+    border-bottom: 2px solid transparent;
+    color: rgba(255,255,255,.45);
+    transition: color .2s ease, border-color .2s ease;
+}
+.mvp-day-tab .mvp-day-num {
+    font-family: 'Playfair Display', serif; font-weight: 700;
+    font-size: 1rem; line-height: 1; color: inherit;
+}
+.mvp-day-tab .mvp-day-date {
+    font-family: 'Inter', sans-serif; font-size: .5rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .12em;
+    margin-top: 4px; color: inherit; opacity: .85;
+}
+.mvp-day-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.mvp-day-panel { display: none; background: var(--snow); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 10px; }
+.mvp-day-panel.active { display: block; }
+.mvp-panel-header { padding: 14px 16px; border-bottom: 1px solid #eef2ee; }
+
 /* ── DINING ROTATION ── */
 .dining-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eef2ee; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity .12s; }
 .dining-row:last-child { border-bottom: none; }
@@ -6670,14 +6703,14 @@
         const KEY = 'ak26-mvp';
         const state = JSON.parse(localStorage.getItem(KEY) || '{}');
         const days = [
-            { id: 'd1', label: 'Day 1 · Mon Jun 15', sub: 'Vancouver · Embarkation' },
-            { id: 'd2', label: 'Day 2 · Tue Jun 16', sub: 'At Sea · Inside Passage' },
-            { id: 'd3', label: 'Day 3 · Wed Jun 17', sub: 'Glacier Viewing' },
-            { id: 'd4', label: 'Day 4 · Thu Jun 18', sub: 'Skagway' },
-            { id: 'd5', label: 'Day 5 · Fri Jun 19', sub: 'Juneau' },
-            { id: 'd6', label: 'Day 6 · Sat Jun 20', sub: 'Ketchikan' },
-            { id: 'd7', label: 'Day 7 · Sun Jun 21', sub: 'At Sea · Last Night' },
-            { id: 'd8', label: 'Day 8 · Mon Jun 22', sub: 'Vancouver · Disembarkation' },
+            { id: 'd1', label: 'Day 1 · Mon Jun 15', date: 'Mon Jun 15', sub: 'Vancouver · Embarkation' },
+            { id: 'd2', label: 'Day 2 · Tue Jun 16', date: 'Tue Jun 16', sub: 'At Sea · Inside Passage' },
+            { id: 'd3', label: 'Day 3 · Wed Jun 17', date: 'Wed Jun 17', sub: 'Glacier Viewing' },
+            { id: 'd4', label: 'Day 4 · Thu Jun 18', date: 'Thu Jun 18', sub: 'Skagway' },
+            { id: 'd5', label: 'Day 5 · Fri Jun 19', date: 'Fri Jun 19', sub: 'Juneau' },
+            { id: 'd6', label: 'Day 6 · Sat Jun 20', date: 'Sat Jun 20', sub: 'Ketchikan' },
+            { id: 'd7', label: 'Day 7 · Sun Jun 21', date: 'Sun Jun 21', sub: 'At Sea · Last Night' },
+            { id: 'd8', label: 'Day 8 · Mon Jun 22', date: 'Mon Jun 22', sub: 'Vancouver · Disembarkation' },
         ];
         const cats = [
             { key: 'moment', label: '🌟 Best Moment', placeholder: 'What was the highlight?' },
@@ -6686,22 +6719,46 @@
         ];
         const list = document.getElementById('mvp-list');
         if (!list) return;
-        list.innerHTML = days.map(day => `
-            <div class="mvp-day">
-                <div class="mvp-day-header acc-trigger" onclick="toggleAcc(this)">
-                    <div><div class="mvp-day-label">${day.label}</div><div class="mvp-day-sub">${day.sub}</div></div>
-                    <span class="acc-chevron"></span>
+
+        const tabsHtml = `<div class="mvp-day-tabs">${days.map((day, i) => `
+            <div class="mvp-day-tab${i === 0 ? ' active' : ''}" data-day="mvp-${day.id}" onclick="switchMvpDay('mvp-${day.id}')">
+                <div class="mvp-day-num">Day ${i + 1}</div>
+                <div class="mvp-day-date">${day.date}</div>
+            </div>`).join('')}</div>`;
+
+        const panelsHtml = days.map((day, i) => `
+            <div class="mvp-day-panel${i === 0 ? ' active' : ''}" id="mvp-${day.id}">
+                <div class="mvp-panel-header">
+                    <div class="mvp-day-label">${day.label}</div>
+                    <div class="mvp-day-sub">${day.sub}</div>
                 </div>
-                <div class="acc-body collapsed">
-                    <div class="mvp-day-body">
-                        ${cats.map(cat => `
-                        <div class="mvp-row">
-                            <div class="mvp-row-label">${cat.label}</div>
-                            <textarea class="mvp-input" rows="2" placeholder="${cat.placeholder}" data-day="${day.id}" data-cat="${cat.key}" oninput="saveMvp(this)">${(state[day.id] && state[day.id][cat.key]) || ''}</textarea>
-                        </div>`).join('')}
-                    </div>
+                <div class="mvp-day-body">
+                    ${cats.map(cat => `
+                    <div class="mvp-row">
+                        <div class="mvp-row-label">${cat.label}</div>
+                        <textarea class="mvp-input" rows="2" placeholder="${cat.placeholder}" data-day="${day.id}" data-cat="${cat.key}" oninput="saveMvp(this)">${(state[day.id] && state[day.id][cat.key]) || ''}</textarea>
+                    </div>`).join('')}
                 </div>
             </div>`).join('');
+
+        list.innerHTML = `<div class="day-tab-bar-row" style="margin:0 0 10px;justify-content:flex-end;">
+                <button class="jump-today-btn" id="mvp-jump-today" type="button">📍 Jump to Today</button>
+            </div>${tabsHtml}${panelsHtml}`;
+
+        window.switchMvpDay = function(dayId) {
+            document.querySelectorAll('.mvp-day-panel').forEach(p => {
+                p.classList.toggle('active', p.id === dayId);
+            });
+            let activeTab = null;
+            document.querySelectorAll('.mvp-day-tab').forEach(t => {
+                const isActive = t.dataset.day === dayId;
+                t.classList.toggle('active', isActive);
+                if (isActive) activeTab = t;
+            });
+            if (activeTab) {
+                activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+        };
 
         window.saveMvp = function(el) {
             const { day, cat } = el.dataset;
@@ -6709,6 +6766,13 @@
             state[day][cat] = el.value;
             localStorage.setItem(KEY, JSON.stringify(state));
         };
+
+        // Mirror the cruise itinerary's date-window so "today" lines up with the same calendar day
+        if (typeof getTodayDayId === 'function' && typeof markTodayTab === 'function') {
+            const mvpToday = getTodayDayId('mvp', '2026-06-15', 8);
+            if (mvpToday && document.getElementById(mvpToday)) switchMvpDay(mvpToday);
+            markTodayTab('mvp-day-tab', 'mvp-jump-today', mvpToday, switchMvpDay);
+        }
     })();
 
     // Trip Keepsake
