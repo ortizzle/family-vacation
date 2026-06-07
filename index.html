@@ -15,6 +15,7 @@
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { overflow-x: hidden; }
@@ -823,6 +824,180 @@
 .menu-tag.alaska { background: #e8f0e8; color: #1a4731; }
 .menu-tag.special { background: #fef3c7; color: #92400e; }
 
+        /* ====================================================================
+           VINTAGE EXPEDITION POSTER — Home section only
+           Scoped custom properties (avoids colliding with global --gold/--cream)
+        ==================================================================== */
+        #section-home {
+            --parchment: #f2ead8;
+            --parchment-dark: #e8dcc4;
+            --gold: #c8922a;
+            --gold-light: #e4b84a;
+            --rust: #8b3a1a;
+            --cream: #faf6ed;
+            --navy: #1a2744;
+            --muted: #7a6a52;
+            --ink: #1a1a0e;
+            padding: 0 !important;
+        }
+
+        /* Hide the shared header + countdown banner while Home is active —
+           the poster hero below replaces them entirely for this section. */
+        body:has(#section-home.active) > .app-header,
+        body:has(#section-home.active) > .countdown-banner {
+            display: none;
+        }
+
+        @keyframes posterFadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---- HERO ---- */
+        .poster-hero {
+            position: relative;
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem 6rem;
+            background: var(--forest-dark, #1e3d2c);
+            overflow: hidden;
+            text-align: center;
+        }
+        .poster-mountains { position: absolute; bottom: 0; left: 0; width: 100%; height: 38%; }
+        .poster-frame { position: absolute; inset: 16px; border: 1.5px solid rgba(200,146,42,0.35); pointer-events: none; }
+        .poster-frame-inner { position: absolute; inset: 21px; border: 0.5px solid rgba(200,146,42,0.18); pointer-events: none; }
+        .poster-corner { position: absolute; width: 28px; height: 28px; border: 2px solid var(--gold); pointer-events: none; }
+        .poster-corner.tl { top: 16px; left: 16px; border-right: none; border-bottom: none; }
+        .poster-corner.tr { top: 16px; right: 16px; border-left: none; border-bottom: none; }
+        .poster-corner.bl { bottom: 16px; left: 16px; border-right: none; border-top: none; }
+        .poster-corner.br { bottom: 16px; right: 16px; border-left: none; border-top: none; }
+        .poster-glow {
+            position: absolute; top: 30%; left: 50%; transform: translate(-50%,-50%);
+            width: 320px; height: 320px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(200,146,42,0.18) 0%, rgba(200,146,42,0) 70%);
+            pointer-events: none;
+        }
+        .poster-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+        .poster-content > * { opacity: 0; animation: posterFadeUp 1s ease forwards; }
+        .poster-eyebrow {
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.65rem; font-weight: 700;
+            letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold-light);
+            animation-delay: 0s;
+        }
+        .poster-divider { display: flex; align-items: center; gap: 12px; margin: 14px 0; color: var(--gold); font-size: 0.8rem; animation-delay: 0.1s; }
+        .poster-divider span { display: inline-block; width: 36px; height: 1px; background: rgba(200,146,42,0.5); }
+        .poster-divider-text { font-family: 'Josefin Sans', sans-serif; font-size: 0.72rem; letter-spacing: 0.18em; color: var(--gold); }
+        .poster-divider-text span { width: 24px; }
+        .poster-divider-text em { font-style: normal; }
+        .poster-title {
+            font-family: 'Playfair Display', serif; font-weight: 900;
+            font-size: clamp(3rem, 11vw, 5.5rem); line-height: 1.05;
+            color: var(--parchment); animation-delay: 0.15s;
+        }
+        .poster-title em { font-style: italic; color: var(--gold-light); }
+        .poster-year {
+            font-family: 'Josefin Sans', sans-serif; font-weight: 300; font-size: 1rem;
+            letter-spacing: 0.5em; color: var(--parchment); opacity: .55 !important;
+            margin-top: 10px; animation-delay: 0.2s;
+        }
+        .poster-divider.poster-divider-text { animation-delay: 0.3s; }
+        .poster-countdown {
+            display: flex; gap: 10px; margin-top: 22px; animation-delay: 0.4s;
+        }
+        .poster-cd-cell {
+            background: rgba(242,234,216,0.07); border: 1px solid rgba(200,146,42,0.4);
+            border-radius: 4px; padding: 12px 16px; min-width: 84px;
+        }
+        .poster-cd-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+        .poster-cd-label {
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.52rem; text-transform: uppercase;
+            letter-spacing: 0.14em; color: var(--parchment); opacity: .65; margin-top: 6px; line-height: 1.4;
+        }
+
+        /* ---- CREW STRIP ---- */
+        .poster-crew-strip {
+            background: #1e3d2c; padding: 1.25rem; text-align: center;
+            opacity: 0; animation: posterFadeUp 1s ease forwards; animation-delay: 0.5s;
+        }
+        .poster-crew-label {
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.55rem; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); opacity: .7;
+            margin-bottom: 16px;
+        }
+        .poster-crew-row { display: flex; justify-content: space-around; gap: 8px; }
+        .poster-crew-entry { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+        .poster-crew-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+        .poster-crew-name { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1rem; color: var(--parchment); }
+        .poster-crew-count { font-family: 'Josefin Sans', sans-serif; font-size: 0.6rem; color: var(--parchment); opacity: .55; }
+
+        /* ---- SHIP BANNER ---- */
+        .poster-ship-banner {
+            background: var(--navy); color: var(--parchment); text-align: center;
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.58rem; letter-spacing: 0.18em;
+            text-transform: uppercase; padding: 0.85rem 1rem; opacity: .85;
+        }
+        .poster-ship-banner span { color: var(--gold-light); opacity: 1; }
+
+        /* ---- SECTION CARDS GRID ---- */
+        .poster-grid-wrap { background: var(--parchment); padding: 2rem 1rem 7rem; }
+        .poster-grid-header {
+            display: flex; align-items: center; justify-content: center; gap: 14px;
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.58rem; font-weight: 600;
+            letter-spacing: 0.22em; text-transform: uppercase; color: var(--rust);
+            max-width: 540px; margin: 0 auto 16px;
+        }
+        .poster-grid-header span { display: inline-block; height: 1px; width: 60px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+        .poster-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+            max-width: 540px; margin: 0 auto;
+        }
+        .poster-card {
+            grid-column: span 1;
+            position: relative;
+            background: var(--cream);
+            border: 1px solid rgba(26,26,14,0.1);
+            border-radius: 3px;
+            padding: 1.1rem 0.9rem;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            overflow: hidden;
+        }
+        .poster-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--gold); transform: scaleX(0); transform-origin: left;
+            transition: transform .25s ease;
+        }
+        .poster-card:hover::before, .poster-card:active::before { transform: scaleX(1); }
+        .poster-card-icon { font-size: 1.6rem; display: block; margin-bottom: 8px; }
+        .poster-card-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: var(--forest-dark); line-height: 1.25; }
+        .poster-card-subtitle {
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.58rem; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--muted); margin-top: 4px;
+        }
+        .poster-card.wide {
+            grid-column: span 2;
+            display: flex; align-items: center; gap: 14px;
+        }
+        .poster-card.wide .poster-card-icon { margin-bottom: 0; font-size: 1.8rem; }
+        .poster-card.wide .poster-card-text { flex: 1; }
+        .poster-card.wide .poster-card-arrow { font-size: 1.1rem; color: var(--gold); flex-shrink: 0; }
+
+        /* ---- BOTTOM NAV restyle (poster look — global chrome) ---- */
+        .bottom-nav { background: var(--ink, #1a1a0e) !important; border-top: 1px solid rgba(200,146,42,0.3) !important; }
+        .nav-item { position: relative; color: rgba(242,234,216,0.4) !important; }
+        .nav-item.active { color: var(--gold-light, #e4b84a) !important; }
+        .nav-item.active::before {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 28px; height: 2px; background: var(--gold, #c8922a);
+        }
+        .nav-label {
+            font-family: 'Josefin Sans', sans-serif !important; font-size: 0.48rem !important;
+            font-weight: 700 !important; text-transform: uppercase; letter-spacing: 0.12em;
+        }
+
     </style>
 </head>
 <body>
@@ -864,121 +1039,137 @@
     <!-- ==================== HOME ==================== -->
     <section id="section-home" class="section active">
 
-        <!-- Trip: two phase cards -->
-        <div style="display:flex;flex-direction:column;gap:0;">
+        <!-- ============ HERO ============ -->
+        <div class="poster-hero">
+            <svg class="poster-mountains" viewBox="0 0 430 160" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,160 L0,98 L48,58 L96,86 L150,40 L210,78 L270,34 L330,72 L390,48 L430,66 L430,160 Z" fill="var(--parchment)" opacity="0.18"/>
+                <path d="M0,160 L0,118 L60,84 L120,104 L185,66 L245,98 L305,60 L370,92 L430,78 L430,160 Z" fill="var(--parchment)" opacity="0.18"/>
+                <path d="M0,160 L0,134 L70,112 L140,128 L205,100 L275,124 L345,104 L430,118 L430,160 Z" fill="var(--parchment)" opacity="0.18"/>
+            </svg>
+            <div class="poster-frame"></div>
+            <div class="poster-frame-inner"></div>
+            <span class="poster-corner tl"></span>
+            <span class="poster-corner tr"></span>
+            <span class="poster-corner bl"></span>
+            <span class="poster-corner br"></span>
+            <div class="poster-glow"></div>
 
-            <!-- Vancouver Pre-Cruise -->
-            <div class="card" style="background:linear-gradient(135deg,#1a3a50 0%,#1e6b8a 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="goToPhase('ortiz')">
-                <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Pre-Cruise · Jun 11–15</div>
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                    <span style="font-size:28px;">🏙️</span>
-                    <div>
-                        <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Vancouver</div>
-                        <div style="font-size:12px;opacity:.65;">British Columbia · River Rock Hotel</div>
+            <div class="poster-content">
+                <div class="poster-eyebrow">A Family Expedition</div>
+                <div class="poster-divider"><span></span>✦<span></span></div>
+                <h1 class="poster-title"><em>Alaska</em><br>Adventure</h1>
+                <div class="poster-year">2 0 2 6</div>
+                <div class="poster-divider poster-divider-text"><span></span><em>ORTIZ · STALLINGS · SIMMONS</em><span></span></div>
+                <div class="poster-countdown">
+                    <div class="poster-cd-cell">
+                        <div class="poster-cd-num" id="posterDaysVancouver">—</div>
+                        <div class="poster-cd-label">Days to<br>Vancouver</div>
+                    </div>
+                    <div class="poster-cd-cell">
+                        <div class="poster-cd-num" id="posterDaysBoarding">—</div>
+                        <div class="poster-cd-label">Days to<br>Boarding</div>
+                    </div>
+                    <div class="poster-cd-cell">
+                        <div class="poster-cd-num">7</div>
+                        <div class="poster-cd-label">Nights<br>at Sea</div>
                     </div>
                 </div>
-                <div style="font-size:12px;opacity:.7;margin-bottom:10px;">4 days · FIFA World Cup · Capilano Bridge · Stanley Park</div>
-                <div style="font-size:12px;opacity:.55;">Day-by-day · Transit guide · Canadian tips →</div>
             </div>
+        </div>
 
-            <!-- Alaska Sailing -->
-            <div class="card" style="background:linear-gradient(135deg,#071524 0%,#0d1f3c 60%,#102548 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="goToPhase('plans')">
-                <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Alaska Cruise · Jun 15–22</div>
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                    <span style="font-size:28px;">🛳️</span>
-                    <div>
-                        <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Alaska Sailing</div>
-                        <div style="font-size:12px;opacity:.65;">Disney Wonder · Inside Passage</div>
+        <!-- ============ CREW STRIP ============ -->
+        <div class="poster-crew-strip">
+            <div class="poster-crew-label">The Crew — Three Families · One Adventure</div>
+            <div class="poster-crew-row">
+                <div class="poster-crew-entry">
+                    <span class="poster-crew-dot" style="background:#c0392b;"></span>
+                    <div class="poster-crew-name">Ortiz</div>
+                    <div class="poster-crew-count">4 travelers</div>
+                </div>
+                <div class="poster-crew-entry">
+                    <span class="poster-crew-dot" style="background:#27ae60;"></span>
+                    <div class="poster-crew-name">Stallings</div>
+                    <div class="poster-crew-count">Veronica · Joseph + Kids</div>
+                </div>
+                <div class="poster-crew-entry">
+                    <span class="poster-crew-dot" style="background:#d4a017;"></span>
+                    <div class="poster-crew-name">Simmons</div>
+                    <div class="poster-crew-count">Sade · Sean + Kids</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ SHIP BANNER ============ -->
+        <div class="poster-ship-banner">Disney Wonder · <span>June 15–22</span> · Inside Passage · Stateroom <span>6536</span></div>
+
+        <!-- ============ SECTION CARDS GRID ============ -->
+        <div class="poster-grid-wrap">
+            <div class="poster-grid-header"><span></span>Expedition Chapters<span></span></div>
+            <div class="poster-grid">
+
+                <!-- Vancouver -->
+                <div class="poster-card" onclick="goToPhase('ortiz')">
+                    <span class="poster-card-icon">🏙️</span>
+                    <div class="poster-card-title">Vancouver</div>
+                    <div class="poster-card-subtitle">Pre-Cruise · Jun 11–15</div>
+                </div>
+
+                <!-- Alaska Sailing -->
+                <div class="poster-card" onclick="goToPhase('plans')">
+                    <span class="poster-card-icon">🛳️</span>
+                    <div class="poster-card-title">Alaska Sailing</div>
+                    <div class="poster-card-subtitle">Inside Passage · Jun 15–22</div>
+                </div>
+
+                <!-- Disney Wonder -->
+                <div class="poster-card" onclick="showPage('wonder')">
+                    <span class="poster-card-icon">🛳️</span>
+                    <div class="poster-card-title">Disney Wonder</div>
+                    <div class="poster-card-subtitle">Dining · Shows · Kids Clubs</div>
+                </div>
+
+                <!-- Alaska 101 -->
+                <div class="poster-card" onclick="showSection('alaska',document.querySelector('.nav-item[onclick*=alaska]'))">
+                    <span class="poster-card-icon">🦅</span>
+                    <div class="poster-card-title">Alaska 101</div>
+                    <div class="poster-card-subtitle">Wildlife · History · Culture</div>
+                </div>
+
+                <!-- Games -->
+                <div class="poster-card" onclick="showSection('games',document.querySelector('.nav-item[onclick*=games]'))">
+                    <span class="poster-card-icon">🎮</span>
+                    <div class="poster-card-title">Games</div>
+                    <div class="poster-card-subtitle">Bingo · Missions · Trivia</div>
+                </div>
+
+                <!-- Trip Keepsake -->
+                <div class="poster-card" onclick="showPage('keepsake')">
+                    <span class="poster-card-icon">📖</span>
+                    <div class="poster-card-title">Trip Keepsake</div>
+                    <div class="poster-card-subtitle">Memories · Moments</div>
+                </div>
+
+                <!-- FIFA World Cup — wide -->
+                <div class="poster-card wide" onclick="showPage('worldcup')">
+                    <span class="poster-card-icon">⚽</span>
+                    <div class="poster-card-text">
+                        <div class="poster-card-title">FIFA World Cup 2026</div>
+                        <div class="poster-card-subtitle">Vancouver · Jun 13 vs. Türkiye</div>
                     </div>
+                    <span class="poster-card-arrow">→</span>
                 </div>
-                <div style="font-size:12px;opacity:.7;margin-bottom:10px;">7 nights · Skagway · Juneau · Ketchikan · Tracy Arm</div>
-                <div style="font-size:12px;opacity:.55;">Ports · Route · Ship info →</div>
-            </div>
 
-        </div>
-
-        <!-- FIFA — starts June 11, first event of the trip -->
-        <div class="card" style="background:linear-gradient(135deg,#1a4731 0%,#2d6a4f 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showPage('worldcup')">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Happening First · Starts June 11</div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                <span style="font-size:28px;">⚽</span>
-                <div>
-                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">FIFA World Cup 2026</div>
-                    <div style="font-size:12px;opacity:.65;">USA · Canada · Mexico · 48 nations</div>
+                <!-- Emergency Info — wide -->
+                <div class="poster-card wide" onclick="showPage('emergency')">
+                    <span class="poster-card-icon">🆘</span>
+                    <div class="poster-card-text">
+                        <div class="poster-card-title">Emergency Info</div>
+                        <div class="poster-card-subtitle">Stateroom · Medical · Contacts</div>
+                    </div>
+                    <span class="poster-card-arrow">→</span>
                 </div>
-            </div>
-            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Vancouver host city · Attend Jun 13: Australia vs. Türkiye 9pm</div>
-            <div style="font-size:12px;opacity:.55;">Schedule · Fan Festival · BC Place tips →</div>
-        </div>
 
-        <!-- Disney Wonder -->
-        <div class="card" style="background:linear-gradient(135deg,#0d1f35 0%,#1e3f68 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showPage('wonder')">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Your Ship · June 15–22</div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                <span style="font-size:28px;">🛳️</span>
-                <div>
-                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Disney Wonder</div>
-                    <div style="font-size:12px;opacity:.65;">964 ft · 11 decks · ~1,750 guests</div>
-                </div>
             </div>
-            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Alaska itinerary · June 15–22, 2026</div>
-            <div style="font-size:12px;opacity:.55;">Dining · Shows · Kids Clubs · Alaska tips →</div>
-        </div>
-
-        <!-- Alaska 101 -->
-        <div class="card" style="background:linear-gradient(135deg,#062a38 0%,#0f5068 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showSection('alaska',document.querySelector('.nav-item[onclick*=alaska]'))">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Learn Before You Go</div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                <span style="font-size:28px;">🦅</span>
-                <div>
-                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Alaska 101</div>
-                    <div style="font-size:12px;opacity:.65;">Wildlife · Geography · History · Culture</div>
-                </div>
-            </div>
-            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">24 animals · 37+ flashcards · Mad Libs</div>
-            <div style="font-size:12px;opacity:.55;">Spot animals · Study up · Play games →</div>
-        </div>
-
-        <!-- Games -->
-        <div class="card" style="background:linear-gradient(135deg,#1a0a38 0%,#3d1878 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showSection('games',document.querySelector('.nav-item[onclick*=games]'))">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Keep the Fun Going</div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                <span style="font-size:28px;">🎮</span>
-                <div>
-                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Games</div>
-                    <div style="font-size:12px;opacity:.65;">8 games for the whole trip</div>
-                </div>
-            </div>
-            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Photo Bingo · Port Missions · Wildlife tracking</div>
-            <div style="font-size:12px;opacity:.55;">Wilderness + ship boards · Team challenges →</div>
-        </div>
-
-        <!-- Emergency Info -->
-        <div class="card" style="background:linear-gradient(135deg,#3d0a0a 0%,#7a1a1a 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showPage('emergency')">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Quick Reference</div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                <span style="font-size:28px;">🆘</span>
-                <div>
-                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Emergency Info</div>
-                    <div style="font-size:12px;opacity:.65;">Stateroom · Ship · Contacts</div>
-                </div>
-            </div>
-            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Key numbers and info if something goes wrong</div>
-            <div style="font-size:12px;opacity:.55;">Stateroom · Medical · Meeting point →</div>
-        </div>
-
-        <!-- Trip Keepsake -->
-        <div class="card" style="background:linear-gradient(135deg,#2a1a00 0%,#5a3800 100%);color:white;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="showPage('keepsake')">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px;">Memories</div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                <span style="font-size:28px;">📖</span>
-                <div>
-                    <div style="font-family:'Playfair Display',serif;font-size:20px;line-height:1.2;">Trip Keepsake</div>
-                    <div style="font-size:12px;opacity:.65;">Memories · Moments · Milestones</div>
-                </div>
-            </div>
-            <div style="font-size:12px;opacity:.7;margin-bottom:10px;">Wildlife spotted, day-by-day memories, and a note to keep</div>
-            <div style="font-size:12px;opacity:.55;">Tap to open your Alaska scrapbook →</div>
         </div>
 
     </section>
@@ -3066,6 +3257,19 @@
         const dc = Math.max(0, Math.ceil((cruise    - now) / 86400000));
         document.getElementById('daysVancouver').textContent = dv || '🛫';
         document.getElementById('daysCruise').textContent    = dc || '🚢';
+    })();
+
+    // Poster hero countdown (Home redesign — Vancouver arrival & ship boarding)
+    (function() {
+        const now = new Date();
+        const vancouver = new Date('2026-06-11T00:00:00');
+        const boarding  = new Date('2026-06-15T16:00:00');
+        const dv = Math.max(0, Math.ceil((vancouver - now) / 86400000));
+        const db = Math.max(0, Math.ceil((boarding  - now) / 86400000));
+        const pdv = document.getElementById('posterDaysVancouver');
+        const pdb = document.getElementById('posterDaysBoarding');
+        if (pdv) pdv.textContent = dv || '🛫';
+        if (pdb) pdb.textContent = db || '🚢';
     })();
 
     // Navigation
