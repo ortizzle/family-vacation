@@ -3348,7 +3348,8 @@
         <textarea id="keepsake-note" class="mvp-input" style="width:100%;min-height:120px;border-radius:10px;box-sizing:border-box;margin-bottom:16px;" placeholder="Write a message to your future self about this trip…" oninput="saveKeepsakeNote(this)"></textarea>
 
         <!-- Export -->
-        <button id="keepsake-copy-btn" onclick="copyKeepsake()" style="width:100%;background:var(--glacier);color:white;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-bottom:24px;">📋 Copy to Clipboard</button>
+        <button id="keepsake-copy-btn" onclick="copyKeepsake()" style="width:100%;background:var(--glacier);color:white;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-bottom:10px;">📋 Copy to Clipboard</button>
+        <button id="keepsake-postcard-btn" onclick="savePostcard()" style="width:100%;background:var(--gold);color:#1a1a0e;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-bottom:24px;">🖼️ Save as Postcard</button>
     </section>
 
 </main>
@@ -7000,6 +7001,202 @@
         }).catch(() => {
             alert('Could not copy — try selecting and copying the text manually.');
         });
+    };
+
+    // Canvas helper: word-wrap + center multi-line text, returns the y of the
+    // line after the last one drawn (so callers can keep stacking content)
+    function wrapCenteredText(ctx, text, cx, y, maxWidth, lineHeight, maxLines) {
+        const words = text.split(/\s+/);
+        let line = '', lines = [];
+        for (const w of words) {
+            const test = line ? line + ' ' + w : w;
+            if (ctx.measureText(test).width > maxWidth && line) {
+                lines.push(line);
+                line = w;
+            } else {
+                line = test;
+            }
+        }
+        if (line) lines.push(line);
+        if (maxLines && lines.length > maxLines) {
+            lines = lines.slice(0, maxLines);
+            lines[maxLines - 1] = lines[maxLines - 1].replace(/[\s.,;:]+$/, '') + '…';
+        }
+        lines.forEach((l, i) => ctx.fillText(l, cx, y + i * lineHeight));
+        return y + lines.length * lineHeight;
+    }
+
+    // "Save as Postcard" — renders a vintage-poster-style keepsake image on a
+    // <canvas> (echoing the Home poster's parchment/gold/navy palette) and
+    // downloads it as a PNG. A visual companion to "Copy to Clipboard" — same
+    // underlying data (stats, a featured memory, wildlife spotted) presented
+    // as a shareable souvenir image instead of plain text.
+    window.savePostcard = function() {
+        const btn = document.getElementById('keepsake-postcard-btn');
+        const origLabel = btn ? btn.textContent : '';
+        if (btn) { btn.textContent = 'Creating…'; btn.disabled = true; }
+
+        const bingoState = JSON.parse(localStorage.getItem('ak26-bingo') || '{}');
+        const passportState = JSON.parse(localStorage.getItem('ak26-passport') || '{}');
+        const mvpState = JSON.parse(localStorage.getItem('ak26-mvp') || '{}');
+        const note = (localStorage.getItem('ak26-note') || '').trim();
+        const portsCount = Object.values(passportState).filter(Boolean).length;
+        const spotted = Object.keys(ANIMAL_DATA).filter(id => bingoState[id]);
+
+        // Feature the first day with a "best moment" entry; fall back to the note
+        let featured = null;
+        for (const d of KEEPSAKE_DAYS) {
+            const entry = mvpState[d.id];
+            if (entry && entry.moment && entry.moment.trim()) {
+                featured = { kicker: (d.label + ' · ' + d.date).toUpperCase(), text: entry.moment.trim() };
+                break;
+            }
+        }
+        if (!featured && note) featured = { kicker: 'A NOTE TO KEEP', text: note };
+        if (!featured) featured = { kicker: 'BON VOYAGE', text: 'Smooth sailing, northern lights, and glacier views ahead — Inside Passage, here we come.' };
+
+        const finish = (label) => {
+            if (!btn) return;
+            btn.textContent = label;
+            btn.disabled = false;
+            setTimeout(() => { btn.textContent = origLabel; }, 2200);
+        };
+
+        const draw = () => {
+            const W = 1200, H = 1680;
+            const canvas = document.createElement('canvas');
+            canvas.width = W; canvas.height = H;
+            const ctx = canvas.getContext('2d');
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'alphabetic';
+
+            // Parchment background
+            ctx.fillStyle = '#f2ead8';
+            ctx.fillRect(0, 0, W, H);
+
+            // Gold double-frame (echoes .poster-frame / .poster-frame-inner)
+            ctx.strokeStyle = '#c8922a';
+            ctx.lineWidth = 7;
+            ctx.strokeRect(34, 34, W - 68, H - 68);
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = 'rgba(200,146,42,.55)';
+            ctx.strokeRect(54, 54, W - 108, H - 108);
+
+            // Layered mountain silhouette band (echoes .poster-mountains)
+            ctx.fillStyle = '#cfc3a4';
+            ctx.beginPath();
+            ctx.moveTo(54, 420);
+            ctx.lineTo(250, 270); ctx.lineTo(420, 380); ctx.lineTo(620, 230);
+            ctx.lineTo(820, 360); ctx.lineTo(1000, 250); ctx.lineTo(1146, 380);
+            ctx.lineTo(1146, 470); ctx.lineTo(54, 470);
+            ctx.closePath(); ctx.fill();
+            ctx.fillStyle = '#a99c79';
+            ctx.beginPath();
+            ctx.moveTo(54, 470);
+            ctx.lineTo(220, 390); ctx.lineTo(410, 460); ctx.lineTo(630, 360);
+            ctx.lineTo(880, 462); ctx.lineTo(1146, 400);
+            ctx.lineTo(1146, 500); ctx.lineTo(54, 500);
+            ctx.closePath(); ctx.fill();
+
+            // Eyebrow
+            ctx.fillStyle = '#8b3a1a';
+            ctx.font = '600 24px "Josefin Sans", sans-serif';
+            ctx.fillText('A   F A M I L Y   E X P E D I T I O N', W / 2, 190);
+
+            // Title
+            ctx.fillStyle = '#1a2744';
+            ctx.font = 'italic 700 92px "Playfair Display", serif';
+            ctx.fillText('Alaska Adventure', W / 2, 305);
+
+            // Ship + dates
+            ctx.fillStyle = '#8b3a1a';
+            ctx.font = '600 26px "Josefin Sans", sans-serif';
+            ctx.fillText('DISNEY WONDER  ·  JUNE 15–22, 2026', W / 2, 350);
+
+            // ✦ divider
+            ctx.strokeStyle = '#c8922a';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(W / 2 - 150, 530); ctx.lineTo(W / 2 - 26, 530); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(W / 2 + 26, 530); ctx.lineTo(W / 2 + 150, 530); ctx.stroke();
+            ctx.fillStyle = '#c8922a';
+            ctx.font = '26px "Playfair Display", serif';
+            ctx.fillText('✦', W / 2, 539);
+
+            // Stat trio
+            const stats = [
+                { num: String(spotted.length), label: 'WILDLIFE SPOTTED' },
+                { num: portsCount + ' / 5', label: 'PORTS STAMPED' },
+                { num: '~1,400', label: 'MILES SAILED' }
+            ];
+            const colW = (W - 220) / 3;
+            stats.forEach((s, i) => {
+                const cx = 110 + colW * i + colW / 2;
+                ctx.fillStyle = '#1a2744';
+                ctx.font = 'italic 700 58px "Playfair Display", serif';
+                ctx.fillText(s.num, cx, 645);
+                ctx.fillStyle = '#7a6a52';
+                ctx.font = '600 17px "Josefin Sans", sans-serif';
+                ctx.fillText(s.label, cx, 678);
+            });
+
+            // Featured memory / note
+            ctx.strokeStyle = 'rgba(200,146,42,.4)';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(150, 760); ctx.lineTo(W - 150, 760); ctx.stroke();
+
+            ctx.fillStyle = '#8b3a1a';
+            ctx.font = '600 21px "Josefin Sans", sans-serif';
+            ctx.fillText('✦ ' + featured.kicker + ' ✦', W / 2, 818);
+
+            ctx.fillStyle = '#1a2744';
+            ctx.font = 'italic 400 36px "Playfair Display", serif';
+            wrapCenteredText(ctx, '“' + featured.text + '”', W / 2, 880, W - 320, 50, 5);
+
+            ctx.beginPath(); ctx.moveTo(150, 1110); ctx.lineTo(W - 150, 1110); ctx.stroke();
+
+            // Wildlife spotted chips (names only, capped)
+            ctx.fillStyle = '#7a6a52';
+            ctx.font = '600 18px "Josefin Sans", sans-serif';
+            ctx.fillText(spotted.length ? 'SPOTTED ALONG THE WAY' : 'STILL TO SPOT', W / 2, 1162);
+            ctx.fillStyle = '#1a2744';
+            ctx.font = '30px "Playfair Display", serif';
+            const chipText = spotted.length
+                ? spotted.slice(0, 8).map(id => ANIMAL_DATA[id].emoji + ' ' + ANIMAL_DATA[id].name).join('   ·   ')
+                : 'Eagles · Whales · Seals · Bears — adventure awaits 🦅🐋🦭🐻';
+            wrapCenteredText(ctx, chipText, W / 2, 1212, W - 240, 42, 3);
+
+            // Footer — crew + route
+            ctx.fillStyle = '#c8922a';
+            ctx.font = '600 25px "Josefin Sans", sans-serif';
+            ctx.fillText('O R T I Z   ·   S T A L L I N G S   ·   S I M M O N S', W / 2, H - 132);
+
+            ctx.fillStyle = '#1a2744';
+            ctx.font = '19px "Josefin Sans", sans-serif';
+            ctx.fillText('Inside Passage · Vancouver Roundtrip · Our Family Keepsake', W / 2, H - 96);
+
+            canvas.toBlob((blob) => {
+                if (!blob) { finish(origLabel); alert('Could not generate the postcard image — please try again.'); return; }
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'alaska-adventure-postcard.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 4000);
+                finish('Saved! ✓');
+            }, 'image/png');
+        };
+
+        // Make sure the serif/sans webfonts are actually loaded before the canvas
+        // measures & draws text — otherwise the first export can fall back to a
+        // generic serif/sans-serif and look mismatched with the in-app poster.
+        const fontLoads = [
+            '600 24px "Josefin Sans"', 'italic 700 92px "Playfair Display"',
+            'italic 400 36px "Playfair Display"', '30px "Playfair Display"',
+            '26px "Playfair Display"', 'italic 700 58px "Playfair Display"'
+        ].map(f => document.fonts.load(f));
+        Promise.all(fontLoads).then(draw, draw);
     };
 
     // Dining rotation — highlight tonight
