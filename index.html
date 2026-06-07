@@ -1606,16 +1606,18 @@
 <div class="cruise-day-panel active" id="cruise-d1">
 <!-- DAY 1 — Vancouver / Embarkation -->
 <div class="port-card">
-  <div class="port-header port-header-vancouver acc-trigger" onclick="toggleAcc(this)">
-    <div class="port-day-badge">Day 1 · Mon June 15</div>
-    <div class="port-name">Vancouver</div>
-    <div class="port-tagline">Embarkation Day · Disney Wonder</div>
-    <div style="margin-top:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
-      <div style="display:flex;flex-wrap:wrap;gap:5px;"><span class="port-preview-chip">🌡 65–72°F</span><span class="port-preview-chip">⛅ Partly cloudy</span><span class="port-preview-chip">🛳️ Boards 4:00 PM</span><a href="https://www.google.com/search?q=Vancouver+BC+weather" target="_blank" rel="noopener" class="port-preview-chip" style="text-decoration:none;">📡 Forecast</a></div>
-      <span class="acc-chevron"></span>
+  <div class="port-header port-header-vancouver acc-trigger" onclick="toggleAcc(this)" style="padding:14px 18px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+      <div style="min-width:0;">
+        <div class="port-day-badge" style="margin-bottom:5px;">Day 1 · Mon June 15</div>
+        <div class="port-name" style="font-size:21px;margin-bottom:2px;">Vancouver</div>
+        <div class="port-tagline">Embarkation Day · Disney Wonder</div>
+      </div>
+      <span class="acc-chevron open"></span>
     </div>
+    <div style="margin-top:9px;display:flex;flex-wrap:wrap;gap:5px;"><span class="port-preview-chip">🛳️ Boards 4:00 PM</span><span class="port-preview-chip">📍 Canada Place</span><span class="port-preview-chip">🌡 65–72°F</span><span class="port-preview-chip">⛅ Partly cloudy</span><a href="https://www.google.com/search?q=Vancouver+BC+weather" target="_blank" rel="noopener" class="port-preview-chip" style="text-decoration:none;">📡 Forecast</a></div>
   </div>
-  <div class="acc-body port-body collapsed">
+  <div class="acc-body port-body">
     <div class="port-facts">
       <div class="port-fact"><div class="port-fact-label">Terminal</div><div class="port-fact-value">Canada Place</div></div>
       <div class="port-fact" style="cursor:pointer;" onclick="openHighlight('river-rock')"><div class="port-fact-label">Hotel Checkout</div><div class="port-fact-value">11:00 AM · River Rock 🏨 →</div></div>
