@@ -14,7 +14,10 @@ A PWA (Progressive Web App) trip companion for the Ortiz/Stallings/Simmons Alask
 | `index.html` | The entire app (~4700 lines) — all CSS, HTML, and JS in one file |
 | `manifest.json` | PWA manifest — app name, icon, theme color, standalone display |
 | `sw.js` | Service worker — caches all assets + Google Fonts for offline use |
-| `ortiz-crest.png` | App icon (used as PWA touch icon and in splash screen) |
+| `ortiz-crest.png` | Full-size family crest art (recolored navy→forest-green/gold), used in splash screen |
+| `ortiz-crest-192.png` / `ortiz-crest-512.png` | Square PWA manifest icons (any + maskable), generated from the crest |
+| `apple-touch-icon.png` | 180×180 iOS home-screen icon, generated from the crest |
+| `favicon.ico` | Browser tab favicon (16/32/48px), generated from the crest |
 | `flashcard-ideas.md` | Staging file for new Alaska flashcard content |
 
 ## Architecture
@@ -215,7 +218,7 @@ Rendered fresh on every open via `renderKeepsake()`. Pulls from:
 ## PWA / offline
 
 - `manifest.json` — `start_url: /splash.html`, `display: standalone`, Ortiz crest icon
-- `sw.js` — cache name `ak26-v1`, caches all local files + Google Fonts on install. Cache-first strategy for local/font assets; network pass-through for external links (maps, FIFA, etc.)
+- `sw.js` — cache name `ak26-v2`, caches all local files (incl. icon set) + Google Fonts on install. Cache-first strategy for local/font assets; network pass-through for external links (maps, FIFA, etc.). Bump the cache name (`v2` → `v3`...) whenever the asset list changes so clients pick up the update.
 - Both `splash.html` and `index.html` register the service worker and include all Apple PWA meta tags
 
 ## Adding flashcards

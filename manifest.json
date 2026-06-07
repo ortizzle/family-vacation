@@ -9,10 +9,28 @@
   "theme_color": "#1e3d2c",
   "icons": [
     {
-      "src": "ortiz-crest.png",
-      "sizes": "any",
+      "src": "ortiz-crest-192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "ortiz-crest-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "ortiz-crest-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "ortiz-crest-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
