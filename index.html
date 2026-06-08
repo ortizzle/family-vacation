@@ -2236,6 +2236,14 @@
                     <a class="map-link-btn" href="tel:+16046858080">📞 Call</a>
                   </div>
                 </div>
+                <div style="background:#e6f6f6;border:1px solid rgba(26,93,110,0.3);border-radius:12px;padding:12px 14px;margin:0 0 14px;">
+                  <div style="font-size:11px;font-weight:700;color:#1a5d6e;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px;">🏮 Richmond Night Market · 💡 Recommended</div>
+                  <div style="font-size:14px;font-weight:700;color:#222;margin-bottom:2px;">Open tonight (and through the weekend)</div>
+                  <div style="font-size:12px;color:#555;line-height:1.6;">7 PM – midnight · 8351 River Road, Richmond — just 5 min from River Rock. Not booked, but an easy walk-up after dinner; runs Fri–Sun so there's flexibility on which night to go.</div>
+                  <div class="map-link-row">
+                    <a class="map-link-btn" href="https://maps.google.com/?q=Richmond+Night+Market+8351+River+Road" target="_blank" rel="noopener">📍 Map</a>
+                  </div>
+                </div>
                 <div class="highlight-grid">
                   <div class="highlight-item" onclick="openHighlight('van-steveston')">
                     <span class="highlight-icon">🎣</span>Steveston Village
@@ -2368,6 +2376,14 @@
                   <a href="https://www.google.com/search?q=Vancouver+BC+weather" target="_blank" rel="noopener" style="background:#d4edda;color:#155724;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;text-decoration:none;">📡 Live forecast →</a>
                 </div>
                 <p style="font-size:13px;color:var(--text-mid);margin:0 0 12px;line-height:1.5;">Last full day — city exploration before tomorrow's big boarding.</p>
+                <div style="background:#eef6ec;border:1px solid rgba(30,61,44,0.25);border-radius:12px;padding:12px 14px;margin:0 0 14px;">
+                  <div style="font-size:11px;font-weight:700;color:#1e3d2c;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px;">🌳 Stanley Park · 💡 Recommended</div>
+                  <div style="font-size:14px;font-weight:700;color:#222;margin-bottom:2px;">Seawall walk + totem poles at Brockton Point</div>
+                  <div style="font-size:12px;color:#555;line-height:1.6;">~30 min via Canada Line to Burrard, then a short walk or rideshare into the park. Not booked — a flexible morning add before Granville Island lunch; the totem poles are a nice preview of what you'll see in Ketchikan.</div>
+                  <div class="map-link-row">
+                    <a class="map-link-btn" href="https://maps.google.com/?q=Stanley+Park+Vancouver" target="_blank" rel="noopener">📍 Map</a>
+                  </div>
+                </div>
                 <div class="highlight-grid">
                   <div class="highlight-item" onclick="openHighlight('van-stanley')">
                     <span class="highlight-icon">🌳</span>Stanley Park
@@ -2572,14 +2588,6 @@
                 <div class="gpc" onclick="openGame('wyr')"><div class="gpc-emoji">🤷</div><div class="gpc-title">Would You Rather</div><div class="gpc-desc">Alaska dilemmas</div></div>
                 <div class="gpc" onclick="openGame('disneytrivia')" style="border-color:var(--gold);background:linear-gradient(135deg,#fffbf0,#fff9e6);grid-column:span 2;display:flex;flex-direction:row;align-items:center;gap:14px;text-align:left;padding:16px 18px;"><div style="font-size:36px;flex-shrink:0;">🏰</div><div><div class="gpc-title" style="font-size:14px;">Disney Trivia</div><div class="gpc-desc">Cruise life · Characters · Parks · Songs — 50 questions across 4 categories</div></div></div>
             </div>
-        </div>
-
-        <div id="mvp-section">
-        <div class="section-header" style="margin-top:20px;">Daily MVP 🏆</div>
-        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;margin-top:-8px;">End-of-day awards · tap a day to fill in</div>
-        <div id="mvp-list">
-          <!-- JS renders these -->
-        </div>
         </div>
 
         <!-- PHOTO BINGO -->
@@ -3264,6 +3272,15 @@
             </div>
         </div>
 
+        <!-- Daily MVP — journal entries that feed Day-by-Day Memories below -->
+        <div id="mvp-section">
+        <div class="section-header" style="margin-top:8px;">Daily MVP 🏆</div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;margin-top:-8px;">End-of-day awards · tap a day to fill in · feeds your memories below</div>
+        <div id="mvp-list">
+          <!-- JS renders these -->
+        </div>
+        </div>
+
         <!-- Day-by-Day Memories -->
         <div class="section-header">Day-by-Day Memories</div>
         <div id="keepsake-memories" style="margin-bottom:20px;"></div>
@@ -3275,6 +3292,17 @@
         <!-- A Note to Keep -->
         <div class="section-header">A Note to Keep</div>
         <textarea id="keepsake-note" class="mvp-input" style="width:100%;min-height:120px;border-radius:10px;box-sizing:border-box;margin-bottom:16px;" placeholder="Write a message to your future self about this trip…" oninput="saveKeepsakeNote(this)"></textarea>
+
+        <!-- Build a Postcard -->
+        <div class="section-header" style="margin-top:8px;">Build a Postcard 💌</div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:10px;margin-top:-8px;">Pick a style, write a note, and preview it before you save</div>
+        <div id="postcard-type-picker" style="display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;margin-bottom:12px;">
+            <!-- JS renders postcard type chips -->
+        </div>
+        <textarea id="postcard-note" class="mvp-input" style="width:100%;min-height:84px;border-radius:10px;box-sizing:border-box;margin-bottom:12px;" oninput="savePostcardNote(this)"></textarea>
+        <div id="postcard-preview" style="margin-bottom:20px;">
+            <!-- JS renders live postcard preview -->
+        </div>
 
         <!-- Export -->
         <button id="keepsake-copy-btn" onclick="copyKeepsake()" style="width:100%;background:var(--glacier);color:white;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-bottom:10px;">📋 Copy to Clipboard</button>
@@ -5591,7 +5619,6 @@
 
     function openGame(name) {
         document.getElementById('games-picker').style.display = 'none';
-        document.getElementById('mvp-section').style.display = 'none';
         document.querySelectorAll('.game-fullview').forEach(v => v.classList.remove('active'));
         document.getElementById('gameview-' + name).classList.add('active');
         window.scrollTo(0, 0);
@@ -5606,7 +5633,6 @@
     function closeGame() {
         document.querySelectorAll('.game-fullview').forEach(v => v.classList.remove('active'));
         document.getElementById('games-picker').style.display = '';
-        document.getElementById('mvp-section').style.display = '';
         window.scrollTo(0, 0);
     }
 
@@ -6885,6 +6911,83 @@
         { id: 'd8', label: 'Day 12', date: 'Jun 22' },
     ];
 
+    // Postcard styles — vary by tone/kicker, accent color, note placeholder, and
+    // whether the family roster footer is shown (postcards to grandparents/friends
+    // skip the "ORTIZ · STALLINGS · SIMMONS" line so they read as a personal note).
+    const POSTCARD_TYPES = [
+        {
+            id: 'recap', emoji: '🏔️', label: 'Trip Recap',
+            blurb: 'The whole crew + a featured memory',
+            accent: '#1a2744', kicker: 'A NOTE TO KEEP', showCrew: true,
+            placeholder: 'Add a note about this adventure to go with the photo…'
+        },
+        {
+            id: 'grandparents', emoji: '💌', label: 'To Grandma & Grandpa',
+            blurb: 'A warm hello — just the moment, no roster',
+            accent: '#8b3a1a', kicker: 'WISH YOU WERE HERE', showCrew: false,
+            placeholder: 'Hey Grandma, here is a picture I took with glacier ice…'
+        },
+        {
+            id: 'friends', emoji: '👋', label: 'Hey from Alaska',
+            blurb: 'A quick hello for friends back home',
+            accent: '#1a5c38', kicker: 'GREETINGS FROM THE INSIDE PASSAGE', showCrew: false,
+            placeholder: 'You will not believe what we saw today…'
+        }
+    ];
+
+    function renderPostcardPicker() {
+        const picker = document.getElementById('postcard-type-picker');
+        const noteEl = document.getElementById('postcard-note');
+        if (!picker) return;
+        const selectedId = localStorage.getItem('ak26-postcard-type') || POSTCARD_TYPES[0].id;
+        const type = POSTCARD_TYPES.find(t => t.id === selectedId) || POSTCARD_TYPES[0];
+
+        picker.innerHTML = POSTCARD_TYPES.map(t => {
+            const active = t.id === type.id;
+            return `<div onclick="selectPostcardType('${t.id}')" style="flex:0 0 auto;width:140px;background:${active ? t.accent : 'var(--cream)'};color:${active ? '#fff' : 'var(--text-mid)'};border:1.5px solid ${active ? t.accent : '#dde8e2'};border-radius:12px;padding:10px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s,opacity .12s;" onpointerdown="this.style.transform='scale(.96)'" onpointerup="this.style.transform=''" onpointerleave="this.style.transform=''">
+                <div style="font-size:22px;margin-bottom:4px;">${t.emoji}</div>
+                <div style="font-size:12.5px;font-weight:700;line-height:1.25;">${t.label}</div>
+                <div style="font-size:10.5px;opacity:.82;margin-top:3px;line-height:1.35;">${t.blurb}</div>
+            </div>`;
+        }).join('');
+
+        if (noteEl) {
+            noteEl.placeholder = type.placeholder;
+            noteEl.value = localStorage.getItem('ak26-postcard-note') || '';
+        }
+        updatePostcardPreview();
+    }
+
+    function updatePostcardPreview() {
+        const preview = document.getElementById('postcard-preview');
+        if (!preview) return;
+        const selectedId = localStorage.getItem('ak26-postcard-type') || POSTCARD_TYPES[0].id;
+        const type = POSTCARD_TYPES.find(t => t.id === selectedId) || POSTCARD_TYPES[0];
+        const noteVal = (localStorage.getItem('ak26-postcard-note') || '').trim();
+        const text = noteVal || type.placeholder;
+
+        preview.innerHTML = `
+            <div style="font-size:11px;font-weight:700;letter-spacing:.6px;color:var(--text-light);margin-bottom:6px;">PREVIEW · ${type.label}</div>
+            <div style="background:#f2ead8;border:2px solid #c8922a;border-radius:14px;padding:20px 18px;text-align:center;">
+                <div style="font-size:10px;letter-spacing:1.6px;font-weight:700;color:${type.accent};margin-bottom:10px;">✦ ${type.kicker} ✦</div>
+                <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:#1a2744;line-height:1.45;">“${text}”</div>
+                ${type.showCrew
+                    ? `<div style="margin-top:16px;font-size:10px;letter-spacing:2px;font-weight:700;color:#c8922a;">ORTIZ · STALLINGS · SIMMONS</div>`
+                    : `<div style="margin-top:16px;font-size:11px;color:#7a6a52;font-style:italic;">— with love, from the Inside Passage</div>`}
+            </div>
+        `;
+    }
+
+    window.selectPostcardType = function(id) {
+        localStorage.setItem('ak26-postcard-type', id);
+        renderPostcardPicker();
+    };
+
+    window.savePostcardNote = function(el) {
+        localStorage.setItem('ak26-postcard-note', el.value);
+        updatePostcardPreview();
+    };
+
     function renderKeepsake() {
         // Stats
         const bingoState = JSON.parse(localStorage.getItem('ak26-bingo') || '{}');
@@ -6938,6 +7041,9 @@
         if (noteEl) {
             noteEl.value = localStorage.getItem('ak26-note') || '';
         }
+
+        // Postcard builder — type picker, note, and live preview
+        renderPostcardPicker();
     }
 
     window.saveKeepsakeNote = function(el) {
@@ -7025,13 +7131,23 @@
         const portsCount = Object.values(passportState).filter(Boolean).length;
         const spotted = Object.keys(ANIMAL_DATA).filter(id => bingoState[id]);
 
-        // Feature the first day with a "best moment" entry; fall back to the note
+        // Selected postcard style — drives the kicker, accent, and whether the
+        // family roster footer prints (notes meant for grandparents/friends skip it)
+        const postcardTypeId = localStorage.getItem('ak26-postcard-type') || POSTCARD_TYPES[0].id;
+        const postcardType = POSTCARD_TYPES.find(t => t.id === postcardTypeId) || POSTCARD_TYPES[0];
+        const postcardNote = (localStorage.getItem('ak26-postcard-note') || '').trim();
+
+        // Feature the postcard note first (it carries the chosen style's kicker);
+        // then the first day with a "best moment" entry; then the keepsake note; then a default
         let featured = null;
-        for (const d of KEEPSAKE_DAYS) {
-            const entry = mvpState[d.id];
-            if (entry && entry.moment && entry.moment.trim()) {
-                featured = { kicker: (d.label + ' · ' + d.date).toUpperCase(), text: entry.moment.trim() };
-                break;
+        if (postcardNote) featured = { kicker: postcardType.kicker, text: postcardNote };
+        if (!featured) {
+            for (const d of KEEPSAKE_DAYS) {
+                const entry = mvpState[d.id];
+                if (entry && entry.moment && entry.moment.trim()) {
+                    featured = { kicker: (d.label + ' · ' + d.date).toUpperCase(), text: entry.moment.trim() };
+                    break;
+                }
             }
         }
         if (!featured && note) featured = { kicker: 'A NOTE TO KEEP', text: note };
@@ -7147,14 +7263,17 @@
                 : 'Eagles · Whales · Seals · Bears — adventure awaits 🦅🐋🦭🐻';
             wrapCenteredText(ctx, chipText, W / 2, 1212, W - 240, 42, 3);
 
-            // Footer — crew + route
-            ctx.fillStyle = '#c8922a';
-            ctx.font = '600 25px "Josefin Sans", sans-serif';
-            ctx.fillText('O R T I Z   ·   S T A L L I N G S   ·   S I M M O N S', W / 2, H - 132);
+            // Footer — crew + route (postcard styles meant for grandparents/friends
+            // omit the family roster line so the note reads as personal correspondence)
+            if (postcardType.showCrew) {
+                ctx.fillStyle = '#c8922a';
+                ctx.font = '600 25px "Josefin Sans", sans-serif';
+                ctx.fillText('O R T I Z   ·   S T A L L I N G S   ·   S I M M O N S', W / 2, H - 132);
+            }
 
             ctx.fillStyle = '#1a2744';
             ctx.font = '19px "Josefin Sans", sans-serif';
-            ctx.fillText('Inside Passage · Vancouver Roundtrip · Our Family Keepsake', W / 2, H - 96);
+            ctx.fillText('Inside Passage · Vancouver Roundtrip · Our Family Keepsake', W / 2, postcardType.showCrew ? H - 96 : H - 114);
 
             canvas.toBlob((blob) => {
                 if (!blob) { finish(origLabel); alert('Could not generate the postcard image — please try again.'); return; }
