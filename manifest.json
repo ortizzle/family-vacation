@@ -2,7 +2,7 @@
   "name": "Alaska Adventure 2026",
   "short_name": "Alaska 2026",
   "description": "Ortiz · Stallings · Simmons — Disney Wonder, June 15–22",
-  "start_url": "/splash.html",
+  "start_url": "splash.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0d1f2d",

@@ -1,14 +1,14 @@
 // Alaska Adventure 2026 — Service Worker
-const CACHE = 'ak26-v5';
+const CACHE = 'ak26-v6';
 const ASSETS = [
-  '/splash.html',
-  '/index.html',
-  '/ortiz-crest.png',
-  '/ortiz-crest-192.png',
-  '/ortiz-crest-512.png',
-  '/apple-touch-icon.png',
-  '/favicon.ico',
-  '/manifest.json',
+  './splash.html',
+  './index.html',
+  './ortiz-crest.png',
+  './ortiz-crest-192.png',
+  './ortiz-crest-512.png',
+  './apple-touch-icon.png',
+  './favicon.ico',
+  './manifest.json',
   'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap',
   'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2',
 ];

@@ -6,16 +6,16 @@
     <title>Alaska Adventure 2026 — Ortiz · Stallings · Simmons</title>
 
     <!-- PWA -->
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3d2c">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Alaska 2026">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="192x192" href="/ortiz-crest-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/ortiz-crest-512.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="ortiz-crest-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="ortiz-crest-512.png">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -1342,41 +1342,6 @@
 
             </div>
 
-            <!-- CURRENCY CONVERTER — embedded for fast access, no page switch needed -->
-            <div class="card" style="margin:14px 0 0;">
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                    <span style="font-size:18px;">💱</span>
-                    <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Quick Currency Converter</div>
-                </div>
-                <div style="font-size:11px;color:var(--text-light);margin-bottom:14px;">USD ⇄ CAD · approx. rate, updated periodically</div>
-
-                <div style="display:flex;align-items:center;gap:10px;">
-                    <div style="flex:1;">
-                        <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-bottom:4px;">🇺🇸 US Dollars</label>
-                        <div style="display:flex;align-items:center;background:var(--glacier-pale);border-radius:10px;padding:8px 12px;">
-                            <span style="font-size:15px;font-weight:700;color:var(--glacier);margin-right:4px;">$</span>
-                            <input id="conv-usd" type="number" inputmode="decimal" placeholder="0" oninput="convertCurrency('usd')" style="border:none;background:none;outline:none;font-size:17px;font-weight:700;color:var(--text-dark);width:100%;font-family:'Inter',sans-serif;">
-                        </div>
-                    </div>
-                    <div style="font-size:18px;color:var(--text-light);margin-top:16px;">⇄</div>
-                    <div style="flex:1;">
-                        <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-bottom:4px;">🇨🇦 Canadian Dollars</label>
-                        <div style="display:flex;align-items:center;background:#fdf2f2;border-radius:10px;padding:8px 12px;">
-                            <span style="font-size:15px;font-weight:700;color:#c8102e;margin-right:4px;">$</span>
-                            <input id="conv-cad" type="number" inputmode="decimal" placeholder="0" oninput="convertCurrency('cad')" style="border:none;background:none;outline:none;font-size:17px;font-weight:700;color:var(--text-dark);width:100%;font-family:'Inter',sans-serif;">
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
-                    <button class="conv-quick-btn" onclick="convertQuick(20)">$20</button>
-                    <button class="conv-quick-btn" onclick="convertQuick(50)">$50</button>
-                    <button class="conv-quick-btn" onclick="convertQuick(100)">$100</button>
-                    <button class="conv-quick-btn" onclick="convertQuick(200)">$200</button>
-                </div>
-                <div style="font-size:10px;color:var(--text-light);margin-top:10px;line-height:1.5;">📌 Rate used: 1 USD ≈ 1.37 CAD (1 CAD ≈ 0.73 USD). Rates fluctuate daily — check <a href="https://www.google.com/search?q=usd+to+cad" target="_blank" style="color:var(--glacier);">live rate</a> before big purchases. Most cards charge no foreign transaction fee on Visa/Mastercard networks — confirm with your bank.</div>
-            </div>
-
             <!-- Emergency Info — wide, anchors the very bottom of Trip Resources -->
             <div class="poster-grid" style="margin-top:14px;">
                 <div class="poster-card wide" onclick="showPage('emergency')">
@@ -2464,31 +2429,9 @@
         </div>
     </div>
 
-<!-- VANCOUVER TIPS -->
-<div class="card" style="margin-bottom:16px;">
-    <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)" style="padding-bottom:0;">
-        <div>
-            <div style="font-size:13px;font-weight:700;color:var(--text-dark);">🍁 Vancouver & Canada Tips</div>
-            <div style="font-size:12px;color:var(--text-light);margin-top:2px;">Tap to expand</div>
-        </div>
-        <span class="acc-chevron"></span>
-    </div>
-    <div class="acc-body collapsed" style="margin-top:4px;">
-        <div class="tip-item"><span class="tip-icon">🕐</span><span><strong>No jet lag.</strong> Vancouver is Pacific Time — same as Phoenix in summer (both on PDT). Your body clock won't notice a thing.</span></div>
-        <div class="tip-item"><span class="tip-icon">💵</span><span><strong>Canadian dollars.</strong> 1 USD ≈ 1.37 CAD. Credit cards work everywhere. Bring ~$60 CAD cash for food courts (Parker Place) and Richmond Night Market stalls.</span></div>
-        <div class="tip-item"><span class="tip-icon">🚇</span><span><strong>Tap to ride the SkyTrain.</strong> No tickets needed — tap your Visa, Mastercard, or Amex directly on the fare gate. Kids under 13 ride free. Trains every 5–8 minutes.</span></div>
-        <div class="tip-item"><span class="tip-icon">🌧️</span><span><strong>Pack rain gear, especially June 13.</strong> Vancouver June averages 13 rainy days. June 13 (North Shore day) is forecast as the wettest — ponchos for the kids, waterproof jacket for adults.</span></div>
-        <div class="tip-item"><span class="tip-icon">🌡️</span><span><strong>Layer up.</strong> Expect 63–72°F days but cooler mornings and evenings. A light fleece or zip-up is perfect after 7 PM, especially on the North Shore.</span></div>
-        <div class="tip-item"><span class="tip-icon">📱</span><span><strong>US phones work in Canada</strong> but most carriers charge roaming. Check your plan — many include Canada (T-Mobile does by default). Turn on "international data" before landing.</span></div>
-        <div class="tip-item"><span class="tip-icon">✈️</span><span><strong>Customs at YVR.</strong> Fill out the CBSA declaration on your phone before landing (paper forms available too). Be honest — fruit, meat, and large amounts of cash must be declared. Standard tourist entry, no visa needed for US citizens.</span></div>
-        <div class="tip-item"><span class="tip-icon">🍽️</span><span><strong>Tipping is the same as the US.</strong> 15–20% at restaurants, $2–3 per taxi or rideshare ride. Some Richmond food court stalls have tip prompts — 0% is totally fine there.</span></div>
-        <div class="tip-item"><span class="tip-icon">🏙️</span><span><strong>Richmond vs Vancouver.</strong> Your hotel is in Richmond (suburb, 30 min south of downtown). Richmond has its own amazing food scene. "Going to Vancouver" means taking the Canada Line north — ~30 min, $4.50 CAD.</span></div>
-        <div class="tip-item"><span class="tip-icon">🆘</span><span><strong>Emergency is still 911.</strong> Same number as the US. BC Health care is excellent. The nearest urgent care to River Rock is Richmond Hospital (~10 min drive).</span></div>
-    </div>
-</div>
+<div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin:20px 0 12px;">Vancouver Resources</div>
 
-
-<!-- VANCOUVER MAP CARD -->
+<!-- VANCOUVER RESOURCES CARD (consolidated: base info, quick links, facts, tips, currency) -->
 <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
   <div style="background:linear-gradient(150deg,#1a3a50 0%,#1e6b8a 60%,#2a9d8f 100%);padding:20px 16px 16px;position:relative;overflow:hidden;">
     <div style="position:absolute;inset:0;opacity:.07;font-size:120px;line-height:1;text-align:center;overflow:hidden;pointer-events:none;">🏔️🌲🌊</div>
@@ -2518,6 +2461,20 @@
       </div>
     </div>
   </div>
+
+  <!-- Quick links: food ideas + getting around (existing highlight modals, surfaced here as a resource) -->
+  <div style="padding:0 16px 14px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-light);margin-bottom:8px;">Quick Links</div>
+    <div class="highlight-grid">
+      <div class="highlight-item" onclick="openHighlight('van-eats')">
+        <span class="highlight-icon">🍽️</span>Food Ideas &amp; Places
+      </div>
+      <div class="highlight-item" onclick="openHighlight('van-transit')">
+        <span class="highlight-icon">🚇</span>Getting Around
+      </div>
+    </div>
+  </div>
+
   <!-- Vancouver area facts accordion -->
   <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)" style="padding:0 16px 14px;margin-top:-4px;">
     <div style="font-size:13px;font-weight:700;color:var(--text-dark);">🏔️ Vancouver Fun Facts</div>
@@ -2530,7 +2487,64 @@
     <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🏔️</div><div><div class="fact-title">Mountains Meet Ocean</div><div class="fact-body">Vancouver is one of the few cities where you can ski in the morning and kayak in the ocean in the afternoon. The North Shore mountains (where Capilano is) rise to 4,000+ feet just 20 minutes from downtown. On a clear day the view from the city includes snow-capped peaks.</div></div></div>
     <div class="fact-card"><div class="fact-icon">⚽</div><div><div class="fact-title">FIFA World Cup 2026 Host</div><div class="fact-body">Vancouver's BC Place stadium is one of 16 host venues across USA, Canada, and Mexico for the 2026 FIFA World Cup — the largest World Cup in history with 48 teams. The group stage matches happening during your stay make you part of a once-in-a-generation event.</div></div></div>
   </div>
-  <div class="map-link-row" style="padding:0 16px 16px;">
+
+  <!-- Vancouver & Canada Tips accordion (moved in from standalone card) -->
+  <div class="day-acc-header acc-trigger" onclick="toggleAcc(this)" style="padding:0 16px 0;">
+    <div>
+        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">🍁 Vancouver & Canada Tips</div>
+        <div style="font-size:12px;color:var(--text-light);margin-top:2px;">Tap to expand</div>
+    </div>
+    <span class="acc-chevron"></span>
+  </div>
+  <div class="acc-body collapsed" style="padding:0 16px 16px;margin-top:4px;">
+    <div class="tip-item"><span class="tip-icon">🕐</span><span><strong>No jet lag.</strong> Vancouver is Pacific Time — same as Phoenix in summer (both on PDT). Your body clock won't notice a thing.</span></div>
+    <div class="tip-item"><span class="tip-icon">💵</span><span><strong>Canadian dollars.</strong> 1 USD ≈ 1.37 CAD. Credit cards work everywhere. Bring ~$60 CAD cash for food courts (Parker Place) and Richmond Night Market stalls.</span></div>
+    <div class="tip-item"><span class="tip-icon">🚇</span><span><strong>Tap to ride the SkyTrain.</strong> No tickets needed — tap your Visa, Mastercard, or Amex directly on the fare gate. Kids under 13 ride free. Trains every 5–8 minutes.</span></div>
+    <div class="tip-item"><span class="tip-icon">🌧️</span><span><strong>Pack rain gear, especially June 13.</strong> Vancouver June averages 13 rainy days. June 13 (North Shore day) is forecast as the wettest — ponchos for the kids, waterproof jacket for adults.</span></div>
+    <div class="tip-item"><span class="tip-icon">🌡️</span><span><strong>Layer up.</strong> Expect 63–72°F days but cooler mornings and evenings. A light fleece or zip-up is perfect after 7 PM, especially on the North Shore.</span></div>
+    <div class="tip-item"><span class="tip-icon">📱</span><span><strong>US phones work in Canada</strong> but most carriers charge roaming. Check your plan — many include Canada (T-Mobile does by default). Turn on "international data" before landing.</span></div>
+    <div class="tip-item"><span class="tip-icon">✈️</span><span><strong>Customs at YVR.</strong> Fill out the CBSA declaration on your phone before landing (paper forms available too). Be honest — fruit, meat, and large amounts of cash must be declared. Standard tourist entry, no visa needed for US citizens.</span></div>
+    <div class="tip-item"><span class="tip-icon">🍽️</span><span><strong>Tipping is the same as the US.</strong> 15–20% at restaurants, $2–3 per taxi or rideshare ride. Some Richmond food court stalls have tip prompts — 0% is totally fine there.</span></div>
+    <div class="tip-item"><span class="tip-icon">🏙️</span><span><strong>Richmond vs Vancouver.</strong> Your hotel is in Richmond (suburb, 30 min south of downtown). Richmond has its own amazing food scene. "Going to Vancouver" means taking the Canada Line north — ~30 min, $4.50 CAD.</span></div>
+    <div class="tip-item"><span class="tip-icon">🆘</span><span><strong>Emergency is still 911.</strong> Same number as the US. BC Health care is excellent. The nearest urgent care to River Rock is Richmond Hospital (~10 min drive).</span></div>
+  </div>
+
+  <!-- Quick currency converter (moved in from Home / Trip Resources) -->
+  <div style="padding:14px 16px 6px;border-top:1px solid #eef2ee;margin-top:6px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="font-size:18px;">💱</span>
+        <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Quick Currency Converter</div>
+    </div>
+    <div style="font-size:11px;color:var(--text-light);margin-bottom:14px;">USD ⇄ CAD · approx. rate, updated periodically</div>
+
+    <div style="display:flex;align-items:center;gap:10px;">
+        <div style="flex:1;">
+            <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-bottom:4px;">🇺🇸 US Dollars</label>
+            <div style="display:flex;align-items:center;background:var(--glacier-pale);border-radius:10px;padding:8px 12px;">
+                <span style="font-size:15px;font-weight:700;color:var(--glacier);margin-right:4px;">$</span>
+                <input id="conv-usd" type="number" inputmode="decimal" placeholder="0" oninput="convertCurrency('usd')" style="border:none;background:none;outline:none;font-size:17px;font-weight:700;color:var(--text-dark);width:100%;font-family:'Inter',sans-serif;">
+            </div>
+        </div>
+        <div style="font-size:18px;color:var(--text-light);margin-top:16px;">⇄</div>
+        <div style="flex:1;">
+            <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-bottom:4px;">🇨🇦 Canadian Dollars</label>
+            <div style="display:flex;align-items:center;background:#fdf2f2;border-radius:10px;padding:8px 12px;">
+                <span style="font-size:15px;font-weight:700;color:#c8102e;margin-right:4px;">$</span>
+                <input id="conv-cad" type="number" inputmode="decimal" placeholder="0" oninput="convertCurrency('cad')" style="border:none;background:none;outline:none;font-size:17px;font-weight:700;color:var(--text-dark);width:100%;font-family:'Inter',sans-serif;">
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
+        <button class="conv-quick-btn" onclick="convertQuick(20)">$20</button>
+        <button class="conv-quick-btn" onclick="convertQuick(50)">$50</button>
+        <button class="conv-quick-btn" onclick="convertQuick(100)">$100</button>
+        <button class="conv-quick-btn" onclick="convertQuick(200)">$200</button>
+    </div>
+    <div style="font-size:10px;color:var(--text-light);margin-top:10px;line-height:1.5;">📌 Rate used: 1 USD ≈ 1.37 CAD (1 CAD ≈ 0.73 USD). Rates fluctuate daily — check <a href="https://www.google.com/search?q=usd+to+cad" target="_blank" style="color:var(--glacier);">live rate</a> before big purchases. Most cards charge no foreign transaction fee on Visa/Mastercard networks — confirm with your bank.</div>
+  </div>
+
+  <div class="map-link-row" style="padding:14px 16px 16px;">
     <a class="map-link-btn" href="https://maps.google.com/?q=Richmond+BC+Canada" target="_blank">📍 Richmond on Google Maps</a>
     <a class="map-link-btn" href="https://maps.google.com/?q=Vancouver+BC+Canada" target="_blank">🏙️ Vancouver on Google Maps</a>
   </div>
@@ -7178,7 +7192,7 @@
     // Service worker registration
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js').catch(() => {});
+            navigator.serviceWorker.register('sw.js').catch(() => {});
         });
     }
 
