@@ -229,4 +229,3 @@ Append to `FLASHCARDS` array in the script: `{ cat: 'Category', q: 'Question?', 
 ## Known stubs
 
 - **Password screen** — CSS classes `.pw-*` and `#pw-screen` are defined but the HTML element and JS gate have not been implemented.
-- **Stateroom numbers** — Stallings and Simmons staterooms are "TBD" in `section-emergency`. Update when confirmed.
