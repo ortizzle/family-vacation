@@ -1736,6 +1736,7 @@
       <div class="port-fact"><div class="port-fact-label">Annual Rainfall</div><div class="port-fact-value">~60 inches</div></div>
     </div>
     <div class="did-you-know"><div class="dyk-label">Did You Know?</div>Juneau is the only U.S. state capital with no road access. It sits between two mountains and the Tongass National Forest. The Mendenhall Glacier retreats about 100–150 feet per year — it could disappear by 2050.</div>
+    <div class="did-you-know" style="margin-top:8px;"><div class="dyk-label">🆕 2026 Updates</div><strong>Visitor cap:</strong> Juneau now caps cruise passengers at 16,000/day — agreed between the city and cruise lines to reduce overcrowding. Expect a busy but manageable downtown. · <strong>Mendenhall Visitor Center</strong> is open (normal hours 9AM–6PM) but active flood-barrier construction is underway in the valley — trail conditions near the lake may vary, check at the visitor center. The Army Corps of Engineers project is 45% complete and due July 15.</div>
     <div class="edu-section">
       <div class="edu-title">Top Highlights</div>
       <div class="highlight-grid">
@@ -1787,6 +1788,7 @@
       <div class="port-fact"><div class="port-fact-label">Late Start Day</div><div class="port-fact-value">Ashore 11:15 AM</div></div>
     </div>
     <div class="did-you-know"><div class="dyk-label">Did You Know?</div>Ketchikan is one of the rainiest cities in the US. Locals say: "If you can't see the mountains, it's raining. If you can see them, it's about to rain." The lush temperate rainforest it creates is spectacular in June.</div>
+    <div class="did-you-know" style="margin-top:8px;"><div class="dyk-label">🆕 2026 Updates</div>Ketchikan is on pace for a record 1.64 million cruise visitors in 2026 — the busiest cruise port in Alaska this season. A new cruise hub opened at Ward Cove (7 miles north) with a new zipline park and brewery complex. <strong>Disney docks downtown</strong>, not Ward Cove, so you're right next to Creek Street, totem poles, and the Lumberjack Show. Other ships (NCL, Royal Caribbean, Celebrity) use Ward Cove.</div>
     <div class="edu-section">
       <div class="edu-title">Top Highlights</div>
       <div class="highlight-grid">
@@ -4369,6 +4371,12 @@
         { cat: 'Ship Life', q: 'Why is a verandah especially valuable on an Alaska cruise?', a: 'It\'s your private wildlife spotting deck, glacier-day front row, and port arrival balcony. On Alaska itineraries it\'s one of the most used amenities on the ship.' },
         { cat: 'Ship Life', q: 'When does the sun set in SE Alaska in June?', a: 'Around 10 PM — and it rises again before 4 AM. The cabin curtains help, but an eye mask is your best friend for sleeping.' },
         { cat: 'Ship Life', q: 'What is the Disney Navigator app used for onboard?', a: 'Daily schedules, restaurant menus, activity booking, port maps, and the ship\'s live position. It\'s the control center for your whole cruise — download it before you board.' },
+        { cat: 'Ship Life', q: 'What replaces Pirate Night on Alaska sailings in 2026?', a: 'Frozen Night! Alaska itineraries swap Pirate Night for a full Frozen Night experience — the Frozen Sing-Along on deck with Anna, Elsa & Kristoff, plus a ship-wide scavenger hunt and themed dinner. It happens on Glacier Day (Day 3).' },
+        { cat: 'Glaciers', q: 'Why did cruise ships stop visiting Tracy Arm in 2026?', a: 'A massive landslide near South Sawyer Glacier in August 2025 triggered a tsunami inside Tracy Arm. The USGS flagged ongoing geological instability, so all cruise lines rerouted to Endicott Arm / Dawes Glacier for the entire 2026 season.' },
+        { cat: 'Glaciers', q: 'What makes Dawes Glacier special compared to other Alaska glaciers?', a: 'Dawes Glacier in Endicott Arm is one of the most actively calving tidewater glaciers in Southeast Alaska — 600 feet tall, one mile wide. You can often hear massive chunks of ice crashing into the water from the ship\'s deck.' },
+        { cat: 'Geography', q: 'What is the Inside Passage?', a: 'A 1,000+ mile sheltered waterway running from Seattle/Vancouver to Skagway, protected from the open Pacific by thousands of islands. Ships have sailed it since the Klondike Gold Rush in 1898, and 2+ million people cruise it every summer.' },
+        { cat: 'Geography', q: 'How many cruise passengers does Juneau cap per day in 2026?', a: '16,000 on weekdays and 12,000 on Saturdays — agreed between Juneau and the cruise lines to reduce overcrowding in the small capital city.' },
+        { cat: 'Wildlife', q: 'What is June the best month for in Alaska wildlife viewing?', a: 'Humpback whales! June marks the start of the peak whale-feeding season in the Inside Passage. Whale-watching tours offer sighting guarantees through mid-September. Bald eagles are year-round and very common.' },
     ];
 
     let fcIdx = 0;
@@ -4467,7 +4475,7 @@
                 { hint: 'a verb (past tense)', ex: 'e.g. somersaulted' },
                 { hint: 'an adjective', ex: 'e.g. philosophical' },
             ],
-            render: (w) => `<em>OFFICIAL DISNEY WONDER SHIP LOG — June 21, 2026. Tracy Arm Fjord, 0700 hours.</em><br><br>Conditions: <span class="ml-word">${w[0]}</span>. Spotted <span class="ml-word">${w[1]}</span> icebergs, one of which appeared to be carrying <span class="ml-word">${w[2]}</span>'s missing <span class="ml-word">${w[3]}</span> from Tuesday. One passenger has been <span class="ml-word">${w[4]}</span>ing on the bow since 4 AM, claiming the glacier is "picking up speed." The glacier is not picking up speed. Hot cocoa was served to <span class="ml-word">${w[5]}</span> guests. The Ortiz, Stallings, and Simmons families <span class="ml-word">${w[6]}</span> simultaneously while attempting a group photo at the railing. Ice is blue. Everything is fine. Crew remains <span class="ml-word">${w[7]}</span>. End of log.`
+            render: (w) => `<em>OFFICIAL DISNEY WONDER SHIP LOG — June 17, 2026. Endicott Arm / Dawes Glacier, 0700 hours.</em><br><br>Conditions: <span class="ml-word">${w[0]}</span>. Spotted <span class="ml-word">${w[1]}</span> icebergs, one of which appeared to be carrying <span class="ml-word">${w[2]}</span>'s missing <span class="ml-word">${w[3]}</span> from Tuesday. One passenger has been <span class="ml-word">${w[4]}</span>ing on the bow since 4 AM, claiming the glacier is "picking up speed." The glacier is not picking up speed. Hot cocoa was served to <span class="ml-word">${w[5]}</span> guests. The Ortiz, Stallings, and Simmons families <span class="ml-word">${w[6]}</span> simultaneously while attempting a group photo at the railing. Ice is blue. Everything is fine. Crew remains <span class="ml-word">${w[7]}</span>. End of log.`
         },
         {
             title: 'The Lumberjack Showdown', emoji: '🪵',
@@ -6614,7 +6622,7 @@
         { q:'Roughly how many glaciers does Alaska have?', correct:'Over 100,000', wrong:['About 5,000','Around 500','Exactly 50'] },
         { q:'What song does the Disney Wonder\'s horn play?', correct:'When You Wish Upon a Star', wrong:['It\'s a Small World','Under the Sea','Be Our Guest'] },
         { q:'Scientifically, orcas are a species of what?', correct:'Dolphin', wrong:['Whale','Shark','Porpoise'] },
-        { q:'What are the two glaciers in Tracy Arm Fjord called?', correct:'North & South Sawyer', wrong:['North & South Mendenhall','East & West Juneau','Upper & Lower Tracy'] },
+        { q:'What is the name of the glacier you\'ll see on your glacier day?', correct:'Dawes Glacier', wrong:['Sawyer Glacier','Mendenhall Glacier','Hubbard Glacier'] },
         { q:'How many bald eagles live in Alaska?', correct:'Over 30,000', wrong:['About 5,000','Around 1,000','Over 500,000'] },
         { q:'What famous dessert at Palo must be ordered at the very start of your meal?', correct:'The chocolate soufflé', wrong:['Tiramisu','Panna cotta','Cannoli'] },
         { q:'How many hours of daylight does Juneau get in mid-June?', correct:'About 19 hours', wrong:['About 12 hours','About 16 hours','About 22 hours'] },
