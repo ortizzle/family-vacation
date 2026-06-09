@@ -2213,7 +2213,7 @@
         <div class="timeline-line"><div class="day-dot" style="background:#f3f0fa;">🎣</div><div class="day-connector"></div></div>
         <div class="timeline-content">
             <div class="day-acc-header" style="cursor:default;">
-                <div><div class="day-label">Fri, June 12 · Vancouver Day 1</div><div class="day-title">Steveston + Night Market</div><div class="day-time">Easy day · Stay close to Richmond</div></div>
+                <div><div class="day-label">Fri, June 12 · Vancouver Day 1</div><div class="day-title">Steveston + Yaletown</div><div class="day-time">Easy arrival day · Minami dinner booked at 5 PM</div></div>
             </div>
             <div class="acc-body">
                 <div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 12px;align-items:center;">
@@ -2222,37 +2222,120 @@
                   <span style="background:#e8f4fd;color:#1e40af;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;">📅 Actual forecast</span>
                   <a href="https://www.google.com/search?q=Richmond+BC+weather" target="_blank" rel="noopener" style="background:#d4edda;color:#155724;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;text-decoration:none;">📡 Live →</a>
                 </div>
-                <p style="font-size:13px;color:var(--text-mid);margin:0 0 12px;line-height:1.5;">Easing into the trip — stay close to Richmond. FIFA Fan Festival is open from today.</p>
-                <div style="background:#fdf6e9;border:1px dashed rgba(200,146,42,0.4);border-radius:10px;padding:10px 14px;margin:0 0 14px;font-size:12px;color:#7b5800;line-height:1.6;">
-                  💡 <strong>Ideas to pencil in today:</strong> a Stanley Park Seawall walk/run in the morning, lunch at the Granville Island Public Market, and catching <strong>USA vs. Paraguay</strong> (kickoff ~9 PM ET / 6 PM Pacific) at a Gastown bar after dinner. Nothing's locked in yet — just things to layer in around the Minami reservation if the timing works out.
+                <p style="font-size:13px;color:var(--text-mid);margin:0 0 14px;line-height:1.5;">Ease-in day — morning at Steveston's historic fishing village, a quiet afternoon back at the hotel, then Minami dinner in Yaletown. If energy is high after dinner, Gastown is 10 minutes away for the USA vs Paraguay watch party.</p>
+
+                <!-- Morning: Steveston -->
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">9:00 AM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🚗 Rideshare to Steveston Village <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">~10 min · ~$12 CAD · request from River Rock lobby</div>
+                  </div>
                 </div>
-                <div style="background:#fdf6e9;border:1px solid rgba(200,146,42,0.35);border-radius:12px;padding:12px 14px;margin:0 0 14px;">
-                  <div style="font-size:11px;font-weight:700;color:#8b6a1a;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px;">🍣 Dinner Reservation · Booked</div>
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Transit option instead</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">Templeton Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+                      <span class="tr-note">~3 min walk from hotel · direction: YVR/Richmond Centre</span>
+                    </div>
+                    <div class="tr-stop transfer">
+                      <div class="tr-station">Bridgeport Station</div>
+                      <span class="tr-note">~8 min · transfer to #401 bus toward Steveston</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">Steveston Village</div>
+                      <span class="tr-note">~25 min bus · total ~35 min · $3.25 CAD tap-to-pay</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="event-item tappable" onclick="openHighlight('van-steveston')" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">9:15 AM – noon</div>
+                  <div class="event-detail">
+                    <div class="event-name">🎣 Steveston Village — waterfront & fish & chips <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Pajo's fish & chips on the dock · Maritime Museum · village walk · Tap for details →</div>
+                  </div>
+                </div>
+
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">12:30 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🏨 Rideshare back to River Rock Hotel</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">~10 min · afternoon rest or hotel pool · recharge before dinner</div>
+                  </div>
+                </div>
+
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">3:45 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🚇 Head to Yaletown for dinner</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Canada Line: Templeton → Yaletown-Roundhouse · ~28 min · $3.25 CAD</div>
+                  </div>
+                </div>
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Templeton → Yaletown steps</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">Templeton Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+                      <span class="tr-note">~3 min walk from hotel · direction: Waterfront</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">Yaletown-Roundhouse Station</div>
+                      <span class="tr-note">~28 min ride · Minami is a 5 min walk on Mainland St</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Minami booked -->
+                <div style="background:#fdf6e9;border:1px solid rgba(200,146,42,0.35);border-radius:12px;padding:12px 14px;margin:8px 0 14px;">
+                  <div style="font-size:11px;font-weight:700;color:#8b6a1a;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px;">🍣 Dinner Reservation · ✅ Booked</div>
                   <div style="font-size:14px;font-weight:700;color:#222;margin-bottom:2px;">Minami Restaurant</div>
-                  <div style="font-size:12px;color:#555;line-height:1.6;">5:00 PM · Table for 4 · Ortiz family<br>1118 Mainland Street, Vancouver BC V6B 2T9<br>📞 (604) 685-8080 · 🅿️ Street parking</div>
+                  <div style="font-size:12px;color:#555;line-height:1.6;">5:00 PM · Table for 4 · Ortiz family<br>1118 Mainland Street, Vancouver BC V6B 2T9<br>📞 (604) 685-8080 · 🅿️ Street parking available</div>
                   <div class="map-link-row">
                     <a class="map-link-btn" href="http://maps.google.com/maps?q=49.2752637,-123.1208132" target="_blank" rel="noopener">📍 Map</a>
                     <a class="map-link-btn" href="https://www.opentable.com/restaurant/profile/87259?shareReferrer=android-reso-share" target="_blank" rel="noopener">🍽️ OpenTable</a>
                     <a class="map-link-btn" href="tel:+16046858080">📞 Call</a>
                   </div>
                 </div>
-                <div style="background:#e6f6f6;border:1px solid rgba(26,93,110,0.3);border-radius:12px;padding:12px 14px;margin:0 0 14px;">
-                  <div style="font-size:11px;font-weight:700;color:#1a5d6e;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px;">🏮 Richmond Night Market · 💡 Recommended</div>
-                  <div style="font-size:14px;font-weight:700;color:#222;margin-bottom:2px;">Open tonight (and through the weekend)</div>
-                  <div style="font-size:12px;color:#555;line-height:1.6;">7 PM – midnight · 8351 River Road, Richmond — just 5 min from River Rock. Not booked, but an easy walk-up after dinner; runs Fri–Sun so there's flexibility on which night to go.</div>
-                  <div class="map-link-row">
-                    <a class="map-link-btn" href="https://maps.google.com/?q=Richmond+Night+Market+8351+River+Road" target="_blank" rel="noopener">📍 Map</a>
+
+                <!-- Post-dinner: Gastown + match -->
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">~7:00 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🍺 Post-dinner: Gastown walk + FIFA watch <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">10 min walk or rideshare from Minami · cobblestone streets, Steam Clock, lively bars · USA vs Paraguay kicks off 6 PM Pacific</div>
                   </div>
                 </div>
-                <div class="highlight-grid">
+                <div style="background:#eef4f0;border-radius:10px;padding:10px 14px;margin:4px 0 14px;font-size:12px;color:#1e3d2c;line-height:1.5;">
+                  ⚽ <strong>USA vs Paraguay</strong> · 6:00 PM Pacific · Good spots: Steamworks Brew Pub (375 Water St, Gastown) or any patio on Cordova St. Gastown is pedestrian-friendly — walk back toward Waterfront Station after for the SkyTrain home.
+                </div>
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Getting home from Gastown</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">Waterfront Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+                      <span class="tr-note">5 min walk from Gastown · direction: Richmond/YVR</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">Templeton Station → River Rock</div>
+                      <span class="tr-note">~30 min ride · hotel connected to station</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="highlight-grid" style="margin-top:10px;">
                   <div class="highlight-item" onclick="openHighlight('van-steveston')">
                     <span class="highlight-icon">🎣</span>Steveston Village
                   </div>
                   <div class="highlight-item" onclick="openHighlight('van-fifafest')">
                     <span class="highlight-icon">⚽</span>FIFA Fan Festival
-                  </div>
-                  <div class="highlight-item" onclick="openHighlight('van-nightmarket')">
-                    <span class="highlight-icon">🏮</span>Night Market
                   </div>
                   <div class="highlight-item" onclick="openHighlight('van-eats')">
                     <span class="highlight-icon">🍽️</span>Family Eats
@@ -2280,10 +2363,7 @@
                   <span style="background:#eef4f0;color:#1e3d2c;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;">🌂 Wettest day of stay</span>
                   <a href="https://www.google.com/search?q=Vancouver+BC+weather" target="_blank" rel="noopener" style="background:#d4edda;color:#155724;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;text-decoration:none;">📡 Live forecast →</a>
                 </div>
-                <p style="font-size:13px;color:var(--text-mid);margin:0 0 12px;line-height:1.5;">Big day — North Shore in the morning, FIFA match tonight at 9 PM.</p>
-                <div style="background:#fdf6e9;border:1px dashed rgba(200,146,42,0.4);border-radius:10px;padding:10px 14px;margin:0 0 14px;font-size:12px;color:#7b5800;line-height:1.6;">
-                  💡 <strong>Idea to pencil in:</strong> after Capilano, head back downtown by noon/1 PM and spend the afternoon at the <strong>FIFA Fan Festival at the PNE</strong> — a great lower-key warm-up before tonight's Australia vs. Türkiye match at BC Place.
-                </div>
+                <p style="font-size:13px;color:var(--text-mid);margin:0 0 14px;line-height:1.5;">Big day — North Shore rainforest in the morning, FIFA Fan Festival in the afternoon, and the Australia vs Türkiye match tonight at BC Place. Pack layers; it's the wettest forecast day of your stay.</p>
 
                 <!-- Capilano booked confirmation -->
                 <div style="background:linear-gradient(135deg,#e8f5ee,#f0faf2);border:1.5px solid #a8d9bb;border-radius:12px;padding:12px 14px;margin-bottom:14px;">
@@ -2291,7 +2371,7 @@
                   <div style="font-size:12px;color:#2d6a4f;line-height:1.5;">8:30 AM Entry · Order #20260606-7695159 · 2.5 hrs</div>
                 </div>
 
-                <!-- Primary events -->
+                <!-- Morning: depart + Capilano -->
                 <div class="event-item" style="margin-bottom:4px;">
                   <div class="event-time" style="min-width:72px;">7:00 AM</div>
                   <div class="event-detail">
@@ -2299,10 +2379,8 @@
                     <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Head to Templeton Station · ~3 min walk</div>
                   </div>
                 </div>
-
-                <!-- Capilano transport toggle -->
                 <div class="transport-acc-trigger" onclick="toggleTransport(this)">
-                  <span class="t-chevron">›</span><span class="t-label">🚇 Getting There</span>
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Getting to Capilano</span>
                 </div>
                 <div class="acc-body collapsed" style="padding-left:4px;">
                   <div class="transit-route">
@@ -2316,7 +2394,7 @@
                     </div>
                     <div class="tr-stop">
                       <div class="tr-station">Capilano Free Shuttle <span class="tr-badge tr-badge-shuttle">Free</span></div>
-                      <span class="tr-note">Departs Canada Place/Waterfront · runs every 30 min · ~20 min ride</span>
+                      <span class="tr-note">Departs Canada Place/Waterfront · every 30 min · ~20 min ride</span>
                     </div>
                     <div class="tr-stop end">
                       <div class="tr-station">Capilano Suspension Bridge Park</div>
@@ -2333,20 +2411,125 @@
                   </div>
                 </div>
 
-                <div class="event-item" style="margin-bottom:14px;">
+                <div class="event-item tappable" onclick="openHighlight('van-grouse')" style="margin-bottom:4px;">
                   <div class="event-time" style="min-width:72px;">~11:15 AM</div>
                   <div class="event-detail">
-                    <div class="event-name">🚠 Optional: Grouse Mountain</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">~10 min drive from Capilano · Gondola + Grizzly Bears</div>
+                    <div class="event-name">🚠 Optional add-on: Grouse Mountain <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">~10 min rideshare from Capilano · Gondola + Grizzly Bear habitat · Tap for details →</div>
                   </div>
                 </div>
 
-                <div class="highlight-grid">
+                <!-- Afternoon: downtown + fan festival -->
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">~12:30 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🍔 Lunch downtown — Gastown or Chinatown <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Shuttle back to Waterfront · walk to Gastown (Blood Alley or Water St) or grab pho in Chinatown (~5 min walk away)</div>
+                  </div>
+                </div>
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Capilano → downtown</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">Capilano Free Shuttle <span class="tr-badge tr-badge-shuttle">Free</span></div>
+                      <span class="tr-note">Returns to Canada Place/Waterfront every 30 min</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">Waterfront Station / Gastown</div>
+                      <span class="tr-note">5 min walk to Gastown from Canada Place · or straight to Chinatown</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="event-item tappable" onclick="openHighlight('van-fifafest')" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">2:00 – 6:00 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">⚽ FIFA Fan Festival <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Free entry · live music, food trucks, watch parties · warm-up before tonight's match · Tap for details →</div>
+                  </div>
+                </div>
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Getting to the Fan Festival</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">Waterfront Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+                      <span class="tr-note">or from wherever you had lunch</span>
+                    </div>
+                    <div class="tr-stop transfer">
+                      <div class="tr-station">Commercial–Broadway Station <span class="tr-badge tr-badge-line">Expo Line</span></div>
+                      <span class="tr-note">Transfer to Expo Line at Waterfront, ~15 min east</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">Exhibition Station → PNE Grounds</div>
+                      <span class="tr-note">1 stop east of Commercial–Broadway · 5 min walk to Fan Festival</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Dinner + Match -->
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">6:30 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🍽️ Early dinner near BC Place <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Old Spaghetti Factory (53 Water St) or Earls Kitchen (Robson St) — both walkable to Stadium station · aim to eat before 8:30 PM</div>
+                  </div>
+                </div>
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Fan Festival → BC Place</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">Exhibition Station <span class="tr-badge tr-badge-line">Expo Line</span></div>
+                      <span class="tr-note">direction: Waterfront · head back west</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">Stadium–Chinatown Station</div>
+                      <span class="tr-note">~15 min · 3 min walk to BC Place entrance · follow crowd</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">9:00 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🏟️ Australia vs. Türkiye · BC Place</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">54,000 fans · grab your seats before 8:45 PM · Stadium–Chinatown SkyTrain right outside</div>
+                  </div>
+                </div>
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Getting home after the match</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">Stadium–Chinatown Station <span class="tr-badge tr-badge-line">Expo Line</span></div>
+                      <span class="tr-note">Post-match trains are frequent and crowded — wait 15 min for the rush to clear</span>
+                    </div>
+                    <div class="tr-stop transfer">
+                      <div class="tr-station">Waterfront Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+                      <span class="tr-note">Transfer to Canada Line · direction: Richmond/YVR</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">Templeton Station → River Rock</div>
+                      <span class="tr-note">~35 min total · hotel connected to station</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="highlight-grid" style="margin-top:14px;">
                   <div class="highlight-item" onclick="openHighlight('van-capilano')">
                     <span class="highlight-icon">🌉</span>Capilano Bridge
                   </div>
                   <div class="highlight-item" onclick="openHighlight('van-grouse')">
                     <span class="highlight-icon">🚠</span>Grouse Mountain
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('van-fifafest')">
+                    <span class="highlight-icon">⚽</span>Fan Festival
                   </div>
                   <div class="highlight-item" onclick="openHighlight('van-fifamatch')">
                     <span class="highlight-icon">🏟️</span>FIFA Match Tonight
@@ -2366,7 +2549,7 @@
         <div class="timeline-line"><div class="day-dot" style="background:#f3f0fa;">🌊</div><div class="day-connector"></div></div>
         <div class="timeline-content">
             <div class="day-acc-header" style="cursor:default;">
-                <div><div class="day-label">Sun, June 14 · Vancouver Day 3</div><div class="day-title">Stanley Park + Granville Island</div><div class="day-time">City + nature day</div></div>
+                <div><div class="day-label">Sun, June 14 · Vancouver Day 3</div><div class="day-title">Stanley Park + Granville Island + Night Market</div><div class="day-time">City, nature & street food · board tomorrow</div></div>
             </div>
             <div class="acc-body">
                 <div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 12px;align-items:center;">
@@ -2375,15 +2558,118 @@
                   <span style="background:#eef4f0;color:#1e3d2c;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;">🌂 Light jacket handy</span>
                   <a href="https://www.google.com/search?q=Vancouver+BC+weather" target="_blank" rel="noopener" style="background:#d4edda;color:#155724;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;text-decoration:none;">📡 Live forecast →</a>
                 </div>
-                <p style="font-size:13px;color:var(--text-mid);margin:0 0 12px;line-height:1.5;">Last full day — city exploration before tomorrow's big boarding.</p>
-                <div style="background:#eef6ec;border:1px solid rgba(30,61,44,0.25);border-radius:12px;padding:12px 14px;margin:0 0 14px;">
-                  <div style="font-size:11px;font-weight:700;color:#1e3d2c;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px;">🌳 Stanley Park · 💡 Recommended</div>
-                  <div style="font-size:14px;font-weight:700;color:#222;margin-bottom:2px;">Seawall walk + totem poles at Brockton Point</div>
-                  <div style="font-size:12px;color:#555;line-height:1.6;">~30 min via Canada Line to Burrard, then a short walk or rideshare into the park. Not booked — a flexible morning add before Granville Island lunch; the totem poles are a nice preview of what you'll see in Ketchikan.</div>
-                  <div class="map-link-row">
-                    <a class="map-link-btn" href="https://maps.google.com/?q=Stanley+Park+Vancouver" target="_blank" rel="noopener">📍 Map</a>
+                <p style="font-size:13px;color:var(--text-mid);margin:0 0 14px;line-height:1.5;">Last full day before boarding. Morning in one of North America's great city parks, lunch at Granville Island's famous Public Market, a quiet afternoon back at the hotel to pack and rest, then the Night Market right on your doorstep to close out Vancouver.</p>
+
+                <!-- Morning: Stanley Park -->
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">8:30 AM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🚇 Head to Stanley Park <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Canada Line: Templeton → Burrard (~27 min) · then 15 min walk into park OR short rideshare</div>
                   </div>
                 </div>
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Getting to Stanley Park</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">Templeton Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+                      <span class="tr-note">~3 min walk from hotel · direction: Waterfront</span>
+                    </div>
+                    <div class="tr-stop transfer">
+                      <div class="tr-station">Burrard Station</div>
+                      <span class="tr-note">~27 min ride · exit west on Burrard St</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">Stanley Park — Park Entrance</div>
+                      <span class="tr-note">15 min walk up Alberni St into the park, or quick rideshare to the seawall entrance (~$8 CAD)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="event-item tappable milestone" onclick="openHighlight('van-stanley')" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">9:00 – 11:30 AM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🌳 Stanley Park — Seawall + Totem Poles <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Walk or rent bikes on the 9 km seawall · Brockton Point totem poles (great Ketchikan preview) · views of North Shore mountains · Tap for details →</div>
+                  </div>
+                </div>
+
+                <div class="event-item tappable" onclick="openHighlight('van-aquarium')" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">optional</div>
+                  <div class="event-detail">
+                    <div class="event-name">🐠 Vancouver Aquarium — inside the park <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Right inside Stanley Park · sea otters, belugas, sharks · great if kids want more after the seawall · ~2 hrs · Tap for details →</div>
+                  </div>
+                </div>
+
+                <!-- Midday: Granville Island -->
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">12:00 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🚗 Rideshare to Granville Island <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">~15 min · ~$15 CAD from Stanley Park entrance · can also take #C23 bus to Burrard Bridge then walk</div>
+                  </div>
+                </div>
+
+                <div class="event-item tappable milestone" onclick="openHighlight('van-granville')" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">12:30 – 3:00 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🛶 Granville Island Public Market — lunch <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">One of the best food markets in Canada · pick up lunch from stalls (chowder, fresh salmon, pastries) · Kids Market next door · browse artisan shops · Tap for details →</div>
+                  </div>
+                </div>
+
+                <!-- Afternoon: hotel + packing -->
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">3:30 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🏨 Head back to River Rock — rest &amp; pack</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Canada Line or rideshare (~$22 CAD) · early-ish night ahead of tomorrow's 11 AM boarding</div>
+                  </div>
+                </div>
+                <div class="transport-acc-trigger" onclick="toggleTransport(this)">
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Granville Island → River Rock</span>
+                </div>
+                <div class="acc-body collapsed" style="padding-left:4px;">
+                  <div class="transit-route">
+                    <div class="tr-stop">
+                      <div class="tr-station">Granville Island Bus Stop <span class="tr-badge tr-badge-bus">Bus</span></div>
+                      <span class="tr-note">#50 bus toward Granville + Burrard Bridge · ~5 min walk to stop</span>
+                    </div>
+                    <div class="tr-stop transfer">
+                      <div class="tr-station">Broadway–City Hall Station <span class="tr-badge tr-badge-line">Canada Line</span></div>
+                      <span class="tr-note">Transfer onto Canada Line · direction: Richmond/YVR</span>
+                    </div>
+                    <div class="tr-stop end">
+                      <div class="tr-station">Templeton Station → River Rock</div>
+                      <span class="tr-note">~35 min total · or rideshare ~$22 CAD direct from Granville (~25 min)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Evening: Night Market -->
+                <div class="event-item" style="margin-bottom:4px;">
+                  <div class="event-time" style="min-width:72px;">7:00 PM</div>
+                  <div class="event-detail">
+                    <div class="event-name">🏮 Richmond Night Market <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">5 min rideshare from hotel (~$8 CAD) or 15 min walk along River Rd · 400+ street food stalls · free entry under 10 · $5 CAD adults</div>
+                  </div>
+                </div>
+                <div style="background:#e6f6f6;border:1px solid rgba(26,93,110,0.3);border-radius:12px;padding:12px 14px;margin:4px 0 14px;">
+                  <div style="font-size:11px;font-weight:700;color:#1a5d6e;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px;">🏮 Richmond Night Market · Sunday June 14</div>
+                  <div style="font-size:13px;color:#333;line-height:1.6;margin-bottom:6px;">7 PM – midnight · 8351 River Road, Richmond · just 5 min from River Rock. Go hungry — Asian street food, bubble tea, Taiwanese popcorn chicken, mango ice cream, hundreds of vendors. Arrive at 7 PM to beat the peak crowd.</div>
+                  <div class="map-link-row">
+                    <a class="map-link-btn" href="https://maps.google.com/?q=Richmond+Night+Market+8351+River+Road" target="_blank" rel="noopener">📍 Map</a>
+                    <a class="map-link-btn" href="https://www.nightmarket.ca" target="_blank" rel="noopener">🌐 Website</a>
+                  </div>
+                </div>
+
+                <div style="background:#fdf6e9;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#7b5800;line-height:1.5;">
+                  🛳️ <strong>Tomorrow:</strong> check-out at River Rock → rideshare to Canada Place cruise terminal (~25 min). Boarding opens ~11 AM. Pack tonight so the morning is stress-free.
+                </div>
+
                 <div class="highlight-grid">
                   <div class="highlight-item" onclick="openHighlight('van-stanley')">
                     <span class="highlight-icon">🌳</span>Stanley Park
@@ -2394,11 +2680,16 @@
                   <div class="highlight-item" onclick="openHighlight('van-granville')">
                     <span class="highlight-icon">🛶</span>Granville Island
                   </div>
+                  <div class="highlight-item" onclick="openHighlight('van-nightmarket')">
+                    <span class="highlight-icon">🏮</span>Night Market
+                  </div>
                   <div class="highlight-item" onclick="openHighlight('van-eats')">
                     <span class="highlight-icon">🍽️</span>Family Eats
                   </div>
+                  <div class="highlight-item" onclick="openHighlight('van-transit')">
+                    <span class="highlight-icon">🚇</span>Transit Guide
+                  </div>
                 </div>
-                <div style="background:#e0f5f5;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;font-weight:600;color:#1a5d6e;">🏮 Richmond Night Market tonight — last chance! 7 PM, 5 min from hotel</div>
             </div>
         </div>
     </div>
