@@ -1389,6 +1389,39 @@
 
             </div>
 
+            <!-- Quick Currency Converter — inline tool, no page hop needed -->
+            <div style="background:white;border-radius:16px;box-shadow:var(--shadow-sm);padding:14px 16px 16px;margin-top:14px;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                    <span style="font-size:18px;">💱</span>
+                    <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Quick Currency Converter</div>
+                </div>
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:14px;">USD ⇄ CAD · approx. rate, updated periodically</div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="flex:1;">
+                        <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-bottom:4px;">🇺🇸 US Dollars</label>
+                        <div style="display:flex;align-items:center;background:var(--glacier-pale);border-radius:10px;padding:8px 12px;">
+                            <span style="font-size:15px;font-weight:700;color:var(--glacier);margin-right:4px;">$</span>
+                            <input id="conv3-usd" type="number" inputmode="decimal" placeholder="0" oninput="convertCurrency3('usd')" style="border:none;background:none;outline:none;font-size:17px;font-weight:700;color:var(--text-dark);width:100%;font-family:'Inter',sans-serif;">
+                        </div>
+                    </div>
+                    <div style="font-size:18px;color:var(--text-light);margin-top:16px;">⇄</div>
+                    <div style="flex:1;">
+                        <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-bottom:4px;">🇨🇦 Canadian Dollars</label>
+                        <div style="display:flex;align-items:center;background:#fdf2f2;border-radius:10px;padding:8px 12px;">
+                            <span style="font-size:15px;font-weight:700;color:#c8102e;margin-right:4px;">$</span>
+                            <input id="conv3-cad" type="number" inputmode="decimal" placeholder="0" oninput="convertCurrency3('cad')" style="border:none;background:none;outline:none;font-size:17px;font-weight:700;color:var(--text-dark);width:100%;font-family:'Inter',sans-serif;">
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
+                    <button class="conv-quick-btn" onclick="convertQuick3(20)">$20</button>
+                    <button class="conv-quick-btn" onclick="convertQuick3(50)">$50</button>
+                    <button class="conv-quick-btn" onclick="convertQuick3(100)">$100</button>
+                    <button class="conv-quick-btn" onclick="convertQuick3(200)">$200</button>
+                </div>
+                <div style="font-size:10px;color:var(--text-light);margin-top:10px;line-height:1.5;">📌 Rate used: 1 USD ≈ 1.37 CAD (1 CAD ≈ 0.73 USD) · <a href="https://www.google.com/search?q=usd+to+cad" target="_blank" style="color:var(--glacier);">check live rate</a></div>
+            </div>
+
             <!-- Emergency Info — wide, anchors the very bottom of Trip Resources -->
             <div class="poster-grid" style="margin-top:14px;">
                 <div class="poster-card wide" onclick="showPage('emergency')">
@@ -4208,6 +4241,26 @@
         if (!usdEl) return;
         usdEl.value = amount;
         convertCurrency2('usd');
+    }
+
+    // Third instance — home poster Trip Resources (conv3-*)
+    function convertCurrency3(field) {
+        const usdEl = document.getElementById('conv3-usd');
+        const cadEl = document.getElementById('conv3-cad');
+        if (!usdEl || !cadEl) return;
+        if (field === 'usd') {
+            const usd = parseFloat(usdEl.value);
+            cadEl.value = isNaN(usd) ? '' : (usd * USD_TO_CAD).toFixed(2);
+        } else {
+            const cad = parseFloat(cadEl.value);
+            usdEl.value = isNaN(cad) ? '' : (cad / USD_TO_CAD).toFixed(2);
+        }
+    }
+    function convertQuick3(amount) {
+        const usdEl = document.getElementById('conv3-usd');
+        if (!usdEl) return;
+        usdEl.value = amount;
+        convertCurrency3('usd');
     }
 
     // Vancouver day-tab navigation (sticky tab bar in Ortiz/Vancouver pre-cruise content)
