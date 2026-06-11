@@ -1096,6 +1096,23 @@
             letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold);
         }
 
+        /* ---- TONIGHT STRIP (cruise nights only) ---- */
+        .poster-tonight-strip {
+            display: none; position: relative;
+            background: var(--cream); border: 1px solid var(--gold); border-radius: 4px;
+            margin: 0.6rem 1rem 0; padding: 0.9rem 1.2rem 1rem; text-align: center;
+        }
+        .poster-tonight-strip.is-visible { display: block; }
+        .poster-tonight-row {
+            font-family: 'Josefin Sans', sans-serif; font-size: 0.72rem; color: var(--navy);
+            line-height: 1.55; padding: 3px 0; -webkit-tap-highlight-color: transparent;
+        }
+        .poster-tonight-row b { font-weight: 700; }
+        .poster-tonight-divider {
+            height: 1px; margin: 4px 24px; opacity: .55;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
         /* ---- SECTION CARDS GRID ---- */
         .poster-grid-wrap { background: var(--parchment); padding: 2rem 1rem 7rem; }
         .poster-grid-header {
@@ -1265,6 +1282,12 @@
             <div class="poster-glance-title" id="poster-glance-title"></div>
             <div class="poster-glance-sub" id="poster-glance-sub"></div>
             <div class="poster-glance-cta">View full day →</div>
+        </div>
+        <div class="poster-tonight-strip" id="poster-tonight-strip">
+            <div class="poster-glance-eyebrow">✦ Tonight ✦</div>
+            <div class="poster-tonight-row" id="poster-tonight-dinner" style="cursor:pointer;"></div>
+            <div class="poster-tonight-divider"></div>
+            <div class="poster-tonight-row" id="poster-tonight-show"></div>
         </div>
 
         <!-- ============ SECTION CARDS GRID ============ -->
@@ -3585,7 +3608,7 @@
             <span class="page-header-emoji">📖</span>
             <div>
                 <div class="page-header-title">Our Alaska Adventure</div>
-                <div class="page-header-sub">Jun 15–22 2026 · Disney Wonder · 3 Families</div>
+                <div class="page-header-sub">Jun 11–22 2026 · Vancouver + Disney Wonder · 3 Families</div>
             </div>
         </div>
 
@@ -3875,7 +3898,7 @@
 <script>
     // Dual countdown
     (function() {
-        const now = new Date();
+        const now = tripNow();
         const vancouver = new Date('2026-06-11T00:00:00');
         const cruise    = new Date('2026-06-15T00:00:00');
         const dv = Math.max(0, Math.ceil((vancouver - now) / 86400000));
@@ -3888,7 +3911,7 @@
 
     // Poster hero countdown (Home redesign — Vancouver arrival & ship boarding)
     (function() {
-        const now = new Date();
+        const now = tripNow();
         const vancouver = new Date('2026-06-11T00:00:00');
         const boarding  = new Date('2026-06-15T16:00:00');
         const dv = Math.max(0, Math.ceil((vancouver - now) / 86400000));
@@ -4169,8 +4192,13 @@
 
     // Shared helper: returns the day-panel id matching today's date for a given
     // prefix/start-date/length window, or null if today falls outside that window.
+    // Test override: open the app with ?simdate=2026-06-17 to preview any trip day
+    function tripNow() {
+        const sim = new URLSearchParams(location.search).get('simdate');
+        return sim ? new Date(sim + 'T10:00:00') : new Date();
+    }
     function getTodayDayId(prefix, startDateStr, numDays) {
-        const now = new Date();
+        const now = tripNow();
         const start = new Date(startDateStr + 'T00:00:00');
         const end = new Date(startDateStr + 'T00:00:00');
         end.setDate(end.getDate() + numDays - 1);
@@ -4280,7 +4308,7 @@
             const n = dayId.replace('van-d', '');
             const labelEl = panel && panel.querySelector('.day-label');
             const titleSrc = panel && panel.querySelector('.day-title');
-            dayLine = 'Vancouver · Day ' + n + ' of 4';
+            dayLine = 'Vancouver · Day ' + n + ' of 5';
             title = titleSrc ? titleSrc.textContent : 'Pre-Cruise';
             sub = labelEl ? labelEl.textContent : '';
             card.onclick = function() {
@@ -4306,6 +4334,38 @@
         card.classList.add('is-visible');
     }
     renderTodayGlance();
+
+    // "Tonight" strip — dinner venue + show for the current cruise night.
+    // Reads DINNER_DEFAULTS + the ak26-dinner-overrides store, so phone-side
+    // customizations show up here too. Rendered via applyDinnerOverrides()
+    // (which runs on DOMContentLoaded and after every dinner edit) because
+    // the dinner consts are declared later in this script.
+    const TONIGHT_PLAN = {
+        1: { dinnerKey: 'ap-1', show: '🎭 Welcome Aboard Show · evening · Walt Disney Theatre' },
+        2: { dinnerKey: 'tr-1', show: '🎭 The Golden Mickeys · 8:30 PM · ⭐ your show' },
+        3: { dinnerKey: 'ti-1', show: '🎤 Comedy & Magic Act · 8:30 PM · adults at Palo 6:00–7:30' },
+        4: { dinnerKey: 'ap-2', show: '🎬 Movie screening & deck activities · evening' },
+        5: { dinnerKey: 'tr-2', show: '❄️ Frozen, A Musical Spectacular · 8:30 PM · ⭐ your show' },
+        6: { dinnerKey: 'ti-2', show: '🎤 Comedian / Ventriloquist · 8:30 PM · ⭐ your show' },
+        7: { dinnerKey: 'ap-3', show: '🎭 Disney Dreams — finale · 8:30 PM · ⭐ your show' }
+    };
+    function renderTonightStrip() {
+        const strip = document.getElementById('poster-tonight-strip');
+        if (!strip) return;
+        const n = _cruiseTodayId ? parseInt(_cruiseTodayId.replace('cruise-d', ''), 10) : 0;
+        const plan = TONIGHT_PLAN[n];
+        if (!plan) { strip.classList.remove('is-visible'); return; }
+        const ov = (JSON.parse(localStorage.getItem(DINNER_OV_KEY) || '{}'))[plan.dinnerKey] || {};
+        const def = DINNER_DEFAULTS[plan.dinnerKey] || {};
+        const name = (ov.name || def.name || '').replace(/ — Night \d+$/, '');
+        const time = ov.time || def.time || '~5:45 PM';
+        const edited = (ov.name || ov.time || ov.note) ? ' ✏️' : '';
+        const dinnerEl = document.getElementById('poster-tonight-dinner');
+        dinnerEl.innerHTML = '🍽️ <b>' + name + '</b> · ' + time + edited + ' · <span style="color:var(--gold);font-weight:700;">menu →</span>';
+        dinnerEl.onclick = function() { openDinnerItem(plan.dinnerKey); };
+        document.getElementById('poster-tonight-show').textContent = plan.show;
+        strip.classList.add('is-visible');
+    }
 
     // Modal
     function openModal(id) {
@@ -6146,6 +6206,7 @@
                 badge.remove();
             }
         });
+        renderTonightStrip();
     }
 
     // Run overrides on load
@@ -6284,22 +6345,39 @@
         }
     }
 
+    const PB_KEY = 'ak26-photobingo';
+    function pbSave() {
+        const state = {};
+        document.querySelectorAll('.pb-cell.spotted').forEach(c => { state[c.dataset.board + '-' + c.dataset.pbid] = true; });
+        localStorage.setItem(PB_KEY, JSON.stringify(state));
+    }
     function togglePhotoBingo(cell) {
         cell.classList.toggle('spotted');
+        pbSave();
         checkPBBingo(cell.dataset.board);
     }
     function pbReset() {
         document.querySelectorAll('.pb-cell').forEach(c => c.classList.remove('spotted'));
         document.querySelectorAll('.pb-bingo-banner').forEach(b => b.classList.remove('visible'));
+        localStorage.removeItem(PB_KEY);
     }
 
     // Port Missions
+    const MISSIONS_KEY = 'ak26-missions';
+    function missionsSave() {
+        const items = [...document.querySelectorAll('.mission-item')];
+        const state = {};
+        items.forEach((m, i) => { if (m.classList.contains('done')) state[i] = true; });
+        localStorage.setItem(MISSIONS_KEY, JSON.stringify(state));
+    }
     function missionsReset() {
         document.querySelectorAll('.mission-item').forEach(m => m.classList.remove('done'));
+        localStorage.removeItem(MISSIONS_KEY);
     }
     function toggleMission(item) {
         const completing = !item.classList.contains('done');
         item.classList.toggle('done');
+        missionsSave();
         if (completing) {
             const rect = item.getBoundingClientRect();
             const x = rect.left + rect.width / 2;
@@ -6307,6 +6385,27 @@
             launchMiniConfetti(x, y);
         }
     }
+
+    // Restore Photo Bingo + Port Missions on load
+    (function() {
+        try {
+            const pb = JSON.parse(localStorage.getItem(PB_KEY) || '{}');
+            document.querySelectorAll('.pb-cell').forEach(c => {
+                if (pb[c.dataset.board + '-' + c.dataset.pbid]) c.classList.add('spotted');
+            });
+            // Record already-won lines silently so reopening doesn't replay confetti,
+            // but a newly completed line still celebrates
+            ['wild', 'ship'].forEach(board => {
+                for (const line of PB_WINS) {
+                    if (line.every(i => pb[board + '-' + i])) pbWon[board].add(line.join(','));
+                }
+            });
+            const ms = JSON.parse(localStorage.getItem(MISSIONS_KEY) || '{}');
+            [...document.querySelectorAll('.mission-item')].forEach((m, i) => {
+                if (ms[i]) m.classList.add('done');
+            });
+        } catch (e) { /* corrupted state — start fresh */ }
+    })();
 
     function launchMiniConfetti(x, y) {
         const colors = ['#3a9db5','#d48820','#3d7055','#68d391','#fef3d8'];
@@ -7493,7 +7592,7 @@
             const mvpEnd = new Date('2026-06-11T00:00:00');
             mvpEnd.setDate(mvpEnd.getDate() + days.length - 1);
             mvpEnd.setHours(23, 59, 59, 999);
-            const now = new Date();
+            const now = tripNow();
             if (now >= mvpStart && now <= mvpEnd) {
                 const diff = Math.floor((now - mvpStart) / 86400000) + 1;
                 const clamped = Math.min(days.length, Math.max(1, diff));
@@ -7915,11 +8014,15 @@
         Promise.all(fontLoads).then(draw, draw);
     };
 
-    // Dining rotation — highlight tonight
+    // Dining rotation — highlight tonight (local date, not UTC — in Alaska the
+    // UTC date rolls over around 4 PM, which would flag the wrong night at dinner time)
+    function tripTodayStr() {
+        const d = tripNow();
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
     (function() {
         const map = { '2026-06-15': 1, '2026-06-16': 2, '2026-06-17': 3, '2026-06-18': 4, '2026-06-19': 5, '2026-06-20': 6, '2026-06-21': 7 };
-        const today = new Date().toISOString().slice(0, 10);
-        const night = map[today];
+        const night = map[tripTodayStr()];
         if (night) { const el = document.getElementById('dn-' + night); if (el) el.style.display = ''; }
     })();
 
