@@ -93,12 +93,18 @@ Dinner event items carry `data-dinner-key` (`ap-1`…`ap-3`, `tr-1`, `tr-2`, `ti
 | `ak26-note` | Freeform keepsake note |
 | `ak26-postcard-type` / `ak26-postcard-note` | Postcard builder selections |
 | `ak26-dinner-overrides` | Phone-side dinner edits (see above) |
+| `ak26-day-notes` | Day Toolkit notes, keyed by panel id (`van-d1`…`cruise-d8`) |
+| `ak26-shots` | Shot List checkboxes (`panelId-index: true`) |
 
 On-load restore for Photo Bingo records already-won lines silently (no confetti replay).
 
+## Day Toolkit (notes + shot lists)
+
+`DAY_TOOLKIT` (near end of script) defines all 13 day panels with a label and 4 photo prompts each. A `.day-toolkit` card is **injected by JS** at the top of every Vancouver/Cruise day panel: an editable Day Note (the mid-trip "plans changed" escape hatch) and a collapsible Shot List with checkboxes (mini confetti on check). Day notes surface on the Today at a Glance card; the Tonight strip has a journal row → `openTodayJournal(mvpId)` jumps to today's MVP entry on the Keepsake page.
+
 ## Keepsake page (`section-keepsake`)
 
-Rendered fresh via `renderKeepsake()`: trip stats, **Daily MVP journal** (12 day-tab panels, Jun 11–22), day-by-day memories, postcard builder (live preview + canvas PNG export via `savePostcard()`), freeform note, copy-to-clipboard.
+Rendered fresh via `renderKeepsake()`: trip stats (incl. 📸 Shots Captured `x/52` and 📓 Days Journaled `x/12`), **Daily MVP journal** (12 day-tab panels, Jun 11–22), day-by-day memories, **Trip Notes** (day notes), postcard builder (live preview + canvas PNG export via `savePostcard()`), freeform note, copy-to-clipboard (includes memories, trip notes, captured shots, wildlife).
 
 ## Modal patterns
 

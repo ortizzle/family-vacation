@@ -1113,6 +1113,27 @@
             background: linear-gradient(90deg, transparent, var(--gold), transparent);
         }
 
+        /* ---- DAY TOOLKIT (note + shot list, injected on every day panel) ---- */
+        .day-toolkit { background: white; border-radius: 12px; box-shadow: var(--shadow-sm); padding: 4px 14px; margin-bottom: 12px; }
+        .dt-row { display: flex; align-items: flex-start; gap: 8px; padding: 10px 2px; font-size: 13px; color: var(--text-mid); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .dt-row + .dt-row, .dt-row + .dt-shots-body, .dt-note-edit + .dt-row { border-top: 1px solid #f1f5f9; }
+        .dt-note-display { color: var(--text-dark); line-height: 1.5; white-space: pre-wrap; }
+        .dt-note-label { font-size: 11px; font-weight: 700; color: var(--rust); letter-spacing: .5px; text-transform: uppercase; margin-bottom: 3px; }
+        .dt-add-link { color: var(--glacier); font-weight: 600; }
+        .dt-note-edit { padding: 8px 2px 12px; }
+        .dt-note-edit textarea { width: 100%; min-height: 72px; border: 1px solid var(--border, #e2e8f0); border-radius: 10px; padding: 10px 12px; font-size: 14px; font-family: inherit; color: var(--text-dark); background: var(--cream); resize: vertical; }
+        .dt-note-edit-btns { display: flex; gap: 8px; margin-top: 8px; }
+        .dt-note-edit-btns button { flex: 1; padding: 9px; border: none; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; }
+        .dt-save-btn { background: var(--forest, #2a5240); color: #fff; }
+        .dt-cancel-btn { background: #eef1f4; color: var(--text-mid); }
+        .dt-shots-count { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--glacier); background: var(--glacier-pale); border-radius: 20px; padding: 3px 9px; white-space: nowrap; }
+        .dt-shots-count.all-done { color: #1a5c38; background: #e0f0e8; }
+        .dt-shots-body { padding: 2px 2px 8px; }
+        .dt-shot { display: flex; align-items: flex-start; gap: 10px; padding: 8px 2px; font-size: 13px; color: var(--text-mid); line-height: 1.45; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .dt-shot-box { flex-shrink: 0; width: 20px; height: 20px; border: 2px solid #cbd5e1; border-radius: 6px; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all .15s; }
+        .dt-shot.done .dt-shot-box { background: var(--forest, #2a5240); border-color: var(--forest, #2a5240); color: #fff; }
+        .dt-shot.done .dt-shot-text { text-decoration: line-through; opacity: .55; }
+
         /* ---- SECTION CARDS GRID ---- */
         .poster-grid-wrap { background: var(--parchment); padding: 2rem 1rem 7rem; }
         .poster-grid-header {
@@ -1288,6 +1309,8 @@
             <div class="poster-tonight-row" id="poster-tonight-dinner" style="cursor:pointer;"></div>
             <div class="poster-tonight-divider"></div>
             <div class="poster-tonight-row" id="poster-tonight-show"></div>
+            <div class="poster-tonight-divider"></div>
+            <div class="poster-tonight-row" id="poster-tonight-journal" style="cursor:pointer;"></div>
         </div>
 
         <!-- ============ SECTION CARDS GRID ============ -->
@@ -3631,6 +3654,14 @@
                 <div style="font-size:28px;font-weight:700;color:var(--glacier);font-family:'Playfair Display',serif;">~1,400</div>
                 <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Miles Sailed</div>
             </div>
+            <div style="background:var(--glacier-pale);border-radius:12px;padding:14px;text-align:center;">
+                <div style="font-size:28px;font-weight:700;color:var(--glacier);font-family:'Playfair Display',serif;" id="ks-shots">0/52</div>
+                <div style="font-size:11px;color:var(--text-light);margin-top:2px;">📸 Shots Captured</div>
+            </div>
+            <div style="background:var(--glacier-pale);border-radius:12px;padding:14px;text-align:center;">
+                <div style="font-size:28px;font-weight:700;color:var(--glacier);font-family:'Playfair Display',serif;" id="ks-journaldays">0/12</div>
+                <div style="font-size:11px;color:var(--text-light);margin-top:2px;">📓 Days Journaled</div>
+            </div>
         </div>
 
         <!-- Daily MVP — journal entries that feed Day-by-Day Memories below -->
@@ -3645,6 +3676,12 @@
         <!-- Day-by-Day Memories -->
         <div class="section-header">Day-by-Day Memories</div>
         <div id="keepsake-memories" style="margin-bottom:20px;"></div>
+
+        <!-- Trip Notes (day notes written on the day panels) -->
+        <div id="keepsake-daynotes-wrap" style="display:none;">
+            <div class="section-header">Trip Notes 📓</div>
+            <div id="keepsake-daynotes" style="margin-bottom:20px;"></div>
+        </div>
 
         <!-- Wildlife Spotted -->
         <div class="section-header">Wildlife Spotted</div>
@@ -4330,7 +4367,17 @@
 
         if (dayEl) dayEl.textContent = dayLine;
         if (titleEl) titleEl.textContent = title;
-        if (subEl) subEl.textContent = sub;
+        if (subEl) {
+            subEl.textContent = sub;
+            // Surface today's day note (written on the day panel) right on the poster
+            const dayNote = (JSON.parse(localStorage.getItem('ak26-day-notes') || '{}'))[dayId];
+            if (dayNote) {
+                const noteSpan = document.createElement('div');
+                noteSpan.style.cssText = 'margin-top:7px;color:var(--rust);font-weight:600;';
+                noteSpan.textContent = '📓 ' + (dayNote.length > 90 ? dayNote.slice(0, 90) + '…' : dayNote);
+                subEl.appendChild(noteSpan);
+            }
+        }
         card.classList.add('is-visible');
     }
     renderTodayGlance();
@@ -4364,6 +4411,16 @@
         dinnerEl.innerHTML = '🍽️ <b>' + name + '</b> · ' + time + edited + ' · <span style="color:var(--gold);font-weight:700;">menu →</span>';
         dinnerEl.onclick = function() { openDinnerItem(plan.dinnerKey); };
         document.getElementById('poster-tonight-show').textContent = plan.show;
+        const journalEl = document.getElementById('poster-tonight-journal');
+        if (journalEl) {
+            const mvpState = JSON.parse(localStorage.getItem('ak26-mvp') || '{}');
+            const entry = mvpState['d' + n] || {};
+            const done = entry.moment || entry.meal || entry.wild;
+            journalEl.innerHTML = done
+                ? '📓 Journal entry saved · <span style="color:var(--gold);font-weight:700;">add more →</span>'
+                : '📓 What was today\'s best moment? · <span style="color:var(--gold);font-weight:700;">journal →</span>';
+            journalEl.onclick = function() { openTodayJournal('d' + n); };
+        }
         strip.classList.add('is-visible');
     }
 
@@ -7713,6 +7770,36 @@
         if (elWild) elWild.textContent = wildlifeCount;
         if (elPorts) elPorts.textContent = portsCount;
 
+        // Shots captured + days journaled
+        const shotState = JSON.parse(localStorage.getItem('ak26-shots') || '{}');
+        const shotCount = Object.values(shotState).filter(Boolean).length;
+        const elShots = document.getElementById('ks-shots');
+        if (elShots) elShots.textContent = shotCount + '/' + TOTAL_SHOTS;
+        const mvpStateForCount = JSON.parse(localStorage.getItem('ak26-mvp') || '{}');
+        const journaled = KEEPSAKE_DAYS.filter(d => {
+            const e = mvpStateForCount[d.id] || {};
+            return e.moment || e.meal || e.wild;
+        }).length;
+        const elJournal = document.getElementById('ks-journaldays');
+        if (elJournal) elJournal.textContent = journaled + '/' + KEEPSAKE_DAYS.length;
+
+        // Trip Notes (day notes from the day panels)
+        const dayNotes = JSON.parse(localStorage.getItem('ak26-day-notes') || '{}');
+        const dnWrap = document.getElementById('keepsake-daynotes-wrap');
+        const dnEl = document.getElementById('keepsake-daynotes');
+        if (dnWrap && dnEl) {
+            const withNotes = DAY_TOOLKIT.filter(d => dayNotes[d.id]);
+            if (withNotes.length === 0) {
+                dnWrap.style.display = 'none';
+            } else {
+                dnWrap.style.display = '';
+                dnEl.innerHTML = withNotes.map(d => `<div style="background:white;border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm);margin-bottom:8px;">
+                    <div style="font-size:11px;font-variant:small-caps;letter-spacing:.8px;color:var(--rust);font-weight:700;margin-bottom:4px;">${d.label}</div>
+                    <div style="font-size:13px;color:var(--text-dark);line-height:1.5;white-space:pre-wrap;">${dtEscape(dayNotes[d.id])}</div>
+                </div>`).join('');
+            }
+        }
+
         // Day-by-Day Memories
         const mvpState = JSON.parse(localStorage.getItem('ak26-mvp') || '{}');
         const memoriesEl = document.getElementById('keepsake-memories');
@@ -7772,10 +7859,14 @@
         const portsCount = Object.values(passportState).filter(Boolean).length;
         const spotted = Object.keys(ANIMAL_DATA).filter(id => bingoState[id]).map(id => ANIMAL_DATA[id].emoji + ' ' + ANIMAL_DATA[id].name);
 
+        const dayNotes = JSON.parse(localStorage.getItem('ak26-day-notes') || '{}');
+        const shotState = JSON.parse(localStorage.getItem('ak26-shots') || '{}');
+        const shotCount = Object.values(shotState).filter(Boolean).length;
+
         let text = '🚢 OUR ALASKA ADVENTURE\n';
-        text += 'Disney Wonder · Jun 15–22 2026 · Ortiz / Stallings / Simmons\n';
+        text += 'Vancouver + Disney Wonder · Jun 11–22 2026 · Ortiz / Stallings / Simmons\n';
         text += '─'.repeat(36) + '\n\n';
-        text += `Wildlife Spotted: ${spotted.length} | Ports Stamped: ${portsCount} | Days at Sea: 3 | Miles Sailed: ~1,400\n\n`;
+        text += `Wildlife Spotted: ${spotted.length} | Ports Stamped: ${portsCount} | Shots Captured: ${shotCount}/${TOTAL_SHOTS} | Miles Sailed: ~1,400\n\n`;
         text += '📅 DAY-BY-DAY MEMORIES\n';
         KEEPSAKE_DAYS.forEach(d => {
             const entry = mvpState[d.id] || {};
@@ -7786,6 +7877,17 @@
                 if (entry.wild)   text += `  🦅 ${entry.wild}\n`;
             }
         });
+        const notedDays = DAY_TOOLKIT.filter(d => dayNotes[d.id]);
+        if (notedDays.length > 0) {
+            text += '\n📓 TRIP NOTES\n';
+            notedDays.forEach(d => { text += `\n${d.label}\n  ${dayNotes[d.id].replace(/\n/g, '\n  ')}\n`; });
+        }
+        if (shotCount > 0) {
+            text += '\n📸 SHOTS CAPTURED (' + shotCount + '/' + TOTAL_SHOTS + ')\n';
+            DAY_TOOLKIT.forEach(d => {
+                d.shots.forEach((s, i) => { if (shotState[d.id + '-' + i]) text += `  ✓ ${s} (${d.label.split(' · ')[0]})\n`; });
+            });
+        }
         if (spotted.length > 0) {
             text += '\n🐾 WILDLIFE SPOTTED\n' + spotted.map(s => '  ' + s).join('\n') + '\n';
         }
@@ -8013,6 +8115,183 @@
         ].map(f => document.fonts.load(f));
         Promise.all(fontLoads).then(draw, draw);
     };
+
+    // ── Day Toolkit: per-day notes + photo shot lists ───────────────────────
+    // Injected at the top of every Vancouver/Cruise day panel. Notes are the
+    // mid-trip "plans changed" escape hatch (per-device); shot lists nudge the
+    // family to capture specific photos. Both feed the Keepsake page + export.
+    const DAY_NOTES_KEY = 'ak26-day-notes';
+    const SHOTS_KEY = 'ak26-shots';
+
+    const DAY_TOOLKIT = [
+        { id: 'van-d1', label: 'Thu Jun 11 · Travel Day', shots: [
+            'Airport send-off selfie at PHX',
+            'First view of Vancouver from the plane window',
+            'River Rock room reveal — kids\' reactions',
+            'First meal in Canada (even if it\'s room service)' ] },
+        { id: 'van-d2', label: 'Fri Jun 12 · Steveston + Yaletown', shots: [
+            'Fishing boats at Steveston wharf',
+            'The whole crew on the boardwalk',
+            'Aburi salmon closeup at Minami',
+            'Gastown Steam Clock (if the night walk happens)' ] },
+        { id: 'van-d3', label: 'Sat Jun 13 · North Shore + FIFA', shots: [
+            'Mid-bridge shot on the Capilano Suspension Bridge',
+            'Treetops walkway through the firs',
+            'City-to-ocean view from Grouse Mountain',
+            'BC Place glowing on match night' ] },
+        { id: 'van-d4', label: 'Sun Jun 14 · Stanley Park + Night Market', shots: [
+            'Totem poles at Brockton Point',
+            'Seawall with the mountains behind',
+            'Granville Island food haul, one frame',
+            'Night Market neon + skewers in hand' ] },
+        { id: 'van-d5', label: 'Mon Jun 15 · Boarding Morning', shots: [
+            'Bags lined up in the River Rock lobby',
+            'Canada Place sails from the street',
+            'First glimpse of the Disney Wonder',
+            'The gangway moment — officially aboard' ] },
+        { id: 'cruise-d1', label: 'Mon Jun 15 · Embarkation', shots: [
+            'Stateroom door + first room reveal',
+            'Sail-away deck party streamers',
+            'Passing under the Lions Gate Bridge',
+            'First night\'s menu at Animator\'s Palate' ] },
+        { id: 'cruise-d2', label: 'Tue Jun 16 · At Sea', shots: [
+            'Open water + islands from the rail',
+            'First whale blow or fluke attempt',
+            'Palo brunch with the ocean behind',
+            'Dressed up for The Golden Mickeys' ] },
+        { id: 'cruise-d3', label: 'Wed Jun 17 · Glacier Day', shots: [
+            'Dawes Glacier face from the deck',
+            'Blue ice closeup — the oldest ice you\'ll ever see',
+            'Harbor seals riding an ice floe',
+            'Whole family bundled up, glacier behind' ] },
+        { id: 'cruise-d4', label: 'Thu Jun 18 · Skagway', shots: [
+            'Train hugging the cliff on White Pass',
+            'Summit sign at 2,865 ft',
+            'Sled dog (or puppy!) at Musher\'s Camp',
+            'Skagway\'s false-front main street' ] },
+        { id: 'cruise-d5', label: 'Fri Jun 19 · Juneau', shots: [
+            'Wing view from the seaplane (Ortiz crew)',
+            'Mendenhall Glacier + Nugget Falls',
+            'Whale watching action shot (Simmons crew)',
+            'Bald eagle perched somewhere unexpected' ] },
+        { id: 'cruise-d6', label: 'Sat Jun 20 · Ketchikan', shots: [
+            'Creek Street boardwalk on stilts',
+            'Tallest totem pole you can find',
+            'Lumberjack mid-axe-throw',
+            'Family in full rain gear, grinning anyway' ] },
+        { id: 'cruise-d7', label: 'Sun Jun 21 · Last Day at Sea', shots: [
+            'Ship\'s wake stretching back toward Alaska',
+            'Mixology toast (adults)',
+            'Farewell deck party under the late-night sky',
+            'Last Alaska sunset from the rail' ] },
+        { id: 'cruise-d8', label: 'Mon Jun 22 · Homeward', shots: [
+            'One last shot of the Wonder at Canada Place',
+            'Tired-but-happy airport group photo',
+            'Everyone\'s favorite souvenir, one frame',
+            'The whole crew — final group shot' ] },
+    ];
+    const TOTAL_SHOTS = DAY_TOOLKIT.reduce((s, d) => s + d.shots.length, 0);
+
+    function dtEscape(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function dtNotes() { return JSON.parse(localStorage.getItem(DAY_NOTES_KEY) || '{}'); }
+    function dtShots() { return JSON.parse(localStorage.getItem(SHOTS_KEY) || '{}'); }
+
+    function renderDayToolkit(dayId) {
+        const host = document.getElementById('dt-' + dayId);
+        const day = DAY_TOOLKIT.find(d => d.id === dayId);
+        if (!host || !day) return;
+        const note = dtNotes()[dayId] || '';
+        const shots = dtShots();
+        const doneCount = day.shots.filter((_, i) => shots[dayId + '-' + i]).length;
+        const noteHtml = note
+            ? `<div class="dt-row" onclick="dtEditNote('${dayId}')"><span>📓</span><div style="flex:1;"><div class="dt-note-label">Day Note</div><div class="dt-note-display">${dtEscape(note)}</div></div><span style="color:var(--glacier);">✏️</span></div>`
+            : `<div class="dt-row" onclick="dtEditNote('${dayId}')"><span>📓</span><span class="dt-add-link">Add a day note — plan changes, memories, anything</span></div>`;
+        const shotsHtml = `
+            <div class="dt-row" onclick="dtToggleShots('${dayId}')"><span>📸</span><span style="font-weight:600;color:var(--text-dark);">Today's Shot List</span><span class="dt-shots-count${doneCount === day.shots.length ? ' all-done' : ''}">${doneCount}/${day.shots.length}${doneCount === day.shots.length ? ' ✓' : ''}</span></div>
+            <div class="dt-shots-body" id="dt-shots-${dayId}" style="display:none;">
+                ${day.shots.map((s, i) => `<div class="dt-shot${shots[dayId + '-' + i] ? ' done' : ''}" onclick="dtToggleShot('${dayId}', ${i}, this)"><span class="dt-shot-box">✓</span><span class="dt-shot-text">${dtEscape(s)}</span></div>`).join('')}
+            </div>`;
+        host.innerHTML = noteHtml + shotsHtml;
+    }
+
+    window.dtToggleShots = function(dayId) {
+        const body = document.getElementById('dt-shots-' + dayId);
+        if (body) body.style.display = body.style.display === 'none' ? '' : 'none';
+    };
+
+    window.dtToggleShot = function(dayId, idx, el) {
+        const shots = dtShots();
+        const key = dayId + '-' + idx;
+        const nowDone = !shots[key];
+        if (nowDone) shots[key] = true; else delete shots[key];
+        localStorage.setItem(SHOTS_KEY, JSON.stringify(shots));
+        el.classList.toggle('done', nowDone);
+        if (nowDone) {
+            const r = el.getBoundingClientRect();
+            launchMiniConfetti(r.left + 20, r.top + 10);
+        }
+        // refresh the count chip without collapsing the open list
+        const day = DAY_TOOLKIT.find(d => d.id === dayId);
+        const doneCount = day.shots.filter((_, i) => shots[dayId + '-' + i]).length;
+        const chip = document.querySelector('#dt-' + dayId + ' .dt-shots-count');
+        if (chip) {
+            chip.textContent = doneCount + '/' + day.shots.length + (doneCount === day.shots.length ? ' ✓' : '');
+            chip.classList.toggle('all-done', doneCount === day.shots.length);
+        }
+    };
+
+    window.dtEditNote = function(dayId) {
+        const host = document.getElementById('dt-' + dayId);
+        if (!host) return;
+        const note = dtNotes()[dayId] || '';
+        host.innerHTML = `
+            <div class="dt-note-edit">
+                <div class="dt-note-label" style="padding-top:8px;">📓 Day Note</div>
+                <textarea id="dt-input-${dayId}" placeholder="e.g. Seaplane cancelled — doing Mt. Roberts Tramway at 1 PM instead">${dtEscape(note)}</textarea>
+                <div class="dt-note-edit-btns">
+                    <button class="dt-cancel-btn" onclick="renderDayToolkit('${dayId}')">Cancel</button>
+                    <button class="dt-save-btn" onclick="dtSaveNote('${dayId}')">Save Note</button>
+                </div>
+            </div>`;
+        const ta = document.getElementById('dt-input-' + dayId);
+        if (ta) ta.focus();
+    };
+    window.renderDayToolkit = renderDayToolkit;
+
+    window.dtSaveNote = function(dayId) {
+        const ta = document.getElementById('dt-input-' + dayId);
+        if (!ta) return;
+        const notes = dtNotes();
+        const val = ta.value.trim();
+        if (val) notes[dayId] = val; else delete notes[dayId];
+        localStorage.setItem(DAY_NOTES_KEY, JSON.stringify(notes));
+        renderDayToolkit(dayId);
+        renderTodayGlance(); // keep the poster preview in sync
+    };
+
+    // Jump from the Tonight strip straight into today's MVP journal entry
+    window.openTodayJournal = function(mvpId) {
+        showPage('keepsake');
+        setTimeout(function() {
+            if (typeof switchMvpDay === 'function' && document.getElementById('mvp-' + mvpId)) {
+                switchMvpDay('mvp-' + mvpId);
+            }
+            const sec = document.getElementById('mvp-section');
+            if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 80);
+    };
+
+    // Inject a toolkit host at the top of every day panel
+    DAY_TOOLKIT.forEach(d => {
+        const panel = document.getElementById(d.id);
+        if (!panel) return;
+        const host = document.createElement('div');
+        host.className = 'day-toolkit';
+        host.id = 'dt-' + d.id;
+        panel.insertBefore(host, panel.firstChild);
+        renderDayToolkit(d.id);
+    });
+    // ── End Day Toolkit ─────────────────────────────────────────────────────
 
     // Dining rotation — highlight tonight (local date, not UTC — in Alaska the
     // UTC date rolls over around 4 PM, which would flag the wrong night at dinner time)
