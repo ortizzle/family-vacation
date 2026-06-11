@@ -2196,10 +2196,7 @@
             </div>
             <div class="acc-body">
                 <div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 12px;align-items:center;">
-                  <span style="background:#eef4f0;color:#1e3d2c;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;">🌡 66°F / 54°F</span>
-                  <span style="background:#eef4f0;color:#1e3d2c;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;">☁️ Cloudy</span>
-                  <span style="background:#e8f4fd;color:#1e40af;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;">📅 Actual forecast</span>
-                  <a href="https://www.google.com/search?q=Richmond+BC+weather" target="_blank" rel="noopener" style="background:#d4edda;color:#155724;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;text-decoration:none;">📡 Live →</a>
+                  <a href="https://www.google.com/search?q=Richmond+BC+weather" target="_blank" rel="noopener" style="background:#d4edda;color:#155724;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;text-decoration:none;">📡 Full forecast →</a>
                 </div>
                 <!-- Main events -->
                 <div class="event-item" style="margin-bottom:4px;">
@@ -2272,10 +2269,7 @@
             </div>
             <div class="acc-body">
                 <div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 12px;align-items:center;">
-                  <span style="background:#eef4f0;color:#1e3d2c;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;">🌡 70°F / 54°F</span>
-                  <span style="background:#eef4f0;color:#1e3d2c;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;">⛅ Mix of sun & cloud</span>
-                  <span style="background:#e8f4fd;color:#1e40af;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;">📅 Actual forecast</span>
-                  <a href="https://www.google.com/search?q=Richmond+BC+weather" target="_blank" rel="noopener" style="background:#d4edda;color:#155724;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;text-decoration:none;">📡 Live →</a>
+                  <a href="https://www.google.com/search?q=Richmond+BC+weather" target="_blank" rel="noopener" style="background:#d4edda;color:#155724;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;text-decoration:none;">📡 Full forecast →</a>
                 </div>
                 <p style="font-size:13px;color:var(--text-mid);margin:0 0 14px;line-height:1.5;">Ease-in day — morning at Steveston's historic fishing village, a quiet afternoon back at the hotel, then Minami dinner in Yaletown. If energy is high after dinner, Gastown is 10 minutes away for the USA vs Paraguay watch party.</p>
 
@@ -8192,6 +8186,77 @@
     ];
     const TOTAL_SHOTS = DAY_TOOLKIT.reduce((s, d) => s + d.shots.length, 0);
 
+    // Live weather — Open-Meteo (free, keyless). Fetched when online, cached
+    // in localStorage so the last forecast survives at sea. One location per
+    // day; sea days use the nearest Inside Passage point.
+    const WEATHER_KEY = 'ak26-weather';
+    const WEATHER_SPOTS = {
+        vancouver: { lat: 49.29, lon: -123.12, label: 'Vancouver' },
+        endicott:  { lat: 57.78, lon: -133.60, label: 'Endicott Arm' },
+        skagway:   { lat: 59.46, lon: -135.31, label: 'Skagway' },
+        juneau:    { lat: 58.30, lon: -134.42, label: 'Juneau' },
+        ketchikan: { lat: 55.34, lon: -131.65, label: 'Ketchikan' }
+    };
+    const DAY_WEATHER = {
+        'van-d1': ['vancouver', '2026-06-11'], 'van-d2': ['vancouver', '2026-06-12'],
+        'van-d3': ['vancouver', '2026-06-13'], 'van-d4': ['vancouver', '2026-06-14'],
+        'van-d5': ['vancouver', '2026-06-15'], 'cruise-d1': ['vancouver', '2026-06-15'],
+        'cruise-d2': ['ketchikan', '2026-06-16', 'Inside Passage'],
+        'cruise-d3': ['endicott', '2026-06-17'],
+        'cruise-d4': ['skagway', '2026-06-18'],
+        'cruise-d5': ['juneau', '2026-06-19'],
+        'cruise-d6': ['ketchikan', '2026-06-20'],
+        'cruise-d7': ['ketchikan', '2026-06-21', 'Inside Passage'],
+        'cruise-d8': ['vancouver', '2026-06-22']
+    };
+    function wxEmoji(code) {
+        if (code === 0) return '☀️';
+        if (code <= 2) return '🌤';
+        if (code === 3) return '☁️';
+        if (code <= 48) return '🌫';
+        if (code <= 57) return '🌦';
+        if (code <= 67) return '🌧';
+        if (code <= 77) return '🌨';
+        if (code <= 82) return '🌧';
+        if (code <= 86) return '🌨';
+        return '⛈';
+    }
+    function wxCache() {
+        try { return JSON.parse(localStorage.getItem(WEATHER_KEY)) || null; } catch (e) { return null; }
+    }
+    async function fetchTripWeather(force) {
+        const cache = wxCache();
+        if (!force && cache && Date.now() - cache.at < 6 * 3600 * 1000) return;
+        if (!navigator.onLine) return;
+        try {
+            const spots = Object.keys(WEATHER_SPOTS);
+            const results = await Promise.all(spots.map(async k => {
+                const s = WEATHER_SPOTS[k];
+                const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + s.lat + '&longitude=' + s.lon +
+                    '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code' +
+                    '&temperature_unit=fahrenheit&timezone=auto&start_date=2026-06-11&end_date=2026-06-22';
+                const r = await fetch(url);
+                if (!r.ok) throw new Error('wx ' + r.status);
+                return [k, await r.json()];
+            }));
+            const bySpot = Object.fromEntries(results);
+            const days = {};
+            Object.keys(DAY_WEATHER).forEach(dayId => {
+                const spot = DAY_WEATHER[dayId][0], date = DAY_WEATHER[dayId][1];
+                const d = bySpot[spot] && bySpot[spot].daily;
+                if (!d) return;
+                const i = d.time.indexOf(date);
+                if (i === -1) return;
+                days[dayId] = {
+                    hi: Math.round(d.temperature_2m_max[i]), lo: Math.round(d.temperature_2m_min[i]),
+                    rain: d.precipitation_probability_max[i], code: d.weather_code[i]
+                };
+            });
+            localStorage.setItem(WEATHER_KEY, JSON.stringify({ at: Date.now(), days }));
+            DAY_TOOLKIT.forEach(d => renderDayToolkit(d.id));
+        } catch (e) { /* offline or API hiccup — last cached forecast keeps showing */ }
+    }
+
     function dtEscape(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
     function dtNotes() { return JSON.parse(localStorage.getItem(DAY_NOTES_KEY) || '{}'); }
     function dtShots() { return JSON.parse(localStorage.getItem(SHOTS_KEY) || '{}'); }
@@ -8211,7 +8276,18 @@
             <div class="dt-shots-body" id="dt-shots-${dayId}" style="display:none;">
                 ${day.shots.map((s, i) => `<div class="dt-shot${shots[dayId + '-' + i] ? ' done' : ''}" onclick="dtToggleShot('${dayId}', ${i}, this)"><span class="dt-shot-box">✓</span><span class="dt-shot-text">${dtEscape(s)}</span></div>`).join('')}
             </div>`;
-        host.innerHTML = noteHtml + shotsHtml;
+        // Live weather row (only when a cached forecast exists for this day)
+        let wxHtml = '';
+        const wc = wxCache();
+        const w = wc && wc.days && wc.days[dayId];
+        const spotInfo = DAY_WEATHER[dayId];
+        if (w && spotInfo) {
+            const label = spotInfo[2] || WEATHER_SPOTS[spotInfo[0]].label;
+            const ageH = Math.floor((Date.now() - wc.at) / 3600000);
+            const age = ageH < 1 ? 'just now' : ageH < 24 ? ageH + 'h ago' : Math.floor(ageH / 24) + 'd ago';
+            wxHtml = `<div class="dt-row" style="cursor:default;"><span>${wxEmoji(w.code)}</span><span style="color:var(--text-dark);font-weight:600;">H ${w.hi}° / L ${w.lo}°${w.rain != null ? ' · ' + w.rain + '% rain' : ''} · ${label}</span><span style="margin-left:auto;font-size:10px;color:var(--text-light);white-space:nowrap;padding-top:2px;">live · ${age}</span></div>`;
+        }
+        host.innerHTML = wxHtml + noteHtml + shotsHtml;
     }
 
     window.dtToggleShots = function(dayId) {
