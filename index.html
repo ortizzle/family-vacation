@@ -7867,6 +7867,93 @@
         return type.showCrew ? 'ORTIZ · STALLINGS · SIMMONS' : '— with love, from the Inside Passage';
     }
 
+    // Photo frame aspect ratio — shared between the on-page crop editor, the
+    // live preview, and the canvas export so the crop lines up everywhere.
+    const PHOTO_BOX = { w: 980, h: 560 };
+
+    function getPostcardPhotoFit() {
+        const f = JSON.parse(localStorage.getItem('ak26-postcard-photo-fit') || '{}');
+        return {
+            zoom: f.zoom || 1,
+            posX: f.posX != null ? f.posX : 50,
+            posY: f.posY != null ? f.posY : 50
+        };
+    }
+
+    function savePostcardPhotoFit(fit) {
+        localStorage.setItem('ak26-postcard-photo-fit', JSON.stringify(fit));
+    }
+
+    // Returns the width/height/left/top percentages (relative to PHOTO_BOX)
+    // for the <img> given the photo's natural size and the current zoom/pan.
+    function postcardPhotoCropStyle() {
+        const dims = JSON.parse(localStorage.getItem('ak26-postcard-photo-dims') || 'null');
+        if (!dims) return '';
+        const fit = getPostcardPhotoFit();
+        const baseScale = Math.max(PHOTO_BOX.w / dims.w, PHOTO_BOX.h / dims.h);
+        const scale = baseScale * fit.zoom;
+        const wPct = (dims.w * scale / PHOTO_BOX.w) * 100;
+        const hPct = (dims.h * scale / PHOTO_BOX.h) * 100;
+        const xPct = (100 - wPct) * (fit.posX / 100);
+        const yPct = (100 - hPct) * (fit.posY / 100);
+        return `width:${wPct}%;height:${hPct}%;left:${xPct}%;top:${yPct}%;`;
+    }
+
+    function layoutPostcardPhotoFrame() {
+        const img = document.getElementById('postcard-photo-img');
+        if (!img) return;
+        const style = postcardPhotoCropStyle();
+        if (!style) return;
+        img.style.cssText += style;
+    }
+
+    function attachPostcardPhotoDrag() {
+        const frame = document.getElementById('postcard-photo-frame');
+        if (!frame) return;
+        let dragging = false, startX, startY, startFit;
+        frame.onpointerdown = (e) => {
+            dragging = true;
+            startX = e.clientX; startY = e.clientY;
+            startFit = getPostcardPhotoFit();
+            frame.style.cursor = 'grabbing';
+            try { frame.setPointerCapture(e.pointerId); } catch (err) {}
+        };
+        frame.onpointermove = (e) => {
+            if (!dragging) return;
+            const dims = JSON.parse(localStorage.getItem('ak26-postcard-photo-dims') || 'null');
+            if (!dims) return;
+            const baseScale = Math.max(PHOTO_BOX.w / dims.w, PHOTO_BOX.h / dims.h);
+            const scale = baseScale * startFit.zoom;
+            const wPct = (dims.w * scale / PHOTO_BOX.w) * 100;
+            const hPct = (dims.h * scale / PHOTO_BOX.h) * 100;
+            const rect = frame.getBoundingClientRect();
+            const deltaXPct = (e.clientX - startX) / rect.width * 100;
+            const deltaYPct = (e.clientY - startY) / rect.height * 100;
+            let posX = startFit.posX, posY = startFit.posY;
+            if (wPct > 100) posX = Math.max(0, Math.min(100, startFit.posX - deltaXPct / (wPct - 100) * 100));
+            if (hPct > 100) posY = Math.max(0, Math.min(100, startFit.posY - deltaYPct / (hPct - 100) * 100));
+            savePostcardPhotoFit({ zoom: startFit.zoom, posX, posY });
+            layoutPostcardPhotoFrame();
+            updatePostcardPreview();
+        };
+        const endDrag = (e) => {
+            dragging = false;
+            frame.style.cursor = 'grab';
+            try { frame.releasePointerCapture(e.pointerId); } catch (err) {}
+        };
+        frame.onpointerup = endDrag;
+        frame.onpointerleave = endDrag;
+        frame.onpointercancel = endDrag;
+    }
+
+    window.setPostcardPhotoZoom = function(val) {
+        const fit = getPostcardPhotoFit();
+        fit.zoom = parseFloat(val) / 100;
+        savePostcardPhotoFit(fit);
+        layoutPostcardPhotoFrame();
+        updatePostcardPreview();
+    };
+
     function renderPostcardPicker() {
         const picker = document.getElementById('postcard-type-picker');
         const noteEl = document.getElementById('postcard-note');
@@ -7906,14 +7993,22 @@
         if (!area) return;
         const photo = localStorage.getItem('ak26-postcard-photo');
         if (photo) {
+            const fit = getPostcardPhotoFit();
             area.innerHTML = `
-                <div style="position:relative;border-radius:12px;overflow:hidden;border:2px solid #c8922a;">
-                    <img src="${photo}" style="display:block;width:100%;max-height:220px;object-fit:cover;">
+                <div id="postcard-photo-frame" style="position:relative;width:100%;aspect-ratio:${PHOTO_BOX.w}/${PHOTO_BOX.h};border-radius:12px;overflow:hidden;border:2px solid #c8922a;cursor:grab;touch-action:none;background:#1a2744;">
+                    <img id="postcard-photo-img" src="${photo}" draggable="false" style="position:absolute;max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;">
                     <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
                         <button onclick="document.getElementById('postcard-photo-input').click()" style="background:rgba(26,39,68,.8);color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;">🔄 Change</button>
                         <button onclick="removePostcardPhoto()" style="background:rgba(139,58,26,.85);color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;">✕ Remove</button>
                     </div>
-                </div>`;
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+                    <span style="font-size:14px;">🔍</span>
+                    <input type="range" min="100" max="250" value="${Math.round(fit.zoom * 100)}" oninput="setPostcardPhotoZoom(this.value)" style="flex:1;accent-color:#c8922a;">
+                </div>
+                <div style="font-size:11px;color:var(--text-light);text-align:center;margin-top:4px;">Drag the photo to reposition · slide to zoom</div>`;
+            layoutPostcardPhotoFrame();
+            attachPostcardPhotoDrag();
         } else {
             area.innerHTML = `
                 <div onclick="document.getElementById('postcard-photo-input').click()" style="border:1.5px dashed #c8922a;border-radius:12px;padding:18px;text-align:center;color:var(--text-light);font-size:13px;cursor:pointer;-webkit-tap-highlight-color:transparent;">
@@ -7944,6 +8039,8 @@
                     alert('That photo was too large to save — try a smaller image.');
                     return;
                 }
+                localStorage.setItem('ak26-postcard-photo-dims', JSON.stringify({ w, h }));
+                savePostcardPhotoFit({ zoom: 1, posX: 50, posY: 50 });
                 input.value = '';
                 renderPostcardPhoto();
                 updatePostcardPreview();
@@ -7955,6 +8052,8 @@
 
     window.removePostcardPhoto = function() {
         localStorage.removeItem('ak26-postcard-photo');
+        localStorage.removeItem('ak26-postcard-photo-dims');
+        localStorage.removeItem('ak26-postcard-photo-fit');
         renderPostcardPhoto();
         updatePostcardPreview();
     };
@@ -7973,7 +8072,7 @@
         preview.innerHTML = `
             <div style="font-size:11px;font-weight:700;letter-spacing:.6px;color:var(--text-light);margin-bottom:6px;">PREVIEW · ${type.label}</div>
             <div style="background:#f2ead8;border:2px solid #c8922a;border-radius:14px;padding:20px 18px;text-align:center;">
-                ${photo ? `<img src="${photo}" style="display:block;width:100%;max-height:240px;object-fit:cover;border-radius:8px;border:2px solid #c8922a;margin-bottom:14px;">` : ''}
+                ${photo ? `<div style="position:relative;width:100%;aspect-ratio:${PHOTO_BOX.w}/${PHOTO_BOX.h};border-radius:8px;overflow:hidden;border:2px solid #c8922a;margin-bottom:14px;background:#1a2744;"><img src="${photo}" draggable="false" style="position:absolute;max-width:none;max-height:none;${postcardPhotoCropStyle()}"></div>` : ''}
                 <div style="font-size:10px;letter-spacing:1.6px;font-weight:700;color:${type.accent};margin-bottom:10px;">✦ ${kickerVal} ✦</div>
                 <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:#1a2744;line-height:1.45;">“${text}”</div>
                 ${type.showCrew
@@ -8248,6 +8347,66 @@
             ctx.strokeStyle = 'rgba(200,146,42,.55)';
             ctx.strokeRect(54, 54, W - 108, H - 108);
 
+            // Corner ornaments — small diamond flourishes at each inner-frame corner
+            [[88, 88], [W - 88, 88], [88, H - 88], [W - 88, H - 88]].forEach(([cx, cy]) => {
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.strokeStyle = '#c8922a';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(-14, 0); ctx.lineTo(0, -14); ctx.lineTo(14, 0); ctx.lineTo(0, 14);
+                ctx.closePath(); ctx.stroke();
+                ctx.fillStyle = '#c8922a';
+                ctx.beginPath(); ctx.arc(0, 0, 3, 0, Math.PI * 2); ctx.fill();
+                ctx.restore();
+            });
+
+            // Postage stamp + postmark — classic postcard touch, top-right corner
+            ctx.save();
+            ctx.translate(W - 145, 150);
+            ctx.rotate(0.04);
+            const sw = 150, sh = 186;
+            ctx.fillStyle = '#fff';
+            ctx.strokeStyle = '#1a2744';
+            ctx.lineWidth = 2;
+            ctx.fillRect(-sw / 2, -sh / 2, sw, sh);
+            ctx.strokeRect(-sw / 2, -sh / 2, sw, sh);
+            ctx.fillStyle = '#f2ead8';
+            for (let i = 0; i <= 8; i++) {
+                const x = -sw / 2 + i * sw / 8;
+                ctx.beginPath(); ctx.arc(x, -sh / 2, 4, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(x, sh / 2, 4, 0, Math.PI * 2); ctx.fill();
+            }
+            for (let i = 0; i <= 10; i++) {
+                const y = -sh / 2 + i * sh / 10;
+                ctx.beginPath(); ctx.arc(-sw / 2, y, 4, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(sw / 2, y, 4, 0, Math.PI * 2); ctx.fill();
+            }
+            ctx.strokeStyle = '#c8922a';
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(-sw / 2 + 12, -sh / 2 + 12, sw - 24, sh - 24);
+            ctx.fillStyle = '#1a2744';
+            ctx.font = '52px serif';
+            ctx.fillText('🏔️', 0, -14);
+            ctx.font = '700 16px "Josefin Sans", sans-serif';
+            ctx.fillText('ALASKA', 0, 48);
+            ctx.font = '600 13px "Josefin Sans", sans-serif';
+            ctx.fillText('2026', 0, 68);
+            ctx.restore();
+
+            ctx.save();
+            ctx.translate(W - 250, 235);
+            ctx.rotate(-0.18);
+            ctx.strokeStyle = 'rgba(139,58,26,.6)';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(0, 0, 56, 0, Math.PI * 2); ctx.stroke();
+            ctx.beginPath(); ctx.arc(0, 0, 46, 0, Math.PI * 2); ctx.stroke();
+            ctx.fillStyle = 'rgba(139,58,26,.6)';
+            ctx.font = '700 12px "Josefin Sans", sans-serif';
+            ctx.fillText('JUNEAU · AK', 0, -6);
+            ctx.fillText('JUN 2026', 0, 10);
+            ctx.restore();
+
             // Layered mountain silhouette band (echoes .poster-mountains)
             ctx.fillStyle = '#cfc3a4';
             ctx.beginPath();
@@ -8313,14 +8472,22 @@
             // Photo from the album — cropped to fill a framed box just below the
             // stats divider; everything after this shifts down by PHOTO_BLOCK
             if (hasPhoto) {
-                const boxX = 150, boxTop = 790, boxW = W - 300, boxH = 470;
+                const boxX = 150, boxTop = 790, boxW = W - 300, boxH = Math.round(boxW * PHOTO_BOX.h / PHOTO_BOX.w);
                 ctx.save();
                 ctx.beginPath();
                 ctx.rect(boxX, boxTop, boxW, boxH);
                 ctx.clip();
-                const scale = Math.max(boxW / photoImg.width, boxH / photoImg.height);
-                const dw = photoImg.width * scale, dh = photoImg.height * scale;
-                ctx.drawImage(photoImg, boxX + (boxW - dw) / 2, boxTop + (boxH - dh) / 2, dw, dh);
+                const fit = getPostcardPhotoFit();
+                const baseScale = Math.max(boxW / photoImg.width, boxH / photoImg.height);
+                const scale = baseScale * fit.zoom;
+                let sw = boxW / scale, sh = boxH / scale;
+                sw = Math.min(sw, photoImg.width);
+                sh = Math.min(sh, photoImg.height);
+                let sx = (photoImg.width - sw) * (fit.posX / 100);
+                let sy = (photoImg.height - sh) * (fit.posY / 100);
+                sx = Math.max(0, Math.min(photoImg.width - sw, sx));
+                sy = Math.max(0, Math.min(photoImg.height - sh, sy));
+                ctx.drawImage(photoImg, sx, sy, sw, sh, boxX, boxTop, boxW, boxH);
                 ctx.restore();
                 ctx.strokeStyle = '#c8922a';
                 ctx.lineWidth = 3;
