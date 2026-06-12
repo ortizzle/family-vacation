@@ -3750,6 +3750,10 @@
         <div id="postcard-type-picker" style="display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;margin-bottom:12px;">
             <!-- JS renders postcard type chips -->
         </div>
+        <div id="postcard-photo-area" style="margin-bottom:12px;">
+            <!-- JS renders photo picker / thumbnail -->
+        </div>
+        <input type="file" accept="image/*" id="postcard-photo-input" style="display:none;" onchange="pickPostcardPhoto(this)">
         <div style="margin-bottom:10px;">
             <label style="display:block;font-size:11px;font-weight:700;color:var(--text-light);margin-bottom:4px;">Kicker (small line above your note)</label>
             <input id="postcard-kicker" type="text" class="mvp-input" style="width:100%;border-radius:10px;box-sizing:border-box;" oninput="savePostcardKicker(this)">
@@ -7893,8 +7897,67 @@
             signoffEl.placeholder = defaultPostcardSignoff(type);
             signoffEl.value = localStorage.getItem('ak26-postcard-signoff') || '';
         }
+        renderPostcardPhoto();
         updatePostcardPreview();
     }
+
+    function renderPostcardPhoto() {
+        const area = document.getElementById('postcard-photo-area');
+        if (!area) return;
+        const photo = localStorage.getItem('ak26-postcard-photo');
+        if (photo) {
+            area.innerHTML = `
+                <div style="position:relative;border-radius:12px;overflow:hidden;border:2px solid #c8922a;">
+                    <img src="${photo}" style="display:block;width:100%;max-height:220px;object-fit:cover;">
+                    <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+                        <button onclick="document.getElementById('postcard-photo-input').click()" style="background:rgba(26,39,68,.8);color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;">🔄 Change</button>
+                        <button onclick="removePostcardPhoto()" style="background:rgba(139,58,26,.85);color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;">✕ Remove</button>
+                    </div>
+                </div>`;
+        } else {
+            area.innerHTML = `
+                <div onclick="document.getElementById('postcard-photo-input').click()" style="border:1.5px dashed #c8922a;border-radius:12px;padding:18px;text-align:center;color:var(--text-light);font-size:13px;cursor:pointer;-webkit-tap-highlight-color:transparent;">
+                    📷 Add a photo from your album (optional)
+                </div>`;
+        }
+    }
+
+    window.pickPostcardPhoto = function(input) {
+        const file = input.files && input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const maxDim = 1100;
+                let w = img.naturalWidth, h = img.naturalHeight;
+                if (w > maxDim || h > maxDim) {
+                    if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+                    else { w = Math.round(w * maxDim / h); h = maxDim; }
+                }
+                const c = document.createElement('canvas');
+                c.width = w; c.height = h;
+                c.getContext('2d').drawImage(img, 0, 0, w, h);
+                try {
+                    localStorage.setItem('ak26-postcard-photo', c.toDataURL('image/jpeg', 0.82));
+                } catch (err) {
+                    alert('That photo was too large to save — try a smaller image.');
+                    return;
+                }
+                input.value = '';
+                renderPostcardPhoto();
+                updatePostcardPreview();
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    };
+
+    window.removePostcardPhoto = function() {
+        localStorage.removeItem('ak26-postcard-photo');
+        renderPostcardPhoto();
+        updatePostcardPreview();
+    };
 
     function updatePostcardPreview() {
         const preview = document.getElementById('postcard-preview');
@@ -7905,10 +7968,12 @@
         const text = noteVal || type.placeholder;
         const kickerVal = (localStorage.getItem('ak26-postcard-kicker') || '').trim() || type.kicker;
         const signoffVal = (localStorage.getItem('ak26-postcard-signoff') || '').trim() || defaultPostcardSignoff(type);
+        const photo = localStorage.getItem('ak26-postcard-photo');
 
         preview.innerHTML = `
             <div style="font-size:11px;font-weight:700;letter-spacing:.6px;color:var(--text-light);margin-bottom:6px;">PREVIEW · ${type.label}</div>
             <div style="background:#f2ead8;border:2px solid #c8922a;border-radius:14px;padding:20px 18px;text-align:center;">
+                ${photo ? `<img src="${photo}" style="display:block;width:100%;max-height:240px;object-fit:cover;border-radius:8px;border:2px solid #c8922a;margin-bottom:14px;">` : ''}
                 <div style="font-size:10px;letter-spacing:1.6px;font-weight:700;color:${type.accent};margin-bottom:10px;">✦ ${kickerVal} ✦</div>
                 <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:#1a2744;line-height:1.45;">“${text}”</div>
                 ${type.showCrew
@@ -8158,8 +8223,13 @@
             setTimeout(() => { btn.textContent = origLabel; }, 2200);
         };
 
-        const draw = () => {
-            const W = 1200, H = 1680;
+        const photoDataUrl = localStorage.getItem('ak26-postcard-photo');
+
+        const draw = (photoImg) => {
+            const hasPhoto = !!photoImg;
+            const PHOTO_BLOCK = 540;
+            const offset = hasPhoto ? PHOTO_BLOCK : 0;
+            const W = 1200, H = 1680 + offset;
             const canvas = document.createElement('canvas');
             canvas.width = W; canvas.height = H;
             const ctx = canvas.getContext('2d');
@@ -8240,26 +8310,45 @@
             ctx.lineWidth = 1;
             ctx.beginPath(); ctx.moveTo(150, 760); ctx.lineTo(W - 150, 760); ctx.stroke();
 
+            // Photo from the album — cropped to fill a framed box just below the
+            // stats divider; everything after this shifts down by PHOTO_BLOCK
+            if (hasPhoto) {
+                const boxX = 150, boxTop = 790, boxW = W - 300, boxH = 470;
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(boxX, boxTop, boxW, boxH);
+                ctx.clip();
+                const scale = Math.max(boxW / photoImg.width, boxH / photoImg.height);
+                const dw = photoImg.width * scale, dh = photoImg.height * scale;
+                ctx.drawImage(photoImg, boxX + (boxW - dw) / 2, boxTop + (boxH - dh) / 2, dw, dh);
+                ctx.restore();
+                ctx.strokeStyle = '#c8922a';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(boxX, boxTop, boxW, boxH);
+            }
+
             ctx.fillStyle = '#8b3a1a';
             ctx.font = '600 21px "Josefin Sans", sans-serif';
-            ctx.fillText('✦ ' + featured.kicker + ' ✦', W / 2, 818);
+            ctx.fillText('✦ ' + featured.kicker + ' ✦', W / 2, 818 + offset);
 
             ctx.fillStyle = '#1a2744';
             ctx.font = 'italic 400 36px "Playfair Display", serif';
-            wrapCenteredText(ctx, '“' + featured.text + '”', W / 2, 880, W - 320, 50, 5);
+            wrapCenteredText(ctx, '“' + featured.text + '”', W / 2, 880 + offset, W - 320, 50, 5);
 
-            ctx.beginPath(); ctx.moveTo(150, 1110); ctx.lineTo(W - 150, 1110); ctx.stroke();
+            ctx.strokeStyle = 'rgba(200,146,42,.4)';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(150, 1110 + offset); ctx.lineTo(W - 150, 1110 + offset); ctx.stroke();
 
             // Wildlife spotted chips (names only, capped)
             ctx.fillStyle = '#7a6a52';
             ctx.font = '600 18px "Josefin Sans", sans-serif';
-            ctx.fillText(spotted.length ? 'SPOTTED ALONG THE WAY' : 'STILL TO SPOT', W / 2, 1162);
+            ctx.fillText(spotted.length ? 'SPOTTED ALONG THE WAY' : 'STILL TO SPOT', W / 2, 1162 + offset);
             ctx.fillStyle = '#1a2744';
             ctx.font = '30px "Playfair Display", serif';
             const chipText = spotted.length
                 ? spotted.slice(0, 8).map(id => ANIMAL_DATA[id].emoji + ' ' + ANIMAL_DATA[id].name).join('   ·   ')
                 : 'Eagles · Whales · Seals · Bears — adventure awaits 🦅🐋🦭🐻';
-            wrapCenteredText(ctx, chipText, W / 2, 1212, W - 240, 42, 3);
+            wrapCenteredText(ctx, chipText, W / 2, 1212 + offset, W - 240, 42, 3);
 
             // Footer — sign-off line (editable via the Sign-off field; defaults to
             // the family roster for "crew" styles, or a warm closing otherwise)
@@ -8293,7 +8382,16 @@
             'italic 400 36px "Playfair Display"', '30px "Playfair Display"',
             '26px "Playfair Display"', 'italic 700 58px "Playfair Display"'
         ].map(f => document.fonts.load(f));
-        Promise.all(fontLoads).then(draw, draw);
+        const fontsReady = Promise.all(fontLoads);
+
+        if (photoDataUrl) {
+            const img = new Image();
+            img.onload = () => fontsReady.then(() => draw(img), () => draw(img));
+            img.onerror = () => fontsReady.then(() => draw(null), () => draw(null));
+            img.src = photoDataUrl;
+        } else {
+            fontsReady.then(() => draw(null), () => draw(null));
+        }
     };
 
     // ── Day Toolkit: per-day notes + photo shot lists ───────────────────────
