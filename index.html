@@ -3750,7 +3750,15 @@
         <div id="postcard-type-picker" style="display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;margin-bottom:12px;">
             <!-- JS renders postcard type chips -->
         </div>
-        <textarea id="postcard-note" class="mvp-input" style="width:100%;min-height:84px;border-radius:10px;box-sizing:border-box;margin-bottom:12px;" oninput="savePostcardNote(this)"></textarea>
+        <div style="margin-bottom:10px;">
+            <label style="display:block;font-size:11px;font-weight:700;color:var(--text-light);margin-bottom:4px;">Kicker (small line above your note)</label>
+            <input id="postcard-kicker" type="text" class="mvp-input" style="width:100%;border-radius:10px;box-sizing:border-box;" oninput="savePostcardKicker(this)">
+        </div>
+        <textarea id="postcard-note" class="mvp-input" style="width:100%;min-height:84px;border-radius:10px;box-sizing:border-box;margin-bottom:10px;" oninput="savePostcardNote(this)"></textarea>
+        <div style="margin-bottom:12px;">
+            <label style="display:block;font-size:11px;font-weight:700;color:var(--text-light);margin-bottom:4px;">Sign-off (line at the bottom)</label>
+            <input id="postcard-signoff" type="text" class="mvp-input" style="width:100%;border-radius:10px;box-sizing:border-box;" oninput="savePostcardSignoff(this)">
+        </div>
         <div id="postcard-preview" style="margin-bottom:20px;">
             <!-- JS renders live postcard preview -->
         </div>
@@ -7851,9 +7859,15 @@
         }
     ];
 
+    function defaultPostcardSignoff(type) {
+        return type.showCrew ? 'ORTIZ · STALLINGS · SIMMONS' : '— with love, from the Inside Passage';
+    }
+
     function renderPostcardPicker() {
         const picker = document.getElementById('postcard-type-picker');
         const noteEl = document.getElementById('postcard-note');
+        const kickerEl = document.getElementById('postcard-kicker');
+        const signoffEl = document.getElementById('postcard-signoff');
         if (!picker) return;
         const selectedId = localStorage.getItem('ak26-postcard-type') || POSTCARD_TYPES[0].id;
         const type = POSTCARD_TYPES.find(t => t.id === selectedId) || POSTCARD_TYPES[0];
@@ -7871,6 +7885,14 @@
             noteEl.placeholder = type.placeholder;
             noteEl.value = localStorage.getItem('ak26-postcard-note') || '';
         }
+        if (kickerEl) {
+            kickerEl.placeholder = type.kicker;
+            kickerEl.value = localStorage.getItem('ak26-postcard-kicker') || '';
+        }
+        if (signoffEl) {
+            signoffEl.placeholder = defaultPostcardSignoff(type);
+            signoffEl.value = localStorage.getItem('ak26-postcard-signoff') || '';
+        }
         updatePostcardPreview();
     }
 
@@ -7881,15 +7903,17 @@
         const type = POSTCARD_TYPES.find(t => t.id === selectedId) || POSTCARD_TYPES[0];
         const noteVal = (localStorage.getItem('ak26-postcard-note') || '').trim();
         const text = noteVal || type.placeholder;
+        const kickerVal = (localStorage.getItem('ak26-postcard-kicker') || '').trim() || type.kicker;
+        const signoffVal = (localStorage.getItem('ak26-postcard-signoff') || '').trim() || defaultPostcardSignoff(type);
 
         preview.innerHTML = `
             <div style="font-size:11px;font-weight:700;letter-spacing:.6px;color:var(--text-light);margin-bottom:6px;">PREVIEW · ${type.label}</div>
             <div style="background:#f2ead8;border:2px solid #c8922a;border-radius:14px;padding:20px 18px;text-align:center;">
-                <div style="font-size:10px;letter-spacing:1.6px;font-weight:700;color:${type.accent};margin-bottom:10px;">✦ ${type.kicker} ✦</div>
+                <div style="font-size:10px;letter-spacing:1.6px;font-weight:700;color:${type.accent};margin-bottom:10px;">✦ ${kickerVal} ✦</div>
                 <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:#1a2744;line-height:1.45;">“${text}”</div>
                 ${type.showCrew
-                    ? `<div style="margin-top:16px;font-size:10px;letter-spacing:2px;font-weight:700;color:#c8922a;">ORTIZ · STALLINGS · SIMMONS</div>`
-                    : `<div style="margin-top:16px;font-size:11px;color:#7a6a52;font-style:italic;">— with love, from the Inside Passage</div>`}
+                    ? `<div style="margin-top:16px;font-size:10px;letter-spacing:2px;font-weight:700;color:#c8922a;">${signoffVal}</div>`
+                    : `<div style="margin-top:16px;font-size:11px;color:#7a6a52;font-style:italic;">${signoffVal}</div>`}
             </div>
         `;
     }
@@ -7901,6 +7925,16 @@
 
     window.savePostcardNote = function(el) {
         localStorage.setItem('ak26-postcard-note', el.value);
+        updatePostcardPreview();
+    };
+
+    window.savePostcardKicker = function(el) {
+        localStorage.setItem('ak26-postcard-kicker', el.value);
+        updatePostcardPreview();
+    };
+
+    window.savePostcardSignoff = function(el) {
+        localStorage.setItem('ak26-postcard-signoff', el.value);
         updatePostcardPreview();
     };
 
@@ -8097,11 +8131,14 @@
         const postcardTypeId = localStorage.getItem('ak26-postcard-type') || POSTCARD_TYPES[0].id;
         const postcardType = POSTCARD_TYPES.find(t => t.id === postcardTypeId) || POSTCARD_TYPES[0];
         const postcardNote = (localStorage.getItem('ak26-postcard-note') || '').trim();
+        const postcardKicker = (localStorage.getItem('ak26-postcard-kicker') || '').trim();
+        const postcardSignoff = (localStorage.getItem('ak26-postcard-signoff') || '').trim() || defaultPostcardSignoff(postcardType);
 
-        // Feature the postcard note first (it carries the chosen style's kicker);
-        // then the first day with a "best moment" entry; then the keepsake note; then a default
+        // Feature the postcard note first (it carries the chosen style's kicker,
+        // overridable via the Kicker field); then the first day with a "best
+        // moment" entry; then the keepsake note; then a default
         let featured = null;
-        if (postcardNote) featured = { kicker: postcardType.kicker, text: postcardNote };
+        if (postcardNote) featured = { kicker: postcardKicker || postcardType.kicker, text: postcardNote };
         if (!featured) {
             for (const d of KEEPSAKE_DAYS) {
                 const entry = mvpState[d.id];
@@ -8224,17 +8261,15 @@
                 : 'Eagles · Whales · Seals · Bears — adventure awaits 🦅🐋🦭🐻';
             wrapCenteredText(ctx, chipText, W / 2, 1212, W - 240, 42, 3);
 
-            // Footer — crew + route (postcard styles meant for grandparents/friends
-            // omit the family roster line so the note reads as personal correspondence)
-            if (postcardType.showCrew) {
-                ctx.fillStyle = '#c8922a';
-                ctx.font = '600 25px "Josefin Sans", sans-serif';
-                ctx.fillText('O R T I Z   ·   S T A L L I N G S   ·   S I M M O N S', W / 2, H - 132);
-            }
+            // Footer — sign-off line (editable via the Sign-off field; defaults to
+            // the family roster for "crew" styles, or a warm closing otherwise)
+            ctx.fillStyle = '#c8922a';
+            ctx.font = '600 25px "Josefin Sans", sans-serif';
+            ctx.fillText(postcardSignoff, W / 2, H - 132);
 
             ctx.fillStyle = '#1a2744';
             ctx.font = '19px "Josefin Sans", sans-serif';
-            ctx.fillText('Inside Passage · Vancouver Roundtrip · Our Family Keepsake', W / 2, postcardType.showCrew ? H - 96 : H - 114);
+            ctx.fillText('Inside Passage · Vancouver Roundtrip · Our Family Keepsake', W / 2, H - 96);
 
             canvas.toBlob((blob) => {
                 if (!blob) { finish(origLabel); alert('Could not generate the postcard image — please try again.'); return; }
