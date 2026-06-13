@@ -9284,10 +9284,18 @@
             ctx.beginPath(); ctx.moveTo(0, waterY + 10); ctx.lineTo(W, waterY + 10); ctx.stroke();
             ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
             for (const o of state.obstacles) { ctx.font = o.size + 'px serif'; ctx.fillText('🧊', o.x, waterY + 11); }
-            ctx.font = '30px serif'; ctx.textBaseline = 'middle';
+            ctx.textBaseline = 'middle';
             ctx.save();
             ctx.translate(44, state.orcaY);
             ctx.rotate(Math.max(-0.4, Math.min(0.4, state.vy * 0.03)));
+            // soft light halo so the orca stands out against the mountains
+            const hg = ctx.createRadialGradient(0, 0, 2, 0, 0, 22);
+            hg.addColorStop(0, 'rgba(255,255,255,.6)');
+            hg.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(0, 0, 22, 0, 7); ctx.fill();
+            // drop shadow gives the emoji a crisp edge
+            ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = 4; ctx.shadowOffsetY = 1;
+            ctx.font = '30px serif';
             ctx.fillText('🐋', 0, 0);
             ctx.restore();
             const s = document.getElementById('gameScore'); if (s) s.textContent = state.score;
