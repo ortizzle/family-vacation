@@ -9167,10 +9167,10 @@
     }
 
 
-    // ============ SECRET GAME: 🐋 Breach Run ============
+    // ============ SECRET GAME: 🐋 Glacier Run ============
     // Hidden easter egg — tap the poster year ("2 0 2 6") 7× to unlock.
     (function () {
-        const HI_KEY = 'ak26-breach-hi';
+        const HI_KEY = 'ak26-glacier-hi';
         let canvas, ctx, W, H, waterY, raf = null, lastT = 0, state = null;
 
         function best() { return parseInt(localStorage.getItem(HI_KEY) || '0', 10) || 0; }
@@ -9349,20 +9349,44 @@
                     taps++;
                     clearTimeout(timer);
                     timer = setTimeout(() => { taps = 0; }, 1200);
-                    if (taps >= 7) { taps = 0; clearTimeout(timer); openGame(); }
+                    if (taps >= 7) { taps = 0; clearTimeout(timer); wink(yr); }
                 });
             }
+        }
+
+        // The "visual wink": acknowledge the unlock before the game opens —
+        // the year pulses gold and a little glacier floats up and fades.
+        function wink(yr) {
+            try {
+                yr.animate([
+                    { transform: 'scale(1)', color: '#e4b84a' },
+                    { transform: 'scale(1.35)', color: '#ffe9a8', textShadow: '0 0 16px rgba(228,184,74,.95)' },
+                    { transform: 'scale(1)', color: '#e4b84a' },
+                ], { duration: 620, easing: 'cubic-bezier(.34,1.56,.64,1)' });
+                const r = yr.getBoundingClientRect();
+                const puff = document.createElement('div');
+                puff.textContent = '🧊';
+                puff.style.cssText = 'position:fixed;z-index:600;font-size:30px;pointer-events:none;left:' +
+                    (r.left + r.width / 2 - 15) + 'px;top:' + (r.top - 6) + 'px;';
+                document.body.appendChild(puff);
+                puff.animate([
+                    { transform: 'translateY(0) scale(.6) rotate(-8deg)', opacity: 0 },
+                    { transform: 'translateY(-14px) scale(1.1) rotate(6deg)', opacity: 1, offset: .35 },
+                    { transform: 'translateY(-54px) scale(1) rotate(-4deg)', opacity: 0 },
+                ], { duration: 900, easing: 'ease-out' }).onfinish = () => puff.remove();
+            } catch (e) { /* animation unsupported — open anyway */ }
+            setTimeout(openGame, 470);
         }
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
         else wire();
     })();
 
 </script>
-<!-- ============ SECRET GAME MODAL: 🐋 Breach Run ============ -->
+<!-- ============ SECRET GAME MODAL: 🐋 Glacier Run ============ -->
 <div class="modal-overlay hidden" id="modal-game" onclick="if(event.target===this)closeGame()" style="align-items:center;">
     <div style="background:var(--cream);border-radius:20px;width:94%;max-width:400px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.45);">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--forest-dark);">🐋 Breach Run</div>
+            <div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--forest-dark);">🐋 Glacier Run</div>
             <button onclick="closeGame()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-light);line-height:1;padding:0 4px;">✕</button>
         </div>
         <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">Tap the water or press <strong>Space</strong> to breach. Leap the icebergs — see how far you can swim!</div>
