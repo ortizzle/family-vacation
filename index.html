@@ -1267,7 +1267,7 @@
                 <div class="poster-eyebrow">A Family Expedition</div>
                 <div class="poster-divider"><span></span>✦<span></span></div>
                 <h1 class="poster-title"><em>Alaska</em><br>Adventure</h1>
-                <div class="poster-year">2 0 2 6</div>
+                <div class="poster-year" id="posterYear">2 0 2 6</div>
                 <div class="poster-divider poster-divider-text"><span></span><em>ORTIZ · STALLINGS · SIMMONS</em><span></span></div>
                 <div class="poster-countdown">
                     <div class="poster-cd-cell tappable" onclick="goToTodayVancouver()">
@@ -9166,6 +9166,162 @@
         });
     }
 
+
+    // ============ SECRET GAME: 🐋 Breach Run ============
+    // Hidden easter egg — tap the poster year ("2 0 2 6") 7× to unlock.
+    (function () {
+        const HI_KEY = 'ak26-breach-hi';
+        let canvas, ctx, W, H, waterY, raf = null, lastT = 0, state = null;
+
+        function best() { return parseInt(localStorage.getItem(HI_KEY) || '0', 10) || 0; }
+        function setBest(v) { localStorage.setItem(HI_KEY, String(v)); }
+
+        function reset() {
+            state = {
+                orcaY: waterY, vy: 0, grounded: true,
+                obstacles: [], spawnIn: 70, speed: 3.2,
+                dist: 0, score: 0, gameOver: false, started: false,
+            };
+            const s = document.getElementById('gameScore'); if (s) s.textContent = '0';
+            const b = document.getElementById('gameBest'); if (b) b.textContent = best();
+        }
+
+        function jump() {
+            if (!state) return;
+            if (state.gameOver) { reset(); return; }
+            state.started = true;
+            if (state.grounded) { state.vy = -10.4; state.grounded = false; }
+        }
+
+        function spawn() {
+            const size = 22 + Math.random() * 16;
+            state.obstacles.push({ x: W + 12, size });
+            const base = 80 - state.speed * 4;
+            state.spawnIn = Math.max(40, base + Math.random() * 55);
+        }
+
+        function step(dt) {
+            const f = Math.min(dt / 16.67, 2.2);
+            if (state.started && !state.gameOver) {
+                state.speed += 0.0016 * f;
+                state.dist += state.speed * f;
+                state.score = Math.floor(state.dist / 8);
+                state.vy += 0.62 * f;
+                state.orcaY += state.vy * f;
+                if (state.orcaY >= waterY) { state.orcaY = waterY; state.vy = 0; state.grounded = true; }
+                state.spawnIn -= f;
+                if (state.spawnIn <= 0) spawn();
+                for (const o of state.obstacles) o.x -= state.speed * f;
+                state.obstacles = state.obstacles.filter(o => o.x + o.size > -12);
+                const ox = 44, ohw = 14, ohh = 11;
+                for (const o of state.obstacles) {
+                    const obw = o.size * 0.6, obh = o.size * 0.7;
+                    if (ox + ohw > o.x - obw / 2 && ox - ohw < o.x + obw / 2 &&
+                        state.orcaY + ohh > waterY - obh && state.orcaY - ohh < waterY) {
+                        state.gameOver = true;
+                        if (state.score > best()) setBest(state.score);
+                        const b = document.getElementById('gameBest'); if (b) b.textContent = best();
+                    }
+                }
+            }
+            draw();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            ctx.strokeStyle = 'rgba(255,255,255,.55)';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(0, waterY + 10); ctx.lineTo(W, waterY + 10); ctx.stroke();
+            ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+            for (const o of state.obstacles) { ctx.font = o.size + 'px serif'; ctx.fillText('🧊', o.x, waterY + 11); }
+            ctx.font = '30px serif'; ctx.textBaseline = 'middle';
+            ctx.save();
+            ctx.translate(44, state.orcaY);
+            ctx.rotate(Math.max(-0.4, Math.min(0.4, state.vy * 0.03)));
+            ctx.fillText('🐋', 0, 0);
+            ctx.restore();
+            const s = document.getElementById('gameScore'); if (s) s.textContent = state.score;
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            if (!state.started) {
+                ctx.fillStyle = 'rgba(20,45,35,.85)';
+                ctx.font = "600 14px Inter, sans-serif";
+                ctx.fillText('Tap or press Space to start', W / 2, waterY - 46);
+            }
+            if (state.gameOver) {
+                ctx.fillStyle = 'rgba(20,45,35,.92)';
+                ctx.font = "700 22px 'Playfair Display', serif";
+                ctx.fillText('Game Over', W / 2, H / 2 - 16);
+                ctx.font = '600 13px Inter, sans-serif';
+                ctx.fillText('Score ' + state.score + '  ·  Best ' + best(), W / 2, H / 2 + 8);
+                ctx.fillText('Tap to try again', W / 2, H / 2 + 28);
+            }
+        }
+
+        function loop(t) {
+            if (!raf) return;
+            const dt = t - lastT; lastT = t;
+            step(dt);
+            raf = requestAnimationFrame(loop);
+        }
+
+        window.openGame = function () {
+            canvas = document.getElementById('gameCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            W = canvas.width; H = canvas.height; waterY = Math.round(H * 0.55);
+            document.getElementById('modal-game').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            reset();
+            lastT = performance.now();
+            if (!raf) raf = requestAnimationFrame(loop);
+        };
+        window.closeGame = function () {
+            document.getElementById('modal-game').classList.add('hidden');
+            document.body.style.overflow = '';
+            if (raf) { cancelAnimationFrame(raf); raf = null; }
+        };
+
+        document.addEventListener('keydown', e => {
+            const m = document.getElementById('modal-game');
+            if (m && !m.classList.contains('hidden') && (e.code === 'Space' || e.code === 'ArrowUp')) {
+                e.preventDefault(); jump();
+            }
+        });
+
+        function wire() {
+            const c = document.getElementById('gameCanvas');
+            if (c) c.addEventListener('pointerdown', e => { e.preventDefault(); jump(); });
+            const yr = document.getElementById('posterYear');
+            if (yr) {
+                let taps = 0, timer = null;
+                yr.style.cursor = 'default';
+                yr.addEventListener('click', () => {
+                    taps++;
+                    clearTimeout(timer);
+                    timer = setTimeout(() => { taps = 0; }, 1200);
+                    if (taps >= 7) { taps = 0; clearTimeout(timer); openGame(); }
+                });
+            }
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
+        else wire();
+    })();
+
 </script>
+<!-- ============ SECRET GAME MODAL: 🐋 Breach Run ============ -->
+<div class="modal-overlay hidden" id="modal-game" onclick="if(event.target===this)closeGame()" style="align-items:center;">
+    <div style="background:var(--cream);border-radius:20px;width:94%;max-width:400px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.45);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--forest-dark);">🐋 Breach Run</div>
+            <button onclick="closeGame()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-light);line-height:1;padding:0 4px;">✕</button>
+        </div>
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">Tap the water or press <strong>Space</strong> to breach. Leap the icebergs — see how far you can swim!</div>
+        <canvas id="gameCanvas" width="368" height="200" style="width:100%;display:block;border-radius:12px;background:linear-gradient(180deg,#bfe3f2 0%,#8fcfe8 55%,#2b7fae 55%,#15527a 100%);touch-action:manipulation;cursor:pointer;"></canvas>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-size:13px;color:var(--text-mid);">
+            <span>Score: <strong id="gameScore">0</strong></span>
+            <span>🏆 Best: <strong id="gameBest">0</strong></span>
+        </div>
+    </div>
+</div>
 </body>
 </html>
