@@ -1033,6 +1033,12 @@
             background: rgba(242,234,216,0.07); border: 1px solid rgba(200,146,42,0.4);
             border-radius: 4px; padding: 12px 16px; min-width: 84px;
         }
+        .poster-cd-cell.tappable {
+            cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background .15s, border-color .15s;
+        }
+        .poster-cd-cell.tappable:active {
+            background: rgba(242,234,216,0.15); border-color: var(--gold-light);
+        }
         .poster-cd-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
         .poster-cd-label {
             font-family: 'Josefin Sans', sans-serif; font-size: 0.52rem; text-transform: uppercase;
@@ -1264,11 +1270,11 @@
                 <div class="poster-year">2 0 2 6</div>
                 <div class="poster-divider poster-divider-text"><span></span><em>ORTIZ · STALLINGS · SIMMONS</em><span></span></div>
                 <div class="poster-countdown">
-                    <div class="poster-cd-cell">
+                    <div class="poster-cd-cell tappable" onclick="goToTodayVancouver()">
                         <div class="poster-cd-num" id="posterDaysVancouver">—</div>
                         <div class="poster-cd-label">Days to<br>Vancouver</div>
                     </div>
-                    <div class="poster-cd-cell">
+                    <div class="poster-cd-cell tappable" onclick="goToTodayCruise()">
                         <div class="poster-cd-num" id="posterDaysBoarding">—</div>
                         <div class="poster-cd-label">Days to<br>Boarding</div>
                     </div>
@@ -5057,6 +5063,18 @@
             // Navigate to Cruise section
             showSection('cruise', document.querySelector('.nav-item[onclick*=cruise]'));
         }
+        window.scrollTo(0, 0);
+    }
+
+    // Poster countdown cells — jump straight to today's day panel (or Day 1 if outside the date range)
+    function goToTodayVancouver() {
+        showSection('vancouver', document.querySelector('.nav-item[onclick*=vancouver]'));
+        switchVanDay(_vanTodayId || 'van-d1');
+        window.scrollTo(0, 0);
+    }
+    function goToTodayCruise() {
+        showSection('cruise', document.querySelector('.nav-item[onclick*=cruise]'));
+        switchCruiseDay(_cruiseTodayId || 'cruise-d1');
         window.scrollTo(0, 0);
     }
 
