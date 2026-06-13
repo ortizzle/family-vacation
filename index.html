@@ -2587,25 +2587,29 @@
                 </div>
 
                 <!-- Afternoon: downtown + fan festival -->
-                <div class="event-item" style="margin-bottom:4px;">
+                <div class="event-item tappable milestone" onclick="openHighlight('van-chinatown')" style="margin-bottom:4px;">
                   <div class="event-time" style="min-width:72px;">~12:30 PM</div>
                   <div class="event-detail">
-                    <div class="event-name">🍔 Lunch downtown — Gastown or Chinatown <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Shuttle back to Waterfront · walk to Gastown (Blood Alley or Water St) or grab pho in Chinatown (~5 min walk away)</div>
+                    <div class="event-name">🥟 Lunch + explore Chinatown <span class="ev-tag ev-tag-warn">📅 Penciled In</span></div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Dim sum &amp; steamed buns, then wander the Millennium Gate, Dr. Sun Yat-Sen Garden &amp; historic apothecaries — a great rainy-day plan · Tap for picks →</div>
                   </div>
                 </div>
                 <div class="transport-acc-trigger" onclick="toggleTransport(this)">
-                  <span class="t-chevron">›</span><span class="t-label">🚇 Capilano → downtown</span>
+                  <span class="t-chevron">›</span><span class="t-label">🚇 Capilano → Chinatown</span>
                 </div>
                 <div class="acc-body collapsed" style="padding-left:4px;">
                   <div class="transit-route">
                     <div class="tr-stop">
                       <div class="tr-station">Capilano Free Shuttle <span class="tr-badge tr-badge-shuttle">Free</span></div>
-                      <span class="tr-note">Returns to Canada Place/Waterfront every 30 min</span>
+                      <span class="tr-note">Returns to Canada Place / Waterfront every 30 min · ~20 min ride</span>
+                    </div>
+                    <div class="tr-stop transfer">
+                      <div class="tr-station">Waterfront Station <span class="tr-badge tr-badge-line">Expo Line</span></div>
+                      <span class="tr-note">Board Expo Line (dir. King George / Production Way) · 2 stops</span>
                     </div>
                     <div class="tr-stop end">
-                      <div class="tr-station">Waterfront Station / Gastown</div>
-                      <span class="tr-note">5 min walk to Gastown from Canada Place · or straight to Chinatown</span>
+                      <div class="tr-station">Stadium–Chinatown Station</div>
+                      <span class="tr-note">~5 min ride · walk south on Abbott/Carrall to Pender St — heart of Chinatown, ~5 min</span>
                     </div>
                   </div>
                 </div>
@@ -2615,8 +2619,8 @@
                 <div class="acc-body collapsed" style="padding-left:4px;">
                   <div class="transit-route">
                     <div class="tr-stop end">
-                      <div class="tr-station">Capilano → Gastown/downtown, direct</div>
-                      <span class="tr-note">~20–25 min via Lions Gate Bridge · ~$30–40 CAD (~$21–29 USD) UberX (fits 4)</span>
+                      <div class="tr-station">Capilano → Chinatown, direct</div>
+                      <span class="tr-note">~20–25 min via Lions Gate Bridge · ~$30–40 CAD (~$21–29 USD) UberX (fits 4) · drops near Pender &amp; Main</span>
                     </div>
                   </div>
                 </div>
@@ -2739,6 +2743,9 @@
                   </div>
                   <div class="highlight-item" onclick="openHighlight('van-grouse')">
                     <span class="highlight-icon">🚠</span>Grouse Mountain
+                  </div>
+                  <div class="highlight-item" onclick="openHighlight('van-chinatown')">
+                    <span class="highlight-icon">🥟</span>Chinatown
                   </div>
                   <div class="highlight-item" onclick="openHighlight('van-fifafest')">
                     <span class="highlight-icon">⚽</span>Fan Festival
@@ -5761,6 +5768,49 @@
         links: [
           { label: '🌐 Steveston Village', url: 'https://stevestonvillage.com' },
           { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Steveston+Village+Richmond+BC' },
+        ]
+      },
+
+      'van-chinatown': {
+        port: 'Jun 13 · Vancouver Chinatown · Downtown East',
+        icon: '🥟',
+        title: 'Vancouver Chinatown',
+        body: `<p style="margin-bottom:12px;">The largest historic Chinatown in Canada, founded in the 1880s — ornate gates, neon signs, herbal apothecaries, bakeries, and some of the best dim sum in the city. It's compact and walkable, just south of Gastown and right by Stadium–Chinatown Station. A perfect rainy-day plan: duck into a warm dim sum hall, then wander between covered shops and the classical garden.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Getting There</div>
+    <div style="font-size:12px;color:#222;">Stadium–Chinatown<br>Station · 5 min walk</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Lunch Cost</div>
+    <div style="font-size:12px;color:#222;">~$12–20 CAD/person<br>dim sum, buns, pho</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Time Needed</div>
+    <div style="font-size:12px;color:#222;">1.5–2.5 hrs<br>lunch + a wander</div>
+  </div>
+  <div style="background:#f4f8f4;border-radius:8px;padding:10px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px;">Best For</div>
+    <div style="font-size:12px;color:#222;">All ages ·<br>indoor-friendly</div>
+  </div>
+</div>
+<div style="font-size:11px;font-weight:700;color:#a23b2d;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px;">🍜 Lunch picks</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+  <div style="background:#fdf6e9;border-radius:9px;padding:10px 12px;font-size:12px;color:#333;line-height:1.5;"><strong>New Town Bakery &amp; Restaurant</strong> · 148 E Pender — Cheap, casual, kid-friendly. Famous giant steamed "apple pie" buns, BBQ pork buns, and dim sum classics. Quick and fun.</div>
+  <div style="background:#fdf6e9;border-radius:9px;padding:10px 12px;font-size:12px;color:#333;line-height:1.5;"><strong>Floata Seafood Restaurant</strong> · 180 Keefer St — Vancouver's biggest dim sum hall. Carts and pointing at little plates — kids love the spectacle. Great for the whole group.</div>
+  <div style="background:#fdf6e9;border-radius:9px;padding:10px 12px;font-size:12px;color:#333;line-height:1.5;"><strong>Ramen / pho nearby</strong> — If anyone's not feeling dim sum, hot noodle soup spots are a short walk along Main &amp; Gore. Easy crowd-pleaser on a rainy day.</div>
+</div>
+<div style="font-size:11px;font-weight:700;color:#1a5c38;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px;">🏮 While you explore</div>
+<ul style="margin:0 0 14px;padding-left:18px;font-size:12px;color:#333;line-height:1.7;">
+  <li><strong>Millennium Gate</strong> — the grand painted arch over Pender St; the classic Chinatown photo.</li>
+  <li><strong>Dr. Sun Yat-Sen Classical Chinese Garden</strong> — first full-scale classical garden built outside China; koi ponds and covered walkways (~$16 CAD adult). The adjacent park is free.</li>
+  <li><strong>Sam Kee Building</strong> — the world's narrowest commercial building (~6 ft wide!) at Pender &amp; Carrall — a fun one for the kids.</li>
+  <li><strong>Old apothecaries &amp; bakeries</strong> — peek into the herbal medicine shops and grab egg tarts to go.</li>
+</ul>
+<div style="background:#fff4e6;border:1px solid #f0c98a;border-radius:10px;padding:10px 13px;font-size:12px;color:#7a4a12;line-height:1.5;">📍 <strong>Good to know:</strong> Stick to the lively core — Pender, Keefer, Columbia &amp; Carrall. The blocks east toward Main/Hastings (the Downtown Eastside) can feel rough; just keep the kids close and stay on the main streets. Daytime here is busy and fine.</div>`,
+        links: [
+          { label: '🌐 Sun Yat-Sen Garden', url: 'https://vancouverchinesegarden.com' },
+          { label: '📍 Chinatown on Maps', url: 'https://maps.google.com/?q=Vancouver+Chinatown' },
         ]
       },
 
