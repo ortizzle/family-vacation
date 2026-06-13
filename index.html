@@ -4182,7 +4182,7 @@
     }
 
     // FIFA World Cup — live scores & standings (TheSportsDB, free public API)
-    const WC_LEAGUE_ID = 4429, WC_SEASON = '2026', WC_GROUPS = ['B', 'D', 'G'];
+    const WC_LEAGUE_ID = 4429, WC_SEASON = '2026';
     async function wcLoadLive() {
         const scoresEl = document.getElementById('wc-live-scores');
         const standingsEl = document.getElementById('wc-live-standings');
@@ -4221,17 +4221,18 @@
             const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=${WC_LEAGUE_ID}&s=${WC_SEASON}`);
             const data = await res.json();
             const table = data.table || [];
-            let html = '';
-            WC_GROUPS.forEach(g => {
-                const rows = table.filter(t => t.strGroup === `Group ${g}`)
-                    .sort((a, b) => b.intPoints - a.intPoints || b.intGoalDifference - a.intGoalDifference);
-                if (!rows.length) return;
-                html += `<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin:10px 0 6px;">Group ${g} Standings</div>`;
-                html += '<table class="wc-table"><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr>' +
-                    rows.map(r => `<tr><td>${r.strTeam}</td><td>${r.intPlayed}</td><td>${r.intWin}</td><td>${r.intDraw}</td><td>${r.intLoss}</td><td>${r.intGoalDifference}</td><td><strong>${r.intPoints}</strong></td></tr>`).join('') +
-                    '</table>';
-            });
-            standingsEl.innerHTML = html || '<div class="tip-item" style="margin-top:6px;"><span class="tip-icon">📊</span>Standings will appear here once group matches begin.</div>';
+            const rows = table.slice().sort((a, b) =>
+                (a.strGroup || '').localeCompare(b.strGroup || '') ||
+                b.intPoints - a.intPoints || b.intGoalDifference - a.intGoalDifference);
+            if (!rows.length) {
+                standingsEl.innerHTML = '<div class="tip-item" style="margin-top:6px;"><span class="tip-icon">📊</span>Standings will appear here once group matches begin.</div>';
+            } else {
+                standingsEl.innerHTML = '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin:10px 0 6px;">Standings (as recorded so far)</div>' +
+                    '<table class="wc-table"><tr><th>Team</th><th>Grp</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr>' +
+                    rows.map(r => `<tr><td>${r.strTeam}</td><td>${(r.strGroup || '').replace('Group ', '')}</td><td>${r.intPlayed}</td><td>${r.intWin}</td><td>${r.intDraw}</td><td>${r.intLoss}</td><td>${r.intGoalDifference}</td><td><strong>${r.intPoints}</strong></td></tr>`).join('') +
+                    '</table>' +
+                    '<div class="tip-item" style="margin-top:2px;"><span class="tip-icon">📊</span>Group tables fill in as more matches are played — see FIFA Official below for complete standings.</div>';
+            }
         } catch (err) {
             // scores section already shows a connection error if offline
         }
