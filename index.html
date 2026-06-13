@@ -3084,7 +3084,7 @@
                 <div class="gpc" onclick="openGame('wordsearch')"><div class="gpc-emoji">🔍</div><div class="gpc-title">Word Search</div><div class="gpc-desc">Find hidden words</div></div>
                 <div class="gpc" onclick="openGame('truefalse')"><div class="gpc-emoji">✅</div><div class="gpc-title">True or False</div><div class="gpc-desc">Alaska fact check</div></div>
                 <div class="gpc" onclick="openGame('trivia')"><div class="gpc-emoji">🧠</div><div class="gpc-title">Alaska Trivia</div><div class="gpc-desc">Multiple choice quiz</div></div>
-                <div class="gpc" onclick="openGame('emoji')"><div class="gpc-emoji">🤔</div><div class="gpc-title">Emoji Decoder</div><div class="gpc-desc">Guess what they mean</div></div>
+                <div class="gpc" onclick="openGame('emoji')"><div class="gpc-emoji">🤔</div><div class="gpc-title">Emoji Decoder</div><div class="gpc-desc">Trip puzzles or Disney movies</div></div>
                 <div class="gpc" onclick="openGame('wyr')"><div class="gpc-emoji">🤷</div><div class="gpc-title">Would You Rather</div><div class="gpc-desc">Alaska dilemmas</div></div>
                 <div class="gpc" onclick="openGame('disneytrivia')" style="border-color:var(--gold);background:linear-gradient(135deg,#fffbf0,#fff9e6);grid-column:span 2;display:flex;flex-direction:row;align-items:center;gap:14px;text-align:left;padding:16px 18px;"><div style="font-size:36px;flex-shrink:0;">🏰</div><div><div class="gpc-title" style="font-size:14px;">Disney Trivia</div><div class="gpc-desc">Cruise life · Characters · Parks · Songs — 50 questions across 4 categories</div></div></div>
             </div>
@@ -3263,18 +3263,39 @@
 
         <!-- EMOJI DECODER -->
         <div id="gameview-emoji" class="game-fullview">
-            <div class="game-nav-row"><button class="game-back-btn" onclick="closeGame()">← Games</button><button class="game-reset-btn" onclick="emInit()">↺ Reset</button></div>
+            <div class="game-nav-row"><button class="game-back-btn" onclick="emBack()">← Back</button><button class="game-reset-btn" id="em-reset-pill" onclick="emReset()" style="display:none;">↺ Change Category</button></div>
             <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:2px;">Emoji Decoder</div>
-            <div class="tf-progress-row"><span class="tf-progress-label" id="em-progress-label"></span><span class="tf-score-label" id="em-score-label"></span></div>
-            <div class="tf-progress-bar"><div class="tf-progress-fill" id="em-progress-fill"></div></div>
-            <div class="em-display" id="em-display"></div>
-            <div class="triv-choices" id="em-choices"></div>
-            <div class="tf-feedback" id="em-feedback"></div>
-            <div class="tf-done" id="em-done" style="display:none;">
-                <div class="tf-done-emoji">🤩</div>
-                <div class="tf-done-title" id="em-done-title"></div>
-                <div class="tf-done-sub" id="em-done-sub"></div>
-                <button class="ag-btn ag-btn-shuffle" style="margin-top:16px;" onclick="emInit()">Play Again</button>
+
+            <!-- Category selector -->
+            <div id="em-cat-screen">
+                <div style="font-size:13px;margin:10px 0 14px;line-height:1.5;">Pick a puzzle pack:</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;">
+                    <button class="dt-cat-btn" onclick="emStart('trip')">
+                        <div style="font-size:24px;margin-bottom:4px;">🗺️</div>
+                        <div style="font-size:13px;font-weight:700;">Trip &amp; Alaska</div>
+                        <div style="font-size:11px;margin-top:2px;">25 puzzles</div>
+                    </button>
+                    <button class="dt-cat-btn" onclick="emStart('movies')">
+                        <div style="font-size:24px;margin-bottom:4px;">🎬</div>
+                        <div style="font-size:13px;font-weight:700;">Disney Movies</div>
+                        <div style="font-size:11px;margin-top:2px;">20 puzzles</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz screen -->
+            <div id="em-quiz-screen" style="display:none;">
+                <div class="tf-progress-row"><span class="tf-progress-label" id="em-progress-label"></span><span class="tf-score-label" id="em-score-label"></span></div>
+                <div class="tf-progress-bar"><div class="tf-progress-fill" id="em-progress-fill"></div></div>
+                <div class="em-display" id="em-display"></div>
+                <div class="triv-choices" id="em-choices"></div>
+                <div class="tf-feedback" id="em-feedback"></div>
+                <div class="tf-done" id="em-done" style="display:none;">
+                    <div class="tf-done-emoji">🤩</div>
+                    <div class="tf-done-title" id="em-done-title"></div>
+                    <div class="tf-done-sub" id="em-done-sub"></div>
+                    <button class="ag-btn ag-btn-shuffle" style="margin-top:16px;" onclick="emReplay()">Play Again</button>
+                </div>
             </div>
         </div>
 
@@ -6619,7 +6640,7 @@
         if (name === 'wordsearch' && !window._wsStarted) { window._wsStarted = true; wsInit(); }
         if (name === 'truefalse' && !window._tfStarted) { window._tfStarted = true; tfInit(); }
         if (name === 'trivia' && !window._trivStarted) { window._trivStarted = true; trivInit(); }
-        if (name === 'emoji' && !window._emStarted) { window._emStarted = true; emInit(); }
+        if (name === 'emoji') { emReset(); }
         if (name === 'wyr' && !window._wyrStarted) { window._wyrStarted = true; wyrInit(); }
         if (name === 'disneytrivia') { dtReset(); }
     }
@@ -7720,16 +7741,61 @@
         { emoji:'🧜‍♀️🐚🌊', answer:'The Little Mermaid', wrong:['Moana','Frozen','Finding Nemo'] },
         { emoji:'❄️👸🏰', answer:'Frozen', wrong:['Tangled','Encanto','Brave'] },
     ];
-    let queue = [], current = 0, score = 0, answered = false;
 
-    function emInit() {
-        queue = [...EM_DATA].sort(() => Math.random()-.5).slice(0, 12);
+    const EM_MOVIES_DATA = [
+        { emoji:'🦁👑', answer:'The Lion King', wrong:['Tarzan','Madagascar','Zootopia'] },
+        { emoji:'❄️👭👸', answer:'Frozen', wrong:['Tangled','Encanto','Brave'] },
+        { emoji:'🧜‍♀️🐚🌊', answer:'The Little Mermaid', wrong:['Moana','Finding Nemo','Aladdin'] },
+        { emoji:'🪔🧞‍♂️', answer:'Aladdin', wrong:['The Lion King','Mulan','Hercules'] },
+        { emoji:'🚂🐘', answer:'Dumbo', wrong:['The Jungle Book','Bambi','Pinocchio'] },
+        { emoji:'🤖🌱🚀', answer:'WALL-E', wrong:['Big Hero 6','Toy Story','Lightyear'] },
+        { emoji:'🐠🔍🌊', answer:'Finding Nemo', wrong:['The Little Mermaid','Moana','Luca'] },
+        { emoji:'🏰🌹👹', answer:'Beauty and the Beast', wrong:['Tangled','Frozen','Cinderella'] },
+        { emoji:'🤠👨‍🚀🧸', answer:'Toy Story', wrong:['Cars','The Incredibles','Up'] },
+        { emoji:'🏠✨👨‍👩‍👧‍👦', answer:'Encanto', wrong:['Coco','Brave','Moana'] },
+        { emoji:'💀🎸🇲🇽', answer:'Coco', wrong:['Encanto','The Book of Life','Up'] },
+        { emoji:'🏠🎈👴', answer:'Up', wrong:['Coco','Toy Story','WALL-E'] },
+        { emoji:'🚗🏁🔧', answer:'Cars', wrong:['Toy Story','The Incredibles','Planes'] },
+        { emoji:'🦸‍♂️🦸‍♀️👨‍👩‍👧‍👦', answer:'The Incredibles', wrong:['Big Hero 6','Cars','Toy Story'] },
+        { emoji:'🌴🦍👦', answer:'Tarzan', wrong:['The Jungle Book','The Lion King','Moana'] },
+        { emoji:'🐅📖👦', answer:'The Jungle Book', wrong:['Tarzan','Zootopia','The Lion King'] },
+        { emoji:'🚓🐰🦊', answer:'Zootopia', wrong:['The Jungle Book','Robin Hood','Bolt'] },
+        { emoji:'🌺🏄‍♀️🌊', answer:'Moana', wrong:['The Little Mermaid','Lilo & Stitch','Finding Nemo'] },
+        { emoji:'👸🐸💋', answer:'The Princess and the Frog', wrong:['Cinderella','Tangled','Enchanted'] },
+        { emoji:'🐻‍❄️⚔️🏴', answer:'Brave', wrong:['Frozen','Mulan','Moana'] },
+    ];
+
+    let queue = [], current = 0, score = 0, answered = false, emCategory = 'trip';
+
+    function emStart(cat) {
+        emCategory = cat;
+        const pool = cat === 'movies' ? EM_MOVIES_DATA : EM_DATA;
+        queue = [...pool].sort(() => Math.random()-.5).slice(0, 12);
         current = 0; score = 0; answered = false;
+        document.getElementById('em-cat-screen').style.display = 'none';
+        document.getElementById('em-quiz-screen').style.display = '';
+        document.getElementById('em-reset-pill').style.display = '';
         document.getElementById('em-done').style.display = 'none';
         document.getElementById('em-feedback').textContent = '';
         document.getElementById('em-feedback').className = 'tf-feedback';
         emLoad();
     }
+
+    function emReset() {
+        document.getElementById('em-cat-screen').style.display = '';
+        document.getElementById('em-quiz-screen').style.display = 'none';
+        document.getElementById('em-reset-pill').style.display = 'none';
+    }
+
+    function emBack() {
+        if (document.getElementById('em-quiz-screen').style.display !== 'none') {
+            emReset();
+        } else {
+            closeGame();
+        }
+    }
+
+    function emReplay() { emStart(emCategory); }
 
     function emLoad() {
         if (current >= queue.length) { emFinish(); return; }
@@ -7778,7 +7844,7 @@
         document.getElementById('em-done-sub').textContent = msg;
     }
 
-    window.emInit = emInit;
+    window.emStart = emStart; window.emReset = emReset; window.emBack = emBack; window.emReplay = emReplay;
 })();
 
 // ── WOULD YOU RATHER ──────────────────────────────────────────────────────────
