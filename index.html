@@ -6838,6 +6838,16 @@
             { word:'MICKEY',    clue:'Famous Disney mouse sailing with us',                 cat:'🏰 Disney'    },
             { word:'KLONDIKE',  clue:'Famous Gold Rush region near Skagway',                cat:'⛏️ History'   },
             { word:'TRACY',     clue:'___ Arm — the glacier fjord we sail into on Day 7',   cat:'🧊 Nature'    },
+            { word:'YALETOWN',  clue:'Trendy Vancouver neighborhood with Minami',           cat:'🏙️ Vancouver' },
+            { word:'GASTOWN',   clue:'Historic Vancouver district with the Steam Clock',    cat:'🏙️ Vancouver' },
+            { word:'GRANVILLE', clue:'Island known for its public market',                  cat:'🛍️ Vancouver' },
+            { word:'STEVESTON', clue:'Historic fishing village near Richmond',              cat:'🎣 Vancouver' },
+            { word:'CAPILANO',  clue:'Famous suspension bridge near Vancouver',             cat:'🌉 Vancouver' },
+            { word:'IDITAROD',  clue:'Famous 1,000-mile Alaska dog sled race',              cat:'🐕 Alaska'    },
+            { word:'DENALI',    clue:"North America's tallest mountain",                    cat:'⛰️ Geography' },
+            { word:'PIRATE',    clue:'Theme of a classic Disney deck party',                cat:'🏴‍☠️ Disney'  },
+            { word:'SOUFFLE',   clue:'Must-order chocolate dessert at Palo',                cat:'🍫 Ship'      },
+            { word:'TLINGIT',   clue:'Alaska Native people of the Southeast',               cat:'🗿 Culture'   },
         ];
 
         let queue = [], current = 0, score = 0, hints = 0, reveals = 0;
@@ -6861,7 +6871,7 @@
         }
 
         function agInit() {
-            queue = shuffle([...WORDS]);
+            queue = shuffle([...WORDS]).slice(0, 12);
             current = 0; score = 0; hints = 0; reveals = 0;
             document.getElementById('ag-all-done').style.display = 'none';
             document.getElementById('ag-banner').classList.remove('show');
@@ -7088,11 +7098,13 @@
 
 // ── WORD SEARCH ──────────────────────────────────────────────────────────────
 (function() {
-    const WS_WORDS = ['ALASKA','GLACIER','SKAGWAY','JUNEAU','SALMON','PUFFIN','WHALE','EAGLE','TOTEM','ORCA','HUSKY','TRACY','FJORD','MUSHER'];
+    const WS_WORD_POOL = ['ALASKA','GLACIER','SKAGWAY','JUNEAU','SALMON','PUFFIN','WHALE','EAGLE','TOTEM','ORCA','HUSKY','TRACY','FJORD','MUSHER','DENALI','TUNDRA','KAYAK','AURORA','MOOSE','SEAPLANE','IDITAROD','TLINGIT'];
     const ROWS = 14, COLS = 14;
+    let WS_WORDS = [];
     let grid = [], placed = [], found = [], firstSel = null, selCells = [];
 
     function wsInit() {
+        WS_WORDS = [...WS_WORD_POOL].sort(() => Math.random()-.5).slice(0, 14);
         grid = Array.from({length:ROWS}, () => Array(COLS).fill(''));
         placed = []; found = [];
         const dirs = [[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
@@ -7209,11 +7221,21 @@
         { q:'A group of sea otters is called a "raft."', a:true, fact:'Rafts can contain hundreds of otters resting together on the surface.' },
         { q:'Alaska is larger than Texas, California, and Montana combined.', a:true, fact:'At 663,268 sq miles, Alaska is truly enormous — about 2.5 times the size of Texas alone.' },
         { q:'The White Pass & Yukon Route railway was built in under two years.', a:true, fact:'It was completed in 1900 — an extraordinary engineering feat through some of the most rugged terrain on Earth.' },
+        { q:'Denali is the tallest mountain in North America.', a:true, fact:'Denali stands 20,310 feet tall — the tallest peak on the continent.' },
+        { q:'Alaska shares a land border with another US state.', a:false, fact:"Alaska's only land border is with Canada (Yukon and British Columbia) — it doesn't touch any other US state." },
+        { q:'The Iditarod Trail Sled Dog Race covers over 1,000 miles.', a:true, fact:'The Iditarod runs roughly 1,000 miles from Anchorage to Nome, often through brutal winter conditions.' },
+        { q:'Ketchikan gets less rainfall per year than Seattle.', a:false, fact:"Ketchikan is one of the rainiest cities in the US, averaging over 140 inches a year — Seattle gets about 38." },
+        { q:'The Tlingit people have lived in Southeast Alaska for thousands of years.', a:true, fact:'The Tlingit have inhabited the Southeast Alaska panhandle, including the Juneau and Ketchikan areas, for over 10,000 years.' },
+        { q:'Mickey Mouse appeared in color in his very first cartoon, Steamboat Willie.', a:false, fact:"Steamboat Willie (1928) was black and white — Mickey's first color appearance was in The Band Concert (1935)." },
+        { q:'A humpback whale can hold its breath for up to 45 minutes.', a:true, fact:'Humpbacks usually dive for 5–15 minutes but can hold their breath up to 45 minutes when needed.' },
+        { q:'Glacier Bay National Park is located near Juneau.', a:true, fact:'Glacier Bay National Park and Preserve sits about 50 miles northwest of Juneau.' },
+        { q:'Alaska Time is one hour behind Pacific Time.', a:true, fact:"Alaska Time (AKST) runs an hour behind Pacific Time — so the ship's clock is actually earlier than Vancouver's." },
+        { q:'Moose are the largest member of the deer family.', a:true, fact:'Moose are the largest living species of deer, with bulls weighing up to 1,500 pounds.' },
     ];
     let queue = [], current = 0, score = 0, answered = false;
 
     function tfInit() {
-        queue = [...TF_DATA].sort(() => Math.random()-.5);
+        queue = [...TF_DATA].sort(() => Math.random()-.5).slice(0, 15);
         current = 0; score = 0; answered = false;
         document.getElementById('tf-done').style.display = 'none';
         document.querySelectorAll('.tf-btn').forEach(b => b.style.display = '');
@@ -7287,11 +7309,21 @@
         { q:'What famous dessert at Palo must be ordered at the very start of your meal?', correct:'The chocolate soufflé', wrong:['Tiramisu','Panna cotta','Cannoli'] },
         { q:'How many hours of daylight does Juneau get in mid-June?', correct:'About 19 hours', wrong:['About 12 hours','About 16 hours','About 22 hours'] },
         { q:'What does "musher" refer to in Alaska?', correct:'A dog sled driver', wrong:['A gold prospector','A fishing guide','A totem pole carver'] },
+        { q:'What is Alaska\'s state bird?', correct:'Willow ptarmigan', wrong:['Bald eagle','Puffin','Snowy owl'] },
+        { q:'What is the largest city in Alaska?', correct:'Anchorage', wrong:['Juneau','Fairbanks','Sitka'] },
+        { q:'Which sea separates Alaska from Russia?', correct:'Bering Sea', wrong:['Chukchi Sea','Beaufort Sea','Gulf of Alaska'] },
+        { q:'What is the name of the famous 1,000-mile dog sled race that ends in Nome?', correct:'The Iditarod', wrong:['The Yukon Quest','The Klondike Derby','The Northern Run'] },
+        { q:'Approximately how tall is Denali, North America\'s tallest peak?', correct:'20,310 feet', wrong:['14,500 feet','18,000 feet','22,800 feet'] },
+        { q:'What year did the US purchase Alaska from Russia?', correct:'1867', wrong:['1898','1912','1850'] },
+        { q:'What nickname mocked the Alaska Purchase at the time?', correct:'Seward\'s Folly', wrong:['Lincoln\'s Blunder','Russia\'s Gift','The Northern Mistake'] },
+        { q:'Which Alaska Native group is traditionally associated with totem poles in the Southeast?', correct:'Tlingit', wrong:['Inupiat','Yupik','Athabascan'] },
+        { q:'What is the term for a baby seal?', correct:'Pup', wrong:['Cub','Calf','Kit'] },
+        { q:'How many hours behind US Eastern Time is Alaska Time?', correct:'4 hours', wrong:['2 hours','3 hours','5 hours'] },
     ];
     let queue = [], current = 0, score = 0, answered = false;
 
     function trivInit() {
-        queue = [...TRIV_DATA].sort(() => Math.random()-.5);
+        queue = [...TRIV_DATA].sort(() => Math.random()-.5).slice(0, 12);
         current = 0; score = 0; answered = false;
         document.getElementById('triv-done').style.display = 'none';
         document.getElementById('triv-feedback').textContent = '';
@@ -7398,6 +7430,11 @@
         { cat:'parks', q:'What are the 4 themed "lands" you find in every traditional Disney Magic Kingdom?', correct:'Fantasyland, Tomorrowland, Adventureland, Frontierland', wrong:['Fantasyland, Tomorrowland, Discoveryland, Frontierland','Fantasyland, Futureland, Adventureland, Frontierland','Fantasyland, Tomorrowland, Enchantedland, Frontierland'], fact:'These four original lands opened with Disneyland in 1955. Walt designed them to represent the past, future, adventure, and fantasy.' },
         { cat:'parks', q:'Which country has a Disney park where cast members must follow strict appearance guidelines including NO facial hair for men?', correct:'Japan (Tokyo Disney)', wrong:['USA','France','China'], fact:'Tokyo Disneyland and DisneySea are operated by the Oriental Land Company under Disney license — and maintain incredibly strict Disney standards.' },
         { cat:'parks', q:'What iconic Disney attraction invites guests to "it\'s a small world after all"?', correct:'"it\'s a small world" — a slow boat ride through doll-filled nations', wrong:['The Haunted Mansion','Pirates of the Caribbean','Space Mountain'], fact:'"it\'s a small world" was created for the 1964 World\'s Fair. The song was designed to be simple enough to work in ANY language.' },
+        { cat:'parks', q:'What is the name of the steam-powered train that circles Disneyland?', correct:'The Disneyland Railroad', wrong:['The Magic Express','The Frontier Flyer','The Mark Twain Express'], fact:'The Disneyland Railroad has circled the park since opening day in 1955, reflecting Walt\'s lifelong love of trains.' },
+        { cat:'parks', q:'Which Disney park is built around a giant geodesic sphere called Spaceship Earth?', correct:'EPCOT', wrong:['Magic Kingdom','Hollywood Studios','Animal Kingdom'], fact:'Spaceship Earth is 180 feet tall and houses a ride that travels through the history of human communication.' },
+        { cat:'parks', q:'What is the tallest mountain attraction at Walt Disney World, home to a yeti animatronic?', correct:'Expedition Everest (Animal Kingdom)', wrong:['Space Mountain','Big Thunder Mountain','Splash Mountain'], fact:'Expedition Everest stands 199 feet tall and features one of the most advanced animatronics Disney has ever built.' },
+        { cat:'parks', q:'Disney California Adventure is located right next to which original park?', correct:'Disneyland', wrong:['Magic Kingdom','EPCOT','Tokyo Disneyland'], fact:'Disney California Adventure opened in 2001 across the esplanade from Disneyland in Anaheim.' },
+        { cat:'parks', q:'What attraction lets guests "fly" over famous landmarks using a giant projection dome?', correct:'Soarin\' Around the World', wrong:['Mission: SPACE','Star Tours','Test Track'], fact:'Soarin\' uses motion seats and a giant projection screen to simulate flight — it debuted at EPCOT in 2005.' },
 
         // ── SONGS & QUOTES ───────────────────────────────────────────────────
         { cat:'songs', q:'Which Disney song features the lyric "Be our guest, be our guest, put our service to the test"?', correct:'"Be Our Guest" from Beauty and the Beast', wrong:['"A Whole New World" from Aladdin','"Under the Sea" from The Little Mermaid','"Kiss the Girl" from The Little Mermaid'], fact:'"Be Our Guest" was originally written for Belle\'s father Maurice — it was rewritten for Belle when test audiences loved her more.' },
@@ -7410,6 +7447,11 @@
         { cat:'songs', q:'Which Disney song starts with the lyric "Look at this stuff, isn\'t it neat?"', correct:'"Part of Your World" from The Little Mermaid', wrong:['"Shiny" from Moana','"Reflection" from Mulan','"Something There" from Beauty and the Beast'], fact:'This song was almost CUT from the film — early test audiences lost attention. Jeffrey Katzenberg overruled the cut. Good call.' },
         { cat:'songs', q:'"You\'ve Got a Friend in Me" is the theme from which Pixar film?', correct:'Toy Story', wrong:['Monsters Inc.','Finding Nemo','A Bug\'s Life'], fact:'Written and performed by Randy Newman, "You\'ve Got a Friend in Me" became one of the most recognizable Pixar songs ever written.' },
         { cat:'songs', q:'Which Disney song famously tells us "Someday my prince will come"?', correct:'"Someday My Prince Will Come" from Snow White', wrong:['"A Dream Is a Wish Your Heart Makes" from Cinderella','"Once Upon a Dream" from Sleeping Beauty','"Part of Your World" from The Little Mermaid'], fact:'Snow White\'s wishing well song (1937) is the oldest Disney princess song — written over 85 years before the latest Disney films.' },
+        { cat:'songs', q:'Which song asks "Can you paint with all the colors of the wind?"', correct:'"Colors of the Wind" from Pocahontas', wrong:['"Reflection" from Mulan','"How Far I\'ll Go" from Moana','"Just Around the Riverbend" from Pocahontas'], fact:'"Colors of the Wind" won the Academy Award for Best Original Song in 1995, performed by Judy Kuhn as Pocahontas.' },
+        { cat:'songs', q:'Which villain song was inspired visually by grand propaganda rallies?', correct:'"Be Prepared" from The Lion King', wrong:['"Hellfire" from The Hunchback of Notre Dame','"Poor Unfortunate Souls" from The Little Mermaid','"Mother Knows Best" from Tangled'], fact:'Scar\'s "Be Prepared" is one of Disney\'s darkest and most theatrical villain numbers.' },
+        { cat:'songs', q:'Which song features the line "Reflection, reflection, what am I gonna do?"', correct:'"Reflection" from Mulan', wrong:['"Colors of the Wind" from Pocahontas','"Almost There" from The Princess and the Frog','"Let It Go" from Frozen'], fact:'"Reflection" launched Christina Aguilera\'s career — it was her first major recorded single in 1998.' },
+        { cat:'songs', q:'In Encanto, which song is famous for being about something the family refuses to discuss?', correct:'"We Don\'t Talk About Bruno"', wrong:['"Surface Pressure"','"The Family Madrigal"','"All of You"'], fact:'"We Don\'t Talk About Bruno" topped the Billboard Hot 100 — the first Disney song to do so since "A Whole New World."' },
+        { cat:'songs', q:'What is Tiana\'s big "I Want" song in The Princess and the Frog?', correct:'"Almost There"', wrong:['"Dig a Little Deeper"','"Friends on the Other Side"','"Down in New Orleans"'], fact:'"Almost There" establishes Tiana\'s dream of opening her own restaurant — a classic Disney "I Want" song.' },
     ];
 
     let dtQueue = [], dtCurrent = 0, dtScore = 0, dtAnswered = false, dtCategory = 'all';
@@ -7452,7 +7494,8 @@
 
     function dtStart(cat) {
         dtCategory = cat;
-        dtQueue = (cat === 'all' ? [...DT_DATA] : DT_DATA.filter(d => d.cat === cat)).sort(() => Math.random() - .5);
+        const pool = (cat === 'all' ? [...DT_DATA] : DT_DATA.filter(d => d.cat === cat)).sort(() => Math.random() - .5);
+        dtQueue = pool.slice(0, cat === 'all' ? 18 : 12);
         dtCurrent = 0; dtScore = 0; dtAnswered = false; dtHardKnew = 0; dtHardTotal = 0;
         document.getElementById('dt-cat-screen').style.display = 'none';
         document.getElementById('dt-quiz-screen').style.display = '';
@@ -7666,11 +7709,21 @@
         { emoji:'⛏️💰🏃', answer:'Klondike Gold Rush', wrong:['Mining Contest','Treasure Hunt','Gold Fever'] },
         { emoji:'🦦🤝', answer:'Sea Otters Holding Paws', wrong:['Otter Friends','Hand Holding Animals','Sea Otter Raft'] },
         { emoji:'🌿🪵🗿', answer:'Totem Pole', wrong:['Jungle Carving','Wood Sculpture','Native Art'] },
+        { emoji:'🌉🚶🌲', answer:'Capilano Suspension Bridge', wrong:['Lions Gate Bridge','Stanley Park Seawall','Treetop Canopy Walk'] },
+        { emoji:'🎣🚤🏘️', answer:'Steveston Village', wrong:['Granville Island','Fisherman\'s Wharf','Richmond Harbor'] },
+        { emoji:'👑🐭🏆', answer:'Golden Mickeys', wrong:['Character Parade','Disney Awards Night','Mickey Mouse Club'] },
+        { emoji:'🍫🔥🍮', answer:'Chocolate Souffle', wrong:['Baked Alaska','Crepe Suzette','Molten Lava Cake'] },
+        { emoji:'🦅🪺🌲', answer:'Eagle Nest', wrong:['Bird Sanctuary','Bald Eagle Preserve','Treetop Lookout'] },
+        { emoji:'🏮🥟🌃', answer:'Richmond Night Market', wrong:['Chinatown Festival','Asian Street Fair','Lantern Parade'] },
+        { emoji:'⛵🌊🏔️', answer:'Inside Passage Cruising', wrong:['Glacier Bay Tour','Open Water Day','Coastal Voyage'] },
+        { emoji:'🎨🖼️✨', answer:'Animator\'s Palate', wrong:['Art Class at Sea','Drawing Contest','Magic Art Show'] },
+        { emoji:'🧜‍♀️🐚🌊', answer:'The Little Mermaid', wrong:['Moana','Frozen','Finding Nemo'] },
+        { emoji:'❄️👸🏰', answer:'Frozen', wrong:['Tangled','Encanto','Brave'] },
     ];
     let queue = [], current = 0, score = 0, answered = false;
 
     function emInit() {
-        queue = [...EM_DATA].sort(() => Math.random()-.5);
+        queue = [...EM_DATA].sort(() => Math.random()-.5).slice(0, 12);
         current = 0; score = 0; answered = false;
         document.getElementById('em-done').style.display = 'none';
         document.getElementById('em-feedback').textContent = '';
@@ -7746,11 +7799,21 @@
         { a:'Get a private character breakfast with Mickey & Minnie', b:'Get a behind-the-scenes tour of the entire Disney Wonder', funA:'Mickey in his Alaska flannel at your personal breakfast table.', funB:'The ship has a morgue, a full hospital, and enough food to feed a small city.' },
         { a:'Spend a day with a Tlingit elder learning Alaska Native culture', b:'Spend a day with an Alaskan bush pilot flying remote routes', funA:'The Tlingit have lived here for 10,000 years — the stories would be incredible.', funB:'Routes that don\'t appear on any map. Just you and wilderness.' },
         { a:'Arrive at every port by helicopter', b:'Leave every port by seaplane', funA:'Helicopter arrivals: maximum dramatic entrance.', funB:'Seaplane departures: the most Alaska exit possible.' },
+        { a:'Try authentic poutine in Vancouver', b:'Try fresh sushi at Minami', funA:'Crispy fries, gravy, and cheese curds — a Canadian classic.', funB:'Minami brings Japan-quality sushi right to Yaletown.' },
+        { a:'Spend the day shopping at Granville Island Market', b:'Spend the day hiking the Stanley Park Seawall', funA:'Artisan crafts, fresh seafood, and the best donuts in Vancouver.', funB:'9 km of ocean views, totem poles, and city skyline.' },
+        { a:'Watch USA vs Paraguay live at BC Place', b:'Watch it from a Gastown pub with locals', funA:'54,000 fans roaring in person — electric atmosphere.', funB:'Cozy pub vibes with Vancouver\'s biggest soccer fans.' },
+        { a:'Get a behind-the-scenes tour of the bridge on Disney Wonder', b:'Get a private class with the ship\'s pastry chef', funA:'See how the captain actually steers a 965-foot ship.', funB:'Learn the secrets behind that famous chocolate soufflé.' },
+        { a:'See a pod of orcas hunting', b:'See a bear catching salmon mid-air', funA:'Orca hunts are rare and thrilling to witness.', funB:'The iconic "salmon leaps into bear\'s mouth" moment.' },
+        { a:'Have non-stop sunshine the entire cruise', b:'Have one day of dramatic stormy seas (safely)', funA:'Perfect photos at every port.', funB:'An unforgettable story to tell for years.' },
+        { a:'Try a dog sled ride on real snow', b:'Try a dog sled ride on wheels (summer version)', funA:'The real deal — cold air and flying snow.', funB:'Still meet the huskies, just on dirt trails in summer.' },
+        { a:'Spend Frozen Night dancing with Anna and Elsa', b:'Spend a classic Pirate Night deck party', funA:'Frozen replaces Pirate Night on your sailing — sing-alongs and snow!', funB:'Fireworks at sea and Captain Hook crashing the party.' },
+        { a:'Catch a 30+ lb king salmon', b:'Find a real gold nugget in Skagway', funA:'A trophy fish and dinner for the whole family.', funB:'A piece of Gold Rush history to take home.' },
+        { a:'Ride the Seawall on a rented bike', b:'Walk the Seawall at sunset', funA:'Cover more ground and feel the ocean breeze.', funB:'Slower pace, golden light, perfect photos.' },
     ];
     let queue = [], current = 0, chosen = false;
 
     function wyrInit() {
-        queue = [...WYR_DATA].sort(() => Math.random()-.5);
+        queue = [...WYR_DATA].sort(() => Math.random()-.5).slice(0, 12);
         current = 0; chosen = false;
         document.getElementById('wyr-done').style.display = 'none';
         document.getElementById('wyr-result').style.display = 'none';
