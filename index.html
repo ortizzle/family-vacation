@@ -9181,6 +9181,12 @@
                 orcaY: waterY, vy: 0, grounded: true,
                 obstacles: [], spawnIn: 70, speed: 3.2,
                 dist: 0, score: 0, gameOver: false, started: false,
+                clouds: [
+                    { x: W * 0.18, y: 30, s: 1.0 },
+                    { x: W * 0.55, y: 52, s: 0.65 },
+                    { x: W * 0.92, y: 24, s: 1.25 },
+                ],
+                birds: [], birdIn: 90, bgScroll: 0,
             };
             const s = document.getElementById('gameScore'); if (s) s.textContent = '0';
             const b = document.getElementById('gameBest'); if (b) b.textContent = best();
@@ -9202,7 +9208,17 @@
 
         function step(dt) {
             const f = Math.min(dt / 16.67, 2.2);
+            // Ambient layers drift even on the idle / game-over screen
+            for (const c of state.clouds) { c.x -= 0.22 * c.s * f; if (c.x < -44) { c.x = W + 30 + Math.random() * 50; c.y = 18 + Math.random() * 44; } }
+            state.birdIn -= f;
+            if (state.birdIn <= 0) {
+                state.birds.push({ x: W + 20, y: 16 + Math.random() * (waterY - 54), ph: Math.random() * 6, sp: 0.8 + Math.random() * 0.7 });
+                state.birdIn = 150 + Math.random() * 240;
+            }
+            for (const b of state.birds) { b.x -= b.sp * f; b.ph += 0.22 * f; }
+            state.birds = state.birds.filter(b => b.x > -20);
             if (state.started && !state.gameOver) {
+                state.bgScroll += state.speed * 0.18 * f;
                 state.speed += 0.0016 * f;
                 state.dist += state.speed * f;
                 state.score = Math.floor(state.dist / 8);
@@ -9227,8 +9243,42 @@
             draw();
         }
 
+        function drawSun() {
+            const sx = W - 46, sy = 34;
+            const g = ctx.createRadialGradient(sx, sy, 2, sx, sy, 30);
+            g.addColorStop(0, 'rgba(255,243,190,.95)'); g.addColorStop(1, 'rgba(255,243,190,0)');
+            ctx.fillStyle = g; ctx.beginPath(); ctx.arc(sx, sy, 30, 0, 7); ctx.fill();
+            ctx.fillStyle = 'rgba(255,235,150,1)'; ctx.beginPath(); ctx.arc(sx, sy, 13, 0, 7); ctx.fill();
+        }
+        function drawRange(amp, color, scroll) {
+            const baseY = waterY + 10, seg = 76, off = scroll % seg;
+            ctx.fillStyle = color;
+            ctx.beginPath(); ctx.moveTo(-off - seg, baseY);
+            for (let x = -off - seg, i = 0; x <= W + seg; x += seg, i++) {
+                ctx.lineTo(x + seg / 2, baseY - amp * (0.62 + 0.38 * (i % 2)));
+                ctx.lineTo(x + seg, baseY);
+            }
+            ctx.lineTo(W + seg, baseY); ctx.closePath(); ctx.fill();
+        }
+        function drawBird(x, y, ph) {
+            const lift = 4 + Math.sin(ph) * 2.4;
+            ctx.strokeStyle = 'rgba(55,68,80,.7)'; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(x - 6, y); ctx.quadraticCurveTo(x - 3, y - lift, x, y);
+            ctx.quadraticCurveTo(x + 3, y - lift, x + 6, y); ctx.stroke();
+        }
         function draw() {
             ctx.clearRect(0, 0, W, H);
+            // --- background / scenery (behind the action) ---
+            drawSun();
+            drawRange(40, 'rgba(150,180,205,.45)', state.bgScroll * 0.4);   // far range
+            drawRange(58, 'rgba(108,148,182,.55)', state.bgScroll * 0.7);   // near range
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.globalAlpha = 0.88;
+            for (const c of state.clouds) { ctx.font = Math.round(26 * c.s) + 'px serif'; ctx.fillText('☁️', c.x, c.y); }
+            ctx.globalAlpha = 1;
+            for (const b of state.birds) drawBird(b.x, b.y, b.ph);
+            // --- water surface ---
             ctx.strokeStyle = 'rgba(255,255,255,.55)';
             ctx.lineWidth = 2;
             ctx.beginPath(); ctx.moveTo(0, waterY + 10); ctx.lineTo(W, waterY + 10); ctx.stroke();
