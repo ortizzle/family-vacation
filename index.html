@@ -9373,7 +9373,7 @@
             raf = requestAnimationFrame(loop);
         }
 
-        window.openGame = function () {
+        window.openGlacierRun = function () {
             canvas = document.getElementById('gameCanvas');
             if (!canvas) return;
             ctx = canvas.getContext('2d');
@@ -9384,7 +9384,7 @@
             lastT = performance.now();
             if (!raf) raf = requestAnimationFrame(loop);
         };
-        window.closeGame = function () {
+        window.closeGlacierRun = function () {
             document.getElementById('modal-game').classList.add('hidden');
             document.body.style.overflow = '';
             if (raf) { cancelAnimationFrame(raf); raf = null; }
@@ -9434,7 +9434,7 @@
                     { transform: 'translateY(-54px) scale(1) rotate(-4deg)', opacity: 0 },
                 ], { duration: 900, easing: 'ease-out' }).onfinish = () => puff.remove();
             } catch (e) { /* animation unsupported — open anyway */ }
-            setTimeout(openGame, 470);
+            setTimeout(openGlacierRun, 470);
         }
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
         else wire();
@@ -9442,11 +9442,11 @@
 
 </script>
 <!-- ============ SECRET GAME MODAL: 🐋 Glacier Run ============ -->
-<div class="modal-overlay hidden" id="modal-game" onclick="if(event.target===this)closeGame()" style="align-items:center;">
+<div class="modal-overlay hidden" id="modal-game" onclick="if(event.target===this)closeGlacierRun()" style="align-items:center;">
     <div style="background:var(--cream);border-radius:20px;width:94%;max-width:400px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.45);">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
             <div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--forest-dark);">🐋 Glacier Run</div>
-            <button onclick="closeGame()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-light);line-height:1;padding:0 4px;">✕</button>
+            <button onclick="closeGlacierRun()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-light);line-height:1;padding:0 4px;">✕</button>
         </div>
         <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">Tap the water or press <strong>Space</strong> to breach. Leap the icebergs — see how far you can swim!</div>
         <canvas id="gameCanvas" width="368" height="200" style="width:100%;display:block;border-radius:12px;background:linear-gradient(180deg,#bfe3f2 0%,#8fcfe8 55%,#2b7fae 55%,#15527a 100%);touch-action:manipulation;cursor:pointer;"></canvas>
