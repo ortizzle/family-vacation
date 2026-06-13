@@ -222,6 +222,14 @@
         .info-table td:first-child { color: var(--text-light); font-size: 11px; text-transform: uppercase; letter-spacing: .8px; font-weight: 600; width: 42%; }
         .info-table td:last-child { font-weight: 600; color: var(--text-dark); }
         .info-table tr:last-child td { border-bottom: none; }
+        .wc-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; background: var(--snow); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 12px; }
+        .wc-table th, .wc-table td { padding: 7px 8px; text-align: center; border-bottom: 1px solid #eef2ee; }
+        .wc-table th { font-size: 10px; text-transform: uppercase; letter-spacing: .5px; color: var(--text-light); font-weight: 700; }
+        .wc-table td:first-child, .wc-table th:first-child { text-align: left; font-weight: 600; color: var(--text-dark); }
+        .wc-table tr:last-child td { border-bottom: none; }
+        .wc-match { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--snow); border-radius: 12px; padding: 10px 14px; margin-bottom: 6px; box-shadow: var(--shadow-sm); font-size: 13px; }
+        .wc-match-status { font-size: 11px; color: var(--text-light); font-weight: 600; flex-shrink: 0; }
+        .wc-match-live { color: #c0392b; }
         .page-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #eef2ee; }
         .page-header-emoji { font-size: 36px; flex-shrink: 0; }
         .page-header-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; line-height: 1.2; }
@@ -3684,6 +3692,12 @@
                 <tr><td>Jun 26 · 8:00 PM</td><td>🇧🇪 Belgium vs. 🇳🇿 New Zealand · Group G</td></tr>
             </table>
 
+            <div class="section-header">📡 Live Updates</div>
+            <div class="tip-item" style="margin-bottom:10px;"><span class="tip-icon">🔄</span>Today's scores and group standings — needs an internet connection (Wi-Fi or ship Wi-Fi).</div>
+            <div id="wc-live-scores"><div class="tip-item">⏳ Loading today's matches…</div></div>
+            <div id="wc-live-standings"></div>
+            <button class="ag-btn ag-btn-shuffle" style="margin-bottom:20px;" onclick="wcLoadLive()">🔄 Refresh Live Data</button>
+
             <div class="section-header">Follow Live</div>
             <div class="tip-item" style="margin-bottom:10px;"><span class="tip-icon">📡</span>Bookmark these for match days — works in the ship's browser on Wi-Fi too.</div>
             <div class="map-link-row" style="margin-bottom:20px;">
@@ -4163,8 +4177,66 @@
         document.getElementById('section-' + id).classList.add('active');
         if (id === 'home') document.querySelector('.nav-item[onclick*="home"]').classList.add('active');
         if (id === 'keepsake') renderKeepsake();
+        if (id === 'worldcup' && !window._wcStarted) { window._wcStarted = true; wcLoadLive(); }
         window.scrollTo(0, 0);
     }
+
+    // FIFA World Cup — live scores & standings (TheSportsDB, free public API)
+    const WC_LEAGUE_ID = 4429, WC_SEASON = '2026', WC_GROUPS = ['B', 'D', 'G'];
+    async function wcLoadLive() {
+        const scoresEl = document.getElementById('wc-live-scores');
+        const standingsEl = document.getElementById('wc-live-standings');
+        scoresEl.innerHTML = '<div class="tip-item">⏳ Loading today\'s matches…</div>';
+        standingsEl.innerHTML = '';
+        try {
+            const day = tripTodayStr();
+            const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/eventsday.php?d=${day}&l=${WC_LEAGUE_ID}`);
+            const data = await res.json();
+            const events = data.events || [];
+            if (!events.length) {
+                scoresEl.innerHTML = `<div class="tip-item"><span class="tip-icon">📅</span>No World Cup matches today (${day}). Check the BC Place schedule above for upcoming games.</div>`;
+            } else {
+                scoresEl.innerHTML = '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin-bottom:6px;">Today\'s Matches</div>' +
+                    events.map(e => {
+                        const hasScore = e.intHomeScore !== null && e.intHomeScore !== undefined;
+                        const score = hasScore ? `${e.intHomeScore} – ${e.intAwayScore}` : 'vs';
+                        let status, statusClass = '';
+                        if (e.strStatus === 'FT' || e.strStatus === 'AET' || e.strStatus === 'FT_PEN') {
+                            status = 'Final';
+                        } else if (!e.strStatus || e.strStatus === 'NS') {
+                            status = new Date(e.strTimestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                        } else {
+                            status = `🔴 ${e.strStatus}`;
+                            statusClass = 'wc-match-live';
+                        }
+                        const group = e.strGroup ? ` · Group ${e.strGroup}` : '';
+                        return `<div class="wc-match"><div>${e.strHomeTeam} <strong>${score}</strong> ${e.strAwayTeam}</div><div class="wc-match-status ${statusClass}">${status}${group}</div></div>`;
+                    }).join('');
+            }
+        } catch (err) {
+            scoresEl.innerHTML = `<div class="tip-item"><span class="tip-icon">⚠️</span>Couldn't load live scores — check your connection, or use the links below.</div>`;
+        }
+
+        try {
+            const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=${WC_LEAGUE_ID}&s=${WC_SEASON}`);
+            const data = await res.json();
+            const table = data.table || [];
+            let html = '';
+            WC_GROUPS.forEach(g => {
+                const rows = table.filter(t => t.strGroup === `Group ${g}`)
+                    .sort((a, b) => b.intPoints - a.intPoints || b.intGoalDifference - a.intGoalDifference);
+                if (!rows.length) return;
+                html += `<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin:10px 0 6px;">Group ${g} Standings</div>`;
+                html += '<table class="wc-table"><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr>' +
+                    rows.map(r => `<tr><td>${r.strTeam}</td><td>${r.intPlayed}</td><td>${r.intWin}</td><td>${r.intDraw}</td><td>${r.intLoss}</td><td>${r.intGoalDifference}</td><td><strong>${r.intPoints}</strong></td></tr>`).join('') +
+                    '</table>';
+            });
+            standingsEl.innerHTML = html || '<div class="tip-item" style="margin-top:6px;"><span class="tip-icon">📊</span>Standings will appear here once group matches begin.</div>';
+        } catch (err) {
+            // scores section already shows a connection error if offline
+        }
+    }
+    window.wcLoadLive = wcLoadLive;
 
     // Wildlife Bingo
     const BINGO_IDS = [
