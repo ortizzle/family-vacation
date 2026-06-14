@@ -1531,8 +1531,17 @@
         <div class="fc-progress" id="fc-progress"></div>
 
         <div style="margin-top:4px;" class="section-header">History & Culture</div>
+        <div onclick="showPage('firstpeoples')" style="cursor:pointer;-webkit-tap-highlight-color:transparent;display:block;text-decoration:none;background:linear-gradient(135deg,#2d5a3d,#1a3a28);color:#f2ead8;border-radius:14px;padding:15px 16px;margin-bottom:14px;box-shadow:0 4px 14px rgba(22,48,31,.28);border:1px solid rgba(200,146,42,0.3);">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span style="font-size:30px;flex-shrink:0;">🪶</span>
+                <div>
+                    <div style="font-weight:700;font-size:15px;margin-bottom:2px;">First Peoples of This Coast →</div>
+                    <div style="font-size:12px;opacity:.85;line-height:1.4;">Who lived here first — Coast Salish, Tlingit, Haida &amp; Tsimshian — and the stories behind the totem poles.</div>
+                </div>
+            </div>
+        </div>
         <div class="fact-card"><div class="fact-icon">⛏️</div><div><div class="fact-title">The Klondike Gold Rush (1896–1899)</div><div class="fact-body">Gold was discovered in Canada's Yukon Territory in 1896. Over 100,000 prospectors flooded through Skagway. Most found nothing. The White Pass route you're taking was the "easier" of two treacherous mountain trails.</div></div></div>
-        <div class="fact-card"><div class="fact-icon">🏛️</div><div><div class="fact-title">Tlingit, Haida & Tsimshian Peoples</div><div class="fact-body">Southeast Alaska has been home to Indigenous peoples for over 10,000 years. The totem poles in Ketchikan are Tlingit and Haida art — each tells a story about family, history, and the natural world, meant to be read top to bottom like a visual family history carved in cedar.</div></div></div>
+        <div class="fact-card" onclick="showPage('firstpeoples')" style="cursor:pointer;-webkit-tap-highlight-color:transparent;"><div class="fact-icon">🏛️</div><div><div class="fact-title">Tlingit, Haida & Tsimshian Peoples</div><div class="fact-body">Southeast Alaska has been home to Indigenous peoples for over 10,000 years. The totem poles in Ketchikan are Tlingit, Haida &amp; Tsimshian art — each records family, clan history, and real events carved in cedar. <strong>Tap to learn more →</strong></div></div></div>
         <div class="fact-card"><div class="fact-icon">🧊</div><div><div class="fact-title">How Glaciers Form</div><div class="fact-body">Glaciers form when snow accumulates faster than it melts over hundreds of years. The weight compresses snow into dense blue-tinted ice. A tidewater glacier flows all the way to the ocean, where the ends "calve" in spectacular crashes. Mendenhall Glacier retreats about 100–150 feet per year.</div></div></div>
         <div class="fact-card"><div class="fact-icon">🐟</div><div><div class="fact-title">The Salmon Cycle</div><div class="fact-body">Alaska's five salmon species are born in freshwater, migrate to the ocean, then return to the exact stream where they were born to spawn — and die. Their bodies feed the entire rainforest ecosystem. June is the start of salmon season in Ketchikan.</div></div></div>
         <div class="fact-card"><div class="fact-icon">🌟</div><div><div class="fact-title">Alaska by the Numbers</div><div class="fact-body">Largest US state (twice the size of Texas). 3 million lakes. More coastline than all other US states combined. 17 of the 20 highest US peaks. In June, expect daylight until 10 PM or later — pack an eye mask.</div></div></div>
@@ -3034,6 +3043,7 @@
     <span class="acc-chevron"></span>
   </div>
   <div class="acc-body collapsed" style="padding:0 16px 16px;margin-top:4px;">
+    <div class="tip-item" onclick="showPage('firstpeoples')" style="cursor:pointer;-webkit-tap-highlight-color:transparent;"><span class="tip-icon">🪶</span><span><strong>Whose land is this?</strong> Vancouver &amp; Richmond are the unceded territory of the Musqueam, Squamish &amp; Tsleil-Waututh Coast Salish nations. <strong>Tap to learn about the First Peoples of this coast →</strong></span></div>
     <div class="tip-item"><span class="tip-icon">🕐</span><span><strong>No jet lag.</strong> Vancouver is Pacific Time — same as Phoenix in summer (both on PDT). Your body clock won't notice a thing.</span></div>
     <div class="tip-item"><span class="tip-icon">💵</span><span><strong>Canadian dollars.</strong> 1 USD ≈ 1.40 CAD. Credit cards work everywhere. Bring ~$60 CAD cash for food courts (Parker Place) and Richmond Night Market stalls.</span></div>
     <div class="tip-item"><span class="tip-icon">🚇</span><span><strong>Tap to ride the SkyTrain.</strong> No tickets needed — tap your Visa, Mastercard, or Amex directly on the fare gate. Kids under 13 ride free. Trains every 5–8 minutes.</span></div>
@@ -3743,6 +3753,65 @@
             <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🌍</div><div><div class="fact-title">Why Three Countries?</div><div class="fact-body">The 2026 World Cup bid — called "United 2026" — was a joint proposal by the USA, Canada, and Mexico. It won over Morocco's bid in 2018. Sharing the tournament across North America means shorter travel for US and Canadian fans and an enormous economic boost for all three countries.</div></div></div>
             <div class="fact-card" style="margin-bottom:8px;"><div class="fact-icon">🇲🇽</div><div><div class="fact-title">Mexico Makes History</div><div class="fact-body">Mexico becomes the first country to host matches at three separate World Cups (1970, 1986, and 2026). The opening match is at the legendary Estadio Azteca in Mexico City on June 11 — the same day your family arrives in Vancouver.</div></div></div>
             <div class="fact-card" style="margin-bottom:20px;"><div class="fact-icon">📺</div><div><div class="fact-title">On the Ship</div><div class="fact-body">The group stage runs right through your cruise. Two BC Place matches fall during your sailing — Canada vs. Qatar (Jun 18, Skagway day, 3pm) and New Zealand vs. Egypt (Jun 21, last sea day, 6pm). Disney Wonder's pub and lounges will almost certainly have screens on. Watching World Cup soccer on a cruise ship in Alaska sounds like a pretty great story.</div></div></div>
+    </section>
+
+    <!-- ==================== FIRST PEOPLES OF THIS COAST ==================== -->
+    <section id="section-firstpeoples" class="section">
+        <button class="game-back-btn" onclick="showPage('home')" style="margin-bottom:14px;padding:4px 0;">← Home</button>
+        <div class="page-header">
+            <span class="page-header-emoji">🪶</span>
+            <div>
+                <div class="page-header-title">First Peoples of This Coast</div>
+                <div class="page-header-sub">The original nations of Vancouver &amp; the Inside Passage</div>
+            </div>
+        </div>
+
+        <div class="tip-item" style="margin-bottom:8px;"><span class="tip-icon">🌎</span>Every place on this trip — Richmond, Vancouver, Skagway, Juneau, Ketchikan — was home to Indigenous nations for <strong>thousands of years</strong> before any European arrived. These are not "lost" cultures of the past: the same nations live here today, speak their languages, and carry on their art and ceremonies. This is a short, respectful primer so the totem poles you'll see have the stories behind them.</div>
+        <div class="did-you-know" style="margin-bottom:18px;"><div class="dyk-label">A word you'll hear: Unceded</div>In British Columbia, almost no land was ever sold or signed away in a treaty. "Unceded" means the First Nations never gave up their land — so Vancouver and Richmond sit on territory that, by the nations' own law, was never surrendered.</div>
+
+        <div class="section-header">🏙️ Vancouver &amp; Richmond — Coast Salish</div>
+        <div class="fact-card"><div class="fact-icon">🌊</div><div><div class="fact-title">Three nations, 10,000+ years</div><div class="fact-body">Your hotel in Richmond and all of Vancouver sit on the unceded territory of three Coast Salish nations: the <strong>Musqueam</strong> (xʷməθkʷəy̓əm), <strong>Squamish</strong> (Sḵwx̱wú7mesh), and <strong>Tsleil-Waututh</strong> (səlilwətaɬ). Their people have lived around Burrard Inlet and the Fraser River for more than 10,000 years, connected by deep family ties.</div></div></div>
+        <div class="fact-card"><div class="fact-icon">🐟</div><div><div class="fact-title">Richmond &amp; the Fraser River</div><div class="fact-body">Richmond is the Fraser River estuary — for the Musqueam, one of the richest salmon-fishing places on the coast. The Halkomelem language (hən̓q̓əmin̓əm̓) is still spoken and taught today; Squamish people speak the related but distinct Squamish language.</div></div></div>
+
+        <div class="section-header" style="margin-top:24px;">🛶 The Inside Passage — Lingít Aaní</div>
+        <div class="fact-card"><div class="fact-icon">🏔️</div><div><div class="fact-title">Tlingit, Haida &amp; Tsimshian</div><div class="fact-body">All three Alaska ports lie within <strong>Lingít Aaní</strong> — the Tlingit homeland — shared with Haida and Tsimshian neighbors. These were wealthy, organized societies: cedar-plank houses, ocean-going canoes, and trade networks reaching deep into the interior. Society is <em>matrilineal</em> (clan passes through the mother) and divided into two halves, usually Raven and Eagle/Wolf.</div></div></div>
+        <div class="fact-card"><div class="fact-icon">🥄</div><div><div class="fact-title">The potlatch</div><div class="fact-body">The potlatch was the heart of coastal life — a great ceremony where clans witnessed names, told histories, settled debts, and shared wealth by giving it away. It was the people's law, court, and record-keeping, all at once.</div></div></div>
+
+        <div class="section-header" style="margin-top:24px;">⛏️ Skagway — Jilkoot &amp; Jilkáat Tlingit</div>
+        <div class="fact-card"><div class="fact-icon">🥾</div><div><div class="fact-title">A trade route, long before the gold</div><div class="fact-body">The famous Chilkoot Trail was a <strong>Tlingit</strong> highway for generations before 1898. The Jilkoot (Chilkoot) and Jilkáat (Chilkat) Tlingit controlled the passes over the mountains, carrying eulachon fish oil and dried fish inland to trade with Athabascan peoples for furs and hides. Each trail was <em>owned</em> by a specific clan, whose leader managed the trade.</div></div></div>
+        <div class="fact-card"><div class="fact-icon">💔</div><div><div class="fact-title">Overrun in two years</div><div class="fact-body">When the Klondike Gold Rush hit (1897–98), tens of thousands of strangers poured over a route the Tlingit had managed for centuries — one of the fastest, most disruptive changes any of these nations faced. "Skagway" comes from a Tlingit word often read as "windy place."</div></div></div>
+
+        <div class="section-header" style="margin-top:24px;">🏛️ Juneau — Áak'w &amp; T'aaku Tlingit</div>
+        <div class="fact-card"><div class="fact-icon">🎣</div><div><div class="fact-title">"Small Lake People"</div><div class="fact-body">Juneau's land belongs to the <strong>Áak'w Ḵwáan</strong> — "People of the Small Lake" — and the neighboring T'aaku (Taku) Ḵwáan. They fished and harvested herring along Gastineau Channel for thousands of years. The Tlingit name for the townsite is <strong>Dzántik'i Héeni</strong>, "base of the flounder's river"; Auke Bay is simply Áak'w, "little lake."</div></div></div>
+        <div class="fact-card"><div class="fact-icon">✨</div><div><div class="fact-title">Then, 1880</div><div class="fact-body">The Áak'w Ḵwáan thrived here long before two prospectors found gold in 1880 and the town of Juneau was built on top of their fishing grounds — a connection still written into the land's place names.</div></div></div>
+
+        <div class="section-header" style="margin-top:24px;">🪵 Ketchikan — Taant'a Tlingit, with Haida &amp; Tsimshian</div>
+        <div class="fact-card"><div class="fact-icon">🌧️</div><div><div class="fact-title">Kichx̱áan — a salmon fish camp</div><div class="fact-body">Ketchikan began as <strong>Kichx̱áan</strong>, a Tlingit summer fishing camp at the mouth of Ketchikan Creek, in the territory of the <strong>Taant'a Ḵwáan</strong> (Tongass) and Saanyaa Ḵwáan (Cape Fox) Tlingit. The nearby village of Saxman is still a living Tlingit community.</div></div></div>
+        <div class="fact-card"><div class="fact-icon">🪶</div><div><div class="fact-title">Why so many totem poles here</div><div class="fact-body">Over time, <strong>Haida</strong> families (who had moved north from Haida Gwaii in the 1700s) and <strong>Tsimshian</strong> families (who came to Metlakatla on Annette Island in 1887 — Alaska's only Native reserve) settled nearby. Three great carving cultures in one region is exactly why Ketchikan holds the world's largest collection of totem poles.</div></div></div>
+
+        <div class="section-header" style="margin-top:24px;">🪵 Reading a Totem Pole</div>
+        <div class="fact-card"><div class="fact-icon">🌲</div><div><div class="fact-title">What they are — and aren't</div><div class="fact-body">Totem poles are carved from giant western red cedar. They are <strong>not idols and were never worshipped</strong>. They record clan crests, family histories, real events, and status — like a monument or a coat of arms. Different poles do different jobs: house-front poles, memorial poles, mortuary poles (which once held a chief's remains), and even "ridicule" poles that shamed someone who hadn't paid a debt.</div></div></div>
+        <div class="did-you-know" style="margin-bottom:8px;"><div class="dyk-label">Myth buster</div>"Low man on the totem pole" meaning least important? Not true. There's no fixed ranking from top to bottom — and the bottom figure, at eye level, is often the master carver's finest work.</div>
+
+        <div class="section-header" style="margin-top:24px;">💔 A Hard History — and Resilience</div>
+        <div class="fact-card"><div class="fact-icon">🚫</div><div><div class="fact-title">Banned and taken</div><div class="fact-body">Canada outlawed the potlatch from 1884 to 1951. Across both countries, children were taken to residential and boarding schools and punished for speaking their languages, and land was claimed with no treaty. These were deliberate attempts to erase cultures.</div></div></div>
+        <div class="fact-card"><div class="fact-icon">🌱</div><div><div class="fact-title">Still here</div><div class="fact-body">And yet the nations endured. Today languages are being taught to children again, potlatches and ceremonies are held openly, and a new generation of carvers, weavers, and artists is thriving. The culture you'll glimpse on this trip is very much alive.</div></div></div>
+
+        <div class="section-header" style="margin-top:24px;">🙏 Visiting Respectfully</div>
+        <div class="tip-item"><span class="tip-icon">👀</span><strong>Look, don't climb.</strong> Totem poles and cultural sites are meaningful — treat them like monuments, not playground equipment.</div>
+        <div class="tip-item"><span class="tip-icon">🎨</span><strong>Buy real Native art.</strong> Look for the artist's name or labels like "Authentic Alaska Native Handicraft" / the Silver Hand seal (Alaska) so your money supports the actual makers.</div>
+        <div class="tip-item"><span class="tip-icon">📸</span><strong>Ask before photographing people</strong> or dancers, and listen when a Native guide is telling a story — some stories belong to specific clans.</div>
+        <div class="tip-item" style="margin-bottom:16px;"><span class="tip-icon">🗣️</span><strong>Use the real names.</strong> Saying Kichx̱áan, Áak'w, or Lingít Aaní is a small, kind way to honor whose land you're on.</div>
+
+        <div class="section-header">📚 See &amp; Learn More on This Trip</div>
+        <div class="fact-card"><div class="fact-icon">🏙️</div><div><div class="fact-title">Vancouver</div><div class="fact-body">Museum of Anthropology at UBC (on Musqueam land) · Bill Reid Gallery of Northwest Coast Art · the totem poles at Brockton Point in Stanley Park.</div></div></div>
+        <div class="fact-card"><div class="fact-icon">🪵</div><div><div class="fact-title">Ketchikan</div><div class="fact-body">Totem Heritage Center (original 19th-century poles) · Saxman Native Village · Totem Bight State Park.</div></div></div>
+        <div class="fact-card" style="margin-bottom:14px;"><div class="fact-icon">🏛️</div><div><div class="fact-title">Juneau</div><div class="fact-body">Sealaska Heritage Institute &amp; the Walter Soboleff Building — one of the best places anywhere to learn Tlingit, Haida &amp; Tsimshian culture.</div></div></div>
+        <div class="map-link-row" style="margin-bottom:24px;">
+            <a class="map-link-btn" href="https://www.sealaskaheritage.org" target="_blank" rel="noopener">🏛️ Sealaska Heritage</a>
+            <a class="map-link-btn" href="https://moa.ubc.ca" target="_blank" rel="noopener">🏙️ MOA Vancouver</a>
+            <a class="map-link-btn" href="https://native-land.ca" target="_blank" rel="noopener">🗺️ Native-Land.ca</a>
+        </div>
     </section>
 
     <!-- ==================== EMERGENCY INFO ==================== -->
