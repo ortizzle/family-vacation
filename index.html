@@ -469,9 +469,12 @@
         .w-chip-warn { background: var(--gold-pale); color: #7a4a00; }
 
         /* Tips list */
-        .tip-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f0f4f0; font-size: 13px; color: var(--text-mid); line-height: 1.4; }
+        /* Hanging-indent layout: icon sits in a left gutter, all text/inline content
+           (incl. <strong>) flows as one column. Avoids flex turning a mid-text <strong>
+           into separate columns. */
+        .tip-item { position: relative; padding: 8px 0 8px 26px; border-bottom: 1px solid #f0f4f0; font-size: 13px; color: var(--text-mid); line-height: 1.4; }
         .tip-item:last-child { border-bottom: none; }
-        .tip-icon { flex-shrink: 0; font-size: 16px; }
+        .tip-icon { position: absolute; left: 0; top: 8px; font-size: 16px; line-height: 1.4; }
 
         /* Learn more links */
         .learn-link { font-size: 11px; color: var(--glacier); text-decoration: none; display: inline-flex; align-items: center; gap: 2px; margin-top: 4px; }
@@ -3766,7 +3769,7 @@
             </div>
         </div>
 
-        <div class="tip-item" style="margin-bottom:8px;"><span class="tip-icon">🌎</span>Every place on this trip — Richmond, Vancouver, Skagway, Juneau, Ketchikan — was home to Indigenous nations for <strong>thousands of years</strong> before any European arrived. These are not "lost" cultures of the past: the same nations live here today, speak their languages, and carry on their art and ceremonies. This is a short, respectful primer so the totem poles you'll see have the stories behind them.</div>
+        <div class="tip-item" style="margin-bottom:8px;"><span class="tip-icon">🌎</span><span>Every place on this trip — Richmond, Vancouver, Skagway, Juneau, Ketchikan — was home to Indigenous nations for <strong>thousands of years</strong> before any European arrived. These are not "lost" cultures of the past: the same nations live here today, speak their languages, and carry on their art and ceremonies. This is a short, respectful primer so the totem poles you'll see have the stories behind them.</span></div>
         <div class="did-you-know" style="margin-bottom:18px;"><div class="dyk-label">A word you'll hear: Unceded</div>In British Columbia, almost no land was ever sold or signed away in a treaty. "Unceded" means the First Nations never gave up their land — so Vancouver and Richmond sit on territory that, by the nations' own law, was never surrendered.</div>
 
         <div class="section-header">🏙️ Vancouver &amp; Richmond — Coast Salish</div>
@@ -3798,10 +3801,10 @@
         <div class="fact-card"><div class="fact-icon">🌱</div><div><div class="fact-title">Still here</div><div class="fact-body">And yet the nations endured. Today languages are being taught to children again, potlatches and ceremonies are held openly, and a new generation of carvers, weavers, and artists is thriving. The culture you'll glimpse on this trip is very much alive.</div></div></div>
 
         <div class="section-header" style="margin-top:24px;">🙏 Visiting Respectfully</div>
-        <div class="tip-item"><span class="tip-icon">👀</span><strong>Look, don't climb.</strong> Totem poles and cultural sites are meaningful — treat them like monuments, not playground equipment.</div>
-        <div class="tip-item"><span class="tip-icon">🎨</span><strong>Buy real Native art.</strong> Look for the artist's name or labels like "Authentic Alaska Native Handicraft" / the Silver Hand seal (Alaska) so your money supports the actual makers.</div>
-        <div class="tip-item"><span class="tip-icon">📸</span><strong>Ask before photographing people</strong> or dancers, and listen when a Native guide is telling a story — some stories belong to specific clans.</div>
-        <div class="tip-item" style="margin-bottom:16px;"><span class="tip-icon">🗣️</span><strong>Use the real names.</strong> Saying Kichx̱áan, Áak'w, or Lingít Aaní is a small, kind way to honor whose land you're on.</div>
+        <div class="tip-item"><span class="tip-icon">👀</span><span><strong>Look, don't climb.</strong> Totem poles and cultural sites are meaningful — treat them like monuments, not playground equipment.</span></div>
+        <div class="tip-item"><span class="tip-icon">🎨</span><span><strong>Buy real Native art.</strong> Look for the artist's name or labels like "Authentic Alaska Native Handicraft" / the Silver Hand seal (Alaska) so your money supports the actual makers.</span></div>
+        <div class="tip-item"><span class="tip-icon">📸</span><span><strong>Ask before photographing people</strong> or dancers, and listen when a Native guide is telling a story — some stories belong to specific clans.</span></div>
+        <div class="tip-item" style="margin-bottom:16px;"><span class="tip-icon">🗣️</span><span><strong>Use the real names.</strong> Saying Kichx̱áan, Áak'w, or Lingít Aaní is a small, kind way to honor whose land you're on.</span></div>
 
         <div class="section-header">📚 See &amp; Learn More on This Trip</div>
         <div class="fact-card"><div class="fact-icon">🏙️</div><div><div class="fact-title">Vancouver</div><div class="fact-body">Museum of Anthropology at UBC (on Musqueam land) · Bill Reid Gallery of Northwest Coast Art · the totem poles at Brockton Point in Stanley Park.</div></div></div>
