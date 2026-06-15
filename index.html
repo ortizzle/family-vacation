@@ -3246,13 +3246,34 @@
 
         <!-- WORD SEARCH -->
         <div id="gameview-wordsearch" class="game-fullview">
-            <div class="game-nav-row"><button class="game-back-btn" onclick="closeGame()">← Games</button><button class="game-reset-btn" onclick="wsInit()">↺ New Game</button></div>
+            <div class="game-nav-row"><button class="game-back-btn" onclick="wsBack()">← Back</button><button class="game-reset-btn" id="ws-reset-pill" onclick="wsNewGame()" style="display:none;">↺ New Game</button></div>
             <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:2px;">Word Search</div>
-            <div style="font-size:13px;color:var(--text-light);margin-bottom:12px;">Find all the Alaska words</div>
-            <div class="ws-word-list" id="ws-word-list"></div>
-            <div class="ws-grid-wrap"><div class="ws-grid" id="ws-grid"></div></div>
-            <div class="ws-status" id="ws-status"></div>
-            <button class="ws-reset-btn" onclick="wsInit()">New Game</button>
+
+            <!-- Category selector -->
+            <div id="ws-cat-screen">
+                <div style="font-size:13px;margin:10px 0 14px;line-height:1.5;">Pick a word pack:</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;">
+                    <button class="dt-cat-btn" onclick="wsStart('alaska')">
+                        <div style="font-size:24px;margin-bottom:4px;">🐻</div>
+                        <div style="font-size:13px;font-weight:700;">Alaska</div>
+                        <div style="font-size:11px;margin-top:2px;">12 words</div>
+                    </button>
+                    <button class="dt-cat-btn" onclick="wsStart('canada')">
+                        <div style="font-size:24px;margin-bottom:4px;">🍁</div>
+                        <div style="font-size:13px;font-weight:700;">Canada &amp; Vancouver</div>
+                        <div style="font-size:11px;margin-top:2px;">12 words</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Puzzle screen -->
+            <div id="ws-puzzle-screen" style="display:none;">
+                <div style="font-size:13px;color:var(--text-light);margin-bottom:12px;" id="ws-subtitle">Find all the words</div>
+                <div class="ws-word-list" id="ws-word-list"></div>
+                <div class="ws-grid-wrap"><div class="ws-grid" id="ws-grid"></div></div>
+                <div class="ws-status" id="ws-status"></div>
+                <button class="ws-reset-btn" onclick="wsNewGame()">New Game</button>
+            </div>
         </div>
 
         <!-- TRUE OR FALSE -->
@@ -6856,7 +6877,7 @@
         document.getElementById('gameview-' + name).classList.add('active');
         window.scrollTo(0, 0);
         if (name === 'anagram' && !window._agStarted) { window._agStarted = true; agInit(); }
-        if (name === 'wordsearch' && !window._wsStarted) { window._wsStarted = true; wsInit(); }
+        if (name === 'wordsearch') { wsReset(); }
         if (name === 'truefalse' && !window._tfStarted) { window._tfStarted = true; tfInit(); }
         if (name === 'trivia' && !window._trivStarted) { window._trivStarted = true; trivInit(); }
         if (name === 'emoji') { emReset(); }
@@ -7338,20 +7359,47 @@
 
 // ── WORD SEARCH ──────────────────────────────────────────────────────────────
 (function() {
-    const WS_WORD_POOL = ['ALASKA','GLACIER','SKAGWAY','JUNEAU','SALMON','PUFFIN','WHALE','EAGLE','TOTEM','ORCA','HUSKY','TRACY','FJORD','MUSHER','DENALI','TUNDRA','KAYAK','AURORA','MOOSE','SEAPLANE','IDITAROD','TLINGIT'];
-    const ROWS = 14, COLS = 14;
+    const WS_POOLS = {
+        alaska: ['ALASKA','GLACIER','SKAGWAY','JUNEAU','SALMON','PUFFIN','WHALE','EAGLE','TOTEM','ORCA','HUSKY','TRACY','FJORD','MUSHER','DENALI','TUNDRA','KAYAK','AURORA','MOOSE','SEAPLANE','IDITAROD','TLINGIT'],
+        canada: ['CANADA','VANCOUVER','GASTOWN','GRANVILLE','STANLEY','CAPILANO','SEAWALL','MOUNTIE','POUTINE','MAPLE','BEAVER','LOONIE','HARBOUR','FERRY','CANUCKS','ROBSON','AQUARIUM','SKYTRAIN','MUSQUEAM','SQUAMISH','INUKSHUK','CEDAR'],
+    };
+    const WS_LABELS = { alaska: 'Find all the Alaska words', canada: 'Find all the Canada & Vancouver words' };
+    const ROWS = 12, COLS = 12, WORDS_PER_GAME = 12;
     let WS_WORDS = [];
-    let grid = [], placed = [], found = [], firstSel = null, selCells = [];
+    let grid = [], placed = [], found = [], firstSel = null, selCells = [], wsCategory = 'alaska';
 
-    function wsInit() {
-        WS_WORDS = [...WS_WORD_POOL].sort(() => Math.random()-.5).slice(0, 14);
+    function wsStart(cat) {
+        wsCategory = cat;
+        document.getElementById('ws-cat-screen').style.display = 'none';
+        document.getElementById('ws-puzzle-screen').style.display = '';
+        document.getElementById('ws-reset-pill').style.display = '';
+        document.getElementById('ws-subtitle').textContent = WS_LABELS[cat];
+        wsNewGame();
+    }
+
+    function wsReset() {
+        document.getElementById('ws-cat-screen').style.display = '';
+        document.getElementById('ws-puzzle-screen').style.display = 'none';
+        document.getElementById('ws-reset-pill').style.display = 'none';
+    }
+
+    function wsBack() {
+        if (document.getElementById('ws-puzzle-screen').style.display !== 'none') {
+            wsReset();
+        } else {
+            closeGame();
+        }
+    }
+
+    function wsNewGame() {
+        const candidates = [...WS_POOLS[wsCategory]].sort(() => Math.random()-.5).slice(0, WORDS_PER_GAME);
         grid = Array.from({length:ROWS}, () => Array(COLS).fill(''));
         placed = []; found = [];
         const dirs = [[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
-        const shuffled = [...WS_WORDS].sort(() => Math.random()-.5);
+        const shuffled = [...candidates].sort(() => Math.random()-.5);
         shuffled.forEach(word => {
             let placed_ok = false;
-            for (let attempt = 0; attempt < 200 && !placed_ok; attempt++) {
+            for (let attempt = 0; attempt < 300 && !placed_ok; attempt++) {
                 const dir = dirs[Math.floor(Math.random()*dirs.length)];
                 const r = Math.floor(Math.random()*ROWS);
                 const c = Math.floor(Math.random()*COLS);
@@ -7370,6 +7418,7 @@
                 }
             }
         });
+        WS_WORDS = placed.map(p => p.word);
         // fill blanks
         const alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) if (!grid[r][c]) grid[r][c] = alpha[Math.floor(Math.random()*26)];
@@ -7435,7 +7484,10 @@
         renderWS();
     }
 
-    window.wsInit = wsInit;
+    window.wsStart = wsStart;
+    window.wsNewGame = wsNewGame;
+    window.wsReset = wsReset;
+    window.wsBack = wsBack;
 })();
 
 // ── TRUE OR FALSE ─────────────────────────────────────────────────────────────
