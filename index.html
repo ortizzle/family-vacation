@@ -824,7 +824,7 @@
 .ws-word-chip.found { background:var(--forest-dark); border-color:var(--forest-dark); color:white; text-decoration:line-through; }
 .ws-grid-wrap { overflow-x:auto; display:flex; justify-content:center; margin-bottom:12px; }
 .ws-grid { display:inline-grid; gap:1px; user-select:none; }
-.ws-cell { width:23px; height:23px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; font-family:'Inter',sans-serif; color:var(--text-dark); border-radius:4px; cursor:pointer; background:var(--snow); -webkit-tap-highlight-color:transparent; transition:background .1s; }
+.ws-cell { width:26px; height:26px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; font-family:'Inter',sans-serif; color:var(--text-dark); border-radius:4px; cursor:pointer; background:var(--snow); -webkit-tap-highlight-color:transparent; transition:background .1s; }
 .ws-cell.selected { background:var(--glacier-pale); color:var(--glacier); }
 .ws-cell.found { background:var(--forest-dark); color:white; }
 .ws-cell.first-sel { background:var(--glacier); color:white; }
@@ -7432,7 +7432,7 @@
         chipEl.innerHTML = WS_WORDS.map(w => `<div class="ws-word-chip${found.includes(w)?' found':''}" id="wsc-${w}">${w}</div>`).join('');
         // grid
         const gridEl = document.getElementById('ws-grid');
-        gridEl.style.gridTemplateColumns = `repeat(${COLS}, 23px)`;
+        gridEl.style.gridTemplateColumns = `repeat(${COLS}, 26px)`;
         gridEl.innerHTML = '';
         const foundCells = new Set();
         placed.filter(p => found.includes(p.word)).forEach(p => p.cells.forEach(([r,c]) => foundCells.add(r+','+c)));
