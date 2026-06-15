@@ -819,8 +819,8 @@
         .ag-all-done-sub { font-size:14px; color:var(--text-light); line-height:1.5; }
 
 /* ── WORD SEARCH ── */
-.ws-word-list { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
-.ws-word-chip { background:var(--snow); border:2px solid var(--stone-light); border-radius:100px; padding:4px 12px; font-size:11px; font-weight:700; color:var(--text-light); text-transform:uppercase; letter-spacing:1px; transition:all .2s; }
+.ws-word-list { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px; }
+.ws-word-chip { background:var(--snow); border:2px solid var(--stone-light); border-radius:100px; padding:4px 12px; font-size:11px; font-weight:700; color:var(--text-light); text-transform:uppercase; letter-spacing:1px; text-align:center; transition:all .2s; }
 .ws-word-chip.found { background:var(--forest-dark); border-color:var(--forest-dark); color:white; text-decoration:line-through; }
 .ws-grid-wrap { overflow-x:auto; display:flex; justify-content:center; margin-bottom:12px; }
 .ws-grid { display:inline-grid; gap:1px; user-select:none; }
@@ -7366,7 +7366,7 @@
         canada: ['CANADA','VANCOUVER','GASTOWN','GRANVILLE','STANLEY','CAPILANO','SEAWALL','MOUNTIE','POUTINE','MAPLE','BEAVER','LOONIE','HARBOUR','FERRY','CANUCKS','ROBSON','AQUARIUM','SKYTRAIN','MUSQUEAM','SQUAMISH','INUKSHUK','CEDAR'],
     };
     const WS_LABELS = { alaska: 'Find all the Alaska words', canada: 'Find all the Canada & Vancouver words' };
-    const ROWS = 12, COLS = 12, WORDS_PER_GAME = 12;
+    const ROWS = 13, COLS = 13, WORDS_PER_GAME = 14;
     let WS_WORDS = [];
     let grid = [], placed = [], found = [], firstSel = null, selCells = [], wsCategory = 'alaska', solved = false;
 
@@ -7465,9 +7465,6 @@
     }
 
     function wsClick(r, c) {
-        const foundCells = new Set();
-        placed.filter(p => found.includes(p.word)).forEach(p => p.cells.forEach(([fr,fc]) => foundCells.add(fr+','+fc)));
-        if (foundCells.has(r+','+c)) return;
         if (!firstSel) {
             firstSel = [r,c]; selCells = [[r,c]]; renderWS(); return;
         }
