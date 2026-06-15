@@ -7383,7 +7383,7 @@
         chipEl.innerHTML = WS_WORDS.map(w => `<div class="ws-word-chip${found.includes(w)?' found':''}" id="wsc-${w}">${w}</div>`).join('');
         // grid
         const gridEl = document.getElementById('ws-grid');
-        gridEl.style.gridTemplateColumns = `repeat(${COLS}, 28px)`;
+        gridEl.style.gridTemplateColumns = `repeat(${COLS}, 23px)`;
         gridEl.innerHTML = '';
         const foundCells = new Set();
         placed.filter(p => found.includes(p.word)).forEach(p => p.cells.forEach(([r,c]) => foundCells.add(r+','+c)));
