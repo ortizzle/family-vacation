@@ -200,7 +200,8 @@
 
         /* PORT CARDS */
         .port-card { background: var(--snow); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
-        .port-header { padding: 20px; color: white; }
+        .port-header { padding: 20px; color: white; position: relative; }
+        .disney-day-tag { position: absolute; top: 10px; right: 12px; background: var(--gold); color: #4a3408; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 100px; padding: 3px 9px; }
         .port-header-vancouver { background: linear-gradient(135deg, #2d5a7a, #1a3a5c); }
         .port-header-skagway { background: linear-gradient(135deg, #1a3328, #2a5240); }
         .port-header-juneau { background: linear-gradient(135deg, #1a4a5c, #3a9db5); }
@@ -495,7 +496,12 @@
         /* Event timeline items */
         .event-list { display:flex; flex-direction:column; gap:8px; margin-top:14px; padding-top:14px; border-top:1px solid #eef2ee; }
         .event-list-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:var(--text-light); margin-bottom:2px; }
+        .schedule-divider { display:flex; align-items:center; gap:8px; margin-bottom:2px; color:var(--gold); }
+        .schedule-divider .sd-line { flex:1; height:1px; background:linear-gradient(90deg, var(--gold), transparent); }
+        .schedule-divider .sd-label { font-size:10px; letter-spacing:1.2px; text-transform:uppercase; font-weight:700; color:var(--text-light); }
         .event-item { display:flex; gap:12px; align-items:flex-start; }
+        .event-item-disney { position:relative; padding-left:11px; }
+        .event-item-disney::before { content:''; position:absolute; left:0; top:2px; bottom:2px; width:3px; background:var(--gold); border-radius:2px; }
         .event-item.milestone { opacity:.65; }
         .event-time { font-size:11px; font-weight:700; color:var(--glacier); min-width:82px; padding-top:2px; white-space:nowrap; }
         .event-item.milestone .event-time { color:var(--text-light); }
@@ -1705,6 +1711,7 @@
 <!-- DAY 1 — Vancouver / Embarkation -->
 <div class="port-card">
   <div class="port-header port-header-vancouver" style="padding:14px 18px;">
+    <div class="disney-day-tag">✦ Disney Day</div>
     <div class="port-day-badge" style="margin-bottom:5px;">Day 1 · Mon June 15</div>
     <div class="port-name" style="font-size:21px;margin-bottom:2px;">Vancouver</div>
     <div class="port-tagline">Embarkation Day · Disney Wonder</div>
@@ -1719,13 +1726,13 @@
     </div>
     <div class="did-you-know" style="cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="openHighlight('river-rock')"><div class="dyk-label">Pre-Cruise Hotel · Tap for details →</div>🏨 River Rock Casino Resort · Richmond, BC · 8888 River Road. Your base camp for June 11–15. Pool, spa, river views, and easy Canada Line access to Canada Place.</div>
     <div class="event-list">
-      <div class="event-list-title">Today's Schedule</div>
+      <div class="schedule-divider"><span>✦</span><span class="sd-line"></span><span class="sd-label">Today's Schedule</span></div>
       <div class="event-item milestone tappable" onclick="openExpDetail('rainforest-room')"><div class="event-time">All Day</div><div class="event-detail"><div class="event-name">Rainforest Room Pass — Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Joseph · Veronica Stallings</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item milestone"><div class="event-time">All Day</div><div class="event-detail"><div class="event-name">Unlimited Photo Package</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Christopher Ortiz</span></div></div></div>
       <div class="event-item"><div class="event-time">4:00 PM</div><div class="event-detail"><div class="event-name">🛳️ Welcome Aboard!</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="family-dot dot-sim"></span><span class="event-names">All families</span></div></div></div>
-      <div class="event-item"><div class="event-time">~5:30 PM</div><div class="event-detail"><div class="event-name">🏴‍☠️ Sail-Away Deck Party <span class="ev-tag">Deck Party</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Mickey &amp; Minnie join the party as the Wonder heads north</div></div></div>
+      <div class="event-item event-item-disney"><div class="event-time">~5:30 PM</div><div class="event-detail"><div class="event-name">🏴‍☠️ Sail-Away Deck Party <span class="ev-tag">Deck Party</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Mickey &amp; Minnie join the party as the Wonder heads north</div></div></div>
       <div class="event-item tappable" data-dinner-key="ap-1" onclick="openDinnerItem('ap-1')"><div class="event-time dinner-time-text">~5:45 PM</div><div class="event-detail"><div class="event-name">🍽️ <span class="dinner-name-text">Animator's Palate — Night 1</span> <span class="ev-tag">First Seating</span></div><div class="dinner-note-text" style="font-size:12px;color:var(--text-light);margin-top:2px;">Deck 3 · Animated characters appear on screens as dinner unfolds · your servers rotate with you all cruise</div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
-      <div class="event-item"><div class="event-time">Evening</div><div class="event-detail"><div class="event-name">🎭 Welcome Aboard Show &amp; Trivia <span class="ev-tag">Ship Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · Check Navigator for exact time</div></div></div>
+      <div class="event-item event-item-disney"><div class="event-time">Evening</div><div class="event-detail"><div class="event-name">🎭 Welcome Aboard Show &amp; Trivia <span class="ev-tag">Ship Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · Check Navigator for exact time</div></div></div>
     </div>
   </div>
 </div>
@@ -1736,6 +1743,7 @@
 <!-- DAY 2 — At Sea -->
 <div class="port-card">
   <div class="port-header port-header-seaday" style="padding:14px 18px;">
+    <div class="disney-day-tag">✦ Disney Day</div>
     <div class="port-day-badge" style="margin-bottom:5px;">Day 2 · Tue June 16</div>
     <div class="port-name" style="font-size:21px;margin-bottom:2px;">At Sea</div>
     <div class="port-tagline">Inside Passage · Heading North</div>
@@ -1750,11 +1758,11 @@
     </div>
     <div class="did-you-know"><div class="dyk-label">Inside Passage</div>The Inside Passage is a sheltered coastal route through British Columbia and Alaska — a 1,000-mile network of channels, fjords, and island-sheltered waterways. Keep an eye on the water; dolphins and orca often follow cruise ships through here.</div>
     <div class="event-list">
-      <div class="event-list-title">Today's Schedule</div>
+      <div class="schedule-divider"><span>✦</span><span class="sd-line"></span><span class="sd-label">Today's Schedule</span></div>
       <div class="event-item tappable" onclick="openExpDetail('whiskey-tasting')"><div class="event-time">9:30 – 10:30 AM</div><div class="event-detail"><div class="event-name">Whiskey Tasting <span class="ev-tag ev-tag-warn">21+</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Christopher · Joseph · Veronica</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openModal('palo')"><div class="event-time">Noon – 1:30 PM</div><div class="event-detail"><div class="event-name">Palo Brunch · Palo <span class="ev-tag">$55/pp</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Christopher · Katherine · Joseph · Veronica</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
       <div class="event-item tappable" data-dinner-key="tr-1" onclick="openDinnerItem('tr-1')"><div class="event-time dinner-time-text">~5:45 PM</div><div class="event-detail"><div class="event-name">🍽️ <span class="dinner-name-text">Triton's — Night 2</span> <span class="ev-tag">First Seating</span></div><div class="dinner-note-text" style="font-size:12px;color:var(--text-light);margin-top:2px;">Deck 3 · Nautical-themed dining room · your server team from Night 1 follows you here · ☕ Palo Brunch earlier today for Ortiz + Stallings adults</div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
-      <div class="event-item"><div class="event-time">8:30 PM</div><div class="event-detail"><div class="event-name">🎭 The Golden Mickeys — Late Show <span class="ev-tag">Ship Show</span> <span class="ev-tag" style="background:#d4af37;color:#1a1a0e;">⭐ Your Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · Disney's night of Broadway-style awards — songs and characters from every era</div></div></div>
+      <div class="event-item event-item-disney"><div class="event-time">8:30 PM</div><div class="event-detail"><div class="event-name">🎭 The Golden Mickeys — Late Show <span class="ev-tag">Ship Show</span> <span class="ev-tag" style="background:#d4af37;color:#1a1a0e;">⭐ Your Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · Disney's night of Broadway-style awards — songs and characters from every era</div></div></div>
     </div>
   </div>
 </div>
@@ -1765,6 +1773,7 @@
 <!-- DAY 3 — Glacier Viewing / Endicott Arm (Dawes Glacier) — 2026 UPDATE: Tracy Arm closed -->
 <div class="port-card">
   <div class="port-header port-header-glacier-view" style="padding:14px 18px;">
+    <div class="disney-day-tag">✦ Disney Day</div>
     <div class="port-day-badge" style="margin-bottom:5px;">Day 3 · Wed June 17</div>
     <div class="port-name" style="font-size:21px;margin-bottom:2px;">Glacier Day ❄️</div>
     <div class="port-tagline">Endicott Arm · Dawes Glacier · Scenic Cruising</div>
@@ -1782,17 +1791,17 @@
     </div>
     <div class="did-you-know"><div class="dyk-label">About Dawes Glacier</div>Dawes is a tidewater glacier approximately 600 feet tall and about a mile wide — one of the most actively calving glaciers in Southeast Alaska. The fjord walls rise over 3,000 feet on both sides. The wider approach channel (vs. Tracy Arm's narrow sections) means the ship can often get closer to the face. Harbor seals and bald eagles are common; occasional humpbacks pass through. When ice calves off, the sound is like a cannon shot.</div>
     <div class="event-list">
-      <div class="event-list-title">Today's Schedule</div>
-      <div class="event-item"><div class="event-time">~Morning</div><div class="event-detail"><div class="event-name">❄️ Anna's Frozen Fun Hunt <span class="ev-tag">Frozen Night</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Ship-wide scavenger hunt with Anna · new for Alaska 2026 — collect clues while watching for glaciers from the deck</div></div></div>
+      <div class="schedule-divider"><span>✦</span><span class="sd-line"></span><span class="sd-label">Today's Schedule</span></div>
+      <div class="event-item event-item-disney"><div class="event-time">~Morning</div><div class="event-detail"><div class="event-name">❄️ Anna's Frozen Fun Hunt <span class="ev-tag">Frozen Night</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Ship-wide scavenger hunt with Anna · new for Alaska 2026 — collect clues while watching for glaciers from the deck</div></div></div>
       <div class="event-item tappable" onclick="openModal('palo')"><div class="event-time">11:30 AM – 1:00 PM</div><div class="event-detail"><div class="event-name">Palo Brunch · Palo <span class="ev-tag">$55/pp</span></div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Sean · Sade Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('glacier-explorer')"><div class="event-time">12:30 – 2:59 PM</div><div class="event-detail"><div class="event-name">Glacier Explorer (DG01)</div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Veronica · Joseph · Payton Stallings</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
-      <div class="event-item"><div class="event-time">~Afternoon</div><div class="event-detail"><div class="event-name">💃 Oaken's Maypole Swirl &amp; Twirl <span class="ev-tag">Frozen Night</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Atrium dance party with Oaken · all ages · part of the Alaska-exclusive Frozen Night celebration · Pirate Night doesn't happen on this itinerary — Frozen Night is the equivalent</div></div></div>
-      <div class="event-item"><div class="event-time">~3:00 PM</div><div class="event-detail"><div class="event-name">❄️ For the First Time in Forever: A Frozen Sing-Along <span class="ev-tag">Frozen Night</span> <span class="ev-tag" style="background:#4a90c4;color:#fff;">🆕 Alaska 2026</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Upper deck · Anna, Elsa &amp; Kristoff live, set against real Alaska glacier scenery · brand new for 2026 Alaska sailings · dress warmly!</div></div></div>
+      <div class="event-item event-item-disney"><div class="event-time">~Afternoon</div><div class="event-detail"><div class="event-name">💃 Oaken's Maypole Swirl &amp; Twirl <span class="ev-tag">Frozen Night</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Atrium dance party with Oaken · all ages · part of the Alaska-exclusive Frozen Night celebration · Pirate Night doesn't happen on this itinerary — Frozen Night is the equivalent</div></div></div>
+      <div class="event-item event-item-disney"><div class="event-time">~3:00 PM</div><div class="event-detail"><div class="event-name">❄️ For the First Time in Forever: A Frozen Sing-Along <span class="ev-tag">Frozen Night</span> <span class="ev-tag" style="background:#4a90c4;color:#fff;">🆕 Alaska 2026</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Upper deck · Anna, Elsa &amp; Kristoff live, set against real Alaska glacier scenery · brand new for 2026 Alaska sailings · dress warmly!</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('martini')"><div class="event-time">5:00 – 6:00 PM</div><div class="event-detail"><div class="event-name">Martini Tasting <span class="ev-tag ev-tag-warn">21+</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Katherine · Christopher Ortiz</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" data-dinner-key="ti-1" onclick="openDinnerItem('ti-1')"><div class="event-time dinner-time-text">~5:45 PM</div><div class="event-detail"><div class="event-name">🍽️ <span class="dinner-name-text">Tiana's Place — Night 3</span> <span class="ev-tag">Kids / Non-Palo</span></div><div class="dinner-note-text" style="font-size:12px;color:var(--text-light);margin-top:2px;">Deck 3 · New Orleans jazz dining · adults at Palo tonight — kids + any non-Palo family members dine here · Tiana character appearance</div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
       <div class="event-item tappable" onclick="openModal('palo-dinner')"><div class="event-time">6:00 – 7:30 PM</div><div class="event-detail"><div class="event-name">Palo Dinner · Palo <span class="ev-tag">$55/pp</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Veronica · Katherine · Christopher · Joseph</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
       <div class="event-item tappable" onclick="openModal('palo-dinner')"><div class="event-time">6:00 – 7:30 PM</div><div class="event-detail"><div class="event-name">Palo Dinner · Palo <span class="ev-tag">$55/pp</span></div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Sean · Sade Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
-      <div class="event-item"><div class="event-time">8:30 PM</div><div class="event-detail"><div class="event-name">🎤 Special Comedy &amp; Magic Act — Late Show <span class="ev-tag">Ship Show</span> <span class="ev-tag" style="background:#d4af37;color:#1a1a0e;">⭐ Your Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · After Palo wraps up — meet up and enjoy the late show together</div></div></div>
+      <div class="event-item event-item-disney"><div class="event-time">8:30 PM</div><div class="event-detail"><div class="event-name">🎤 Special Comedy &amp; Magic Act — Late Show <span class="ev-tag">Ship Show</span> <span class="ev-tag" style="background:#d4af37;color:#1a1a0e;">⭐ Your Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · After Palo wraps up — meet up and enjoy the late show together</div></div></div>
     </div>
   </div>
 </div>
@@ -1803,6 +1812,7 @@
 <!-- DAY 4 — Skagway -->
 <div class="port-card">
   <div class="port-header port-header-skagway" style="padding:14px 18px;">
+    <div class="disney-day-tag">✦ Disney Day</div>
     <div class="port-day-badge" style="margin-bottom:5px;">Day 4 · Thu June 18</div>
     <div class="port-name" style="font-size:21px;margin-bottom:2px;">Skagway</div>
     <div class="port-tagline">Gateway to the Klondike Gold Rush</div>
@@ -1835,7 +1845,7 @@
       </div>
     </div>
     <div class="event-list">
-      <div class="event-list-title">Today's Schedule</div>
+      <div class="schedule-divider"><span>✦</span><span class="sd-line"></span><span class="sd-label">Today's Schedule</span></div>
       <div class="event-item milestone"><div class="event-time">7:15 AM</div><div class="event-detail"><div class="event-name">⚓ Guests Ashore</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('white-pass')"><div class="event-time">8:00 – 10:45 AM</div><div class="event-detail"><div class="event-name">White Pass Scenic Railway (SW09)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Payton · River · Christopher · Katherine · Joseph · Veronica · Sedona</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('white-pass')"><div class="event-time">8:00 – 10:45 AM</div><div class="event-detail"><div class="event-name">White Pass Scenic Railway (SW09)</div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Sade · Eli · Emory · Sean Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
@@ -1843,7 +1853,7 @@
       <div class="event-item"><div class="event-time">3:00 PM</div><div class="event-detail"><div class="event-name">⚽ World Cup: 🇨🇦 Canada vs. 🇶🇦 Qatar · BC Place, Vancouver · Group B</div><div style="font-size:11px;color:var(--glacier);margin-top:2px;">Watch on ship screens if back on board — Canada's first group match!</div></div></div>
       <div class="event-item milestone"><div class="event-time">8:00 PM</div><div class="event-detail"><div class="event-name">🛳️ All Aboard</div></div></div>
       <div class="event-item tappable" data-dinner-key="ap-2" onclick="openDinnerItem('ap-2')"><div class="event-time dinner-time-text">~5:45 PM</div><div class="event-detail"><div class="event-name">🍽️ <span class="dinner-name-text">Animator's Palate — Night 4</span> <span class="ev-tag">First Seating</span></div><div class="dinner-note-text" style="font-size:12px;color:var(--text-light);margin-top:2px;">Deck 3 · Musher's Camp ends at 5 PM — head straight to dinner · animated screens + your server team · tight timing, dress comfortably</div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
-      <div class="event-item"><div class="event-time">Evening</div><div class="event-detail"><div class="event-name">🎭 Disney Movie Screening &amp; Deck Activities <span class="ev-tag">Deck Party</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Port day — relaxed evening on board · Check Navigator for details</div></div></div>
+      <div class="event-item event-item-disney"><div class="event-time">Evening</div><div class="event-detail"><div class="event-name">🎭 Disney Movie Screening &amp; Deck Activities <span class="ev-tag">Deck Party</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Port day — relaxed evening on board · Check Navigator for details</div></div></div>
     </div>
   </div>
 </div>
@@ -1854,6 +1864,7 @@
 <!-- DAY 5 — Juneau -->
 <div class="port-card">
   <div class="port-header port-header-juneau" style="padding:14px 18px;">
+    <div class="disney-day-tag">✦ Disney Day</div>
     <div class="port-day-badge" style="margin-bottom:5px;">Day 5 · Fri June 19</div>
     <div class="port-name" style="font-size:21px;margin-bottom:2px;">Juneau</div>
     <div class="port-tagline">Alaska's Roadless Capital</div>
@@ -1887,14 +1898,14 @@
       </div>
     </div>
     <div class="event-list">
-      <div class="event-list-title">Today's Schedule</div>
+      <div class="schedule-divider"><span>✦</span><span class="sd-line"></span><span class="sd-label">Today's Schedule</span></div>
       <div class="event-item milestone"><div class="event-time">6:45 AM</div><div class="event-detail"><div class="event-name">⚓ Guests Ashore</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('mendenhall')"><div class="event-time">8:30 AM – Noon</div><div class="event-detail"><div class="event-name">Mendenhall Glacier Explorer (JU11)</div><div class="event-dots-row"><span class="family-dot dot-s"></span><span class="event-names">Payton · Joseph · Veronica Stallings</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('ak-whales')"><div class="event-time">9:00 AM – 2:30 PM</div><div class="event-detail"><div class="event-name">Alaska Whales &amp; Science Adventure (JU33)</div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Eli · Sean · Emory · Sade Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('seaplane')"><div class="event-time">10:30 AM – Noon</div><div class="event-detail"><div class="event-name">5-Glacier Seaplane Exploration (JU49)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Katherine · Sedona · Christopher · River Ortiz</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item milestone"><div class="event-time">4:45 PM</div><div class="event-detail"><div class="event-name">🛳️ All Aboard</div></div></div>
       <div class="event-item tappable" data-dinner-key="tr-2" onclick="openDinnerItem('tr-2')"><div class="event-time dinner-time-text">~5:45 PM</div><div class="event-detail"><div class="event-name">🍽️ <span class="dinner-name-text">Triton's — Night 5</span> <span class="ev-tag">First Seating</span></div><div class="dinner-note-text" style="font-size:12px;color:var(--text-light);margin-top:2px;">Deck 3 · Ocean-themed dining room · your server team follows you again · great night to ask about tomorrow's Ketchikan excursions</div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
-      <div class="event-item"><div class="event-time">8:30 PM</div><div class="event-detail"><div class="event-name">❄️ Frozen, A Musical Spectacular — Late Show <span class="ev-tag">Ship Show</span> <span class="ev-tag" style="background:#d4af37;color:#1a1a0e;">⭐ Your Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · Broadway-quality show — one of the best at sea · the kids will love it</div></div></div>
+      <div class="event-item event-item-disney"><div class="event-time">8:30 PM</div><div class="event-detail"><div class="event-name">❄️ Frozen, A Musical Spectacular — Late Show <span class="ev-tag">Ship Show</span> <span class="ev-tag" style="background:#d4af37;color:#1a1a0e;">⭐ Your Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · Broadway-quality show — one of the best at sea · the kids will love it</div></div></div>
     </div>
   </div>
 </div>
@@ -1905,6 +1916,7 @@
 <!-- DAY 6 — Ketchikan -->
 <div class="port-card">
   <div class="port-header port-header-ketchikan" style="padding:14px 18px;">
+    <div class="disney-day-tag">✦ Disney Day</div>
     <div class="port-day-badge" style="margin-bottom:5px;">Day 6 · Sat June 20</div>
     <div class="port-name" style="font-size:21px;margin-bottom:2px;">Ketchikan</div>
     <div class="port-tagline">Salmon Capital of the World</div>
@@ -1938,14 +1950,14 @@
       </div>
     </div>
     <div class="event-list">
-      <div class="event-list-title">Today's Schedule</div>
+      <div class="schedule-divider"><span>✦</span><span class="sd-line"></span><span class="sd-label">Today's Schedule</span></div>
       <div class="event-item milestone"><div class="event-time">11:15 AM</div><div class="event-detail"><div class="event-name">⚓ Guests Ashore</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('bigfoot')"><div class="event-time">11:30 AM – 2:00 PM</div><div class="event-detail"><div class="event-name">Alaska Bigfoot Adventures (KE70)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Payton · River · Christopher · Katherine · Sedona · Joseph · Veronica</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('lumberjack')"><div class="event-time">3:30 – 5:30 PM</div><div class="event-detail"><div class="event-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Joseph · Veronica · Sedona · Payton · River · Christopher · Katherine</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('lumberjack')"><div class="event-time">3:30 – 5:30 PM</div><div class="event-detail"><div class="event-name">Exclusive Great Alaskan Lumberjack Show (KE41)</div><div class="event-dots-row"><span class="family-dot dot-sim"></span><span class="event-names">Emory · Sean · Sade · Eli Simmons</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item milestone"><div class="event-time">7:00 PM</div><div class="event-detail"><div class="event-name">🛳️ All Aboard</div></div></div>
       <div class="event-item tappable" data-dinner-key="ti-2" onclick="openDinnerItem('ti-2')"><div class="event-time dinner-time-text">~5:45 PM</div><div class="event-detail"><div class="event-name">🍽️ <span class="dinner-name-text">Tiana's Place — Night 6</span> <span class="ev-tag">First Seating</span></div><div class="dinner-note-text" style="font-size:12px;color:var(--text-light);margin-top:2px;">Deck 3 · New Orleans jazz dining with live music · Tiana character appearance · last sea night before pack-up day</div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
-      <div class="event-item"><div class="event-time">8:30 PM</div><div class="event-detail"><div class="event-name">🎤 Special Act: Comedian / Ventriloquist — Late Show <span class="ev-tag">Ship Show</span> <span class="ev-tag" style="background:#d4af37;color:#1a1a0e;">⭐ Your Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · Comedy and variety act — then head to the deck for Pirates after</div></div></div>
+      <div class="event-item event-item-disney"><div class="event-time">8:30 PM</div><div class="event-detail"><div class="event-name">🎤 Special Act: Comedian / Ventriloquist — Late Show <span class="ev-tag">Ship Show</span> <span class="ev-tag" style="background:#d4af37;color:#1a1a0e;">⭐ Your Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · Comedy and variety act — then head to the deck for Pirates after</div></div></div>
     </div>
   </div>
 </div>
@@ -1956,6 +1968,7 @@
 <!-- DAY 7 — At Sea -->
 <div class="port-card">
   <div class="port-header port-header-seaday" style="padding:14px 18px;">
+    <div class="disney-day-tag">✦ Disney Day</div>
     <div class="port-day-badge" style="margin-bottom:5px;">Day 7 · Sun June 21</div>
     <div class="port-name" style="font-size:21px;margin-bottom:2px;">At Sea</div>
     <div class="port-tagline">Last Full Day · Heading Home</div>
@@ -1970,13 +1983,13 @@
     </div>
     <div class="did-you-know"><div class="dyk-label">Last Full Day</div>Soak it in — last night at sea. Pack your bags tonight so disembarkation morning is smooth. The Disney Wonder docks in Vancouver early, and everyone is off by 8:00 AM.</div>
     <div class="event-list">
-      <div class="event-list-title">Today's Schedule</div>
+      <div class="schedule-divider"><span>✦</span><span class="sd-line"></span><span class="sd-label">Today's Schedule</span></div>
       <div class="event-item tappable milestone" onclick="openExpDetail('couples-massage')"><div class="event-time">8:00 – 9:30 AM</div><div class="event-detail"><div class="event-name">💆 Couples Massage · Senses Spa</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="event-names">Christopher &amp; Katherine Ortiz</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item tappable" onclick="openExpDetail('mixology')"><div class="event-time">3:00 – 4:00 PM</div><div class="event-detail"><div class="event-name">Mixology <span class="ev-tag ev-tag-warn">21+</span></div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="event-names">Christopher · Katherine · Veronica · Joseph</span></div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">Tap for details →</div></div></div>
       <div class="event-item"><div class="event-time">6:00 PM</div><div class="event-detail"><div class="event-name">⚽ World Cup: 🇳🇿 New Zealand vs. 🇪🇬 Egypt · BC Place, Vancouver · Group G</div><div style="font-size:11px;color:var(--glacier);margin-top:2px;">Last sea day — World Cup at the ship pub? Yes please.</div></div></div>
       <div class="event-item tappable" data-dinner-key="ap-3" onclick="openDinnerItem('ap-3')"><div class="event-time dinner-time-text">~5:45 PM</div><div class="event-detail"><div class="event-name">🍽️ <span class="dinner-name-text">Animator's Palate — Night 7</span> <span class="ev-tag">First Seating</span></div><div class="dinner-note-text" style="font-size:12px;color:var(--text-light);margin-top:2px;">Deck 3 · Last dinner with your server team — pack bags tonight for tomorrow's disembarkation · animated screens one last time</div><div style="font-size:11px;color:var(--glacier);margin-top:3px;">View menu →</div></div></div>
-      <div class="event-item"><div class="event-time">8:30 PM</div><div class="event-detail"><div class="event-name">🎭 Disney Dreams — An Enchanted Classic — Late Show <span class="ev-tag">Ship Show</span> <span class="ev-tag" style="background:#d4af37;color:#1a1a0e;">⭐ Your Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · The signature finale show of the cruise — every Disney story, one unforgettable night</div></div></div>
-      <div class="event-item"><div class="event-time">~9:45 PM</div><div class="event-detail"><div class="event-name">🌙 Last Night Deck Party <span class="ev-tag">Deck Party</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Open deck · Alaska sailings replace Pirate Night with Frozen Night (Day 3) — tonight is a farewell celebration · Check Navigator for what's planned</div></div></div>
+      <div class="event-item event-item-disney"><div class="event-time">8:30 PM</div><div class="event-detail"><div class="event-name">🎭 Disney Dreams — An Enchanted Classic — Late Show <span class="ev-tag">Ship Show</span> <span class="ev-tag" style="background:#d4af37;color:#1a1a0e;">⭐ Your Show</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Walt Disney Theatre · The signature finale show of the cruise — every Disney story, one unforgettable night</div></div></div>
+      <div class="event-item event-item-disney"><div class="event-time">~9:45 PM</div><div class="event-detail"><div class="event-name">🌙 Last Night Deck Party <span class="ev-tag">Deck Party</span></div><div style="font-size:12px;color:var(--text-light);margin-top:2px;">Open deck · Alaska sailings replace Pirate Night with Frozen Night (Day 3) — tonight is a farewell celebration · Check Navigator for what's planned</div></div></div>
     </div>
   </div>
 </div>
@@ -1987,6 +2000,7 @@
 <!-- DAY 8 — Disembarkation -->
 <div class="port-card">
   <div class="port-header port-header-vancouver" style="padding:14px 18px;">
+    <div class="disney-day-tag">✦ Disney Day</div>
     <div class="port-day-badge" style="margin-bottom:5px;">Day 8 · Mon June 22</div>
     <div class="port-name" style="font-size:21px;margin-bottom:2px;">Vancouver</div>
     <div class="port-tagline">Disembarkation · Adventure Complete</div>
@@ -2000,7 +2014,7 @@
       <div class="port-fact"><div class="port-fact-label">Return Flights</div><div class="port-fact-value">WestJet back to PHX</div></div>
     </div>
     <div class="event-list">
-      <div class="event-list-title">Today's Schedule</div>
+      <div class="schedule-divider"><span>✦</span><span class="sd-line"></span><span class="sd-label">Today's Schedule</span></div>
       <div class="event-item milestone"><div class="event-time">By 8:00 AM</div><div class="event-detail"><div class="event-name">🏁 All guests off ship · Adventure complete!</div><div class="event-dots-row"><span class="family-dot dot-o"></span><span class="family-dot dot-s"></span><span class="family-dot dot-sim"></span><span class="event-names">All families</span></div></div></div>
     </div>
   </div>
