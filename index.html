@@ -7398,29 +7398,41 @@
         grid = Array.from({length:ROWS}, () => Array(COLS).fill(''));
         placed = []; found = [];
         const dirs = [[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
-        const shuffled = [...candidates].sort(() => Math.random()-.5);
+        // place longer words first so later, shorter words have more chances to cross them
+        const shuffled = [...candidates].sort((a,b) => b.length - a.length);
         shuffled.forEach(word => {
-            let placed_ok = false;
-            for (let attempt = 0; attempt < 300 && !placed_ok; attempt++) {
+            let placed_ok = false, fallback = null;
+            for (let attempt = 0; attempt < 400 && !placed_ok; attempt++) {
                 const dir = dirs[Math.floor(Math.random()*dirs.length)];
                 const r = Math.floor(Math.random()*ROWS);
                 const c = Math.floor(Math.random()*COLS);
                 const cells = [];
-                let ok = true;
+                let ok = true, overlaps = 0;
                 for (let i = 0; i < word.length; i++) {
                     const nr = r + dir[0]*i, nc = c + dir[1]*i;
                     if (nr<0||nr>=ROWS||nc<0||nc>=COLS) { ok=false; break; }
-                    if (grid[nr][nc] && grid[nr][nc] !== word[i]) { ok=false; break; }
+                    if (grid[nr][nc]) {
+                        if (grid[nr][nc] !== word[i]) { ok=false; break; }
+                        overlaps++;
+                    }
                     cells.push([nr,nc]);
                 }
-                if (ok) {
+                if (!ok) continue;
+                if (overlaps > 0) {
                     cells.forEach(([nr,nc],i) => grid[nr][nc] = word[i]);
                     placed.push({word, cells});
                     placed_ok = true;
+                } else if (!fallback) {
+                    fallback = cells;
                 }
             }
+            if (!placed_ok && fallback) {
+                fallback.forEach(([nr,nc],i) => grid[nr][nc] = word[i]);
+                placed.push({word, cells: fallback});
+            }
         });
-        WS_WORDS = placed.map(p => p.word);
+        // randomize word-list display order (placement order is sorted by length)
+        WS_WORDS = [...placed.map(p => p.word)].sort(() => Math.random()-.5);
         // fill blanks
         const alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) if (!grid[r][c]) grid[r][c] = alpha[Math.floor(Math.random()*26)];
