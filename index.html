@@ -828,7 +828,9 @@
 .ws-cell.selected { background:var(--glacier-pale); color:var(--glacier); }
 .ws-cell.found { background:var(--forest-dark); color:white; }
 .ws-cell.first-sel { background:var(--glacier); color:white; }
-.ws-status { text-align:center; font-size:13px; color:var(--text-light); margin-bottom:12px; min-height:20px; }
+.ws-status { text-align:center; font-size:13px; color:var(--text-light); margin-bottom:12px; min-height:20px; transition:color .2s, font-size .2s; }
+.ws-status.solved { font-size:16px; font-weight:700; color:var(--forest-dark); animation:ws-solved-pop .5s ease; }
+@keyframes ws-solved-pop { 0% { transform:scale(.8); opacity:0; } 60% { transform:scale(1.08); opacity:1; } 100% { transform:scale(1); } }
 .ws-reset-btn { width:100%; padding:13px; border:none; border-radius:14px; background:var(--glacier-pale); color:#1a5d6e; font-family:'Inter',sans-serif; font-size:13px; font-weight:700; cursor:pointer; }
 
 /* ── TRUE/FALSE + TRIVIA + EMOJI DECODER shared ── */
@@ -7366,7 +7368,7 @@
     const WS_LABELS = { alaska: 'Find all the Alaska words', canada: 'Find all the Canada & Vancouver words' };
     const ROWS = 12, COLS = 12, WORDS_PER_GAME = 12;
     let WS_WORDS = [];
-    let grid = [], placed = [], found = [], firstSel = null, selCells = [], wsCategory = 'alaska';
+    let grid = [], placed = [], found = [], firstSel = null, selCells = [], wsCategory = 'alaska', solved = false;
 
     function wsStart(cat) {
         wsCategory = cat;
@@ -7422,7 +7424,7 @@
         // fill blanks
         const alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) if (!grid[r][c]) grid[r][c] = alpha[Math.floor(Math.random()*26)];
-        firstSel = null; selCells = [];
+        firstSel = null; selCells = []; solved = false;
         renderWS();
     }
 
@@ -7452,7 +7454,14 @@
             gridEl.appendChild(cell);
         }
         // status
-        document.getElementById('ws-status').textContent = found.length === WS_WORDS.length ? '🎉 All words found!' : `${found.length} / ${WS_WORDS.length} found`;
+        const statusEl = document.getElementById('ws-status');
+        const allFound = WS_WORDS.length > 0 && found.length === WS_WORDS.length;
+        statusEl.textContent = allFound ? '🎉 All words found!' : `${found.length} / ${WS_WORDS.length} found`;
+        statusEl.classList.toggle('solved', allFound);
+        if (allFound && !solved) {
+            solved = true;
+            launchConfetti();
+        }
     }
 
     function wsClick(r, c) {
