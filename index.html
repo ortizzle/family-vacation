@@ -223,11 +223,21 @@
         .info-table td:first-child { color: var(--text-light); font-size: 11px; text-transform: uppercase; letter-spacing: .8px; font-weight: 600; width: 42%; }
         .info-table td:last-child { font-weight: 600; color: var(--text-dark); }
         .info-table tr:last-child td { border-bottom: none; }
-        .wc-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; background: var(--snow); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 12px; }
+        .wc-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; background: var(--snow); border-radius: 0 0 12px 12px; overflow: hidden; font-size: 12px; }
         .wc-table th, .wc-table td { padding: 7px 8px; text-align: center; border-bottom: 1px solid #eef2ee; }
-        .wc-table th { font-size: 10px; text-transform: uppercase; letter-spacing: .5px; color: var(--text-light); font-weight: 700; }
-        .wc-table td:first-child, .wc-table th:first-child { text-align: left; font-weight: 600; color: var(--text-dark); }
+        .wc-table th { font-size: 10px; text-transform: uppercase; letter-spacing: .5px; color: var(--text-light); font-weight: 700; background: #f4f7f4; }
+        .wc-table td:first-child, .wc-table th:first-child { text-align: left; padding-left: 12px; }
         .wc-table tr:last-child td { border-bottom: none; }
+        .wc-table tr.wc-qualify td { background: #edfaf3; }
+        .wc-table tr.wc-bubble td { background: #fffbea; }
+        .wc-table td.wc-team-cell { font-weight: 600; color: var(--text-dark); }
+        .wc-table td.wc-pts { font-weight: 700; color: var(--forest-dark); }
+        .wc-group-hdr { display: flex; align-items: center; justify-content: space-between; background: var(--forest-dark); color: #f2ead8; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 7px 12px; border-radius: 12px 12px 0 0; margin-top: 10px; }
+        .wc-group-nav { display: flex; flex-wrap: wrap; gap: 5px; margin: 10px 0 6px; }
+        .wc-group-nav button { padding: 4px 10px; border-radius: 20px; border: 1.5px solid var(--forest-dark); background: none; color: var(--forest-dark); font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .wc-qualify-key { display: flex; gap: 10px; font-size: 10px; color: var(--text-light); margin-bottom: 10px; flex-wrap: wrap; }
+        .wc-qualify-key span { display: flex; align-items: center; gap: 4px; }
+        .wc-qualify-key .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
         .wc-match { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--snow); border-radius: 12px; padding: 10px 14px; margin-bottom: 6px; box-shadow: var(--shadow-sm); font-size: 13px; }
         .wc-match-status { font-size: 11px; color: var(--text-light); font-weight: 600; flex-shrink: 0; }
         .wc-match-live { color: #c0392b; }
@@ -4360,17 +4370,51 @@
             const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=${WC_LEAGUE_ID}&s=${WC_SEASON}`);
             const data = await res.json();
             const table = data.table || [];
-            const rows = table.slice().sort((a, b) =>
-                (a.strGroup || '').localeCompare(b.strGroup || '') ||
-                b.intPoints - a.intPoints || b.intGoalDifference - a.intGoalDifference);
-            if (!rows.length) {
+            if (!table.length) {
                 standingsEl.innerHTML = '<div class="tip-item" style="margin-top:6px;"><span class="tip-icon">📊</span>Standings will appear here once group matches begin.</div>';
             } else {
-                standingsEl.innerHTML = '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin:10px 0 6px;">Standings (as recorded so far)</div>' +
-                    '<table class="wc-table"><tr><th>Team</th><th>Grp</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr>' +
-                    rows.map(r => `<tr><td>${r.strTeam}</td><td>${(r.strGroup || '').replace('Group ', '')}</td><td>${r.intPlayed}</td><td>${r.intWin}</td><td>${r.intDraw}</td><td>${r.intLoss}</td><td>${r.intGoalDifference}</td><td><strong>${r.intPoints}</strong></td></tr>`).join('') +
-                    '</table>' +
-                    '<div class="tip-item" style="margin-top:2px;"><span class="tip-icon">📊</span>Group tables fill in as more matches are played — see FIFA Official below for complete standings.</div>';
+                // Group by strGroup, sort within each group by Pts → GD
+                const groups = {};
+                table.forEach(r => {
+                    const g = (r.strGroup || 'Group ?').replace(/^group /i, 'Group ');
+                    if (!groups[g]) groups[g] = [];
+                    groups[g].push(r);
+                });
+                const groupKeys = Object.keys(groups).sort();
+                groupKeys.forEach(g => groups[g].sort((a, b) =>
+                    b.intPoints - a.intPoints || b.intGoalDifference - a.intGoalDifference || b.intGoalsFor - a.intGoalsFor));
+
+                // Track 3rd-place teams to flag potential qualifiers (8 best 3rds advance)
+                const thirds = groupKeys.map(g => groups[g][2]).filter(Boolean)
+                    .sort((a, b) => b.intPoints - a.intPoints || b.intGoalDifference - a.intGoalDifference);
+                const bubbleTeams = new Set(thirds.slice(0, 8).map(r => r.strTeam));
+
+                const navHtml = '<div class="wc-group-nav">' +
+                    groupKeys.map(g => {
+                        const letter = g.replace('Group ', '');
+                        return `<button onclick="document.getElementById('wc-grp-${letter}').scrollIntoView({behavior:'smooth',block:'center'})">${letter}</button>`;
+                    }).join('') + '</div>';
+
+                const keyHtml = '<div class="wc-qualify-key">' +
+                    '<span><span class="dot" style="background:#4caf50;"></span>Auto-qualify (1st & 2nd)</span>' +
+                    '<span><span class="dot" style="background:#f5c518;"></span>Best 3rd (bubble)</span>' +
+                    '</div>';
+
+                const tablesHtml = groupKeys.map(g => {
+                    const letter = g.replace('Group ', '');
+                    const rows = groups[g].map((r, i) => {
+                        const cls = i < 2 ? 'wc-qualify' : (bubbleTeams.has(r.strTeam) ? 'wc-bubble' : '');
+                        const gd = r.intGoalDifference >= 0 ? '+' + r.intGoalDifference : r.intGoalDifference;
+                        return `<tr class="${cls}"><td class="wc-team-cell">${r.strTeam}</td><td>${r.intPlayed}</td><td>${r.intWin}</td><td>${r.intDraw}</td><td>${r.intLoss}</td><td>${gd}</td><td class="wc-pts">${r.intPoints}</td></tr>`;
+                    }).join('');
+                    return `<div id="wc-grp-${letter}"><div class="wc-group-hdr"><span>Group ${letter}</span><span style="opacity:.6;font-size:10px;">${groups[g][0]?.intPlayed ? groups[g].map(r=>r.intPlayed).reduce((a,b)=>+a+ +b,0)/2 + ' matches played' : 'not started'}</span></div>` +
+                        `<table class="wc-table"><tr><th style="text-align:left;padding-left:12px;">Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr>${rows}</table></div>`;
+                }).join('');
+
+                standingsEl.innerHTML =
+                    '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);margin:14px 0 2px;">Group Standings</div>' +
+                    navHtml + keyHtml + tablesHtml +
+                    '<div style="font-size:11px;color:var(--text-light);margin-top:4px;">Updated live · top 2 per group + 8 best 3rd-place teams advance</div>';
             }
         } catch (err) {
             // scores section already shows a connection error if offline
