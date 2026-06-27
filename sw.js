@@ -1,5 +1,5 @@
 // Alaska Adventure 2026 — Service Worker
-const CACHE = 'ak26-v55';
+const CACHE = 'ak26-v56';
 const ASSETS = [
   './splash.html',
   './index.html',
@@ -9,6 +9,11 @@ const ASSETS = [
   './apple-touch-icon.png',
   './favicon.ico',
   './manifest.json',
+  './jerome.html',
+  './jerome-manifest.json',
+  './jerome-icon-192.png',
+  './jerome-icon-512.png',
+  './jerome-apple-touch-icon.png',
   'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap',
   'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2',
 ];
