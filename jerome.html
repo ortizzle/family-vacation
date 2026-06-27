@@ -646,11 +646,12 @@
 
     <div id="open-now-card" class="card" style="margin-bottom:12px;"></div>
 
-    <div class="card" style="background:linear-gradient(135deg,#1a3a1a 0%,#2d5a2d 100%);padding:18px 20px;margin-bottom:12px;">
+    <div class="card" onclick="openModal('festival')" style="background:linear-gradient(135deg,#1a3a1a 0%,#2d5a2d 100%);padding:18px 20px;margin-bottom:12px;cursor:pointer;">
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6);margin-bottom:4px;">Happening This Weekend</div>
         <div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:white;margin-bottom:6px;">🎸 Jerome Music &amp; Arts Festival</div>
         <div style="font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:10px;">June 27–28 · Free · 20+ performers across 5 venues. Spirit Room, Spook Hall, Upper Park, New State Building &amp; <strong style="color:white;">240 Hull Ave — right outside your door.</strong></div>
         <div style="font-size:11px;color:rgba(255,255,255,.55);">Food trucks · pop-up market · kids area · Spirit Room starts 2 PM Sat</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:8px;text-align:right;">Tap for full schedule →</div>
     </div>
 
     <div class="surprise-card">
@@ -877,8 +878,8 @@
                 <div class="ac-name">Jerome State Historic Park <span class="badge-must">Must</span></div>
                 <div class="ac-desc">The 1916 Douglas Mansion turned museum. Mining history exhibits and sweeping Verde Valley views from the wrap-around veranda.</div>
                 <div class="ac-tags">
-                    <span class="ac-tag">$7 / person</span>
-                    <span class="ac-tag sand">Tues–Sun 9am–5pm</span>
+                    <span class="ac-tag">$10 / person</span>
+                    <span class="ac-tag sand">Daily 9am–4:30pm</span>
                     <span class="ac-tag star">★ 4.5</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
@@ -893,7 +894,7 @@
                 <div class="ac-name">Gold King Mine &amp; Ghost Town <span class="badge-must">Must</span></div>
                 <div class="ac-desc">Jaw-dropping outdoor museum of vintage mining gear, rusting antique cars, and crumbling ghost town structures. Burros and peacocks wander freely.</div>
                 <div class="ac-tags">
-                    <span class="ac-tag">$12 adults · $5 kids</span>
+                    <span class="ac-tag">$12 adults · $7 kids</span>
                     <span class="ac-tag sand">Daily 10am–5pm</span>
                     <span class="ac-tag star">★ 4.6</span>
                 </div>
@@ -1108,7 +1109,7 @@
                 <div class="ac-name">Verde Canyon Railroad <span class="badge-must">Must</span></div>
                 <div class="ac-desc">A 4-hour round-trip train ride through a remote desert canyon inaccessible by road. Bald eagle habitat, towering canyon walls, ancient ruins visible from the windows. One of Arizona's great experiences.</div>
                 <div class="ac-tags">
-                    <span class="ac-tag">$65–$95 / person</span>
+                    <span class="ac-tag">~$65+ · check website</span>
                     <span class="ac-tag warn">Book ahead</span>
                     <span class="ac-tag sand">Departs Clarkdale · 14 mi</span>
                     <span class="ac-tag star">★ 4.8</span>
@@ -1194,7 +1195,7 @@
                 <div class="ac-name">Dead Horse Ranch State Park</div>
                 <div class="ac-desc">Verde River access, a stocked fishing lagoon, excellent bird watching, and easy riverside trails. One of Arizona's most underrated state parks — peaceful contrast to Jerome's intensity.</div>
                 <div class="ac-tags">
-                    <span class="ac-tag">$7 / vehicle</span>
+                    <span class="ac-tag">$10–$20 / vehicle</span>
                     <span class="ac-tag sand">Daily 8am–10pm</span>
                     <span class="ac-tag">12 mi from Jerome</span>
                     <span class="ac-tag star">★ 4.6</span>
@@ -1576,17 +1577,46 @@
     }
 
     const MODALS = {
+        'festival': {
+            emoji: '🎸',
+            title: 'Jerome Music &amp; Arts Festival',
+            sub: 'June 27–28, 2026 · Free Admission · Jerome, AZ',
+            rating: { score: 'Free', source: 'Annual event', count: 'All ages' },
+            tags: [{ t: 'Free', c: 'green' }, { t: 'Both Days', c: '' }, { t: '20+ Performers', c: 'sand' }],
+            info: [
+                ['When', 'Sat June 27 + Sun June 28'],
+                ['Cost', 'Free · no tickets required'],
+                ['240 Hull Ave Stage', 'Right outside The Flat — your front-row seat'],
+                ['Spirit Room', 'Live music from 2 PM Sat · 1 PM Sun'],
+                ['Spook Hall', 'Indoor stage — afternoon + evening sets'],
+                ['Upper Park', 'Acoustic sets + kids area · all day both days'],
+                ['New State Building', 'Art market + pop-up vendors · 10 AM–5 PM'],
+                ['Food', 'Food trucks clustered near Hull Ave + Jerome market'],
+            ],
+            facts: [
+                'The Jerome Music &amp; Arts Festival is an annual weekend celebration of the town\'s thriving arts and music culture, drawing local and regional performers across multiple outdoor and indoor stages.',
+                'Spirit Room (166 Main St) is Jerome\'s legendary live-music bar — a converted 1898 saloon with no cover charge, cold drinks, and packed crowds for the festival weekend.',
+                'Spook Hall at the old Connor Hotel hosts the more intimate indoor sets. The 1898 building has its own history of paranormal activity, which adds to the atmosphere after dark.',
+                '240 Hull Ave stage is directly below The Flat — you can literally lean out the window and hear the music. Saturday afternoon sets are typically the most energetic.',
+                'The pop-up market in the New State Building features Jerome artists, Verde Valley wineries pouring samples, food vendors, and local craftspeople — a good mix of free entertainment.',
+                'Jerome\'s population swells from ~450 to several thousand for festival weekend. Parking gets very tight by noon both days — you\'re staying centrally, so park early and walk.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome,+AZ+86331',
+                web: 'https://www.jeromechamber.com'
+            }
+        },
         'jerome-state-park': {
             emoji: '🏛️',
             title: 'Jerome State Historic Park',
             sub: '100 Douglas Rd, Jerome, AZ 86331',
             rating: { score: '4.5', source: 'Google', count: '1.8k' },
             tripadvisor: 'https://www.tripadvisor.com/Search?q=Jerome+State+Historic+Park+Jerome+AZ',
-            tags: [{ t: '$7 / person', c: '' }, { t: 'Tues–Sun 9am–5pm', c: 'sand' }, { t: 'All Ages', c: 'green' }],
+            tags: [{ t: '$10 / person', c: '' }, { t: 'Daily 9am–4:30pm', c: 'sand' }, { t: 'All Ages', c: 'green' }],
             info: [
-                ['Admission', '$7 adults · $4 youth (7–13) · Free under 7'],
-                ['Hours', 'Tues – Sun · 9:00 AM – 5:00 PM'],
-                ['Closed', 'Mondays &amp; major holidays'],
+                ['Admission', '$10 adults · $5 youth (7–13) · Free under 7'],
+                ['Hours', 'Daily · 9:00 AM – 4:30 PM'],
+                ['Closed', 'Major holidays only'],
                 ['Time needed', '45 – 90 minutes'],
                 ['From the Flat', '0.4 mi · 8 min walk down Hull Ave'],
             ],
@@ -1607,9 +1637,9 @@
             sub: 'Perkinsville Rd, Jerome · 1 mile past downtown',
             rating: { score: '4.6', source: 'Google', count: '3.1k' },
             tripadvisor: 'https://www.tripadvisor.com/Search?q=Gold+King+Mine+Ghost+Town+Jerome+AZ',
-            tags: [{ t: '$12 adults · $5 kids', c: '' }, { t: 'Daily 10am–5pm', c: 'sand' }, { t: 'Family Friendly', c: 'green' }],
+            tags: [{ t: '$12 adults · $7 kids', c: '' }, { t: 'Daily 10am–5pm', c: 'sand' }, { t: 'Family Friendly', c: 'green' }],
             info: [
-                ['Admission', '$12 adults · $5 children · Under 5 free'],
+                ['Admission', '$12 adults (13–79) · $7 ages 6–12 · Free under 6'],
                 ['Hours', 'Daily · 10:00 AM – 5:00 PM'],
                 ['Location', '1 mile past downtown on Perkinsville Rd'],
                 ['Time needed', '1 – 2 hours'],
@@ -1849,9 +1879,9 @@
             sub: '300 N Broadway, Clarkdale, AZ 86324',
             rating: { score: '4.8', source: 'TripAdvisor', count: '3.7k' },
             tripadvisor: 'https://www.tripadvisor.com/Search?q=Verde+Canyon+Railroad+Clarkdale+AZ',
-            tags: [{ t: '$65–$95 / person', c: '' }, { t: 'Book Ahead', c: 'warn' }, { t: '4-hr Round Trip', c: 'sand' }],
+            tags: [{ t: '~$65+ · check website', c: '' }, { t: 'Book Ahead', c: 'warn' }, { t: '4-hr Round Trip', c: 'sand' }],
             info: [
-                ['Admission', '$65 Coach · $95 First Class (includes wine)'],
+                ['Admission', '~$65 Coach · First Class higher (includes wine) · verify at verdecanyonrr.com'],
                 ['Duration', '4 hours round trip'],
                 ['Departure', 'Clarkdale Depot · 14 mi from Jerome'],
                 ['Typical departures', 'Check website — usually late morning'],
@@ -1972,7 +2002,7 @@
             sub: '675 Dead Horse Ranch Rd, Cottonwood, AZ 86326',
             rating: { score: '4.6', source: 'Google', count: '2.0k' },
             tripadvisor: 'https://www.tripadvisor.com/Search?q=Dead+Horse+Ranch+State+Park+Cottonwood+AZ',
-            tags: [{ t: '$7 / vehicle', c: '' }, { t: 'Daily 8am–10pm', c: 'sand' }, { t: '12 mi from Jerome', c: 'green' }],
+            tags: [{ t: '$10–$20 / vehicle', c: '' }, { t: 'Daily 8am–10pm', c: 'sand' }, { t: '12 mi from Jerome', c: 'green' }],
             info: [
                 ['Fee', '$7 per vehicle'],
                 ['Hours', 'Daily · 8:00 AM – 10:00 PM'],
