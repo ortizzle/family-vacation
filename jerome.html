@@ -364,7 +364,10 @@
         .ac-tag.green { background: var(--sage-pale); color: #3a6b42; }
         .ac-tag.sand  { background: var(--sand); color: var(--text-mid); }
         .ac-tag.warn  { background: #fff3cd; color: #856404; }
+        .ac-tag.star, .rest-tag.star { background: #fff8e6; color: #b8860b; font-weight: 700; }
         .tap-hint { font-size: 11px; color: var(--copper); margin-top: 5px; }
+        .ev-tappable { cursor: pointer; -webkit-tap-highlight-color: transparent; border-radius: 8px; margin: 0 -6px; padding: 6px 6px; transition: background .12s; }
+        .ev-tappable:active { background: var(--sand); }
 
         /* ── BADGES ── */
         .badge-must {
@@ -585,49 +588,49 @@
     <div class="section-header">Saturday · Jerome Day</div>
 
     <div class="card">
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openRestaurantModal('flatiron')">
             <div class="event-time">Morning</div>
             <div class="event-detail">
                 <div class="event-name">Breakfast at Flatiron Cafe</div>
                 <div class="event-note">One floor down — the best breakfast in Jerome. Go early, it fills fast.</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openModal('jerome-state-park')">
             <div class="event-time">Mid-AM</div>
             <div class="event-detail">
                 <div class="event-name">Jerome State Historic Park <span class="ev-tag">Don't Miss</span></div>
                 <div class="event-note">Douglas Mansion museum · $7 pp · sweeping Verde Valley panoramas</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openModal('caduceus')">
             <div class="event-time">Midday</div>
             <div class="event-detail">
                 <div class="event-name">Art Galleries + Caduceus Cellars</div>
                 <div class="event-note">Walk Hull Ave &amp; Main St galleries, then wine tasting at Maynard James Keenan's Jerome winery</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openModal('gold-king')">
             <div class="event-time">Afternoon</div>
             <div class="event-detail">
                 <div class="event-name">Gold King Mine &amp; Ghost Town <span class="ev-tag">Don't Miss</span></div>
                 <div class="event-note">Vintage mining relics, antique cars, free-roaming burros and peacocks</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openModal('audrey-headframe')">
             <div class="event-time">Sunset</div>
             <div class="event-detail">
                 <div class="event-name">Audrey Headframe Park <span class="ev-tag green">Best View</span></div>
                 <div class="event-note">Glass floor over 1,900 ft mine shaft · the single best sunset spot in Jerome · free</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openRestaurantModal('haunted-hamburger')">
             <div class="event-time">Dinner</div>
             <div class="event-detail">
                 <div class="event-name">The Asylum or Haunted Hamburger</div>
                 <div class="event-note">Upscale at the Jerome Grand Hotel, or iconic burgers with Verde Valley views</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openModal('spirit-room')">
             <div class="event-time">Evening</div>
             <div class="event-detail">
                 <div class="event-name">Spirit Room Bar</div>
@@ -639,49 +642,49 @@
     <div class="section-header">Sunday · Cottonwood &amp; Verde Valley</div>
 
     <div class="card">
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openRestaurantModal('flatiron')">
             <div class="event-time">Morning</div>
             <div class="event-detail">
                 <div class="event-name">Breakfast at the Flatiron, then head down</div>
                 <div class="event-note">US-89A from Jerome → Clarkdale → Cottonwood (scenic 20 min drive)</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openModal('tuzigoot')">
             <div class="event-time">9:00 AM</div>
             <div class="event-detail">
                 <div class="event-name">Tuzigoot National Monument <span class="ev-tag">Don't Miss</span></div>
                 <div class="event-note">12th–13th century Sinagua hilltop pueblo · jaw-dropping Verde Valley views · $10 pp</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openModal('verde-canyon-rr')">
             <div class="event-time">10:30 AM</div>
             <div class="event-detail">
                 <div class="event-name">Verde Canyon Railroad <span class="ev-tag">Don't Miss</span></div>
                 <div class="event-note">4-hr scenic train through otherwise inaccessible canyon · bald eagle habitat · departs Clarkdale</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openRestaurantModal('merkin-osteria')">
             <div class="event-time">Lunch</div>
             <div class="event-detail">
                 <div class="event-name">Merkin Vineyards Osteria</div>
                 <div class="event-note">Maynard's flagship winery + Italian restaurant in Old Town Cottonwood · the best meal in the area</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openModal('old-town-cottonwood')">
             <div class="event-time">Afternoon</div>
             <div class="event-detail">
                 <div class="event-name">🍷 Verde Valley Wine Row</div>
                 <div class="event-note">Walk Old Town Cottonwood — 10+ tasting rooms within 3 blocks of each other</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openModal('page-springs')">
             <div class="event-time">Late PM</div>
             <div class="event-detail">
                 <div class="event-name">Page Springs Cellars <span class="ev-tag green">Optional</span></div>
                 <div class="event-note">Arizona's most acclaimed winery · 10 min south of Cottonwood in Cornville · reserve a tasting</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item ev-tappable" onclick="openModal('audrey-headframe')">
             <div class="event-time">Sunset</div>
             <div class="event-detail">
                 <div class="event-name">Back to Jerome · Audrey Headframe again</div>
@@ -751,6 +754,7 @@
                 <div class="ac-tags">
                     <span class="ac-tag">$7 / person</span>
                     <span class="ac-tag sand">Tues–Sun 9am–5pm</span>
+                    <span class="ac-tag star">★ 4.5</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -766,6 +770,7 @@
                 <div class="ac-tags">
                     <span class="ac-tag">$12 adults · $5 kids</span>
                     <span class="ac-tag sand">Daily 10am–5pm</span>
+                    <span class="ac-tag star">★ 4.6</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -781,6 +786,7 @@
                 <div class="ac-tags">
                     <span class="ac-tag green">Free</span>
                     <span class="ac-tag sand">Always open</span>
+                    <span class="ac-tag star">★ 4.8</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -798,6 +804,7 @@
                 <div class="ac-tags">
                     <span class="ac-tag">Tasting fee</span>
                     <span class="ac-tag sand">158 Main St · Daily 11am–6pm</span>
+                    <span class="ac-tag star">★ 4.6</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -813,6 +820,7 @@
                 <div class="ac-tags">
                     <span class="ac-tag green">No cover</span>
                     <span class="ac-tag sand">166 Main St · Nightly</span>
+                    <span class="ac-tag star">★ 4.4</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -830,6 +838,7 @@
                 <div class="ac-tags">
                     <span class="ac-tag">Historic 1926</span>
                     <span class="ac-tag sand">Bar open to all</span>
+                    <span class="ac-tag star">★ 4.4</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -860,6 +869,7 @@
                 <div class="ac-tags">
                     <span class="ac-tag green">Free to see</span>
                     <span class="ac-tag sand">Hull Ave · Exterior only</span>
+                    <span class="ac-tag star">★ 4.3</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -908,6 +918,7 @@
                     <span class="ac-tag">$10 / person</span>
                     <span class="ac-tag sand">Daily 9am–5pm</span>
                     <span class="ac-tag">13 mi from Jerome</span>
+                    <span class="ac-tag star">★ 4.6</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -924,6 +935,7 @@
                     <span class="ac-tag">$65–$95 / person</span>
                     <span class="ac-tag warn">Book ahead</span>
                     <span class="ac-tag sand">Departs Clarkdale · 14 mi</span>
+                    <span class="ac-tag star">★ 4.8</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -957,6 +969,7 @@
                     <span class="ac-tag">Tasting fee</span>
                     <span class="ac-tag sand">20 mi from Jerome</span>
                     <span class="ac-tag sand">Cornville · Reservations suggested</span>
+                    <span class="ac-tag star">★ 4.7</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -972,6 +985,7 @@
                 <div class="ac-tags">
                     <span class="ac-tag">1 N Main St, Cottonwood</span>
                     <span class="ac-tag sand">Lunch &amp; Dinner</span>
+                    <span class="ac-tag star">★ 4.5</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -990,6 +1004,7 @@
                     <span class="ac-tag">$10 / person</span>
                     <span class="ac-tag sand">Daily 8am–5pm</span>
                     <span class="ac-tag">25 mi from Jerome · I-17</span>
+                    <span class="ac-tag star">★ 4.7</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -1006,6 +1021,7 @@
                     <span class="ac-tag">$7 / vehicle</span>
                     <span class="ac-tag sand">Daily 8am–10pm</span>
                     <span class="ac-tag">12 mi from Jerome</span>
+                    <span class="ac-tag star">★ 4.6</span>
                 </div>
                 <div class="tap-hint">Tap for details + directions →</div>
             </div>
@@ -1029,6 +1045,7 @@
                 <div class="rest-tags">
                     <span class="rest-tag price">$</span>
                     <span class="rest-tag type">Breakfast / Brunch</span>
+                    <span class="rest-tag star">★ 4.6</span>
                 </div>
                 <div class="tap-hint">Tap for menu →</div>
             </div>
@@ -1049,6 +1066,7 @@
                     <span class="rest-tag price">$$</span>
                     <span class="rest-tag type">American</span>
                     <span class="rest-tag pick">⭐ Local Legend</span>
+                    <span class="rest-tag star">★ 4.3</span>
                 </div>
                 <div class="tap-hint">Tap for menu →</div>
             </div>
@@ -1071,6 +1089,7 @@
                     <span class="rest-tag type">Fine Dining</span>
                     <span class="rest-tag pick">⭐ Best Dinner in Jerome</span>
                     <span class="rest-tag tip">Reserve ahead</span>
+                    <span class="rest-tag star">★ 4.2</span>
                 </div>
                 <div class="tap-hint">Tap for menu →</div>
             </div>
@@ -1092,6 +1111,7 @@
                     <span class="rest-tag price">$$</span>
                     <span class="rest-tag type">Winery</span>
                     <span class="rest-tag pick">⭐ Tool's Winery</span>
+                    <span class="rest-tag star">★ 4.5</span>
                 </div>
                 <div class="tap-hint">Tap for wine list →</div>
             </div>
@@ -1112,6 +1132,7 @@
                 <div class="rest-tags">
                     <span class="rest-tag price">$</span>
                     <span class="rest-tag type">Bar</span>
+                    <span class="rest-tag star">★ 4.3</span>
                 </div>
                 <div class="tap-hint">Tap for details →</div>
             </div>
@@ -1132,6 +1153,7 @@
                     <span class="rest-tag price">$</span>
                     <span class="rest-tag type">Bar / Live Music</span>
                     <span class="rest-tag pick">⭐ Saturday Night</span>
+                    <span class="rest-tag star">★ 4.4</span>
                 </div>
                 <div class="tap-hint">Tap for details →</div>
             </div>
@@ -1152,6 +1174,7 @@
                 <div class="rest-tags">
                     <span class="rest-tag price">$$</span>
                     <span class="rest-tag type">BBQ</span>
+                    <span class="rest-tag star">★ 4.0</span>
                 </div>
                 <div class="tap-hint">Tap for menu →</div>
             </div>
@@ -1175,6 +1198,7 @@
                     <span class="rest-tag type">Italian / Wine Bar</span>
                     <span class="rest-tag pick">⭐ Best in the Valley</span>
                     <span class="rest-tag tip">Reserve ahead</span>
+                    <span class="rest-tag star">★ 4.5</span>
                 </div>
                 <div class="tap-hint">Tap for menu →</div>
             </div>
@@ -1196,6 +1220,7 @@
                     <span class="rest-tag price">$$</span>
                     <span class="rest-tag type">American / Brunch</span>
                     <span class="rest-tag tip">Local favorite</span>
+                    <span class="rest-tag star">★ 4.4</span>
                 </div>
                 <div class="tap-hint">Tap for menu →</div>
             </div>
@@ -1216,6 +1241,7 @@
                 <div class="rest-tags">
                     <span class="rest-tag price">$$</span>
                     <span class="rest-tag type">Italian</span>
+                    <span class="rest-tag star">★ 4.2</span>
                 </div>
                 <div class="tap-hint">Tap for menu →</div>
             </div>
@@ -1235,6 +1261,7 @@
                 <div class="rest-tags">
                     <span class="rest-tag price">$$</span>
                     <span class="rest-tag type">American</span>
+                    <span class="rest-tag star">★ 4.3</span>
                 </div>
                 <div class="tap-hint">Tap for menu →</div>
             </div>
