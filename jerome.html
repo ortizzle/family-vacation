@@ -397,7 +397,11 @@
             padding: 16px;
             margin-bottom: 10px;
             box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform .14s;
         }
+        .restaurant-card:active { transform: scale(.98); }
         .rest-top { display: flex; gap: 12px; }
         .rest-emoji { font-size: 30px; flex-shrink: 0; line-height: 1; }
         .rest-body  { flex: 1; }
@@ -512,6 +516,19 @@
         .modal-link-btn.map { background: var(--copper); color: white; }
         .modal-link-btn.web { background: var(--cream); border: 1px solid #ddd3c8; color: var(--text-dark); }
         .modal-link-btn.ta  { background: #34e0a1; color: #003a2d; }
+        .modal-dish {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 9px 0;
+            border-bottom: 1px solid #f0ebe4;
+            gap: 10px;
+        }
+        .modal-dish:last-child { border-bottom: none; }
+        .dish-info { flex: 1; }
+        .dish-name  { font-size: 13.5px; font-weight: 600; color: var(--text-dark); line-height: 1.3; }
+        .dish-note  { font-size: 11.5px; color: var(--text-light); margin-top: 2px; line-height: 1.4; }
+        .dish-price { font-size: 13px; font-weight: 700; color: var(--copper); flex-shrink: 0; padding-top: 1px; }
         .modal-rating {
             display: flex;
             align-items: center;
@@ -1002,7 +1019,7 @@
 
     <div class="section-header">Jerome</div>
 
-    <div class="restaurant-card">
+    <div class="restaurant-card" onclick="openRestaurantModal('flatiron')">
         <div class="rest-top">
             <div class="rest-emoji">☕</div>
             <div class="rest-body">
@@ -1013,14 +1030,15 @@
                     <span class="rest-tag price">$</span>
                     <span class="rest-tag type">Breakfast / Brunch</span>
                 </div>
+                <div class="tap-hint">Tap for menu →</div>
             </div>
         </div>
-        <div class="rest-links">
+        <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=Flatiron+Cafe,+416+Main+St,+Jerome,+AZ+86331" target="_blank">📍 Directions</a>
         </div>
     </div>
 
-    <div class="restaurant-card">
+    <div class="restaurant-card" onclick="openRestaurantModal('haunted-hamburger')">
         <div class="rest-top">
             <div class="rest-emoji">🍔</div>
             <div class="rest-body">
@@ -1032,15 +1050,16 @@
                     <span class="rest-tag type">American</span>
                     <span class="rest-tag pick">⭐ Local Legend</span>
                 </div>
+                <div class="tap-hint">Tap for menu →</div>
             </div>
         </div>
-        <div class="rest-links">
+        <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=The+Haunted+Hamburger,+410+Clark+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
             <a class="rest-link web" href="https://thehauntedhamburger.com" target="_blank">🌐 Website</a>
         </div>
     </div>
 
-    <div class="restaurant-card">
+    <div class="restaurant-card" onclick="openRestaurantModal('asylum')">
         <div class="rest-top">
             <div class="rest-emoji">🥂</div>
             <div class="rest-body">
@@ -1053,15 +1072,16 @@
                     <span class="rest-tag pick">⭐ Best Dinner in Jerome</span>
                     <span class="rest-tag tip">Reserve ahead</span>
                 </div>
+                <div class="tap-hint">Tap for menu →</div>
             </div>
         </div>
-        <div class="rest-links">
+        <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=The+Asylum+Restaurant,+200+Hill+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
             <a class="rest-link web" href="https://jeromegrandhotel.com" target="_blank">🌐 Website</a>
         </div>
     </div>
 
-    <div class="restaurant-card">
+    <div class="restaurant-card" onclick="openRestaurantModal('caduceus')">
         <div class="rest-top">
             <div class="rest-emoji">🍇</div>
             <div class="rest-body">
@@ -1073,15 +1093,16 @@
                     <span class="rest-tag type">Winery</span>
                     <span class="rest-tag pick">⭐ Tool's Winery</span>
                 </div>
+                <div class="tap-hint">Tap for wine list →</div>
             </div>
         </div>
-        <div class="rest-links">
+        <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=Caduceus+Cellars,+158+Main+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
             <a class="rest-link web" href="https://caduceus.org" target="_blank">🌐 Website</a>
         </div>
     </div>
 
-    <div class="restaurant-card">
+    <div class="restaurant-card" onclick="openRestaurantModal('sullivans')">
         <div class="rest-top">
             <div class="rest-emoji">🍺</div>
             <div class="rest-body">
@@ -1092,14 +1113,15 @@
                     <span class="rest-tag price">$</span>
                     <span class="rest-tag type">Bar</span>
                 </div>
+                <div class="tap-hint">Tap for details →</div>
             </div>
         </div>
-        <div class="rest-links">
+        <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=Sullivan's+Rest,+375+Hull+Ave,+Jerome,+AZ" target="_blank">📍 Directions</a>
         </div>
     </div>
 
-    <div class="restaurant-card">
+    <div class="restaurant-card" onclick="openRestaurantModal('spirit-room')">
         <div class="rest-top">
             <div class="rest-emoji">🎸</div>
             <div class="rest-body">
@@ -1111,15 +1133,16 @@
                     <span class="rest-tag type">Bar / Live Music</span>
                     <span class="rest-tag pick">⭐ Saturday Night</span>
                 </div>
+                <div class="tap-hint">Tap for details →</div>
             </div>
         </div>
-        <div class="rest-links">
+        <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=Spirit+Room+Bar,+166+Main+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
             <a class="rest-link web" href="https://thespiritroom.com" target="_blank">🌐 Website</a>
         </div>
     </div>
 
-    <div class="restaurant-card">
+    <div class="restaurant-card" onclick="openRestaurantModal('bobby-ds')">
         <div class="rest-top">
             <div class="rest-emoji">🍖</div>
             <div class="rest-body">
@@ -1130,16 +1153,17 @@
                     <span class="rest-tag price">$$</span>
                     <span class="rest-tag type">BBQ</span>
                 </div>
+                <div class="tap-hint">Tap for menu →</div>
             </div>
         </div>
-        <div class="rest-links">
+        <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=Bobby+D's+BBQ,+411+Clark+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
         </div>
     </div>
 
     <div class="section-header">Cottonwood · Old Town</div>
 
-    <div class="restaurant-card">
+    <div class="restaurant-card" onclick="openRestaurantModal('merkin-osteria')">
         <div class="rest-top">
             <div class="rest-emoji">🎸</div>
             <div class="rest-body">
@@ -1152,15 +1176,16 @@
                     <span class="rest-tag pick">⭐ Best in the Valley</span>
                     <span class="rest-tag tip">Reserve ahead</span>
                 </div>
+                <div class="tap-hint">Tap for menu →</div>
             </div>
         </div>
-        <div class="rest-links">
+        <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=Merkin+Vineyards+Osteria,+1+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
             <a class="rest-link web" href="https://merkinvineyards.com" target="_blank">🌐 Website</a>
         </div>
     </div>
 
-    <div class="restaurant-card">
+    <div class="restaurant-card" onclick="openRestaurantModal('crema')">
         <div class="rest-top">
             <div class="rest-emoji">🫕</div>
             <div class="rest-body">
@@ -1172,15 +1197,16 @@
                     <span class="rest-tag type">American / Brunch</span>
                     <span class="rest-tag tip">Local favorite</span>
                 </div>
+                <div class="tap-hint">Tap for menu →</div>
             </div>
         </div>
-        <div class="rest-links">
+        <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=Crema+Craft+Kitchen,+917+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
             <a class="rest-link web" href="https://cremacraftkitchen.com" target="_blank">🌐 Website</a>
         </div>
     </div>
 
-    <div class="restaurant-card">
+    <div class="restaurant-card" onclick="openRestaurantModal('bocce')">
         <div class="rest-top">
             <div class="rest-emoji">🍕</div>
             <div class="rest-body">
@@ -1191,14 +1217,15 @@
                     <span class="rest-tag price">$$</span>
                     <span class="rest-tag type">Italian</span>
                 </div>
+                <div class="tap-hint">Tap for menu →</div>
             </div>
         </div>
-        <div class="rest-links">
+        <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=Bocce+Grill,+963+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
         </div>
     </div>
 
-    <div class="restaurant-card">
+    <div class="restaurant-card" onclick="openRestaurantModal('the-nic')">
         <div class="rest-top">
             <div class="rest-emoji">🥃</div>
             <div class="rest-body">
@@ -1209,9 +1236,10 @@
                     <span class="rest-tag price">$$</span>
                     <span class="rest-tag type">American</span>
                 </div>
+                <div class="tap-hint">Tap for menu →</div>
             </div>
         </div>
-        <div class="rest-links">
+        <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=The+Nic,+925+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
         </div>
     </div>
@@ -1752,6 +1780,335 @@
     }
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    const RESTAURANT_MODALS = {
+        'flatiron': {
+            emoji: '☕',
+            title: 'Flatiron Cafe',
+            sub: 'Jerome · Breakfast & Lunch · $',
+            rating: { score: '4.6', source: 'Google', count: '~900' },
+            hours: 'Roughly 8 AM – 2 PM · Closed Tue/Wed (call to verify)',
+            vibe: 'Tiny, beloved counter cafe with a fiercely loyal local following. You\'re staying directly above it.',
+            menu_note: 'Menu rotates daily — these are representative items.',
+            dishes: [
+                { name: 'Egg Scramble of the Day', note: 'Changes daily — seasonal veg, local cheese', price: '$11–13' },
+                { name: 'Quiche of the Day', note: 'Usually 2 options; savory and rich', price: '$9–11' },
+                { name: 'Pastries & Croissants', note: 'Baked fresh daily — sell out early', price: '$4–6' },
+                { name: 'Avocado Toast', note: 'Thick-cut toast, house seasoning', price: '$10–12' },
+                { name: 'French Press Coffee', note: 'Single origin, made to order', price: '$4–5' },
+            ],
+            tips: [
+                'You\'re living directly above this cafe — door on Hull Ave is yours.',
+                'Arrive before 9 AM on weekends or expect a wait. Lines form fast.',
+                'Cash preferred but cards accepted. Very small space — be patient.',
+            ],
+            links: { map: 'https://maps.google.com/?q=Flatiron+Cafe,+416+Main+St,+Jerome,+AZ+86331' }
+        },
+        'haunted-hamburger': {
+            emoji: '🍔',
+            title: 'The Haunted Hamburger',
+            sub: 'Jerome · Lunch & Dinner · $$',
+            rating: { score: '4.3', source: 'Google', count: '~2.8k' },
+            hours: '11 AM – 9 PM daily (kitchen closes ~8:30)',
+            vibe: 'Sprawling outdoor patio perched on the Jerome hillside. Verde Valley views in every direction.',
+            menu_note: 'Classic American — big portions, cold beer. Weekend waits are normal.',
+            dishes: [
+                { name: 'The Haunted Hamburger', note: '½ lb patty, house sauce, all the toppings', price: '$16' },
+                { name: 'Verde Valley Burger', note: 'Hatch green chile, pepper jack, grilled onion', price: '$15' },
+                { name: 'Mushroom Swiss Burger', note: 'Sautéed mushrooms, Swiss, garlic aioli', price: '$14' },
+                { name: 'Turkey Burger', note: 'Well-seasoned, good size', price: '$14' },
+                { name: 'Loaded Fries', note: 'Cheese, jalapeños, sour cream', price: '$8' },
+                { name: 'Onion Rings', note: 'Beer-battered, thick-cut', price: '$6' },
+                { name: 'Hand-dipped Milkshake', note: 'Chocolate, vanilla, strawberry, or seasonal', price: '$8–9' },
+            ],
+            tips: [
+                'Weekend waits of 30–45 min are normal. Put your name in, explore town, come back.',
+                'The outdoor patio is the whole experience — if it\'s raining, timing matters.',
+                'Ask for the far rail for the best Verde Valley panorama.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=The+Haunted+Hamburger,+410+Clark+St,+Jerome,+AZ',
+                web: 'https://thehauntedhamburger.com'
+            },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Haunted+Hamburger+Jerome+AZ'
+        },
+        'asylum': {
+            emoji: '🥂',
+            title: 'The Asylum Restaurant',
+            sub: 'Jerome Grand Hotel · Dinner · $$$',
+            rating: { score: '4.2', source: 'Google', count: '~1.4k' },
+            hours: 'Dinner from 5 PM · Bar opens earlier',
+            vibe: 'Historic 1926 hospital-turned-hotel with sweeping Verde Valley views. Jerome\'s most romantic dinner setting.',
+            menu_note: 'Creative American seasonal menu — dishes rotate. Representative items below.',
+            dishes: [
+                { name: 'Baked Brie', note: 'Honey, toasted almonds, crostini', price: '$14' },
+                { name: 'Shrimp Cocktail', note: 'House horseradish, citrus', price: '$16' },
+                { name: 'Prime Filet Mignon', note: 'USDA prime, compound butter, seasonal veg', price: '$52–58' },
+                { name: 'Arizona Rack of Lamb', note: 'Herb crust, roasted garlic jus', price: '$44' },
+                { name: 'Pan-Seared Salmon', note: 'Seasonal preparation, local vegetables', price: '$34' },
+                { name: 'Wild Mushroom Risotto', note: 'Truffle oil, parmesan, herb garnish', price: '$28' },
+                { name: 'Crème Brûlée', note: 'Classic finish — perfectly torched', price: '$10' },
+            ],
+            tips: [
+                'Reservations are essential on weekends — book through jeromegrandhotel.com.',
+                'Ask for terrace seating — sunset views over the Verde Valley are exceptional.',
+                'Wine list is strong and well-curated. Ask for Verde Valley recommendations.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=The+Asylum+Restaurant,+200+Hill+St,+Jerome,+AZ',
+                web: 'https://jeromegrandhotel.com'
+            },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Asylum+Restaurant+Jerome+AZ'
+        },
+        'caduceus': {
+            emoji: '🍇',
+            title: 'Caduceus Cellars',
+            sub: 'Jerome · Tasting Room · $$',
+            rating: { score: '4.5', source: 'Google', count: '~600' },
+            hours: 'Fri–Mon 11 AM – 6 PM (verify seasonally — hours vary)',
+            vibe: 'Maynard James Keenan\'s original Jerome winery. Small, genuine, rock \'n\' roll pedigree.',
+            menu_note: 'Tasting room only — wine flights and light snacks. Not a full restaurant.',
+            dishes: [
+                { name: 'Wine Flight (4 pours)', note: 'Current releases — reds, whites, and blends', price: '~$18–22' },
+                { name: 'Charcuterie Board', note: 'Meats, cheese, nuts, fruit — when available', price: '$16–20' },
+                { name: 'Bottle Purchase', note: 'Full Caduceus selection available to go', price: 'Varies' },
+            ],
+            tips: [
+                'Caduceus focuses on Arizona-grown grapes with Italian and Rhône-inspired styles.',
+                'If closed, Merkin Vineyards in Cottonwood carries the full portfolio.',
+                'Call ahead — tasting room hours are irregular, especially midweek.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Caduceus+Cellars,+158+Main+St,+Jerome,+AZ',
+                web: 'https://caduceus.org'
+            }
+        },
+        'sullivans': {
+            emoji: '🍺',
+            title: "Sullivan's Rest",
+            sub: 'Jerome · Bar · $',
+            rating: { score: '4.3', source: 'Google', count: '~400' },
+            hours: 'Opens mid-afternoon · closes late (no posted hours)',
+            vibe: 'Jerome\'s most atmospheric dive bar — formerly Rawhide Jimmy Douglas\'s saloon. Reportedly haunted.',
+            menu_note: 'Bar only — drinks and atmosphere. No food menu.',
+            dishes: [
+                { name: 'Cold Draft Beer', note: 'Local and domestic taps', price: '$5–7' },
+                { name: 'Well Cocktails', note: 'Whiskey, tequila, vodka — no frills', price: '$6–8' },
+                { name: 'Local Spirits', note: 'Arizona craft spirits when available', price: '$8–10' },
+            ],
+            tips: [
+                'Go for the history and atmosphere, not the cocktail list.',
+                'Late afternoon is the right time — before the dinner crowd.',
+                'Jerome is famous for ghost lore; Sullivan\'s is one of the most "active" spots.',
+            ],
+            links: { map: "https://maps.google.com/?q=Sullivan's+Rest,+375+Hull+Ave,+Jerome,+AZ" }
+        },
+        'spirit-room': {
+            emoji: '🎸',
+            title: 'Spirit Room Bar',
+            sub: 'Jerome · Bar + Live Music · $',
+            rating: { score: '4.4', source: 'Google', count: '~900' },
+            hours: 'Daily from 11 AM · Live music most Fri & Sat nights',
+            vibe: 'Jerome\'s live music hub. No cover, great energy, the place to end a Jerome night.',
+            menu_note: 'Bar only — full beer, wine, and cocktail menu. No food.',
+            dishes: [
+                { name: 'Draft Beer', note: 'Local AZ craft + domestic options', price: '$5–7' },
+                { name: 'Wine by the Glass', note: 'Verde Valley local producers highlighted', price: '$7–10' },
+                { name: 'Classic Cocktails', note: 'Seasonal specials rotate', price: '$9–12' },
+                { name: 'Shots', note: 'All the classics, fast service', price: '$5–8' },
+            ],
+            tips: [
+                'Check their Facebook for the live music schedule before you go.',
+                'No cover charge — ever. Just buy drinks.',
+                'Arrive before the band starts if you want a good spot.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Spirit+Room+Bar,+166+Main+St,+Jerome,+AZ',
+                web: 'https://thespiritroom.com'
+            }
+        },
+        'bobby-ds': {
+            emoji: '🍖',
+            title: "Bobby D's BBQ",
+            sub: 'Jerome · Lunch & Dinner · $$',
+            rating: { score: '4.0', source: 'Google', count: '~500' },
+            hours: 'Thu–Mon 11 AM – 8 PM (approximate)',
+            vibe: 'Casual BBQ joint in the heart of Jerome. No frills, good smoke.',
+            menu_note: 'Classic BBQ plates, sandwiches, and generous sides.',
+            dishes: [
+                { name: 'Smoked Brisket Plate', note: 'Sliced brisket, 2 sides, cornbread', price: '$16–18' },
+                { name: 'Baby Back Ribs (½ rack)', note: 'Dry rub, house BBQ sauce on the side', price: '$16–19' },
+                { name: 'Baby Back Ribs (full rack)', note: 'Full slab — feeds two light eaters', price: '$28–32' },
+                { name: 'Pulled Pork Sandwich', note: 'Slow-smoked, topped with slaw', price: '$13' },
+                { name: 'BBQ Combo Plate', note: 'Choose 2 meats + 2 sides', price: '$18–20' },
+                { name: 'Sides', note: 'Baked beans · coleslaw · mac & cheese · cornbread', price: '$4–5 each' },
+            ],
+            tips: [
+                'Solid backup if Haunted Hamburger has a long wait.',
+                'Portions are generous — no one leaves hungry.',
+                'Best seats are outdoors when the weather cooperates.',
+            ],
+            links: { map: "https://maps.google.com/?q=Bobby+D's+BBQ,+411+Clark+St,+Jerome,+AZ" }
+        },
+        'merkin-osteria': {
+            emoji: '🎸',
+            title: 'Merkin Vineyards Osteria',
+            sub: 'Old Town Cottonwood · Lunch & Dinner · $$$',
+            rating: { score: '4.5', source: 'Google', count: '~1.5k' },
+            hours: 'Lunch & Dinner daily (check merkinvineyards.com for times)',
+            vibe: 'Maynard\'s Italian-inspired restaurant with wood-fired dishes, a stunning patio, and the full Merkin + Caduceus wine list.',
+            menu_note: 'Seasonal, rotating menu. Wood-fired cooking throughout. Reserve ahead for dinner.',
+            dishes: [
+                { name: 'Charcuterie & Cheese Board', note: 'House selections, jam, crostini, local honey', price: '$22' },
+                { name: 'Burrata', note: 'Fresh burrata, seasonal veg, olive oil', price: '$18' },
+                { name: 'Wood-Fired Margherita Pizza', note: 'San Marzano, fior di latte, basil', price: '$18' },
+                { name: 'Fennel Sausage Pizza', note: 'House sausage, roasted peppers, provolone', price: '$22' },
+                { name: 'Fresh Pappardelle', note: 'Seasonal — braised meat or mushroom ragu', price: '$24–26' },
+                { name: 'Tagliatelle al Tartufo', note: 'Black truffle, parmesan, butter', price: '$26' },
+                { name: 'Wood-Roasted Chicken', note: 'Herb-brined, seasonal sides, pan jus', price: '$28–32' },
+                { name: 'Branzino', note: 'Mediterranean sea bass, lemon, capers, greens', price: '$34' },
+            ],
+            tips: [
+                'Reserve online — weekends fill by Thursday.',
+                'Ask for patio seating; the shade cloth keeps it comfortable even in summer.',
+                'Do a Merkin wine flight before ordering — staff pairing suggestions are excellent.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Merkin+Vineyards+Osteria,+1+N+Main+St,+Cottonwood,+AZ',
+                web: 'https://merkinvineyards.com'
+            },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Merkin+Vineyards+Osteria+Cottonwood+AZ'
+        },
+        'crema': {
+            emoji: '🫕',
+            title: 'Crema Craft Kitchen + Bar',
+            sub: 'Old Town Cottonwood · Brunch & Dinner · $$',
+            rating: { score: '4.4', source: 'Google', count: '~800' },
+            hours: 'Tue–Sun · Brunch from 8 AM · Dinner from 4 PM (verify)',
+            vibe: 'Hip, popular brunch spot in Old Town with a strong cocktail list and shaded patio.',
+            menu_note: 'All-day comfort food with a modern twist. Strong brunch and cocktail game.',
+            dishes: [
+                { name: 'Classic Eggs Benedict', note: 'English muffin, Canadian bacon, hollandaise', price: '$15' },
+                { name: 'Green Chile Benedict', note: 'Hatch green chile, chorizo, poached eggs', price: '$16' },
+                { name: 'Avocado Toast', note: 'Multigrain, microgreens, pickled onion, everything spice', price: '$13' },
+                { name: 'The Crema Bowl', note: 'Quinoa, roasted veg, poached egg, tahini', price: '$14' },
+                { name: 'Smoked Salmon Scramble', note: 'Cream cheese, capers, everything bagel spice', price: '$16' },
+                { name: 'Brunch Cocktails', note: 'Bloody Mary · Espresso Martini · Aperol Spritz', price: '$12–14' },
+                { name: 'Craft Mocktails', note: 'Rotating seasonal options', price: '$7–9' },
+            ],
+            tips: [
+                'Arrive by 9 AM on weekends for brunch — popular spot with waits.',
+                'The shaded patio is pleasant even in late June.',
+                'Great mid-wine-row stop — between Arizona Stronghold and Pillsbury.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Crema+Craft+Kitchen,+917+N+Main+St,+Cottonwood,+AZ',
+                web: 'https://cremacraftkitchen.com'
+            },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Crema+Craft+Kitchen+Cottonwood+AZ'
+        },
+        'bocce': {
+            emoji: '🍕',
+            title: 'Bocce Grill',
+            sub: 'Old Town Cottonwood · Lunch & Dinner · $$',
+            rating: { score: '4.2', source: 'Google', count: '~600' },
+            hours: 'Lunch & Dinner daily · approx 11 AM – 9 PM',
+            vibe: 'Italian-leaning menu on Main St with a nice patio and local-leaning wine list.',
+            menu_note: 'Casual Italian — pizzas, pastas, good salads. Consistent and reliable.',
+            dishes: [
+                { name: 'Margherita Pizza', note: 'San Marzano, fresh mozzarella, basil', price: '$15' },
+                { name: 'Italian Sausage Pizza', note: 'House sausage, roasted red pepper, pecorino', price: '$17' },
+                { name: 'Verde Valley Harvest Pizza', note: 'Seasonal — local produce, olive oil, herbs', price: '$18' },
+                { name: 'Penne Arrabbiata', note: 'San Marzano, garlic, calabrian chile, pecorino', price: '$15' },
+                { name: 'Tagliatelle Bolognese', note: 'Slow-cooked beef ragu, parmigiano', price: '$18' },
+                { name: 'Caesar Salad', note: 'Classic house dressing, anchovies optional', price: '$12' },
+                { name: 'Tiramisu', note: 'House-made, classic finish', price: '$8' },
+            ],
+            tips: [
+                'Verde Valley wines by the glass are well-priced here.',
+                'Good for a quick, reliable lunch between tasting rooms.',
+                'Less crowded than Merkin — easier walk-in on peak weekends.',
+            ],
+            links: { map: 'https://maps.google.com/?q=Bocce+Grill,+963+N+Main+St,+Cottonwood,+AZ' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Bocce+Grill+Cottonwood+AZ'
+        },
+        'the-nic': {
+            emoji: '🥃',
+            title: 'The Nic',
+            sub: 'Old Town Cottonwood · Dinner · $$',
+            rating: { score: '4.3', source: 'Google', count: '~400' },
+            hours: 'Dinner only · Wed–Sun from 5 PM (verify)',
+            vibe: 'Small, thoughtful, locally-sourced dinner spot. Quieter than Merkin — great for an intimate evening.',
+            menu_note: 'Small plates and shared format. Seasonal, locally sourced. Order 2–3 plates each.',
+            dishes: [
+                { name: 'Seasonal Charcuterie Board', note: 'Local producers, house pickles, grilled bread', price: '$18' },
+                { name: 'Roasted Beet Salad', note: 'Whipped goat cheese, candied walnut, citrus', price: '$13' },
+                { name: 'Crispy Pork Belly', note: 'Verde Valley apple purée, fennel slaw', price: '$14' },
+                { name: 'Wild Mushroom Flatbread', note: 'Truffle oil, arugula, shaved parm', price: '$15' },
+                { name: 'Seared Duck Breast', note: 'Cherry reduction, seasonal root vegetable', price: '$28' },
+                { name: 'Braised Short Rib', note: 'Celery root purée, crispy shallots', price: '$32' },
+                { name: 'Wine Pairings', note: 'Ask for the sommelier pairing — genuinely good', price: 'By glass' },
+            ],
+            tips: [
+                'Order 2–3 small plates each and share — that\'s the intended format.',
+                'Wine list leans local Verde Valley producers — ask for recommendations.',
+                'Less busy than Merkin and more intimate. Great backup if Merkin is full.',
+            ],
+            links: { map: 'https://maps.google.com/?q=The+Nic,+925+N+Main+St,+Cottonwood,+AZ' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=The+Nic+Cottonwood+AZ'
+        }
+    };
+
+    function openRestaurantModal(key) {
+        const d = RESTAURANT_MODALS[key];
+        if (!d) return;
+        const ratingHtml = d.rating ? `
+            <div class="modal-rating">
+                <span class="rating-score">${d.rating.score}</span>
+                <span class="rating-stars">${ratingStars(d.rating.score)}</span>
+                <span class="rating-meta">${d.rating.source} · ${d.rating.count} reviews</span>
+            </div>` : '';
+        const dishesHtml = d.dishes.map(dish => `
+            <div class="modal-dish">
+                <div class="dish-info">
+                    <div class="dish-name">${dish.name}</div>
+                    ${dish.note ? `<div class="dish-note">${dish.note}</div>` : ''}
+                </div>
+                <div class="dish-price">${dish.price}</div>
+            </div>`).join('');
+        const tipsHtml = d.tips.map(t => `<div class="modal-fact">${t}</div>`).join('');
+        const hasLinks = d.links || d.tripadvisor;
+        const linksHtml = hasLinks ? `
+            <div class="modal-section">
+                <div class="modal-links">
+                    ${d.links && d.links.map ? `<a class="modal-link-btn map" href="${d.links.map}" target="_blank">📍 Directions</a>` : ''}
+                    ${d.links && d.links.web ? `<a class="modal-link-btn web" href="${d.links.web}" target="_blank">🌐 Website</a>` : ''}
+                    ${d.tripadvisor ? `<a class="modal-link-btn ta" href="${d.tripadvisor}" target="_blank">★ Reviews</a>` : ''}
+                </div>
+            </div>` : '';
+        document.getElementById('modal-content').innerHTML = `
+            <span class="modal-emoji">${d.emoji}</span>
+            <div class="modal-title">${d.title}</div>
+            <div class="modal-sub">${d.sub}</div>
+            ${ratingHtml}
+            <div class="modal-section">
+                <div class="modal-info-row"><span class="modal-info-label">Hours</span><span class="modal-info-value">${d.hours}</span></div>
+                <div class="modal-info-row"><span class="modal-info-label">Vibe</span><span class="modal-info-value">${d.vibe}</span></div>
+            </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Menu Highlights</div>
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">${d.menu_note}</div>
+                ${dishesHtml}
+            </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Tips</div>
+                ${tipsHtml}
+            </div>
+            ${linksHtml}
+        `;
+        document.getElementById('modal-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
 </script>
 </body>
 </html>
