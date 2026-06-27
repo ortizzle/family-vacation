@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jerome &amp; Sedona Weekend</title>
+    <title>Jerome Weekend</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -256,20 +256,21 @@
         .hl-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 3px; }
         .hl-body  { font-size: 13px; opacity: .88; line-height: 1.55; }
 
-        /* ── WARN BANNER ── */
-        .warn-banner {
-            background: linear-gradient(135deg, #fff9e6, #fff3c4);
-            border: 1px solid #e0c44a;
-            border-radius: 12px;
-            padding: 13px 15px;
+        /* ── BASE CARD ── */
+        .base-card {
+            background: linear-gradient(135deg, #3a1a08, #5c2d10);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            color: white;
             margin-bottom: 14px;
             display: flex;
-            gap: 10px;
+            gap: 14px;
             align-items: flex-start;
         }
-        .warn-icon  { font-size: 22px; flex-shrink: 0; }
-        .warn-title { font-size: 13px; font-weight: 700; color: #856404; margin-bottom: 4px; }
-        .warn-text  { font-size: 12px; color: #7a5800; line-height: 1.5; }
+        .base-icon { font-size: 30px; flex-shrink: 0; margin-top: 2px; }
+        .base-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: .65; margin-bottom: 4px; }
+        .base-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; margin-bottom: 3px; }
+        .base-body  { font-size: 12.5px; opacity: .82; line-height: 1.55; }
 
         /* ── TIP BOX ── */
         .tip-box {
@@ -396,9 +397,8 @@
             padding: 16px;
             margin-bottom: 10px;
             box-shadow: var(--shadow-sm);
-            display: flex;
-            gap: 12px;
         }
+        .rest-top { display: flex; gap: 12px; }
         .rest-emoji { font-size: 30px; flex-shrink: 0; line-height: 1; }
         .rest-body  { flex: 1; }
         .rest-name  { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
@@ -410,6 +410,17 @@
         .rest-tag.type  { background: var(--terra-pale); color: var(--copper-mid); }
         .rest-tag.pick  { background: #ffd700; color: #6b4f00; }
         .rest-tag.tip   { background: var(--sage-pale); color: #3a6b42; }
+        .rest-links { display: flex; gap: 7px; margin-top: 12px; }
+        .rest-link {
+            display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+            padding: 7px 14px;
+            border-radius: 100px;
+            font-size: 11px; font-weight: 600;
+            text-decoration: none;
+            flex: 1;
+        }
+        .rest-link.map { background: var(--copper); color: white; }
+        .rest-link.web { background: var(--cream); border: 1px solid #ddd3c8; color: var(--text-dark); }
 
         /* ── MODAL ── */
         .modal-overlay {
@@ -488,6 +499,18 @@
             margin-bottom: 8px;
         }
         .modal-section { margin-bottom: 18px; }
+        .modal-links { display: flex; gap: 8px; margin-top: 4px; }
+        .modal-link-btn {
+            flex: 1;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            padding: 13px 10px;
+            border-radius: 12px;
+            font-size: 13px; font-weight: 600;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .modal-link-btn.map { background: var(--copper); color: white; }
+        .modal-link-btn.web { background: var(--cream); border: 1px solid #ddd3c8; color: var(--text-dark); }
     </style>
 </head>
 <body>
@@ -497,7 +520,7 @@
     <div class="header-bg-lines"></div>
     <div class="header-content">
         <div class="header-eyebrow">Verde Valley Weekend</div>
-        <div class="header-title">Jerome &amp; Sedona</div>
+        <div class="header-title">Jerome &amp; Cottonwood</div>
         <div class="header-sub">Arizona · June 2026</div>
     </div>
 </header>
@@ -508,24 +531,21 @@
 <!-- ═══════════════════════════════════ HOME ═══════════════════════════════════ -->
 <section class="section active" id="section-home">
 
-    <div class="highlight-strip">
-        <div class="hl-label">You're here</div>
-        <div class="hl-title">Jerome, AZ</div>
-        <div class="hl-body">5,069 ft above sea level · Historic copper mining ghost town · America's most vertical city</div>
+    <div class="base-card">
+        <div class="base-icon">🏠</div>
+        <div>
+            <div class="base-label">Your Home Base</div>
+            <div class="base-title">The Flat · Jerome</div>
+            <div class="base-body">Above the Flatiron Cafe at Main &amp; Hull Ave — the most central spot in town. Breakfast is literally one floor down.</div>
+        </div>
     </div>
 
     <div class="distance-row">
-        <div class="distance-pill">📍 Jerome <strong>You're here</strong></div>
-        <div class="distance-pill">🌄 Sedona <strong>28 mi</strong></div>
+        <div class="distance-pill">📍 Jerome <strong>Here</strong></div>
         <div class="distance-pill">🍷 Cottonwood <strong>11 mi</strong></div>
-    </div>
-
-    <div class="warn-banner">
-        <div class="warn-icon">☀️</div>
-        <div>
-            <div class="warn-title">June Heat Advisory</div>
-            <div class="warn-text">Jerome stays comfortable (~78°F) thanks to the elevation. Sedona can hit <strong>105°F+</strong>. Hike Sedona before 9 AM. Carry 1 liter of water per mile. The elevation difference between Jerome and Sedona is 700 ft — plan cooler activities for midday.</div>
-        </div>
+        <div class="distance-pill">🏛️ Tuzigoot <strong>13 mi</strong></div>
+        <div class="distance-pill">🚂 Verde Railroad <strong>14 mi</strong></div>
+        <div class="distance-pill">🏺 Montezuma Castle <strong>25 mi</strong></div>
     </div>
 
     <div class="section-header">Saturday · Jerome Day</div>
@@ -534,102 +554,116 @@
         <div class="event-item">
             <div class="event-time">Morning</div>
             <div class="event-detail">
-                <div class="event-name">Breakfast + Historic District Walk</div>
-                <div class="event-note">Flatiron Cafe for breakfast (tiny, go early), then stroll Hull Ave and Main St galleries</div>
+                <div class="event-name">Breakfast at Flatiron Cafe</div>
+                <div class="event-note">One floor down — the best breakfast in Jerome. Go early, it fills fast.</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Mid-AM</div>
+            <div class="event-detail">
+                <div class="event-name">Jerome State Historic Park <span class="ev-tag">Don't Miss</span></div>
+                <div class="event-note">Douglas Mansion museum · $7 pp · sweeping Verde Valley panoramas</div>
             </div>
         </div>
         <div class="event-item">
             <div class="event-time">Midday</div>
             <div class="event-detail">
-                <div class="event-name">Jerome State Historic Park <span class="ev-tag">Don't Miss</span></div>
-                <div class="event-note">Douglas Mansion museum · $7 pp · stunning Verde Valley panoramas</div>
+                <div class="event-name">Art Galleries + Caduceus Cellars</div>
+                <div class="event-note">Walk Hull Ave &amp; Main St galleries, then wine tasting at Maynard James Keenan's Jerome winery</div>
             </div>
         </div>
         <div class="event-item">
             <div class="event-time">Afternoon</div>
             <div class="event-detail">
                 <div class="event-name">Gold King Mine &amp; Ghost Town <span class="ev-tag">Don't Miss</span></div>
-                <div class="event-note">Vintage mining relics, free-roaming burros, peacocks · pure ghost town magic</div>
+                <div class="event-note">Vintage mining relics, antique cars, free-roaming burros and peacocks</div>
             </div>
         </div>
         <div class="event-item">
             <div class="event-time">Sunset</div>
             <div class="event-detail">
-                <div class="event-name">Audrey Headframe Park</div>
-                <div class="event-note">Glass floor over 1,900 ft mine shaft · best sunset views in Jerome · free</div>
+                <div class="event-name">Audrey Headframe Park <span class="ev-tag green">Best View</span></div>
+                <div class="event-note">Glass floor over 1,900 ft mine shaft · the single best sunset spot in Jerome · free</div>
             </div>
         </div>
         <div class="event-item">
             <div class="event-time">Dinner</div>
             <div class="event-detail">
-                <div class="event-name">The Asylum Restaurant or Haunted Hamburger</div>
+                <div class="event-name">The Asylum or Haunted Hamburger</div>
                 <div class="event-note">Upscale at the Jerome Grand Hotel, or iconic burgers with Verde Valley views</div>
             </div>
         </div>
         <div class="event-item">
             <div class="event-time">Evening</div>
             <div class="event-detail">
-                <div class="event-name">👻 Ghost Town Night Walk</div>
-                <div class="event-note">Jerome after dark is genuinely eerie — the whole town is reportedly haunted</div>
+                <div class="event-name">Spirit Room Bar</div>
+                <div class="event-note">Live music most evenings · Jerome's legendary Main St bar · cash-friendly</div>
             </div>
         </div>
     </div>
 
-    <div class="section-header">Sunday · Sedona Day</div>
+    <div class="section-header">Sunday · Cottonwood &amp; Verde Valley</div>
 
     <div class="card">
         <div class="event-item">
-            <div class="event-time">7:30 AM</div>
+            <div class="event-time">Morning</div>
             <div class="event-detail">
-                <div class="event-name">Early start — Sedona gets very hot</div>
-                <div class="event-note">Drive US-89A: Jerome → Cottonwood → Sedona (~45 min, spectacular canyon drive)</div>
+                <div class="event-name">Breakfast at the Flatiron, then head down</div>
+                <div class="event-note">US-89A from Jerome → Clarkdale → Cottonwood (scenic 20 min drive)</div>
             </div>
         </div>
         <div class="event-item">
-            <div class="event-time">8:00 AM</div>
+            <div class="event-time">9:00 AM</div>
             <div class="event-detail">
-                <div class="event-name">Cathedral Rock Trail <span class="ev-tag">Don't Miss</span></div>
-                <div class="event-note">1.5 mi moderate scramble · most iconic view in Arizona · finish before 10 AM</div>
+                <div class="event-name">Tuzigoot National Monument <span class="ev-tag">Don't Miss</span></div>
+                <div class="event-note">12th–13th century Sinagua hilltop pueblo · jaw-dropping Verde Valley views · $10 pp</div>
             </div>
         </div>
         <div class="event-item">
-            <div class="event-time">10:00 AM</div>
+            <div class="event-time">10:30 AM</div>
             <div class="event-detail">
-                <div class="event-name">Chapel of the Holy Cross</div>
-                <div class="event-note">Free · modernist chapel built into red rock buttes · non-denominational · genuinely moving</div>
+                <div class="event-name">Verde Canyon Railroad <span class="ev-tag">Don't Miss</span></div>
+                <div class="event-note">4-hr scenic train through otherwise inaccessible canyon · bald eagle habitat · departs Clarkdale</div>
             </div>
         </div>
         <div class="event-item">
-            <div class="event-time">Midday</div>
+            <div class="event-time">Lunch</div>
             <div class="event-detail">
-                <div class="event-name">Tlaquepaque Arts Village + lunch</div>
-                <div class="event-note">Shaded courtyards, 40+ galleries, great food — the perfect midday heat escape</div>
+                <div class="event-name">Merkin Vineyards Osteria</div>
+                <div class="event-note">Maynard's flagship winery + Italian restaurant in Old Town Cottonwood · the best meal in the area</div>
             </div>
         </div>
         <div class="event-item">
             <div class="event-time">Afternoon</div>
             <div class="event-detail">
-                <div class="event-name">🍷 Wine Walk — Old Town Cottonwood</div>
-                <div class="event-note">Cool off with the Verde Valley wine scene · 10+ tasting rooms within walking distance</div>
+                <div class="event-name">🍷 Verde Valley Wine Row</div>
+                <div class="event-note">Walk Old Town Cottonwood — 10+ tasting rooms within 3 blocks of each other</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Late PM</div>
+            <div class="event-detail">
+                <div class="event-name">Page Springs Cellars <span class="ev-tag green">Optional</span></div>
+                <div class="event-note">Arizona's most acclaimed winery · 10 min south of Cottonwood in Cornville · reserve a tasting</div>
             </div>
         </div>
         <div class="event-item">
             <div class="event-time">Sunset</div>
             <div class="event-detail">
-                <div class="event-name">Airport Mesa Overlook <span class="ev-tag green">Optional</span></div>
-                <div class="event-note">360° view of all Sedona formations in golden hour light · free viewpoint off Airport Rd</div>
+                <div class="event-name">Back to Jerome · Audrey Headframe again</div>
+                <div class="event-note">The light on the Verde Valley from up here at golden hour never gets old</div>
             </div>
         </div>
     </div>
 
     <div class="tip-box">
-        <div class="tip-label">Our Picks for You Two</div>
+        <div class="tip-label">Weekend Highlights for You Two</div>
         <div class="tip-text">
-            🌅 Sunset at Audrey Headframe Park<br>
-            ⛪ Chapel of the Holy Cross, Sedona<br>
-            🥃 Dinner at The Asylum Restaurant<br>
-            🍷 Old Town Cottonwood wine walk<br>
-            🥾 Cathedral Rock — start at 8 AM sharp
+            🌅 Sunset at Audrey Headframe Park (both nights)<br>
+            🚂 Verde Canyon Railroad — book before you go<br>
+            🏛️ Tuzigoot Monument — a true hidden gem<br>
+            🍷 Merkin Osteria + Wine Row, Old Town Cottonwood<br>
+            🍺 Spirit Room Bar on Saturday night
         </div>
     </div>
 
@@ -669,7 +703,7 @@
 
     <div class="tip-box">
         <div class="tip-label">Quick History</div>
-        <div class="tip-text">Jerome boomed as a copper mining town from 1876 to 1953, once housing 15,000 people. When the mines closed, the population crashed to just 50. Artists moved in during the 1960s and rescued the town. Today it's a National Historic Landmark packed with galleries, wine bars, and a wonderfully haunted reputation.</div>
+        <div class="tip-text">Jerome boomed as a copper mining town from 1876 to 1953, once housing 15,000 people. When the mines closed, the population crashed to 50. Artists moved in during the 1960s and rescued the town. Today it's a National Historic Landmark packed with galleries, wine bars, and a wonderfully haunted reputation.</div>
     </div>
 
     <div class="section-header">Must-See</div>
@@ -679,12 +713,12 @@
             <div class="ac-emoji">🏛️</div>
             <div class="ac-body">
                 <div class="ac-name">Jerome State Historic Park <span class="badge-must">Must</span></div>
-                <div class="ac-desc">The 1916 Douglas Mansion turned museum. Mining history exhibits, hands-on artifacts, and sweeping Verde Valley views from the wrap-around veranda.</div>
+                <div class="ac-desc">The 1916 Douglas Mansion turned museum. Mining history exhibits and sweeping Verde Valley views from the wrap-around veranda.</div>
                 <div class="ac-tags">
                     <span class="ac-tag">$7 / person</span>
                     <span class="ac-tag sand">Tues–Sun 9am–5pm</span>
                 </div>
-                <div class="tap-hint">Tap for details →</div>
+                <div class="tap-hint">Tap for details + directions →</div>
             </div>
         </div>
     </div>
@@ -694,12 +728,12 @@
             <div class="ac-emoji">⛏️</div>
             <div class="ac-body">
                 <div class="ac-name">Gold King Mine &amp; Ghost Town <span class="badge-must">Must</span></div>
-                <div class="ac-desc">A jaw-dropping outdoor museum of vintage mining gear, rusting antique cars, and crumbling ghost town structures. Burros and peacocks wander freely.</div>
+                <div class="ac-desc">Jaw-dropping outdoor museum of vintage mining gear, rusting antique cars, and crumbling ghost town structures. Burros and peacocks wander freely.</div>
                 <div class="ac-tags">
                     <span class="ac-tag">$12 adults · $5 kids</span>
                     <span class="ac-tag sand">Daily 10am–5pm</span>
                 </div>
-                <div class="tap-hint">Tap for details →</div>
+                <div class="tap-hint">Tap for details + directions →</div>
             </div>
         </div>
     </div>
@@ -714,7 +748,39 @@
                     <span class="ac-tag green">Free</span>
                     <span class="ac-tag sand">Always open</span>
                 </div>
-                <div class="tap-hint">Tap for details →</div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Wine &amp; Nightlife</div>
+
+    <div class="attraction-card must" onclick="openModal('caduceus')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🍇</div>
+            <div class="ac-body">
+                <div class="ac-name">Caduceus Cellars <span class="badge-must">Must</span></div>
+                <div class="ac-desc">Maynard James Keenan's (Tool) original Jerome winery. Arizona-grown varietals in a historic Main St building — this is where his wine empire started.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">Tasting fee</span>
+                    <span class="ac-tag sand">158 Main St · Daily 11am–6pm</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card great" onclick="openModal('spirit-room')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🎸</div>
+            <div class="ac-body">
+                <div class="ac-name">Spirit Room Bar</div>
+                <div class="ac-desc">Jerome's legendary Main St bar with live music most weekend evenings. Cold beer, local characters, and the electric energy of the whole town in one room.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">No cover</span>
+                    <span class="ac-tag sand">166 Main St · Nightly</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
             </div>
         </div>
     </div>
@@ -725,13 +791,13 @@
         <div class="ac-inner">
             <div class="ac-emoji">🏨</div>
             <div class="ac-body">
-                <div class="ac-name">Jerome Grand Hotel</div>
-                <div class="ac-desc">A 1926 hospital-turned-hotel perched at the top of Jerome. Reportedly one of Arizona's most haunted buildings. The views and Wingwalker Lounge are worth a stop even if you're not staying.</div>
+                <div class="ac-name">Jerome Grand Hotel &amp; Wingwalker Lounge</div>
+                <div class="ac-desc">A 1926 hospital-turned-hotel at the very top of Jerome. One of Arizona's most haunted buildings. The Wingwalker Lounge is worth a stop for a drink and the 360° views.</div>
                 <div class="ac-tags">
                     <span class="ac-tag">Historic 1926</span>
-                    <span class="ac-tag sand">Bar &amp; Restaurant open to all</span>
+                    <span class="ac-tag sand">Bar open to all</span>
                 </div>
-                <div class="tap-hint">Tap for details →</div>
+                <div class="tap-hint">Tap for details + directions →</div>
             </div>
         </div>
     </div>
@@ -756,12 +822,12 @@
             <div class="ac-emoji">🏚️</div>
             <div class="ac-body">
                 <div class="ac-name">The Sliding Jail</div>
-                <div class="ac-desc">Jerome's 1928 reinforced-concrete jail has literally slid 225 feet downhill from its original location — dynamite mine blasts destabilized the clay soil beneath it.</div>
+                <div class="ac-desc">Jerome's 1928 reinforced-concrete jail has literally slid 225 feet downhill from its original location — mine blasts destabilized the clay soil beneath it.</div>
                 <div class="ac-tags">
                     <span class="ac-tag green">Free to see</span>
-                    <span class="ac-tag sand">Exterior only · Hull Ave</span>
+                    <span class="ac-tag sand">Hull Ave · Exterior only</span>
                 </div>
-                <div class="tap-hint">Tap for details →</div>
+                <div class="tap-hint">Tap for details + directions →</div>
             </div>
         </div>
     </div>
@@ -771,7 +837,7 @@
             <div class="ac-emoji">👻</div>
             <div class="ac-body">
                 <div class="ac-name">Ghost Town Evening Walk</div>
-                <div class="ac-desc">Jerome's haunted reputation is genuine — the Grand Hotel, Sullivan's Rest, and the Cuban Queen Bordello all have documented paranormal histories. Perfect after-dark stroll.</div>
+                <div class="ac-desc">Jerome's haunted reputation is genuine — the Grand Hotel, Sullivan's Rest, and the Cuban Queen Bordello all have documented paranormal histories.</div>
                 <div class="ac-tags">
                     <span class="ac-tag green">Self-guided free</span>
                     <span class="ac-tag sand">Guided tours ~$25</span>
@@ -783,152 +849,131 @@
 
 </section>
 
-<!-- ═══════════════════════════════════ SEDONA ═══════════════════════════════════ -->
-<section class="section" id="section-sedona">
+<!-- ═══════════════════════════════════ COTTONWOOD ═══════════════════════════════════ -->
+<section class="section" id="section-cottonwood">
 
     <div class="hero-banner">
-        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#6b2510 0%,#a0522d 40%,#c0653a 100%);"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#2a4a1a 0%,#4a7a2a 40%,#6b9a40 100%);"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <div class="hero-tag">Red Rock Country</div>
-            <div class="hero-title">Sedona</div>
-            <div class="hero-sub">28 mi from Jerome · 4,350 ft · Hike early</div>
+            <div class="hero-tag">Verde Valley</div>
+            <div class="hero-title">Cottonwood &amp; Beyond</div>
+            <div class="hero-sub">11 mi from Jerome · Wine · Ruins · Canyon</div>
         </div>
     </div>
 
-    <div class="warn-banner">
-        <div class="warn-icon">🌡️</div>
-        <div>
-            <div class="warn-title">June Heat — Plan Smart</div>
-            <div class="warn-text">Sedona averages <strong>100–108°F</strong> in late June. Start any trail by <strong>7:30–8:00 AM</strong>. Carry 1 liter of water per mile per person. A <strong>Red Rock Pass ($12/car)</strong> is required at most trailheads. Midday = Tlaquepaque, Chapel of the Holy Cross, or a winery.</div>
-        </div>
-    </div>
+    <div class="section-header">Don't Miss</div>
 
-    <div class="section-header">Top Trails — Go Early!</div>
-
-    <div class="attraction-card must" onclick="openModal('cathedral-rock')">
-        <div class="ac-inner">
-            <div class="ac-emoji">⛰️</div>
-            <div class="ac-body">
-                <div class="ac-name">Cathedral Rock <span class="badge-must">Must</span></div>
-                <div class="ac-desc">The most photographed rock formation in Arizona. A moderate scramble with iron rungs near the top — the view from the saddle between the twin spires is unforgettable.</div>
-                <div class="ac-tags">
-                    <span class="ac-tag">1.5 mi round trip</span>
-                    <span class="ac-tag warn">Moderate — some scrambling</span>
-                    <span class="ac-tag sand">Red Rock Pass $12</span>
-                </div>
-                <div class="tap-hint">Tap for details →</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="attraction-card great" onclick="openModal('bell-rock')">
-        <div class="ac-inner">
-            <div class="ac-emoji">🔔</div>
-            <div class="ac-body">
-                <div class="ac-name">Bell Rock Trail</div>
-                <div class="ac-desc">Most accessible iconic formation — a flat path leads right to the base, and you can scramble partway up the bell shape for great views. One of Sedona's four major vortex sites.</div>
-                <div class="ac-tags">
-                    <span class="ac-tag">3.6 mi loop</span>
-                    <span class="ac-tag green">Easy to Moderate</span>
-                    <span class="ac-tag sand">Red Rock Pass $12</span>
-                </div>
-                <div class="tap-hint">Tap for details →</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="attraction-card great" onclick="openModal('airport-mesa')">
-        <div class="ac-inner">
-            <div class="ac-emoji">🛫</div>
-            <div class="ac-body">
-                <div class="ac-name">Airport Mesa Loop <span class="badge-top">Best Sunset</span></div>
-                <div class="ac-desc">360° views of every famous Sedona formation from a single point. The viewpoint off Airport Rd requires no hiking. The full loop is 3.3 miles with sweeping panoramas throughout.</div>
-                <div class="ac-tags">
-                    <span class="ac-tag">3.3 mi loop (or just the viewpoint)</span>
-                    <span class="ac-tag green">Easy to Moderate</span>
-                </div>
-                <div class="tap-hint">Tap for details →</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="attraction-card fun" onclick="openModal('devils-bridge')">
-        <div class="ac-inner">
-            <div class="ac-emoji">🌉</div>
-            <div class="ac-body">
-                <div class="ac-name">Devil's Bridge</div>
-                <div class="ac-desc">The largest natural sandstone arch in the Sedona area. The iconic photo where you stand on the arch above a dramatic drop. Very crowded on summer weekends — go at sunrise or skip.</div>
-                <div class="ac-tags">
-                    <span class="ac-tag">4 mi round trip</span>
-                    <span class="ac-tag warn">Moderate</span>
-                    <span class="ac-tag warn">Extremely crowded weekends</span>
-                </div>
-                <div class="tap-hint">Tap for details →</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="section-header">No-Hike Highlights</div>
-
-    <div class="attraction-card must" onclick="openModal('chapel')">
-        <div class="ac-inner">
-            <div class="ac-emoji">⛪</div>
-            <div class="ac-body">
-                <div class="ac-name">Chapel of the Holy Cross <span class="badge-must">Must</span></div>
-                <div class="ac-desc">A 1956 modernist chapel built directly into a 250-foot red rock butte. Designed by a Frank Lloyd Wright student. Free, non-denominational, and genuinely moving.</div>
-                <div class="ac-tags">
-                    <span class="ac-tag green">Free</span>
-                    <span class="ac-tag sand">Daily 9am–5pm</span>
-                    <span class="ac-tag">Short paved walk</span>
-                </div>
-                <div class="tap-hint">Tap for details →</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="attraction-card great" onclick="openModal('tlaquepaque')">
+    <div class="attraction-card must" onclick="openModal('tuzigoot')">
         <div class="ac-inner">
             <div class="ac-emoji">🏺</div>
             <div class="ac-body">
-                <div class="ac-name">Tlaquepaque Arts &amp; Shopping Village</div>
-                <div class="ac-desc">A beautiful Mexican colonial-style complex with 40+ galleries, boutiques, and restaurants. Shaded courtyards and fountains make it the perfect midday heat escape.</div>
+                <div class="ac-name">Tuzigoot National Monument <span class="badge-must">Must</span></div>
+                <div class="ac-desc">A 12th–13th century Sinagua hilltop pueblo with over 110 excavated rooms. One of Arizona's most impressive ancient ruins — and the Verde Valley views from the top are extraordinary.</div>
                 <div class="ac-tags">
-                    <span class="ac-tag green">Free entry</span>
-                    <span class="ac-tag sand">Daily 10am–5pm</span>
+                    <span class="ac-tag">$10 / person</span>
+                    <span class="ac-tag sand">Daily 9am–5pm</span>
+                    <span class="ac-tag">13 mi from Jerome</span>
                 </div>
-                <div class="tap-hint">Tap for details →</div>
+                <div class="tap-hint">Tap for details + directions →</div>
             </div>
         </div>
     </div>
 
-    <div class="attraction-card fun" onclick="openModal('pink-jeep')">
+    <div class="attraction-card must" onclick="openModal('verde-canyon-rr')">
         <div class="ac-inner">
-            <div class="ac-emoji">🚙</div>
+            <div class="ac-emoji">🚂</div>
             <div class="ac-body">
-                <div class="ac-name">Pink Jeep Tours</div>
-                <div class="ac-desc">Off-road Jeep tours that access formations completely unreachable on foot. Great option when it's too hot to hike — informative guides, modified Wranglers, unforgettable terrain.</div>
+                <div class="ac-name">Verde Canyon Railroad <span class="badge-must">Must</span></div>
+                <div class="ac-desc">A 4-hour round-trip train ride through a remote desert canyon inaccessible by road. Bald eagle habitat, towering canyon walls, ancient ruins visible from the windows. One of Arizona's great experiences.</div>
                 <div class="ac-tags">
-                    <span class="ac-tag">$90–$140 pp</span>
+                    <span class="ac-tag">$65–$95 / person</span>
                     <span class="ac-tag warn">Book ahead</span>
-                    <span class="ac-tag sand">1.5–3 hrs</span>
+                    <span class="ac-tag sand">Departs Clarkdale · 14 mi</span>
                 </div>
-                <div class="tap-hint">Tap for details →</div>
+                <div class="tap-hint">Tap for details + directions →</div>
             </div>
         </div>
     </div>
 
-    <div class="attraction-card fun" onclick="openModal('slide-rock')">
+    <div class="attraction-card must" onclick="openModal('old-town-cottonwood')">
         <div class="ac-inner">
-            <div class="ac-emoji">💦</div>
+            <div class="ac-emoji">🍷</div>
             <div class="ac-body">
-                <div class="ac-name">Slide Rock State Park</div>
-                <div class="ac-desc">Natural water slides carved into red rock by Oak Creek. Cold, clear water — a lifesaver in June heat. Arrives at capacity by 9 AM on summer weekends; plan ahead.</div>
+                <div class="ac-name">Old Town Cottonwood + Wine Row <span class="badge-must">Must</span></div>
+                <div class="ac-desc">Arizona's most concentrated wine district — 10+ tasting rooms within walking distance along N Main St. Great food, boutiques, and a relaxed walkable vibe very different from Jerome's steep streets.</div>
                 <div class="ac-tags">
-                    <span class="ac-tag">$30 / vehicle</span>
-                    <span class="ac-tag warn">Capacity fills fast</span>
+                    <span class="ac-tag">Tasting fees vary</span>
+                    <span class="ac-tag sand">11 mi from Jerome</span>
                 </div>
-                <div class="tap-hint">Tap for details →</div>
+                <div class="tap-hint">Tap for details + map →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Wineries</div>
+
+    <div class="attraction-card must" onclick="openModal('page-springs')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🍾</div>
+            <div class="ac-body">
+                <div class="ac-name">Page Springs Cellars <span class="badge-must">AZ's Best</span></div>
+                <div class="ac-desc">Widely considered Arizona's finest winery, tucked into a creek canyon outside Cornville. Single-vineyard Rhône-style wines, excellent tasting room, beautiful grounds. A must-visit for wine lovers.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">Tasting fee</span>
+                    <span class="ac-tag sand">20 mi from Jerome</span>
+                    <span class="ac-tag sand">Cornville · Reservations suggested</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card great" onclick="openModal('merkin-winery')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🎸</div>
+            <div class="ac-body">
+                <div class="ac-name">Merkin Vineyards Osteria</div>
+                <div class="ac-desc">Maynard James Keenan's main winery venue in Old Town Cottonwood — a full Italian restaurant alongside the wine tasting. One of the best meals and best bottles in the Verde Valley, all in one stop.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">1 N Main St, Cottonwood</span>
+                    <span class="ac-tag sand">Lunch &amp; Dinner</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Day Trips</div>
+
+    <div class="attraction-card great" onclick="openModal('montezuma-castle')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🏯</div>
+            <div class="ac-body">
+                <div class="ac-name">Montezuma Castle National Monument</div>
+                <div class="ac-desc">A five-story cliff dwelling carved into a limestone recess 90 feet above the valley floor — one of the best-preserved pre-Columbian structures in the United States. Fast visit (30–45 min) on your way out of town.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">$10 / person</span>
+                    <span class="ac-tag sand">Daily 8am–5pm</span>
+                    <span class="ac-tag">25 mi from Jerome · I-17</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card great" onclick="openModal('dead-horse-ranch')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🦅</div>
+            <div class="ac-body">
+                <div class="ac-name">Dead Horse Ranch State Park</div>
+                <div class="ac-desc">Verde River access, a stocked fishing lagoon, excellent bird watching, and easy riverside trails. One of Arizona's most underrated state parks — peaceful contrast to Jerome's intensity.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">$7 / vehicle</span>
+                    <span class="ac-tag sand">Daily 8am–10pm</span>
+                    <span class="ac-tag">12 mi from Jerome</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
             </div>
         </div>
     </div>
@@ -941,166 +986,259 @@
     <div class="section-header">Jerome</div>
 
     <div class="restaurant-card">
-        <div class="rest-emoji">🍔</div>
-        <div class="rest-body">
-            <div class="rest-name">The Haunted Hamburger <span class="badge-must" style="font-size:9px;">Icon</span></div>
-            <div class="rest-meta">Jerome · Lunch &amp; Dinner · $$</div>
-            <div class="rest-note">Jerome's most famous restaurant. Outdoor patio with Verde Valley views, enormous burgers, milkshakes. Expect a line on weekends — absolutely worth it.</div>
-            <div class="rest-tags">
-                <span class="rest-tag price">$$</span>
-                <span class="rest-tag type">American</span>
-                <span class="rest-tag pick">⭐ Local Legend</span>
+        <div class="rest-top">
+            <div class="rest-emoji">☕</div>
+            <div class="rest-body">
+                <div class="rest-name">Flatiron Cafe <span class="badge-top">Your Building</span></div>
+                <div class="rest-meta">Jerome · Breakfast &amp; Lunch · $</div>
+                <div class="rest-note">Tiny and beloved — the best breakfast in Jerome. Egg scrambles, pastries, excellent coffee. Arrive early; the line forms fast. You're literally staying above it.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$</span>
+                    <span class="rest-tag type">Breakfast / Brunch</span>
+                </div>
             </div>
+        </div>
+        <div class="rest-links">
+            <a class="rest-link map" href="https://maps.google.com/?q=Flatiron+Cafe,+416+Main+St,+Jerome,+AZ+86331" target="_blank">📍 Directions</a>
         </div>
     </div>
 
     <div class="restaurant-card">
-        <div class="rest-emoji">🥂</div>
-        <div class="rest-body">
-            <div class="rest-name">The Asylum Restaurant</div>
-            <div class="rest-meta">Jerome Grand Hotel · Dinner · $$$</div>
-            <div class="rest-note">Upscale dining inside the historic 1926 hospital-turned-hotel. Terrace seating with jaw-dropping views of the Verde Valley. Creative American menu with an excellent wine list. Reservations strongly recommended.</div>
-            <div class="rest-tags">
-                <span class="rest-tag price">$$$</span>
-                <span class="rest-tag type">Fine Dining</span>
-                <span class="rest-tag pick">⭐ Top Pick for Dinner</span>
-                <span class="rest-tag tip">Reserve ahead</span>
+        <div class="rest-top">
+            <div class="rest-emoji">🍔</div>
+            <div class="rest-body">
+                <div class="rest-name">The Haunted Hamburger <span class="badge-must" style="font-size:9px;">Icon</span></div>
+                <div class="rest-meta">Jerome · Lunch &amp; Dinner · $$</div>
+                <div class="rest-note">Jerome's most famous restaurant. Outdoor patio with Verde Valley views, enormous burgers, milkshakes. Expect a line on weekends — absolutely worth the wait.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">American</span>
+                    <span class="rest-tag pick">⭐ Local Legend</span>
+                </div>
             </div>
+        </div>
+        <div class="rest-links">
+            <a class="rest-link map" href="https://maps.google.com/?q=The+Haunted+Hamburger,+410+Clark+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://thehauntedhamburger.com" target="_blank">🌐 Website</a>
         </div>
     </div>
 
     <div class="restaurant-card">
-        <div class="rest-emoji">☕</div>
-        <div class="rest-body">
-            <div class="rest-name">Flatiron Cafe</div>
-            <div class="rest-meta">Jerome · Breakfast &amp; Lunch · $</div>
-            <div class="rest-note">Tiny and beloved — the best breakfast in Jerome. Egg scrambles, pastries, excellent coffee. Very small space; arrive early or expect a wait. Cash-friendly.</div>
-            <div class="rest-tags">
-                <span class="rest-tag price">$</span>
-                <span class="rest-tag type">Breakfast / Brunch</span>
+        <div class="rest-top">
+            <div class="rest-emoji">🥂</div>
+            <div class="rest-body">
+                <div class="rest-name">The Asylum Restaurant</div>
+                <div class="rest-meta">Jerome Grand Hotel · Dinner · $$$</div>
+                <div class="rest-note">Upscale dining inside the historic 1926 hospital-turned-hotel. Terrace seating with jaw-dropping views of the Verde Valley. Creative American menu with an excellent wine list. Reservations strongly recommended.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$$</span>
+                    <span class="rest-tag type">Fine Dining</span>
+                    <span class="rest-tag pick">⭐ Best Dinner in Jerome</span>
+                    <span class="rest-tag tip">Reserve ahead</span>
+                </div>
             </div>
+        </div>
+        <div class="rest-links">
+            <a class="rest-link map" href="https://maps.google.com/?q=The+Asylum+Restaurant,+200+Hill+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://jeromegrandhotel.com" target="_blank">🌐 Website</a>
         </div>
     </div>
 
     <div class="restaurant-card">
-        <div class="rest-emoji">🍺</div>
-        <div class="rest-body">
-            <div class="rest-name">Sullivan's Rest</div>
-            <div class="rest-meta">Jerome · Bar · $</div>
-            <div class="rest-note">Jerome's most famous bar — formerly "Rawhide" Jimmy Douglas's saloon. Cold drinks, local characters, and reportedly haunted. Perfect after-sunset stop.</div>
-            <div class="rest-tags">
-                <span class="rest-tag price">$</span>
-                <span class="rest-tag type">Bar</span>
+        <div class="rest-top">
+            <div class="rest-emoji">🍇</div>
+            <div class="rest-body">
+                <div class="rest-name">Caduceus Cellars</div>
+                <div class="rest-meta">Jerome · Tasting Room · $$</div>
+                <div class="rest-note">Maynard James Keenan's original Jerome winery on Main St. Pour into Arizona-grown reds and whites with a genuine rock 'n' roll pedigree. One of the most interesting tasting rooms in the state.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">Winery</span>
+                    <span class="rest-tag pick">⭐ Tool's Winery</span>
+                </div>
             </div>
+        </div>
+        <div class="rest-links">
+            <a class="rest-link map" href="https://maps.google.com/?q=Caduceus+Cellars,+158+Main+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://caduceus.org" target="_blank">🌐 Website</a>
         </div>
     </div>
 
     <div class="restaurant-card">
-        <div class="rest-emoji">🍖</div>
-        <div class="rest-body">
-            <div class="rest-name">Bobby D's BBQ</div>
-            <div class="rest-meta">Jerome · Lunch &amp; Dinner · $$</div>
-            <div class="rest-note">Casual BBQ in the heart of Jerome — good smoked brisket and ribs. Solid value with no fuss. Great if the Haunted Hamburger line is too long.</div>
-            <div class="rest-tags">
-                <span class="rest-tag price">$$</span>
-                <span class="rest-tag type">BBQ</span>
+        <div class="rest-top">
+            <div class="rest-emoji">🍺</div>
+            <div class="rest-body">
+                <div class="rest-name">Sullivan's Rest</div>
+                <div class="rest-meta">Jerome · Bar · $</div>
+                <div class="rest-note">Jerome's most atmospheric bar — formerly "Rawhide" Jimmy Douglas's saloon. Cold drinks, local characters, reportedly haunted. Perfect late-afternoon or post-dinner stop.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$</span>
+                    <span class="rest-tag type">Bar</span>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="section-header">Sedona</div>
-
-    <div class="restaurant-card">
-        <div class="rest-emoji">🌮</div>
-        <div class="rest-body">
-            <div class="rest-name">Elote Cafe <span class="badge-must" style="font-size:9px;">Legend</span></div>
-            <div class="rest-meta">Sedona · Dinner only · $$$</div>
-            <div class="rest-note">Widely considered the best restaurant in Sedona — creative upscale Mexican. Their elote appetizer (the namesake dish) alone is worth the drive. No reservations for most tables — arrive at 5 PM when they open or join the waitlist early.</div>
-            <div class="rest-tags">
-                <span class="rest-tag price">$$$</span>
-                <span class="rest-tag type">Upscale Mexican</span>
-                <span class="rest-tag pick">⭐ Sedona's Best</span>
-                <span class="rest-tag tip">Arrive at 5 PM</span>
-            </div>
+        <div class="rest-links">
+            <a class="rest-link map" href="https://maps.google.com/?q=Sullivan's+Rest,+375+Hull+Ave,+Jerome,+AZ" target="_blank">📍 Directions</a>
         </div>
     </div>
 
     <div class="restaurant-card">
-        <div class="rest-emoji">🌅</div>
-        <div class="rest-body">
-            <div class="rest-name">Mariposa Latin Inspired Grill</div>
-            <div class="rest-meta">Sedona · Dinner · $$$$</div>
-            <div class="rest-note">Spectacular canyon views from every table. Chef Lisa Dahl's Latin-influenced American menu is excellent. Most romantic restaurant in Sedona. Reserve well in advance.</div>
-            <div class="rest-tags">
-                <span class="rest-tag price">$$$$</span>
-                <span class="rest-tag type">Fine Dining</span>
-                <span class="rest-tag pick">⭐ Best Views</span>
-                <span class="rest-tag tip">Reserve way ahead</span>
+        <div class="rest-top">
+            <div class="rest-emoji">🎸</div>
+            <div class="rest-body">
+                <div class="rest-name">Spirit Room Bar</div>
+                <div class="rest-meta">Jerome · Bar + Live Music · $</div>
+                <div class="rest-note">Jerome's live music hub. Bands play most Friday and Saturday nights — everything from country to blues to rock. No cover, great energy, cold beer. The place to end a Jerome night.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$</span>
+                    <span class="rest-tag type">Bar / Live Music</span>
+                    <span class="rest-tag pick">⭐ Saturday Night</span>
+                </div>
             </div>
+        </div>
+        <div class="rest-links">
+            <a class="rest-link map" href="https://maps.google.com/?q=Spirit+Room+Bar,+166+Main+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://thespiritroom.com" target="_blank">🌐 Website</a>
         </div>
     </div>
 
     <div class="restaurant-card">
-        <div class="rest-emoji">🍕</div>
-        <div class="rest-body">
-            <div class="rest-name">Hideaway Restaurant</div>
-            <div class="rest-meta">Sedona · Lunch &amp; Dinner · $$</div>
-            <div class="rest-note">Casual pizza and pasta with a deck view of Cathedral Rock that rivals any fine dining room. Hidden down a side road — locals' choice for a relaxed lunch. One of the best value views in Sedona.</div>
-            <div class="rest-tags">
-                <span class="rest-tag price">$$</span>
-                <span class="rest-tag type">Italian / Pizza</span>
-                <span class="rest-tag tip">Hidden gem</span>
+        <div class="rest-top">
+            <div class="rest-emoji">🍖</div>
+            <div class="rest-body">
+                <div class="rest-name">Bobby D's BBQ</div>
+                <div class="rest-meta">Jerome · Lunch &amp; Dinner · $$</div>
+                <div class="rest-note">Casual BBQ in the heart of Jerome — good smoked brisket and ribs. Solid value. Great backup if the Haunted Hamburger line is too long.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">BBQ</span>
+                </div>
             </div>
+        </div>
+        <div class="rest-links">
+            <a class="rest-link map" href="https://maps.google.com/?q=Bobby+D's+BBQ,+411+Clark+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+        </div>
+    </div>
+
+    <div class="section-header">Cottonwood · Old Town</div>
+
+    <div class="restaurant-card">
+        <div class="rest-top">
+            <div class="rest-emoji">🎸</div>
+            <div class="rest-body">
+                <div class="rest-name">Merkin Vineyards Osteria <span class="badge-must" style="font-size:9px;">Top Pick</span></div>
+                <div class="rest-meta">Old Town Cottonwood · Lunch &amp; Dinner · $$$</div>
+                <div class="rest-note">The best restaurant in the Verde Valley — Maynard's Italian-inspired menu paired with Merkin and Caduceus wines. Wood-fired dishes, rotating seasonal menu, stunning patio. The no-brainer choice for your nicest meal out.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$$</span>
+                    <span class="rest-tag type">Italian / Wine Bar</span>
+                    <span class="rest-tag pick">⭐ Best in the Valley</span>
+                    <span class="rest-tag tip">Reserve ahead</span>
+                </div>
+            </div>
+        </div>
+        <div class="rest-links">
+            <a class="rest-link map" href="https://maps.google.com/?q=Merkin+Vineyards+Osteria,+1+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://merkinvineyards.com" target="_blank">🌐 Website</a>
         </div>
     </div>
 
     <div class="restaurant-card">
-        <div class="rest-emoji">☕</div>
-        <div class="rest-body">
-            <div class="rest-name">Coffee Pot Restaurant</div>
-            <div class="rest-meta">Sedona · Breakfast &amp; Lunch · $</div>
-            <div class="rest-note">Sedona's legendary breakfast spot since 1950. Famous for having 101 omelette varieties on the menu. Big portions, fair prices, classic diner energy. Busy on weekends but moves fast.</div>
-            <div class="rest-tags">
-                <span class="rest-tag price">$</span>
-                <span class="rest-tag type">Breakfast</span>
-                <span class="rest-tag pick">⭐ Classic</span>
+        <div class="rest-top">
+            <div class="rest-emoji">🫕</div>
+            <div class="rest-body">
+                <div class="rest-name">Crema Craft Kitchen + Bar</div>
+                <div class="rest-meta">Old Town Cottonwood · Brunch &amp; Dinner · $$</div>
+                <div class="rest-note">Hip, popular spot in Old Town with a strong brunch game and solid cocktail list. Great for a relaxed lunch between tasting rooms — the shaded patio is a perfect escape.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">American / Brunch</span>
+                    <span class="rest-tag tip">Local favorite</span>
+                </div>
             </div>
+        </div>
+        <div class="rest-links">
+            <a class="rest-link map" href="https://maps.google.com/?q=Crema+Craft+Kitchen,+917+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://cremacraftkitchen.com" target="_blank">🌐 Website</a>
         </div>
     </div>
 
-    <div class="section-header">🍷 Wine Tasting — Cottonwood (11 mi)</div>
+    <div class="restaurant-card">
+        <div class="rest-top">
+            <div class="rest-emoji">🍕</div>
+            <div class="rest-body">
+                <div class="rest-name">Bocce Grill</div>
+                <div class="rest-meta">Old Town Cottonwood · Lunch &amp; Dinner · $$</div>
+                <div class="rest-note">Italian-leaning menu with a nice patio on Main St. Good pizzas, pastas, and a wine list that leans heavily Verde Valley local. Casual and consistent.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">Italian</span>
+                </div>
+            </div>
+        </div>
+        <div class="rest-links">
+            <a class="rest-link map" href="https://maps.google.com/?q=Bocce+Grill,+963+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card">
+        <div class="rest-top">
+            <div class="rest-emoji">🥃</div>
+            <div class="rest-body">
+                <div class="rest-name">The Nic</div>
+                <div class="rest-meta">Old Town Cottonwood · Dinner · $$</div>
+                <div class="rest-note">Small, thoughtful menu with strong local sourcing and a wine list that favors Verde Valley producers. More intimate than Merkin — good choice for a quieter dinner in Cottonwood.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">American</span>
+                </div>
+            </div>
+        </div>
+        <div class="rest-links">
+            <a class="rest-link map" href="https://maps.google.com/?q=The+Nic,+925+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
+        </div>
+    </div>
+
+    <div class="section-header">🍷 Verde Valley Wine Row</div>
 
     <div class="card">
-        <div class="card-label">Old Town Cottonwood</div>
-        <div class="card-title">Verde Valley Wine Row</div>
-        <div class="card-body">Arizona's most concentrated wine district — 10+ tasting rooms within walking distance of each other in Old Town Cottonwood. Perfect afternoon when Sedona is too hot to hike.</div>
+        <div class="card-label">Old Town Cottonwood · 11 mi from Jerome</div>
+        <div class="card-title">10+ Tasting Rooms, 3 Walkable Blocks</div>
+        <div class="card-body">Arizona's most concentrated wine district. All of these are on or just off N Main St in Old Town — you can walk between all of them.</div>
         <div style="margin-top:14px;">
             <div class="event-item">
                 <div class="event-time">🍾</div>
                 <div class="event-detail">
-                    <div class="event-name">Merkin Vineyards Osteria</div>
-                    <div class="event-note">Maynard James Keenan's (Tool) winery with a full Italian restaurant — excellent food and wine</div>
+                    <div class="event-name">Merkin Vineyards</div>
+                    <div class="event-note">Maynard's flagship Cottonwood room · full restaurant + serious wine · <a href="https://maps.google.com/?q=Merkin+Vineyards,+1+N+Main+St,+Cottonwood,+AZ" target="_blank" style="color:var(--copper);">📍 Map</a></div>
                 </div>
             </div>
             <div class="event-item">
                 <div class="event-time">🥂</div>
                 <div class="event-detail">
                     <div class="event-name">Arizona Stronghold Vineyards</div>
-                    <div class="event-note">Well-known AZ winery · great Rhône-style reds and bold whites</div>
+                    <div class="event-note">Great Rhône-style reds and bold whites · <a href="https://maps.google.com/?q=Arizona+Stronghold+Vineyards,+1023+N+Main+St,+Cottonwood,+AZ" target="_blank" style="color:var(--copper);">📍 Map</a></div>
                 </div>
             </div>
             <div class="event-item">
                 <div class="event-time">🍷</div>
                 <div class="event-detail">
                     <div class="event-name">Pillsbury Wine Company</div>
-                    <div class="event-note">Small, intimate tasting room — some of Arizona's best single-vineyard wines</div>
+                    <div class="event-note">Small, intimate · some of AZ's best single-vineyard wines · <a href="https://maps.google.com/?q=Pillsbury+Wine+Company,+1012+N+Main+St,+Cottonwood,+AZ" target="_blank" style="color:var(--copper);">📍 Map</a></div>
                 </div>
             </div>
             <div class="event-item">
                 <div class="event-time">🌿</div>
                 <div class="event-detail">
                     <div class="event-name">Chateau Tumbleweed</div>
-                    <div class="event-note">Casual and fun, local favorite · good by-the-glass pours in a relaxed atmosphere</div>
+                    <div class="event-note">Casual and fun · local favorite · good pours in a relaxed vibe · <a href="https://maps.google.com/?q=Chateau+Tumbleweed,+916+N+Main+St,+Cottonwood,+AZ" target="_blank" style="color:var(--copper);">📍 Map</a></div>
+                </div>
+            </div>
+            <div class="event-item">
+                <div class="event-time">🏚️</div>
+                <div class="event-detail">
+                    <div class="event-name">Jerome Winery</div>
+                    <div class="event-note">Originally from Jerome, now in Cottonwood · approachable wines · <a href="https://maps.google.com/?q=Jerome+Winery,+403+N+Willard+St,+Cottonwood,+AZ" target="_blank" style="color:var(--copper);">📍 Map</a></div>
                 </div>
             </div>
         </div>
@@ -1120,9 +1258,9 @@
         <span class="nav-icon">🏘️</span>
         <span class="nav-label">Jerome</span>
     </button>
-    <button class="nav-item" onclick="showSection('sedona', this)">
-        <span class="nav-icon">🌄</span>
-        <span class="nav-label">Sedona</span>
+    <button class="nav-item" onclick="showSection('cottonwood', this)">
+        <span class="nav-icon">🍷</span>
+        <span class="nav-label">Cottonwood</span>
     </button>
     <button class="nav-item" onclick="showSection('eats', this)">
         <span class="nav-icon">🍽️</span>
@@ -1152,21 +1290,25 @@
         'jerome-state-park': {
             emoji: '🏛️',
             title: 'Jerome State Historic Park',
-            sub: 'Douglas Mansion · 100 Douglas Rd, Jerome',
+            sub: '100 Douglas Rd, Jerome, AZ 86331',
             tags: [{ t: '$7 / person', c: '' }, { t: 'Tues–Sun 9am–5pm', c: 'sand' }, { t: 'All Ages', c: 'green' }],
             info: [
                 ['Admission', '$7 adults · $4 youth (7–13) · Free under 7'],
                 ['Hours', 'Tues – Sun · 9:00 AM – 5:00 PM'],
                 ['Closed', 'Mondays &amp; major holidays'],
                 ['Time needed', '45 – 90 minutes'],
-                ['Parking', 'Free lot on site'],
+                ['From the Flat', '0.4 mi · 8 min walk down Hull Ave'],
             ],
             facts: [
                 'The Douglas Mansion was built in 1916 by James "Rawhide" Douglas Jr. — at the time, one of the most modern homes in Arizona, constructed from reinforced concrete and adobe.',
-                'The mansion sits directly above the Little Daisy Mine, one of the richest copper ore pockets ever discovered in Arizona. At its peak the mine produced thousands of tons of copper annually.',
-                'Museum exhibits walk through Jerome\'s boom years (1876–1953), the geology of Verde Valley copper deposits, and daily life for miners and their families in a remote mountain town.',
-                'The wrap-around veranda offers sweeping views of the Verde Valley, the Mingus Mountain ridgeline above, and — on clear days — the red rock formations of Sedona 28 miles south.',
-            ]
+                'The mansion sits directly above the Little Daisy Mine, one of the richest copper ore pockets ever found in Arizona. At its peak the mine produced thousands of tons of copper annually.',
+                'Museum exhibits walk through Jerome\'s boom years (1876–1953), the geology of Verde Valley copper deposits, and daily life for miners and their families.',
+                'The wrap-around veranda offers sweeping views of the Verde Valley and the Mingus Mountain ridgeline — some of the best vistas in all of Jerome.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome+State+Historic+Park,+100+Douglas+Rd,+Jerome,+AZ+86331',
+                web: 'https://azstateparks.com/jerome'
+            }
         },
         'gold-king': {
             emoji: '⛏️',
@@ -1181,48 +1323,106 @@
                 ['Animals', 'Burros, peacocks, chickens roam freely'],
             ],
             facts: [
-                'The Gold King Mine is a 1890s gold and silver mine turned extraordinary outdoor museum. Owner Don Robertson spent decades collecting and rescuing mining artifacts from across the Southwest.',
+                'The Gold King Mine is an 1890s gold and silver mine turned extraordinary outdoor museum. Owner Don Robertson spent decades collecting and rescuing mining artifacts from across the Southwest.',
                 'The prop collection is legendary: antique cars from the 1920s–1940s, working steam engines, ore processing equipment, a 1920s-era gas station, and authentic ghost town buildings.',
                 'The free-roaming burros are friendly and often walk right up to visitors. The peacocks are bold — don\'t be surprised if one hops on your car.',
                 'Unlike a polished tourist attraction, Gold King is deliberately rough and unmanicured — that authenticity is exactly what makes it special. It genuinely feels like you stumbled into a time capsule.',
-            ]
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Gold+King+Mine+Ghost+Town,+Perkinsville+Rd,+Jerome,+AZ',
+                web: 'https://goldkingmineghosttown.com'
+            }
         },
         'audrey-headframe': {
             emoji: '🌅',
             title: 'Audrey Headframe Park',
-            sub: 'Hull Ave, Jerome · Best at sunset',
+            sub: 'Hull Ave, Jerome — best at sunset',
             tags: [{ t: 'Free', c: 'green' }, { t: 'Always Open', c: 'sand' }, { t: 'Best Sunset Spot', c: '' }],
             info: [
                 ['Cost', 'Free'],
                 ['Best time', 'Sunset · 7:30–8:15 PM in late June'],
                 ['Mine shaft depth', '1,900 feet straight down'],
                 ['Glass floor', 'Yes — you can look directly down the shaft'],
+                ['From the Flat', '3-minute walk down Hull Ave'],
             ],
             facts: [
-                'The Audrey Shaft was the primary production shaft for the United Verde Extension Mine — one of Arizona\'s most productive copper operations. At peak output, thousands of tons of ore were hoisted up this shaft daily.',
+                'The Audrey Shaft was the primary production shaft for the United Verde Extension Mine — one of Arizona\'s most productive copper operations.',
                 'Standing on the glass floor panel and looking 1,900 feet straight down into the earth is genuinely vertiginous and completely unforgettable. One of Arizona\'s wildest free experiences.',
-                'The panoramic views from the park take in the entire Verde Valley, the Mingus Mountain cliffs behind Jerome, and the red rock formations of Sedona glowing in the distance.',
-                'In late June, sunset hits around 7:45–8:00 PM. Arrive 30 minutes early to claim a spot — this is a local favorite. The light on the red rock formations in the valley below turns extraordinary gold.',
-            ]
+                'The panoramic views from the park take in the entire Verde Valley, the Mingus Mountain cliffs behind Jerome, and the red rock formations in the distance.',
+                'In late June, sunset hits around 7:45–8:00 PM. Arrive 30 minutes early — the light on the Verde Valley below turns extraordinary gold.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Audrey+Headframe+Park,+Hull+Ave,+Jerome,+AZ+86331'
+            }
+        },
+        'caduceus': {
+            emoji: '🍇',
+            title: 'Caduceus Cellars',
+            sub: '158 Main St, Jerome, AZ 86331',
+            tags: [{ t: 'Tasting Room', c: '' }, { t: 'Daily 11am–6pm', c: 'sand' }, { t: 'Main St', c: 'green' }],
+            info: [
+                ['Address', '158 Main St, Jerome, AZ'],
+                ['Hours', 'Daily · 11:00 AM – 6:00 PM'],
+                ['From the Flat', '2-minute walk up Main St'],
+                ['Tasting', 'Flight tasting of current releases'],
+                ['Wine style', 'Arizona-grown Rhône &amp; Italian varietals'],
+            ],
+            facts: [
+                'Caduceus Cellars is Maynard James Keenan\'s original winery project — started long before Merkin in Cottonwood. The Jerome tasting room opened in a historic Main St building and remains the heart of his Arizona wine story.',
+                'Maynard has been evangelizing Arizona wine since the early 2000s when the industry was practically nonexistent. Caduceus helped prove the state\'s high-elevation vineyards could produce serious wine.',
+                'The wines lean toward Rhône-style blends and Italian varietals, grown at high elevation in Willcox and the Jerome area. The tasting room pours the current Caduceus releases alongside some Merkin wines.',
+                'You\'ll likely chat with knowledgeable staff who take the wines seriously — this isn\'t a tourist trap pour. It\'s one of the most interesting 45 minutes you can spend in Jerome.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Caduceus+Cellars,+158+Main+St,+Jerome,+AZ+86331',
+                web: 'https://caduceus.org'
+            }
+        },
+        'spirit-room': {
+            emoji: '🎸',
+            title: 'Spirit Room Bar',
+            sub: '166 Main St, Jerome, AZ 86331',
+            tags: [{ t: 'No Cover', c: 'green' }, { t: 'Live Music Fri &amp; Sat', c: '' }, { t: 'Cash Friendly', c: 'sand' }],
+            info: [
+                ['Address', '166 Main St, Jerome (next door to Caduceus)'],
+                ['Hours', 'Daily · 11:00 AM – Close'],
+                ['Live music', 'Most Friday and Saturday evenings'],
+                ['Vibe', 'Cold beer, local crowd, no pretension'],
+                ['From the Flat', '2-minute walk up Main St'],
+            ],
+            facts: [
+                'The Spirit Room is Jerome\'s de facto community living room — the bar where locals and visitors end up regardless of where the night started.',
+                'Live music on weekends ranges from acoustic country to full-band blues and rock. Acts typically start around 8–9 PM. No cover charge.',
+                'The bar sits in a historic Main St building with original wooden floors and an old-school bar back. It\'s unpretentious and genuinely fun.',
+                'After the Haunted Hamburger and a sunset at Audrey Headframe, the Spirit Room is the natural end to a Jerome Saturday night.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Spirit+Room+Bar,+166+Main+St,+Jerome,+AZ+86331',
+                web: 'https://thespiritroom.com'
+            }
         },
         'jerome-grand': {
             emoji: '🏨',
             title: 'Jerome Grand Hotel',
-            sub: 'Peralta Trail, Jerome · Highest point in town',
+            sub: '200 Hill St, Jerome, AZ 86331',
             tags: [{ t: 'Built 1926', c: '' }, { t: 'Reportedly Haunted', c: '' }, { t: 'Bar &amp; Restaurant', c: 'sand' }],
             info: [
                 ['Built', '1926 (as United Verde Hospital)'],
                 ['Became hotel', '1994'],
-                ['Rooms', '23 rooms'],
-                ['Restaurant', 'The Asylum · open to non-guests'],
                 ['Bar', 'Wingwalker Lounge · open daily'],
+                ['Restaurant', 'The Asylum · open to non-guests'],
+                ['From the Flat', '5-minute drive or 15-min uphill walk'],
             ],
             facts: [
                 'The Jerome Grand Hotel was built in 1926 as the United Verde Hospital — at the time, the most modern hospital in Arizona. It operated until the mines closed in 1950 and sat vacant for 44 years.',
                 'The hotel is considered one of the most haunted buildings in Arizona. A maintenance worker named Claude who died in the elevator is the most frequently reported presence. The elevator reportedly operates on its own.',
                 'At 5,200 feet, it\'s the highest point in Jerome with unobstructed 360-degree views. Walk up even if you\'re not dining — the Wingwalker Lounge has a drink-and-a-view that\'s hard to beat.',
-                'The Asylum Restaurant (the name is dark humor — the hospital did have a psychiatric ward) serves excellent American food with European influences. Worth a reservation for dinner.',
-            ]
+                'The Asylum Restaurant (dark humor — the hospital did have a psychiatric ward) serves creative American food with European influences. Worth a reservation for dinner.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome+Grand+Hotel,+200+Hill+St,+Jerome,+AZ+86331',
+                web: 'https://jeromegrandhotel.com'
+            }
         },
         'galleries': {
             emoji: '🎨',
@@ -1230,45 +1430,53 @@
             sub: 'Hull Ave &amp; Main St, Jerome',
             tags: [{ t: 'Mostly Free', c: 'green' }, { t: '20+ Galleries', c: '' }, { t: 'Most open 10am–5pm', c: 'sand' }],
             info: [
-                ['Number of galleries', '20+ active galleries and studios'],
-                ['Best street', 'Hull Ave — most concentrated'],
-                ['Art Walk', '1st Saturday of each month · free wine'],
+                ['Number', '20+ active galleries and studios'],
+                ['Best streets', 'Hull Ave and Main St'],
                 ['Standouts', 'Raku Gallery · Jerome Artists Co-op · Nellie Bly'],
+                ['Art Walk', '1st Saturday of each month · free wine'],
+                ['From the Flat', 'Right outside your door'],
             ],
             facts: [
                 'Jerome\'s artist colony began in the late 1960s when artists and hippies moved into abandoned homes for nearly nothing. They gave the dying town a second life that\'s still thriving today.',
-                'The galleries run the full range: hand-thrown ceramics, silverwork and turquoise jewelry, large-format photography of the Southwest, fiber arts, and sculptural metalwork.',
+                'The galleries run the full range: hand-thrown ceramics, silverwork and turquoise jewelry, large-format photography, fiber arts, and sculptural metalwork.',
                 'Raku Gallery and Nellie Bly Kaleidoscopes are particularly worth browsing. The Jerome Artists Cooperative Gallery is artist-run and carries some of the highest-quality work in town.',
-                'The First Saturday Art Walk brings live music, complimentary wine at participating galleries, and extended hours. If your visit falls on a first Saturday, this is the best way to experience Jerome.',
-            ]
+                'The First Saturday Art Walk brings live music, complimentary wine at participating galleries, and extended hours. The best way to experience Jerome if your visit falls on a first Saturday.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome+Artists+Cooperative+Gallery,+502+Main+St,+Jerome,+AZ'
+            }
         },
         'sliding-jail': {
             emoji: '🏚️',
             title: 'The Sliding Jail',
-            sub: 'Hull Ave, Jerome',
+            sub: 'Hull Ave, Jerome — exterior only',
             tags: [{ t: 'Free to See', c: 'green' }, { t: 'Exterior Only', c: 'sand' }, { t: 'Quirky AZ History', c: '' }],
             info: [
                 ['Distance slid', '225+ feet from original site'],
                 ['Built', '1928'],
                 ['Why it moved', 'Mine blasts destabilized clay soil beneath it'],
-                ['Weight', 'Several tons of reinforced concrete — yet it slid intact'],
+                ['Location', 'Hull Ave near the lower end of downtown'],
+                ['From the Flat', '3-minute walk down Hull Ave'],
             ],
             facts: [
                 'Jerome\'s jail was built in 1928 from reinforced concrete specifically to be inescapable. It held mining-era troublemakers and was considered the most secure facility in the region.',
-                'The massive Phelps Dodge open-pit mine operation in the 1920s–1940s used enormous dynamite charges to blast away hillsides — those blasts slowly destabilized the clay soil throughout Jerome.',
-                'The jail began sliding downhill and has moved over 225 feet from its original location while remaining structurally intact. It\'s a testament to both the building\'s strength and the soil\'s instability.',
-                'The concrete structure is just sitting on Hull Ave — no fence, no signage drama. You can walk right up to it. One of the genuinely strange things you\'ll see anywhere in Arizona.',
-            ]
+                'The massive Phelps Dodge open-pit mine operation used enormous dynamite charges to blast away hillsides — those blasts slowly destabilized the clay soil throughout Jerome.',
+                'The jail began sliding downhill and has moved over 225 feet from its original location while remaining structurally intact — a testament to the building\'s strength and the soil\'s instability.',
+                'The concrete structure just sits on Hull Ave with no drama — walk right up to it. One of the genuinely strange things you\'ll see anywhere in Arizona.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome+Sliding+Jail,+Hull+Ave,+Jerome,+AZ'
+            }
         },
         'ghost-tour': {
             emoji: '👻',
             title: 'Ghost Town Evening Walk',
-            sub: 'Jerome — best experienced after dark',
+            sub: 'Jerome — best experienced after 8 PM',
             tags: [{ t: 'Self-guided Free', c: 'green' }, { t: 'Guided Tours ~$25', c: 'sand' }, { t: 'Fri &amp; Sat evenings', c: '' }],
             info: [
                 ['Self-guided', 'Free — walk Jerome\'s streets at dusk'],
-                ['Ghost tours', 'Available Fri &amp; Sat evenings · ~$25 pp'],
-                ['Most haunted spots', 'Jerome Grand Hotel · Sullivan\'s Rest · Cuban Queen'],
+                ['Guided tours', 'Available Fri &amp; Sat evenings · ~$25 pp'],
+                ['Most haunted spots', 'Jerome Grand Hotel · Sullivan\'s Rest · Cuban Queen Bordello'],
                 ['Best time', 'After 8 PM when day-trippers have left'],
             ],
             facts: [
@@ -1276,160 +1484,170 @@
                 'The Jerome Grand Hotel\'s ghost (maintenance worker Claude) is the most frequently reported. The elevator descends on its own to specific floors, and motion-triggered cameras have caught unexplained movement.',
                 'Sullivan\'s Rest bar and the Cuban Queen Bordello (1900–1916) on Hull Ave are other well-documented paranormal locations. The Cuban Queen is now a gallery with a preserved original interior.',
                 'Even without a formal tour, walking Jerome\'s steep empty streets after 8 PM — once the day-trippers have gone and the town quiets — gives you a genuinely atmospheric, slightly eerie experience.',
-            ]
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome,+AZ+86331'
+            }
         },
-        'cathedral-rock': {
-            emoji: '⛰️',
-            title: 'Cathedral Rock Trail',
-            sub: 'Back O\' Beyond Rd, Sedona',
-            tags: [{ t: '1.5 mi round trip', c: '' }, { t: 'Moderate', c: '' }, { t: 'Red Rock Pass $12', c: 'sand' }],
+        'tuzigoot': {
+            emoji: '🏺',
+            title: 'Tuzigoot National Monument',
+            sub: '25 E Tuzigoot Rd, Clarkdale, AZ 86324',
+            tags: [{ t: '$10 / person', c: '' }, { t: 'Daily 9am–5pm', c: 'sand' }, { t: '13 mi from Jerome', c: 'green' }],
             info: [
-                ['Distance', '1.5 miles round trip'],
-                ['Elevation gain', '742 feet'],
-                ['Difficulty', 'Moderate · iron rungs/handholds at summit'],
-                ['Trailhead', 'Back O\' Beyond Rd · Red Rock Pass required'],
-                ['Best time (June)', 'Start no later than 8:00 AM'],
+                ['Admission', '$10 per person · Free with NPS Annual Pass'],
+                ['Hours', 'Daily · 9:00 AM – 5:00 PM'],
+                ['Location', '25 E Tuzigoot Rd, Clarkdale (13 mi from Jerome)'],
+                ['Time needed', '45 min – 1.5 hours'],
+                ['Directions', 'US-89A north from Jerome toward Clarkdale · follow signs'],
+            ],
+            facts: [
+                'Tuzigoot is a Sinagua hilltop pueblo built between 1125 and 1400 AD. At its height the pueblo had over 110 rooms and was home to around 225 people who farmed the Verde Valley below.',
+                'The site sits on a natural limestone ridge 120 feet above the Verde River floodplain, with commanding 360° views of the Verde Valley, Black Hills, and Mingus Mountain — essentially a view of everything you\'ve been exploring.',
+                'The on-site museum houses an excellent collection of Sinagua artifacts excavated from the site — pottery, jewelry, tools, and skeletal remains — with clear interpretation of what daily life looked like 800 years ago.',
+                'Unlike the more visited Montezuma Castle, Tuzigoot is relatively uncrowded and you can walk through the actual excavated rooms. One of the most underrated ruins sites in Arizona.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Tuzigoot+National+Monument,+25+E+Tuzigoot+Rd,+Clarkdale,+AZ+86324',
+                web: 'https://www.nps.gov/tuzi'
+            }
+        },
+        'verde-canyon-rr': {
+            emoji: '🚂',
+            title: 'Verde Canyon Railroad',
+            sub: '300 N Broadway, Clarkdale, AZ 86324',
+            tags: [{ t: '$65–$95 / person', c: '' }, { t: 'Book Ahead', c: 'warn' }, { t: '4-hr Round Trip', c: 'sand' }],
+            info: [
+                ['Admission', '$65 Coach · $95 First Class (includes wine)'],
+                ['Duration', '4 hours round trip'],
+                ['Departure', 'Clarkdale Depot · 14 mi from Jerome'],
+                ['Typical departures', 'Check website — usually late morning'],
+                ['Bald eagles', 'Frequently spotted in the canyon (winter best, still possible in June)'],
+            ],
+            facts: [
+                'The Verde Canyon Railroad runs 20 miles into a remote desert canyon that has no road access — the only way to see this landscape is by train. You pass through a 680-foot tunnel blasted through solid rock in 1911.',
+                'The canyon walls rise up to 1,000 feet on both sides, with ancient Sinagua cliff dwellings visible in the rock faces and a riparian ecosystem entirely different from the dry desert above.',
+                'Bald eagles nest in the canyon — sightings are most common in winter, but the canyon\'s secluded nature makes wildlife encounters year-round. Great blue herons, osprey, and deer are reliable.',
+                'First Class coaches include open-air gondola cars for unobstructed views and wine service with Arizona wines (including Merkin/Caduceus). Worth the upgrade — the open gondola is the best way to experience the canyon.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Verde+Canyon+Railroad,+300+N+Broadway,+Clarkdale,+AZ+86324',
+                web: 'https://verdecanyonrr.com'
+            }
+        },
+        'old-town-cottonwood': {
+            emoji: '🍷',
+            title: 'Old Town Cottonwood',
+            sub: 'N Main St, Cottonwood, AZ — 11 mi from Jerome',
+            tags: [{ t: '10+ Tasting Rooms', c: '' }, { t: 'Walkable', c: 'green' }, { t: 'Great Food', c: 'sand' }],
+            info: [
+                ['Wine row', '10+ tasting rooms in 3 walkable blocks'],
+                ['Best tasting rooms', 'Merkin · Arizona Stronghold · Pillsbury · Page Springs'],
+                ['Best food', 'Merkin Osteria · Crema · Bocce Grill'],
+                ['Drive from Jerome', '20 minutes via US-89A'],
+                ['Parking', 'Free lots off Main St'],
+            ],
+            facts: [
+                'Old Town Cottonwood\'s wine scene emerged in the early 2000s when Arizona winemakers recognized the Verde Valley\'s potential — high elevation (around 3,300 ft), volcanic soil, and big temperature swings between day and night.',
+                'The concentration of tasting rooms along N Main St is unusual — you can walk from Merkin to Arizona Stronghold to Pillsbury to Chateau Tumbleweed in under 10 minutes without driving anywhere.',
+                'Beyond wine, Old Town has a genuinely good restaurant scene anchored by Merkin Osteria. Crema Craft Kitchen is a popular brunch and lunch spot, and Bocce Grill offers a solid Italian-leaning menu.',
+                'The vibe is much more relaxed and flat than Jerome — good contrast if you\'ve been navigating steep streets all day. The Main St is walkable, shaded in spots, and manageable even in late June heat.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Old+Town+Cottonwood,+N+Main+St,+Cottonwood,+AZ+86326'
+            }
+        },
+        'page-springs': {
+            emoji: '🍾',
+            title: 'Page Springs Cellars',
+            sub: '1500 N Page Springs Rd, Cornville, AZ 86325',
+            tags: [{ t: "AZ's Best Winery", c: '' }, { t: 'Reservations Suggested', c: 'warn' }, { t: '20 mi from Jerome', c: 'sand' }],
+            info: [
+                ['Address', '1500 N Page Springs Rd, Cornville, AZ'],
+                ['Hours', 'Daily · 11:00 AM – 6:00 PM'],
+                ['Tasting', 'Flight tasting · reservations recommended weekends'],
+                ['Wine style', 'Rhône-style, Italian varietals, estate-grown'],
+                ['Drive', '20 min from Jerome · scenic Oak Creek canyon approach'],
+            ],
+            facts: [
+                'Page Springs Cellars is widely considered Arizona\'s finest winery — the producer that convinced the rest of the country to take AZ wine seriously. Owner Eric Glomski has been farming the Page Springs vineyard since 2004.',
+                'The winery sits in a creek canyon below Cornville, cooler and greener than the surrounding desert. The tasting room overlooks the estate vineyard and is one of the most beautiful wine settings in the Southwest.',
+                'The wine style leans Rhône — Grenache, Syrah, Mourvèdre, Viognier, and blends of all the above grown at elevation with volcanic soil. Some of the most complex wines being made anywhere in Arizona.',
+                'Book a reservation for weekend tastings — they fill up. If you\'re a wine lover, this 20-minute detour from Cottonwood is absolutely worth it. Pair it with a stop at Merkin in Old Town on the same day.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Page+Springs+Cellars,+1500+N+Page+Springs+Rd,+Cornville,+AZ+86325',
+                web: 'https://pagespringscellarsinc.com'
+            }
+        },
+        'merkin-winery': {
+            emoji: '🎸',
+            title: 'Merkin Vineyards Osteria',
+            sub: '1 N Main St, Cottonwood, AZ 86326',
+            tags: [{ t: 'Restaurant + Winery', c: '' }, { t: 'Lunch &amp; Dinner', c: 'sand' }, { t: 'Reserve Ahead', c: 'warn' }],
+            info: [
+                ['Address', '1 N Main St, Old Town Cottonwood'],
+                ['Hours', 'Lunch and Dinner daily (check website)'],
+                ['Cuisine', 'Italian-inspired · wood-fired · seasonal'],
+                ['Wine', 'Full Merkin and Caduceus list + guests'],
+                ['Drive from Jerome', '20 minutes via US-89A'],
+            ],
+            facts: [
+                'Merkin Vineyards Osteria is the full expression of Maynard James Keenan\'s wine project — the tasting room, restaurant, and event space all in one. It\'s the flagship venue for both Merkin and Caduceus wines.',
+                'The food is legitimately excellent: wood-fired dishes, fresh pasta, and a rotating seasonal menu that leans heavily Italian. It\'s not celebrity-branded mediocrity — the kitchen takes the food as seriously as the wine.',
+                'The patio is beautiful in good weather. This is the best place in the Verde Valley to sit down for a proper meal with great wine and not feel rushed.',
+                'Reservations are strongly recommended for dinner and helpful for lunch on weekends. Walk-ins often get seated at the bar, which is fine for a couple.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Merkin+Vineyards+Osteria,+1+N+Main+St,+Cottonwood,+AZ+86326',
+                web: 'https://merkinvineyards.com'
+            }
+        },
+        'montezuma-castle': {
+            emoji: '🏯',
+            title: 'Montezuma Castle National Monument',
+            sub: 'Montezuma Castle Rd, Camp Verde, AZ 86322',
+            tags: [{ t: '$10 / person', c: '' }, { t: 'Daily 8am–5pm', c: 'sand' }, { t: '25 mi from Jerome', c: '' }],
+            info: [
+                ['Admission', '$10 per person · Free with NPS Annual Pass'],
+                ['Hours', 'Daily · 8:00 AM – 5:00 PM'],
+                ['Location', 'Exit 289 off I-17 · 25 mi from Jerome'],
+                ['Time needed', '30 – 45 minutes'],
+                ['Tip', 'Good stopover on the way home rather than a separate day trip'],
+            ],
+            facts: [
+                'Montezuma Castle is a five-story, 20-room cliff dwelling built by the Sinagua people between 1100 and 1425 AD. It\'s one of the best-preserved pre-Columbian structures in North America.',
+                'The dwelling is built 90 feet up a limestone cliff above Beaver Creek — an engineering feat achieved without metal tools, mortar, or modern scaffolding. The site is accessed via a short, flat paved trail.',
+                'Despite the name, the Aztec emperor Montezuma had nothing to do with it — Spanish settlers mistakenly associated the impressive ruins with Aztec legend. The actual builders were the Sinagua, related to the people at Tuzigoot.',
+                'You can\'t enter the structure (it\'s protected), but the paved trail takes you directly beneath it for close-up views. Best combined with nearby Montezuma Well (7 miles away) — a sinkholespring sacred to local tribes.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Montezuma+Castle+National+Monument,+Camp+Verde,+AZ+86322',
+                web: 'https://www.nps.gov/moca'
+            }
+        },
+        'dead-horse-ranch': {
+            emoji: '🦅',
+            title: 'Dead Horse Ranch State Park',
+            sub: '675 Dead Horse Ranch Rd, Cottonwood, AZ 86326',
+            tags: [{ t: '$7 / vehicle', c: '' }, { t: 'Daily 8am–10pm', c: 'sand' }, { t: '12 mi from Jerome', c: 'green' }],
+            info: [
+                ['Fee', '$7 per vehicle'],
+                ['Hours', 'Daily · 8:00 AM – 10:00 PM'],
+                ['Address', '675 Dead Horse Ranch Rd, Cottonwood'],
+                ['Highlights', 'Verde River access · fishing lagoon · birding trails'],
                 ['Time needed', '1 – 2 hours'],
             ],
             facts: [
-                'Cathedral Rock is the most photographed rock formation in Arizona and among the most photographed in the United States. The twin sandstone spires rise 2,500 feet above the surrounding desert.',
-                'This is one of Sedona\'s four major vortex sites — places where the earth\'s energy is believed to spiral upward or downward. Many visitors report a heightened sense of calm or energy here regardless of belief.',
-                'The final 300 feet involves scrambling on bare sandstone slabs and using iron rungs hammered into the rock face. It\'s manageable and safe, but requires hands and feet — wear closed-toe shoes with grip.',
-                'The reward is a saddle between the two spires with one of the great Arizona panoramas: Oak Creek winding through the red rock valley below, Bell Rock and Courthouse Butte to the south, and the entire Sedona basin stretching out.',
-            ]
-        },
-        'bell-rock': {
-            emoji: '🔔',
-            title: 'Bell Rock Trail',
-            sub: 'Village of Oak Creek, Sedona',
-            tags: [{ t: '3.6 mi loop', c: '' }, { t: 'Easy to Moderate', c: 'green' }, { t: 'Red Rock Pass $12', c: 'sand' }],
-            info: [
-                ['Distance', '3.6 miles (full loop) · shorter out-and-back options'],
-                ['Elevation gain', '~500 ft to base · more if scrambling up'],
-                ['Difficulty', 'Easy flat trail to base · moderate if you scramble'],
-                ['Trailhead', 'Village of Oak Creek · SR-179'],
-                ['Best time (June)', '7:00 – 10:00 AM'],
+                'Dead Horse Ranch got its name from a rancher\'s family who toured it in the 1950s — the kids spotted a dead horse on the property and insisted their father buy exactly that ranch so they could see it again.',
+                'The park sits along the Verde River with a stocked lagoon (bass, catfish, bluegill) and several miles of easy riverside trails. It\'s one of Arizona\'s premier birding locations — over 100 species recorded here.',
+                'The Verde River riparian corridor is rare in Arizona — cottonwood and willow forests line the banks, providing habitat for species you won\'t find anywhere else in the region.',
+                'This is the Verde Valley\'s nature escape — cooler than Jerome in summer thanks to the river, and peaceful in a way that the busy wine row isn\'t. Good option for an hour of walking before or after wine tasting.',
             ],
-            facts: [
-                'Bell Rock is one of the most recognizable formations in Sedona, rising 550 feet above the valley floor in a distinctively bell-shaped silhouette that you\'ll recognize from postcards across Arizona.',
-                'This is a vortex site — the area around Bell Rock has been used for meditation and spiritual practice for decades. Many visitors report strong physical sensations of heat or tingling at the base.',
-                'The flat gravel path to Bell Rock\'s base is accessible and family-friendly. The scramble up the lower slopes is entirely optional — views are excellent even at the base.',
-                'The full Bell Rock Pathway loops 3.6 miles and includes Courthouse Butte as well, offering continuously changing views of Sedona\'s red rock landscape. A longer but highly rewarding option if you start early.',
-            ]
-        },
-        'airport-mesa': {
-            emoji: '🛫',
-            title: 'Airport Mesa Loop',
-            sub: 'Airport Rd, Sedona',
-            tags: [{ t: '3.3 mi loop', c: '' }, { t: 'Easy to Moderate', c: 'green' }, { t: 'Best Sunset View', c: '' }],
-            info: [
-                ['Distance', '3.3 miles loop (or just the viewpoint — no hiking)'],
-                ['Elevation gain', '~787 feet for full loop'],
-                ['Viewpoint', '1.5 miles up Airport Rd from US-89A · free parking pullout'],
-                ['Best time', 'Sunset · 7:30–8:00 PM in late June'],
-                ['Parking tip', 'Viewpoint fills at sunset — arrive 1 hour early'],
-            ],
-            facts: [
-                'Airport Mesa offers 360-degree views of every famous Sedona formation from a single vantage: Cathedral Rock, Bell Rock, Courthouse Butte, Coffee Pot Rock, and the full sweep of the Mogollon Rim.',
-                'The viewpoint off Airport Rd (a small pullout with a low rock wall) is famous as a sunset gathering spot. No hiking required — you can drive straight to it.',
-                'For vortex seekers, Airport Mesa\'s vortex is described as an "electric" or upflow vortex — contrasting with Cathedral Rock\'s downflow energy. Many visitors report feeling light-headed or energized.',
-                'The full loop trail requires some exposed scrambling and uneven footing. The partial path to the main overlook is easy and fully delivers the payoff.',
-            ]
-        },
-        'devils-bridge': {
-            emoji: '🌉',
-            title: "Devil's Bridge",
-            sub: 'Dry Creek Rd, Sedona',
-            tags: [{ t: '4 mi round trip', c: '' }, { t: 'Moderate', c: '' }, { t: 'Very crowded weekends', c: 'warn' }],
-            info: [
-                ['Distance', '4.0 miles round trip'],
-                ['Elevation gain', '~400 feet'],
-                ['Difficulty', 'Moderate · loose rock near the arch'],
-                ['Trailhead', 'Dry Creek Rd / Chuckwagon Trailhead'],
-                ['June warning', 'Go by 7 AM or skip — extremely hot and crowded by 9 AM'],
-            ],
-            facts: [
-                "Devil's Bridge is the largest natural sandstone arch in the Sedona area — 50 feet wide and 54 feet tall. It's the most Instagrammed spot in the region.",
-                'The famous photo is taken from below looking up as someone stands on the arch above a sheer drop. Exercise caution near the edge — people have fallen here.',
-                'The trail is solid and well-marked for most of its length. The final push to the arch involves loose rock and exposed sandstone that can be slippery in heat.',
-                'Weekend mornings can see 200+ cars in the parking area by 8:30 AM in summer. If you want to avoid the crowd, this is not a summer weekend trail — consider Cathedral Rock or Bell Rock instead.',
-            ]
-        },
-        'chapel': {
-            emoji: '⛪',
-            title: 'Chapel of the Holy Cross',
-            sub: '780 Chapel Rd, Sedona · Non-denominational',
-            tags: [{ t: 'Free', c: 'green' }, { t: 'Daily 9am–5pm', c: 'sand' }, { t: 'Short Paved Walk', c: '' }],
-            info: [
-                ['Admission', 'Free — open to all'],
-                ['Hours', 'Mon–Sat 9 AM – 5 PM · Sun 11 AM – 5 PM'],
-                ['Built', '1956'],
-                ['Architect', 'Marguerite Staude (Frank Lloyd Wright student)'],
-                ['Parking', 'Small lot on Chapel Rd · fills midday · arrive before 10 AM'],
-            ],
-            facts: [
-                'The Chapel of the Holy Cross is a Roman Catholic chapel built between two 250-foot red rock buttes in 1956. Sculptor Marguerite Staude conceived it after being inspired by the Empire State Building rising between two skyscrapers.',
-                "Staude studied under Frank Lloyd Wright, and his influence is unmistakable in the organic integration of the building with the rock face. The chapel appears to grow directly out of the sandstone.",
-                'The 90-foot cross is embedded in the cliff face and visible from miles away along SR-179. The interior is intentionally simple and quiet — just rows of wood pews, a small altar, and the panoramic windows.',
-                "One of 11 Arizona Wonders designated by the Arizona Republic. Non-denominational and open to everyone. Whatever your spiritual background, the combination of modernist architecture and red rock landscape is genuinely moving.",
-            ]
-        },
-        'tlaquepaque': {
-            emoji: '🏺',
-            title: 'Tlaquepaque Arts &amp; Shopping Village',
-            sub: '336 SR-179, Sedona · Perfect midday',
-            tags: [{ t: 'Free Entry', c: 'green' }, { t: 'Daily 10am–5pm', c: 'sand' }, { t: 'Restaurants On Site', c: '' }],
-            info: [
-                ['Admission', 'Free'],
-                ['Hours', 'Daily · 10 AM – 5 PM (restaurants vary)'],
-                ['Galleries', '40+ galleries and boutiques'],
-                ['Dining', "Rene at Tlaquepaque · Oak Creek Brewery · others"],
-                ['Tip', 'Best midday spot in Sedona — shaded courtyards, fountains, AC'],
-            ],
-            facts: [
-                'Tlaquepaque (tla-keh-PAH-keh) is named after the arts-and-crafts village near Guadalajara, Mexico. The Sedona complex was built in 1973 to mirror its Mexican colonial architecture.',
-                'The buildings were designed around two enormous heritage sycamore trees that still stand at the center of the complex. Hand-painted Talavera tiles, wrought iron gates, and bougainvillea complete the aesthetic.',
-                'Galleries range from fine art photography to Southwestern silver jewelry, blown glass, Native American textiles, and original paintings. Quality is high throughout.',
-                'The shaded courtyards and central fountain make Tlaquepaque the ideal place to be between 11 AM and 2 PM when Sedona temperatures peak — it\'s one of the most pleasant outdoor environments in Arizona during summer.',
-            ]
-        },
-        'pink-jeep': {
-            emoji: '🚙',
-            title: 'Pink Jeep Tours',
-            sub: 'Sedona · Multiple tour options',
-            tags: [{ t: '$90–$140 pp', c: '' }, { t: 'Book Ahead', c: 'warn' }, { t: '1.5–3 hrs', c: 'sand' }],
-            info: [
-                ['Cost', '$90 – $140+ per person depending on tour'],
-                ['Duration', '1.5 – 3 hours'],
-                ['Best tour', 'Broken Arrow (4WD-only access, no hikers)'],
-                ['Second best', 'Ancient Ruin (Honanki Heritage Site)'],
-                ['Book at', 'pinkjeeptours.com · fills fast on weekends'],
-            ],
-            facts: [
-                'Pink Jeep Tours has operated in Sedona since 1960 and is the most well-known off-road tour company in Arizona. Their modified open-air Jeep Wranglers access terrain that would destroy a standard vehicle.',
-                "The Broken Arrow Tour is the signature experience — it accesses Chicken Point overlook and Submarine Rock via 4WD-only trails that hikers can't reach. The exposure and views are extraordinary.",
-                'The Ancient Ruins tour adds a cultural dimension: you visit a 900-year-old Sinagua cliff dwelling at Honanki, with excellent guide commentary on the indigenous history of the Sedona area.',
-                'Even in peak heat, the open-air Jeeps with canvas sun shades keep things manageable. This is one of the few active Sedona experiences that works comfortably in late morning rather than just at dawn.',
-            ]
-        },
-        'slide-rock': {
-            emoji: '💦',
-            title: 'Slide Rock State Park',
-            sub: '6871 N US-89A, Sedona · 7 miles north',
-            tags: [{ t: '$30 / vehicle', c: '' }, { t: 'Very Crowded June–Aug', c: 'warn' }, { t: 'Arrive by 8 AM', c: '' }],
-            info: [
-                ['Fee', '$30 per vehicle (day use)'],
-                ['Hours', '8:00 AM – 7:00 PM (summer)'],
-                ['Water temp', '~65°F year-round'],
-                ['Warning', 'Park reaches capacity and closes gate by 9–10 AM on summer weekends'],
-                ['Alternative', 'Grasshopper Point (2 mi south · $10/car) — swimming with far less crowd'],
-            ],
-            facts: [
-                "Slide Rock is a natural water slide carved by 43-million-year-old basalt and sandstone as Oak Creek flows over flat, smoothed slabs. The creek maintains roughly 65°F water temperature year-round — an incredible relief in June.",
-                "The park is an old apple farm — the Pendley Homestead, established in 1912. The original apple trees still stand and produce a harvest in fall. The irrigation canals used to water them are visible throughout the park.",
-                'On summer weekends the parking lot fills by 8:30–9:00 AM and the gate closes until spaces open. If you don\'t arrive at opening, you\'ll be turned away.',
-                "Grasshopper Point Picnic Area (2 miles south on US-89A, $10/car) offers swimming in the same Oak Creek with a fraction of the crowd — it's a legitimate local alternative for those who don't want to battle the Slide Rock scene.",
-            ]
+            links: {
+                map: 'https://maps.google.com/?q=Dead+Horse+Ranch+State+Park,+675+Dead+Horse+Ranch+Rd,+Cottonwood,+AZ',
+                web: 'https://azstateparks.com/dead-horse-ranch'
+            }
         },
     };
 
@@ -1439,6 +1657,13 @@
         const tagsHtml = d.tags.map(t => `<span class="modal-tag ${t.c}">${t.t}</span>`).join('');
         const infoHtml = d.info.map(r => `<div class="modal-info-row"><span class="modal-info-label">${r[0]}</span><span class="modal-info-value">${r[1]}</span></div>`).join('');
         const factsHtml = d.facts.map(f => `<div class="modal-fact">${f}</div>`).join('');
+        const linksHtml = d.links ? `
+            <div class="modal-section">
+                <div class="modal-links">
+                    ${d.links.map ? `<a class="modal-link-btn map" href="${d.links.map}" target="_blank">📍 Directions</a>` : ''}
+                    ${d.links.web ? `<a class="modal-link-btn web" href="${d.links.web}" target="_blank">🌐 Website</a>` : ''}
+                </div>
+            </div>` : '';
         document.getElementById('modal-content').innerHTML = `
             <span class="modal-emoji">${d.emoji}</span>
             <div class="modal-title">${d.title}</div>
@@ -1452,6 +1677,7 @@
                 <div class="modal-section-title">Need to Know</div>
                 ${factsHtml}
             </div>
+            ${linksHtml}
         `;
         document.getElementById('modal-overlay').classList.add('open');
         document.body.style.overflow = 'hidden';
