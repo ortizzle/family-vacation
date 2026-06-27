@@ -646,6 +646,13 @@
 
     <div id="open-now-card" class="card" style="margin-bottom:12px;"></div>
 
+    <div class="card" style="background:linear-gradient(135deg,#1a3a1a 0%,#2d5a2d 100%);padding:18px 20px;margin-bottom:12px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6);margin-bottom:4px;">Happening This Weekend</div>
+        <div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:white;margin-bottom:6px;">🎸 Jerome Music &amp; Arts Festival</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:10px;">June 27–28 · Free · 20+ performers across 5 venues. Spirit Room, Spook Hall, Upper Park, New State Building &amp; <strong style="color:white;">240 Hull Ave — right outside your door.</strong></div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);">Food trucks · pop-up market · kids area · Spirit Room starts 2 PM Sat</div>
+    </div>
+
     <div class="surprise-card">
         <div class="surprise-eyebrow">Can't decide what's next?</div>
         <div class="surprise-title" id="surprise-title">Surprise Us!</div>
@@ -978,6 +985,22 @@
         </div>
     </div>
 
+    <div class="attraction-card fun" onclick="openModal('la-victoria')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🔥</div>
+            <div class="ac-body">
+                <div class="ac-name">La Victoria Glass Blowing Studio <span class="badge-top">Hidden Gem</span></div>
+                <div class="ac-desc">Artist Tracy Weisel gives free glass blowing demos most afternoons — about 45 minutes, genuinely fascinating to watch. Hidden behind a ruined building facade on Hull Ave. Look for the small sign on the lone standing wall.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Free (small donation)</span>
+                    <span class="ac-tag sand">250 Hull Ave · Most afternoons</span>
+                    <span class="ac-tag star">★ 4.8</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
     <div class="attraction-card fun" onclick="openModal('sliding-jail')">
         <div class="ac-inner">
             <div class="ac-emoji">🏚️</div>
@@ -1205,6 +1228,47 @@
         </div>
         <div class="rest-links" onclick="event.stopPropagation()">
             <a class="rest-link map" href="https://maps.google.com/?q=Flatiron+Cafe,+416+Main+St,+Jerome,+AZ+86331" target="_blank">📍 Directions</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('clinkscale')">
+        <div class="rest-top">
+            <div class="rest-emoji">🍽️</div>
+            <div class="rest-body">
+                <div class="rest-name">The Clinkscale <span class="badge-must">#1 in Jerome</span></div>
+                <div class="rest-meta">309 Main St · Brunch to Dinner · $$–$$$</div>
+                <div class="rest-note">The highest-rated restaurant in Jerome (4.8★, 770+ reviews) — American fusion with a French touch in an 1899 building. Truffle fries, beignets with vanilla custard, filet mignon, scallops. Happy hour til 7 PM. Walk-in for brunch; book dinner.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$–$$$</span>
+                    <span class="rest-tag type">American / French</span>
+                    <span class="rest-tag star">★ 4.8</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=The+Clinkscale,+309+Main+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://theclinkscale.com" target="_blank">🌐 Website</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('vaqueros')">
+        <div class="rest-top">
+            <div class="rest-emoji">🌮</div>
+            <div class="rest-body">
+                <div class="rest-name">Vaqueros Grill &amp; Cantina</div>
+                <div class="rest-meta">363 Main St · Lunch &amp; Dinner · $</div>
+                <div class="rest-note">Jerome's best Mexican — the Navajo Tacos on frybread are the must-order. Featured on "Only in Arizona" best-Mexican lists. Casual, consistent, open from 10:30 AM.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$</span>
+                    <span class="rest-tag type">Mexican</span>
+                    <span class="rest-tag star">★ 4.5</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Vaqueros+Grill+and+Cantina,+363+Main+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
         </div>
     </div>
 
@@ -1708,6 +1772,30 @@
                 map: 'https://maps.google.com/?q=Jerome+Sliding+Jail,+Hull+Ave,+Jerome,+AZ'
             }
         },
+        'la-victoria': {
+            emoji: '🔥',
+            title: 'La Victoria Glass Blowing Studio',
+            sub: '250 Hull Ave, Jerome, AZ · Behind the Raku Gallery',
+            rating: { score: '4.8', source: 'TripAdvisor', count: '150+' },
+            tripadvisor: 'https://www.tripadvisor.com/Attraction_Review-g31253-d10806869-Reviews-La_Victoria_Studio_Tracy_Weisel_artist-Jerome_Arizona.html',
+            tags: [{ t: 'Free (donation)', c: 'green' }, { t: 'Most afternoons', c: 'sand' }, { t: '~45 min', c: '' }],
+            info: [
+                ['Cost', 'Free — small donation to animal welfare suggested'],
+                ['Duration', '~45 minutes'],
+                ['Address', '250 Hull Ave · behind Raku Gallery'],
+                ['Phone', '(928) 649-2631'],
+                ['Tip', 'Look for the small sign on the lone standing wall of a ruined building facade'],
+            ],
+            facts: [
+                'Artist Tracy Weisel discovered Jerome in 1975 and never left. He started as an industrial arts teacher, took up ceramics after a hand injury, then studied glass blowing in 1990 and built this studio.',
+                'The studio is deliberately hidden — tucked behind a ruined building facade on Hull Ave, accessible only through a gap in the wall. The mystique is intentional.',
+                'Weisel narrates the entire demo with stories and jokes about Jerome history, glassblowing science, and life in a 450-person mountain ghost town. Part history lesson, part performance.',
+                'All finished pieces are for sale — prices are very reasonable. A good alternative to gallery souvenir shopping if you want something genuinely handmade on the premises.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=250+Hull+Ave,+Jerome,+AZ+86331'
+            }
+        },
         'ghost-tour': {
             emoji: '👻',
             title: 'Ghost Town Evening Walk',
@@ -1962,6 +2050,63 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     const RESTAURANT_MODALS = {
+        'clinkscale': {
+            emoji: '🍽️',
+            title: 'The Clinkscale',
+            sub: 'Jerome · Brunch & Dinner · $$–$$$',
+            rating: { score: '4.8', source: 'TripAdvisor', count: '770+' },
+            hours: 'Daily from 8:30 AM · Happy Hour til 7 PM · Dinner Tue–Sun from 5 PM',
+            vibe: 'Jerome\'s #1 rated restaurant. American fusion with French flair in an 1899 building at the center of Main St. The Lobby Bar downstairs runs craft cocktails all day.',
+            menu_note: 'Transitions from a full brunch to dinner. Walk-in for brunch; reservations strongly recommended for dinner on weekends.',
+            dishes: [
+                { name: 'Truffle Fries', note: 'Crispy, rich, shareable — order these', price: '$12' },
+                { name: 'Steak & Blue Cheese Bruschetta', note: 'Grilled bread, seared steak slices, blue cheese crumble', price: '$15' },
+                { name: 'Eggs Benedict', note: 'Classic hollandaise — well-executed weekend brunch staple', price: '$14' },
+                { name: 'Chicken Milanese', note: 'Thin-pounded, pan-fried, arugula + lemon — dinner menu', price: '$22' },
+                { name: 'Seared Scallops', note: 'Seasonal preparation — dinner menu', price: '$32' },
+                { name: 'Filet Mignon', note: 'USDA prime, dinner menu — Jerome\'s best', price: '$48' },
+                { name: 'Warm Beignets', note: 'Vanilla bean custard + chocolate ganache — do not skip', price: '$10' },
+            ],
+            tips: [
+                'Walk-in for brunch (no reservation needed) — dinner fills up fast, especially on weekends.',
+                'Happy hour til 7 PM is great value — truffle fries + a cocktail in the Lobby Bar downstairs.',
+                'The artisan bakery items sell out by mid-morning — go early if you want pastries.',
+            ],
+            phone: '9286346225',
+            links: {
+                map: 'https://maps.google.com/?q=The+Clinkscale,+309+Main+St,+Jerome,+AZ',
+                web: 'https://theclinkscale.com'
+            },
+            tripadvisor: 'https://www.tripadvisor.com/Restaurant_Review-g31253-d23166189-Reviews-The_Clinkscale-Jerome_Arizona.html'
+        },
+        'vaqueros': {
+            emoji: '🌮',
+            title: 'Vaqueros Grill & Cantina',
+            sub: 'Jerome · Lunch & Dinner · $',
+            rating: { score: '4.5', source: 'TripAdvisor', count: '318+' },
+            hours: 'Daily 10:30 AM – 8:00 PM',
+            vibe: 'Jerome\'s best Mexican — casual, generous portions, and genuinely good. Featured on "Only in Arizona" best-Mexican lists. Great fast lunch before or after Gold King Mine.',
+            menu_note: 'Authentic Mexican with a Verde Valley personality. The Navajo Tacos on frybread are the must-order.',
+            dishes: [
+                { name: 'Navajo Tacos', note: 'House specialty — frybread with beans, pico de gallo, guac, chipotle sour cream. Choice of chicken, beef, pork, or veggie.', price: '$14–16' },
+                { name: 'Fish Tacos', note: 'Crispy fish, cabbage slaw, chipotle crema', price: '$14' },
+                { name: 'Chile Relleno', note: 'Roasted poblano, melted cheese, red sauce', price: '$14' },
+                { name: 'Fajita Burrito', note: 'Grilled peppers and onions, choice of protein', price: '$13' },
+                { name: 'Chicken Tortilla Soup', note: 'Hearty, well-seasoned — solid starter', price: '$7' },
+                { name: 'Enchiladas', note: 'Red or green sauce, choice of filling', price: '$13' },
+                { name: 'Handcrafted Margarita', note: 'Fresh lime juice, good pour', price: '$9' },
+            ],
+            tips: [
+                'The Navajo Tacos on frybread are the signature move — you can\'t get this everywhere.',
+                'Portions are very generous — one plate is usually enough.',
+                'Great quick lunch between Jerome State Park and Gold King Mine.',
+            ],
+            phone: '9286499090',
+            links: {
+                map: 'https://maps.google.com/?q=Vaqueros+Grill+and+Cantina,+363+Main+St,+Jerome,+AZ'
+            },
+            tripadvisor: 'https://www.tripadvisor.com/Restaurant_Review-g31253-d5260795-Reviews-Vaqueros_Grill_and_Cantina-Jerome_Arizona.html'
+        },
         'flatiron': {
             emoji: '☕',
             title: 'Flatiron Cafe',
