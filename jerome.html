@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jerome &amp; Sedona Weekend</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { overflow-x: hidden; }
+        :root {
+            --copper:       #b5651d;
+            --copper-dark:  #7a3d12;
+            --copper-mid:   #9a4c1e;
+            --copper-light: #d4845a;
+            --terra:        #c0563a;
+            --terra-pale:   #fdf0e8;
+            --sage:         #6b8f71;
+            --sage-pale:    #e8f0e9;
+            --sand:         #f5e6c8;
+            --sand-dark:    #e8d5a8;
+            --cream:        #faf7f2;
+            --snow:         #ffffff;
+            --stone:        #8b7355;
+            --text-dark:    #2c1810;
+            --text-mid:     #5c3d2e;
+            --text-light:   #8b7060;
+            --radius:       16px;
+            --shadow-sm:    0 2px 8px rgba(44,24,16,.08);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        .app-header {
+            position: relative;
+            height: 128px;
+            overflow: hidden;
+            background: linear-gradient(160deg, var(--copper-dark) 0%, var(--copper) 65%, #c47840 100%);
+        }
+        .header-bg-lines {
+            position: absolute;
+            inset: 0;
+            opacity: .07;
+            background-image: repeating-linear-gradient(
+                45deg, transparent, transparent 12px,
+                rgba(255,255,255,.6) 12px, rgba(255,255,255,.6) 13px
+            );
+        }
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 16px 20px;
+            text-align: center;
+        }
+        .header-eyebrow {
+            font-size: 10px;
+            color: rgba(255,218,170,.75);
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.1;
+            text-shadow: 0 2px 12px rgba(0,0,0,.3);
+        }
+        .header-sub {
+            font-size: 11px;
+            color: rgba(255,218,170,.8);
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        /* ── BOTTOM NAV ── */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 100%; max-width: 430px;
+            background: var(--snow);
+            border-top: 1px solid #e8ddd0;
+            display: flex;
+            z-index: 100;
+            box-shadow: 0 -4px 20px rgba(44,24,16,.08);
+        }
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 2px 13px;
+            gap: 3px;
+            cursor: pointer;
+            color: #b0a090;
+            border: none;
+            background: none;
+            font-family: 'Inter', sans-serif;
+            transition: color .18s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-item.active { color: var(--copper); }
+        .nav-icon  { font-size: 19px; }
+        .nav-label { font-size: 9px; font-weight: 600; letter-spacing: .3px; }
+
+        /* ── CONTENT / SECTIONS ── */
+        .content  { padding: 16px 16px 96px; }
+        .section  { display: none; }
+        .section.active { display: block; }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--snow);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card-label {
+            font-size: 10px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+            margin-bottom: 6px;
+        }
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            line-height: 1.25;
+        }
+        .card-body {
+            font-size: 13.5px;
+            color: var(--text-mid);
+            line-height: 1.6;
+        }
+
+        /* ── SECTION DIVIDER ── */
+        .section-header {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-light);
+            margin: 6px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--stone);
+            opacity: .22;
+        }
+
+        /* ── HERO BANNER ── */
+        .hero-banner {
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 14px;
+            position: relative;
+            min-height: 138px;
+            display: flex;
+            align-items: flex-end;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,.62) 0%, transparent 58%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 18px 20px;
+            color: white;
+            width: 100%;
+        }
+        .hero-tag {
+            display: inline-block;
+            background: rgba(255,255,255,.2);
+            border-radius: 100px;
+            padding: 3px 12px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 7px;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1.15;
+            text-shadow: 0 2px 8px rgba(0,0,0,.4);
+        }
+        .hero-sub { font-size: 12px; opacity: .85; margin-top: 4px; }
+
+        /* ── STAT GRID ── */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .stat-card {
+            background: var(--snow);
+            border-radius: 12px;
+            padding: 14px 12px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--copper);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        /* ── HIGHLIGHT STRIP ── */
+        .highlight-strip {
+            background: linear-gradient(135deg, var(--copper-dark), var(--copper));
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            color: white;
+            margin-bottom: 14px;
+        }
+        .hl-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: .72; margin-bottom: 5px; }
+        .hl-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 3px; }
+        .hl-body  { font-size: 13px; opacity: .88; line-height: 1.55; }
+
+        /* ── WARN BANNER ── */
+        .warn-banner {
+            background: linear-gradient(135deg, #fff9e6, #fff3c4);
+            border: 1px solid #e0c44a;
+            border-radius: 12px;
+            padding: 13px 15px;
+            margin-bottom: 14px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .warn-icon  { font-size: 22px; flex-shrink: 0; }
+        .warn-title { font-size: 13px; font-weight: 700; color: #856404; margin-bottom: 4px; }
+        .warn-text  { font-size: 12px; color: #7a5800; line-height: 1.5; }
+
+        /* ── TIP BOX ── */
+        .tip-box {
+            background: var(--terra-pale);
+            border-left: 3px solid var(--copper);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+        }
+        .tip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--copper-mid); margin-bottom: 5px; }
+        .tip-text  { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+        /* ── EVENT ITEMS ── */
+        .event-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0ebe4;
+        }
+        .event-item:last-child { border-bottom: none; }
+        .event-time {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-light);
+            width: 70px;
+            flex-shrink: 0;
+            padding-top: 2px;
+        }
+        .event-detail { flex: 1; }
+        .event-name  { font-size: 14px; font-weight: 500; color: var(--text-dark); line-height: 1.35; }
+        .event-note  { font-size: 12px; color: var(--text-light); margin-top: 3px; line-height: 1.45; }
+        .ev-tag {
+            display: inline-block;
+            background: var(--terra-pale);
+            color: var(--copper-mid);
+            border-radius: 100px;
+            padding: 1px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        .ev-tag.green { background: var(--sage-pale); color: #3a6b42; }
+        .ev-tag.warn  { background: #fff3cd; color: #856404; }
+
+        /* ── DISTANCE PILLS ── */
+        .distance-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+        .distance-pill {
+            background: var(--snow);
+            border: 1px solid #e0d8d0;
+            border-radius: 100px;
+            padding: 6px 14px;
+            font-size: 12px;
+            color: var(--text-mid);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: var(--shadow-sm);
+        }
+        .distance-pill strong { color: var(--copper); }
+
+        /* ── ATTRACTION CARDS ── */
+        .attraction-card {
+            background: var(--snow);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform .14s;
+            border-left: 4px solid transparent;
+        }
+        .attraction-card:active { transform: scale(.98); }
+        .attraction-card.must  { border-left-color: var(--copper); }
+        .attraction-card.great { border-left-color: var(--sage); }
+        .attraction-card.fun   { border-left-color: var(--sand-dark); }
+        .ac-inner {
+            padding: 14px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .ac-emoji { font-size: 28px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+        .ac-body  { flex: 1; min-width: 0; }
+        .ac-name  { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
+        .ac-desc  { font-size: 12px; color: var(--text-mid); line-height: 1.5; margin-bottom: 7px; }
+        .ac-tags  { display: flex; flex-wrap: wrap; gap: 5px; }
+        .ac-tag   { background: var(--terra-pale); color: var(--copper-mid); border-radius: 100px; padding: 2px 9px; font-size: 11px; font-weight: 500; }
+        .ac-tag.green { background: var(--sage-pale); color: #3a6b42; }
+        .ac-tag.sand  { background: var(--sand); color: var(--text-mid); }
+        .ac-tag.warn  { background: #fff3cd; color: #856404; }
+        .tap-hint { font-size: 11px; color: var(--copper); margin-top: 5px; }
+
+        /* ── BADGES ── */
+        .badge-must {
+            display: inline-block;
+            background: var(--copper);
+            color: white;
+            border-radius: 100px;
+            padding: 2px 9px;
+            font-size: 9px;
+            font-weight: 700;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .badge-top {
+            display: inline-block;
+            background: var(--sage);
+            color: white;
+            border-radius: 100px;
+            padding: 2px 9px;
+            font-size: 9px;
+            font-weight: 700;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        /* ── RESTAURANT CARDS ── */
+        .restaurant-card {
+            background: var(--snow);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            gap: 12px;
+        }
+        .rest-emoji { font-size: 30px; flex-shrink: 0; line-height: 1; }
+        .rest-body  { flex: 1; }
+        .rest-name  { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
+        .rest-meta  { font-size: 11px; color: var(--text-light); margin-bottom: 6px; }
+        .rest-note  { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+        .rest-tags  { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+        .rest-tag   { border-radius: 100px; padding: 2px 9px; font-size: 11px; font-weight: 500; }
+        .rest-tag.price { background: var(--sand); color: var(--text-mid); }
+        .rest-tag.type  { background: var(--terra-pale); color: var(--copper-mid); }
+        .rest-tag.pick  { background: #ffd700; color: #6b4f00; }
+        .rest-tag.tip   { background: var(--sage-pale); color: #3a6b42; }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(44,24,16,.52);
+            z-index: 200;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .modal-overlay.open { display: flex; animation: overlay-in .2s ease; }
+        @keyframes overlay-in { from{opacity:0} to{opacity:1} }
+        .modal-sheet {
+            background: white;
+            border-radius: 24px 24px 0 0;
+            padding: 10px 22px 48px;
+            width: 100%; max-width: 430px;
+            position: relative;
+            animation: sheet-up .26s cubic-bezier(.4,0,.2,1);
+            max-height: 86vh;
+            overflow-y: auto;
+        }
+        @keyframes sheet-up { from{transform:translateY(60px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .modal-handle {
+            width: 40px; height: 4px;
+            background: #e0d8d0;
+            border-radius: 2px;
+            margin: 10px auto 18px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px; right: 16px;
+            background: #f0ebe4;
+            border: none; border-radius: 100px;
+            width: 34px; height: 34px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-mid);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .modal-emoji { font-size: 52px; display: block; text-align: center; margin-bottom: 6px; }
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 23px;
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+        .modal-sub   { text-align: center; font-size: 12px; color: var(--text-light); margin-bottom: 16px; line-height: 1.5; }
+        .modal-tags  { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+        .modal-tag   { background: var(--terra-pale); color: var(--copper-mid); border-radius: 100px; padding: 4px 12px; font-size: 12px; font-weight: 500; }
+        .modal-tag.green { background: var(--sage-pale); color: #3a6b42; }
+        .modal-tag.sand  { background: var(--sand); color: var(--text-mid); }
+        .modal-tag.warn  { background: #fff3cd; color: #856404; }
+        .modal-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-light); margin-bottom: 8px; }
+        .modal-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0ebe4;
+            font-size: 13px;
+        }
+        .modal-info-row:last-child { border-bottom: none; }
+        .modal-info-label { color: var(--text-light); flex-shrink: 0; width: 40%; }
+        .modal-info-value { font-weight: 600; color: var(--text-dark); text-align: right; flex: 1; }
+        .modal-fact {
+            background: var(--cream);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+            color: var(--text-mid);
+            line-height: 1.55;
+            margin-bottom: 8px;
+        }
+        .modal-section { margin-bottom: 18px; }
+    </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="app-header">
+    <div class="header-bg-lines"></div>
+    <div class="header-content">
+        <div class="header-eyebrow">Verde Valley Weekend</div>
+        <div class="header-title">Jerome &amp; Sedona</div>
+        <div class="header-sub">Arizona · June 2026</div>
+    </div>
+</header>
+
+<!-- ── CONTENT ── -->
+<main class="content">
+
+<!-- ═══════════════════════════════════ HOME ═══════════════════════════════════ -->
+<section class="section active" id="section-home">
+
+    <div class="highlight-strip">
+        <div class="hl-label">You're here</div>
+        <div class="hl-title">Jerome, AZ</div>
+        <div class="hl-body">5,069 ft above sea level · Historic copper mining ghost town · America's most vertical city</div>
+    </div>
+
+    <div class="distance-row">
+        <div class="distance-pill">📍 Jerome <strong>You're here</strong></div>
+        <div class="distance-pill">🌄 Sedona <strong>28 mi</strong></div>
+        <div class="distance-pill">🍷 Cottonwood <strong>11 mi</strong></div>
+    </div>
+
+    <div class="warn-banner">
+        <div class="warn-icon">☀️</div>
+        <div>
+            <div class="warn-title">June Heat Advisory</div>
+            <div class="warn-text">Jerome stays comfortable (~78°F) thanks to the elevation. Sedona can hit <strong>105°F+</strong>. Hike Sedona before 9 AM. Carry 1 liter of water per mile. The elevation difference between Jerome and Sedona is 700 ft — plan cooler activities for midday.</div>
+        </div>
+    </div>
+
+    <div class="section-header">Saturday · Jerome Day</div>
+
+    <div class="card">
+        <div class="event-item">
+            <div class="event-time">Morning</div>
+            <div class="event-detail">
+                <div class="event-name">Breakfast + Historic District Walk</div>
+                <div class="event-note">Flatiron Cafe for breakfast (tiny, go early), then stroll Hull Ave and Main St galleries</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Midday</div>
+            <div class="event-detail">
+                <div class="event-name">Jerome State Historic Park <span class="ev-tag">Don't Miss</span></div>
+                <div class="event-note">Douglas Mansion museum · $7 pp · stunning Verde Valley panoramas</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Afternoon</div>
+            <div class="event-detail">
+                <div class="event-name">Gold King Mine &amp; Ghost Town <span class="ev-tag">Don't Miss</span></div>
+                <div class="event-note">Vintage mining relics, free-roaming burros, peacocks · pure ghost town magic</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Sunset</div>
+            <div class="event-detail">
+                <div class="event-name">Audrey Headframe Park</div>
+                <div class="event-note">Glass floor over 1,900 ft mine shaft · best sunset views in Jerome · free</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Dinner</div>
+            <div class="event-detail">
+                <div class="event-name">The Asylum Restaurant or Haunted Hamburger</div>
+                <div class="event-note">Upscale at the Jerome Grand Hotel, or iconic burgers with Verde Valley views</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Evening</div>
+            <div class="event-detail">
+                <div class="event-name">👻 Ghost Town Night Walk</div>
+                <div class="event-note">Jerome after dark is genuinely eerie — the whole town is reportedly haunted</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Sunday · Sedona Day</div>
+
+    <div class="card">
+        <div class="event-item">
+            <div class="event-time">7:30 AM</div>
+            <div class="event-detail">
+                <div class="event-name">Early start — Sedona gets very hot</div>
+                <div class="event-note">Drive US-89A: Jerome → Cottonwood → Sedona (~45 min, spectacular canyon drive)</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">8:00 AM</div>
+            <div class="event-detail">
+                <div class="event-name">Cathedral Rock Trail <span class="ev-tag">Don't Miss</span></div>
+                <div class="event-note">1.5 mi moderate scramble · most iconic view in Arizona · finish before 10 AM</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">10:00 AM</div>
+            <div class="event-detail">
+                <div class="event-name">Chapel of the Holy Cross</div>
+                <div class="event-note">Free · modernist chapel built into red rock buttes · non-denominational · genuinely moving</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Midday</div>
+            <div class="event-detail">
+                <div class="event-name">Tlaquepaque Arts Village + lunch</div>
+                <div class="event-note">Shaded courtyards, 40+ galleries, great food — the perfect midday heat escape</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Afternoon</div>
+            <div class="event-detail">
+                <div class="event-name">🍷 Wine Walk — Old Town Cottonwood</div>
+                <div class="event-note">Cool off with the Verde Valley wine scene · 10+ tasting rooms within walking distance</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Sunset</div>
+            <div class="event-detail">
+                <div class="event-name">Airport Mesa Overlook <span class="ev-tag green">Optional</span></div>
+                <div class="event-note">360° view of all Sedona formations in golden hour light · free viewpoint off Airport Rd</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-label">Our Picks for You Two</div>
+        <div class="tip-text">
+            🌅 Sunset at Audrey Headframe Park<br>
+            ⛪ Chapel of the Holy Cross, Sedona<br>
+            🥃 Dinner at The Asylum Restaurant<br>
+            🍷 Old Town Cottonwood wine walk<br>
+            🥾 Cathedral Rock — start at 8 AM sharp
+        </div>
+    </div>
+
+</section>
+
+<!-- ═══════════════════════════════════ JEROME ═══════════════════════════════════ -->
+<section class="section" id="section-jerome">
+
+    <div class="hero-banner">
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#5c2d1a 0%,#8b4513 50%,#a0522d 100%);"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Historic Ghost Town</div>
+            <div class="hero-title">Jerome</div>
+            <div class="hero-sub">5,069 ft · Verde Valley · Est. 1876</div>
+        </div>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-number">5,069</div>
+            <div class="stat-label">Feet Elevation</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">450</div>
+            <div class="stat-label">Residents Today</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">1876</div>
+            <div class="stat-label">Year Founded</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">$1B+</div>
+            <div class="stat-label">Copper Mined</div>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-label">Quick History</div>
+        <div class="tip-text">Jerome boomed as a copper mining town from 1876 to 1953, once housing 15,000 people. When the mines closed, the population crashed to just 50. Artists moved in during the 1960s and rescued the town. Today it's a National Historic Landmark packed with galleries, wine bars, and a wonderfully haunted reputation.</div>
+    </div>
+
+    <div class="section-header">Must-See</div>
+
+    <div class="attraction-card must" onclick="openModal('jerome-state-park')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🏛️</div>
+            <div class="ac-body">
+                <div class="ac-name">Jerome State Historic Park <span class="badge-must">Must</span></div>
+                <div class="ac-desc">The 1916 Douglas Mansion turned museum. Mining history exhibits, hands-on artifacts, and sweeping Verde Valley views from the wrap-around veranda.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">$7 / person</span>
+                    <span class="ac-tag sand">Tues–Sun 9am–5pm</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card must" onclick="openModal('gold-king')">
+        <div class="ac-inner">
+            <div class="ac-emoji">⛏️</div>
+            <div class="ac-body">
+                <div class="ac-name">Gold King Mine &amp; Ghost Town <span class="badge-must">Must</span></div>
+                <div class="ac-desc">A jaw-dropping outdoor museum of vintage mining gear, rusting antique cars, and crumbling ghost town structures. Burros and peacocks wander freely.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">$12 adults · $5 kids</span>
+                    <span class="ac-tag sand">Daily 10am–5pm</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card must" onclick="openModal('audrey-headframe')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🌅</div>
+            <div class="ac-body">
+                <div class="ac-name">Audrey Headframe Park <span class="badge-top">Best Sunset</span></div>
+                <div class="ac-desc">Glass floor over a 1,900-ft mine shaft, sweeping Verde Valley panoramas, and the single best sunset spot in Jerome. One of Arizona's wildest free attractions.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Free</span>
+                    <span class="ac-tag sand">Always open</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Also Worth Your Time</div>
+
+    <div class="attraction-card great" onclick="openModal('jerome-grand')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🏨</div>
+            <div class="ac-body">
+                <div class="ac-name">Jerome Grand Hotel</div>
+                <div class="ac-desc">A 1926 hospital-turned-hotel perched at the top of Jerome. Reportedly one of Arizona's most haunted buildings. The views and Wingwalker Lounge are worth a stop even if you're not staying.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">Historic 1926</span>
+                    <span class="ac-tag sand">Bar &amp; Restaurant open to all</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card great" onclick="openModal('galleries')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🎨</div>
+            <div class="ac-body">
+                <div class="ac-name">Art Galleries &amp; Studios</div>
+                <div class="ac-desc">20+ galleries along Hull Ave and Main St — ceramics, jewelry, photography, metalwork. Jerome's artist colony has been thriving since the 1960s.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Mostly free</span>
+                    <span class="ac-tag sand">Most open 10am–5pm</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card fun" onclick="openModal('sliding-jail')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🏚️</div>
+            <div class="ac-body">
+                <div class="ac-name">The Sliding Jail</div>
+                <div class="ac-desc">Jerome's 1928 reinforced-concrete jail has literally slid 225 feet downhill from its original location — dynamite mine blasts destabilized the clay soil beneath it.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Free to see</span>
+                    <span class="ac-tag sand">Exterior only · Hull Ave</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card fun" onclick="openModal('ghost-tour')">
+        <div class="ac-inner">
+            <div class="ac-emoji">👻</div>
+            <div class="ac-body">
+                <div class="ac-name">Ghost Town Evening Walk</div>
+                <div class="ac-desc">Jerome's haunted reputation is genuine — the Grand Hotel, Sullivan's Rest, and the Cuban Queen Bordello all have documented paranormal histories. Perfect after-dark stroll.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Self-guided free</span>
+                    <span class="ac-tag sand">Guided tours ~$25</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ═══════════════════════════════════ SEDONA ═══════════════════════════════════ -->
+<section class="section" id="section-sedona">
+
+    <div class="hero-banner">
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#6b2510 0%,#a0522d 40%,#c0653a 100%);"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Red Rock Country</div>
+            <div class="hero-title">Sedona</div>
+            <div class="hero-sub">28 mi from Jerome · 4,350 ft · Hike early</div>
+        </div>
+    </div>
+
+    <div class="warn-banner">
+        <div class="warn-icon">🌡️</div>
+        <div>
+            <div class="warn-title">June Heat — Plan Smart</div>
+            <div class="warn-text">Sedona averages <strong>100–108°F</strong> in late June. Start any trail by <strong>7:30–8:00 AM</strong>. Carry 1 liter of water per mile per person. A <strong>Red Rock Pass ($12/car)</strong> is required at most trailheads. Midday = Tlaquepaque, Chapel of the Holy Cross, or a winery.</div>
+        </div>
+    </div>
+
+    <div class="section-header">Top Trails — Go Early!</div>
+
+    <div class="attraction-card must" onclick="openModal('cathedral-rock')">
+        <div class="ac-inner">
+            <div class="ac-emoji">⛰️</div>
+            <div class="ac-body">
+                <div class="ac-name">Cathedral Rock <span class="badge-must">Must</span></div>
+                <div class="ac-desc">The most photographed rock formation in Arizona. A moderate scramble with iron rungs near the top — the view from the saddle between the twin spires is unforgettable.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">1.5 mi round trip</span>
+                    <span class="ac-tag warn">Moderate — some scrambling</span>
+                    <span class="ac-tag sand">Red Rock Pass $12</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card great" onclick="openModal('bell-rock')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🔔</div>
+            <div class="ac-body">
+                <div class="ac-name">Bell Rock Trail</div>
+                <div class="ac-desc">Most accessible iconic formation — a flat path leads right to the base, and you can scramble partway up the bell shape for great views. One of Sedona's four major vortex sites.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">3.6 mi loop</span>
+                    <span class="ac-tag green">Easy to Moderate</span>
+                    <span class="ac-tag sand">Red Rock Pass $12</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card great" onclick="openModal('airport-mesa')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🛫</div>
+            <div class="ac-body">
+                <div class="ac-name">Airport Mesa Loop <span class="badge-top">Best Sunset</span></div>
+                <div class="ac-desc">360° views of every famous Sedona formation from a single point. The viewpoint off Airport Rd requires no hiking. The full loop is 3.3 miles with sweeping panoramas throughout.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">3.3 mi loop (or just the viewpoint)</span>
+                    <span class="ac-tag green">Easy to Moderate</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card fun" onclick="openModal('devils-bridge')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🌉</div>
+            <div class="ac-body">
+                <div class="ac-name">Devil's Bridge</div>
+                <div class="ac-desc">The largest natural sandstone arch in the Sedona area. The iconic photo where you stand on the arch above a dramatic drop. Very crowded on summer weekends — go at sunrise or skip.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">4 mi round trip</span>
+                    <span class="ac-tag warn">Moderate</span>
+                    <span class="ac-tag warn">Extremely crowded weekends</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">No-Hike Highlights</div>
+
+    <div class="attraction-card must" onclick="openModal('chapel')">
+        <div class="ac-inner">
+            <div class="ac-emoji">⛪</div>
+            <div class="ac-body">
+                <div class="ac-name">Chapel of the Holy Cross <span class="badge-must">Must</span></div>
+                <div class="ac-desc">A 1956 modernist chapel built directly into a 250-foot red rock butte. Designed by a Frank Lloyd Wright student. Free, non-denominational, and genuinely moving.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Free</span>
+                    <span class="ac-tag sand">Daily 9am–5pm</span>
+                    <span class="ac-tag">Short paved walk</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card great" onclick="openModal('tlaquepaque')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🏺</div>
+            <div class="ac-body">
+                <div class="ac-name">Tlaquepaque Arts &amp; Shopping Village</div>
+                <div class="ac-desc">A beautiful Mexican colonial-style complex with 40+ galleries, boutiques, and restaurants. Shaded courtyards and fountains make it the perfect midday heat escape.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Free entry</span>
+                    <span class="ac-tag sand">Daily 10am–5pm</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card fun" onclick="openModal('pink-jeep')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🚙</div>
+            <div class="ac-body">
+                <div class="ac-name">Pink Jeep Tours</div>
+                <div class="ac-desc">Off-road Jeep tours that access formations completely unreachable on foot. Great option when it's too hot to hike — informative guides, modified Wranglers, unforgettable terrain.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">$90–$140 pp</span>
+                    <span class="ac-tag warn">Book ahead</span>
+                    <span class="ac-tag sand">1.5–3 hrs</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card fun" onclick="openModal('slide-rock')">
+        <div class="ac-inner">
+            <div class="ac-emoji">💦</div>
+            <div class="ac-body">
+                <div class="ac-name">Slide Rock State Park</div>
+                <div class="ac-desc">Natural water slides carved into red rock by Oak Creek. Cold, clear water — a lifesaver in June heat. Arrives at capacity by 9 AM on summer weekends; plan ahead.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">$30 / vehicle</span>
+                    <span class="ac-tag warn">Capacity fills fast</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ═══════════════════════════════════ EATS ═══════════════════════════════════ -->
+<section class="section" id="section-eats">
+
+    <div class="section-header">Jerome</div>
+
+    <div class="restaurant-card">
+        <div class="rest-emoji">🍔</div>
+        <div class="rest-body">
+            <div class="rest-name">The Haunted Hamburger <span class="badge-must" style="font-size:9px;">Icon</span></div>
+            <div class="rest-meta">Jerome · Lunch &amp; Dinner · $$</div>
+            <div class="rest-note">Jerome's most famous restaurant. Outdoor patio with Verde Valley views, enormous burgers, milkshakes. Expect a line on weekends — absolutely worth it.</div>
+            <div class="rest-tags">
+                <span class="rest-tag price">$$</span>
+                <span class="rest-tag type">American</span>
+                <span class="rest-tag pick">⭐ Local Legend</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="restaurant-card">
+        <div class="rest-emoji">🥂</div>
+        <div class="rest-body">
+            <div class="rest-name">The Asylum Restaurant</div>
+            <div class="rest-meta">Jerome Grand Hotel · Dinner · $$$</div>
+            <div class="rest-note">Upscale dining inside the historic 1926 hospital-turned-hotel. Terrace seating with jaw-dropping views of the Verde Valley. Creative American menu with an excellent wine list. Reservations strongly recommended.</div>
+            <div class="rest-tags">
+                <span class="rest-tag price">$$$</span>
+                <span class="rest-tag type">Fine Dining</span>
+                <span class="rest-tag pick">⭐ Top Pick for Dinner</span>
+                <span class="rest-tag tip">Reserve ahead</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="restaurant-card">
+        <div class="rest-emoji">☕</div>
+        <div class="rest-body">
+            <div class="rest-name">Flatiron Cafe</div>
+            <div class="rest-meta">Jerome · Breakfast &amp; Lunch · $</div>
+            <div class="rest-note">Tiny and beloved — the best breakfast in Jerome. Egg scrambles, pastries, excellent coffee. Very small space; arrive early or expect a wait. Cash-friendly.</div>
+            <div class="rest-tags">
+                <span class="rest-tag price">$</span>
+                <span class="rest-tag type">Breakfast / Brunch</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="restaurant-card">
+        <div class="rest-emoji">🍺</div>
+        <div class="rest-body">
+            <div class="rest-name">Sullivan's Rest</div>
+            <div class="rest-meta">Jerome · Bar · $</div>
+            <div class="rest-note">Jerome's most famous bar — formerly "Rawhide" Jimmy Douglas's saloon. Cold drinks, local characters, and reportedly haunted. Perfect after-sunset stop.</div>
+            <div class="rest-tags">
+                <span class="rest-tag price">$</span>
+                <span class="rest-tag type">Bar</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="restaurant-card">
+        <div class="rest-emoji">🍖</div>
+        <div class="rest-body">
+            <div class="rest-name">Bobby D's BBQ</div>
+            <div class="rest-meta">Jerome · Lunch &amp; Dinner · $$</div>
+            <div class="rest-note">Casual BBQ in the heart of Jerome — good smoked brisket and ribs. Solid value with no fuss. Great if the Haunted Hamburger line is too long.</div>
+            <div class="rest-tags">
+                <span class="rest-tag price">$$</span>
+                <span class="rest-tag type">BBQ</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Sedona</div>
+
+    <div class="restaurant-card">
+        <div class="rest-emoji">🌮</div>
+        <div class="rest-body">
+            <div class="rest-name">Elote Cafe <span class="badge-must" style="font-size:9px;">Legend</span></div>
+            <div class="rest-meta">Sedona · Dinner only · $$$</div>
+            <div class="rest-note">Widely considered the best restaurant in Sedona — creative upscale Mexican. Their elote appetizer (the namesake dish) alone is worth the drive. No reservations for most tables — arrive at 5 PM when they open or join the waitlist early.</div>
+            <div class="rest-tags">
+                <span class="rest-tag price">$$$</span>
+                <span class="rest-tag type">Upscale Mexican</span>
+                <span class="rest-tag pick">⭐ Sedona's Best</span>
+                <span class="rest-tag tip">Arrive at 5 PM</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="restaurant-card">
+        <div class="rest-emoji">🌅</div>
+        <div class="rest-body">
+            <div class="rest-name">Mariposa Latin Inspired Grill</div>
+            <div class="rest-meta">Sedona · Dinner · $$$$</div>
+            <div class="rest-note">Spectacular canyon views from every table. Chef Lisa Dahl's Latin-influenced American menu is excellent. Most romantic restaurant in Sedona. Reserve well in advance.</div>
+            <div class="rest-tags">
+                <span class="rest-tag price">$$$$</span>
+                <span class="rest-tag type">Fine Dining</span>
+                <span class="rest-tag pick">⭐ Best Views</span>
+                <span class="rest-tag tip">Reserve way ahead</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="restaurant-card">
+        <div class="rest-emoji">🍕</div>
+        <div class="rest-body">
+            <div class="rest-name">Hideaway Restaurant</div>
+            <div class="rest-meta">Sedona · Lunch &amp; Dinner · $$</div>
+            <div class="rest-note">Casual pizza and pasta with a deck view of Cathedral Rock that rivals any fine dining room. Hidden down a side road — locals' choice for a relaxed lunch. One of the best value views in Sedona.</div>
+            <div class="rest-tags">
+                <span class="rest-tag price">$$</span>
+                <span class="rest-tag type">Italian / Pizza</span>
+                <span class="rest-tag tip">Hidden gem</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="restaurant-card">
+        <div class="rest-emoji">☕</div>
+        <div class="rest-body">
+            <div class="rest-name">Coffee Pot Restaurant</div>
+            <div class="rest-meta">Sedona · Breakfast &amp; Lunch · $</div>
+            <div class="rest-note">Sedona's legendary breakfast spot since 1950. Famous for having 101 omelette varieties on the menu. Big portions, fair prices, classic diner energy. Busy on weekends but moves fast.</div>
+            <div class="rest-tags">
+                <span class="rest-tag price">$</span>
+                <span class="rest-tag type">Breakfast</span>
+                <span class="rest-tag pick">⭐ Classic</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">🍷 Wine Tasting — Cottonwood (11 mi)</div>
+
+    <div class="card">
+        <div class="card-label">Old Town Cottonwood</div>
+        <div class="card-title">Verde Valley Wine Row</div>
+        <div class="card-body">Arizona's most concentrated wine district — 10+ tasting rooms within walking distance of each other in Old Town Cottonwood. Perfect afternoon when Sedona is too hot to hike.</div>
+        <div style="margin-top:14px;">
+            <div class="event-item">
+                <div class="event-time">🍾</div>
+                <div class="event-detail">
+                    <div class="event-name">Merkin Vineyards Osteria</div>
+                    <div class="event-note">Maynard James Keenan's (Tool) winery with a full Italian restaurant — excellent food and wine</div>
+                </div>
+            </div>
+            <div class="event-item">
+                <div class="event-time">🥂</div>
+                <div class="event-detail">
+                    <div class="event-name">Arizona Stronghold Vineyards</div>
+                    <div class="event-note">Well-known AZ winery · great Rhône-style reds and bold whites</div>
+                </div>
+            </div>
+            <div class="event-item">
+                <div class="event-time">🍷</div>
+                <div class="event-detail">
+                    <div class="event-name">Pillsbury Wine Company</div>
+                    <div class="event-note">Small, intimate tasting room — some of Arizona's best single-vineyard wines</div>
+                </div>
+            </div>
+            <div class="event-item">
+                <div class="event-time">🌿</div>
+                <div class="event-detail">
+                    <div class="event-name">Chateau Tumbleweed</div>
+                    <div class="event-note">Casual and fun, local favorite · good by-the-glass pours in a relaxed atmosphere</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+</main>
+
+<!-- ── BOTTOM NAV ── -->
+<nav class="bottom-nav">
+    <button class="nav-item active" onclick="showSection('home', this)">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" onclick="showSection('jerome', this)">
+        <span class="nav-icon">🏘️</span>
+        <span class="nav-label">Jerome</span>
+    </button>
+    <button class="nav-item" onclick="showSection('sedona', this)">
+        <span class="nav-icon">🌄</span>
+        <span class="nav-label">Sedona</span>
+    </button>
+    <button class="nav-item" onclick="showSection('eats', this)">
+        <span class="nav-icon">🍽️</span>
+        <span class="nav-label">Eats</span>
+    </button>
+</nav>
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+        <div class="modal-handle"></div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <div id="modal-content"></div>
+    </div>
+</div>
+
+<script>
+    function showSection(name, btnEl) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+        document.getElementById('section-' + name).classList.add('active');
+        if (btnEl) btnEl.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    const MODALS = {
+        'jerome-state-park': {
+            emoji: '🏛️',
+            title: 'Jerome State Historic Park',
+            sub: 'Douglas Mansion · 100 Douglas Rd, Jerome',
+            tags: [{ t: '$7 / person', c: '' }, { t: 'Tues–Sun 9am–5pm', c: 'sand' }, { t: 'All Ages', c: 'green' }],
+            info: [
+                ['Admission', '$7 adults · $4 youth (7–13) · Free under 7'],
+                ['Hours', 'Tues – Sun · 9:00 AM – 5:00 PM'],
+                ['Closed', 'Mondays &amp; major holidays'],
+                ['Time needed', '45 – 90 minutes'],
+                ['Parking', 'Free lot on site'],
+            ],
+            facts: [
+                'The Douglas Mansion was built in 1916 by James "Rawhide" Douglas Jr. — at the time, one of the most modern homes in Arizona, constructed from reinforced concrete and adobe.',
+                'The mansion sits directly above the Little Daisy Mine, one of the richest copper ore pockets ever discovered in Arizona. At its peak the mine produced thousands of tons of copper annually.',
+                'Museum exhibits walk through Jerome\'s boom years (1876–1953), the geology of Verde Valley copper deposits, and daily life for miners and their families in a remote mountain town.',
+                'The wrap-around veranda offers sweeping views of the Verde Valley, the Mingus Mountain ridgeline above, and — on clear days — the red rock formations of Sedona 28 miles south.',
+            ]
+        },
+        'gold-king': {
+            emoji: '⛏️',
+            title: 'Gold King Mine &amp; Ghost Town',
+            sub: 'Perkinsville Rd, Jerome · 1 mile past downtown',
+            tags: [{ t: '$12 adults · $5 kids', c: '' }, { t: 'Daily 10am–5pm', c: 'sand' }, { t: 'Family Friendly', c: 'green' }],
+            info: [
+                ['Admission', '$12 adults · $5 children · Under 5 free'],
+                ['Hours', 'Daily · 10:00 AM – 5:00 PM'],
+                ['Location', '1 mile past downtown on Perkinsville Rd'],
+                ['Time needed', '1 – 2 hours'],
+                ['Animals', 'Burros, peacocks, chickens roam freely'],
+            ],
+            facts: [
+                'The Gold King Mine is a 1890s gold and silver mine turned extraordinary outdoor museum. Owner Don Robertson spent decades collecting and rescuing mining artifacts from across the Southwest.',
+                'The prop collection is legendary: antique cars from the 1920s–1940s, working steam engines, ore processing equipment, a 1920s-era gas station, and authentic ghost town buildings.',
+                'The free-roaming burros are friendly and often walk right up to visitors. The peacocks are bold — don\'t be surprised if one hops on your car.',
+                'Unlike a polished tourist attraction, Gold King is deliberately rough and unmanicured — that authenticity is exactly what makes it special. It genuinely feels like you stumbled into a time capsule.',
+            ]
+        },
+        'audrey-headframe': {
+            emoji: '🌅',
+            title: 'Audrey Headframe Park',
+            sub: 'Hull Ave, Jerome · Best at sunset',
+            tags: [{ t: 'Free', c: 'green' }, { t: 'Always Open', c: 'sand' }, { t: 'Best Sunset Spot', c: '' }],
+            info: [
+                ['Cost', 'Free'],
+                ['Best time', 'Sunset · 7:30–8:15 PM in late June'],
+                ['Mine shaft depth', '1,900 feet straight down'],
+                ['Glass floor', 'Yes — you can look directly down the shaft'],
+            ],
+            facts: [
+                'The Audrey Shaft was the primary production shaft for the United Verde Extension Mine — one of Arizona\'s most productive copper operations. At peak output, thousands of tons of ore were hoisted up this shaft daily.',
+                'Standing on the glass floor panel and looking 1,900 feet straight down into the earth is genuinely vertiginous and completely unforgettable. One of Arizona\'s wildest free experiences.',
+                'The panoramic views from the park take in the entire Verde Valley, the Mingus Mountain cliffs behind Jerome, and the red rock formations of Sedona glowing in the distance.',
+                'In late June, sunset hits around 7:45–8:00 PM. Arrive 30 minutes early to claim a spot — this is a local favorite. The light on the red rock formations in the valley below turns extraordinary gold.',
+            ]
+        },
+        'jerome-grand': {
+            emoji: '🏨',
+            title: 'Jerome Grand Hotel',
+            sub: 'Peralta Trail, Jerome · Highest point in town',
+            tags: [{ t: 'Built 1926', c: '' }, { t: 'Reportedly Haunted', c: '' }, { t: 'Bar &amp; Restaurant', c: 'sand' }],
+            info: [
+                ['Built', '1926 (as United Verde Hospital)'],
+                ['Became hotel', '1994'],
+                ['Rooms', '23 rooms'],
+                ['Restaurant', 'The Asylum · open to non-guests'],
+                ['Bar', 'Wingwalker Lounge · open daily'],
+            ],
+            facts: [
+                'The Jerome Grand Hotel was built in 1926 as the United Verde Hospital — at the time, the most modern hospital in Arizona. It operated until the mines closed in 1950 and sat vacant for 44 years.',
+                'The hotel is considered one of the most haunted buildings in Arizona. A maintenance worker named Claude who died in the elevator is the most frequently reported presence. The elevator reportedly operates on its own.',
+                'At 5,200 feet, it\'s the highest point in Jerome with unobstructed 360-degree views. Walk up even if you\'re not dining — the Wingwalker Lounge has a drink-and-a-view that\'s hard to beat.',
+                'The Asylum Restaurant (the name is dark humor — the hospital did have a psychiatric ward) serves excellent American food with European influences. Worth a reservation for dinner.',
+            ]
+        },
+        'galleries': {
+            emoji: '🎨',
+            title: 'Art Galleries &amp; Studios',
+            sub: 'Hull Ave &amp; Main St, Jerome',
+            tags: [{ t: 'Mostly Free', c: 'green' }, { t: '20+ Galleries', c: '' }, { t: 'Most open 10am–5pm', c: 'sand' }],
+            info: [
+                ['Number of galleries', '20+ active galleries and studios'],
+                ['Best street', 'Hull Ave — most concentrated'],
+                ['Art Walk', '1st Saturday of each month · free wine'],
+                ['Standouts', 'Raku Gallery · Jerome Artists Co-op · Nellie Bly'],
+            ],
+            facts: [
+                'Jerome\'s artist colony began in the late 1960s when artists and hippies moved into abandoned homes for nearly nothing. They gave the dying town a second life that\'s still thriving today.',
+                'The galleries run the full range: hand-thrown ceramics, silverwork and turquoise jewelry, large-format photography of the Southwest, fiber arts, and sculptural metalwork.',
+                'Raku Gallery and Nellie Bly Kaleidoscopes are particularly worth browsing. The Jerome Artists Cooperative Gallery is artist-run and carries some of the highest-quality work in town.',
+                'The First Saturday Art Walk brings live music, complimentary wine at participating galleries, and extended hours. If your visit falls on a first Saturday, this is the best way to experience Jerome.',
+            ]
+        },
+        'sliding-jail': {
+            emoji: '🏚️',
+            title: 'The Sliding Jail',
+            sub: 'Hull Ave, Jerome',
+            tags: [{ t: 'Free to See', c: 'green' }, { t: 'Exterior Only', c: 'sand' }, { t: 'Quirky AZ History', c: '' }],
+            info: [
+                ['Distance slid', '225+ feet from original site'],
+                ['Built', '1928'],
+                ['Why it moved', 'Mine blasts destabilized clay soil beneath it'],
+                ['Weight', 'Several tons of reinforced concrete — yet it slid intact'],
+            ],
+            facts: [
+                'Jerome\'s jail was built in 1928 from reinforced concrete specifically to be inescapable. It held mining-era troublemakers and was considered the most secure facility in the region.',
+                'The massive Phelps Dodge open-pit mine operation in the 1920s–1940s used enormous dynamite charges to blast away hillsides — those blasts slowly destabilized the clay soil throughout Jerome.',
+                'The jail began sliding downhill and has moved over 225 feet from its original location while remaining structurally intact. It\'s a testament to both the building\'s strength and the soil\'s instability.',
+                'The concrete structure is just sitting on Hull Ave — no fence, no signage drama. You can walk right up to it. One of the genuinely strange things you\'ll see anywhere in Arizona.',
+            ]
+        },
+        'ghost-tour': {
+            emoji: '👻',
+            title: 'Ghost Town Evening Walk',
+            sub: 'Jerome — best experienced after dark',
+            tags: [{ t: 'Self-guided Free', c: 'green' }, { t: 'Guided Tours ~$25', c: 'sand' }, { t: 'Fri &amp; Sat evenings', c: '' }],
+            info: [
+                ['Self-guided', 'Free — walk Jerome\'s streets at dusk'],
+                ['Ghost tours', 'Available Fri &amp; Sat evenings · ~$25 pp'],
+                ['Most haunted spots', 'Jerome Grand Hotel · Sullivan\'s Rest · Cuban Queen'],
+                ['Best time', 'After 8 PM when day-trippers have left'],
+            ],
+            facts: [
+                'Jerome earned its haunted reputation from the enormous number of violent deaths during the mining era — cave-ins, dynamite accidents, disease outbreaks, and brawls claimed thousands of lives in a small mountain town.',
+                'The Jerome Grand Hotel\'s ghost (maintenance worker Claude) is the most frequently reported. The elevator descends on its own to specific floors, and motion-triggered cameras have caught unexplained movement.',
+                'Sullivan\'s Rest bar and the Cuban Queen Bordello (1900–1916) on Hull Ave are other well-documented paranormal locations. The Cuban Queen is now a gallery with a preserved original interior.',
+                'Even without a formal tour, walking Jerome\'s steep empty streets after 8 PM — once the day-trippers have gone and the town quiets — gives you a genuinely atmospheric, slightly eerie experience.',
+            ]
+        },
+        'cathedral-rock': {
+            emoji: '⛰️',
+            title: 'Cathedral Rock Trail',
+            sub: 'Back O\' Beyond Rd, Sedona',
+            tags: [{ t: '1.5 mi round trip', c: '' }, { t: 'Moderate', c: '' }, { t: 'Red Rock Pass $12', c: 'sand' }],
+            info: [
+                ['Distance', '1.5 miles round trip'],
+                ['Elevation gain', '742 feet'],
+                ['Difficulty', 'Moderate · iron rungs/handholds at summit'],
+                ['Trailhead', 'Back O\' Beyond Rd · Red Rock Pass required'],
+                ['Best time (June)', 'Start no later than 8:00 AM'],
+                ['Time needed', '1 – 2 hours'],
+            ],
+            facts: [
+                'Cathedral Rock is the most photographed rock formation in Arizona and among the most photographed in the United States. The twin sandstone spires rise 2,500 feet above the surrounding desert.',
+                'This is one of Sedona\'s four major vortex sites — places where the earth\'s energy is believed to spiral upward or downward. Many visitors report a heightened sense of calm or energy here regardless of belief.',
+                'The final 300 feet involves scrambling on bare sandstone slabs and using iron rungs hammered into the rock face. It\'s manageable and safe, but requires hands and feet — wear closed-toe shoes with grip.',
+                'The reward is a saddle between the two spires with one of the great Arizona panoramas: Oak Creek winding through the red rock valley below, Bell Rock and Courthouse Butte to the south, and the entire Sedona basin stretching out.',
+            ]
+        },
+        'bell-rock': {
+            emoji: '🔔',
+            title: 'Bell Rock Trail',
+            sub: 'Village of Oak Creek, Sedona',
+            tags: [{ t: '3.6 mi loop', c: '' }, { t: 'Easy to Moderate', c: 'green' }, { t: 'Red Rock Pass $12', c: 'sand' }],
+            info: [
+                ['Distance', '3.6 miles (full loop) · shorter out-and-back options'],
+                ['Elevation gain', '~500 ft to base · more if scrambling up'],
+                ['Difficulty', 'Easy flat trail to base · moderate if you scramble'],
+                ['Trailhead', 'Village of Oak Creek · SR-179'],
+                ['Best time (June)', '7:00 – 10:00 AM'],
+            ],
+            facts: [
+                'Bell Rock is one of the most recognizable formations in Sedona, rising 550 feet above the valley floor in a distinctively bell-shaped silhouette that you\'ll recognize from postcards across Arizona.',
+                'This is a vortex site — the area around Bell Rock has been used for meditation and spiritual practice for decades. Many visitors report strong physical sensations of heat or tingling at the base.',
+                'The flat gravel path to Bell Rock\'s base is accessible and family-friendly. The scramble up the lower slopes is entirely optional — views are excellent even at the base.',
+                'The full Bell Rock Pathway loops 3.6 miles and includes Courthouse Butte as well, offering continuously changing views of Sedona\'s red rock landscape. A longer but highly rewarding option if you start early.',
+            ]
+        },
+        'airport-mesa': {
+            emoji: '🛫',
+            title: 'Airport Mesa Loop',
+            sub: 'Airport Rd, Sedona',
+            tags: [{ t: '3.3 mi loop', c: '' }, { t: 'Easy to Moderate', c: 'green' }, { t: 'Best Sunset View', c: '' }],
+            info: [
+                ['Distance', '3.3 miles loop (or just the viewpoint — no hiking)'],
+                ['Elevation gain', '~787 feet for full loop'],
+                ['Viewpoint', '1.5 miles up Airport Rd from US-89A · free parking pullout'],
+                ['Best time', 'Sunset · 7:30–8:00 PM in late June'],
+                ['Parking tip', 'Viewpoint fills at sunset — arrive 1 hour early'],
+            ],
+            facts: [
+                'Airport Mesa offers 360-degree views of every famous Sedona formation from a single vantage: Cathedral Rock, Bell Rock, Courthouse Butte, Coffee Pot Rock, and the full sweep of the Mogollon Rim.',
+                'The viewpoint off Airport Rd (a small pullout with a low rock wall) is famous as a sunset gathering spot. No hiking required — you can drive straight to it.',
+                'For vortex seekers, Airport Mesa\'s vortex is described as an "electric" or upflow vortex — contrasting with Cathedral Rock\'s downflow energy. Many visitors report feeling light-headed or energized.',
+                'The full loop trail requires some exposed scrambling and uneven footing. The partial path to the main overlook is easy and fully delivers the payoff.',
+            ]
+        },
+        'devils-bridge': {
+            emoji: '🌉',
+            title: "Devil's Bridge",
+            sub: 'Dry Creek Rd, Sedona',
+            tags: [{ t: '4 mi round trip', c: '' }, { t: 'Moderate', c: '' }, { t: 'Very crowded weekends', c: 'warn' }],
+            info: [
+                ['Distance', '4.0 miles round trip'],
+                ['Elevation gain', '~400 feet'],
+                ['Difficulty', 'Moderate · loose rock near the arch'],
+                ['Trailhead', 'Dry Creek Rd / Chuckwagon Trailhead'],
+                ['June warning', 'Go by 7 AM or skip — extremely hot and crowded by 9 AM'],
+            ],
+            facts: [
+                "Devil's Bridge is the largest natural sandstone arch in the Sedona area — 50 feet wide and 54 feet tall. It's the most Instagrammed spot in the region.",
+                'The famous photo is taken from below looking up as someone stands on the arch above a sheer drop. Exercise caution near the edge — people have fallen here.',
+                'The trail is solid and well-marked for most of its length. The final push to the arch involves loose rock and exposed sandstone that can be slippery in heat.',
+                'Weekend mornings can see 200+ cars in the parking area by 8:30 AM in summer. If you want to avoid the crowd, this is not a summer weekend trail — consider Cathedral Rock or Bell Rock instead.',
+            ]
+        },
+        'chapel': {
+            emoji: '⛪',
+            title: 'Chapel of the Holy Cross',
+            sub: '780 Chapel Rd, Sedona · Non-denominational',
+            tags: [{ t: 'Free', c: 'green' }, { t: 'Daily 9am–5pm', c: 'sand' }, { t: 'Short Paved Walk', c: '' }],
+            info: [
+                ['Admission', 'Free — open to all'],
+                ['Hours', 'Mon–Sat 9 AM – 5 PM · Sun 11 AM – 5 PM'],
+                ['Built', '1956'],
+                ['Architect', 'Marguerite Staude (Frank Lloyd Wright student)'],
+                ['Parking', 'Small lot on Chapel Rd · fills midday · arrive before 10 AM'],
+            ],
+            facts: [
+                'The Chapel of the Holy Cross is a Roman Catholic chapel built between two 250-foot red rock buttes in 1956. Sculptor Marguerite Staude conceived it after being inspired by the Empire State Building rising between two skyscrapers.',
+                "Staude studied under Frank Lloyd Wright, and his influence is unmistakable in the organic integration of the building with the rock face. The chapel appears to grow directly out of the sandstone.",
+                'The 90-foot cross is embedded in the cliff face and visible from miles away along SR-179. The interior is intentionally simple and quiet — just rows of wood pews, a small altar, and the panoramic windows.',
+                "One of 11 Arizona Wonders designated by the Arizona Republic. Non-denominational and open to everyone. Whatever your spiritual background, the combination of modernist architecture and red rock landscape is genuinely moving.",
+            ]
+        },
+        'tlaquepaque': {
+            emoji: '🏺',
+            title: 'Tlaquepaque Arts &amp; Shopping Village',
+            sub: '336 SR-179, Sedona · Perfect midday',
+            tags: [{ t: 'Free Entry', c: 'green' }, { t: 'Daily 10am–5pm', c: 'sand' }, { t: 'Restaurants On Site', c: '' }],
+            info: [
+                ['Admission', 'Free'],
+                ['Hours', 'Daily · 10 AM – 5 PM (restaurants vary)'],
+                ['Galleries', '40+ galleries and boutiques'],
+                ['Dining', "Rene at Tlaquepaque · Oak Creek Brewery · others"],
+                ['Tip', 'Best midday spot in Sedona — shaded courtyards, fountains, AC'],
+            ],
+            facts: [
+                'Tlaquepaque (tla-keh-PAH-keh) is named after the arts-and-crafts village near Guadalajara, Mexico. The Sedona complex was built in 1973 to mirror its Mexican colonial architecture.',
+                'The buildings were designed around two enormous heritage sycamore trees that still stand at the center of the complex. Hand-painted Talavera tiles, wrought iron gates, and bougainvillea complete the aesthetic.',
+                'Galleries range from fine art photography to Southwestern silver jewelry, blown glass, Native American textiles, and original paintings. Quality is high throughout.',
+                'The shaded courtyards and central fountain make Tlaquepaque the ideal place to be between 11 AM and 2 PM when Sedona temperatures peak — it\'s one of the most pleasant outdoor environments in Arizona during summer.',
+            ]
+        },
+        'pink-jeep': {
+            emoji: '🚙',
+            title: 'Pink Jeep Tours',
+            sub: 'Sedona · Multiple tour options',
+            tags: [{ t: '$90–$140 pp', c: '' }, { t: 'Book Ahead', c: 'warn' }, { t: '1.5–3 hrs', c: 'sand' }],
+            info: [
+                ['Cost', '$90 – $140+ per person depending on tour'],
+                ['Duration', '1.5 – 3 hours'],
+                ['Best tour', 'Broken Arrow (4WD-only access, no hikers)'],
+                ['Second best', 'Ancient Ruin (Honanki Heritage Site)'],
+                ['Book at', 'pinkjeeptours.com · fills fast on weekends'],
+            ],
+            facts: [
+                'Pink Jeep Tours has operated in Sedona since 1960 and is the most well-known off-road tour company in Arizona. Their modified open-air Jeep Wranglers access terrain that would destroy a standard vehicle.',
+                "The Broken Arrow Tour is the signature experience — it accesses Chicken Point overlook and Submarine Rock via 4WD-only trails that hikers can't reach. The exposure and views are extraordinary.",
+                'The Ancient Ruins tour adds a cultural dimension: you visit a 900-year-old Sinagua cliff dwelling at Honanki, with excellent guide commentary on the indigenous history of the Sedona area.',
+                'Even in peak heat, the open-air Jeeps with canvas sun shades keep things manageable. This is one of the few active Sedona experiences that works comfortably in late morning rather than just at dawn.',
+            ]
+        },
+        'slide-rock': {
+            emoji: '💦',
+            title: 'Slide Rock State Park',
+            sub: '6871 N US-89A, Sedona · 7 miles north',
+            tags: [{ t: '$30 / vehicle', c: '' }, { t: 'Very Crowded June–Aug', c: 'warn' }, { t: 'Arrive by 8 AM', c: '' }],
+            info: [
+                ['Fee', '$30 per vehicle (day use)'],
+                ['Hours', '8:00 AM – 7:00 PM (summer)'],
+                ['Water temp', '~65°F year-round'],
+                ['Warning', 'Park reaches capacity and closes gate by 9–10 AM on summer weekends'],
+                ['Alternative', 'Grasshopper Point (2 mi south · $10/car) — swimming with far less crowd'],
+            ],
+            facts: [
+                "Slide Rock is a natural water slide carved by 43-million-year-old basalt and sandstone as Oak Creek flows over flat, smoothed slabs. The creek maintains roughly 65°F water temperature year-round — an incredible relief in June.",
+                "The park is an old apple farm — the Pendley Homestead, established in 1912. The original apple trees still stand and produce a harvest in fall. The irrigation canals used to water them are visible throughout the park.",
+                'On summer weekends the parking lot fills by 8:30–9:00 AM and the gate closes until spaces open. If you don\'t arrive at opening, you\'ll be turned away.',
+                "Grasshopper Point Picnic Area (2 miles south on US-89A, $10/car) offers swimming in the same Oak Creek with a fraction of the crowd — it's a legitimate local alternative for those who don't want to battle the Slide Rock scene.",
+            ]
+        },
+    };
+
+    function openModal(key) {
+        const d = MODALS[key];
+        if (!d) return;
+        const tagsHtml = d.tags.map(t => `<span class="modal-tag ${t.c}">${t.t}</span>`).join('');
+        const infoHtml = d.info.map(r => `<div class="modal-info-row"><span class="modal-info-label">${r[0]}</span><span class="modal-info-value">${r[1]}</span></div>`).join('');
+        const factsHtml = d.facts.map(f => `<div class="modal-fact">${f}</div>`).join('');
+        document.getElementById('modal-content').innerHTML = `
+            <span class="modal-emoji">${d.emoji}</span>
+            <div class="modal-title">${d.title}</div>
+            <div class="modal-sub">${d.sub}</div>
+            <div class="modal-tags">${tagsHtml}</div>
+            <div class="modal-section">
+                <div class="modal-section-title">Quick Info</div>
+                ${infoHtml}
+            </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Need to Know</div>
+                ${factsHtml}
+            </div>
+        `;
+        document.getElementById('modal-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('modal-overlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
