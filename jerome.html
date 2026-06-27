@@ -369,6 +369,58 @@
         .ev-tappable { cursor: pointer; -webkit-tap-highlight-color: transparent; border-radius: 8px; margin: 0 -6px; padding: 6px 6px; transition: background .12s; }
         .ev-tappable:active { background: var(--sand); }
 
+        /* ── OPEN NOW ── */
+        .open-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--cream); border-radius: 10px; font-size: 13px; margin-bottom: 5px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity .12s; }
+        .open-item:active { opacity: .75; }
+        .oi-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+        .oi-dot.isopen  { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.2); }
+        .oi-dot.soon  { background: #f59e0b; }
+        .oi-dot.closed { background: #d1d5db; }
+        .oi-name { flex: 1; font-weight: 600; color: var(--text-dark); }
+        .oi-time { font-size: 11px; color: var(--text-light); white-space: nowrap; }
+        .open-toggle { font-size: 12px; color: var(--copper); margin-top: 8px; cursor: pointer; }
+
+        /* ── SURPRISE ── */
+        .surprise-card { background: linear-gradient(135deg, var(--copper-dark) 0%, var(--copper) 100%); border-radius: var(--radius); padding: 22px 20px; text-align: center; margin-bottom: 12px; }
+        .surprise-eyebrow { font-size: 12px; color: rgba(255,255,255,.7); margin-bottom: 4px; }
+        .surprise-title { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: white; margin-bottom: 16px; }
+        .surprise-btn { background: white; color: var(--copper-dark); border: none; border-radius: 100px; padding: 13px 30px; font-size: 15px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform .12s; }
+        .surprise-btn:active { transform: scale(.96); }
+
+        /* ── SHOT LIST ── */
+        .shot-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0ebe4; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .shot-item:last-child { border-bottom: none; }
+        .shot-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #ddd3c8; background: white; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; transition: all .15s; }
+        .shot-check.done { background: var(--sage); border-color: var(--sage); color: white; }
+        .shot-icon { font-size: 20px; flex-shrink: 0; line-height: 1.4; }
+        .shot-loc { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--copper); margin-bottom: 2px; }
+        .shot-desc { font-size: 12.5px; color: var(--text-mid); line-height: 1.4; }
+        .shot-counter { font-size: 12px; color: var(--text-light); float: right; }
+
+        /* ── WINE LOG ── */
+        .wine-entry { padding: 13px 0; border-bottom: 1px solid #f0ebe4; }
+        .wine-entry:last-child { border-bottom: none; }
+        .wine-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
+        .wine-name { font-size: 14px; font-weight: 700; color: var(--text-dark); }
+        .wine-loc  { font-size: 11px; color: var(--text-light); margin-top: 1px; }
+        .wine-visited-btn { font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 100px; border: none; cursor: pointer; -webkit-tap-highlight-color: transparent; white-space: nowrap; flex-shrink: 0; }
+        .wine-visited-btn.unvisited { background: var(--cream); color: var(--text-light); border: 1px solid #ddd; }
+        .wine-visited-btn.visited   { background: var(--sage); color: white; }
+        .wine-stars-row { display: flex; gap: 3px; margin-bottom: 7px; }
+        .wine-star { font-size: 22px; color: #e5e7eb; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color .12s; line-height: 1; }
+        .wine-star.lit { color: #f59e0b; }
+        .wine-note-input { width: 100%; padding: 8px 10px; border: 1px solid #e5ddd5; border-radius: 8px; font-size: 12px; font-family: inherit; color: var(--text-dark); background: var(--cream); resize: none; outline: none; }
+
+        /* ── CALL BUTTON ── */
+        .modal-link-btn.call { background: #dcfce7; color: #166534; }
+
+        /* ── PARKING ── */
+        .park-spot { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0ebe4; }
+        .park-spot:last-child { border-bottom: none; }
+        .park-icon { font-size: 20px; flex-shrink: 0; }
+        .park-name { font-size: 13.5px; font-weight: 700; color: var(--text-dark); }
+        .park-note { font-size: 12px; color: var(--text-mid); margin-top: 2px; line-height: 1.4; }
+
         /* ── BADGES ── */
         .badge-must {
             display: inline-block;
@@ -585,6 +637,14 @@
         <div class="distance-pill">🏺 Montezuma Castle <strong>25 mi</strong></div>
     </div>
 
+    <div id="open-now-card" class="card" style="margin-bottom:12px;"></div>
+
+    <div class="surprise-card">
+        <div class="surprise-eyebrow">Can't decide what's next?</div>
+        <div class="surprise-title" id="surprise-title">Surprise Us!</div>
+        <button class="surprise-btn" onclick="surpriseUs()">🎲 Pick Something Random</button>
+    </div>
+
     <div class="section-header">Saturday · Jerome Day</div>
 
     <div class="card">
@@ -704,6 +764,18 @@
         </div>
     </div>
 
+    <div class="card" style="margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:2px;">📸 Jerome Shot List <span id="shot-counter" style="font-size:11px;font-weight:400;color:var(--text-light);float:right;margin-top:2px;"></span></div>
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:12px;">Tap each shot to check it off</div>
+        <div id="shot-list-items"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:24px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:2px;">🍷 Wine Tasting Log <span id="wine-log-header" style="font-size:11px;font-weight:400;color:var(--text-light);float:right;margin-top:2px;"></span></div>
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:12px;">Track your tastings · rate each winery</div>
+        <div id="wine-log-items"></div>
+    </div>
+
 </section>
 
 <!-- ═══════════════════════════════════ JEROME ═══════════════════════════════════ -->
@@ -741,6 +813,45 @@
     <div class="tip-box">
         <div class="tip-label">Quick History</div>
         <div class="tip-text">Jerome boomed as a copper mining town from 1876 to 1953, once housing 15,000 people. When the mines closed, the population crashed to 50. Artists moved in during the 1960s and rescued the town. Today it's a National Historic Landmark packed with galleries, wine bars, and a wonderfully haunted reputation.</div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:12px;">🅿️ Parking in Jerome</div>
+        <div class="park-spot">
+            <div class="park-icon">🏠</div>
+            <div>
+                <div class="park-name">Your Home Base (The Flat)</div>
+                <div class="park-note">Park on Hull Ave behind the Flatiron or in the small adjacent lot. Central to everything — walk from here to Main St in under 2 min.</div>
+            </div>
+        </div>
+        <div class="park-spot">
+            <div class="park-icon">🆓</div>
+            <div>
+                <div class="park-name">Main St Community Lot</div>
+                <div class="park-note">Free public parking lot near the fire station on Main St. Best for daytime exploring and gallery-hopping. Gets full by 10 AM on weekends.</div>
+            </div>
+        </div>
+        <div class="park-spot">
+            <div class="park-icon">🏛️</div>
+            <div>
+                <div class="park-name">Jerome State Historic Park</div>
+                <div class="park-note">Free lot right at the Douglas Mansion. Good starting point for lower Jerome — easy walk up to Main St from here.</div>
+            </div>
+        </div>
+        <div class="park-spot">
+            <div class="park-icon">⛏️</div>
+            <div>
+                <div class="park-name">Gold King Mine</div>
+                <div class="park-note">Large free dirt lot at the property entrance (~1 mi from Main St up Perkinsville Rd). Drive separately — not walkable from town.</div>
+            </div>
+        </div>
+        <div class="park-spot">
+            <div class="park-icon">💡</div>
+            <div>
+                <div class="park-name">Weekend Tip</div>
+                <div class="park-note">Jerome streets are narrow and one-way. Park once and walk — the entire Main St strip is only 0.3 miles long. Don't try to drive between spots.</div>
+            </div>
+        </div>
     </div>
 
     <div class="section-header">Must-See</div>
@@ -1829,6 +1940,7 @@
                 'Arrive before 9 AM on weekends or expect a wait. Lines form fast.',
                 'Cash preferred but cards accepted. Very small space — be patient.',
             ],
+            phone: '9286342733',
             links: { map: 'https://maps.google.com/?q=Flatiron+Cafe,+416+Main+St,+Jerome,+AZ+86331' }
         },
         'haunted-hamburger': {
@@ -1857,6 +1969,7 @@
                 map: 'https://maps.google.com/?q=The+Haunted+Hamburger,+410+Clark+St,+Jerome,+AZ',
                 web: 'https://thehauntedhamburger.com'
             },
+            phone: '9286340554',
             tripadvisor: 'https://www.tripadvisor.com/Search?q=Haunted+Hamburger+Jerome+AZ'
         },
         'asylum': {
@@ -1885,6 +1998,7 @@
                 map: 'https://maps.google.com/?q=The+Asylum+Restaurant,+200+Hill+St,+Jerome,+AZ',
                 web: 'https://jeromegrandhotel.com'
             },
+            phone: '9286393197',
             tripadvisor: 'https://www.tripadvisor.com/Search?q=Asylum+Restaurant+Jerome+AZ'
         },
         'caduceus': {
@@ -2004,6 +2118,7 @@
                 map: 'https://maps.google.com/?q=Merkin+Vineyards+Osteria,+1+N+Main+St,+Cottonwood,+AZ',
                 web: 'https://merkinvineyards.com'
             },
+            phone: '9286390093',
             tripadvisor: 'https://www.tripadvisor.com/Search?q=Merkin+Vineyards+Osteria+Cottonwood+AZ'
         },
         'crema': {
@@ -2104,13 +2219,14 @@
                 <div class="dish-price">${dish.price}</div>
             </div>`).join('');
         const tipsHtml = d.tips.map(t => `<div class="modal-fact">${t}</div>`).join('');
-        const hasLinks = d.links || d.tripadvisor;
+        const hasLinks = d.links || d.tripadvisor || d.phone;
         const linksHtml = hasLinks ? `
             <div class="modal-section">
                 <div class="modal-links">
                     ${d.links && d.links.map ? `<a class="modal-link-btn map" href="${d.links.map}" target="_blank">📍 Directions</a>` : ''}
                     ${d.links && d.links.web ? `<a class="modal-link-btn web" href="${d.links.web}" target="_blank">🌐 Website</a>` : ''}
                     ${d.tripadvisor ? `<a class="modal-link-btn ta" href="${d.tripadvisor}" target="_blank">★ Reviews</a>` : ''}
+                    ${d.phone ? `<a class="modal-link-btn call" href="tel:+1${d.phone}">📞 Call</a>` : ''}
                 </div>
             </div>` : '';
         document.getElementById('modal-content').innerHTML = `
@@ -2136,6 +2252,182 @@
         document.getElementById('modal-overlay').classList.add('open');
         document.body.style.overflow = 'hidden';
     }
+
+    // ── WHAT'S OPEN NOW ──────────────────────────────────────────
+    const VENUE_HOURS = [
+        { name: 'Flatiron Cafe', opens: '08:00', closes: '14:00', note: '8 AM – 2 PM', action: "openRestaurantModal('flatiron')" },
+        { name: 'Jerome State Historic Park', opens: '09:00', closes: '17:00', note: '9 AM – 5 PM · Tues–Sun', action: "openModal('jerome-state-park')" },
+        { name: 'Caduceus Cellars', opens: '11:00', closes: '18:00', note: '11 AM – 6 PM', action: "openModal('caduceus')" },
+        { name: 'Gold King Mine', opens: '10:00', closes: '17:00', note: '10 AM – 5 PM', action: "openModal('gold-king')" },
+        { name: 'Audrey Headframe Park', opens: '00:00', closes: '23:59', note: 'Always open · free', action: "openModal('audrey-headframe')" },
+        { name: 'The Haunted Hamburger', opens: '11:00', closes: '21:00', note: '11 AM – 9 PM', action: "openRestaurantModal('haunted-hamburger')" },
+        { name: 'Spirit Room Bar', opens: '11:00', closes: '02:00', note: '11 AM til late', action: "openModal('spirit-room')" },
+        { name: 'The Asylum Restaurant', opens: '17:00', closes: '21:00', note: 'Dinner from 5 PM', action: "openRestaurantModal('asylum')" },
+        { name: 'Merkin Vineyards Osteria', opens: '11:00', closes: '21:00', note: '11 AM – 9 PM', action: "openRestaurantModal('merkin-osteria')" },
+        { name: 'Tuzigoot Monument', opens: '09:00', closes: '17:00', note: '9 AM – 5 PM', action: "openModal('tuzigoot')" },
+    ];
+
+    function renderOpenNow() {
+        const el = document.getElementById('open-now-card');
+        if (!el) return;
+        const now = new Date();
+        const cur = now.getHours() * 60 + now.getMinutes();
+        function isOpen(opens, closes) {
+            const [oh, om] = opens.split(':').map(Number);
+            const [ch, cm] = closes.split(':').map(Number);
+            const o = oh * 60 + om, c = ch * 60 + cm;
+            if (c > o) return cur >= o && cur < c;
+            return cur >= o || cur < c;
+        }
+        const rows = VENUE_HOURS.map(v => {
+            const open = isOpen(v.opens, v.closes);
+            const [oh, om] = v.opens.split(':').map(Number);
+            const o = oh * 60 + om;
+            const soon = !open && o > cur && o - cur <= 45;
+            return { ...v, open, soon };
+        });
+        const openCount = rows.filter(r => r.open).length;
+        function row(v) {
+            const dot = v.open ? 'isopen' : v.soon ? 'soon' : 'closed';
+            return `<div class="open-item" onclick="${v.action}"><div class="oi-dot ${dot}"></div><div class="oi-name">${v.name}</div><div class="oi-time">${v.note}</div></div>`;
+        }
+        const visible = rows.slice(0, 6), rest = rows.slice(6);
+        el.innerHTML = `
+            <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:10px;">⏰ What's Open Now <span style="font-size:11px;font-weight:400;color:#22c55e;margin-left:6px;">${openCount} open</span></div>
+            ${visible.map(row).join('')}
+            ${rest.length ? `<div class="open-toggle" onclick="document.getElementById('open-now-more').style.display='block';this.style.display='none'">+ ${rest.length} more venues</div><div id="open-now-more" style="display:none">${rest.map(row).join('')}</div>` : ''}
+        `;
+    }
+
+    // ── SURPRISE US ───────────────────────────────────────────────
+    const SURPRISE_POOL = [
+        { text: 'Walk Main St top to bottom', sub: 'Every gallery, shop, and hidden gem — takes about 45 min' },
+        { text: 'Find the Sliding Jail', sub: 'A concrete jail that slid 225 ft downhill — still sitting there' },
+        { text: 'Drinks at Wingwalker Lounge', sub: 'Top of Jerome Grand Hotel — 360° views, very haunted' },
+        { text: 'Get something cold and find a bench', sub: "There's no wrong bench in Jerome" },
+        { text: 'Ask a local for their #1 secret spot', sub: "Jerome's 450 residents love to talk about their town" },
+        { text: 'Spontaneous tasting at Caduceus Cellars', sub: "Maynard's winery on Main St — walk-ins usually welcome" },
+        { text: 'Stand on the Audrey Headframe glass floor', sub: '1,900 ft of mine shaft under your feet — free' },
+        { text: 'Browse Hull Ave galleries', sub: 'Ceramics, jewelry, photography — pressure-free and mostly free' },
+        { text: 'Count how many cats you can spot', sub: 'Jerome has an unofficial feline overpopulation situation' },
+        { text: 'Drive Perkinsville Rd for hidden views', sub: 'The back road past Gold King Mine has panoramas tourists skip' },
+        { text: 'Get breakfast, then do absolutely nothing', sub: 'Sometimes the best move in a great place is just being there' },
+        { text: "Find Jerome's most vertical block", sub: "The town claims 'most vertical main street' — walk it and see" },
+    ];
+
+    let _lastSurprise = -1;
+    function surpriseUs() {
+        let idx;
+        do { idx = Math.floor(Math.random() * SURPRISE_POOL.length); } while (idx === _lastSurprise && SURPRISE_POOL.length > 1);
+        _lastSurprise = idx;
+        const p = SURPRISE_POOL[idx];
+        const el = document.getElementById('surprise-title');
+        if (el) el.innerHTML = `${p.text}<br><span style="font-size:13px;font-weight:400;opacity:.8;">${p.sub}</span>`;
+    }
+
+    // ── WINE TASTING LOG ──────────────────────────────────────────
+    const WINE_VENUES = [
+        { key: 'caduceus', name: 'Caduceus Cellars', loc: 'Jerome · 158 Main St' },
+        { key: 'merkin', name: 'Merkin Vineyards', loc: 'Old Town Cottonwood' },
+        { key: 'page-springs', name: 'Page Springs Cellars', loc: 'Cornville · 10 min south' },
+        { key: 'pillsbury', name: 'Pillsbury Wine Co.', loc: 'Old Town Cottonwood' },
+        { key: 'az-stronghold', name: 'AZ Stronghold Vineyards', loc: 'Old Town Cottonwood' },
+        { key: 'passion', name: 'Passion Cellars', loc: 'Old Town Cottonwood' },
+    ];
+
+    function getWineLog() { try { return JSON.parse(localStorage.getItem('jerome-wine-log') || '{}'); } catch(e) { return {}; } }
+    function saveWineLog(log) { localStorage.setItem('jerome-wine-log', JSON.stringify(log)); }
+
+    function setWineRating(key, rating) {
+        const log = getWineLog();
+        if (!log[key]) log[key] = {};
+        log[key].rating = log[key].rating === rating ? 0 : rating;
+        saveWineLog(log);
+        renderWineLog();
+    }
+
+    function toggleWineVisited(key) {
+        const log = getWineLog();
+        if (!log[key]) log[key] = {};
+        log[key].visited = !log[key].visited;
+        saveWineLog(log);
+        renderWineLog();
+    }
+
+    function saveWineNote(key, val) {
+        const log = getWineLog();
+        if (!log[key]) log[key] = {};
+        log[key].note = val;
+        saveWineLog(log);
+    }
+
+    function renderWineLog() {
+        const el = document.getElementById('wine-log-items');
+        const hdr = document.getElementById('wine-log-header');
+        if (!el) return;
+        const log = getWineLog();
+        const visited = WINE_VENUES.filter(v => log[v.key] && log[v.key].visited).length;
+        if (hdr) hdr.textContent = `${visited}/${WINE_VENUES.length} visited`;
+        el.innerHTML = WINE_VENUES.map(v => {
+            const state = log[v.key] || {};
+            const r = state.rating || 0;
+            const stars = [1,2,3,4,5].map(i =>
+                `<span class="wine-star${i <= r ? ' lit' : ''}" onclick="setWineRating('${v.key}',${i})">★</span>`
+            ).join('');
+            return `<div class="wine-entry">
+                <div class="wine-top">
+                    <div><div class="wine-name">${v.name}</div><div class="wine-loc">${v.loc}</div></div>
+                    <button class="wine-visited-btn ${state.visited ? 'visited' : 'unvisited'}" onclick="toggleWineVisited('${v.key}')">${state.visited ? '✓ Visited' : 'Mark Visited'}</button>
+                </div>
+                ${state.visited ? `<div class="wine-stars-row">${stars}</div><textarea class="wine-note-input" rows="2" placeholder="Tasting notes…" oninput="saveWineNote('${v.key}',this.value)">${state.note || ''}</textarea>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    // ── PHOTO SHOT LIST ───────────────────────────────────────────
+    const SHOT_LIST = [
+        { icon: '🌅', loc: 'Audrey Headframe', desc: 'Golden hour panorama looking west over Verde Valley — the money shot' },
+        { icon: '⛏️', loc: 'Gold King Mine', desc: 'Rows of rusting antique cars with the hillside ghost town behind them' },
+        { icon: '🏛️', loc: 'Jerome State Historic Park', desc: 'Douglas Mansion veranda framing the Verde Valley below' },
+        { icon: '🚃', loc: 'Verde Canyon Railroad', desc: 'Train emerging from the canyon tunnel — be ready on the right side' },
+        { icon: '🏔️', loc: 'Tuzigoot', desc: 'Hilltop pueblo with Verde River below — shoot from the south trail' },
+        { icon: '🍷', loc: 'Wine Row', desc: 'Two glasses, Old Town Cottonwood backdrop at golden hour' },
+        { icon: '🎸', loc: 'Spirit Room', desc: 'Live band in the corner — candid crowd energy shot' },
+        { icon: '🐴', loc: 'Gold King Mine', desc: "Friendly burro close-up — they'll walk right up to you" },
+    ];
+
+    function getShotState() { try { return JSON.parse(localStorage.getItem('jerome-shots') || '{}'); } catch(e) { return {}; } }
+
+    function toggleShot(idx) {
+        const state = getShotState();
+        state[idx] = !state[idx];
+        localStorage.setItem('jerome-shots', JSON.stringify(state));
+        renderShots();
+    }
+
+    function renderShots() {
+        const el = document.getElementById('shot-list-items');
+        const ctr = document.getElementById('shot-counter');
+        if (!el) return;
+        const state = getShotState();
+        const done = SHOT_LIST.filter((_, i) => state[i]).length;
+        if (ctr) ctr.textContent = `${done}/${SHOT_LIST.length}`;
+        el.innerHTML = SHOT_LIST.map((s, i) => `
+            <div class="shot-item" onclick="toggleShot(${i})">
+                <div class="shot-check${state[i] ? ' done' : ''}">✓</div>
+                <div class="shot-icon">${s.icon}</div>
+                <div style="flex:1"><div class="shot-loc">${s.loc}</div><div class="shot-desc">${s.desc}</div></div>
+            </div>`).join('');
+    }
+
+    // ── INIT ──────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+        renderOpenNow();
+        renderShots();
+        renderWineLog();
+        setInterval(renderOpenNow, 60000);
+    });
+
 </script>
 </body>
 </html>
