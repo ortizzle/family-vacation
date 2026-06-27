@@ -511,6 +511,23 @@
         }
         .modal-link-btn.map { background: var(--copper); color: white; }
         .modal-link-btn.web { background: var(--cream); border: 1px solid #ddd3c8; color: var(--text-dark); }
+        .modal-link-btn.ta  { background: #34e0a1; color: #003a2d; }
+        .modal-rating {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-bottom: 14px;
+        }
+        .rating-score {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1;
+        }
+        .rating-stars { font-size: 14px; color: #f5a623; letter-spacing: 1px; }
+        .rating-meta  { font-size: 11px; color: var(--text-light); }
     </style>
 </head>
 <body>
@@ -1291,6 +1308,8 @@
             emoji: '🏛️',
             title: 'Jerome State Historic Park',
             sub: '100 Douglas Rd, Jerome, AZ 86331',
+            rating: { score: '4.5', source: 'Google', count: '1.8k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Jerome+State+Historic+Park+Jerome+AZ',
             tags: [{ t: '$7 / person', c: '' }, { t: 'Tues–Sun 9am–5pm', c: 'sand' }, { t: 'All Ages', c: 'green' }],
             info: [
                 ['Admission', '$7 adults · $4 youth (7–13) · Free under 7'],
@@ -1314,6 +1333,8 @@
             emoji: '⛏️',
             title: 'Gold King Mine &amp; Ghost Town',
             sub: 'Perkinsville Rd, Jerome · 1 mile past downtown',
+            rating: { score: '4.6', source: 'Google', count: '3.1k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Gold+King+Mine+Ghost+Town+Jerome+AZ',
             tags: [{ t: '$12 adults · $5 kids', c: '' }, { t: 'Daily 10am–5pm', c: 'sand' }, { t: 'Family Friendly', c: 'green' }],
             info: [
                 ['Admission', '$12 adults · $5 children · Under 5 free'],
@@ -1337,6 +1358,8 @@
             emoji: '🌅',
             title: 'Audrey Headframe Park',
             sub: 'Hull Ave, Jerome — best at sunset',
+            rating: { score: '4.8', source: 'Google', count: '1.2k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Audrey+Headframe+Park+Jerome+AZ',
             tags: [{ t: 'Free', c: 'green' }, { t: 'Always Open', c: 'sand' }, { t: 'Best Sunset Spot', c: '' }],
             info: [
                 ['Cost', 'Free'],
@@ -1359,6 +1382,8 @@
             emoji: '🍇',
             title: 'Caduceus Cellars',
             sub: '158 Main St, Jerome, AZ 86331',
+            rating: { score: '4.6', source: 'Google', count: '890' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Caduceus+Cellars+Jerome+AZ',
             tags: [{ t: 'Tasting Room', c: '' }, { t: 'Daily 11am–6pm', c: 'sand' }, { t: 'Main St', c: 'green' }],
             info: [
                 ['Address', '158 Main St, Jerome, AZ'],
@@ -1382,6 +1407,8 @@
             emoji: '🎸',
             title: 'Spirit Room Bar',
             sub: '166 Main St, Jerome, AZ 86331',
+            rating: { score: '4.4', source: 'Google', count: '720' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Spirit+Room+Bar+Jerome+AZ',
             tags: [{ t: 'No Cover', c: 'green' }, { t: 'Live Music Fri &amp; Sat', c: '' }, { t: 'Cash Friendly', c: 'sand' }],
             info: [
                 ['Address', '166 Main St, Jerome (next door to Caduceus)'],
@@ -1405,6 +1432,8 @@
             emoji: '🏨',
             title: 'Jerome Grand Hotel',
             sub: '200 Hill St, Jerome, AZ 86331',
+            rating: { score: '4.4', source: 'TripAdvisor', count: '1.4k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Jerome+Grand+Hotel+Jerome+AZ',
             tags: [{ t: 'Built 1926', c: '' }, { t: 'Reportedly Haunted', c: '' }, { t: 'Bar &amp; Restaurant', c: 'sand' }],
             info: [
                 ['Built', '1926 (as United Verde Hospital)'],
@@ -1428,6 +1457,7 @@
             emoji: '🎨',
             title: 'Art Galleries &amp; Studios',
             sub: 'Hull Ave &amp; Main St, Jerome',
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Jerome+Artists+Cooperative+Gallery+Jerome+AZ',
             tags: [{ t: 'Mostly Free', c: 'green' }, { t: '20+ Galleries', c: '' }, { t: 'Most open 10am–5pm', c: 'sand' }],
             info: [
                 ['Number', '20+ active galleries and studios'],
@@ -1450,6 +1480,8 @@
             emoji: '🏚️',
             title: 'The Sliding Jail',
             sub: 'Hull Ave, Jerome — exterior only',
+            rating: { score: '4.3', source: 'Google', count: '540' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Jerome+Sliding+Jail+Jerome+AZ',
             tags: [{ t: 'Free to See', c: 'green' }, { t: 'Exterior Only', c: 'sand' }, { t: 'Quirky AZ History', c: '' }],
             info: [
                 ['Distance slid', '225+ feet from original site'],
@@ -1472,6 +1504,7 @@
             emoji: '👻',
             title: 'Ghost Town Evening Walk',
             sub: 'Jerome — best experienced after 8 PM',
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Jerome+ghost+tour+Jerome+AZ',
             tags: [{ t: 'Self-guided Free', c: 'green' }, { t: 'Guided Tours ~$25', c: 'sand' }, { t: 'Fri &amp; Sat evenings', c: '' }],
             info: [
                 ['Self-guided', 'Free — walk Jerome\'s streets at dusk'],
@@ -1493,6 +1526,8 @@
             emoji: '🏺',
             title: 'Tuzigoot National Monument',
             sub: '25 E Tuzigoot Rd, Clarkdale, AZ 86324',
+            rating: { score: '4.6', source: 'Google', count: '2.4k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Tuzigoot+National+Monument+Clarkdale+AZ',
             tags: [{ t: '$10 / person', c: '' }, { t: 'Daily 9am–5pm', c: 'sand' }, { t: '13 mi from Jerome', c: 'green' }],
             info: [
                 ['Admission', '$10 per person · Free with NPS Annual Pass'],
@@ -1516,6 +1551,8 @@
             emoji: '🚂',
             title: 'Verde Canyon Railroad',
             sub: '300 N Broadway, Clarkdale, AZ 86324',
+            rating: { score: '4.8', source: 'TripAdvisor', count: '3.7k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Verde+Canyon+Railroad+Clarkdale+AZ',
             tags: [{ t: '$65–$95 / person', c: '' }, { t: 'Book Ahead', c: 'warn' }, { t: '4-hr Round Trip', c: 'sand' }],
             info: [
                 ['Admission', '$65 Coach · $95 First Class (includes wine)'],
@@ -1539,6 +1576,7 @@
             emoji: '🍷',
             title: 'Old Town Cottonwood',
             sub: 'N Main St, Cottonwood, AZ — 11 mi from Jerome',
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Old+Town+Cottonwood+Arizona+wine',
             tags: [{ t: '10+ Tasting Rooms', c: '' }, { t: 'Walkable', c: 'green' }, { t: 'Great Food', c: 'sand' }],
             info: [
                 ['Wine row', '10+ tasting rooms in 3 walkable blocks'],
@@ -1561,6 +1599,8 @@
             emoji: '🍾',
             title: 'Page Springs Cellars',
             sub: '1500 N Page Springs Rd, Cornville, AZ 86325',
+            rating: { score: '4.7', source: 'Google', count: '1.1k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Page+Springs+Cellars+Cornville+AZ',
             tags: [{ t: "AZ's Best Winery", c: '' }, { t: 'Reservations Suggested', c: 'warn' }, { t: '20 mi from Jerome', c: 'sand' }],
             info: [
                 ['Address', '1500 N Page Springs Rd, Cornville, AZ'],
@@ -1584,6 +1624,8 @@
             emoji: '🎸',
             title: 'Merkin Vineyards Osteria',
             sub: '1 N Main St, Cottonwood, AZ 86326',
+            rating: { score: '4.5', source: 'Google', count: '1.5k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Merkin+Vineyards+Osteria+Cottonwood+AZ',
             tags: [{ t: 'Restaurant + Winery', c: '' }, { t: 'Lunch &amp; Dinner', c: 'sand' }, { t: 'Reserve Ahead', c: 'warn' }],
             info: [
                 ['Address', '1 N Main St, Old Town Cottonwood'],
@@ -1607,6 +1649,8 @@
             emoji: '🏯',
             title: 'Montezuma Castle National Monument',
             sub: 'Montezuma Castle Rd, Camp Verde, AZ 86322',
+            rating: { score: '4.7', source: 'Google', count: '8.5k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Montezuma+Castle+National+Monument+Camp+Verde+AZ',
             tags: [{ t: '$10 / person', c: '' }, { t: 'Daily 8am–5pm', c: 'sand' }, { t: '25 mi from Jerome', c: '' }],
             info: [
                 ['Admission', '$10 per person · Free with NPS Annual Pass'],
@@ -1630,6 +1674,8 @@
             emoji: '🦅',
             title: 'Dead Horse Ranch State Park',
             sub: '675 Dead Horse Ranch Rd, Cottonwood, AZ 86326',
+            rating: { score: '4.6', source: 'Google', count: '2.0k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Dead+Horse+Ranch+State+Park+Cottonwood+AZ',
             tags: [{ t: '$7 / vehicle', c: '' }, { t: 'Daily 8am–10pm', c: 'sand' }, { t: '12 mi from Jerome', c: 'green' }],
             info: [
                 ['Fee', '$7 per vehicle'],
@@ -1651,23 +1697,40 @@
         },
     };
 
+    function ratingStars(score) {
+        const n = parseFloat(score);
+        const full = Math.floor(n);
+        const half = (n - full) >= 0.4 ? 1 : 0;
+        const empty = 5 - full - half;
+        return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+    }
+
     function openModal(key) {
         const d = MODALS[key];
         if (!d) return;
         const tagsHtml = d.tags.map(t => `<span class="modal-tag ${t.c}">${t.t}</span>`).join('');
         const infoHtml = d.info.map(r => `<div class="modal-info-row"><span class="modal-info-label">${r[0]}</span><span class="modal-info-value">${r[1]}</span></div>`).join('');
         const factsHtml = d.facts.map(f => `<div class="modal-fact">${f}</div>`).join('');
-        const linksHtml = d.links ? `
+        const ratingHtml = d.rating ? `
+            <div class="modal-rating">
+                <span class="rating-score">${d.rating.score}</span>
+                <span class="rating-stars">${ratingStars(d.rating.score)}</span>
+                <span class="rating-meta">${d.rating.source} · ~${d.rating.count} reviews</span>
+            </div>` : '';
+        const hasLinks = d.links || d.tripadvisor;
+        const linksHtml = hasLinks ? `
             <div class="modal-section">
                 <div class="modal-links">
-                    ${d.links.map ? `<a class="modal-link-btn map" href="${d.links.map}" target="_blank">📍 Directions</a>` : ''}
-                    ${d.links.web ? `<a class="modal-link-btn web" href="${d.links.web}" target="_blank">🌐 Website</a>` : ''}
+                    ${d.links && d.links.map ? `<a class="modal-link-btn map" href="${d.links.map}" target="_blank">📍 Directions</a>` : ''}
+                    ${d.links && d.links.web ? `<a class="modal-link-btn web" href="${d.links.web}" target="_blank">🌐 Website</a>` : ''}
+                    ${d.tripadvisor ? `<a class="modal-link-btn ta" href="${d.tripadvisor}" target="_blank">★ Reviews</a>` : ''}
                 </div>
             </div>` : '';
         document.getElementById('modal-content').innerHTML = `
             <span class="modal-emoji">${d.emoji}</span>
             <div class="modal-title">${d.title}</div>
             <div class="modal-sub">${d.sub}</div>
+            ${ratingHtml}
             <div class="modal-tags">${tagsHtml}</div>
             <div class="modal-section">
                 <div class="modal-section-title">Quick Info</div>
