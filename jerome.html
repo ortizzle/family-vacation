@@ -714,14 +714,25 @@
         </div>
     </div>
 
-    <div class="section-header">Sunday · Cottonwood &amp; Verde Valley</div>
+    <div class="section-header">Sunday · Checkout Day</div>
+
+    <div class="card" style="background:linear-gradient(135deg,#3d1f0a 0%,#5a2d0c 100%);padding:16px 18px;margin-bottom:12px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,200,150,.7);margin-bottom:6px;">Your Route Home</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.9);line-height:1.65;">
+            ⏰ <strong style="color:white;">Checkout 11 AM</strong> — grab ice for your wine before leaving The Flat<br>
+            🍩 <strong style="color:white;">Sedonuts</strong> · 777 N Main St, Cottonwood · open 7–1 PM<br>
+            🍷 Wine Row opens 11 · Merkin 11 AM · Page Springs 11 AM<br>
+            🚗 <strong style="color:white;">Page Springs → I-17 south → Phoenix</strong> · ~2 hrs from Cornville
+        </div>
+        <div style="font-size:11px;color:rgba(255,180,100,.6);margin-top:8px;">🌡️ June heat: keep wine in a cooler — cars hit 150°F+ fast. Buy wine last, drive home.</div>
+    </div>
 
     <div class="card">
-        <div class="event-item ev-tappable" onclick="openRestaurantModal('flatiron')">
+        <div class="event-item ev-tappable" onclick="openRestaurantModal('sedonuts')">
             <div class="event-time">Morning</div>
             <div class="event-detail">
-                <div class="event-name">Breakfast at the Flatiron, then head down</div>
-                <div class="event-note">US-89A from Jerome → Clarkdale → Cottonwood (scenic 20 min drive)</div>
+                <div class="event-name">🍩 Sedonuts · Old Town Cottonwood</div>
+                <div class="event-note">Handcrafted donuts + organic coffee on Wine Row · open from 7 AM · sell out by mid-morning</div>
             </div>
         </div>
         <div class="event-item ev-tappable" onclick="openModal('tuzigoot')">
@@ -753,17 +764,17 @@
             </div>
         </div>
         <div class="event-item ev-tappable" onclick="openModal('page-springs')">
-            <div class="event-time">Late PM</div>
+            <div class="event-time">Midday</div>
             <div class="event-detail">
-                <div class="event-name">Page Springs Cellars <span class="ev-tag green">Optional</span></div>
-                <div class="event-note">Arizona's most acclaimed winery · 10 min south of Cottonwood in Cornville · reserve a tasting</div>
+                <div class="event-name">Page Springs Cellars <span class="ev-tag green">On the Way Home</span></div>
+                <div class="event-note">Arizona's best winery · Cornville · opens 11 AM · 10 min south of Cottonwood on route to I-17</div>
             </div>
         </div>
-        <div class="event-item ev-tappable" onclick="openModal('audrey-headframe')">
-            <div class="event-time">Sunset</div>
+        <div class="event-item">
+            <div class="event-time">Drive</div>
             <div class="event-detail">
-                <div class="event-name">Back to Jerome · Audrey Headframe again</div>
-                <div class="event-note">The light on the Verde Valley from up here at golden hour never gets old</div>
+                <div class="event-name">🚗 Page Springs → I-17 → Phoenix</div>
+                <div class="event-note">Take Page Springs Rd to AZ-89A south → I-17 south · about 2 hrs to Phoenix</div>
             </div>
         </div>
     </div>
@@ -1134,6 +1145,11 @@
         </div>
     </div>
 
+    <div class="tip-box" style="margin-top:-6px;">
+        <div class="tip-label">🌡️ Wine in a Hot Car</div>
+        <div class="tip-text">June in Arizona: a parked car in the sun reaches 150°F+ in under 20 minutes — enough to cook wine and blow corks. Keep a small cooler with ice in the car. Buy wine at your <em>last</em> stop (Page Springs on the way to I-17), not your first. Most tasting rooms will hold your purchases at the counter while you look around outside.</div>
+    </div>
+
     <div class="section-header">Wineries</div>
 
     <div class="attraction-card must" onclick="openModal('page-springs')">
@@ -1403,6 +1419,28 @@
     </div>
 
     <div class="section-header">Cottonwood · Old Town</div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('sedonuts')">
+        <div class="rest-top">
+            <div class="rest-emoji">🍩</div>
+            <div class="rest-body">
+                <div class="rest-name">Sedonuts <span class="badge-must" style="font-size:9px;background:#c47840;">Checkout Morning</span></div>
+                <div class="rest-meta">777 N Main St, Old Town Cottonwood · Open 7 AM – 1 PM</div>
+                <div class="rest-note">Handcrafted donuts and organic coffee right on Wine Row — the perfect first stop before tasting rooms open. Donuts sell out fast on weekends, so aim for before 10 AM.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$</span>
+                    <span class="rest-tag type">Donuts &amp; Coffee</span>
+                    <span class="rest-tag tip">Arrives early · sells out</span>
+                    <span class="rest-tag star">★ 4.5</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Sedonuts,+777+N+Main+St,+Cottonwood,+AZ+86326" target="_blank">📍 Directions</a>
+            <a class="rest-link call" href="tel:+19282025006">📞 Call</a>
+        </div>
+    </div>
 
     <div class="restaurant-card" onclick="openRestaurantModal('merkin-osteria')">
         <div class="rest-top">
@@ -2080,6 +2118,37 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     const RESTAURANT_MODALS = {
+        'sedonuts': {
+            emoji: '🍩',
+            title: 'Sedonuts',
+            sub: '777 N Main St, Old Town Cottonwood · Donuts & Coffee · $',
+            rating: { score: '4.5', source: 'Google', count: '~400' },
+            hours: 'Mon & Thu–Sun · 7:00 AM – 1:00 PM · Closed Tue & Wed',
+            vibe: 'Handcrafted donut shop right on Old Town Wine Row. Best stop before the tasting rooms open — gets you caffeinated and sugared up for a morning of wine.',
+            menu_note: 'Donuts made fresh daily and sell out fast on weekends. Organic coffee bar. Gluten-free options available — ask at the counter.',
+            dishes: [
+                { name: 'Red Rock Chocolate', note: 'Rich chocolate glaze — the signature donut', price: '$3–4' },
+                { name: 'The Vortex', note: 'Sedona-inspired swirl glaze, light and sweet', price: '$3–4' },
+                { name: 'Maple Bacon', note: 'Sweet-savory, classic combo', price: '$4' },
+                { name: 'Old Fashioned Glazed', note: 'Simple, perfect, can\'t go wrong', price: '$3' },
+                { name: 'Blueberry Cake', note: 'Dense cake donut, not too sweet', price: '$3–4' },
+                { name: 'Boston Cream', note: 'Cream-filled, chocolate glaze top', price: '$4' },
+                { name: 'Apple Turnover', note: 'Flaky pastry, seasonal filling', price: '$4' },
+                { name: 'Organic Coffee', note: 'Drip, espresso drinks, cold brew', price: '$3–6' },
+            ],
+            tips: [
+                'Arrive by 9 AM on weekends — popular flavors sell out before noon.',
+                'Right on Wine Row at 777 N Main St — park here and walk to tasting rooms.',
+                'Closed Tuesday and Wednesday.',
+                'Gluten-free donut options available — ask which flavors are available that day.',
+            ],
+            phone: '9282025006',
+            links: {
+                map: 'https://maps.google.com/?q=Sedonuts,+777+N+Main+St,+Cottonwood,+AZ+86326',
+                web: 'https://sedonutsandcoffee.com'
+            },
+            tripadvisor: 'https://www.yelp.com/biz/sedonuts-cottonwood'
+        },
         'clinkscale': {
             emoji: '🍽️',
             title: 'The Clinkscale',
@@ -2310,12 +2379,12 @@
         },
         'merkin-osteria': {
             emoji: '🎸',
-            title: 'Merkin Vineyards Osteria',
-            sub: 'Old Town Cottonwood · Lunch & Dinner · $$$',
+            title: 'Merkin Vineyards Hilltop Winery &amp; Trattoria',
+            sub: 'Cottonwood, AZ · Lunch & Dinner · $$$',
             rating: { score: '4.5', source: 'Google', count: '~1.5k' },
-            hours: 'Lunch & Dinner daily (check merkinvineyards.com for times)',
-            vibe: 'Maynard\'s Italian-inspired restaurant with wood-fired dishes, a stunning patio, and the full Merkin + Caduceus wine list.',
-            menu_note: 'Seasonal, rotating menu. Wood-fired cooking throughout. Reserve ahead for dinner.',
+            hours: 'Sun 11:00 AM – 8:00 PM · Mon–Sat 11:00 AM – 9:00 PM',
+            vibe: 'Maynard\'s Italian-inspired restaurant (formerly Osteria, now Trattoria) — wood-fired dishes, stunning Verde Valley patio views, and the full Merkin + Caduceus wine list.',
+            menu_note: 'Seasonal, rotating menu. Wood-fired cooking throughout. Opens at 11 AM — perfect after Sedonuts for a late morning glass and lunch.',
             dishes: [
                 { name: 'Charcuterie & Cheese Board', note: 'House selections, jam, crostini, local honey', price: '$22' },
                 { name: 'Burrata', note: 'Fresh burrata, seasonal veg, olive oil', price: '$18' },
