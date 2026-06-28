@@ -1620,16 +1620,26 @@
 
     <div id="mem-stats" class="mem-stat-grid"></div>
 
-    <div class="section-header">Restaurant &amp; Bar Log</div>
+    <div class="section-header">Visit Log</div>
 
     <div class="card" style="margin-bottom:10px;">
-        <div class="mem-loc-header">📍 Jerome</div>
-        <div id="visit-log-jerome"></div>
+        <div class="mem-loc-header">🍽️ Jerome · Food &amp; Drinks</div>
+        <div id="visit-log-jerome-eats"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:10px;">
+        <div class="mem-loc-header">📍 Jerome · Landmarks &amp; Experiences</div>
+        <div id="visit-log-jerome-places"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:10px;">
+        <div class="mem-loc-header">🍷 Cottonwood · Food &amp; Drinks</div>
+        <div id="visit-log-cottonwood-eats"></div>
     </div>
 
     <div class="card" style="margin-bottom:14px;">
-        <div class="mem-loc-header">🍷 Cottonwood</div>
-        <div id="visit-log-cottonwood"></div>
+        <div class="mem-loc-header">🌿 Verde Valley · Attractions</div>
+        <div id="visit-log-verde-places"></div>
     </div>
 
     <div class="section-header">Wine Tasting Log</div>
@@ -1648,8 +1658,13 @@
     <div class="section-header">Export</div>
 
     <div class="card" style="margin-bottom:20px;">
-        <div style="font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:4px;">Save Your Memories</div>
-        <div style="font-size:12.5px;color:var(--text-mid);line-height:1.55;margin-bottom:14px;">Copy everything — every place you visited with your notes and ratings, wines tasted, and shots captured — to paste into Notes or Messages alongside your photos.</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:4px;">Keepsake PDF</div>
+        <div style="font-size:12.5px;color:var(--text-mid);line-height:1.55;margin-bottom:14px;">Generate a beautiful timeline of your visit with all your photos, ratings, and notes — ready to save as a PDF.</div>
+        <button class="export-btn" id="pdf-btn" onclick="generateKeepsakePDF()" style="margin-bottom:10px;">📄 Generate Keepsake PDF</button>
+        <div style="font-size:11px;color:var(--text-light);text-align:center;margin-bottom:14px;">Opens a print page → tap Menu → Print → Save as PDF</div>
+
+        <div style="font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:4px;">Copy to Clipboard</div>
+        <div style="font-size:12.5px;color:var(--text-mid);line-height:1.55;margin-bottom:14px;">Copy a text summary to paste into Notes or Messages.</div>
         <button class="export-btn" id="export-btn" onclick="exportMemories()">📋 Copy to Clipboard</button>
         <textarea class="export-preview" id="export-preview" readonly></textarea>
     </div>
@@ -2793,21 +2808,45 @@
             </div>`).join('');
     }
 
-    // ── RESTAURANT VISIT LOG ─────────────────────────────────────
+    // ── VISIT LOG ────────────────────────────────────────────────
     const VISIT_LIST = [
-        { key: 'flatiron',          name: 'Flatiron Cafe',            loc: 'Jerome',      emoji: '☕' },
-        { key: 'clinkscale',        name: 'The Clinkscale',           loc: 'Jerome',      emoji: '🍽️' },
-        { key: 'haunted-hamburger', name: 'Haunted Hamburger',        loc: 'Jerome',      emoji: '🍔' },
-        { key: 'asylum',            name: 'The Asylum',               loc: 'Jerome',      emoji: '🦇' },
-        { key: 'vaqueros',          name: 'Vaqueros Grill & Cantina', loc: 'Jerome',      emoji: '🌮' },
-        { key: 'spirit-room',       name: 'Spirit Room Bar',          loc: 'Jerome',      emoji: '🎸' },
-        { key: 'sullivans',         name: "Sullivan's Rest",          loc: 'Jerome',      emoji: '🍺' },
-        { key: 'bobby-ds',          name: "Bobby D's BBQ",            loc: 'Jerome',      emoji: '🍖' },
-        { key: 'sedonuts',          name: 'Sedonuts',                 loc: 'Cottonwood',  emoji: '🍩' },
-        { key: 'merkin-osteria',    name: 'Merkin Hilltop Trattoria', loc: 'Cottonwood',  emoji: '🎸' },
-        { key: 'crema',             name: 'Crema Craft Kitchen',      loc: 'Cottonwood',  emoji: '🫕' },
-        { key: 'bocce',             name: 'Bocce Grill',              loc: 'Cottonwood',  emoji: '🍕' },
-        { key: 'the-nic',           name: 'The Nic',                  loc: 'Cottonwood',  emoji: '🥃' },
+        // Jerome · Food & Drinks
+        { key: 'flatiron',          name: 'Flatiron Cafe',                group: 'jerome-eats',    emoji: '☕' },
+        { key: 'clinkscale',        name: 'The Clinkscale',               group: 'jerome-eats',    emoji: '🍽️' },
+        { key: 'haunted-hamburger', name: 'Haunted Hamburger',            group: 'jerome-eats',    emoji: '🍔' },
+        { key: 'asylum',            name: 'The Asylum',                   group: 'jerome-eats',    emoji: '🦇' },
+        { key: 'vaqueros',          name: 'Vaqueros Grill & Cantina',     group: 'jerome-eats',    emoji: '🌮' },
+        { key: 'spirit-room',       name: 'Spirit Room Bar',              group: 'jerome-eats',    emoji: '🎸' },
+        { key: 'sullivans',         name: "Sullivan's Rest",              group: 'jerome-eats',    emoji: '🍺' },
+        { key: 'bobby-ds',          name: "Bobby D's BBQ",               group: 'jerome-eats',    emoji: '🍖' },
+        // Jerome · Landmarks & Experiences
+        { key: 'the-flat',          name: 'The Flat · Our Home Base',     group: 'jerome-places',  emoji: '🏠' },
+        { key: 'jerome-state-park', name: 'Jerome State Historic Park',   group: 'jerome-places',  emoji: '🏛️' },
+        { key: 'audrey-headframe',  name: 'Audrey Headframe Park',        group: 'jerome-places',  emoji: '⛏️' },
+        { key: 'gold-king',         name: 'Gold King Mine & Ghost Town',  group: 'jerome-places',  emoji: '🚗' },
+        { key: 'caduceus-mem',      name: 'Caduceus Cellars',             group: 'jerome-places',  emoji: '🍷' },
+        { key: 'la-victoria',       name: 'La Victoria Glass Blowing',    group: 'jerome-places',  emoji: '🔥' },
+        { key: 'sliding-jail',      name: 'The Sliding Jail',             group: 'jerome-places',  emoji: '🏚️' },
+        // Cottonwood · Food & Drinks
+        { key: 'sedonuts',          name: 'Sedonuts',                     group: 'cottonwood-eats', emoji: '🍩' },
+        { key: 'merkin-osteria',    name: 'Merkin Hilltop Trattoria',     group: 'cottonwood-eats', emoji: '🎸' },
+        { key: 'crema',             name: 'Crema Craft Kitchen',          group: 'cottonwood-eats', emoji: '🫕' },
+        { key: 'bocce',             name: 'Bocce Grill',                  group: 'cottonwood-eats', emoji: '🍕' },
+        { key: 'the-nic',           name: 'The Nic',                      group: 'cottonwood-eats', emoji: '🥃' },
+        // Verde Valley · Attractions
+        { key: 'tuzigoot',          name: 'Tuzigoot National Monument',   group: 'verde-places',   emoji: '🏺' },
+        { key: 'verde-canyon-rr',   name: 'Verde Canyon Railroad',        group: 'verde-places',   emoji: '🚂' },
+        { key: 'old-town-cwood',    name: 'Old Town Wine Row',            group: 'verde-places',   emoji: '🍷' },
+        { key: 'page-springs-mem',  name: 'Page Springs Cellars',         group: 'verde-places',   emoji: '🍾' },
+        { key: 'dead-horse-ranch',  name: 'Dead Horse Ranch State Park',  group: 'verde-places',   emoji: '🦌' },
+        { key: 'montezuma-castle',  name: 'Montezuma Castle',             group: 'verde-places',   emoji: '🏯' },
+    ];
+
+    const VISIT_GROUPS = [
+        { id: 'jerome-eats',      label: '🍽️ Jerome · Food & Drinks' },
+        { id: 'jerome-places',    label: '📍 Jerome · Landmarks & Experiences' },
+        { id: 'cottonwood-eats',  label: '🍷 Cottonwood · Food & Drinks' },
+        { id: 'verde-places',     label: '🌿 Verde Valley · Attractions' },
     ];
 
     function getVisitLog() { try { return JSON.parse(localStorage.getItem('jerome-visits') || '{}'); } catch(e) { return {}; } }
@@ -2864,10 +2903,10 @@
     }
 
     function renderVisitLog() {
-        const el1 = document.getElementById('visit-log-jerome');
-        const el2 = document.getElementById('visit-log-cottonwood');
-        if (el1) el1.innerHTML = _buildVisitEntries(VISIT_LIST.filter(v => v.loc === 'Jerome'));
-        if (el2) el2.innerHTML = _buildVisitEntries(VISIT_LIST.filter(v => v.loc === 'Cottonwood'));
+        VISIT_GROUPS.forEach(g => {
+            const el = document.getElementById(`visit-log-${g.id}`);
+            if (el) el.innerHTML = _buildVisitEntries(VISIT_LIST.filter(v => v.group === g.id));
+        });
         loadAllPhotoGalleries();
     }
 
@@ -3010,17 +3049,164 @@
         }
     }
 
+    async function generateKeepsakePDF() {
+        const btn = document.getElementById('pdf-btn');
+        if (btn) btn.textContent = '⏳ Building…';
+
+        const visitLog = getVisitLog(), wineLog = getWineLog(), shotState = getShotState();
+
+        // Collect all photos for visited venues
+        const allPhotos = {};
+        for (const v of VISIT_LIST) {
+            if (visitLog[v.key] && visitLog[v.key].visited) {
+                allPhotos[v.key] = await _getPhotos(v.key);
+            }
+        }
+
+        // Stats
+        const totalVisits = VISIT_LIST.filter(v => visitLog[v.key] && visitLog[v.key].visited).length;
+        let totalPhotos = 0;
+        for (const p of Object.values(allPhotos)) totalPhotos += p.length;
+        const visitedWines = WINE_VENUES.filter(v => wineLog[v.key] && wineLog[v.key].visited);
+
+        // Build visit group sections
+        let sections = '';
+        for (const g of VISIT_GROUPS) {
+            const gVisited = VISIT_LIST.filter(v => v.group === g.id && visitLog[v.key] && visitLog[v.key].visited);
+            if (!gVisited.length) continue;
+            let html = `<div class="group-section"><h2 class="group-title">${g.label}</h2>`;
+            for (const v of gVisited) {
+                const s = visitLog[v.key] || {};
+                const photos = allPhotos[v.key] || [];
+                const starsHtml = s.stars ? `<div class="place-stars">${'★'.repeat(s.stars)}${'☆'.repeat(5 - s.stars)}</div>` : '';
+                const photosHtml = photos.length
+                    ? `<div class="photo-grid">${photos.map(p => `<div class="photo-item"><img src="${p.url}" alt="${v.name}" loading="lazy"></div>`).join('')}</div>`
+                    : '';
+                const noteHtml = s.note && s.note.trim()
+                    ? `<div class="place-note">&ldquo;${s.note.trim()}&rdquo;</div>` : '';
+                html += `<div class="place-entry">
+                    <div class="place-header">
+                        <span class="place-emoji">${v.emoji}</span>
+                        <div><div class="place-name">${v.name}</div>${starsHtml}</div>
+                    </div>${photosHtml}${noteHtml}
+                </div>`;
+            }
+            html += '</div>';
+            sections += html;
+        }
+
+        // Wine section
+        if (visitedWines.length) {
+            sections += '<div class="group-section"><h2 class="group-title">🍷 Wines Tasted</h2>';
+            for (const v of visitedWines) {
+                const s = wineLog[v.key] || {};
+                const starsHtml = s.rating ? `<div class="place-stars">${'★'.repeat(s.rating)}${'☆'.repeat(5 - s.rating)}</div>` : '';
+                const noteHtml = s.note && s.note.trim() ? `<div class="place-note">&ldquo;${s.note.trim()}&rdquo;</div>` : '';
+                sections += `<div class="place-entry">
+                    <div class="place-header">
+                        <span class="place-emoji">🍷</span>
+                        <div><div class="place-name">${v.name}</div><div class="place-sub">${v.loc}</div>${starsHtml}</div>
+                    </div>${noteHtml}
+                </div>`;
+            }
+            sections += '</div>';
+        }
+
+        // Shots captured
+        const capturedShots = SHOT_LIST.filter((_, i) => shotState[i]);
+        if (capturedShots.length) {
+            sections += `<div class="group-section"><h2 class="group-title">📸 Shots Captured</h2><div class="shot-grid">${
+                capturedShots.map(s => `<div class="shot-item"><span>${s.icon}</span> ${s.loc}</div>`).join('')
+            }</div></div>`;
+        }
+
+        const doc = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>Jerome Weekend · June 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@page { size: letter portrait; margin: 0.7in; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;color:#2d1a0e;background:#fff;font-size:11pt;line-height:1.55}
+.print-bar{background:#5c2d0e;color:#fff;padding:14px 20px;font-family:system-ui,sans-serif;font-size:13px;text-align:center;line-height:1.6}
+.print-bar button{margin-top:8px;padding:8px 24px;background:#c47840;color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.cover{text-align:center;padding:44px 0 36px;border-bottom:2px solid #c47840;margin-bottom:32px}
+.cover-eyebrow{font-size:9pt;letter-spacing:2px;text-transform:uppercase;color:#9b6b3a;font-weight:500;margin-bottom:8px}
+.cover-title{font-family:'Playfair Display',Georgia,serif;font-size:34pt;font-weight:600;color:#5c2d0e;line-height:1.1;margin-bottom:10px}
+.cover-sub{font-size:10.5pt;color:#7a5030;font-style:italic;margin-bottom:28px}
+.stats-row{display:flex;justify-content:center;gap:36px}
+.stat-n{font-family:'Playfair Display',Georgia,serif;font-size:24pt;font-weight:600;color:#c47840}
+.stat-l{font-size:8pt;text-transform:uppercase;letter-spacing:.6px;color:#9b6b3a;margin-top:2px}
+.group-section{margin-bottom:28px}
+.group-title{font-family:'Playfair Display',Georgia,serif;font-size:13.5pt;color:#5c2d0e;border-bottom:1px solid #e0c4a0;padding-bottom:7px;margin-bottom:14px;font-weight:600}
+.place-entry{margin-bottom:18px;padding-bottom:14px;border-bottom:1px dotted #e0c4a0;page-break-inside:avoid}
+.place-entry:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.place-header{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px}
+.place-emoji{font-size:18pt;line-height:1.1}
+.place-name{font-size:12pt;font-weight:600;color:#3d1f0a}
+.place-sub{font-size:9pt;color:#9b6b3a;margin-top:1px}
+.place-stars{font-size:12pt;color:#c47840;letter-spacing:1px;margin-top:2px}
+.place-note{font-style:italic;font-size:10.5pt;color:#5c3a1e;background:#fdf6ed;border-left:3px solid #c47840;padding:7px 11px;border-radius:0 6px 6px 0;margin-top:8px}
+.photo-grid{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.photo-item img{width:185px;height:124px;object-fit:cover;border-radius:7px;border:1px solid #e0c4a0;display:block}
+.shot-grid{display:flex;flex-wrap:wrap;gap:6px 24px}
+.shot-item{font-size:10pt;color:#5c3a1e}
+.footer{text-align:center;margin-top:40px;padding-top:14px;border-top:1px solid #e0c4a0;font-size:8.5pt;color:#9b6b3a}
+@media print{.print-bar{display:none}}
+</style>
+</head>
+<body>
+
+<div class="print-bar">
+  <strong>Save as PDF:</strong> Android → Menu (⋮) → Print → Save as PDF &nbsp;·&nbsp; iPhone → Share → Print → pinch the preview → Share → Save to Files<br>
+  <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+</div>
+
+<div class="cover">
+  <div class="cover-eyebrow">Verde Valley, Arizona · June 27–28, 2026</div>
+  <div class="cover-title">Jerome Weekend</div>
+  <div class="cover-sub">A copper-town escape — history, wine, and high-desert magic</div>
+  <div class="stats-row">
+    <div><div class="stat-n">${totalVisits}</div><div class="stat-l">Places Visited</div></div>
+    <div><div class="stat-n">${totalPhotos}</div><div class="stat-l">Photos Added</div></div>
+    <div><div class="stat-n">${visitedWines.length}</div><div class="stat-l">Wines Tasted</div></div>
+  </div>
+</div>
+
+${sections}
+
+<div class="footer">Jerome &amp; Cottonwood, Arizona · Verde Valley · June 2026</div>
+
+</body>
+</html>`;
+
+        if (btn) btn.textContent = '📄 Generate Keepsake PDF';
+
+        const w = window.open('', '_blank');
+        if (!w) {
+            alert('Please allow pop-ups and try again, or long-press the button to open in a new tab.');
+            return;
+        }
+        w.document.write(doc);
+        w.document.close();
+        setTimeout(() => { try { w.print(); } catch(e) {} }, 1400);
+    }
+
     async function exportMemories() {
         const visitLog = getVisitLog(), wineLog = getWineLog(), shotState = getShotState();
         let txt = '🌵 Jerome Weekend · Verde Valley, AZ\n' + '─'.repeat(32) + '\n\n';
 
-        const visited = VISIT_LIST.filter(v => visitLog[v.key] && visitLog[v.key].visited);
-        if (visited.length) {
-            txt += '📍 PLACES WE WENT\n';
-            for (const v of visited) {
+        for (const g of VISIT_GROUPS) {
+            const gVisited = VISIT_LIST.filter(v => v.group === g.id && visitLog[v.key] && visitLog[v.key].visited);
+            if (!gVisited.length) continue;
+            txt += g.label + '\n';
+            for (const v of gVisited) {
                 const s = visitLog[v.key] || {};
                 const pc = (await _getPhotos(v.key)).length;
-                txt += `\n${v.emoji} ${v.name} (${v.loc})`;
+                txt += `\n${v.emoji} ${v.name}`;
                 if (s.stars) txt += '  ' + '★'.repeat(s.stars) + '☆'.repeat(5 - s.stars);
                 if (pc) txt += `  📷 ${pc} photo${pc > 1 ? 's' : ''}`;
                 if (s.note && s.note.trim()) txt += `\n   "${s.note.trim()}"`;
