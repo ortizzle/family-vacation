@@ -607,6 +607,28 @@
         }
         .rating-stars { font-size: 14px; color: #f5a623; letter-spacing: 1px; }
         .rating-meta  { font-size: 11px; color: var(--text-light); }
+
+        /* ── MEMORIES / VISIT LOG ── */
+        .mem-stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .mem-stat { background: var(--snow); border-radius: 12px; padding: 12px 8px; box-shadow: var(--shadow-sm); text-align: center; }
+        .mem-stat-n { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--copper); line-height: 1; }
+        .mem-stat-l { font-size: 9px; color: var(--text-light); margin-top: 4px; text-transform: uppercase; letter-spacing: .4px; }
+        .mem-loc-header { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--copper-mid); padding-bottom: 8px; border-bottom: 1px solid #f0ebe4; margin-bottom: 8px; }
+        .visit-entry { padding: 10px 0; border-bottom: 1px solid #f0ebe4; }
+        .visit-entry:last-child { border-bottom: none; }
+        .visit-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .visit-name-row { display: flex; align-items: center; gap: 10px; }
+        .visit-emoji { font-size: 21px; flex-shrink: 0; line-height: 1; }
+        .visit-name { font-size: 13px; font-weight: 600; color: var(--text-dark); line-height: 1.2; }
+        .visit-toggle { flex-shrink: 0; padding: 5px 11px; border-radius: 100px; border: 1.5px solid #ddd3c8; background: white; font-size: 11px; font-weight: 600; color: var(--text-light); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: all .18s; white-space: nowrap; }
+        .visit-toggle.visited { background: var(--sage); border-color: var(--sage); color: white; }
+        .visit-stars-row { display: flex; gap: 2px; margin: 8px 0 4px; }
+        .visit-star { font-size: 22px; color: #e5e7eb; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color .12s; line-height: 1; }
+        .visit-star.lit { color: #f59e0b; }
+        .visit-note-input { width: 100%; padding: 8px 10px; border: 1px solid #e5ddd5; border-radius: 8px; font-size: 12px; font-family: inherit; color: var(--text-dark); background: var(--cream); resize: none; outline: none; margin-top: 4px; }
+        .export-btn { width: 100%; padding: 14px; background: var(--copper); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; transition: background .18s; }
+        .export-btn:active { background: var(--copper-dark); }
+        .export-preview { display: none; width: 100%; padding: 12px; border: 1px solid #e5ddd5; border-radius: 10px; font-size: 11px; font-family: monospace; color: var(--text-mid); background: var(--cream); resize: none; margin-top: 10px; min-height: 140px; }
     </style>
 </head>
 <body>
@@ -1574,6 +1596,57 @@
 
 </section>
 
+<!-- ═══════════════════════════ MEMORIES ════════════════════════════ -->
+<section class="section" id="section-memories">
+
+    <div class="hero-banner">
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#3d1f0a 0%,#7a3d12 50%,#c47840 100%);"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Jerome Weekend</div>
+            <div class="hero-title">Memories</div>
+            <div class="hero-sub">Places visited · wines tasted · shots captured</div>
+        </div>
+    </div>
+
+    <div id="mem-stats" class="mem-stat-grid"></div>
+
+    <div class="section-header">Restaurant &amp; Bar Log</div>
+
+    <div class="card" style="margin-bottom:10px;">
+        <div class="mem-loc-header">📍 Jerome</div>
+        <div id="visit-log-jerome"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+        <div class="mem-loc-header">🍷 Cottonwood</div>
+        <div id="visit-log-cottonwood"></div>
+    </div>
+
+    <div class="section-header">Wine Tasting Log</div>
+
+    <div class="card" style="margin-bottom:14px;">
+        <div id="mem-wine-log"></div>
+    </div>
+
+    <div class="section-header">Photo Shot List</div>
+
+    <div class="card" style="margin-bottom:14px;">
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:10px;">Tap each one you captured</div>
+        <div id="mem-shot-list"></div>
+    </div>
+
+    <div class="section-header">Export</div>
+
+    <div class="card" style="margin-bottom:20px;">
+        <div style="font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:4px;">Save Your Memories</div>
+        <div style="font-size:12.5px;color:var(--text-mid);line-height:1.55;margin-bottom:14px;">Copy everything — every place you visited with your notes and ratings, wines tasted, and shots captured — to paste into Notes or Messages alongside your photos.</div>
+        <button class="export-btn" id="export-btn" onclick="exportMemories()">📋 Copy to Clipboard</button>
+        <textarea class="export-preview" id="export-preview" readonly></textarea>
+    </div>
+
+</section>
+
 </main>
 
 <!-- ── BOTTOM NAV ── -->
@@ -1594,6 +1667,10 @@
         <span class="nav-icon">🍽️</span>
         <span class="nav-label">Eats</span>
     </button>
+    <button class="nav-item" onclick="showSection('memories', this)">
+        <span class="nav-icon">📓</span>
+        <span class="nav-label">Memories</span>
+    </button>
 </nav>
 
 <!-- ── MODAL ── -->
@@ -1612,6 +1689,7 @@
         document.getElementById('section-' + name).classList.add('active');
         if (btnEl) btnEl.classList.add('active');
         window.scrollTo(0, 0);
+        if (name === 'memories') { renderVisitLog(); renderMemWineLog(); renderMemShotList(); renderMemStats(); }
     }
 
     const MODALS = {
@@ -2704,6 +2782,168 @@
                 <div class="shot-icon">${s.icon}</div>
                 <div style="flex:1"><div class="shot-loc">${s.loc}</div><div class="shot-desc">${s.desc}</div></div>
             </div>`).join('');
+    }
+
+    // ── RESTAURANT VISIT LOG ─────────────────────────────────────
+    const VISIT_LIST = [
+        { key: 'flatiron',          name: 'Flatiron Cafe',            loc: 'Jerome',      emoji: '☕' },
+        { key: 'clinkscale',        name: 'The Clinkscale',           loc: 'Jerome',      emoji: '🍽️' },
+        { key: 'haunted-hamburger', name: 'Haunted Hamburger',        loc: 'Jerome',      emoji: '🍔' },
+        { key: 'asylum',            name: 'The Asylum',               loc: 'Jerome',      emoji: '🦇' },
+        { key: 'vaqueros',          name: 'Vaqueros Grill & Cantina', loc: 'Jerome',      emoji: '🌮' },
+        { key: 'spirit-room',       name: 'Spirit Room Bar',          loc: 'Jerome',      emoji: '🎸' },
+        { key: 'sullivans',         name: "Sullivan's Rest",          loc: 'Jerome',      emoji: '🍺' },
+        { key: 'bobby-ds',          name: "Bobby D's BBQ",            loc: 'Jerome',      emoji: '🍖' },
+        { key: 'sedonuts',          name: 'Sedonuts',                 loc: 'Cottonwood',  emoji: '🍩' },
+        { key: 'merkin-osteria',    name: 'Merkin Hilltop Trattoria', loc: 'Cottonwood',  emoji: '🎸' },
+        { key: 'crema',             name: 'Crema Craft Kitchen',      loc: 'Cottonwood',  emoji: '🫕' },
+        { key: 'bocce',             name: 'Bocce Grill',              loc: 'Cottonwood',  emoji: '🍕' },
+        { key: 'the-nic',           name: 'The Nic',                  loc: 'Cottonwood',  emoji: '🥃' },
+    ];
+
+    function getVisitLog() { try { return JSON.parse(localStorage.getItem('jerome-visits') || '{}'); } catch(e) { return {}; } }
+    function saveVisitLog(log) { localStorage.setItem('jerome-visits', JSON.stringify(log)); }
+
+    function toggleRestaurantVisit(key) {
+        const log = getVisitLog();
+        if (!log[key]) log[key] = {};
+        log[key].visited = !log[key].visited;
+        saveVisitLog(log);
+        renderVisitLog();
+        renderMemStats();
+    }
+
+    function setVisitStars(key, n) {
+        const log = getVisitLog();
+        if (!log[key]) log[key] = {};
+        log[key].stars = (log[key].stars === n) ? 0 : n;
+        saveVisitLog(log);
+        renderVisitLog();
+    }
+
+    function saveVisitNote(key, val) {
+        const log = getVisitLog();
+        if (!log[key]) log[key] = {};
+        log[key].note = val;
+        saveVisitLog(log);
+    }
+
+    function _buildVisitEntries(venues) {
+        const log = getVisitLog();
+        return venues.map(v => {
+            const s = log[v.key] || {};
+            const stars = [1,2,3,4,5].map(i =>
+                `<span class="visit-star${i <= (s.stars||0) ? ' lit' : ''}" onclick="setVisitStars('${v.key}',${i})">★</span>`
+            ).join('');
+            return `<div class="visit-entry">
+                <div class="visit-top">
+                    <div class="visit-name-row">
+                        <span class="visit-emoji">${v.emoji}</span>
+                        <div class="visit-name">${v.name}</div>
+                    </div>
+                    <button class="visit-toggle${s.visited ? ' visited' : ''}" onclick="toggleRestaurantVisit('${v.key}')">${s.visited ? '✓ Went' : 'Mark Visited'}</button>
+                </div>
+                ${s.visited ? `<div class="visit-stars-row">${stars}</div><textarea class="visit-note-input" rows="2" placeholder="How was it? What did you order?" oninput="saveVisitNote('${v.key}',this.value)">${s.note || ''}</textarea>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    function renderVisitLog() {
+        const el1 = document.getElementById('visit-log-jerome');
+        const el2 = document.getElementById('visit-log-cottonwood');
+        if (el1) el1.innerHTML = _buildVisitEntries(VISIT_LIST.filter(v => v.loc === 'Jerome'));
+        if (el2) el2.innerHTML = _buildVisitEntries(VISIT_LIST.filter(v => v.loc === 'Cottonwood'));
+    }
+
+    function renderMemStats() {
+        const el = document.getElementById('mem-stats');
+        if (!el) return;
+        const visitLog = getVisitLog(), wineLog = getWineLog(), shotState = getShotState();
+        const visits = VISIT_LIST.filter(v => visitLog[v.key] && visitLog[v.key].visited).length;
+        const wines  = WINE_VENUES.filter(v => wineLog[v.key]  && wineLog[v.key].visited).length;
+        const shots  = SHOT_LIST.filter((_, i) => shotState[i]).length;
+        el.innerHTML = `
+            <div class="mem-stat"><div class="mem-stat-n">${visits}</div><div class="mem-stat-l">Places Visited</div></div>
+            <div class="mem-stat"><div class="mem-stat-n">${wines}</div><div class="mem-stat-l">Wines Tasted</div></div>
+            <div class="mem-stat"><div class="mem-stat-n">${shots}</div><div class="mem-stat-l">Shots Captured</div></div>
+        `;
+    }
+
+    function renderMemWineLog() {
+        const el = document.getElementById('mem-wine-log');
+        if (!el) return;
+        const log = getWineLog();
+        el.innerHTML = WINE_VENUES.map(v => {
+            const s = log[v.key] || {};
+            const stars = [1,2,3,4,5].map(i =>
+                `<span class="wine-star${i <= (s.rating||0) ? ' lit' : ''}" onclick="setWineRating('${v.key}',${i}); renderMemWineLog(); renderMemStats()">★</span>`
+            ).join('');
+            return `<div class="wine-entry">
+                <div class="wine-top">
+                    <div><div class="wine-name">${v.name}</div><div class="wine-loc">${v.loc}</div></div>
+                    <button class="wine-visited-btn ${s.visited ? 'visited' : 'unvisited'}" onclick="toggleWineVisited('${v.key}'); renderMemWineLog(); renderMemStats()">${s.visited ? '✓ Visited' : 'Mark Visited'}</button>
+                </div>
+                ${s.visited ? `<div class="wine-stars-row">${stars}</div><textarea class="wine-note-input" rows="2" placeholder="Tasting notes…" oninput="saveWineNote('${v.key}',this.value)">${s.note || ''}</textarea>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    function renderMemShotList() {
+        const el = document.getElementById('mem-shot-list');
+        if (!el) return;
+        const state = getShotState();
+        el.innerHTML = SHOT_LIST.map((s, i) => `
+            <div class="shot-item" onclick="toggleShot(${i}); renderMemShotList(); renderMemStats()">
+                <div class="shot-check${state[i] ? ' done' : ''}">✓</div>
+                <div class="shot-icon">${s.icon}</div>
+                <div style="flex:1"><div class="shot-loc">${s.loc}</div><div class="shot-desc">${s.desc}</div></div>
+            </div>`).join('');
+    }
+
+    function exportMemories() {
+        const visitLog = getVisitLog(), wineLog = getWineLog(), shotState = getShotState();
+        let txt = '🌵 Jerome Weekend · Verde Valley, AZ\n' + '─'.repeat(32) + '\n\n';
+
+        const visited = VISIT_LIST.filter(v => visitLog[v.key] && visitLog[v.key].visited);
+        if (visited.length) {
+            txt += '📍 PLACES WE WENT\n';
+            visited.forEach(v => {
+                const s = visitLog[v.key] || {};
+                txt += `\n${v.emoji} ${v.name} (${v.loc})`;
+                if (s.stars) txt += '  ' + '★'.repeat(s.stars) + '☆'.repeat(5 - s.stars);
+                if (s.note && s.note.trim()) txt += `\n   "${s.note.trim()}"`;
+            });
+            txt += '\n\n';
+        }
+
+        const wines = WINE_VENUES.filter(v => wineLog[v.key] && wineLog[v.key].visited);
+        if (wines.length) {
+            txt += '🍷 WINERIES VISITED\n';
+            wines.forEach(v => {
+                const s = wineLog[v.key] || {};
+                txt += `\n${v.name} (${v.loc})`;
+                if (s.rating) txt += '  ' + '★'.repeat(s.rating) + '☆'.repeat(5 - s.rating);
+                if (s.note && s.note.trim()) txt += `\n   "${s.note.trim()}"`;
+            });
+            txt += '\n\n';
+        }
+
+        const shots = SHOT_LIST.filter((_, i) => shotState[i]);
+        if (shots.length) {
+            txt += '📸 SHOTS CAPTURED\n';
+            shots.forEach(s => { txt += `\n${s.icon} ${s.loc}`; });
+            txt += '\n\n';
+        }
+
+        txt += '─'.repeat(32) + '\nJune 2026 · Jerome & Cottonwood, Arizona';
+
+        navigator.clipboard.writeText(txt).then(() => {
+            const btn = document.getElementById('export-btn');
+            if (btn) { btn.textContent = '✓ Copied!'; setTimeout(() => btn.textContent = '📋 Copy to Clipboard', 2500); }
+        }).catch(() => {
+            const area = document.getElementById('export-preview');
+            if (area) { area.value = txt; area.style.display = 'block'; area.select(); }
+        });
     }
 
     // ── INIT ──────────────────────────────────────────────────────
