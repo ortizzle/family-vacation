@@ -629,6 +629,15 @@
         .export-btn { width: 100%; padding: 14px; background: var(--copper); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; transition: background .18s; }
         .export-btn:active { background: var(--copper-dark); }
         .export-preview { display: none; width: 100%; padding: 12px; border: 1px solid #e5ddd5; border-radius: 10px; font-size: 11px; font-family: monospace; color: var(--text-mid); background: var(--cream); resize: none; margin-top: 10px; min-height: 140px; }
+
+        /* ── PHOTO MEMORIES ── */
+        .visit-memory-wrap { margin-top: 6px; }
+        .photo-gallery-wrap { margin-bottom: 6px; }
+        .photo-gallery { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+        .photo-thumb-wrap { position: relative; width: 74px; height: 74px; flex-shrink: 0; }
+        .photo-thumb { width: 74px; height: 74px; object-fit: cover; border-radius: 10px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.18); display: block; }
+        .photo-remove { position: absolute; top: -5px; right: -5px; width: 20px; height: 20px; background: rgba(44,24,16,.82); color: white; border: none; border-radius: 50%; font-size: 10px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+        .photo-add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: var(--terra-pale); border: 1.5px dashed var(--copper-light); border-radius: 8px; font-size: 11.5px; font-weight: 600; color: var(--copper-mid); cursor: pointer; -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
 <body>
@@ -2843,7 +2852,13 @@
                     </div>
                     <button class="visit-toggle${s.visited ? ' visited' : ''}" onclick="toggleRestaurantVisit('${v.key}')">${s.visited ? '✓ Went' : 'Mark Visited'}</button>
                 </div>
-                ${s.visited ? `<div class="visit-stars-row">${stars}</div><textarea class="visit-note-input" rows="2" placeholder="How was it? What did you order?" oninput="saveVisitNote('${v.key}',this.value)">${s.note || ''}</textarea>` : ''}
+                ${s.visited ? `
+                <div class="visit-stars-row">${stars}</div>
+                <div class="visit-memory-wrap">
+                    <textarea class="visit-note-input" rows="2" placeholder="How was it? What did you order?" oninput="saveVisitNote('${v.key}',this.value)">${s.note || ''}</textarea>
+                    <div id="photos-${v.key}" class="photo-gallery-wrap"></div>
+                    <label class="photo-add-btn">📷 Add Photo<input type="file" accept="image/*" style="display:none" onchange="handlePhotoInput(event,'${v.key}')"></label>
+                </div>` : ''}
             </div>`;
         }).join('');
     }
@@ -2853,18 +2868,22 @@
         const el2 = document.getElementById('visit-log-cottonwood');
         if (el1) el1.innerHTML = _buildVisitEntries(VISIT_LIST.filter(v => v.loc === 'Jerome'));
         if (el2) el2.innerHTML = _buildVisitEntries(VISIT_LIST.filter(v => v.loc === 'Cottonwood'));
+        loadAllPhotoGalleries();
     }
 
-    function renderMemStats() {
+    async function renderMemStats() {
         const el = document.getElementById('mem-stats');
         if (!el) return;
-        const visitLog = getVisitLog(), wineLog = getWineLog(), shotState = getShotState();
+        const visitLog = getVisitLog(), shotState = getShotState();
         const visits = VISIT_LIST.filter(v => visitLog[v.key] && visitLog[v.key].visited).length;
-        const wines  = WINE_VENUES.filter(v => wineLog[v.key]  && wineLog[v.key].visited).length;
         const shots  = SHOT_LIST.filter((_, i) => shotState[i]).length;
+        let photos = 0;
+        for (const v of VISIT_LIST) {
+            if (visitLog[v.key] && visitLog[v.key].visited) photos += (await _getPhotos(v.key)).length;
+        }
         el.innerHTML = `
             <div class="mem-stat"><div class="mem-stat-n">${visits}</div><div class="mem-stat-l">Places Visited</div></div>
-            <div class="mem-stat"><div class="mem-stat-n">${wines}</div><div class="mem-stat-l">Wines Tasted</div></div>
+            <div class="mem-stat"><div class="mem-stat-n">${photos}</div><div class="mem-stat-l">Photos Added</div></div>
             <div class="mem-stat"><div class="mem-stat-n">${shots}</div><div class="mem-stat-l">Shots Captured</div></div>
         `;
     }
@@ -2900,19 +2919,112 @@
             </div>`).join('');
     }
 
-    function exportMemories() {
+    // ── PHOTO STORAGE (IndexedDB) ─────────────────────────────────
+    const _PDB = 'jerome-photos', _PST = 'venues';
+    function _photoDb() {
+        return new Promise((res, rej) => {
+            const r = indexedDB.open(_PDB, 1);
+            r.onupgradeneeded = e => e.target.result.createObjectStore(_PST);
+            r.onsuccess = e => res(e.target.result);
+            r.onerror   = () => res(null);
+        });
+    }
+    async function _getPhotos(key) {
+        const db = await _photoDb(); if (!db) return [];
+        return new Promise(r => {
+            const req = db.transaction(_PST,'readonly').objectStore(_PST).get(key);
+            req.onsuccess = () => r(req.result || []);
+            req.onerror  = () => r([]);
+        });
+    }
+    async function _savePhotos(key, photos) {
+        const db = await _photoDb(); if (!db) return;
+        return new Promise(r => {
+            const tx = db.transaction(_PST,'readwrite');
+            tx.objectStore(_PST).put(photos, key);
+            tx.oncomplete = r; tx.onerror = r;
+        });
+    }
+    function _compressImage(dataUrl, maxW, q) {
+        return new Promise(res => {
+            const img = new Image();
+            img.onload = () => {
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+                const c = document.createElement('canvas');
+                c.width = w; c.height = h;
+                c.getContext('2d').drawImage(img, 0, 0, w, h);
+                res(c.toDataURL('image/jpeg', q));
+            };
+            img.onerror = () => res(dataUrl);
+            img.src = dataUrl;
+        });
+    }
+    function handlePhotoInput(e, venueKey) {
+        const file = e.target.files[0]; if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async ev => {
+            const url = await _compressImage(ev.target.result, 900, 0.82);
+            const photos = await _getPhotos(venueKey);
+            photos.push({ url, ts: Date.now() });
+            await _savePhotos(venueKey, photos);
+            loadPhotoGallery(venueKey);
+            renderMemStats();
+        };
+        reader.readAsDataURL(file);
+        e.target.value = '';
+    }
+    async function removePhoto(venueKey, idx) {
+        const photos = await _getPhotos(venueKey);
+        photos.splice(idx, 1);
+        await _savePhotos(venueKey, photos);
+        closeModal();
+        loadPhotoGallery(venueKey);
+        renderMemStats();
+    }
+    async function viewPhoto(venueKey, idx) {
+        const p = (await _getPhotos(venueKey))[idx]; if (!p) return;
+        document.getElementById('modal-content').innerHTML = `
+            <img src="${p.url}" style="width:100%;border-radius:10px;display:block;max-height:70vh;object-fit:contain;">
+            <div style="margin-top:16px;text-align:center;">
+                <button onclick="removePhoto('${venueKey}',${idx})" style="padding:10px 24px;background:#b94040;color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">🗑️ Remove Photo</button>
+            </div>`;
+        document.getElementById('modal-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    async function loadPhotoGallery(venueKey) {
+        const el = document.getElementById(`photos-${venueKey}`); if (!el) return;
+        const photos = await _getPhotos(venueKey);
+        el.innerHTML = photos.length ? `
+            <div class="photo-gallery">${photos.map((p, i) =>
+                `<div class="photo-thumb-wrap">
+                    <img class="photo-thumb" src="${p.url}" onclick="viewPhoto('${venueKey}',${i})">
+                    <button class="photo-remove" onclick="event.stopPropagation();removePhoto('${venueKey}',${i})">✕</button>
+                </div>`).join('')}
+            </div>` : '';
+    }
+    async function loadAllPhotoGalleries() {
+        const log = getVisitLog();
+        for (const v of VISIT_LIST) {
+            if (log[v.key] && log[v.key].visited) loadPhotoGallery(v.key);
+        }
+    }
+
+    async function exportMemories() {
         const visitLog = getVisitLog(), wineLog = getWineLog(), shotState = getShotState();
         let txt = '🌵 Jerome Weekend · Verde Valley, AZ\n' + '─'.repeat(32) + '\n\n';
 
         const visited = VISIT_LIST.filter(v => visitLog[v.key] && visitLog[v.key].visited);
         if (visited.length) {
             txt += '📍 PLACES WE WENT\n';
-            visited.forEach(v => {
+            for (const v of visited) {
                 const s = visitLog[v.key] || {};
+                const pc = (await _getPhotos(v.key)).length;
                 txt += `\n${v.emoji} ${v.name} (${v.loc})`;
                 if (s.stars) txt += '  ' + '★'.repeat(s.stars) + '☆'.repeat(5 - s.stars);
+                if (pc) txt += `  📷 ${pc} photo${pc > 1 ? 's' : ''}`;
                 if (s.note && s.note.trim()) txt += `\n   "${s.note.trim()}"`;
-            });
+            }
             txt += '\n\n';
         }
 
