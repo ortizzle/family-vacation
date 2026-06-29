@@ -223,26 +223,24 @@
         .hero-sub { font-size: 12px; opacity: .85; margin-top: 4px; }
 
         /* ── FIREWORKS STRIP ── */
-        .fireworks-strip {
-            background: linear-gradient(135deg, var(--navy-dark), var(--navy));
-            border-radius: var(--radius);
-            padding: 16px 20px;
-            color: white;
-            margin-bottom: 14px;
+        .fireworks-hero {
             position: relative;
+            border-radius: var(--radius);
             overflow: hidden;
+            margin-bottom: 14px;
+            height: 180px;
+            background: linear-gradient(180deg, #06091a 0%, #0d1533 60%, #1a2744 100%);
         }
-        .fireworks-strip::before {
-            content: '🎆';
-            position: absolute;
-            right: 16px; top: 50%;
-            transform: translateY(-50%);
-            font-size: 44px;
-            opacity: .35;
+        #fw-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .fw-hero-text {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; color: white;
+            pointer-events: none; z-index: 2;
         }
-        .fw-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: .72; margin-bottom: 5px; color: var(--gold-light); }
-        .fw-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 3px; }
-        .fw-body  { font-size: 13px; opacity: .88; line-height: 1.55; }
+        .fw-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: .75; margin-bottom: 6px; color: var(--gold-light); }
+        .fw-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; text-shadow: 0 0 20px rgba(240,192,64,.6); }
 
         /* ── FAMILY CREW BANNER ── */
         .crew-banner {
@@ -886,10 +884,12 @@
 <!-- ═══════════════════════════════════ HOME ═══════════════════════════════════ -->
 <section class="section active" id="section-home">
 
-    <div class="fireworks-strip">
-        <div class="fw-label">Independence Day Weekend</div>
-        <div class="fw-title">Happy 4th! 🇺🇸</div>
-        <div class="fw-body">White Spar Campground · Prescott, AZ · Site 38 — arrive late Friday, full day Saturday, head home Sunday morning.</div>
+    <div class="fireworks-hero">
+        <canvas id="fw-canvas"></canvas>
+        <div class="fw-hero-text">
+            <div class="fw-label">Independence Day Weekend</div>
+            <div class="fw-title">Happy 4th! 🇺🇸</div>
+        </div>
     </div>
 
     <div class="warn-banner">
@@ -925,28 +925,20 @@
             <div class="stat-label">Feet Elevation</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">Site 38</div>
-            <div class="stat-label">White Spar Camp</div>
+            <div class="stat-number">88°F</div>
+            <div class="stat-label">Fri High · Sunny</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">2.7 mi</div>
-            <div class="stat-label">From Prescott</div>
+            <div class="stat-number">91°F</div>
+            <div class="stat-label">Sat High · Sunny</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">S'more</div>
-            <div class="stat-label">Mandatory Activity</div>
+            <div class="stat-number">62°F</div>
+            <div class="stat-label">Overnight Low</div>
         </div>
     </div>
 
     <div class="section-header">Friday, July 3 · Drive + Arrival</div>
-
-    <div class="info-banner">
-        <div class="info-icon">🕒</div>
-        <div>
-            <div class="info-title">Recommended Departure: Leave by 3:30 PM</div>
-            <div class="info-text">From Phoenix metro: ~90 miles, 1.5 hrs normally — add 30–45 min for holiday Friday traffic on I-17. Sunset in Prescott is <strong>7:46 PM</strong>. Leaving by 3:30 PM gets you to White Spar by ~5:30–6 PM with <strong>1.5–2 hours of daylight</strong> to set up camp comfortably.</div>
-        </div>
-    </div>
 
     <div class="card">
         <div class="event-item tappable" onclick="openModal('drive-to-camp')">
@@ -2046,6 +2038,119 @@
     }
 
     /* ── FIREWORKS BURST ── */
+    /* ── HOME FIREWORKS CANVAS ── */
+    (function() {
+        const canvas = document.getElementById('fw-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let W, H, rockets = [], particles = [], raf;
+
+        function resize() {
+            W = canvas.width  = canvas.offsetWidth;
+            H = canvas.height = canvas.offsetHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        const BURST_COLORS = [
+            '#f0c040','#e8534a','#4a90d9','#ffffff','#ff6b35',
+            '#c0392b','#7ed6df','#f9ca24','#ff9ff3','#54a0ff'
+        ];
+
+        function makeRocket() {
+            const x = W * (0.15 + Math.random() * 0.7);
+            return {
+                x, y: H,
+                tx: x + (Math.random() - 0.5) * 60,
+                ty: H * (0.08 + Math.random() * 0.45),
+                speed: 3.5 + Math.random() * 2.5,
+                trail: [],
+                color: BURST_COLORS[Math.floor(Math.random() * BURST_COLORS.length)],
+                done: false
+            };
+        }
+
+        function burst(r) {
+            const count = 52 + Math.floor(Math.random() * 24);
+            const colors = [r.color, '#ffffff', BURST_COLORS[Math.floor(Math.random() * BURST_COLORS.length)]];
+            for (let i = 0; i < count; i++) {
+                const angle = (i / count) * Math.PI * 2;
+                const speed = 1.4 + Math.random() * 2.8;
+                particles.push({
+                    x: r.x, y: r.y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    life: 1, decay: 0.013 + Math.random() * 0.012,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: 1.5 + Math.random() * 1.5
+                });
+            }
+        }
+
+        function loop() {
+            raf = requestAnimationFrame(loop);
+            ctx.fillStyle = 'rgba(6,9,26,0.22)';
+            ctx.fillRect(0, 0, W, H);
+
+            // launch new rockets
+            if (rockets.length < 3 && Math.random() < 0.025) rockets.push(makeRocket());
+
+            rockets = rockets.filter(r => {
+                if (r.done) return false;
+                r.trail.push({x: r.x, y: r.y});
+                if (r.trail.length > 12) r.trail.shift();
+
+                // draw trail
+                for (let i = 0; i < r.trail.length; i++) {
+                    ctx.beginPath();
+                    ctx.arc(r.trail[i].x, r.trail[i].y, 1.2, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,220,100,${i / r.trail.length * 0.6})`;
+                    ctx.fill();
+                }
+
+                const dx = r.tx - r.x, dy = r.ty - r.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < r.speed + 2) { burst(r); r.done = true; return false; }
+                r.x += dx / dist * r.speed;
+                r.y += dy / dist * r.speed;
+                return true;
+            });
+
+            particles = particles.filter(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.04; // gravity
+                p.vx *= 0.98;
+                p.life -= p.decay;
+                if (p.life <= 0) return false;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.life * p.life;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                return true;
+            });
+        }
+
+        // start when home section is visible, pause otherwise
+        function startFW() { if (!raf) loop(); }
+        function stopFW()  { cancelAnimationFrame(raf); raf = null; }
+
+        // kick off immediately and also on home nav
+        startFW();
+        const _origShowSection = showSection;
+        window._fwShowSection = function(name, btn) {
+            _origShowSection(name, btn);
+            name === 'home' ? startFW() : stopFW();
+        };
+        // patch nav buttons to use wrapper
+        document.querySelectorAll('.nav-item').forEach(b => {
+            const orig = b.getAttribute('onclick');
+            if (orig) b.setAttribute('onclick', orig.replace('showSection(', 'window._fwShowSection('));
+        });
+    })();
+
     function createBurst(x, y, count, radius, colors) {
         colors = colors || ['#c0392b','#1a2744','#f0c040','#ffffff','#e8534a','#4a90d9'];
         for (let i = 0; i < count; i++) {
