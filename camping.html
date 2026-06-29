@@ -242,6 +242,73 @@
         .fw-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: .75; margin-bottom: 6px; color: var(--gold-light); }
         .fw-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; text-shadow: 0 0 20px rgba(240,192,64,.6); }
 
+        /* ── COUNTDOWN / SUN STRIP ── */
+        .countdown-card {
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid));
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            color: white;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .countdown-card.trip-live { background: linear-gradient(135deg, #1a4a1a, #2d6e2d); }
+        .countdown-card.trip-done { display: none; }
+        .cd-icon { font-size: 28px; flex-shrink: 0; }
+        .cd-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(240,192,64,.8); margin-bottom: 3px; }
+        .cd-time { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; line-height: 1; }
+        .cd-sub { font-size: 12px; opacity: .75; margin-top: 3px; }
+        .sun-strip {
+            background: var(--snow);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-sm);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            text-align: center;
+        }
+        .sun-day { }
+        .sun-day-label { font-size: 9px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .sun-row { display: flex; justify-content: center; gap: 6px; font-size: 11px; }
+        .sun-rise { color: var(--gold); font-weight: 600; }
+        .sun-set  { color: var(--navy); font-weight: 600; }
+        /* ── PRE-DEPARTURE CHECKLIST ── */
+        .preflight-card {
+            background: linear-gradient(135deg, #fff8e8, #fffae8);
+            border: 2px solid var(--gold-light);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            margin-bottom: 14px;
+        }
+        .preflight-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+        .preflight-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 0; border-bottom: 1px solid rgba(0,0,0,.06);
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+        }
+        .preflight-item:last-child { border-bottom: none; }
+        .preflight-item::before { content: '○'; color: #c8d0e0; font-size: 16px; flex-shrink: 0; transition: all .2s; }
+        .preflight-item.pf-checked::before { content: '✅'; }
+        .preflight-item.pf-checked span { text-decoration: line-through; color: var(--text-light); }
+        .preflight-item span { font-size: 14px; font-weight: 500; }
+        /* ── CONSTELLATIONS ── */
+        .const-cards { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .const-cards::-webkit-scrollbar { display: none; }
+        .const-card {
+            min-width: 200px; flex-shrink: 0; scroll-snap-align: start;
+            background: linear-gradient(160deg, #06091a, #0d1533);
+            border-radius: 14px; padding: 16px; color: white;
+        }
+        .const-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 2px; color: var(--gold-light); }
+        .const-latin { font-size: 10px; opacity: .6; letter-spacing: .5px; margin-bottom: 10px; font-style: italic; }
+        .const-svg { display: block; margin: 0 auto 10px; }
+        .const-best { font-size: 11px; opacity: .8; margin-bottom: 6px; }
+        .const-fact { font-size: 11px; opacity: .65; line-height: 1.5; }
+        .const-hint { font-size: 10px; text-align: center; color: var(--text-light); margin-top: 4px; }
+
         /* ── FAMILY CREW BANNER ── */
         .crew-banner {
             background: var(--snow);
@@ -892,6 +959,45 @@
         </div>
     </div>
 
+    <!-- Countdown / trip status -->
+    <div class="countdown-card" id="countdown-card">
+        <div class="cd-icon" id="cd-icon">🚗</div>
+        <div>
+            <div class="cd-label" id="cd-label">Departure Countdown</div>
+            <div class="cd-time" id="cd-time">--:--</div>
+            <div class="cd-sub" id="cd-sub">Leave Phoenix by 3:30 PM · July 3</div>
+        </div>
+    </div>
+
+    <!-- Pre-departure checklist (shows July 2 eve – July 3 3:30 PM) -->
+    <div class="preflight-card" id="preflight-card" style="display:none;">
+        <div class="preflight-title">🚗 Car Loaded? Quick Check</div>
+        <div class="preflight-item" onclick="pfCheck(this,event)"><span>⛺ Tent + poles + stakes + rain fly</span></div>
+        <div class="preflight-item" onclick="pfCheck(this,event)"><span>🔥 Propane tank (full) + charcoal/firestarter</span></div>
+        <div class="preflight-item" onclick="pfCheck(this,event)"><span>🧊 Coolers packed + twice the ice you think</span></div>
+        <div class="preflight-item" onclick="pfCheck(this,event)"><span>🔦 Headlamps for everyone</span></div>
+        <div class="preflight-item" onclick="pfCheck(this,event)"><span>🍫 S'more supplies (you'll want these immediately)</span></div>
+        <div class="preflight-item" onclick="pfCheck(this,event)"><span>💊 Medications + first aid kit</span></div>
+        <div class="preflight-item" onclick="pfCheck(this,event)"><span>📱 Phones charged + portable battery</span></div>
+        <div class="preflight-item" onclick="pfCheck(this,event)"><span>🐾 Dog stuff (leash, food, bowl) if bringing pups</span></div>
+    </div>
+
+    <!-- Sunrise / Sunset strip -->
+    <div class="sun-strip">
+        <div class="sun-day">
+            <div class="sun-day-label">Fri Jul 3</div>
+            <div class="sun-row"><span class="sun-rise">🌅 5:18a</span><span class="sun-set">🌇 7:46p</span></div>
+        </div>
+        <div class="sun-day">
+            <div class="sun-day-label">Sat Jul 4 🎆</div>
+            <div class="sun-row"><span class="sun-rise">🌅 5:19a</span><span class="sun-set">🌇 7:46p</span></div>
+        </div>
+        <div class="sun-day">
+            <div class="sun-day-label">Sun Jul 5</div>
+            <div class="sun-row"><span class="sun-rise">🌅 5:19a</span><span class="sun-set">🌇 7:44p</span></div>
+        </div>
+    </div>
+
     <div class="warn-banner">
         <div class="warn-icon">🌤️</div>
         <div>
@@ -1021,6 +1127,13 @@
             <div class="event-detail">
                 <div class="event-name">🔥 Campfire + S'mores Round 2 <span class="ev-tag gold">Peak Experience</span></div>
                 <div class="event-note">Back at camp after the show · stars + fire + chocolate · Tap for s'more tips →</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">10 PM</div>
+            <div class="event-detail">
+                <div class="event-name">🤫 Quiet Hours Begin</div>
+                <div class="event-note">White Spar campground quiet hours 10 PM–6 AM · keep the fire low, voices low</div>
             </div>
         </div>
     </div>
@@ -1726,6 +1839,140 @@
     </div>
 
     <!-- ── MAD LIBS ── -->
+    <div class="section-header">🌌 Night Sky Guide — Prescott Dark Skies</div>
+    <div class="card" style="padding:16px 16px 10px;">
+        <div class="card-body" style="margin-bottom:12px;font-size:13px;color:var(--text-mid);">At 5,641 ft with minimal light pollution, White Spar has spectacular summer skies. Best viewing: after 9:30 PM when fully dark. Scroll for constellations → </div>
+        <div class="const-cards">
+
+            <!-- Scorpius -->
+            <div class="const-card">
+                <div class="const-name">Scorpius</div>
+                <div class="const-latin">The Scorpion</div>
+                <svg class="const-svg" width="160" height="110" viewBox="0 0 160 110">
+                    <line x1="80" y1="15" x2="70" y2="30" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="70" y1="30" x2="60" y2="45" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="60" y1="45" x2="65" y2="60" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="65" y1="60" x2="75" y2="72" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="75" y1="72" x2="85" y2="80" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="85" y1="80" x2="100" y2="85" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="100" y1="85" x2="115" y2="82" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="115" y1="82" x2="125" y2="75" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="125" y1="75" x2="128" y2="62" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <circle cx="80" cy="15" r="4" fill="#ff9966"/><!-- Antares -->
+                    <circle cx="70" cy="30" r="2" fill="#f0c040"/>
+                    <circle cx="60" cy="45" r="2" fill="#f0c040"/>
+                    <circle cx="65" cy="60" r="1.8" fill="#ccd6f6"/>
+                    <circle cx="75" cy="72" r="1.8" fill="#ccd6f6"/>
+                    <circle cx="85" cy="80" r="2" fill="#f0c040"/>
+                    <circle cx="100" cy="85" r="2" fill="#ccd6f6"/>
+                    <circle cx="115" cy="82" r="2" fill="#f0c040"/>
+                    <circle cx="125" cy="75" r="1.8" fill="#ccd6f6"/>
+                    <circle cx="128" cy="62" r="2" fill="#f0c040"/>
+                    <text x="88" y="13" font-size="8" fill="rgba(255,150,100,.8)" font-family="Inter,sans-serif">Antares</text>
+                </svg>
+                <div class="const-best">⏰ Best: 10 PM–midnight, due South</div>
+                <div class="const-fact">Look for the bright orange-red star Antares near the "head." The curved tail curls up to the left. One of the most recognizable summer constellations.</div>
+            </div>
+
+            <!-- Sagittarius -->
+            <div class="const-card">
+                <div class="const-name">Sagittarius</div>
+                <div class="const-latin">The Teapot</div>
+                <svg class="const-svg" width="160" height="110" viewBox="0 0 160 110">
+                    <line x1="50" y1="70" x2="70" y2="50" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="70" y1="50" x2="90" y2="45" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="90" y1="45" x2="110" y2="55" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="110" y1="55" x2="105" y2="75" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="105" y1="75" x2="85" y2="80" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="85" y1="80" x2="65" y2="75" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="65" y1="75" x2="50" y2="70" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="90" y1="45" x2="90" y2="30" stroke="rgba(240,192,64,.35)" stroke-width="1.2" stroke-dasharray="3,2"/>
+                    <circle cx="50" cy="70" r="2" fill="#f0c040"/>
+                    <circle cx="70" cy="50" r="2.2" fill="#f0c040"/>
+                    <circle cx="90" cy="45" r="2.5" fill="#ccd6f6"/>
+                    <circle cx="110" cy="55" r="2" fill="#f0c040"/>
+                    <circle cx="105" cy="75" r="2" fill="#ccd6f6"/>
+                    <circle cx="85" cy="80" r="2" fill="#f0c040"/>
+                    <circle cx="65" cy="75" r="2" fill="#ccd6f6"/>
+                    <circle cx="90" cy="30" r="1.5" fill="rgba(255,255,255,.5)"/>
+                    <text x="94" y="28" font-size="7.5" fill="rgba(255,255,255,.45)" font-family="Inter,sans-serif">spout →</text>
+                    <text x="54" y="95" font-size="8" fill="rgba(240,192,64,.7)" font-family="Inter,sans-serif">Milky Way rises here</text>
+                </svg>
+                <div class="const-best">⏰ Best: 10 PM–1 AM, South-Southeast</div>
+                <div class="const-fact">Looks exactly like a teapot. The "steam" rising from the spout is actually the densest part of the Milky Way — the center of our galaxy. Face south and look for the glowing cloud above it.</div>
+            </div>
+
+            <!-- Cygnus / Northern Cross -->
+            <div class="const-card">
+                <div class="const-name">Cygnus</div>
+                <div class="const-latin">The Northern Cross</div>
+                <svg class="const-svg" width="160" height="110" viewBox="0 0 160 110">
+                    <line x1="80" y1="10" x2="80" y2="95" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="35" y1="45" x2="125" y2="45" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <circle cx="80" cy="10" r="3.5" fill="#a8d8ff"/><!-- Deneb -->
+                    <circle cx="80" cy="45" r="2.5" fill="#f0c040"/>
+                    <circle cx="80" cy="95" r="2.5" fill="#ccd6f6"/>
+                    <circle cx="35" cy="45" r="2.2" fill="#ccd6f6"/>
+                    <circle cx="125" cy="45" r="2.2" fill="#ccd6f6"/>
+                    <text x="88" y="12" font-size="8" fill="rgba(168,216,255,.8)" font-family="Inter,sans-serif">Deneb</text>
+                </svg>
+                <div class="const-best">⏰ Best: All night, nearly overhead</div>
+                <div class="const-fact">One of the easiest to spot — it's a perfect cross nearly straight overhead. Deneb (top) is one of the most luminous stars in our galaxy. It marks the tail of the Swan flying along the Milky Way.</div>
+            </div>
+
+            <!-- Summer Triangle -->
+            <div class="const-card">
+                <div class="const-name">Summer Triangle</div>
+                <div class="const-latin">Vega · Deneb · Altair</div>
+                <svg class="const-svg" width="160" height="110" viewBox="0 0 160 110">
+                    <line x1="80" y1="12" x2="30" y2="85" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="80" y1="12" x2="130" y2="85" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <line x1="30" y1="85" x2="130" y2="85" stroke="rgba(240,192,64,.35)" stroke-width="1.2"/>
+                    <circle cx="80" cy="12" r="4" fill="#d0e8ff"/><!-- Vega -->
+                    <circle cx="30" cy="85" r="3" fill="#a8d8ff"/><!-- Deneb -->
+                    <circle cx="130" cy="85" r="3.5" fill="#ffffff"/><!-- Altair -->
+                    <text x="86" y="12" font-size="8" fill="rgba(208,232,255,.9)" font-family="Inter,sans-serif">Vega</text>
+                    <text x="36" y="82" font-size="8" fill="rgba(168,216,255,.9)" font-family="Inter,sans-serif">Deneb</text>
+                    <text x="105" y="82" font-size="8" fill="rgba(255,255,255,.9)" font-family="Inter,sans-serif">Altair</text>
+                </svg>
+                <div class="const-best">⏰ Best: All night, high overhead</div>
+                <div class="const-fact">The easiest landmark in the summer sky — three bright stars forming a huge triangle directly overhead. Once you find it, everything else gets easier. Vega is the brightest: blue-white, nearly at zenith.</div>
+            </div>
+
+            <!-- Scorpius tail / Milky Way -->
+            <div class="const-card">
+                <div class="const-name">Milky Way Core</div>
+                <div class="const-latin">Our Galaxy's Center</div>
+                <svg class="const-svg" width="160" height="110" viewBox="0 0 160 110">
+                    <defs>
+                        <radialGradient id="mwg" cx="50%" cy="60%" r="50%">
+                            <stop offset="0%" stop-color="rgba(200,200,255,0.5)"/>
+                            <stop offset="100%" stop-color="rgba(200,200,255,0)"/>
+                        </radialGradient>
+                    </defs>
+                    <ellipse cx="80" cy="65" rx="55" ry="35" fill="url(#mwg)"/>
+                    <ellipse cx="80" cy="55" rx="28" ry="18" fill="rgba(220,220,255,0.25)"/>
+                    <!-- scattered stars -->
+                    <circle cx="40" cy="30" r="1" fill="white" opacity=".7"/>
+                    <circle cx="60" cy="20" r="1.5" fill="white" opacity=".9"/>
+                    <circle cx="100" cy="25" r="1" fill="white" opacity=".6"/>
+                    <circle cx="120" cy="35" r="1.2" fill="white" opacity=".8"/>
+                    <circle cx="55" cy="50" r="1" fill="white" opacity=".7"/>
+                    <circle cx="95" cy="45" r="1.5" fill="white" opacity=".9"/>
+                    <circle cx="70" cy="65" r="1" fill="white" opacity=".6"/>
+                    <circle cx="105" cy="70" r="1" fill="white" opacity=".7"/>
+                    <circle cx="45" cy="75" r="1.2" fill="white" opacity=".8"/>
+                    <circle cx="130" cy="55" r="1" fill="white" opacity=".6"/>
+                    <text x="80" y="100" font-size="9" fill="rgba(200,200,255,.7)" font-family="Inter,sans-serif" text-anchor="middle">look south · above Sagittarius</text>
+                </svg>
+                <div class="const-best">⏰ Best: 10 PM–2 AM, no moon</div>
+                <div class="const-fact">July 4–5 weekend has a waning crescent moon — nearly ideal dark sky conditions. Face due south and look for the glowing band stretching horizon to overhead. The densest glow above Sagittarius is the galactic core, 26,000 light-years away.</div>
+            </div>
+
+        </div>
+        <div class="const-hint">← swipe for more constellations →</div>
+    </div>
+
     <div class="section-header">📖 Spooky Camping Mad Libs</div>
 
     <div class="card">
@@ -1905,6 +2152,83 @@
     }
 
     /* ── FIREWORKS BURST ── */
+    /* ── COUNTDOWN + PREFLIGHT ── */
+    (function() {
+        // Arizona is UTC-7 (no DST)
+        const DEPART = new Date('2026-07-03T22:30:00Z'); // 3:30 PM AZ = 22:30 UTC
+        const ARRIVE = new Date('2026-07-03T24:30:00Z'); // ~5:30 PM AZ arrival
+        const TRIP_END = new Date('2026-07-05T19:00:00Z'); // Sun Jul 5 noon AZ
+
+        function tick() {
+            const now = new Date();
+            const card = document.getElementById('countdown-card');
+            const icon = document.getElementById('cd-icon');
+            const label = document.getElementById('cd-label');
+            const time = document.getElementById('cd-time');
+            const sub = document.getElementById('cd-sub');
+            const preflight = document.getElementById('preflight-card');
+            if (!card) return;
+
+            if (now >= TRIP_END) {
+                card.classList.add('trip-done');
+                return;
+            }
+
+            if (now >= DEPART) {
+                // On the road / at camp
+                card.className = 'countdown-card trip-live';
+                icon.textContent = '⛺';
+                label.textContent = now < ARRIVE ? 'On the Road!' : 'You\'re at Camp!';
+                time.textContent = now < ARRIVE ? '🚗 Drive safe!' : '🌲 White Spar · Site 38';
+                sub.textContent = 'Sunset tonight at 7:46 PM · Enjoy every minute';
+                if (preflight) preflight.style.display = 'none';
+                return;
+            }
+
+            // Countdown to departure
+            const ms = DEPART - now;
+            const totalMins = Math.floor(ms / 60000);
+            const hrs = Math.floor(totalMins / 60);
+            const mins = totalMins % 60;
+            const days = Math.floor(hrs / 24);
+            const remHrs = hrs % 24;
+
+            if (days > 0) {
+                time.textContent = days + 'd ' + remHrs + 'h ' + mins + 'm';
+                label.textContent = 'Until Departure';
+            } else if (hrs > 0) {
+                time.textContent = hrs + 'h ' + String(mins).padStart(2,'0') + 'm';
+                label.textContent = 'Until Departure';
+            } else {
+                time.textContent = mins + ' min';
+                label.textContent = 'Leave NOW! 🚗';
+            }
+
+            // Show preflight checklist when < 20 hrs away
+            if (preflight) preflight.style.display = ms < 72e6 ? 'block' : 'none';
+        }
+
+        tick();
+        setInterval(tick, 30000);
+
+        // Restore preflight checks
+        const PF_KEY = 'camp26-preflight';
+        const saved = JSON.parse(localStorage.getItem(PF_KEY) || '[]');
+        document.querySelectorAll('.preflight-item').forEach((el, i) => {
+            if (saved[i]) el.classList.add('pf-checked');
+        });
+    })();
+
+    function pfCheck(el, event) {
+        el.classList.toggle('pf-checked');
+        const items = document.querySelectorAll('.preflight-item');
+        const state = Array.from(items).map(i => i.classList.contains('pf-checked'));
+        localStorage.setItem('camp26-preflight', JSON.stringify(state));
+        if (el.classList.contains('pf-checked') && event) {
+            createBurst(event.clientX, event.clientY, 14, 36, ['#f0c040','#ffffff','#4a90d9']);
+        }
+    }
+
     /* ── HOME FIREWORKS CANVAS ── */
     (function() {
         const canvas = document.getElementById('fw-canvas');
