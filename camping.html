@@ -309,6 +309,31 @@
         .const-fact { font-size: 11px; opacity: .65; line-height: 1.5; }
         .const-hint { font-size: 10px; text-align: center; color: var(--text-light); margin-top: 4px; }
 
+
+        /* ── TAB TABLE OF CONTENTS ── */
+        .tab-toc {
+            background: var(--snow);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .toc-link {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--navy);
+            background: #eef1f8;
+            border-radius: 20px;
+            padding: 5px 12px;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            white-space: nowrap;
+        }
+        .toc-link:active { background: var(--navy); color: white; }
+
         /* ── FAMILY CREW BANNER ── */
         .crew-banner {
             background: var(--snow);
@@ -959,6 +984,14 @@
         </div>
     </div>
 
+    <div class="tab-toc">
+        <a class="toc-link" href="#toc-fri">Fri Arrival</a>
+        <a class="toc-link" href="#toc-sat">Sat Jul 4</a>
+        <a class="toc-link" href="#toc-sun">Sun Departure</a>
+        <a class="toc-link" href="#toc-map">Area Map</a>
+        <a class="toc-link" href="#toc-emergency">Emergency</a>
+    </div>
+
     <!-- Countdown / trip status -->
     <div class="countdown-card" id="countdown-card">
         <div class="cd-icon" id="cd-icon">🚗</div>
@@ -1044,7 +1077,7 @@
         </div>
     </div>
 
-    <div class="section-header">Friday, July 3 · Drive + Arrival</div>
+    <div class="section-header" id="toc-fri">Friday, July 3 · Drive + Arrival</div>
 
     <div class="card">
         <div class="event-item tappable" onclick="openModal('drive-to-camp')">
@@ -1070,7 +1103,7 @@
         </div>
     </div>
 
-    <div class="section-header">Saturday, July 4 · Independence Day 🎆</div>
+    <div class="section-header" id="toc-sat">Saturday, July 4 · Independence Day 🎆</div>
 
     <div class="card">
         <div class="event-item">
@@ -1138,7 +1171,7 @@
         </div>
     </div>
 
-    <div class="section-header">Sunday · Morning Departure</div>
+    <div class="section-header" id="toc-sun">Sunday · Morning Departure</div>
 
     <div class="card">
         <div class="event-item">
@@ -1175,7 +1208,7 @@
         </div>
     </div>
 
-    <div class="section-header">Area Map</div>
+    <div class="section-header" id="toc-map">Area Map</div>
     <div class="map-card">
         <div class="map-title">🗺️ Prescott Area — White Spar &amp; Surroundings</div>
         <svg viewBox="0 0 390 440" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
@@ -1234,7 +1267,7 @@
         </div>
     </div>
 
-    <div class="section-header">Emergency Services</div>
+    <div class="section-header" id="toc-emergency">Emergency Services</div>
     <div class="warn-banner">
         <div class="warn-icon">🚨</div>
         <div>
@@ -1256,6 +1289,13 @@
 
 <!-- ═══════════════════════════════════ CAMP ═══════════════════════════════════ -->
 <section class="section" id="section-camp">
+
+    <div class="tab-toc">
+        <a class="toc-link" href="#toc-pack">Packing List</a>
+        <a class="toc-link" href="#toc-fireworks-nearby">Fireworks</a>
+        <a class="toc-link" href="#toc-history">History</a>
+        <a class="toc-link" href="#toc-nature">Nature</a>
+    </div>
 
     <div class="hero-banner">
         <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0d1a33 0%,#1a2744 50%,#253560 100%);"></div>
@@ -1349,7 +1389,7 @@
         </div>
     </div>
 
-    <div class="section-header">🎒 Packing List</div>
+    <div class="section-header" id="toc-pack">🎒 Packing List</div>
 
     <div class="pack-progress" id="pack-progress-bar">
         <div class="pack-progress-bar-wrap"><div class="pack-progress-bar" id="pack-bar" style="width:0%"></div></div>
@@ -1411,7 +1451,7 @@
         <span class="pack-reset" onclick="resetPack()">Reset all checkboxes</span>
     </div>
 
-    <div class="section-header">Fireworks Nearby</div>
+    <div class="section-header" id="toc-fireworks-nearby">Fireworks Nearby</div>
 
     <div class="warn-banner">
         <div class="warn-icon">🚫</div>
@@ -1447,7 +1487,7 @@
         </div>
     </div>
 
-    <div class="section-header">📜 Prescott History</div>
+    <div class="section-header" id="toc-history">📜 Prescott History</div>
 
     <div class="card">
         <div class="card-label">The Land Before the City</div>
@@ -1476,7 +1516,7 @@
         </div>
     </div>
 
-    <div class="section-header">🌲 Natural History</div>
+    <div class="section-header" id="toc-nature">🌲 Natural History</div>
 
     <div class="card">
         <div class="card-label">The Transition Zone</div>
@@ -1530,6 +1570,13 @@
 <!-- ═══════════════════════════════════ ACTIVITIES ═══════════════════════════════════ -->
 <section class="section" id="section-activities">
 
+    <div class="tab-toc">
+        <a class="toc-link" href="#toc-july4">4th of July</a>
+        <a class="toc-link" href="#toc-atcamp">At Camp</a>
+        <a class="toc-link" href="#toc-outdoors">Adventures</a>
+        <a class="toc-link" href="#toc-campgames">Camp Games</a>
+    </div>
+
     <div class="hero-banner">
         <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0d1a33 0%,#1a3a6b 50%,#2a5090 100%);"></div>
         <div class="hero-overlay"></div>
@@ -1548,7 +1595,7 @@
         </div>
     </div>
 
-    <div class="section-header">4th of July Events in Prescott</div>
+    <div class="section-header" id="toc-july4">4th of July Events in Prescott</div>
 
     <div class="activity-card must" onclick="openModal('fireworks')">
         <div class="ac-inner">
@@ -1586,7 +1633,7 @@
         </div>
     </div>
 
-    <div class="section-header">At Camp</div>
+    <div class="section-header" id="toc-atcamp">At Camp</div>
 
     <div class="activity-card must" onclick="openModal('campfire')">
         <div class="ac-inner">
@@ -1603,7 +1650,7 @@
         </div>
     </div>
 
-    <div class="section-header">Outdoor Adventures</div>
+    <div class="section-header" id="toc-outdoors">Outdoor Adventures</div>
 
     <div class="activity-card great" onclick="openModal('hike')">
         <div class="ac-inner">
@@ -1650,7 +1697,7 @@
         </div>
     </div>
 
-    <div class="section-header">Camp Games</div>
+    <div class="section-header" id="toc-campgames">Camp Games</div>
 
     <div class="activity-card fun" onclick="openModal('camp-games')">
         <div class="ac-inner">
@@ -1687,7 +1734,16 @@
 <!-- ═══════════════════════════════════ EATS ═══════════════════════════════════ -->
 <section class="section" id="section-eats">
 
-    <div class="section-header">Friday Night</div>
+    <div class="tab-toc">
+        <a class="toc-link" href="#toc-fri-eats">Fri Dinner</a>
+        <a class="toc-link" href="#toc-sat-eats">Sat Cookout</a>
+        <a class="toc-link" href="#toc-sun-eats">Sun Morning</a>
+        <a class="toc-link" href="#toc-foodcheck">Food Checklist</a>
+        <a class="toc-link" href="#toc-shopping">Shopping List</a>
+    </div>
+
+
+    <div class="section-header" id="toc-fri-eats">Friday Night</div>
 
     <div class="meal-card">
         <div class="meal-emoji">🔥</div>
@@ -1715,7 +1771,7 @@
         </div>
     </div>
 
-    <div class="section-header">Saturday · Independence Day</div>
+    <div class="section-header" id="toc-sat-eats">Saturday · Independence Day</div>
 
     <div class="meal-card">
         <div class="meal-emoji">🍳</div>
@@ -1784,7 +1840,7 @@
         </div>
     </div>
 
-    <div class="section-header">Sunday Morning</div>
+    <div class="section-header" id="toc-sun-eats">Sunday Morning</div>
 
     <div class="meal-card">
         <div class="meal-emoji">☕</div>
@@ -1799,7 +1855,7 @@
         </div>
     </div>
 
-    <div class="section-header">🛒 Food Checklist</div>
+    <div class="section-header" id="toc-foodcheck">🛒 Food Checklist</div>
 
     <div class="card">
         <ul class="icheck-list" id="pack-food">
@@ -1845,7 +1901,7 @@
         <div class="tip-text">The GSI set is perfect for camp pasta, soups, or hot chocolate over the fire. Use the Blackstone for high-heat cooking (burgers, eggs, bacon) and the GSI over the fire ring for low-and-slow.</div>
     </div>
 
-    <div class="section-header">🛒 Shopping List — Family of 4</div>
+    <div class="section-header" id="toc-shopping">🛒 Shopping List — Family of 4</div>
 
     <div class="card">
         <div class="card-label">Proteins</div>
@@ -1905,6 +1961,15 @@
 <!-- ═══════════════════════════════════ GAMES ═══════════════════════════════════ -->
 <section class="section" id="section-games">
 
+    <div class="tab-toc">
+        <a class="toc-link" href="#toc-spark">Spark Catcher</a>
+        <a class="toc-link" href="#toc-sky">Night Sky</a>
+        <a class="toc-link" href="#toc-madlibs">Mad Libs</a>
+        <a class="toc-link" href="#toc-bingo">Hike Bingo</a>
+        <a class="toc-link" href="#toc-memories">Memories</a>
+    </div>
+
+
     <div class="hero-banner">
         <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0d1a33 0%,#1a2744 50%,#b02a22 100%);"></div>
         <div class="hero-overlay"></div>
@@ -1916,7 +1981,7 @@
     </div>
 
     <!-- ── MAD LIBS ── -->
-    <div class="section-header">🔥 Spark Catcher</div>
+    <div class="section-header" id="toc-spark">🔥 Spark Catcher</div>
     <div class="card" style="text-align:center;padding:24px 20px;">
         <div style="font-size:48px;margin-bottom:10px;">🔥</div>
         <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:6px;">Spark Catcher</div>
@@ -1924,7 +1989,7 @@
         <button onclick="openSparkGame()" style="background:linear-gradient(135deg,var(--navy-dark),var(--navy));color:white;border:none;border-radius:14px;padding:14px 32px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;width:100%;">Play Spark Catcher 🔥</button>
     </div>
 
-    <div class="section-header">🌌 Night Sky Guide — Prescott Dark Skies</div>
+    <div class="section-header" id="toc-sky">🌌 Night Sky Guide — Prescott Dark Skies</div>
     <div class="card" style="padding:16px 16px 10px;">
         <div class="card-body" style="margin-bottom:12px;font-size:13px;color:var(--text-mid);">At 5,641 ft with minimal light pollution, White Spar has spectacular summer skies. Best viewing: after 9:30 PM when fully dark. Scroll for constellations → </div>
         <div class="const-cards">
@@ -2058,7 +2123,7 @@
         <div class="const-hint">← swipe for more constellations →</div>
     </div>
 
-    <div class="section-header">📖 Spooky Camping Mad Libs</div>
+    <div class="section-header" id="toc-madlibs">📖 Spooky Camping Mad Libs</div>
 
     <div class="card">
         <div class="card-label">Fill in the blanks, then tap reveal</div>
@@ -2099,7 +2164,7 @@
     </div>
 
     <!-- ── HIKE BINGO ── -->
-    <div class="section-header">🥾 Prescott Hike Bingo</div>
+    <div class="section-header" id="toc-bingo">🥾 Prescott Hike Bingo</div>
 
     <div class="card" style="padding:16px;">
         <div class="card-label" style="margin-bottom:8px;">Find it on the trail — tap to mark!</div>
@@ -2113,7 +2178,7 @@
     </div>
 
     <!-- ── MEMORIES ── -->
-    <div class="section-header">📸 Trip Memories &amp; Keepsake</div>
+    <div class="section-header" id="toc-memories">📸 Trip Memories &amp; Keepsake</div>
 
     <div class="card">
         <div class="card-label">Write it down before you forget</div>
@@ -2190,7 +2255,7 @@
     <div style="position:relative;z-index:20;display:flex;justify-content:space-between;align-items:center;width:100%;padding:20px 24px 0;color:white;">
         <div style="font-size:13px;font-weight:700;letter-spacing:1px;opacity:.8;">SPARK CATCHER 🔥</div>
         <div style="display:flex;gap:20px;align-items:center;">
-            <div style="text-align:center;"><div style="font-size:22px;font-weight:900;color:var(--gold-light);" id="spark-score-el">0</div><div style="font-size:9px;opacity:.7;letter-spacing:1px;">SPARKS</div></div>
+            <div style="text-align:center;"><div style="font-size:22px;font-weight:900;color:var(--gold-light);" id="spark-score-el">0</div><div style="font-size:9px;opacity:.7;letter-spacing:1px;">SPARKS</div></div><div style="text-align:center;"><div style="font-size:22px;font-weight:900;color:rgba(240,192,64,.5);" id="spark-best-el">—</div><div style="font-size:9px;opacity:.7;letter-spacing:1px;">BEST</div>
             <div style="text-align:center;"><div style="font-size:22px;font-weight:900;color:white;" id="spark-time-el">30</div><div style="font-size:9px;opacity:.7;letter-spacing:1px;">SECS</div></div>
             <button onclick="closeSparkGame()" style="background:rgba(255,255,255,.15);border:none;color:white;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;">✕</button>
         </div>
@@ -2465,6 +2530,8 @@
     function openSparkGame() {
         sparkScore = 0; sparkTimeLeft = 30;
         document.getElementById('spark-score-el').textContent = '0';
+        const savedBest = localStorage.getItem('camp26-spark-best');
+        if (document.getElementById('spark-best-el')) document.getElementById('spark-best-el').textContent = savedBest || '—';
         document.getElementById('spark-time-el').textContent = '30';
         document.getElementById('spark-game').style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -2531,7 +2598,12 @@
         const result = document.getElementById('spark-result');
         result.style.display = 'flex';
         const msg = sparkScore >= 20 ? '🏆 Fireworks Master!' : sparkScore >= 12 ? '⭐ Great Spark Catcher!' : sparkScore >= 6 ? '🔥 Getting Warmer!' : '🌱 Keep practicing!';
-        document.getElementById('spark-result-text').innerHTML = `You caught<br><span style="font-size:64px;font-family:'Playfair Display',serif;color:var(--gold)">${sparkScore}</span><br>sparks! 🔥<br><br><em style="font-size:14px">${msg}</em>`;
+        const best = parseInt(localStorage.getItem('camp26-spark-best') || '0');
+        const newBest = sparkScore > best;
+        if (newBest) localStorage.setItem('camp26-spark-best', sparkScore);
+        const bestScore = Math.max(sparkScore, best);
+        document.getElementById('spark-best-el').textContent = bestScore;
+        document.getElementById('spark-result-text').innerHTML = `You caught<br><span style="font-size:64px;font-family:'Playfair Display',serif;color:var(--gold)">${sparkScore}</span><br>sparks! 🔥${newBest ? '<br><span style="font-size:16px;color:var(--gold-light)">🏆 New high score!</span>' : '<br><span style="font-size:13px;opacity:.6">Best: '+bestScore+'</span>'}<br><br><em style="font-size:14px">${msg}</em>`;
     }
 
     /* ── NAVIGATION ── */
