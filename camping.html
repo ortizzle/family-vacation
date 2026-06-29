@@ -873,7 +873,7 @@
     <div class="header-stars" id="star-field"></div>
     <div class="header-content">
         <div class="header-eyebrow">Ortiz Family</div>
-        <div class="header-title">4th of July Camping</div>
+        <div class="header-title" onclick="secretTapSpark()" style="cursor:default;-webkit-tap-highlight-color:transparent;">4th of July Camping</div>
         <div class="header-sub">White Spar · Prescott · July 3–5</div>
     </div>
 </header>
@@ -955,7 +955,7 @@
                 <div class="event-note">10-person tent, cots, screen canopy, Blackstone — do the big stuff first while there's light</div>
             </div>
         </div>
-        <div class="event-item tappable" onclick="secretTapSpark();openModal('campfire')">
+        <div class="event-item tappable" onclick="openModal('campfire')">
             <div class="event-time">~8 PM</div>
             <div class="event-detail">
                 <div class="event-name">🔥 First Campfire + S'mores <span class="ev-tag gold">Round 1</span></div>
@@ -1060,6 +1060,83 @@
             🎇 Snap the fireworks moment with the kids<br>
             ☕ Pre-measure coffee for Sunday morning — worth it
         </div>
+    </div>
+
+    <div class="section-header">Area Map</div>
+    <div class="map-card">
+        <div class="map-title">🗺️ Prescott Area — White Spar &amp; Surroundings</div>
+        <svg viewBox="0 0 390 440" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+            <rect width="390" height="440" fill="#dce8d8"/>
+            <ellipse cx="100" cy="130" rx="90" ry="70" fill="#c8dcbe" opacity=".6"/>
+            <ellipse cx="290" cy="390" rx="70" ry="50" fill="#c8e8c8" opacity=".5"/>
+            <path d="M195 430 C194 400 192 380 192 360 C192 320 193 290 194 250 C195 235 195 230 195 225 C190 190 170 160 140 130 C118 108 95 92 80 78" stroke="#f5e8c8" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M195 430 C194 400 192 380 192 360 C192 320 193 290 194 250 C195 235 195 230 195 225 C190 190 170 160 140 130 C118 108 95 92 80 78" stroke="#e8d4a8" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <text x="215" y="310" font-size="9" fill="#8b7040" font-family="Inter,sans-serif" font-weight="700">HWY 89</text>
+            <path d="M198 232 C220 240 255 270 285 310 C305 335 322 358 340 378" stroke="#f5e8c8" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M198 232 C220 240 255 270 285 310 C305 335 322 358 340 378" stroke="#e8d4a8" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <text x="258" y="290" font-size="9" fill="#8b7040" font-family="Inter,sans-serif" font-weight="700" transform="rotate(40,258,290)">HWY 69</text>
+            <path d="M196 230 C175 228 158 226 128 222" stroke="#e0d4b8" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M196 230 C175 228 158 226 128 222" stroke="#ccc0a0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M200 228 C215 215 228 200 248 180" stroke="#e0d4b8" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M200 228 C215 215 228 200 248 180" stroke="#ccc0a0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M147 128 C132 118 115 108 96 97" stroke="#e0d4b8" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <ellipse cx="342" cy="382" rx="22" ry="14" fill="#8ab8d8" opacity=".8"/>
+            <text x="342" y="386" font-size="8" fill="#1a3a5a" font-family="Inter,sans-serif" font-weight="700" text-anchor="middle">Lynx Lake</text>
+            <ellipse cx="88" cy="88" rx="18" ry="12" fill="#8ab8d8" opacity=".8"/>
+            <text x="88" y="92" font-size="8" fill="#1a3a5a" font-family="Inter,sans-serif" font-weight="700" text-anchor="middle">G. Basin</text>
+            <text x="356" y="24" font-size="14" fill="#3a5080" font-family="Inter,sans-serif" font-weight="900" text-anchor="middle">N</text>
+            <line x1="356" y1="28" x2="356" y2="42" stroke="#3a5080" stroke-width="2"/>
+            <polygon points="356,18 352,28 360,28" fill="#3a5080"/>
+            <circle cx="192" cy="362" r="14" fill="#2d6e2d" stroke="white" stroke-width="2.5"/>
+            <text x="192" y="367" font-size="14" text-anchor="middle">⛺</text>
+            <text x="192" y="384" font-size="9" font-weight="700" fill="#1a3a1a" font-family="Inter,sans-serif" text-anchor="middle">White Spar</text>
+            <text x="192" y="395" font-size="8" fill="#2d6e2d" font-family="Inter,sans-serif" text-anchor="middle">Site 38 ★</text>
+            <circle cx="195" cy="232" r="13" fill="#b02a22" stroke="white" stroke-width="2.5"/>
+            <text x="195" y="237" font-size="13" text-anchor="middle">🎆</text>
+            <text x="195" y="252" font-size="8" font-weight="700" fill="#7a1818" font-family="Inter,sans-serif" text-anchor="middle">Courthouse Plaza</text>
+            <text x="195" y="262" font-size="8" fill="#b02a22" font-family="Inter,sans-serif" text-anchor="middle">Fireworks 9 PM</text>
+            <circle cx="248" cy="176" r="12" fill="#7a4a1e" stroke="white" stroke-width="2.5"/>
+            <text x="248" y="181" font-size="12" text-anchor="middle">🤠</text>
+            <text x="248" y="195" font-size="8" font-weight="700" fill="#5c3010" font-family="Inter,sans-serif" text-anchor="middle">Rodeo Grounds</text>
+            <circle cx="126" cy="222" r="12" fill="#1a5c3a" stroke="white" stroke-width="2.5"/>
+            <text x="126" y="227" font-size="12" text-anchor="middle">🥾</text>
+            <text x="126" y="240" font-size="8" font-weight="700" fill="#0e3824" font-family="Inter,sans-serif" text-anchor="middle">Thumb Butte</text>
+            <circle cx="88" cy="72" r="11" fill="#1a5c3a" stroke="white" stroke-width="2.5"/>
+            <text x="88" y="77" font-size="11" text-anchor="middle">🏞️</text>
+            <text x="88" y="62" font-size="8" font-weight="700" fill="#0e3824" font-family="Inter,sans-serif" text-anchor="middle">Granite Basin</text>
+            <circle cx="342" cy="363" r="11" fill="#1a5c3a" stroke="white" stroke-width="2.5"/>
+            <text x="342" y="368" font-size="11" text-anchor="middle">🚣</text>
+            <text x="342" y="355" font-size="8" font-weight="700" fill="#0e3824" font-family="Inter,sans-serif" text-anchor="middle">Lynx Lake</text>
+            <circle cx="154" cy="196" r="11" fill="#c0392b" stroke="white" stroke-width="2.5"/>
+            <text x="154" y="200" font-size="10" text-anchor="middle" fill="white" font-weight="900" font-family="Inter,sans-serif">✚</text>
+            <text x="154" y="185" font-size="7.5" font-weight="700" fill="#8b0000" font-family="Inter,sans-serif" text-anchor="middle">Yavapai Med</text>
+            <line x1="192" y1="350" x2="192" y2="244" stroke="#444" stroke-width="1" stroke-dasharray="3,3" opacity=".4"/>
+            <text x="210" y="300" font-size="8" fill="#555" font-family="Inter,sans-serif">2.7 mi</text>
+        </svg>
+        <div class="map-legend">
+            <div class="map-legend-item"><div class="map-dot" style="background:#2d6e2d"></div> Camp / You Are Here</div>
+            <div class="map-legend-item"><div class="map-dot" style="background:#b02a22"></div> 4th of July Events</div>
+            <div class="map-legend-item"><div class="map-dot" style="background:#1a5c3a"></div> Trails &amp; Recreation</div>
+            <div class="map-legend-item"><div class="map-dot" style="background:#c0392b"></div> Medical</div>
+        </div>
+    </div>
+
+    <div class="section-header">Emergency Services</div>
+    <div class="warn-banner">
+        <div class="warn-icon">🚨</div>
+        <div>
+            <div class="warn-title">Emergency: Call 911</div>
+            <div class="warn-text">Cell service can be limited at White Spar. In an emergency, drive toward downtown Prescott for stronger signal, or ask the camp host for the nearest emergency access point.</div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="info-row"><span class="info-row-label">🚑 Emergency</span><span class="info-row-value"><a href="tel:911" style="color:var(--red-mid);font-weight:700;">911</a></span></div>
+        <div class="info-row"><span class="info-row-label">🏥 Yavapai Regional Medical</span><span class="info-row-value"><a href="tel:9287712000" style="color:var(--navy);font-weight:600;">928-771-2000</a></span></div>
+        <div class="info-row"><span class="info-row-label" style="font-size:11px;">1003 Willow Creek Rd · 5 min</span><span class="info-row-value"><a href="https://maps.google.com/?q=Yavapai+Regional+Medical+Center+Prescott+AZ" target="_blank" style="color:var(--navy);font-size:11px;">Directions ↗</a></span></div>
+        <div class="info-row"><span class="info-row-label">🚔 Prescott Police</span><span class="info-row-value"><a href="tel:9287778900" style="color:var(--navy);font-weight:600;">928-777-8900</a></span></div>
+        <div class="info-row"><span class="info-row-label">🌲 Forest Service</span><span class="info-row-value"><a href="tel:9284438000" style="color:var(--navy);font-weight:600;">928-443-8000</a></span></div>
+        <div class="info-row"><span class="info-row-label">🔥 Fire Restrictions</span><span class="info-row-value"><a href="https://www.fs.usda.gov/prescott" target="_blank" style="color:var(--navy);font-weight:600;">fs.usda.gov ↗</a></span></div>
+        <div class="info-row"><span class="info-row-label">💊 Walgreens (24 hr)</span><span class="info-row-value"><a href="tel:9287780590" style="color:var(--navy);font-weight:600;">928-778-0590</a></span></div>
     </div>
 
 </section>
@@ -1169,54 +1246,54 @@
     <div class="section-header">🏕️ Shelter &amp; Sleep</div>
     <div class="card">
         <ul class="icheck-list" id="pack-shelter">
-            <li class="icheck-item" onclick="togglePack(this,'shelter-0')"><span class="icheck-label">10-person tent — confirm poles, stakes, rain fly &amp; footprint all loaded</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-1')"><span class="icheck-label">Cots (one per person) — set up first while there's daylight</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-2')"><span class="icheck-label">Sleeping bags — lows in the mid-60s, light-to-medium weight</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-3')"><span class="icheck-label">Pillows</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-4')"><span class="icheck-label">Screen canopy — poles, stakes, guy lines (SW winds forecast)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-5')"><span class="icheck-label">Camp chairs (one per person) + folding table</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-6')"><span class="icheck-label">Ground tarp / extra stakes</span></li>
+            <li class="icheck-item" data-pack-key="shelter-0" onclick="togglePack(this,'shelter-0',event)"><span class="icheck-label">10-person tent — confirm poles, stakes, rain fly &amp; footprint all loaded</span></li>
+            <li class="icheck-item" data-pack-key="shelter-1" onclick="togglePack(this,'shelter-1',event)"><span class="icheck-label">Cots (one per person) — set up first while there's daylight</span></li>
+            <li class="icheck-item" data-pack-key="shelter-2" onclick="togglePack(this,'shelter-2',event)"><span class="icheck-label">Sleeping bags — lows in the mid-60s, light-to-medium weight</span></li>
+            <li class="icheck-item" data-pack-key="shelter-3" onclick="togglePack(this,'shelter-3',event)"><span class="icheck-label">Pillows</span></li>
+            <li class="icheck-item" data-pack-key="shelter-4" onclick="togglePack(this,'shelter-4',event)"><span class="icheck-label">Screen canopy — poles, stakes, guy lines (SW winds forecast)</span></li>
+            <li class="icheck-item" data-pack-key="shelter-5" onclick="togglePack(this,'shelter-5',event)"><span class="icheck-label">Camp chairs (one per person) + folding table</span></li>
+            <li class="icheck-item" data-pack-key="shelter-6" onclick="togglePack(this,'shelter-6',event)"><span class="icheck-label">Ground tarp / extra stakes</span></li>
         </ul>
     </div>
 
     <div class="section-header">🍳 Cooking Gear</div>
     <div class="card">
         <ul class="icheck-list" id="pack-cooking">
-            <li class="icheck-item" onclick="togglePack(this,'cook-0')"><span class="icheck-label">Blackstone camping grill — cleaned and ready</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-1')"><span class="icheck-label">Propane tank (full) + spare canister</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-2')"><span class="icheck-label">Blackstone scraper, spatulas, tongs</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-3')"><span class="icheck-label">Blackstone seasoning oil / cooking spray</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-4')"><span class="icheck-label">Fire pit (check campground allows personal pits alongside site ring)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-5')"><span class="icheck-label">Firewood — buy locally in Prescott, don't transport across regions</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-6')"><span class="icheck-label">Firestarter, matches, lighter (2 of each)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-7')"><span class="icheck-label">GSI camping cooking set — confirm all pieces: pots, pans, lid/plates, pot gripper</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-8')"><span class="icheck-label">GSI utensil set — spatula, ladle, tongs if included</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-9')"><span class="icheck-label">GSI set works over direct fire AND on the Blackstone side burner</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-10')"><span class="icheck-label">Plates, bowls, cups, utensils</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-11')"><span class="icheck-label">Dish soap, sponge, small wash basin</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-12')"><span class="icheck-label">Aluminum foil — endless camp uses</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-13')"><span class="icheck-label">S'more sticks / roasting skewers</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-14')"><span class="icheck-label">Trash bags (large) — pack in, pack out</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-15')"><span class="icheck-label">Paper towels + napkins</span></li>
+            <li class="icheck-item" data-pack-key="cook-0" onclick="togglePack(this,'cook-0',event)"><span class="icheck-label">Blackstone camping grill — cleaned and ready</span></li>
+            <li class="icheck-item" data-pack-key="cook-1" onclick="togglePack(this,'cook-1',event)"><span class="icheck-label">Propane tank (full) + spare canister</span></li>
+            <li class="icheck-item" data-pack-key="cook-2" onclick="togglePack(this,'cook-2',event)"><span class="icheck-label">Blackstone scraper, spatulas, tongs</span></li>
+            <li class="icheck-item" data-pack-key="cook-3" onclick="togglePack(this,'cook-3',event)"><span class="icheck-label">Blackstone seasoning oil / cooking spray</span></li>
+            <li class="icheck-item" data-pack-key="cook-4" onclick="togglePack(this,'cook-4',event)"><span class="icheck-label">Fire pit (check campground allows personal pits alongside site ring)</span></li>
+            <li class="icheck-item" data-pack-key="cook-5" onclick="togglePack(this,'cook-5',event)"><span class="icheck-label">Firewood — buy locally in Prescott, don't transport across regions</span></li>
+            <li class="icheck-item" data-pack-key="cook-6" onclick="togglePack(this,'cook-6',event)"><span class="icheck-label">Firestarter, matches, lighter (2 of each)</span></li>
+            <li class="icheck-item" data-pack-key="cook-7" onclick="togglePack(this,'cook-7',event)"><span class="icheck-label">GSI camping cooking set — confirm all pieces: pots, pans, lid/plates, pot gripper</span></li>
+            <li class="icheck-item" data-pack-key="cook-8" onclick="togglePack(this,'cook-8',event)"><span class="icheck-label">GSI utensil set — spatula, ladle, tongs if included</span></li>
+            <li class="icheck-item" data-pack-key="cook-9" onclick="togglePack(this,'cook-9',event)"><span class="icheck-label">GSI set works over direct fire AND on the Blackstone side burner</span></li>
+            <li class="icheck-item" data-pack-key="cook-10" onclick="togglePack(this,'cook-10',event)"><span class="icheck-label">Plates, bowls, cups, utensils</span></li>
+            <li class="icheck-item" data-pack-key="cook-11" onclick="togglePack(this,'cook-11',event)"><span class="icheck-label">Dish soap, sponge, small wash basin</span></li>
+            <li class="icheck-item" data-pack-key="cook-12" onclick="togglePack(this,'cook-12',event)"><span class="icheck-label">Aluminum foil — endless camp uses</span></li>
+            <li class="icheck-item" data-pack-key="cook-13" onclick="togglePack(this,'cook-13',event)"><span class="icheck-label">S'more sticks / roasting skewers</span></li>
+            <li class="icheck-item" data-pack-key="cook-14" onclick="togglePack(this,'cook-14',event)"><span class="icheck-label">Trash bags (large) — pack in, pack out</span></li>
+            <li class="icheck-item" data-pack-key="cook-15" onclick="togglePack(this,'cook-15',event)"><span class="icheck-label">Paper towels + napkins</span></li>
         </ul>
     </div>
 
     <div class="section-header">🧴 Safety &amp; Comfort</div>
     <div class="card">
         <ul class="icheck-list" id="pack-safety">
-            <li class="icheck-item" onclick="togglePack(this,'safe-0')"><span class="icheck-label">Headlamps / flashlights for everyone — CRITICAL for Friday night setup</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-1')"><span class="icheck-label">Lantern for canopy / table area</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-2')"><span class="icheck-label">First aid kit</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-3')"><span class="icheck-label">Any medications (daily + emergency)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-4')"><span class="icheck-label">Sunscreen (SPF 50+ — UV stronger at 5,641 ft)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-5')"><span class="icheck-label">Bug spray — July evenings can be buggy</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-6')"><span class="icheck-label">Portable battery pack + phone chargers</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-7')"><span class="icheck-label">Light layers / jackets for evenings (mid-60s at night)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-8')"><span class="icheck-label">Closed-toe shoes for hiking (sandals = no for trails)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-9')"><span class="icheck-label">Water bottles + hydration for hikes (1L per person per hr)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-10')"><span class="icheck-label">Glow sticks for kids — fireworks night fun</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-11')"><span class="icheck-label">Toilet paper + hand sanitizer (vault restrooms on-site)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-12')"><span class="icheck-label">Dog leash (6 ft required) + dog food + water bowl if bringing pups</span></li>
+            <li class="icheck-item" data-pack-key="safe-0" onclick="togglePack(this,'safe-0',event)"><span class="icheck-label">Headlamps / flashlights for everyone — CRITICAL for Friday night setup</span></li>
+            <li class="icheck-item" data-pack-key="safe-1" onclick="togglePack(this,'safe-1',event)"><span class="icheck-label">Lantern for canopy / table area</span></li>
+            <li class="icheck-item" data-pack-key="safe-2" onclick="togglePack(this,'safe-2',event)"><span class="icheck-label">First aid kit</span></li>
+            <li class="icheck-item" data-pack-key="safe-3" onclick="togglePack(this,'safe-3',event)"><span class="icheck-label">Any medications (daily + emergency)</span></li>
+            <li class="icheck-item" data-pack-key="safe-4" onclick="togglePack(this,'safe-4',event)"><span class="icheck-label">Sunscreen (SPF 50+ — UV stronger at 5,641 ft)</span></li>
+            <li class="icheck-item" data-pack-key="safe-5" onclick="togglePack(this,'safe-5',event)"><span class="icheck-label">Bug spray — July evenings can be buggy</span></li>
+            <li class="icheck-item" data-pack-key="safe-6" onclick="togglePack(this,'safe-6',event)"><span class="icheck-label">Portable battery pack + phone chargers</span></li>
+            <li class="icheck-item" data-pack-key="safe-7" onclick="togglePack(this,'safe-7',event)"><span class="icheck-label">Light layers / jackets for evenings (mid-60s at night)</span></li>
+            <li class="icheck-item" data-pack-key="safe-8" onclick="togglePack(this,'safe-8',event)"><span class="icheck-label">Closed-toe shoes for hiking (sandals = no for trails)</span></li>
+            <li class="icheck-item" data-pack-key="safe-9" onclick="togglePack(this,'safe-9',event)"><span class="icheck-label">Water bottles + hydration for hikes (1L per person per hr)</span></li>
+            <li class="icheck-item" data-pack-key="safe-10" onclick="togglePack(this,'safe-10',event)"><span class="icheck-label">Glow sticks for kids — fireworks night fun</span></li>
+            <li class="icheck-item" data-pack-key="safe-11" onclick="togglePack(this,'safe-11',event)"><span class="icheck-label">Toilet paper + hand sanitizer (vault restrooms on-site)</span></li>
+            <li class="icheck-item" data-pack-key="safe-12" onclick="togglePack(this,'safe-12',event)"><span class="icheck-label">Dog leash (6 ft required) + dog food + water bowl if bringing pups</span></li>
         </ul>
         <span class="pack-reset" onclick="resetPack()">Reset all checkboxes</span>
     </div>
@@ -1257,216 +1334,6 @@
         </div>
     </div>
 
-    <div class="section-header">Area Map</div>
-
-    <div class="map-card">
-        <div class="map-title">🗺️ Prescott Area — White Spar &amp; Surroundings</div>
-        <svg viewBox="0 0 390 440" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
-            <!-- Forest background -->
-            <rect width="390" height="440" fill="#dce8d8"/>
-            <!-- Terrain shading -->
-            <ellipse cx="100" cy="130" rx="90" ry="70" fill="#c8dcbe" opacity=".6"/>
-            <ellipse cx="290" cy="390" rx="70" ry="50" fill="#c8e8c8" opacity=".5"/>
-            <!-- Highway 89 — main N-S artery -->
-            <path d="M195 430 C194 400 192 380 192 360 C192 320 193 290 194 250 C195 235 195 230 195 225 C190 190 170 160 140 130 C118 108 95 92 80 78" stroke="#f5e8c8" stroke-width="9" fill="none" stroke-linecap="round"/>
-            <path d="M195 430 C194 400 192 380 192 360 C192 320 193 290 194 250 C195 235 195 230 195 225 C190 190 170 160 140 130 C118 108 95 92 80 78" stroke="#e8d4a8" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="none"/>
-            <!-- Label Hwy 89 -->
-            <text x="215" y="310" font-size="9" fill="#8b7040" font-family="Inter,sans-serif" font-weight="700">HWY 89</text>
-            <!-- Highway 69 — east toward Lynx Lake -->
-            <path d="M198 232 C220 240 255 270 285 310 C305 335 322 358 340 378" stroke="#f5e8c8" stroke-width="8" fill="none" stroke-linecap="round"/>
-            <path d="M198 232 C220 240 255 270 285 310 C305 335 322 358 340 378" stroke="#e8d4a8" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <text x="258" y="290" font-size="9" fill="#8b7040" font-family="Inter,sans-serif" font-weight="700" transform="rotate(40,258,290)">HWY 69</text>
-            <!-- Road to Thumb Butte -->
-            <path d="M196 230 C175 228 158 226 128 222" stroke="#e0d4b8" stroke-width="5" fill="none" stroke-linecap="round"/>
-            <path d="M196 230 C175 228 158 226 128 222" stroke="#ccc0a0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <!-- Road to Rodeo Grounds -->
-            <path d="M200 228 C215 215 228 200 248 180" stroke="#e0d4b8" stroke-width="5" fill="none" stroke-linecap="round"/>
-            <path d="M200 228 C215 215 228 200 248 180" stroke="#ccc0a0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <!-- Road to Granite Basin -->
-            <path d="M147 128 C132 118 115 108 96 97" stroke="#e0d4b8" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <!-- Lynx Lake -->
-            <ellipse cx="342" cy="382" rx="22" ry="14" fill="#8ab8d8" opacity=".8"/>
-            <text x="342" y="386" font-size="8" fill="#1a3a5a" font-family="Inter,sans-serif" font-weight="700" text-anchor="middle">Lynx Lake</text>
-            <!-- Granite Basin Lake -->
-            <ellipse cx="88" cy="88" rx="18" ry="12" fill="#8ab8d8" opacity=".8"/>
-            <text x="88" y="92" font-size="8" fill="#1a3a5a" font-family="Inter,sans-serif" font-weight="700" text-anchor="middle">G. Basin</text>
-            <!-- NORTH indicator -->
-            <text x="356" y="24" font-size="14" fill="#3a5080" font-family="Inter,sans-serif" font-weight="900" text-anchor="middle">N</text>
-            <line x1="356" y1="28" x2="356" y2="42" stroke="#3a5080" stroke-width="2"/>
-            <polygon points="356,18 352,28 360,28" fill="#3a5080"/>
-
-            <!-- ── LOCATION PINS ── -->
-            <!-- White Spar Campground (green tent) -->
-            <circle cx="192" cy="362" r="14" fill="#2d6e2d" stroke="white" stroke-width="2.5"/>
-            <text x="192" y="367" font-size="14" text-anchor="middle">⛺</text>
-            <text x="192" y="384" font-size="9" font-weight="700" fill="#1a3a1a" font-family="Inter,sans-serif" text-anchor="middle">White Spar</text>
-            <text x="192" y="395" font-size="8" fill="#2d6e2d" font-family="Inter,sans-serif" text-anchor="middle">Site 38 ★</text>
-
-            <!-- Courthouse Plaza / Fireworks (red star) -->
-            <circle cx="195" cy="232" r="13" fill="#b02a22" stroke="white" stroke-width="2.5"/>
-            <text x="195" y="237" font-size="13" text-anchor="middle">🎆</text>
-            <text x="195" y="252" font-size="8" font-weight="700" fill="#7a1818" font-family="Inter,sans-serif" text-anchor="middle">Courthouse Plaza</text>
-            <text x="195" y="262" font-size="8" fill="#b02a22" font-family="Inter,sans-serif" text-anchor="middle">Fireworks 9 PM</text>
-
-            <!-- Rodeo Grounds (brown) -->
-            <circle cx="248" cy="176" r="12" fill="#7a4a1e" stroke="white" stroke-width="2.5"/>
-            <text x="248" y="181" font-size="12" text-anchor="middle">🤠</text>
-            <text x="248" y="195" font-size="8" font-weight="700" fill="#5c3010" font-family="Inter,sans-serif" text-anchor="middle">Rodeo Grounds</text>
-            <text x="248" y="205" font-size="8" fill="#7a4a1e" font-family="Inter,sans-serif" text-anchor="middle">840 Rodeo Dr</text>
-
-            <!-- Thumb Butte (dark green hike) -->
-            <circle cx="126" cy="222" r="12" fill="#1a5c3a" stroke="white" stroke-width="2.5"/>
-            <text x="126" y="227" font-size="12" text-anchor="middle">🥾</text>
-            <text x="126" y="240" font-size="8" font-weight="700" fill="#0e3824" font-family="Inter,sans-serif" text-anchor="middle">Thumb Butte</text>
-            <text x="126" y="250" font-size="8" fill="#1a5c3a" font-family="Inter,sans-serif" text-anchor="middle">Trail · 6,515 ft</text>
-
-            <!-- Granite Basin (blue hike) -->
-            <circle cx="88" cy="72" r="11" fill="#1a5c3a" stroke="white" stroke-width="2.5"/>
-            <text x="88" y="77" font-size="11" text-anchor="middle">🏞️</text>
-            <text x="88" y="62" font-size="8" font-weight="700" fill="#0e3824" font-family="Inter,sans-serif" text-anchor="middle">Granite Basin</text>
-
-            <!-- Lynx Lake hiking -->
-            <circle cx="342" cy="363" r="11" fill="#1a5c3a" stroke="white" stroke-width="2.5"/>
-            <text x="342" y="368" font-size="11" text-anchor="middle">🚣</text>
-            <text x="342" y="355" font-size="8" font-weight="700" fill="#0e3824" font-family="Inter,sans-serif" text-anchor="middle">Lynx Lake</text>
-
-            <!-- Hospital (red cross) -->
-            <circle cx="154" cy="196" r="11" fill="#c0392b" stroke="white" stroke-width="2.5"/>
-            <text x="154" y="200" font-size="10" text-anchor="middle" fill="white" font-weight="900" font-family="Inter,sans-serif">✚</text>
-            <text x="154" y="185" font-size="7.5" font-weight="700" fill="#8b0000" font-family="Inter,sans-serif" text-anchor="middle">Yavapai Med</text>
-
-            <!-- Distance label -->
-            <line x1="192" y1="350" x2="192" y2="244" stroke="#444" stroke-width="1" stroke-dasharray="3,3" opacity=".4"/>
-            <text x="210" y="300" font-size="8" fill="#555" font-family="Inter,sans-serif">2.7 mi</text>
-        </svg>
-        <div class="map-legend">
-            <div class="map-legend-item"><div class="map-dot" style="background:#2d6e2d"></div> Camp / You Are Here</div>
-            <div class="map-legend-item"><div class="map-dot" style="background:#b02a22"></div> 4th of July Events</div>
-            <div class="map-legend-item"><div class="map-dot" style="background:#1a5c3a"></div> Trails &amp; Recreation</div>
-            <div class="map-legend-item"><div class="map-dot" style="background:#c0392b"></div> Medical</div>
-        </div>
-    </div>
-
-    <div class="section-header">Emergency Services</div>
-
-    <div class="warn-banner">
-        <div class="warn-icon">🚨</div>
-        <div>
-            <div class="warn-title">Emergency: Call 911</div>
-            <div class="warn-text">Cell service can be limited at White Spar. In an emergency, drive toward downtown Prescott for stronger signal, or ask the camp host for the nearest emergency access point.</div>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="info-row">
-            <span class="info-row-label">🚑 Emergency</span>
-            <span class="info-row-value"><a href="tel:911" style="color:var(--red-mid);font-weight:700;">911</a></span>
-        </div>
-        <div class="info-row">
-            <span class="info-row-label">🏥 Yavapai Regional Medical</span>
-            <span class="info-row-value"><a href="tel:9287712000" style="color:var(--navy);font-weight:600;">928-771-2000</a></span>
-        </div>
-        <div class="info-row">
-            <span class="info-row-label" style="font-size:11px;">1003 Willow Creek Rd · 5 min</span>
-            <span class="info-row-value"><a href="https://maps.google.com/?q=Yavapai+Regional+Medical+Center+Prescott+AZ" target="_blank" style="color:var(--navy);font-size:11px;">Directions ↗</a></span>
-        </div>
-        <div class="info-row">
-            <span class="info-row-label">🚔 Prescott Police</span>
-            <span class="info-row-value"><a href="tel:9287778900" style="color:var(--navy);font-weight:600;">928-777-8900</a></span>
-        </div>
-        <div class="info-row">
-            <span class="info-row-label">🌲 Forest Service</span>
-            <span class="info-row-value"><a href="tel:9284438000" style="color:var(--navy);font-weight:600;">928-443-8000</a></span>
-        </div>
-        <div class="info-row">
-            <span class="info-row-label">🔥 Fire Restrictions</span>
-            <span class="info-row-value"><a href="https://www.fs.usda.gov/prescott" target="_blank" style="color:var(--navy);font-weight:600;">fs.usda.gov/prescott ↗</a></span>
-        </div>
-        <div class="info-row">
-            <span class="info-row-label">☁️ Weather</span>
-            <span class="info-row-value"><a href="https://forecast.weather.gov/MapClick.php?CityName=Prescott&state=AZ" target="_blank" style="color:var(--navy);font-weight:600;">NWS Prescott ↗</a></span>
-        </div>
-        <div class="info-row">
-            <span class="info-row-label">💊 Walgreens (24 hr)</span>
-            <span class="info-row-value"><a href="tel:9287780590" style="color:var(--navy);font-weight:600;">928-778-0590</a></span>
-        </div>
-    </div>
-
-    <div class="section-header">Campfire Rules</div>
-
-    <div class="warn-banner">
-        <div class="warn-icon">🔥</div>
-        <div>
-            <div class="warn-title">Fire Restrictions — Check Before You Go</div>
-            <div class="warn-text">July 4th weekend often brings <strong>Stage 1 or Stage 2 fire restrictions</strong> to Prescott National Forest. Confirm current restrictions at <strong>fs.usda.gov</strong> or call 928-443-8000. Fires are only permitted in the designated steel ring or concrete grill on our site — never on the ground.</div>
-        </div>
-    </div>
-
-    <div class="card">
-        <ul class="checklist">
-            <li>Keep fire within the designated fire ring — never on the ground</li>
-            <li>Bucket of water nearby at all times when fire is lit</li>
-            <li>Drown, stir, feel — fire is out when ash is cold to touch</li>
-            <li>No fireworks at the campsite — follow campground rules</li>
-            <li>Pack out all ash and fire debris if required by campground</li>
-            <li>Check quiet hours — usually 10 PM, respect your neighbors</li>
-        </ul>
-    </div>
-
-    <div class="section-header">Packing List</div>
-
-    <div class="card">
-        <div class="card-label">Sleep Setup</div>
-        <div class="card-title">🏕️ Shelter &amp; Sleep</div>
-        <ul class="checklist">
-            <li>10-person tent — confirm poles, stakes, rain fly, footprint</li>
-            <li>Cots for everyone — set up before dark on Friday</li>
-            <li>Sleeping bags (mid-60s overnight — light to medium weight)</li>
-            <li>Pillows</li>
-            <li>Screen canopy — set up over seating area for shade &amp; bugs</li>
-            <li>Canopy stakes / guy lines if windy (SW winds forecast)</li>
-        </ul>
-    </div>
-
-    <div class="card">
-        <div class="card-label">Cooking Setup</div>
-        <div class="card-title">🍳 Blackstone &amp; Fire Pit</div>
-        <ul class="checklist">
-            <li>Blackstone camping grill — propane tank + extra canister</li>
-            <li>Blackstone scraper / spatulas / tongs</li>
-            <li>Blackstone seasoning oil (or cooking spray)</li>
-            <li>Fire pit — check campground allows personal fire pits (site has a steel ring; yours may need to stay in the car)</li>
-            <li>Firewood — buy locally in Prescott (don't transport across regions)</li>
-            <li>Firestarter / matches / lighter</li>
-            <li>Camp chairs (enough for everyone) + folding table</li>
-            <li>Plates, cups, utensils — paper/plastic or camping set</li>
-            <li>Pot + pan if doing eggs / anything not on the Blackstone</li>
-            <li>Dish soap, sponge, small wash basin</li>
-            <li>Aluminum foil — endless uses at camp</li>
-            <li>S'more sticks / roasting skewers</li>
-            <li>Trash bags — pack it in, pack it out</li>
-        </ul>
-    </div>
-
-    <div class="card">
-        <div class="card-label">Cooler &amp; Supplies</div>
-        <div class="card-title">🧊 Food &amp; Essentials</div>
-        <ul class="checklist">
-            <li>2 coolers: one for food, one for drinks (food stays colder)</li>
-            <li>Twice as much ice as you think — 91°F days in July</li>
-            <li>Freeze water bottles to use as ice packs → drinking water later</li>
-            <li>Paper towels + napkins</li>
-            <li>Ziploc bags (all sizes)</li>
-            <li>Headlamps / flashlights for everyone (arriving Friday night in the dark!)</li>
-            <li>Lantern for the canopy / table area</li>
-            <li>First aid kit + any medications</li>
-            <li>Sunscreen — UV is stronger at 5,641 ft</li>
-            <li>Bug spray — July evenings can be buggy</li>
-            <li>Portable battery pack / phone chargers</li>
-            <li>Kids' activities: cards, frisbee, glow sticks for fireworks night</li>
-            <li>Light layers for the evenings (lows in the mid-60s)</li>
-        </ul>
-    </div>
 
 </section>
 
@@ -1531,7 +1398,7 @@
 
     <div class="section-header">At Camp</div>
 
-    <div class="activity-card must" onclick="secretTapSpark();openModal('campfire')">
+    <div class="activity-card must" onclick="openModal('campfire')">
         <div class="ac-inner">
             <div class="ac-emoji">🔥</div>
             <div class="ac-body">
@@ -1746,24 +1613,24 @@
 
     <div class="card">
         <ul class="icheck-list" id="pack-food">
-            <li class="icheck-item" onclick="togglePack(this,'food-0')"><span class="icheck-label">2 coolers: one food, one drinks (food stays colder)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-1')"><span class="icheck-label">Twice the ice you think — 91°F days in July</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-2')"><span class="icheck-label">Frozen water bottles (become ice → drinking water)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-3')"><span class="icheck-label">Eggs (pre-cracked into sealed container)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-4')"><span class="icheck-label">Bacon / breakfast sausage</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-5')"><span class="icheck-label">Burger patties (pre-formed, wrapped individually)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-6')"><span class="icheck-label">Hot dogs + buns + condiments</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-7')"><span class="icheck-label">Burger buns, burger toppings (cheese, lettuce, tomato, onion)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-8')"><span class="icheck-label">Potato salad / baked beans (pre-made)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-9')"><span class="icheck-label">Watermelon 🍉 — it's the law on the 4th</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-10')"><span class="icheck-label">S'more kit: marshmallows, Hershey's bars, graham crackers</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-11')"><span class="icheck-label">S'more upgrade: Reese's cups + Nutella</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-12')"><span class="icheck-label">Bread + sandwich stuff (Friday night arrival meal)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-13')"><span class="icheck-label">Breakfast cereals / instant oatmeal / granola bars (Sunday)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-14')"><span class="icheck-label">Snacks: chips, trail mix, fruit, jerky</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-15')"><span class="icheck-label">Coffee + camp coffee maker / instant packets</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-16')"><span class="icheck-label">Kids' drinks + water bottles for everyone</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-17')"><span class="icheck-label">Ziploc bags (all sizes) — condensation is real</span></li>
+            <li class="icheck-item" data-pack-key="food-0" onclick="togglePack(this,'food-0',event)"><span class="icheck-label">2 coolers: one food, one drinks (food stays colder)</span></li>
+            <li class="icheck-item" data-pack-key="food-1" onclick="togglePack(this,'food-1',event)"><span class="icheck-label">Twice the ice you think — 91°F days in July</span></li>
+            <li class="icheck-item" data-pack-key="food-2" onclick="togglePack(this,'food-2',event)"><span class="icheck-label">Frozen water bottles (become ice → drinking water)</span></li>
+            <li class="icheck-item" data-pack-key="food-3" onclick="togglePack(this,'food-3',event)"><span class="icheck-label">Eggs (pre-cracked into sealed container)</span></li>
+            <li class="icheck-item" data-pack-key="food-4" onclick="togglePack(this,'food-4',event)"><span class="icheck-label">Bacon / breakfast sausage</span></li>
+            <li class="icheck-item" data-pack-key="food-5" onclick="togglePack(this,'food-5',event)"><span class="icheck-label">Burger patties (pre-formed, wrapped individually)</span></li>
+            <li class="icheck-item" data-pack-key="food-6" onclick="togglePack(this,'food-6',event)"><span class="icheck-label">Hot dogs + buns + condiments</span></li>
+            <li class="icheck-item" data-pack-key="food-7" onclick="togglePack(this,'food-7',event)"><span class="icheck-label">Burger buns, burger toppings (cheese, lettuce, tomato, onion)</span></li>
+            <li class="icheck-item" data-pack-key="food-8" onclick="togglePack(this,'food-8',event)"><span class="icheck-label">Potato salad / baked beans (pre-made)</span></li>
+            <li class="icheck-item" data-pack-key="food-9" onclick="togglePack(this,'food-9',event)"><span class="icheck-label">Watermelon 🍉 — it's the law on the 4th</span></li>
+            <li class="icheck-item" data-pack-key="food-10" onclick="togglePack(this,'food-10',event)"><span class="icheck-label">S'more kit: marshmallows, Hershey's bars, graham crackers</span></li>
+            <li class="icheck-item" data-pack-key="food-11" onclick="togglePack(this,'food-11',event)"><span class="icheck-label">S'more upgrade: Reese's cups + Nutella</span></li>
+            <li class="icheck-item" data-pack-key="food-12" onclick="togglePack(this,'food-12',event)"><span class="icheck-label">Bread + sandwich stuff (Friday night arrival meal)</span></li>
+            <li class="icheck-item" data-pack-key="food-13" onclick="togglePack(this,'food-13',event)"><span class="icheck-label">Breakfast cereals / instant oatmeal / granola bars (Sunday)</span></li>
+            <li class="icheck-item" data-pack-key="food-14" onclick="togglePack(this,'food-14',event)"><span class="icheck-label">Snacks: chips, trail mix, fruit, jerky</span></li>
+            <li class="icheck-item" data-pack-key="food-15" onclick="togglePack(this,'food-15',event)"><span class="icheck-label">Coffee + camp coffee maker / instant packets</span></li>
+            <li class="icheck-item" data-pack-key="food-16" onclick="togglePack(this,'food-16',event)"><span class="icheck-label">Kids' drinks + water bottles for everyone</span></li>
+            <li class="icheck-item" data-pack-key="food-17" onclick="togglePack(this,'food-17',event)"><span class="icheck-label">Ziploc bags (all sizes) — condensation is real</span></li>
         </ul>
     </div>
 
@@ -2484,30 +2351,30 @@
     const PACK_STORE = 'camp26-pack';
     function loadPack() {
         const saved = JSON.parse(localStorage.getItem(PACK_STORE) || '{}');
-        document.querySelectorAll('.icheck-item').forEach(el => {
-            const key = el.getAttribute('onclick').match(/'([^']+)'\)$/)?.[1];
-            if (key && saved[key]) el.classList.add('checked');
+        document.querySelectorAll('.icheck-item[data-pack-key]').forEach(el => {
+            if (saved[el.dataset.packKey]) el.classList.add('checked');
         });
         updatePackProgress();
     }
-    function togglePack(el, key) {
+    function togglePack(el, key, event) {
         const isChecking = !el.classList.contains('checked');
         el.classList.toggle('checked');
         const saved = JSON.parse(localStorage.getItem(PACK_STORE) || '{}');
         saved[key] = el.classList.contains('checked');
         localStorage.setItem(PACK_STORE, JSON.stringify(saved));
         updatePackProgress();
-        if (isChecking) {
-            const rect = el.getBoundingClientRect();
-            createBurst(rect.left + 20, rect.top + rect.height/2, 10, 28);
+        if (isChecking && event) {
+            createBurst(event.clientX, event.clientY, 22, 55, ['#f0c040','#ffffff','#e8534a','#4a90d9','#ff6b35','#c9960c']);
         }
     }
     function updatePackProgress() {
-        const items = document.querySelectorAll('.icheck-item');
-        const checked = document.querySelectorAll('.icheck-item.checked').length;
+        const items = document.querySelectorAll('.icheck-item[data-pack-key]');
+        const checked = document.querySelectorAll('.icheck-item[data-pack-key].checked').length;
         const pct = items.length ? Math.round(checked / items.length * 100) : 0;
-        document.getElementById('pack-bar').style.width = pct + '%';
-        document.getElementById('pack-label').textContent = checked + ' / ' + items.length + ' packed';
+        const bar = document.getElementById('pack-bar');
+        const label = document.getElementById('pack-label');
+        if (bar) bar.style.width = pct + '%';
+        if (label) label.textContent = checked + ' / ' + items.length + ' packed';
     }
     function resetPack() {
         localStorage.removeItem(PACK_STORE);
