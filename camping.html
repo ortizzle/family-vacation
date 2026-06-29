@@ -2424,16 +2424,16 @@
             const w = game.offsetWidth, h = game.offsetHeight;
             const ember = document.createElement('div');
             ember.className = 'spark-ember';
-            const size = 18 + Math.random() * 16;
-            const startX = w/2 + (Math.random() - 0.5) * 120;
-            const driftX = (Math.random() - 0.5) * 180;
-            const riseY = h * 0.25 + Math.random() * h * 0.35;
+            const size = 44 + Math.random() * 20;
+            const startX = w/2 + (Math.random() - 0.5) * 140;
+            const driftX = (Math.random() - 0.5) * 120;
+            const riseY = h * 0.25 + Math.random() * h * 0.30;
             const color = SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)];
-            ember.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:radial-gradient(circle,white 0%,${color} 60%,transparent 100%);box-shadow:0 0 ${size}px ${color};left:${startX}px;bottom:120px;cursor:pointer;z-index:10;transition:none;`;
+            ember.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:radial-gradient(circle,white 0%,${color} 55%,transparent 100%);box-shadow:0 0 ${size*0.8}px ${color};left:${startX}px;bottom:120px;cursor:pointer;z-index:10;transition:none;`;
             ember.animate([
                 { transform: `translate(0,0) scale(1)`, opacity: 1 },
-                { transform: `translate(${driftX}px,-${riseY}px) scale(0.3)`, opacity: 0 }
-            ], { duration: 2200 + Math.random() * 1000, easing: 'ease-out', fill: 'forwards' })
+                { transform: `translate(${driftX}px,-${riseY}px) scale(0.2)`, opacity: 0 }
+            ], { duration: 3200 + Math.random() * 1200, easing: 'ease-out', fill: 'forwards' })
             .onfinish = () => ember.remove();
             ember.addEventListener('pointerdown', (e) => {
                 e.stopPropagation();
@@ -2443,7 +2443,7 @@
                 ember.remove();
             });
             game.appendChild(ember);
-        }, 500);
+        }, 300);
     }
 
     function endSparkGame() {
