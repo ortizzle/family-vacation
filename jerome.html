@@ -1,0 +1,3257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jerome Weekend Getaway</title>
+    <link rel="manifest" href="jerome-manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="jerome-icon-192.png">
+    <link rel="apple-touch-icon" href="jerome-apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Jerome">
+    <meta name="theme-color" content="#7a3d12">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { overflow-x: hidden; }
+        :root {
+            --copper:       #b5651d;
+            --copper-dark:  #7a3d12;
+            --copper-mid:   #9a4c1e;
+            --copper-light: #d4845a;
+            --terra:        #c0563a;
+            --terra-pale:   #fdf0e8;
+            --sage:         #6b8f71;
+            --sage-pale:    #e8f0e9;
+            --sand:         #f5e6c8;
+            --sand-dark:    #e8d5a8;
+            --cream:        #faf7f2;
+            --snow:         #ffffff;
+            --stone:        #8b7355;
+            --text-dark:    #2c1810;
+            --text-mid:     #5c3d2e;
+            --text-light:   #8b7060;
+            --radius:       16px;
+            --shadow-sm:    0 2px 8px rgba(44,24,16,.08);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        .app-header {
+            position: relative;
+            height: 128px;
+            overflow: hidden;
+            background: linear-gradient(160deg, var(--copper-dark) 0%, var(--copper) 65%, #c47840 100%);
+        }
+        .header-bg-lines {
+            position: absolute;
+            inset: 0;
+            opacity: .07;
+            background-image: repeating-linear-gradient(
+                45deg, transparent, transparent 12px,
+                rgba(255,255,255,.6) 12px, rgba(255,255,255,.6) 13px
+            );
+        }
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 16px 20px;
+            text-align: center;
+        }
+        .header-eyebrow {
+            font-size: 10px;
+            color: rgba(255,218,170,.75);
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.1;
+            text-shadow: 0 2px 12px rgba(0,0,0,.3);
+        }
+        .header-sub {
+            font-size: 11px;
+            color: rgba(255,218,170,.8);
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        /* ── BOTTOM NAV ── */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 100%; max-width: 430px;
+            background: var(--snow);
+            border-top: 1px solid #e8ddd0;
+            display: flex;
+            z-index: 100;
+            box-shadow: 0 -4px 20px rgba(44,24,16,.08);
+        }
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 2px 13px;
+            gap: 3px;
+            cursor: pointer;
+            color: #b0a090;
+            border: none;
+            background: none;
+            font-family: 'Inter', sans-serif;
+            transition: color .18s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-item.active { color: var(--copper); }
+        .nav-icon  { font-size: 19px; }
+        .nav-label { font-size: 9px; font-weight: 600; letter-spacing: .3px; }
+
+        /* ── CONTENT / SECTIONS ── */
+        .content  { padding: 16px 16px 96px; }
+        .section  { display: none; }
+        .section.active { display: block; }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--snow);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card-label {
+            font-size: 10px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+            margin-bottom: 6px;
+        }
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            line-height: 1.25;
+        }
+        .card-body {
+            font-size: 13.5px;
+            color: var(--text-mid);
+            line-height: 1.6;
+        }
+
+        /* ── SECTION DIVIDER ── */
+        .section-header {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-light);
+            margin: 6px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--stone);
+            opacity: .22;
+        }
+
+        /* ── HERO BANNER ── */
+        .hero-banner {
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 14px;
+            position: relative;
+            min-height: 138px;
+            display: flex;
+            align-items: flex-end;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,.62) 0%, transparent 58%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 18px 20px;
+            color: white;
+            width: 100%;
+        }
+        .hero-tag {
+            display: inline-block;
+            background: rgba(255,255,255,.2);
+            border-radius: 100px;
+            padding: 3px 12px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 7px;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1.15;
+            text-shadow: 0 2px 8px rgba(0,0,0,.4);
+        }
+        .hero-sub { font-size: 12px; opacity: .85; margin-top: 4px; }
+
+        /* ── STAT GRID ── */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .stat-card {
+            background: var(--snow);
+            border-radius: 12px;
+            padding: 14px 12px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--copper);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        /* ── HIGHLIGHT STRIP ── */
+        .highlight-strip {
+            background: linear-gradient(135deg, var(--copper-dark), var(--copper));
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            color: white;
+            margin-bottom: 14px;
+        }
+        .hl-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: .72; margin-bottom: 5px; }
+        .hl-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 3px; }
+        .hl-body  { font-size: 13px; opacity: .88; line-height: 1.55; }
+
+        /* ── BASE CARD ── */
+        .base-card {
+            background: linear-gradient(135deg, #3a1a08, #5c2d10);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            color: white;
+            margin-bottom: 14px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .base-icon { font-size: 30px; flex-shrink: 0; margin-top: 2px; }
+        .base-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: .65; margin-bottom: 4px; }
+        .base-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; margin-bottom: 3px; }
+        .base-body  { font-size: 12.5px; opacity: .82; line-height: 1.55; }
+
+        /* ── TIP BOX ── */
+        .tip-box {
+            background: var(--terra-pale);
+            border-left: 3px solid var(--copper);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+        }
+        .tip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--copper-mid); margin-bottom: 5px; }
+        .tip-text  { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+        /* ── EVENT ITEMS ── */
+        .event-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0ebe4;
+        }
+        .event-item:last-child { border-bottom: none; }
+        .event-time {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-light);
+            width: 70px;
+            flex-shrink: 0;
+            padding-top: 2px;
+        }
+        .event-detail { flex: 1; }
+        .event-name  { font-size: 14px; font-weight: 500; color: var(--text-dark); line-height: 1.35; }
+        .event-note  { font-size: 12px; color: var(--text-light); margin-top: 3px; line-height: 1.45; }
+        .ev-tag {
+            display: inline-block;
+            background: var(--terra-pale);
+            color: var(--copper-mid);
+            border-radius: 100px;
+            padding: 1px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        .ev-tag.green { background: var(--sage-pale); color: #3a6b42; }
+        .ev-tag.warn  { background: #fff3cd; color: #856404; }
+
+        /* ── DISTANCE PILLS ── */
+        .distance-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+        .distance-pill {
+            background: var(--snow);
+            border: 1px solid #e0d8d0;
+            border-radius: 100px;
+            padding: 6px 14px;
+            font-size: 12px;
+            color: var(--text-mid);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: var(--shadow-sm);
+        }
+        .distance-pill strong { color: var(--copper); }
+
+        /* ── ATTRACTION CARDS ── */
+        .attraction-card {
+            background: var(--snow);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform .14s;
+            border-left: 4px solid transparent;
+        }
+        .attraction-card:active { transform: scale(.98); }
+        .attraction-card.must  { border-left-color: var(--copper); }
+        .attraction-card.great { border-left-color: var(--sage); }
+        .attraction-card.fun   { border-left-color: var(--sand-dark); }
+        .ac-inner {
+            padding: 14px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .ac-emoji { font-size: 28px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+        .ac-body  { flex: 1; min-width: 0; }
+        .ac-name  { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
+        .ac-desc  { font-size: 12px; color: var(--text-mid); line-height: 1.5; margin-bottom: 7px; }
+        .ac-tags  { display: flex; flex-wrap: wrap; gap: 5px; }
+        .ac-tag   { background: var(--terra-pale); color: var(--copper-mid); border-radius: 100px; padding: 2px 9px; font-size: 11px; font-weight: 500; }
+        .ac-tag.green { background: var(--sage-pale); color: #3a6b42; }
+        .ac-tag.sand  { background: var(--sand); color: var(--text-mid); }
+        .ac-tag.warn  { background: #fff3cd; color: #856404; }
+        .ac-tag.star, .rest-tag.star { background: #fff8e6; color: #b8860b; font-weight: 700; }
+        .tap-hint { font-size: 11px; color: var(--copper); margin-top: 5px; }
+        .ev-tappable { cursor: pointer; -webkit-tap-highlight-color: transparent; border-radius: 8px; margin: 0 -6px; padding: 6px 6px; transition: background .12s; }
+        .ev-tappable:active { background: var(--sand); }
+
+        /* ── OPEN NOW ── */
+        .open-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--cream); border-radius: 10px; font-size: 13px; margin-bottom: 5px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity .12s; }
+        .open-item:active { opacity: .75; }
+        .oi-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+        .oi-dot.isopen  { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.2); }
+        .oi-dot.soon  { background: #f59e0b; }
+        .oi-dot.closed { background: #d1d5db; }
+        .oi-name { flex: 1; font-weight: 600; color: var(--text-dark); }
+        .oi-time { font-size: 11px; color: var(--text-light); white-space: nowrap; }
+        .open-toggle { font-size: 12px; color: var(--copper); margin-top: 8px; cursor: pointer; }
+
+        /* ── SURPRISE ── */
+        .surprise-card { background: linear-gradient(135deg, var(--copper-dark) 0%, var(--copper) 100%); border-radius: var(--radius); padding: 22px 20px; text-align: center; margin-bottom: 12px; }
+        .surprise-eyebrow { font-size: 12px; color: rgba(255,255,255,.7); margin-bottom: 4px; }
+        .surprise-title { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: white; margin-bottom: 16px; }
+        .surprise-btn { background: white; color: var(--copper-dark); border: none; border-radius: 100px; padding: 13px 30px; font-size: 15px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform .12s; }
+        .surprise-btn:active { transform: scale(.96); }
+
+        /* ── SHOT LIST ── */
+        .shot-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0ebe4; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .shot-item:last-child { border-bottom: none; }
+        .shot-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #ddd3c8; background: white; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; transition: all .15s; }
+        .shot-check.done { background: var(--sage); border-color: var(--sage); color: white; }
+        .shot-icon { font-size: 20px; flex-shrink: 0; line-height: 1.4; }
+        .shot-loc { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--copper); margin-bottom: 2px; }
+        .shot-desc { font-size: 12.5px; color: var(--text-mid); line-height: 1.4; }
+        .shot-counter { font-size: 12px; color: var(--text-light); float: right; }
+
+        /* ── WINE LOG ── */
+        .wine-entry { padding: 13px 0; border-bottom: 1px solid #f0ebe4; }
+        .wine-entry:last-child { border-bottom: none; }
+        .wine-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
+        .wine-name { font-size: 14px; font-weight: 700; color: var(--text-dark); }
+        .wine-loc  { font-size: 11px; color: var(--text-light); margin-top: 1px; }
+        .wine-visited-btn { font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 100px; border: none; cursor: pointer; -webkit-tap-highlight-color: transparent; white-space: nowrap; flex-shrink: 0; }
+        .wine-visited-btn.unvisited { background: var(--cream); color: var(--text-light); border: 1px solid #ddd; }
+        .wine-visited-btn.visited   { background: var(--sage); color: white; }
+        .wine-stars-row { display: flex; gap: 3px; margin-bottom: 7px; }
+        .wine-star { font-size: 22px; color: #e5e7eb; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color .12s; line-height: 1; }
+        .wine-star.lit { color: #f59e0b; }
+        .wine-note-input { width: 100%; padding: 8px 10px; border: 1px solid #e5ddd5; border-radius: 8px; font-size: 12px; font-family: inherit; color: var(--text-dark); background: var(--cream); resize: none; outline: none; }
+
+        /* ── CALL BUTTON ── */
+        .modal-link-btn.call { background: #dcfce7; color: #166534; }
+
+        /* ── PARKING ── */
+        .park-spot { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0ebe4; }
+        .park-spot:last-child { border-bottom: none; }
+        .park-icon { font-size: 20px; flex-shrink: 0; }
+        .park-name { font-size: 13.5px; font-weight: 700; color: var(--text-dark); }
+        .park-note { font-size: 12px; color: var(--text-mid); margin-top: 2px; line-height: 1.4; }
+
+        /* ── BADGES ── */
+        .badge-must {
+            display: inline-block;
+            background: var(--copper);
+            color: white;
+            border-radius: 100px;
+            padding: 2px 9px;
+            font-size: 9px;
+            font-weight: 700;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .badge-top {
+            display: inline-block;
+            background: var(--sage);
+            color: white;
+            border-radius: 100px;
+            padding: 2px 9px;
+            font-size: 9px;
+            font-weight: 700;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        /* ── RESTAURANT CARDS ── */
+        .restaurant-card {
+            background: var(--snow);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform .14s;
+        }
+        .restaurant-card:active { transform: scale(.98); }
+        .rest-top { display: flex; gap: 12px; }
+        .rest-emoji { font-size: 30px; flex-shrink: 0; line-height: 1; }
+        .rest-body  { flex: 1; }
+        .rest-name  { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
+        .rest-meta  { font-size: 11px; color: var(--text-light); margin-bottom: 6px; }
+        .rest-note  { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+        .rest-tags  { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+        .rest-tag   { border-radius: 100px; padding: 2px 9px; font-size: 11px; font-weight: 500; }
+        .rest-tag.price { background: var(--sand); color: var(--text-mid); }
+        .rest-tag.type  { background: var(--terra-pale); color: var(--copper-mid); }
+        .rest-tag.pick  { background: #ffd700; color: #6b4f00; }
+        .rest-tag.tip   { background: var(--sage-pale); color: #3a6b42; }
+        .rest-links { display: flex; gap: 7px; margin-top: 12px; }
+        .rest-link {
+            display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+            padding: 7px 14px;
+            border-radius: 100px;
+            font-size: 11px; font-weight: 600;
+            text-decoration: none;
+            flex: 1;
+        }
+        .rest-link.map { background: var(--copper); color: white; }
+        .rest-link.web { background: var(--cream); border: 1px solid #ddd3c8; color: var(--text-dark); }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(44,24,16,.52);
+            z-index: 200;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .modal-overlay.open { display: flex; animation: overlay-in .2s ease; }
+        @keyframes overlay-in { from{opacity:0} to{opacity:1} }
+        .modal-sheet {
+            background: white;
+            border-radius: 24px 24px 0 0;
+            padding: 10px 22px 48px;
+            width: 100%; max-width: 430px;
+            position: relative;
+            animation: sheet-up .26s cubic-bezier(.4,0,.2,1);
+            max-height: 86vh;
+            overflow-y: auto;
+        }
+        @keyframes sheet-up { from{transform:translateY(60px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .modal-handle {
+            width: 40px; height: 4px;
+            background: #e0d8d0;
+            border-radius: 2px;
+            margin: 10px auto 18px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px; right: 16px;
+            background: #f0ebe4;
+            border: none; border-radius: 100px;
+            width: 34px; height: 34px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-mid);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .modal-emoji { font-size: 52px; display: block; text-align: center; margin-bottom: 6px; }
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 23px;
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+        .modal-sub   { text-align: center; font-size: 12px; color: var(--text-light); margin-bottom: 16px; line-height: 1.5; }
+        .modal-tags  { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+        .modal-tag   { background: var(--terra-pale); color: var(--copper-mid); border-radius: 100px; padding: 4px 12px; font-size: 12px; font-weight: 500; }
+        .modal-tag.green { background: var(--sage-pale); color: #3a6b42; }
+        .modal-tag.sand  { background: var(--sand); color: var(--text-mid); }
+        .modal-tag.warn  { background: #fff3cd; color: #856404; }
+        .modal-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-light); margin-bottom: 8px; }
+        .modal-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0ebe4;
+            font-size: 13px;
+        }
+        .modal-info-row:last-child { border-bottom: none; }
+        .modal-info-label { color: var(--text-light); flex-shrink: 0; width: 40%; }
+        .modal-info-value { font-weight: 600; color: var(--text-dark); text-align: right; flex: 1; }
+        .modal-fact {
+            background: var(--cream);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+            color: var(--text-mid);
+            line-height: 1.55;
+            margin-bottom: 8px;
+        }
+        .modal-section { margin-bottom: 18px; }
+        .modal-links { display: flex; gap: 8px; margin-top: 4px; }
+        .modal-link-btn {
+            flex: 1;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            padding: 13px 10px;
+            border-radius: 12px;
+            font-size: 13px; font-weight: 600;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .modal-link-btn.map { background: var(--copper); color: white; }
+        .modal-link-btn.web { background: var(--cream); border: 1px solid #ddd3c8; color: var(--text-dark); }
+        .modal-link-btn.ta  { background: #34e0a1; color: #003a2d; }
+        .modal-dish {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 9px 0;
+            border-bottom: 1px solid #f0ebe4;
+            gap: 10px;
+        }
+        .modal-dish:last-child { border-bottom: none; }
+        .dish-info { flex: 1; }
+        .dish-name  { font-size: 13.5px; font-weight: 600; color: var(--text-dark); line-height: 1.3; }
+        .dish-note  { font-size: 11.5px; color: var(--text-light); margin-top: 2px; line-height: 1.4; }
+        .dish-price { font-size: 13px; font-weight: 700; color: var(--copper); flex-shrink: 0; padding-top: 1px; }
+        .modal-rating {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-bottom: 14px;
+        }
+        .rating-score {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1;
+        }
+        .rating-stars { font-size: 14px; color: #f5a623; letter-spacing: 1px; }
+        .rating-meta  { font-size: 11px; color: var(--text-light); }
+
+        /* ── MEMORIES / VISIT LOG ── */
+        .mem-stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .mem-stat { background: var(--snow); border-radius: 12px; padding: 12px 8px; box-shadow: var(--shadow-sm); text-align: center; }
+        .mem-stat-n { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--copper); line-height: 1; }
+        .mem-stat-l { font-size: 9px; color: var(--text-light); margin-top: 4px; text-transform: uppercase; letter-spacing: .4px; }
+        .mem-loc-header { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--copper-mid); padding-bottom: 8px; border-bottom: 1px solid #f0ebe4; margin-bottom: 8px; }
+        .visit-entry { padding: 10px 0; border-bottom: 1px solid #f0ebe4; }
+        .visit-entry:last-child { border-bottom: none; }
+        .visit-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .visit-name-row { display: flex; align-items: center; gap: 10px; }
+        .visit-emoji { font-size: 21px; flex-shrink: 0; line-height: 1; }
+        .visit-name { font-size: 13px; font-weight: 600; color: var(--text-dark); line-height: 1.2; }
+        .visit-toggle { flex-shrink: 0; padding: 5px 11px; border-radius: 100px; border: 1.5px solid #ddd3c8; background: white; font-size: 11px; font-weight: 600; color: var(--text-light); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: all .18s; white-space: nowrap; }
+        .visit-toggle.visited { background: var(--sage); border-color: var(--sage); color: white; }
+        .visit-stars-row { display: flex; gap: 2px; margin: 8px 0 4px; }
+        .visit-star { font-size: 22px; color: #e5e7eb; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color .12s; line-height: 1; }
+        .visit-star.lit { color: #f59e0b; }
+        .visit-note-input { width: 100%; padding: 8px 10px; border: 1px solid #e5ddd5; border-radius: 8px; font-size: 12px; font-family: inherit; color: var(--text-dark); background: var(--cream); resize: none; outline: none; margin-top: 4px; }
+        .export-btn { width: 100%; padding: 14px; background: var(--copper); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; transition: background .18s; }
+        .export-btn:active { background: var(--copper-dark); }
+        .export-preview { display: none; width: 100%; padding: 12px; border: 1px solid #e5ddd5; border-radius: 10px; font-size: 11px; font-family: monospace; color: var(--text-mid); background: var(--cream); resize: none; margin-top: 10px; min-height: 140px; }
+
+        /* ── PHOTO MEMORIES ── */
+        .visit-memory-wrap { margin-top: 6px; }
+        .photo-gallery-wrap { margin-bottom: 6px; }
+        .photo-gallery { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+        .photo-thumb-wrap { position: relative; width: 74px; height: 74px; flex-shrink: 0; }
+        .photo-thumb { width: 74px; height: 74px; object-fit: cover; border-radius: 10px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.18); display: block; }
+        .photo-remove { position: absolute; top: -5px; right: -5px; width: 20px; height: 20px; background: rgba(44,24,16,.82); color: white; border: none; border-radius: 50%; font-size: 10px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+        .photo-add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: var(--terra-pale); border: 1.5px dashed var(--copper-light); border-radius: 8px; font-size: 11.5px; font-weight: 600; color: var(--copper-mid); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="app-header">
+    <div class="header-bg-lines"></div>
+    <div class="header-content">
+        <div class="header-eyebrow">Verde Valley Weekend</div>
+        <div class="header-title">Jerome &amp; Cottonwood</div>
+        <div class="header-sub">Arizona · June 2026</div>
+    </div>
+</header>
+
+<!-- ── CONTENT ── -->
+<main class="content">
+
+<!-- ═══════════════════════════════════ HOME ═══════════════════════════════════ -->
+<section class="section active" id="section-home">
+
+    <div class="base-card">
+        <div class="base-icon">🏠</div>
+        <div>
+            <div class="base-label">Your Home Base</div>
+            <div class="base-title">The Flat · Jerome</div>
+            <div class="base-body">Above the Flatiron Cafe at Main &amp; Hull Ave — the most central spot in town. Breakfast is literally one floor down.</div>
+        </div>
+    </div>
+
+    <div class="distance-row">
+        <div class="distance-pill">📍 Jerome <strong>Here</strong></div>
+        <div class="distance-pill">🍷 Cottonwood <strong>11 mi</strong></div>
+        <div class="distance-pill">🏛️ Tuzigoot <strong>13 mi</strong></div>
+        <div class="distance-pill">🚂 Verde Railroad <strong>14 mi</strong></div>
+        <div class="distance-pill">🏺 Montezuma Castle <strong>25 mi</strong></div>
+    </div>
+
+    <div id="open-now-card" class="card" style="margin-bottom:12px;"></div>
+
+    <div class="card" onclick="openModal('festival')" style="background:linear-gradient(135deg,#1a3a1a 0%,#2d5a2d 100%);padding:18px 20px;margin-bottom:12px;cursor:pointer;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6);margin-bottom:4px;">Happening This Weekend</div>
+        <div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:white;margin-bottom:6px;">🎸 Jerome Music &amp; Arts Festival</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:10px;">June 27–28 · Free · 20+ performers across 5 venues. Spirit Room, Spook Hall, Upper Park, New State Building &amp; <strong style="color:white;">240 Hull Ave — right outside your door.</strong></div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);">Food trucks · pop-up market · kids area · Spirit Room starts 2 PM Sat</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:8px;text-align:right;">Tap for full schedule →</div>
+    </div>
+
+    <div class="surprise-card">
+        <div class="surprise-eyebrow">Can't decide what's next?</div>
+        <div class="surprise-title" id="surprise-title">Surprise Us!</div>
+        <button class="surprise-btn" onclick="surpriseUs()">🎲 Pick Something Random</button>
+    </div>
+
+    <div class="section-header">Saturday · Jerome Day</div>
+
+    <div class="card">
+        <div class="event-item ev-tappable" onclick="openRestaurantModal('flatiron')">
+            <div class="event-time">Morning</div>
+            <div class="event-detail">
+                <div class="event-name">Breakfast at Flatiron Cafe</div>
+                <div class="event-note">One floor down — the best breakfast in Jerome. Go early, it fills fast.</div>
+            </div>
+        </div>
+        <div class="event-item ev-tappable" onclick="openModal('jerome-state-park')">
+            <div class="event-time">Mid-AM</div>
+            <div class="event-detail">
+                <div class="event-name">Jerome State Historic Park <span class="ev-tag">Don't Miss</span></div>
+                <div class="event-note">Douglas Mansion museum · $7 pp · sweeping Verde Valley panoramas</div>
+            </div>
+        </div>
+        <div class="event-item ev-tappable" onclick="openModal('caduceus')">
+            <div class="event-time">Midday</div>
+            <div class="event-detail">
+                <div class="event-name">Art Galleries + Caduceus Cellars</div>
+                <div class="event-note">Walk Hull Ave &amp; Main St galleries, then wine tasting at Maynard James Keenan's Jerome winery</div>
+            </div>
+        </div>
+        <div class="event-item ev-tappable" onclick="openModal('gold-king')">
+            <div class="event-time">Afternoon</div>
+            <div class="event-detail">
+                <div class="event-name">Gold King Mine &amp; Ghost Town <span class="ev-tag">Don't Miss</span></div>
+                <div class="event-note">Vintage mining relics, antique cars, free-roaming burros and peacocks</div>
+            </div>
+        </div>
+        <div class="event-item ev-tappable" onclick="openModal('audrey-headframe')">
+            <div class="event-time">Sunset</div>
+            <div class="event-detail">
+                <div class="event-name">Audrey Headframe Park <span class="ev-tag green">Best View</span></div>
+                <div class="event-note">Glass floor over 1,900 ft mine shaft · the single best sunset spot in Jerome · free</div>
+            </div>
+        </div>
+        <div class="event-item ev-tappable" onclick="openRestaurantModal('haunted-hamburger')">
+            <div class="event-time">Dinner</div>
+            <div class="event-detail">
+                <div class="event-name">The Asylum or Haunted Hamburger</div>
+                <div class="event-note">Upscale at the Jerome Grand Hotel, or iconic burgers with Verde Valley views</div>
+            </div>
+        </div>
+        <div class="event-item ev-tappable" onclick="openModal('spirit-room')">
+            <div class="event-time">Evening</div>
+            <div class="event-detail">
+                <div class="event-name">Spirit Room Bar</div>
+                <div class="event-note">Live music most evenings · Jerome's legendary Main St bar · cash-friendly</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Sunday · Checkout Day</div>
+
+    <div class="card" style="background:linear-gradient(135deg,#3d1f0a 0%,#5a2d0c 100%);padding:16px 18px;margin-bottom:12px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,200,150,.7);margin-bottom:6px;">Your Route Home</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.9);line-height:1.65;">
+            ⏰ <strong style="color:white;">Checkout 11 AM</strong> — grab ice for your wine before leaving The Flat<br>
+            🍩 <strong style="color:white;">Sedonuts</strong> · 777 N Main St, Cottonwood · open 7–1 PM<br>
+            🍷 Wine Row opens 11 · Merkin 11 AM · Page Springs 11 AM<br>
+            🚗 <strong style="color:white;">Page Springs → I-17 south → Phoenix</strong> · ~2 hrs from Cornville
+        </div>
+        <div style="font-size:11px;color:rgba(255,180,100,.6);margin-top:8px;">🌡️ June heat: keep wine in a cooler — cars hit 150°F+ fast. Buy wine last, drive home.</div>
+    </div>
+
+    <div class="card">
+        <div class="event-item ev-tappable" onclick="openRestaurantModal('sedonuts')">
+            <div class="event-time">Morning</div>
+            <div class="event-detail">
+                <div class="event-name">🍩 Sedonuts · Old Town Cottonwood</div>
+                <div class="event-note">Handcrafted donuts + organic coffee on Wine Row · open from 7 AM · sell out by mid-morning</div>
+            </div>
+        </div>
+        <div class="event-item ev-tappable" onclick="openModal('tuzigoot')">
+            <div class="event-time">9:00 AM</div>
+            <div class="event-detail">
+                <div class="event-name">Tuzigoot National Monument <span class="ev-tag">Don't Miss</span></div>
+                <div class="event-note">12th–13th century Sinagua hilltop pueblo · jaw-dropping Verde Valley views · $10 pp</div>
+            </div>
+        </div>
+        <div class="event-item ev-tappable" onclick="openModal('verde-canyon-rr')">
+            <div class="event-time">10:30 AM</div>
+            <div class="event-detail">
+                <div class="event-name">Verde Canyon Railroad <span class="ev-tag">Don't Miss</span></div>
+                <div class="event-note">4-hr scenic train through otherwise inaccessible canyon · bald eagle habitat · departs Clarkdale</div>
+            </div>
+        </div>
+        <div class="event-item ev-tappable" onclick="openRestaurantModal('merkin-osteria')">
+            <div class="event-time">Lunch</div>
+            <div class="event-detail">
+                <div class="event-name">Merkin Vineyards Osteria</div>
+                <div class="event-note">Maynard's flagship winery + Italian restaurant in Old Town Cottonwood · the best meal in the area</div>
+            </div>
+        </div>
+        <div class="event-item ev-tappable" onclick="openModal('old-town-cottonwood')">
+            <div class="event-time">Afternoon</div>
+            <div class="event-detail">
+                <div class="event-name">🍷 Verde Valley Wine Row</div>
+                <div class="event-note">Walk Old Town Cottonwood — 10+ tasting rooms within 3 blocks of each other</div>
+            </div>
+        </div>
+        <div class="event-item ev-tappable" onclick="openModal('page-springs')">
+            <div class="event-time">Midday</div>
+            <div class="event-detail">
+                <div class="event-name">Page Springs Cellars <span class="ev-tag green">On the Way Home</span></div>
+                <div class="event-note">Arizona's best winery · Cornville · opens 11 AM · 10 min south of Cottonwood on route to I-17</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Drive</div>
+            <div class="event-detail">
+                <div class="event-name">🚗 Page Springs → I-17 → Phoenix</div>
+                <div class="event-note">Take Page Springs Rd to AZ-89A south → I-17 south · about 2 hrs to Phoenix</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-label">Weekend Highlights for You Two</div>
+        <div class="tip-text">
+            🌅 Sunset at Audrey Headframe Park (both nights)<br>
+            🚂 Verde Canyon Railroad — book before you go<br>
+            🏛️ Tuzigoot Monument — a true hidden gem<br>
+            🍷 Merkin Osteria + Wine Row, Old Town Cottonwood<br>
+            🍺 Spirit Room Bar on Saturday night
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:2px;">📸 Jerome Shot List <span id="shot-counter" style="font-size:11px;font-weight:400;color:var(--text-light);float:right;margin-top:2px;"></span></div>
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:12px;">Tap each shot to check it off</div>
+        <div id="shot-list-items"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:24px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:2px;">🍷 Wine Tasting Log <span id="wine-log-header" style="font-size:11px;font-weight:400;color:var(--text-light);float:right;margin-top:2px;"></span></div>
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:12px;">Track your tastings · rate each winery</div>
+        <div id="wine-log-items"></div>
+    </div>
+
+</section>
+
+<!-- ═══════════════════════════════════ JEROME ═══════════════════════════════════ -->
+<section class="section" id="section-jerome">
+
+    <div class="hero-banner">
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#5c2d1a 0%,#8b4513 50%,#a0522d 100%);"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Historic Ghost Town</div>
+            <div class="hero-title">Jerome</div>
+            <div class="hero-sub">5,069 ft · Verde Valley · Est. 1876</div>
+        </div>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-number">5,069</div>
+            <div class="stat-label">Feet Elevation</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">450</div>
+            <div class="stat-label">Residents Today</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">1876</div>
+            <div class="stat-label">Year Founded</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">$1B+</div>
+            <div class="stat-label">Copper Mined</div>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-label">Quick History</div>
+        <div class="tip-text">Jerome boomed as a copper mining town from 1876 to 1953, once housing 15,000 people. When the mines closed, the population crashed to 50. Artists moved in during the 1960s and rescued the town. Today it's a National Historic Landmark packed with galleries, wine bars, and a wonderfully haunted reputation.</div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:12px;">🅿️ Parking in Jerome</div>
+        <div class="park-spot">
+            <div class="park-icon">🏠</div>
+            <div>
+                <div class="park-name">Your Home Base (The Flat)</div>
+                <div class="park-note">Park on Hull Ave behind the Flatiron or in the small adjacent lot. Central to everything — walk from here to Main St in under 2 min.</div>
+            </div>
+        </div>
+        <div class="park-spot">
+            <div class="park-icon">🆓</div>
+            <div>
+                <div class="park-name">Main St Community Lot</div>
+                <div class="park-note">Free public parking lot near the fire station on Main St. Best for daytime exploring and gallery-hopping. Gets full by 10 AM on weekends.</div>
+            </div>
+        </div>
+        <div class="park-spot">
+            <div class="park-icon">🏛️</div>
+            <div>
+                <div class="park-name">Jerome State Historic Park</div>
+                <div class="park-note">Free lot right at the Douglas Mansion. Good starting point for lower Jerome — easy walk up to Main St from here.</div>
+            </div>
+        </div>
+        <div class="park-spot">
+            <div class="park-icon">⛏️</div>
+            <div>
+                <div class="park-name">Gold King Mine</div>
+                <div class="park-note">Large free dirt lot at the property entrance (~1 mi from Main St up Perkinsville Rd). Drive separately — not walkable from town.</div>
+            </div>
+        </div>
+        <div class="park-spot">
+            <div class="park-icon">💡</div>
+            <div>
+                <div class="park-name">Weekend Tip</div>
+                <div class="park-note">Jerome streets are narrow and one-way. Park once and walk — the entire Main St strip is only 0.3 miles long. Don't try to drive between spots.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Must-See</div>
+
+    <div class="attraction-card must" onclick="openModal('jerome-state-park')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🏛️</div>
+            <div class="ac-body">
+                <div class="ac-name">Jerome State Historic Park <span class="badge-must">Must</span></div>
+                <div class="ac-desc">The 1916 Douglas Mansion turned museum. Mining history exhibits and sweeping Verde Valley views from the wrap-around veranda.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">$10 / person</span>
+                    <span class="ac-tag sand">Daily 9am–4:30pm</span>
+                    <span class="ac-tag star">★ 4.5</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card must" onclick="openModal('gold-king')">
+        <div class="ac-inner">
+            <div class="ac-emoji">⛏️</div>
+            <div class="ac-body">
+                <div class="ac-name">Gold King Mine &amp; Ghost Town <span class="badge-must">Must</span></div>
+                <div class="ac-desc">Jaw-dropping outdoor museum of vintage mining gear, rusting antique cars, and crumbling ghost town structures. Burros and peacocks wander freely.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">$12 adults · $7 kids</span>
+                    <span class="ac-tag sand">Daily 10am–5pm</span>
+                    <span class="ac-tag star">★ 4.6</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card must" onclick="openModal('audrey-headframe')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🌅</div>
+            <div class="ac-body">
+                <div class="ac-name">Audrey Headframe Park <span class="badge-top">Best Sunset</span></div>
+                <div class="ac-desc">Glass floor over a 1,900-ft mine shaft, sweeping Verde Valley panoramas, and the single best sunset spot in Jerome. One of Arizona's wildest free attractions.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Free</span>
+                    <span class="ac-tag sand">Always open</span>
+                    <span class="ac-tag star">★ 4.8</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Wine &amp; Nightlife</div>
+
+    <div class="attraction-card must" onclick="openModal('caduceus')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🍇</div>
+            <div class="ac-body">
+                <div class="ac-name">Caduceus Cellars <span class="badge-must">Must</span></div>
+                <div class="ac-desc">Maynard James Keenan's (Tool) original Jerome winery. Arizona-grown varietals in a historic Main St building — this is where his wine empire started.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">Tasting fee</span>
+                    <span class="ac-tag sand">158 Main St · Daily 11am–6pm</span>
+                    <span class="ac-tag star">★ 4.6</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card great" onclick="openModal('spirit-room')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🎸</div>
+            <div class="ac-body">
+                <div class="ac-name">Spirit Room Bar</div>
+                <div class="ac-desc">Jerome's legendary Main St bar with live music most weekend evenings. Cold beer, local characters, and the electric energy of the whole town in one room.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">No cover</span>
+                    <span class="ac-tag sand">166 Main St · Nightly</span>
+                    <span class="ac-tag star">★ 4.4</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Also Worth Your Time</div>
+
+    <div class="attraction-card great" onclick="openModal('jerome-grand')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🏨</div>
+            <div class="ac-body">
+                <div class="ac-name">Jerome Grand Hotel &amp; Wingwalker Lounge</div>
+                <div class="ac-desc">A 1926 hospital-turned-hotel at the very top of Jerome. One of Arizona's most haunted buildings. The Wingwalker Lounge is worth a stop for a drink and the 360° views.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">Historic 1926</span>
+                    <span class="ac-tag sand">Bar open to all</span>
+                    <span class="ac-tag star">★ 4.4</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card great" onclick="openModal('galleries')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🎨</div>
+            <div class="ac-body">
+                <div class="ac-name">Art Galleries &amp; Studios</div>
+                <div class="ac-desc">20+ galleries along Hull Ave and Main St — ceramics, jewelry, photography, metalwork. Jerome's artist colony has been thriving since the 1960s.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Mostly free</span>
+                    <span class="ac-tag sand">Most open 10am–5pm</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card fun" onclick="openModal('la-victoria')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🔥</div>
+            <div class="ac-body">
+                <div class="ac-name">La Victoria Glass Blowing Studio <span class="badge-top">Hidden Gem</span></div>
+                <div class="ac-desc">Artist Tracy Weisel gives free glass blowing demos most afternoons — about 45 minutes, genuinely fascinating to watch. Hidden behind a ruined building facade on Hull Ave. Look for the small sign on the lone standing wall.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Free (small donation)</span>
+                    <span class="ac-tag sand">250 Hull Ave · Most afternoons</span>
+                    <span class="ac-tag star">★ 4.8</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card fun" onclick="openModal('sliding-jail')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🏚️</div>
+            <div class="ac-body">
+                <div class="ac-name">The Sliding Jail</div>
+                <div class="ac-desc">Jerome's 1928 reinforced-concrete jail has literally slid 225 feet downhill from its original location — mine blasts destabilized the clay soil beneath it.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Free to see</span>
+                    <span class="ac-tag sand">Hull Ave · Exterior only</span>
+                    <span class="ac-tag star">★ 4.3</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card fun" onclick="openModal('ghost-tour')">
+        <div class="ac-inner">
+            <div class="ac-emoji">👻</div>
+            <div class="ac-body">
+                <div class="ac-name">Ghost Town Evening Walk</div>
+                <div class="ac-desc">Jerome's haunted reputation is genuine — the Grand Hotel, Sullivan's Rest, and the Cuban Queen Bordello all have documented paranormal histories.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">Self-guided free</span>
+                    <span class="ac-tag sand">Guided tours ~$25</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ═══════════════════════════════════ COTTONWOOD ═══════════════════════════════════ -->
+<section class="section" id="section-cottonwood">
+
+    <div class="hero-banner">
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#2a4a1a 0%,#4a7a2a 40%,#6b9a40 100%);"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Verde Valley</div>
+            <div class="hero-title">Cottonwood &amp; Beyond</div>
+            <div class="hero-sub">11 mi from Jerome · Wine · Ruins · Canyon</div>
+        </div>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-number">3,314</div>
+            <div class="stat-label">Feet Elevation</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">~12k</div>
+            <div class="stat-label">Residents</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">1879</div>
+            <div class="stat-label">Year Founded</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Wine Tasting Rooms</div>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-label">Quick History</div>
+        <div class="tip-text">Cottonwood is named for the massive cottonwood trees lining the Verde River — one of only two year-round rivers in all of Arizona. The Sinagua people farmed this valley from ~900 CE, building Tuzigoot and dozens of other pueblos before mysteriously departing around 1425. Spanish explorer Antonio de Espejo passed through in 1583, and American settlers arrived in the 1860s to supply Jerome's booming copper mines above. Old Town Cottonwood's 1920s–40s Main Street buildings are on the National Register of Historic Places. The modern wine boom arrived in the early 2000s — led by Maynard James Keenan of Tool, who planted vineyards here and showed that Arizona's high elevation, limestone soils, and warm days with cool nights produce world-class grapes. Today the Verde Valley has over 40 wineries.</div>
+    </div>
+
+    <div class="tip-box" style="margin-top:-6px;">
+        <div class="tip-label">Verde Valley Fast Facts</div>
+        <div class="tip-text">
+            🌊 The Verde River: 170 miles long · critical riparian habitat · great blue herons nest year-round<br>
+            🏺 Tuzigoot: 110+ excavated rooms · occupied 1125–1400 CE · "crooked water" in Apache<br>
+            🍇 AZ wine country: 300 sunny days/yr · limestone soils · elevation rivals Napa for complexity<br>
+            🌡️ Climate: hot days, cool nights — 20°F+ daily swing in summer creates natural acidity in grapes<br>
+            🚂 Verde Canyon: the railroad corridor is accessible only by train — no road ever reached it
+        </div>
+    </div>
+
+    <div class="section-header">Don't Miss</div>
+
+    <div class="attraction-card must" onclick="openModal('tuzigoot')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🏺</div>
+            <div class="ac-body">
+                <div class="ac-name">Tuzigoot National Monument <span class="badge-must">Must</span></div>
+                <div class="ac-desc">A 12th–13th century Sinagua hilltop pueblo with over 110 excavated rooms. One of Arizona's most impressive ancient ruins — and the Verde Valley views from the top are extraordinary.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">$10 / person</span>
+                    <span class="ac-tag sand">Daily 9am–5pm</span>
+                    <span class="ac-tag">13 mi from Jerome</span>
+                    <span class="ac-tag star">★ 4.6</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card must" onclick="openModal('verde-canyon-rr')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🚂</div>
+            <div class="ac-body">
+                <div class="ac-name">Verde Canyon Railroad <span class="badge-must">Must</span></div>
+                <div class="ac-desc">A 4-hour round-trip train ride through a remote desert canyon inaccessible by road. Bald eagle habitat, towering canyon walls, ancient ruins visible from the windows. One of Arizona's great experiences.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">~$65+ · check website</span>
+                    <span class="ac-tag warn">Book ahead</span>
+                    <span class="ac-tag sand">Departs Clarkdale · 14 mi</span>
+                    <span class="ac-tag star">★ 4.8</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card must" onclick="openModal('old-town-cottonwood')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🍷</div>
+            <div class="ac-body">
+                <div class="ac-name">Old Town Cottonwood + Wine Row <span class="badge-must">Must</span></div>
+                <div class="ac-desc">Arizona's most concentrated wine district — 10+ tasting rooms within walking distance along N Main St. Great food, boutiques, and a relaxed walkable vibe very different from Jerome's steep streets.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">Tasting fees vary</span>
+                    <span class="ac-tag sand">11 mi from Jerome</span>
+                </div>
+                <div class="tap-hint">Tap for details + map →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tip-box" style="margin-top:-6px;">
+        <div class="tip-label">🌡️ Wine in a Hot Car</div>
+        <div class="tip-text">June in Arizona: a parked car in the sun reaches 150°F+ in under 20 minutes — enough to cook wine and blow corks. Keep a small cooler with ice in the car. Buy wine at your <em>last</em> stop (Page Springs on the way to I-17), not your first. Most tasting rooms will hold your purchases at the counter while you look around outside.</div>
+    </div>
+
+    <div class="section-header">Wineries</div>
+
+    <div class="attraction-card must" onclick="openModal('page-springs')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🍾</div>
+            <div class="ac-body">
+                <div class="ac-name">Page Springs Cellars <span class="badge-must">AZ's Best</span></div>
+                <div class="ac-desc">Widely considered Arizona's finest winery, tucked into a creek canyon outside Cornville. Single-vineyard Rhône-style wines, excellent tasting room, beautiful grounds. A must-visit for wine lovers.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">Tasting fee</span>
+                    <span class="ac-tag sand">20 mi from Jerome</span>
+                    <span class="ac-tag sand">Cornville · Reservations suggested</span>
+                    <span class="ac-tag star">★ 4.7</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card great" onclick="openModal('merkin-winery')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🎸</div>
+            <div class="ac-body">
+                <div class="ac-name">Merkin Vineyards Osteria</div>
+                <div class="ac-desc">Maynard James Keenan's main winery venue in Old Town Cottonwood — a full Italian restaurant alongside the wine tasting. One of the best meals and best bottles in the Verde Valley, all in one stop.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">1 N Main St, Cottonwood</span>
+                    <span class="ac-tag sand">Lunch &amp; Dinner</span>
+                    <span class="ac-tag star">★ 4.5</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Day Trips</div>
+
+    <div class="attraction-card great" onclick="openModal('montezuma-castle')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🏯</div>
+            <div class="ac-body">
+                <div class="ac-name">Montezuma Castle National Monument</div>
+                <div class="ac-desc">A five-story cliff dwelling carved into a limestone recess 90 feet above the valley floor — one of the best-preserved pre-Columbian structures in the United States. Fast visit (30–45 min) on your way out of town.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">$10 / person</span>
+                    <span class="ac-tag sand">Daily 8am–5pm</span>
+                    <span class="ac-tag">25 mi from Jerome · I-17</span>
+                    <span class="ac-tag star">★ 4.7</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="attraction-card great" onclick="openModal('dead-horse-ranch')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🦅</div>
+            <div class="ac-body">
+                <div class="ac-name">Dead Horse Ranch State Park</div>
+                <div class="ac-desc">Verde River access, a stocked fishing lagoon, excellent bird watching, and easy riverside trails. One of Arizona's most underrated state parks — peaceful contrast to Jerome's intensity.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag">$10–$20 / vehicle</span>
+                    <span class="ac-tag sand">Daily 8am–10pm</span>
+                    <span class="ac-tag">12 mi from Jerome</span>
+                    <span class="ac-tag star">★ 4.6</span>
+                </div>
+                <div class="tap-hint">Tap for details + directions →</div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ═══════════════════════════════════ EATS ═══════════════════════════════════ -->
+<section class="section" id="section-eats">
+
+    <div class="section-header">Jerome</div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('flatiron')">
+        <div class="rest-top">
+            <div class="rest-emoji">☕</div>
+            <div class="rest-body">
+                <div class="rest-name">Flatiron Cafe <span class="badge-top">Your Building</span></div>
+                <div class="rest-meta">Jerome · Breakfast &amp; Lunch · $</div>
+                <div class="rest-note">Tiny and beloved — the best breakfast in Jerome. Egg scrambles, pastries, excellent coffee. Arrive early; the line forms fast. You're literally staying above it.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$</span>
+                    <span class="rest-tag type">Breakfast / Brunch</span>
+                    <span class="rest-tag star">★ 4.6</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Flatiron+Cafe,+416+Main+St,+Jerome,+AZ+86331" target="_blank">📍 Directions</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('clinkscale')">
+        <div class="rest-top">
+            <div class="rest-emoji">🍽️</div>
+            <div class="rest-body">
+                <div class="rest-name">The Clinkscale <span class="badge-must">#1 in Jerome</span></div>
+                <div class="rest-meta">309 Main St · Brunch to Dinner · $$–$$$</div>
+                <div class="rest-note">The highest-rated restaurant in Jerome (4.8★, 770+ reviews) — American fusion with a French touch in an 1899 building. Truffle fries, beignets with vanilla custard, filet mignon, scallops. Happy hour til 7 PM. Walk-in for brunch; book dinner.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$–$$$</span>
+                    <span class="rest-tag type">American / French</span>
+                    <span class="rest-tag star">★ 4.8</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=The+Clinkscale,+309+Main+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://theclinkscale.com" target="_blank">🌐 Website</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('vaqueros')">
+        <div class="rest-top">
+            <div class="rest-emoji">🌮</div>
+            <div class="rest-body">
+                <div class="rest-name">Vaqueros Grill &amp; Cantina</div>
+                <div class="rest-meta">363 Main St · Lunch &amp; Dinner · $</div>
+                <div class="rest-note">Jerome's best Mexican — the Navajo Tacos on frybread are the must-order. Featured on "Only in Arizona" best-Mexican lists. Casual, consistent, open from 10:30 AM.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$</span>
+                    <span class="rest-tag type">Mexican</span>
+                    <span class="rest-tag star">★ 4.5</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Vaqueros+Grill+and+Cantina,+363+Main+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('haunted-hamburger')">
+        <div class="rest-top">
+            <div class="rest-emoji">🍔</div>
+            <div class="rest-body">
+                <div class="rest-name">The Haunted Hamburger <span class="badge-must" style="font-size:9px;">Icon</span></div>
+                <div class="rest-meta">Jerome · Lunch &amp; Dinner · $$</div>
+                <div class="rest-note">Jerome's most famous restaurant. Outdoor patio with Verde Valley views, enormous burgers, milkshakes. Expect a line on weekends — absolutely worth the wait.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">American</span>
+                    <span class="rest-tag pick">⭐ Local Legend</span>
+                    <span class="rest-tag star">★ 4.3</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=The+Haunted+Hamburger,+410+Clark+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://thehauntedhamburger.com" target="_blank">🌐 Website</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('asylum')">
+        <div class="rest-top">
+            <div class="rest-emoji">🥂</div>
+            <div class="rest-body">
+                <div class="rest-name">The Asylum Restaurant</div>
+                <div class="rest-meta">Jerome Grand Hotel · Dinner · $$$</div>
+                <div class="rest-note">Upscale dining inside the historic 1926 hospital-turned-hotel. Terrace seating with jaw-dropping views of the Verde Valley. Creative American menu with an excellent wine list. Reservations strongly recommended.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$$</span>
+                    <span class="rest-tag type">Fine Dining</span>
+                    <span class="rest-tag pick">⭐ Best Dinner in Jerome</span>
+                    <span class="rest-tag tip">Reserve ahead</span>
+                    <span class="rest-tag star">★ 4.2</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=The+Asylum+Restaurant,+200+Hill+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://jeromegrandhotel.com" target="_blank">🌐 Website</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('caduceus')">
+        <div class="rest-top">
+            <div class="rest-emoji">🍇</div>
+            <div class="rest-body">
+                <div class="rest-name">Caduceus Cellars</div>
+                <div class="rest-meta">Jerome · Tasting Room · $$</div>
+                <div class="rest-note">Maynard James Keenan's original Jerome winery on Main St. Pour into Arizona-grown reds and whites with a genuine rock 'n' roll pedigree. One of the most interesting tasting rooms in the state.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">Winery</span>
+                    <span class="rest-tag pick">⭐ Tool's Winery</span>
+                    <span class="rest-tag star">★ 4.5</span>
+                </div>
+                <div class="tap-hint">Tap for wine list →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Caduceus+Cellars,+158+Main+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://caduceus.org" target="_blank">🌐 Website</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('sullivans')">
+        <div class="rest-top">
+            <div class="rest-emoji">🍺</div>
+            <div class="rest-body">
+                <div class="rest-name">Sullivan's Rest</div>
+                <div class="rest-meta">Jerome · Bar · $</div>
+                <div class="rest-note">Jerome's most atmospheric bar — formerly "Rawhide" Jimmy Douglas's saloon. Cold drinks, local characters, reportedly haunted. Perfect late-afternoon or post-dinner stop.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$</span>
+                    <span class="rest-tag type">Bar</span>
+                    <span class="rest-tag star">★ 4.3</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Sullivan's+Rest,+375+Hull+Ave,+Jerome,+AZ" target="_blank">📍 Directions</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('spirit-room')">
+        <div class="rest-top">
+            <div class="rest-emoji">🎸</div>
+            <div class="rest-body">
+                <div class="rest-name">Spirit Room Bar</div>
+                <div class="rest-meta">Jerome · Bar + Live Music · $</div>
+                <div class="rest-note">Jerome's live music hub. Bands play most Friday and Saturday nights — everything from country to blues to rock. No cover, great energy, cold beer. The place to end a Jerome night.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$</span>
+                    <span class="rest-tag type">Bar / Live Music</span>
+                    <span class="rest-tag pick">⭐ Saturday Night</span>
+                    <span class="rest-tag star">★ 4.4</span>
+                </div>
+                <div class="tap-hint">Tap for details →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Spirit+Room+Bar,+166+Main+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://thespiritroom.com" target="_blank">🌐 Website</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('bobby-ds')">
+        <div class="rest-top">
+            <div class="rest-emoji">🍖</div>
+            <div class="rest-body">
+                <div class="rest-name">Bobby D's BBQ</div>
+                <div class="rest-meta">Jerome · Lunch &amp; Dinner · $$</div>
+                <div class="rest-note">Casual BBQ in the heart of Jerome — good smoked brisket and ribs. Solid value. Great backup if the Haunted Hamburger line is too long.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">BBQ</span>
+                    <span class="rest-tag star">★ 4.0</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Bobby+D's+BBQ,+411+Clark+St,+Jerome,+AZ" target="_blank">📍 Directions</a>
+        </div>
+    </div>
+
+    <div class="section-header">Cottonwood · Old Town</div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('sedonuts')">
+        <div class="rest-top">
+            <div class="rest-emoji">🍩</div>
+            <div class="rest-body">
+                <div class="rest-name">Sedonuts <span class="badge-must" style="font-size:9px;background:#c47840;">Checkout Morning</span></div>
+                <div class="rest-meta">777 N Main St, Old Town Cottonwood · Open 7 AM – 1 PM</div>
+                <div class="rest-note">Handcrafted donuts and organic coffee right on Wine Row — the perfect first stop before tasting rooms open. Donuts sell out fast on weekends, so aim for before 10 AM.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$</span>
+                    <span class="rest-tag type">Donuts &amp; Coffee</span>
+                    <span class="rest-tag tip">Arrives early · sells out</span>
+                    <span class="rest-tag star">★ 4.5</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Sedonuts,+777+N+Main+St,+Cottonwood,+AZ+86326" target="_blank">📍 Directions</a>
+            <a class="rest-link call" href="tel:+19282025006">📞 Call</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('merkin-osteria')">
+        <div class="rest-top">
+            <div class="rest-emoji">🎸</div>
+            <div class="rest-body">
+                <div class="rest-name">Merkin Vineyards Osteria <span class="badge-must" style="font-size:9px;">Top Pick</span></div>
+                <div class="rest-meta">Old Town Cottonwood · Lunch &amp; Dinner · $$$</div>
+                <div class="rest-note">The best restaurant in the Verde Valley — Maynard's Italian-inspired menu paired with Merkin and Caduceus wines. Wood-fired dishes, rotating seasonal menu, stunning patio. The no-brainer choice for your nicest meal out.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$$</span>
+                    <span class="rest-tag type">Italian / Wine Bar</span>
+                    <span class="rest-tag pick">⭐ Best in the Valley</span>
+                    <span class="rest-tag tip">Reserve ahead</span>
+                    <span class="rest-tag star">★ 4.5</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Merkin+Vineyards+Osteria,+1+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://merkinvineyards.com" target="_blank">🌐 Website</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('crema')">
+        <div class="rest-top">
+            <div class="rest-emoji">🫕</div>
+            <div class="rest-body">
+                <div class="rest-name">Crema Craft Kitchen + Bar</div>
+                <div class="rest-meta">Old Town Cottonwood · Brunch &amp; Dinner · $$</div>
+                <div class="rest-note">Hip, popular spot in Old Town with a strong brunch game and solid cocktail list. Great for a relaxed lunch between tasting rooms — the shaded patio is a perfect escape.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">American / Brunch</span>
+                    <span class="rest-tag tip">Local favorite</span>
+                    <span class="rest-tag star">★ 4.4</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Crema+Craft+Kitchen,+917+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
+            <a class="rest-link web" href="https://cremacraftkitchen.com" target="_blank">🌐 Website</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('bocce')">
+        <div class="rest-top">
+            <div class="rest-emoji">🍕</div>
+            <div class="rest-body">
+                <div class="rest-name">Bocce Grill</div>
+                <div class="rest-meta">Old Town Cottonwood · Lunch &amp; Dinner · $$</div>
+                <div class="rest-note">Italian-leaning menu with a nice patio on Main St. Good pizzas, pastas, and a wine list that leans heavily Verde Valley local. Casual and consistent.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">Italian</span>
+                    <span class="rest-tag star">★ 4.2</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=Bocce+Grill,+963+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
+        </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurantModal('the-nic')">
+        <div class="rest-top">
+            <div class="rest-emoji">🥃</div>
+            <div class="rest-body">
+                <div class="rest-name">The Nic</div>
+                <div class="rest-meta">Old Town Cottonwood · Dinner · $$</div>
+                <div class="rest-note">Small, thoughtful menu with strong local sourcing and a wine list that favors Verde Valley producers. More intimate than Merkin — good choice for a quieter dinner in Cottonwood.</div>
+                <div class="rest-tags">
+                    <span class="rest-tag price">$$</span>
+                    <span class="rest-tag type">American</span>
+                    <span class="rest-tag star">★ 4.3</span>
+                </div>
+                <div class="tap-hint">Tap for menu →</div>
+            </div>
+        </div>
+        <div class="rest-links" onclick="event.stopPropagation()">
+            <a class="rest-link map" href="https://maps.google.com/?q=The+Nic,+925+N+Main+St,+Cottonwood,+AZ" target="_blank">📍 Directions</a>
+        </div>
+    </div>
+
+    <div class="section-header">🍷 Verde Valley Wine Row</div>
+
+    <div class="card">
+        <div class="card-label">Old Town Cottonwood · 11 mi from Jerome</div>
+        <div class="card-title">10+ Tasting Rooms, 3 Walkable Blocks</div>
+        <div class="card-body">Arizona's most concentrated wine district. All of these are on or just off N Main St in Old Town — you can walk between all of them.</div>
+        <div style="margin-top:14px;">
+            <div class="event-item">
+                <div class="event-time">🍾</div>
+                <div class="event-detail">
+                    <div class="event-name">Merkin Vineyards</div>
+                    <div class="event-note">Maynard's flagship Cottonwood room · full restaurant + serious wine · <a href="https://maps.google.com/?q=Merkin+Vineyards,+1+N+Main+St,+Cottonwood,+AZ" target="_blank" style="color:var(--copper);">📍 Map</a></div>
+                </div>
+            </div>
+            <div class="event-item">
+                <div class="event-time">🥂</div>
+                <div class="event-detail">
+                    <div class="event-name">Arizona Stronghold Vineyards</div>
+                    <div class="event-note">Great Rhône-style reds and bold whites · <a href="https://maps.google.com/?q=Arizona+Stronghold+Vineyards,+1023+N+Main+St,+Cottonwood,+AZ" target="_blank" style="color:var(--copper);">📍 Map</a></div>
+                </div>
+            </div>
+            <div class="event-item">
+                <div class="event-time">🍷</div>
+                <div class="event-detail">
+                    <div class="event-name">Pillsbury Wine Company</div>
+                    <div class="event-note">Small, intimate · some of AZ's best single-vineyard wines · <a href="https://maps.google.com/?q=Pillsbury+Wine+Company,+1012+N+Main+St,+Cottonwood,+AZ" target="_blank" style="color:var(--copper);">📍 Map</a></div>
+                </div>
+            </div>
+            <div class="event-item">
+                <div class="event-time">🌿</div>
+                <div class="event-detail">
+                    <div class="event-name">Chateau Tumbleweed</div>
+                    <div class="event-note">Casual and fun · local favorite · good pours in a relaxed vibe · <a href="https://maps.google.com/?q=Chateau+Tumbleweed,+916+N+Main+St,+Cottonwood,+AZ" target="_blank" style="color:var(--copper);">📍 Map</a></div>
+                </div>
+            </div>
+            <div class="event-item">
+                <div class="event-time">🏚️</div>
+                <div class="event-detail">
+                    <div class="event-name">Jerome Winery</div>
+                    <div class="event-note">Originally from Jerome, now in Cottonwood · approachable wines · <a href="https://maps.google.com/?q=Jerome+Winery,+403+N+Willard+St,+Cottonwood,+AZ" target="_blank" style="color:var(--copper);">📍 Map</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ═══════════════════════════ MEMORIES ════════════════════════════ -->
+<section class="section" id="section-memories">
+
+    <div class="hero-banner">
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#3d1f0a 0%,#7a3d12 50%,#c47840 100%);"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Jerome Weekend Getaway</div>
+            <div class="hero-title">Memories</div>
+            <div class="hero-sub">Places visited · wines tasted · shots captured</div>
+        </div>
+    </div>
+
+    <div id="mem-stats" class="mem-stat-grid"></div>
+
+    <div class="section-header">Visit Log</div>
+
+    <div class="card" style="margin-bottom:10px;">
+        <div class="mem-loc-header">🍽️ Jerome · Food &amp; Drinks</div>
+        <div id="visit-log-jerome-eats"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:10px;">
+        <div class="mem-loc-header">📍 Jerome · Landmarks &amp; Experiences</div>
+        <div id="visit-log-jerome-places"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:10px;">
+        <div class="mem-loc-header">🍷 Cottonwood · Food &amp; Drinks</div>
+        <div id="visit-log-cottonwood-eats"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+        <div class="mem-loc-header">🌿 Verde Valley · Attractions</div>
+        <div id="visit-log-verde-places"></div>
+    </div>
+
+    <div class="section-header">Wine Tasting Log</div>
+
+    <div class="card" style="margin-bottom:14px;">
+        <div id="mem-wine-log"></div>
+    </div>
+
+    <div class="section-header">Photo Shot List</div>
+
+    <div class="card" style="margin-bottom:14px;">
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:10px;">Tap each one you captured</div>
+        <div id="mem-shot-list"></div>
+    </div>
+
+    <div class="section-header">Export</div>
+
+    <div class="card" style="margin-bottom:20px;">
+        <div style="font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:4px;">Keepsake PDF</div>
+        <div style="font-size:12.5px;color:var(--text-mid);line-height:1.55;margin-bottom:14px;">Generate a beautiful timeline of your visit with all your photos, ratings, and notes — ready to save as a PDF.</div>
+        <button class="export-btn" id="pdf-btn" onclick="generateKeepsakePDF()" style="margin-bottom:10px;">📄 Generate Keepsake PDF</button>
+        <div style="font-size:11px;color:var(--text-light);text-align:center;margin-bottom:14px;">Opens a print page → tap Menu → Print → Save as PDF</div>
+
+        <div style="font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:4px;">Copy to Clipboard</div>
+        <div style="font-size:12.5px;color:var(--text-mid);line-height:1.55;margin-bottom:14px;">Copy a text summary to paste into Notes or Messages.</div>
+        <button class="export-btn" id="export-btn" onclick="exportMemories()">📋 Copy to Clipboard</button>
+        <textarea class="export-preview" id="export-preview" readonly></textarea>
+    </div>
+
+</section>
+
+</main>
+
+<!-- ── BOTTOM NAV ── -->
+<nav class="bottom-nav">
+    <button class="nav-item active" onclick="showSection('home', this)">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" onclick="showSection('jerome', this)">
+        <span class="nav-icon">🏘️</span>
+        <span class="nav-label">Jerome</span>
+    </button>
+    <button class="nav-item" onclick="showSection('cottonwood', this)">
+        <span class="nav-icon">🍷</span>
+        <span class="nav-label">Cottonwood</span>
+    </button>
+    <button class="nav-item" onclick="showSection('eats', this)">
+        <span class="nav-icon">🍽️</span>
+        <span class="nav-label">Eats</span>
+    </button>
+    <button class="nav-item" onclick="showSection('memories', this)">
+        <span class="nav-icon">📓</span>
+        <span class="nav-label">Memories</span>
+    </button>
+</nav>
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+        <div class="modal-handle"></div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <div id="modal-content"></div>
+    </div>
+</div>
+
+<script>
+    function showSection(name, btnEl) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+        document.getElementById('section-' + name).classList.add('active');
+        if (btnEl) btnEl.classList.add('active');
+        window.scrollTo(0, 0);
+        if (name === 'memories') { renderVisitLog(); renderMemWineLog(); renderMemShotList(); renderMemStats(); }
+    }
+
+    const MODALS = {
+        'festival': {
+            emoji: '🎸',
+            title: 'Jerome Music &amp; Arts Festival',
+            sub: 'June 27–28, 2026 · Free Admission · Jerome, AZ',
+            rating: { score: 'Free', source: 'Annual event', count: 'All ages' },
+            tags: [{ t: 'Free', c: 'green' }, { t: 'Both Days', c: '' }, { t: '20+ Performers', c: 'sand' }],
+            info: [
+                ['When', 'Sat June 27 + Sun June 28'],
+                ['Cost', 'Free · no tickets required'],
+                ['240 Hull Ave Stage', 'Right outside The Flat — your front-row seat'],
+                ['Spirit Room', 'Live music from 2 PM Sat · 1 PM Sun'],
+                ['Spook Hall', 'Indoor stage — afternoon + evening sets'],
+                ['Upper Park', 'Acoustic sets + kids area · all day both days'],
+                ['New State Building', 'Art market + pop-up vendors · 10 AM–5 PM'],
+                ['Food', 'Food trucks clustered near Hull Ave + Jerome market'],
+            ],
+            facts: [
+                'The Jerome Music &amp; Arts Festival is an annual weekend celebration of the town\'s thriving arts and music culture, drawing local and regional performers across multiple outdoor and indoor stages.',
+                'Spirit Room (166 Main St) is Jerome\'s legendary live-music bar — a converted 1898 saloon with no cover charge, cold drinks, and packed crowds for the festival weekend.',
+                'Spook Hall at the old Connor Hotel hosts the more intimate indoor sets. The 1898 building has its own history of paranormal activity, which adds to the atmosphere after dark.',
+                '240 Hull Ave stage is directly below The Flat — you can literally lean out the window and hear the music. Saturday afternoon sets are typically the most energetic.',
+                'The pop-up market in the New State Building features Jerome artists, Verde Valley wineries pouring samples, food vendors, and local craftspeople — a good mix of free entertainment.',
+                'Jerome\'s population swells from ~450 to several thousand for festival weekend. Parking gets very tight by noon both days — you\'re staying centrally, so park early and walk.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome,+AZ+86331',
+                web: 'https://www.jeromechamber.com'
+            }
+        },
+        'jerome-state-park': {
+            emoji: '🏛️',
+            title: 'Jerome State Historic Park',
+            sub: '100 Douglas Rd, Jerome, AZ 86331',
+            rating: { score: '4.5', source: 'Google', count: '1.8k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Jerome+State+Historic+Park+Jerome+AZ',
+            tags: [{ t: '$10 / person', c: '' }, { t: 'Daily 9am–4:30pm', c: 'sand' }, { t: 'All Ages', c: 'green' }],
+            info: [
+                ['Admission', '$10 adults · $5 youth (7–13) · Free under 7'],
+                ['Hours', 'Daily · 9:00 AM – 4:30 PM'],
+                ['Closed', 'Major holidays only'],
+                ['Time needed', '45 – 90 minutes'],
+                ['From the Flat', '0.4 mi · 8 min walk down Hull Ave'],
+            ],
+            facts: [
+                'The Douglas Mansion was built in 1916 by James "Rawhide" Douglas Jr. — at the time, one of the most modern homes in Arizona, constructed from reinforced concrete and adobe.',
+                'The mansion sits directly above the Little Daisy Mine, one of the richest copper ore pockets ever found in Arizona. At its peak the mine produced thousands of tons of copper annually.',
+                'Museum exhibits walk through Jerome\'s boom years (1876–1953), the geology of Verde Valley copper deposits, and daily life for miners and their families.',
+                'The wrap-around veranda offers sweeping views of the Verde Valley and the Mingus Mountain ridgeline — some of the best vistas in all of Jerome.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome+State+Historic+Park,+100+Douglas+Rd,+Jerome,+AZ+86331',
+                web: 'https://azstateparks.com/jerome'
+            }
+        },
+        'gold-king': {
+            emoji: '⛏️',
+            title: 'Gold King Mine &amp; Ghost Town',
+            sub: 'Perkinsville Rd, Jerome · 1 mile past downtown',
+            rating: { score: '4.6', source: 'Google', count: '3.1k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Gold+King+Mine+Ghost+Town+Jerome+AZ',
+            tags: [{ t: '$12 adults · $7 kids', c: '' }, { t: 'Daily 10am–5pm', c: 'sand' }, { t: 'Family Friendly', c: 'green' }],
+            info: [
+                ['Admission', '$12 adults (13–79) · $7 ages 6–12 · Free under 6'],
+                ['Hours', 'Daily · 10:00 AM – 5:00 PM'],
+                ['Location', '1 mile past downtown on Perkinsville Rd'],
+                ['Time needed', '1 – 2 hours'],
+                ['Animals', 'Burros, peacocks, chickens roam freely'],
+            ],
+            facts: [
+                'The Gold King Mine is an 1890s gold and silver mine turned extraordinary outdoor museum. Owner Don Robertson spent decades collecting and rescuing mining artifacts from across the Southwest.',
+                'The prop collection is legendary: antique cars from the 1920s–1940s, working steam engines, ore processing equipment, a 1920s-era gas station, and authentic ghost town buildings.',
+                'The free-roaming burros are friendly and often walk right up to visitors. The peacocks are bold — don\'t be surprised if one hops on your car.',
+                'Unlike a polished tourist attraction, Gold King is deliberately rough and unmanicured — that authenticity is exactly what makes it special. It genuinely feels like you stumbled into a time capsule.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Gold+King+Mine+Ghost+Town,+Perkinsville+Rd,+Jerome,+AZ',
+                web: 'https://goldkingmineghosttown.com'
+            }
+        },
+        'audrey-headframe': {
+            emoji: '🌅',
+            title: 'Audrey Headframe Park',
+            sub: 'Hull Ave, Jerome — best at sunset',
+            rating: { score: '4.8', source: 'Google', count: '1.2k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Audrey+Headframe+Park+Jerome+AZ',
+            tags: [{ t: 'Free', c: 'green' }, { t: 'Always Open', c: 'sand' }, { t: 'Best Sunset Spot', c: '' }],
+            info: [
+                ['Cost', 'Free'],
+                ['Best time', 'Sunset · 7:30–8:15 PM in late June'],
+                ['Mine shaft depth', '1,900 feet straight down'],
+                ['Glass floor', 'Yes — you can look directly down the shaft'],
+                ['From the Flat', '3-minute walk down Hull Ave'],
+            ],
+            facts: [
+                'The Audrey Shaft was the primary production shaft for the United Verde Extension Mine — one of Arizona\'s most productive copper operations.',
+                'Standing on the glass floor panel and looking 1,900 feet straight down into the earth is genuinely vertiginous and completely unforgettable. One of Arizona\'s wildest free experiences.',
+                'The panoramic views from the park take in the entire Verde Valley, the Mingus Mountain cliffs behind Jerome, and the red rock formations in the distance.',
+                'In late June, sunset hits around 7:45–8:00 PM. Arrive 30 minutes early — the light on the Verde Valley below turns extraordinary gold.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Audrey+Headframe+Park,+Hull+Ave,+Jerome,+AZ+86331'
+            }
+        },
+        'caduceus': {
+            emoji: '🍇',
+            title: 'Caduceus Cellars',
+            sub: '158 Main St, Jerome, AZ 86331',
+            rating: { score: '4.6', source: 'Google', count: '890' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Caduceus+Cellars+Jerome+AZ',
+            tags: [{ t: 'Tasting Room', c: '' }, { t: 'Daily 11am–6pm', c: 'sand' }, { t: 'Main St', c: 'green' }],
+            info: [
+                ['Address', '158 Main St, Jerome, AZ'],
+                ['Hours', 'Daily · 11:00 AM – 6:00 PM'],
+                ['From the Flat', '2-minute walk up Main St'],
+                ['Tasting', 'Flight tasting of current releases'],
+                ['Wine style', 'Arizona-grown Rhône &amp; Italian varietals'],
+            ],
+            facts: [
+                'Caduceus Cellars is Maynard James Keenan\'s original winery project — started long before Merkin in Cottonwood. The Jerome tasting room opened in a historic Main St building and remains the heart of his Arizona wine story.',
+                'Maynard has been evangelizing Arizona wine since the early 2000s when the industry was practically nonexistent. Caduceus helped prove the state\'s high-elevation vineyards could produce serious wine.',
+                'The wines lean toward Rhône-style blends and Italian varietals, grown at high elevation in Willcox and the Jerome area. The tasting room pours the current Caduceus releases alongside some Merkin wines.',
+                'You\'ll likely chat with knowledgeable staff who take the wines seriously — this isn\'t a tourist trap pour. It\'s one of the most interesting 45 minutes you can spend in Jerome.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Caduceus+Cellars,+158+Main+St,+Jerome,+AZ+86331',
+                web: 'https://caduceus.org'
+            }
+        },
+        'spirit-room': {
+            emoji: '🎸',
+            title: 'Spirit Room Bar',
+            sub: '166 Main St, Jerome, AZ 86331',
+            rating: { score: '4.4', source: 'Google', count: '720' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Spirit+Room+Bar+Jerome+AZ',
+            tags: [{ t: 'No Cover', c: 'green' }, { t: 'Live Music Fri &amp; Sat', c: '' }, { t: 'Cash Friendly', c: 'sand' }],
+            info: [
+                ['Address', '166 Main St, Jerome (next door to Caduceus)'],
+                ['Hours', 'Daily · 11:00 AM – Close'],
+                ['Live music', 'Most Friday and Saturday evenings'],
+                ['Vibe', 'Cold beer, local crowd, no pretension'],
+                ['From the Flat', '2-minute walk up Main St'],
+            ],
+            facts: [
+                'The Spirit Room is Jerome\'s de facto community living room — the bar where locals and visitors end up regardless of where the night started.',
+                'Live music on weekends ranges from acoustic country to full-band blues and rock. Acts typically start around 8–9 PM. No cover charge.',
+                'The bar sits in a historic Main St building with original wooden floors and an old-school bar back. It\'s unpretentious and genuinely fun.',
+                'After the Haunted Hamburger and a sunset at Audrey Headframe, the Spirit Room is the natural end to a Jerome Saturday night.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Spirit+Room+Bar,+166+Main+St,+Jerome,+AZ+86331',
+                web: 'https://thespiritroom.com'
+            }
+        },
+        'jerome-grand': {
+            emoji: '🏨',
+            title: 'Jerome Grand Hotel',
+            sub: '200 Hill St, Jerome, AZ 86331',
+            rating: { score: '4.4', source: 'TripAdvisor', count: '1.4k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Jerome+Grand+Hotel+Jerome+AZ',
+            tags: [{ t: 'Built 1926', c: '' }, { t: 'Reportedly Haunted', c: '' }, { t: 'Bar &amp; Restaurant', c: 'sand' }],
+            info: [
+                ['Built', '1926 (as United Verde Hospital)'],
+                ['Became hotel', '1994'],
+                ['Bar', 'Wingwalker Lounge · open daily'],
+                ['Restaurant', 'The Asylum · open to non-guests'],
+                ['From the Flat', '5-minute drive or 15-min uphill walk'],
+            ],
+            facts: [
+                'The Jerome Grand Hotel was built in 1926 as the United Verde Hospital — at the time, the most modern hospital in Arizona. It operated until the mines closed in 1950 and sat vacant for 44 years.',
+                'The hotel is considered one of the most haunted buildings in Arizona. A maintenance worker named Claude who died in the elevator is the most frequently reported presence. The elevator reportedly operates on its own.',
+                'At 5,200 feet, it\'s the highest point in Jerome with unobstructed 360-degree views. Walk up even if you\'re not dining — the Wingwalker Lounge has a drink-and-a-view that\'s hard to beat.',
+                'The Asylum Restaurant (dark humor — the hospital did have a psychiatric ward) serves creative American food with European influences. Worth a reservation for dinner.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome+Grand+Hotel,+200+Hill+St,+Jerome,+AZ+86331',
+                web: 'https://jeromegrandhotel.com'
+            }
+        },
+        'galleries': {
+            emoji: '🎨',
+            title: 'Art Galleries &amp; Studios',
+            sub: 'Hull Ave &amp; Main St, Jerome',
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Jerome+Artists+Cooperative+Gallery+Jerome+AZ',
+            tags: [{ t: 'Mostly Free', c: 'green' }, { t: '20+ Galleries', c: '' }, { t: 'Most open 10am–5pm', c: 'sand' }],
+            info: [
+                ['Number', '20+ active galleries and studios'],
+                ['Best streets', 'Hull Ave and Main St'],
+                ['Standouts', 'Raku Gallery · Jerome Artists Co-op · Nellie Bly'],
+                ['Art Walk', '1st Saturday of each month · free wine'],
+                ['From the Flat', 'Right outside your door'],
+            ],
+            facts: [
+                'Jerome\'s artist colony began in the late 1960s when artists and hippies moved into abandoned homes for nearly nothing. They gave the dying town a second life that\'s still thriving today.',
+                'The galleries run the full range: hand-thrown ceramics, silverwork and turquoise jewelry, large-format photography, fiber arts, and sculptural metalwork.',
+                'Raku Gallery and Nellie Bly Kaleidoscopes are particularly worth browsing. The Jerome Artists Cooperative Gallery is artist-run and carries some of the highest-quality work in town.',
+                'The First Saturday Art Walk brings live music, complimentary wine at participating galleries, and extended hours. The best way to experience Jerome if your visit falls on a first Saturday.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome+Artists+Cooperative+Gallery,+502+Main+St,+Jerome,+AZ'
+            }
+        },
+        'sliding-jail': {
+            emoji: '🏚️',
+            title: 'The Sliding Jail',
+            sub: 'Hull Ave, Jerome — exterior only',
+            rating: { score: '4.3', source: 'Google', count: '540' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Jerome+Sliding+Jail+Jerome+AZ',
+            tags: [{ t: 'Free to See', c: 'green' }, { t: 'Exterior Only', c: 'sand' }, { t: 'Quirky AZ History', c: '' }],
+            info: [
+                ['Distance slid', '225+ feet from original site'],
+                ['Built', '1928'],
+                ['Why it moved', 'Mine blasts destabilized clay soil beneath it'],
+                ['Location', 'Hull Ave near the lower end of downtown'],
+                ['From the Flat', '3-minute walk down Hull Ave'],
+            ],
+            facts: [
+                'Jerome\'s jail was built in 1928 from reinforced concrete specifically to be inescapable. It held mining-era troublemakers and was considered the most secure facility in the region.',
+                'The massive Phelps Dodge open-pit mine operation used enormous dynamite charges to blast away hillsides — those blasts slowly destabilized the clay soil throughout Jerome.',
+                'The jail began sliding downhill and has moved over 225 feet from its original location while remaining structurally intact — a testament to the building\'s strength and the soil\'s instability.',
+                'The concrete structure just sits on Hull Ave with no drama — walk right up to it. One of the genuinely strange things you\'ll see anywhere in Arizona.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome+Sliding+Jail,+Hull+Ave,+Jerome,+AZ'
+            }
+        },
+        'la-victoria': {
+            emoji: '🔥',
+            title: 'La Victoria Glass Blowing Studio',
+            sub: '250 Hull Ave, Jerome, AZ · Behind the Raku Gallery',
+            rating: { score: '4.8', source: 'TripAdvisor', count: '150+' },
+            tripadvisor: 'https://www.tripadvisor.com/Attraction_Review-g31253-d10806869-Reviews-La_Victoria_Studio_Tracy_Weisel_artist-Jerome_Arizona.html',
+            tags: [{ t: 'Free (donation)', c: 'green' }, { t: 'Most afternoons', c: 'sand' }, { t: '~45 min', c: '' }],
+            info: [
+                ['Cost', 'Free — small donation to animal welfare suggested'],
+                ['Duration', '~45 minutes'],
+                ['Address', '250 Hull Ave · behind Raku Gallery'],
+                ['Phone', '(928) 649-2631'],
+                ['Tip', 'Look for the small sign on the lone standing wall of a ruined building facade'],
+            ],
+            facts: [
+                'Artist Tracy Weisel discovered Jerome in 1975 and never left. He started as an industrial arts teacher, took up ceramics after a hand injury, then studied glass blowing in 1990 and built this studio.',
+                'The studio is deliberately hidden — tucked behind a ruined building facade on Hull Ave, accessible only through a gap in the wall. The mystique is intentional.',
+                'Weisel narrates the entire demo with stories and jokes about Jerome history, glassblowing science, and life in a 450-person mountain ghost town. Part history lesson, part performance.',
+                'All finished pieces are for sale — prices are very reasonable. A good alternative to gallery souvenir shopping if you want something genuinely handmade on the premises.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=250+Hull+Ave,+Jerome,+AZ+86331'
+            }
+        },
+        'ghost-tour': {
+            emoji: '👻',
+            title: 'Ghost Town Evening Walk',
+            sub: 'Jerome — best experienced after 8 PM',
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Jerome+ghost+tour+Jerome+AZ',
+            tags: [{ t: 'Self-guided Free', c: 'green' }, { t: 'Guided Tours ~$25', c: 'sand' }, { t: 'Fri &amp; Sat evenings', c: '' }],
+            info: [
+                ['Self-guided', 'Free — walk Jerome\'s streets at dusk'],
+                ['Guided tours', 'Available Fri &amp; Sat evenings · ~$25 pp'],
+                ['Most haunted spots', 'Jerome Grand Hotel · Sullivan\'s Rest · Cuban Queen Bordello'],
+                ['Best time', 'After 8 PM when day-trippers have left'],
+            ],
+            facts: [
+                'Jerome earned its haunted reputation from the enormous number of violent deaths during the mining era — cave-ins, dynamite accidents, disease outbreaks, and brawls claimed thousands of lives in a small mountain town.',
+                'The Jerome Grand Hotel\'s ghost (maintenance worker Claude) is the most frequently reported. The elevator descends on its own to specific floors, and motion-triggered cameras have caught unexplained movement.',
+                'Sullivan\'s Rest bar and the Cuban Queen Bordello (1900–1916) on Hull Ave are other well-documented paranormal locations. The Cuban Queen is now a gallery with a preserved original interior.',
+                'Even without a formal tour, walking Jerome\'s steep empty streets after 8 PM — once the day-trippers have gone and the town quiets — gives you a genuinely atmospheric, slightly eerie experience.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Jerome,+AZ+86331'
+            }
+        },
+        'tuzigoot': {
+            emoji: '🏺',
+            title: 'Tuzigoot National Monument',
+            sub: '25 E Tuzigoot Rd, Clarkdale, AZ 86324',
+            rating: { score: '4.6', source: 'Google', count: '2.4k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Tuzigoot+National+Monument+Clarkdale+AZ',
+            tags: [{ t: '$10 / person', c: '' }, { t: 'Daily 9am–5pm', c: 'sand' }, { t: '13 mi from Jerome', c: 'green' }],
+            info: [
+                ['Admission', '$10 per person · Free with NPS Annual Pass'],
+                ['Hours', 'Daily · 9:00 AM – 5:00 PM'],
+                ['Location', '25 E Tuzigoot Rd, Clarkdale (13 mi from Jerome)'],
+                ['Time needed', '45 min – 1.5 hours'],
+                ['Directions', 'US-89A north from Jerome toward Clarkdale · follow signs'],
+            ],
+            facts: [
+                'Tuzigoot is a Sinagua hilltop pueblo built between 1125 and 1400 AD. At its height the pueblo had over 110 rooms and was home to around 225 people who farmed the Verde Valley below.',
+                'The site sits on a natural limestone ridge 120 feet above the Verde River floodplain, with commanding 360° views of the Verde Valley, Black Hills, and Mingus Mountain — essentially a view of everything you\'ve been exploring.',
+                'The on-site museum houses an excellent collection of Sinagua artifacts excavated from the site — pottery, jewelry, tools, and skeletal remains — with clear interpretation of what daily life looked like 800 years ago.',
+                'Unlike the more visited Montezuma Castle, Tuzigoot is relatively uncrowded and you can walk through the actual excavated rooms. One of the most underrated ruins sites in Arizona.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Tuzigoot+National+Monument,+25+E+Tuzigoot+Rd,+Clarkdale,+AZ+86324',
+                web: 'https://www.nps.gov/tuzi'
+            }
+        },
+        'verde-canyon-rr': {
+            emoji: '🚂',
+            title: 'Verde Canyon Railroad',
+            sub: '300 N Broadway, Clarkdale, AZ 86324',
+            rating: { score: '4.8', source: 'TripAdvisor', count: '3.7k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Verde+Canyon+Railroad+Clarkdale+AZ',
+            tags: [{ t: '~$65+ · check website', c: '' }, { t: 'Book Ahead', c: 'warn' }, { t: '4-hr Round Trip', c: 'sand' }],
+            info: [
+                ['Admission', '~$65 Coach · First Class higher (includes wine) · verify at verdecanyonrr.com'],
+                ['Duration', '4 hours round trip'],
+                ['Departure', 'Clarkdale Depot · 14 mi from Jerome'],
+                ['Typical departures', 'Check website — usually late morning'],
+                ['Bald eagles', 'Frequently spotted in the canyon (winter best, still possible in June)'],
+            ],
+            facts: [
+                'The Verde Canyon Railroad runs 20 miles into a remote desert canyon that has no road access — the only way to see this landscape is by train. You pass through a 680-foot tunnel blasted through solid rock in 1911.',
+                'The canyon walls rise up to 1,000 feet on both sides, with ancient Sinagua cliff dwellings visible in the rock faces and a riparian ecosystem entirely different from the dry desert above.',
+                'Bald eagles nest in the canyon — sightings are most common in winter, but the canyon\'s secluded nature makes wildlife encounters year-round. Great blue herons, osprey, and deer are reliable.',
+                'First Class coaches include open-air gondola cars for unobstructed views and wine service with Arizona wines (including Merkin/Caduceus). Worth the upgrade — the open gondola is the best way to experience the canyon.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Verde+Canyon+Railroad,+300+N+Broadway,+Clarkdale,+AZ+86324',
+                web: 'https://verdecanyonrr.com'
+            }
+        },
+        'old-town-cottonwood': {
+            emoji: '🍷',
+            title: 'Old Town Cottonwood',
+            sub: 'N Main St, Cottonwood, AZ — 11 mi from Jerome',
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Old+Town+Cottonwood+Arizona+wine',
+            tags: [{ t: '10+ Tasting Rooms', c: '' }, { t: 'Walkable', c: 'green' }, { t: 'Great Food', c: 'sand' }],
+            info: [
+                ['Wine row', '10+ tasting rooms in 3 walkable blocks'],
+                ['Best tasting rooms', 'Merkin · Arizona Stronghold · Pillsbury · Page Springs'],
+                ['Best food', 'Merkin Osteria · Crema · Bocce Grill'],
+                ['Drive from Jerome', '20 minutes via US-89A'],
+                ['Parking', 'Free lots off Main St'],
+            ],
+            facts: [
+                'Old Town Cottonwood\'s wine scene emerged in the early 2000s when Arizona winemakers recognized the Verde Valley\'s potential — high elevation (around 3,300 ft), volcanic soil, and big temperature swings between day and night.',
+                'The concentration of tasting rooms along N Main St is unusual — you can walk from Merkin to Arizona Stronghold to Pillsbury to Chateau Tumbleweed in under 10 minutes without driving anywhere.',
+                'Beyond wine, Old Town has a genuinely good restaurant scene anchored by Merkin Osteria. Crema Craft Kitchen is a popular brunch and lunch spot, and Bocce Grill offers a solid Italian-leaning menu.',
+                'The vibe is much more relaxed and flat than Jerome — good contrast if you\'ve been navigating steep streets all day. The Main St is walkable, shaded in spots, and manageable even in late June heat.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Old+Town+Cottonwood,+N+Main+St,+Cottonwood,+AZ+86326'
+            }
+        },
+        'page-springs': {
+            emoji: '🍾',
+            title: 'Page Springs Cellars',
+            sub: '1500 N Page Springs Rd, Cornville, AZ 86325',
+            rating: { score: '4.7', source: 'Google', count: '1.1k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Page+Springs+Cellars+Cornville+AZ',
+            tags: [{ t: "AZ's Best Winery", c: '' }, { t: 'Reservations Suggested', c: 'warn' }, { t: '20 mi from Jerome', c: 'sand' }],
+            info: [
+                ['Address', '1500 N Page Springs Rd, Cornville, AZ'],
+                ['Hours', 'Daily · 11:00 AM – 6:00 PM'],
+                ['Tasting', 'Flight tasting · reservations recommended weekends'],
+                ['Wine style', 'Rhône-style, Italian varietals, estate-grown'],
+                ['Drive', '20 min from Jerome · scenic Oak Creek canyon approach'],
+            ],
+            facts: [
+                'Page Springs Cellars is widely considered Arizona\'s finest winery — the producer that convinced the rest of the country to take AZ wine seriously. Owner Eric Glomski has been farming the Page Springs vineyard since 2004.',
+                'The winery sits in a creek canyon below Cornville, cooler and greener than the surrounding desert. The tasting room overlooks the estate vineyard and is one of the most beautiful wine settings in the Southwest.',
+                'The wine style leans Rhône — Grenache, Syrah, Mourvèdre, Viognier, and blends of all the above grown at elevation with volcanic soil. Some of the most complex wines being made anywhere in Arizona.',
+                'Book a reservation for weekend tastings — they fill up. If you\'re a wine lover, this 20-minute detour from Cottonwood is absolutely worth it. Pair it with a stop at Merkin in Old Town on the same day.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Page+Springs+Cellars,+1500+N+Page+Springs+Rd,+Cornville,+AZ+86325',
+                web: 'https://pagespringscellarsinc.com'
+            }
+        },
+        'merkin-winery': {
+            emoji: '🎸',
+            title: 'Merkin Vineyards Osteria',
+            sub: '1 N Main St, Cottonwood, AZ 86326',
+            rating: { score: '4.5', source: 'Google', count: '1.5k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Merkin+Vineyards+Osteria+Cottonwood+AZ',
+            tags: [{ t: 'Restaurant + Winery', c: '' }, { t: 'Lunch &amp; Dinner', c: 'sand' }, { t: 'Reserve Ahead', c: 'warn' }],
+            info: [
+                ['Address', '1 N Main St, Old Town Cottonwood'],
+                ['Hours', 'Lunch and Dinner daily (check website)'],
+                ['Cuisine', 'Italian-inspired · wood-fired · seasonal'],
+                ['Wine', 'Full Merkin and Caduceus list + guests'],
+                ['Drive from Jerome', '20 minutes via US-89A'],
+            ],
+            facts: [
+                'Merkin Vineyards Osteria is the full expression of Maynard James Keenan\'s wine project — the tasting room, restaurant, and event space all in one. It\'s the flagship venue for both Merkin and Caduceus wines.',
+                'The food is legitimately excellent: wood-fired dishes, fresh pasta, and a rotating seasonal menu that leans heavily Italian. It\'s not celebrity-branded mediocrity — the kitchen takes the food as seriously as the wine.',
+                'The patio is beautiful in good weather. This is the best place in the Verde Valley to sit down for a proper meal with great wine and not feel rushed.',
+                'Reservations are strongly recommended for dinner and helpful for lunch on weekends. Walk-ins often get seated at the bar, which is fine for a couple.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Merkin+Vineyards+Osteria,+1+N+Main+St,+Cottonwood,+AZ+86326',
+                web: 'https://merkinvineyards.com'
+            }
+        },
+        'montezuma-castle': {
+            emoji: '🏯',
+            title: 'Montezuma Castle National Monument',
+            sub: 'Montezuma Castle Rd, Camp Verde, AZ 86322',
+            rating: { score: '4.7', source: 'Google', count: '8.5k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Montezuma+Castle+National+Monument+Camp+Verde+AZ',
+            tags: [{ t: '$10 / person', c: '' }, { t: 'Daily 8am–5pm', c: 'sand' }, { t: '25 mi from Jerome', c: '' }],
+            info: [
+                ['Admission', '$10 per person · Free with NPS Annual Pass'],
+                ['Hours', 'Daily · 8:00 AM – 5:00 PM'],
+                ['Location', 'Exit 289 off I-17 · 25 mi from Jerome'],
+                ['Time needed', '30 – 45 minutes'],
+                ['Tip', 'Good stopover on the way home rather than a separate day trip'],
+            ],
+            facts: [
+                'Montezuma Castle is a five-story, 20-room cliff dwelling built by the Sinagua people between 1100 and 1425 AD. It\'s one of the best-preserved pre-Columbian structures in North America.',
+                'The dwelling is built 90 feet up a limestone cliff above Beaver Creek — an engineering feat achieved without metal tools, mortar, or modern scaffolding. The site is accessed via a short, flat paved trail.',
+                'Despite the name, the Aztec emperor Montezuma had nothing to do with it — Spanish settlers mistakenly associated the impressive ruins with Aztec legend. The actual builders were the Sinagua, related to the people at Tuzigoot.',
+                'You can\'t enter the structure (it\'s protected), but the paved trail takes you directly beneath it for close-up views. Best combined with nearby Montezuma Well (7 miles away) — a sinkholespring sacred to local tribes.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Montezuma+Castle+National+Monument,+Camp+Verde,+AZ+86322',
+                web: 'https://www.nps.gov/moca'
+            }
+        },
+        'dead-horse-ranch': {
+            emoji: '🦅',
+            title: 'Dead Horse Ranch State Park',
+            sub: '675 Dead Horse Ranch Rd, Cottonwood, AZ 86326',
+            rating: { score: '4.6', source: 'Google', count: '2.0k' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Dead+Horse+Ranch+State+Park+Cottonwood+AZ',
+            tags: [{ t: '$10–$20 / vehicle', c: '' }, { t: 'Daily 8am–10pm', c: 'sand' }, { t: '12 mi from Jerome', c: 'green' }],
+            info: [
+                ['Fee', '$7 per vehicle'],
+                ['Hours', 'Daily · 8:00 AM – 10:00 PM'],
+                ['Address', '675 Dead Horse Ranch Rd, Cottonwood'],
+                ['Highlights', 'Verde River access · fishing lagoon · birding trails'],
+                ['Time needed', '1 – 2 hours'],
+            ],
+            facts: [
+                'Dead Horse Ranch got its name from a rancher\'s family who toured it in the 1950s — the kids spotted a dead horse on the property and insisted their father buy exactly that ranch so they could see it again.',
+                'The park sits along the Verde River with a stocked lagoon (bass, catfish, bluegill) and several miles of easy riverside trails. It\'s one of Arizona\'s premier birding locations — over 100 species recorded here.',
+                'The Verde River riparian corridor is rare in Arizona — cottonwood and willow forests line the banks, providing habitat for species you won\'t find anywhere else in the region.',
+                'This is the Verde Valley\'s nature escape — cooler than Jerome in summer thanks to the river, and peaceful in a way that the busy wine row isn\'t. Good option for an hour of walking before or after wine tasting.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Dead+Horse+Ranch+State+Park,+675+Dead+Horse+Ranch+Rd,+Cottonwood,+AZ',
+                web: 'https://azstateparks.com/dead-horse-ranch'
+            }
+        },
+    };
+
+    function ratingStars(score) {
+        const n = parseFloat(score);
+        const full = Math.floor(n);
+        const half = (n - full) >= 0.4 ? 1 : 0;
+        const empty = 5 - full - half;
+        return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+    }
+
+    function openModal(key) {
+        const d = MODALS[key];
+        if (!d) return;
+        const tagsHtml = d.tags.map(t => `<span class="modal-tag ${t.c}">${t.t}</span>`).join('');
+        const infoHtml = d.info.map(r => `<div class="modal-info-row"><span class="modal-info-label">${r[0]}</span><span class="modal-info-value">${r[1]}</span></div>`).join('');
+        const factsHtml = d.facts.map(f => `<div class="modal-fact">${f}</div>`).join('');
+        const ratingHtml = d.rating ? `
+            <div class="modal-rating">
+                <span class="rating-score">${d.rating.score}</span>
+                <span class="rating-stars">${ratingStars(d.rating.score)}</span>
+                <span class="rating-meta">${d.rating.source} · ~${d.rating.count} reviews</span>
+            </div>` : '';
+        const hasLinks = d.links || d.tripadvisor;
+        const linksHtml = hasLinks ? `
+            <div class="modal-section">
+                <div class="modal-links">
+                    ${d.links && d.links.map ? `<a class="modal-link-btn map" href="${d.links.map}" target="_blank">📍 Directions</a>` : ''}
+                    ${d.links && d.links.web ? `<a class="modal-link-btn web" href="${d.links.web}" target="_blank">🌐 Website</a>` : ''}
+                    ${d.tripadvisor ? `<a class="modal-link-btn ta" href="${d.tripadvisor}" target="_blank">★ Reviews</a>` : ''}
+                </div>
+            </div>` : '';
+        document.getElementById('modal-content').innerHTML = `
+            <span class="modal-emoji">${d.emoji}</span>
+            <div class="modal-title">${d.title}</div>
+            <div class="modal-sub">${d.sub}</div>
+            ${ratingHtml}
+            <div class="modal-tags">${tagsHtml}</div>
+            <div class="modal-section">
+                <div class="modal-section-title">Quick Info</div>
+                ${infoHtml}
+            </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Need to Know</div>
+                ${factsHtml}
+            </div>
+            ${linksHtml}
+        `;
+        document.getElementById('modal-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('modal-overlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    const RESTAURANT_MODALS = {
+        'sedonuts': {
+            emoji: '🍩',
+            title: 'Sedonuts',
+            sub: '777 N Main St, Old Town Cottonwood · Donuts & Coffee · $',
+            rating: { score: '4.5', source: 'Google', count: '~400' },
+            hours: 'Mon & Thu–Sun · 7:00 AM – 1:00 PM · Closed Tue & Wed',
+            vibe: 'Handcrafted donut shop right on Old Town Wine Row. Best stop before the tasting rooms open — gets you caffeinated and sugared up for a morning of wine.',
+            menu_note: 'Donuts made fresh daily and sell out fast on weekends. Organic coffee bar. Gluten-free options available — ask at the counter.',
+            dishes: [
+                { name: 'Red Rock Chocolate', note: 'Rich chocolate glaze — the signature donut', price: '$3–4' },
+                { name: 'The Vortex', note: 'Sedona-inspired swirl glaze, light and sweet', price: '$3–4' },
+                { name: 'Maple Bacon', note: 'Sweet-savory, classic combo', price: '$4' },
+                { name: 'Old Fashioned Glazed', note: 'Simple, perfect, can\'t go wrong', price: '$3' },
+                { name: 'Blueberry Cake', note: 'Dense cake donut, not too sweet', price: '$3–4' },
+                { name: 'Boston Cream', note: 'Cream-filled, chocolate glaze top', price: '$4' },
+                { name: 'Apple Turnover', note: 'Flaky pastry, seasonal filling', price: '$4' },
+                { name: 'Organic Coffee', note: 'Drip, espresso drinks, cold brew', price: '$3–6' },
+            ],
+            tips: [
+                'Arrive by 9 AM on weekends — popular flavors sell out before noon.',
+                'Right on Wine Row at 777 N Main St — park here and walk to tasting rooms.',
+                'Closed Tuesday and Wednesday.',
+                'Gluten-free donut options available — ask which flavors are available that day.',
+            ],
+            phone: '9282025006',
+            links: {
+                map: 'https://maps.google.com/?q=Sedonuts,+777+N+Main+St,+Cottonwood,+AZ+86326',
+                web: 'https://sedonutsandcoffee.com'
+            },
+            tripadvisor: 'https://www.yelp.com/biz/sedonuts-cottonwood'
+        },
+        'clinkscale': {
+            emoji: '🍽️',
+            title: 'The Clinkscale',
+            sub: 'Jerome · Brunch & Dinner · $$–$$$',
+            rating: { score: '4.8', source: 'TripAdvisor', count: '770+' },
+            hours: 'Daily from 8:30 AM · Happy Hour til 7 PM · Dinner Tue–Sun from 5 PM',
+            vibe: 'Jerome\'s #1 rated restaurant. American fusion with French flair in an 1899 building at the center of Main St. The Lobby Bar downstairs runs craft cocktails all day.',
+            menu_note: 'Transitions from a full brunch to dinner. Walk-in for brunch; reservations strongly recommended for dinner on weekends.',
+            dishes: [
+                { name: 'Truffle Fries', note: 'Crispy, rich, shareable — order these', price: '$12' },
+                { name: 'Steak & Blue Cheese Bruschetta', note: 'Grilled bread, seared steak slices, blue cheese crumble', price: '$15' },
+                { name: 'Eggs Benedict', note: 'Classic hollandaise — well-executed weekend brunch staple', price: '$14' },
+                { name: 'Chicken Milanese', note: 'Thin-pounded, pan-fried, arugula + lemon — dinner menu', price: '$22' },
+                { name: 'Seared Scallops', note: 'Seasonal preparation — dinner menu', price: '$32' },
+                { name: 'Filet Mignon', note: 'USDA prime, dinner menu — Jerome\'s best', price: '$48' },
+                { name: 'Warm Beignets', note: 'Vanilla bean custard + chocolate ganache — do not skip', price: '$10' },
+            ],
+            tips: [
+                'Walk-in for brunch (no reservation needed) — dinner fills up fast, especially on weekends.',
+                'Happy hour til 7 PM is great value — truffle fries + a cocktail in the Lobby Bar downstairs.',
+                'The artisan bakery items sell out by mid-morning — go early if you want pastries.',
+            ],
+            phone: '9286346225',
+            links: {
+                map: 'https://maps.google.com/?q=The+Clinkscale,+309+Main+St,+Jerome,+AZ',
+                web: 'https://theclinkscale.com'
+            },
+            tripadvisor: 'https://www.tripadvisor.com/Restaurant_Review-g31253-d23166189-Reviews-The_Clinkscale-Jerome_Arizona.html'
+        },
+        'vaqueros': {
+            emoji: '🌮',
+            title: 'Vaqueros Grill & Cantina',
+            sub: 'Jerome · Lunch & Dinner · $',
+            rating: { score: '4.5', source: 'TripAdvisor', count: '318+' },
+            hours: 'Daily 10:30 AM – 8:00 PM',
+            vibe: 'Jerome\'s best Mexican — casual, generous portions, and genuinely good. Featured on "Only in Arizona" best-Mexican lists. Great fast lunch before or after Gold King Mine.',
+            menu_note: 'Authentic Mexican with a Verde Valley personality. The Navajo Tacos on frybread are the must-order.',
+            dishes: [
+                { name: 'Navajo Tacos', note: 'House specialty — frybread with beans, pico de gallo, guac, chipotle sour cream. Choice of chicken, beef, pork, or veggie.', price: '$14–16' },
+                { name: 'Fish Tacos', note: 'Crispy fish, cabbage slaw, chipotle crema', price: '$14' },
+                { name: 'Chile Relleno', note: 'Roasted poblano, melted cheese, red sauce', price: '$14' },
+                { name: 'Fajita Burrito', note: 'Grilled peppers and onions, choice of protein', price: '$13' },
+                { name: 'Chicken Tortilla Soup', note: 'Hearty, well-seasoned — solid starter', price: '$7' },
+                { name: 'Enchiladas', note: 'Red or green sauce, choice of filling', price: '$13' },
+                { name: 'Handcrafted Margarita', note: 'Fresh lime juice, good pour', price: '$9' },
+            ],
+            tips: [
+                'The Navajo Tacos on frybread are the signature move — you can\'t get this everywhere.',
+                'Portions are very generous — one plate is usually enough.',
+                'Great quick lunch between Jerome State Park and Gold King Mine.',
+            ],
+            phone: '9286499090',
+            links: {
+                map: 'https://maps.google.com/?q=Vaqueros+Grill+and+Cantina,+363+Main+St,+Jerome,+AZ'
+            },
+            tripadvisor: 'https://www.tripadvisor.com/Restaurant_Review-g31253-d5260795-Reviews-Vaqueros_Grill_and_Cantina-Jerome_Arizona.html'
+        },
+        'flatiron': {
+            emoji: '☕',
+            title: 'Flatiron Cafe',
+            sub: 'Jerome · Breakfast & Lunch · $',
+            rating: { score: '4.6', source: 'Google', count: '~900' },
+            hours: 'Roughly 8 AM – 2 PM · Closed Tue/Wed (call to verify)',
+            vibe: 'Tiny, beloved counter cafe with a fiercely loyal local following. You\'re staying directly above it.',
+            menu_note: 'Menu rotates daily — these are representative items.',
+            dishes: [
+                { name: 'Egg Scramble of the Day', note: 'Changes daily — seasonal veg, local cheese', price: '$11–13' },
+                { name: 'Quiche of the Day', note: 'Usually 2 options; savory and rich', price: '$9–11' },
+                { name: 'Pastries & Croissants', note: 'Baked fresh daily — sell out early', price: '$4–6' },
+                { name: 'Avocado Toast', note: 'Thick-cut toast, house seasoning', price: '$10–12' },
+                { name: 'French Press Coffee', note: 'Single origin, made to order', price: '$4–5' },
+            ],
+            tips: [
+                'You\'re living directly above this cafe — door on Hull Ave is yours.',
+                'Arrive before 9 AM on weekends or expect a wait. Lines form fast.',
+                'Cash preferred but cards accepted. Very small space — be patient.',
+            ],
+            phone: '9286342733',
+            links: { map: 'https://maps.google.com/?q=Flatiron+Cafe,+416+Main+St,+Jerome,+AZ+86331' }
+        },
+        'haunted-hamburger': {
+            emoji: '🍔',
+            title: 'The Haunted Hamburger',
+            sub: 'Jerome · Lunch & Dinner · $$',
+            rating: { score: '4.3', source: 'Google', count: '~2.8k' },
+            hours: '11 AM – 9 PM daily (kitchen closes ~8:30)',
+            vibe: 'Sprawling outdoor patio perched on the Jerome hillside. Verde Valley views in every direction.',
+            menu_note: 'Classic American — big portions, cold beer. Weekend waits are normal.',
+            dishes: [
+                { name: 'The Haunted Hamburger', note: '½ lb patty, house sauce, all the toppings', price: '$16' },
+                { name: 'Verde Valley Burger', note: 'Hatch green chile, pepper jack, grilled onion', price: '$15' },
+                { name: 'Mushroom Swiss Burger', note: 'Sautéed mushrooms, Swiss, garlic aioli', price: '$14' },
+                { name: 'Turkey Burger', note: 'Well-seasoned, good size', price: '$14' },
+                { name: 'Loaded Fries', note: 'Cheese, jalapeños, sour cream', price: '$8' },
+                { name: 'Onion Rings', note: 'Beer-battered, thick-cut', price: '$6' },
+                { name: 'Hand-dipped Milkshake', note: 'Chocolate, vanilla, strawberry, or seasonal', price: '$8–9' },
+            ],
+            tips: [
+                'Weekend waits of 30–45 min are normal. Put your name in, explore town, come back.',
+                'The outdoor patio is the whole experience — if it\'s raining, timing matters.',
+                'Ask for the far rail for the best Verde Valley panorama.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=The+Haunted+Hamburger,+410+Clark+St,+Jerome,+AZ',
+                web: 'https://thehauntedhamburger.com'
+            },
+            phone: '9286340554',
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Haunted+Hamburger+Jerome+AZ'
+        },
+        'asylum': {
+            emoji: '🥂',
+            title: 'The Asylum Restaurant',
+            sub: 'Jerome Grand Hotel · Dinner · $$$',
+            rating: { score: '4.2', source: 'Google', count: '~1.4k' },
+            hours: 'Dinner from 5 PM · Bar opens earlier',
+            vibe: 'Historic 1926 hospital-turned-hotel with sweeping Verde Valley views. Jerome\'s most romantic dinner setting.',
+            menu_note: 'Creative American seasonal menu — dishes rotate. Representative items below.',
+            dishes: [
+                { name: 'Baked Brie', note: 'Honey, toasted almonds, crostini', price: '$14' },
+                { name: 'Shrimp Cocktail', note: 'House horseradish, citrus', price: '$16' },
+                { name: 'Prime Filet Mignon', note: 'USDA prime, compound butter, seasonal veg', price: '$52–58' },
+                { name: 'Arizona Rack of Lamb', note: 'Herb crust, roasted garlic jus', price: '$44' },
+                { name: 'Pan-Seared Salmon', note: 'Seasonal preparation, local vegetables', price: '$34' },
+                { name: 'Wild Mushroom Risotto', note: 'Truffle oil, parmesan, herb garnish', price: '$28' },
+                { name: 'Crème Brûlée', note: 'Classic finish — perfectly torched', price: '$10' },
+            ],
+            tips: [
+                'Reservations are essential on weekends — book through jeromegrandhotel.com.',
+                'Ask for terrace seating — sunset views over the Verde Valley are exceptional.',
+                'Wine list is strong and well-curated. Ask for Verde Valley recommendations.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=The+Asylum+Restaurant,+200+Hill+St,+Jerome,+AZ',
+                web: 'https://jeromegrandhotel.com'
+            },
+            phone: '9286393197',
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Asylum+Restaurant+Jerome+AZ'
+        },
+        'caduceus': {
+            emoji: '🍇',
+            title: 'Caduceus Cellars',
+            sub: 'Jerome · Tasting Room · $$',
+            rating: { score: '4.5', source: 'Google', count: '~600' },
+            hours: 'Fri–Mon 11 AM – 6 PM (verify seasonally — hours vary)',
+            vibe: 'Maynard James Keenan\'s original Jerome winery. Small, genuine, rock \'n\' roll pedigree.',
+            menu_note: 'Tasting room only — wine flights and light snacks. Not a full restaurant.',
+            dishes: [
+                { name: 'Wine Flight (4 pours)', note: 'Current releases — reds, whites, and blends', price: '~$18–22' },
+                { name: 'Charcuterie Board', note: 'Meats, cheese, nuts, fruit — when available', price: '$16–20' },
+                { name: 'Bottle Purchase', note: 'Full Caduceus selection available to go', price: 'Varies' },
+            ],
+            tips: [
+                'Caduceus focuses on Arizona-grown grapes with Italian and Rhône-inspired styles.',
+                'If closed, Merkin Vineyards in Cottonwood carries the full portfolio.',
+                'Call ahead — tasting room hours are irregular, especially midweek.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Caduceus+Cellars,+158+Main+St,+Jerome,+AZ',
+                web: 'https://caduceus.org'
+            }
+        },
+        'sullivans': {
+            emoji: '🍺',
+            title: "Sullivan's Rest",
+            sub: 'Jerome · Bar · $',
+            rating: { score: '4.3', source: 'Google', count: '~400' },
+            hours: 'Opens mid-afternoon · closes late (no posted hours)',
+            vibe: 'Jerome\'s most atmospheric dive bar — formerly Rawhide Jimmy Douglas\'s saloon. Reportedly haunted.',
+            menu_note: 'Bar only — drinks and atmosphere. No food menu.',
+            dishes: [
+                { name: 'Cold Draft Beer', note: 'Local and domestic taps', price: '$5–7' },
+                { name: 'Well Cocktails', note: 'Whiskey, tequila, vodka — no frills', price: '$6–8' },
+                { name: 'Local Spirits', note: 'Arizona craft spirits when available', price: '$8–10' },
+            ],
+            tips: [
+                'Go for the history and atmosphere, not the cocktail list.',
+                'Late afternoon is the right time — before the dinner crowd.',
+                'Jerome is famous for ghost lore; Sullivan\'s is one of the most "active" spots.',
+            ],
+            links: { map: "https://maps.google.com/?q=Sullivan's+Rest,+375+Hull+Ave,+Jerome,+AZ" }
+        },
+        'spirit-room': {
+            emoji: '🎸',
+            title: 'Spirit Room Bar',
+            sub: 'Jerome · Bar + Live Music · $',
+            rating: { score: '4.4', source: 'Google', count: '~900' },
+            hours: 'Daily from 11 AM · Live music most Fri & Sat nights',
+            vibe: 'Jerome\'s live music hub. No cover, great energy, the place to end a Jerome night.',
+            menu_note: 'Bar only — full beer, wine, and cocktail menu. No food.',
+            dishes: [
+                { name: 'Draft Beer', note: 'Local AZ craft + domestic options', price: '$5–7' },
+                { name: 'Wine by the Glass', note: 'Verde Valley local producers highlighted', price: '$7–10' },
+                { name: 'Classic Cocktails', note: 'Seasonal specials rotate', price: '$9–12' },
+                { name: 'Shots', note: 'All the classics, fast service', price: '$5–8' },
+            ],
+            tips: [
+                'Check their Facebook for the live music schedule before you go.',
+                'No cover charge — ever. Just buy drinks.',
+                'Arrive before the band starts if you want a good spot.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Spirit+Room+Bar,+166+Main+St,+Jerome,+AZ',
+                web: 'https://thespiritroom.com'
+            }
+        },
+        'bobby-ds': {
+            emoji: '🍖',
+            title: "Bobby D's BBQ",
+            sub: 'Jerome · Lunch & Dinner · $$',
+            rating: { score: '4.0', source: 'Google', count: '~500' },
+            hours: 'Thu–Mon 11 AM – 8 PM (approximate)',
+            vibe: 'Casual BBQ joint in the heart of Jerome. No frills, good smoke.',
+            menu_note: 'Classic BBQ plates, sandwiches, and generous sides.',
+            dishes: [
+                { name: 'Smoked Brisket Plate', note: 'Sliced brisket, 2 sides, cornbread', price: '$16–18' },
+                { name: 'Baby Back Ribs (½ rack)', note: 'Dry rub, house BBQ sauce on the side', price: '$16–19' },
+                { name: 'Baby Back Ribs (full rack)', note: 'Full slab — feeds two light eaters', price: '$28–32' },
+                { name: 'Pulled Pork Sandwich', note: 'Slow-smoked, topped with slaw', price: '$13' },
+                { name: 'BBQ Combo Plate', note: 'Choose 2 meats + 2 sides', price: '$18–20' },
+                { name: 'Sides', note: 'Baked beans · coleslaw · mac & cheese · cornbread', price: '$4–5 each' },
+            ],
+            tips: [
+                'Solid backup if Haunted Hamburger has a long wait.',
+                'Portions are generous — no one leaves hungry.',
+                'Best seats are outdoors when the weather cooperates.',
+            ],
+            links: { map: "https://maps.google.com/?q=Bobby+D's+BBQ,+411+Clark+St,+Jerome,+AZ" }
+        },
+        'merkin-osteria': {
+            emoji: '🎸',
+            title: 'Merkin Vineyards Hilltop Winery &amp; Trattoria',
+            sub: 'Cottonwood, AZ · Lunch & Dinner · $$$',
+            rating: { score: '4.5', source: 'Google', count: '~1.5k' },
+            hours: 'Sun 11:00 AM – 8:00 PM · Mon–Sat 11:00 AM – 9:00 PM',
+            vibe: 'Maynard\'s Italian-inspired restaurant (formerly Osteria, now Trattoria) — wood-fired dishes, stunning Verde Valley patio views, and the full Merkin + Caduceus wine list.',
+            menu_note: 'Seasonal, rotating menu. Wood-fired cooking throughout. Opens at 11 AM — perfect after Sedonuts for a late morning glass and lunch.',
+            dishes: [
+                { name: 'Charcuterie & Cheese Board', note: 'House selections, jam, crostini, local honey', price: '$22' },
+                { name: 'Burrata', note: 'Fresh burrata, seasonal veg, olive oil', price: '$18' },
+                { name: 'Wood-Fired Margherita Pizza', note: 'San Marzano, fior di latte, basil', price: '$18' },
+                { name: 'Fennel Sausage Pizza', note: 'House sausage, roasted peppers, provolone', price: '$22' },
+                { name: 'Fresh Pappardelle', note: 'Seasonal — braised meat or mushroom ragu', price: '$24–26' },
+                { name: 'Tagliatelle al Tartufo', note: 'Black truffle, parmesan, butter', price: '$26' },
+                { name: 'Wood-Roasted Chicken', note: 'Herb-brined, seasonal sides, pan jus', price: '$28–32' },
+                { name: 'Branzino', note: 'Mediterranean sea bass, lemon, capers, greens', price: '$34' },
+            ],
+            tips: [
+                'Reserve online — weekends fill by Thursday.',
+                'Ask for patio seating; the shade cloth keeps it comfortable even in summer.',
+                'Do a Merkin wine flight before ordering — staff pairing suggestions are excellent.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Merkin+Vineyards+Osteria,+1+N+Main+St,+Cottonwood,+AZ',
+                web: 'https://merkinvineyards.com'
+            },
+            phone: '9286390093',
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Merkin+Vineyards+Osteria+Cottonwood+AZ'
+        },
+        'crema': {
+            emoji: '🫕',
+            title: 'Crema Craft Kitchen + Bar',
+            sub: 'Old Town Cottonwood · Brunch & Dinner · $$',
+            rating: { score: '4.4', source: 'Google', count: '~800' },
+            hours: 'Tue–Sun · Brunch from 8 AM · Dinner from 4 PM (verify)',
+            vibe: 'Hip, popular brunch spot in Old Town with a strong cocktail list and shaded patio.',
+            menu_note: 'All-day comfort food with a modern twist. Strong brunch and cocktail game.',
+            dishes: [
+                { name: 'Classic Eggs Benedict', note: 'English muffin, Canadian bacon, hollandaise', price: '$15' },
+                { name: 'Green Chile Benedict', note: 'Hatch green chile, chorizo, poached eggs', price: '$16' },
+                { name: 'Avocado Toast', note: 'Multigrain, microgreens, pickled onion, everything spice', price: '$13' },
+                { name: 'The Crema Bowl', note: 'Quinoa, roasted veg, poached egg, tahini', price: '$14' },
+                { name: 'Smoked Salmon Scramble', note: 'Cream cheese, capers, everything bagel spice', price: '$16' },
+                { name: 'Brunch Cocktails', note: 'Bloody Mary · Espresso Martini · Aperol Spritz', price: '$12–14' },
+                { name: 'Craft Mocktails', note: 'Rotating seasonal options', price: '$7–9' },
+            ],
+            tips: [
+                'Arrive by 9 AM on weekends for brunch — popular spot with waits.',
+                'The shaded patio is pleasant even in late June.',
+                'Great mid-wine-row stop — between Arizona Stronghold and Pillsbury.',
+            ],
+            links: {
+                map: 'https://maps.google.com/?q=Crema+Craft+Kitchen,+917+N+Main+St,+Cottonwood,+AZ',
+                web: 'https://cremacraftkitchen.com'
+            },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Crema+Craft+Kitchen+Cottonwood+AZ'
+        },
+        'bocce': {
+            emoji: '🍕',
+            title: 'Bocce Grill',
+            sub: 'Old Town Cottonwood · Lunch & Dinner · $$',
+            rating: { score: '4.2', source: 'Google', count: '~600' },
+            hours: 'Lunch & Dinner daily · approx 11 AM – 9 PM',
+            vibe: 'Italian-leaning menu on Main St with a nice patio and local-leaning wine list.',
+            menu_note: 'Casual Italian — pizzas, pastas, good salads. Consistent and reliable.',
+            dishes: [
+                { name: 'Margherita Pizza', note: 'San Marzano, fresh mozzarella, basil', price: '$15' },
+                { name: 'Italian Sausage Pizza', note: 'House sausage, roasted red pepper, pecorino', price: '$17' },
+                { name: 'Verde Valley Harvest Pizza', note: 'Seasonal — local produce, olive oil, herbs', price: '$18' },
+                { name: 'Penne Arrabbiata', note: 'San Marzano, garlic, calabrian chile, pecorino', price: '$15' },
+                { name: 'Tagliatelle Bolognese', note: 'Slow-cooked beef ragu, parmigiano', price: '$18' },
+                { name: 'Caesar Salad', note: 'Classic house dressing, anchovies optional', price: '$12' },
+                { name: 'Tiramisu', note: 'House-made, classic finish', price: '$8' },
+            ],
+            tips: [
+                'Verde Valley wines by the glass are well-priced here.',
+                'Good for a quick, reliable lunch between tasting rooms.',
+                'Less crowded than Merkin — easier walk-in on peak weekends.',
+            ],
+            links: { map: 'https://maps.google.com/?q=Bocce+Grill,+963+N+Main+St,+Cottonwood,+AZ' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=Bocce+Grill+Cottonwood+AZ'
+        },
+        'the-nic': {
+            emoji: '🥃',
+            title: 'The Nic',
+            sub: 'Old Town Cottonwood · Dinner · $$',
+            rating: { score: '4.3', source: 'Google', count: '~400' },
+            hours: 'Dinner only · Wed–Sun from 5 PM (verify)',
+            vibe: 'Small, thoughtful, locally-sourced dinner spot. Quieter than Merkin — great for an intimate evening.',
+            menu_note: 'Small plates and shared format. Seasonal, locally sourced. Order 2–3 plates each.',
+            dishes: [
+                { name: 'Seasonal Charcuterie Board', note: 'Local producers, house pickles, grilled bread', price: '$18' },
+                { name: 'Roasted Beet Salad', note: 'Whipped goat cheese, candied walnut, citrus', price: '$13' },
+                { name: 'Crispy Pork Belly', note: 'Verde Valley apple purée, fennel slaw', price: '$14' },
+                { name: 'Wild Mushroom Flatbread', note: 'Truffle oil, arugula, shaved parm', price: '$15' },
+                { name: 'Seared Duck Breast', note: 'Cherry reduction, seasonal root vegetable', price: '$28' },
+                { name: 'Braised Short Rib', note: 'Celery root purée, crispy shallots', price: '$32' },
+                { name: 'Wine Pairings', note: 'Ask for the sommelier pairing — genuinely good', price: 'By glass' },
+            ],
+            tips: [
+                'Order 2–3 small plates each and share — that\'s the intended format.',
+                'Wine list leans local Verde Valley producers — ask for recommendations.',
+                'Less busy than Merkin and more intimate. Great backup if Merkin is full.',
+            ],
+            links: { map: 'https://maps.google.com/?q=The+Nic,+925+N+Main+St,+Cottonwood,+AZ' },
+            tripadvisor: 'https://www.tripadvisor.com/Search?q=The+Nic+Cottonwood+AZ'
+        }
+    };
+
+    function openRestaurantModal(key) {
+        const d = RESTAURANT_MODALS[key];
+        if (!d) return;
+        const ratingHtml = d.rating ? `
+            <div class="modal-rating">
+                <span class="rating-score">${d.rating.score}</span>
+                <span class="rating-stars">${ratingStars(d.rating.score)}</span>
+                <span class="rating-meta">${d.rating.source} · ${d.rating.count} reviews</span>
+            </div>` : '';
+        const dishesHtml = d.dishes.map(dish => `
+            <div class="modal-dish">
+                <div class="dish-info">
+                    <div class="dish-name">${dish.name}</div>
+                    ${dish.note ? `<div class="dish-note">${dish.note}</div>` : ''}
+                </div>
+                <div class="dish-price">${dish.price}</div>
+            </div>`).join('');
+        const tipsHtml = d.tips.map(t => `<div class="modal-fact">${t}</div>`).join('');
+        const hasLinks = d.links || d.tripadvisor || d.phone;
+        const linksHtml = hasLinks ? `
+            <div class="modal-section">
+                <div class="modal-links">
+                    ${d.links && d.links.map ? `<a class="modal-link-btn map" href="${d.links.map}" target="_blank">📍 Directions</a>` : ''}
+                    ${d.links && d.links.web ? `<a class="modal-link-btn web" href="${d.links.web}" target="_blank">🌐 Website</a>` : ''}
+                    ${d.tripadvisor ? `<a class="modal-link-btn ta" href="${d.tripadvisor}" target="_blank">★ Reviews</a>` : ''}
+                    ${d.phone ? `<a class="modal-link-btn call" href="tel:+1${d.phone}">📞 Call</a>` : ''}
+                </div>
+            </div>` : '';
+        document.getElementById('modal-content').innerHTML = `
+            <span class="modal-emoji">${d.emoji}</span>
+            <div class="modal-title">${d.title}</div>
+            <div class="modal-sub">${d.sub}</div>
+            ${ratingHtml}
+            <div class="modal-section">
+                <div class="modal-info-row"><span class="modal-info-label">Hours</span><span class="modal-info-value">${d.hours}</span></div>
+                <div class="modal-info-row"><span class="modal-info-label">Vibe</span><span class="modal-info-value">${d.vibe}</span></div>
+            </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Menu Highlights</div>
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">${d.menu_note}</div>
+                ${dishesHtml}
+            </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Tips</div>
+                ${tipsHtml}
+            </div>
+            ${linksHtml}
+        `;
+        document.getElementById('modal-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // ── WHAT'S OPEN NOW ──────────────────────────────────────────
+    const VENUE_HOURS = [
+        { name: 'Flatiron Cafe', opens: '08:00', closes: '14:00', note: '8 AM – 2 PM', action: "openRestaurantModal('flatiron')" },
+        { name: 'Jerome State Historic Park', opens: '09:00', closes: '17:00', note: '9 AM – 5 PM · Tues–Sun', action: "openModal('jerome-state-park')" },
+        { name: 'Caduceus Cellars', opens: '11:00', closes: '18:00', note: '11 AM – 6 PM', action: "openModal('caduceus')" },
+        { name: 'Gold King Mine', opens: '10:00', closes: '17:00', note: '10 AM – 5 PM', action: "openModal('gold-king')" },
+        { name: 'Audrey Headframe Park', opens: '00:00', closes: '23:59', note: 'Always open · free', action: "openModal('audrey-headframe')" },
+        { name: 'The Haunted Hamburger', opens: '11:00', closes: '21:00', note: '11 AM – 9 PM', action: "openRestaurantModal('haunted-hamburger')" },
+        { name: 'Spirit Room Bar', opens: '11:00', closes: '02:00', note: '11 AM til late', action: "openModal('spirit-room')" },
+        { name: 'The Asylum Restaurant', opens: '17:00', closes: '21:00', note: 'Dinner from 5 PM', action: "openRestaurantModal('asylum')" },
+        { name: 'Merkin Vineyards Osteria', opens: '11:00', closes: '21:00', note: '11 AM – 9 PM', action: "openRestaurantModal('merkin-osteria')" },
+        { name: 'Tuzigoot Monument', opens: '09:00', closes: '17:00', note: '9 AM – 5 PM', action: "openModal('tuzigoot')" },
+    ];
+
+    function renderOpenNow() {
+        const el = document.getElementById('open-now-card');
+        if (!el) return;
+        const now = new Date();
+        const cur = now.getHours() * 60 + now.getMinutes();
+        function isOpen(opens, closes) {
+            const [oh, om] = opens.split(':').map(Number);
+            const [ch, cm] = closes.split(':').map(Number);
+            const o = oh * 60 + om, c = ch * 60 + cm;
+            if (c > o) return cur >= o && cur < c;
+            return cur >= o || cur < c;
+        }
+        const rows = VENUE_HOURS.map(v => {
+            const open = isOpen(v.opens, v.closes);
+            const [oh, om] = v.opens.split(':').map(Number);
+            const o = oh * 60 + om;
+            const soon = !open && o > cur && o - cur <= 45;
+            return { ...v, open, soon };
+        });
+        const openCount = rows.filter(r => r.open).length;
+        function row(v) {
+            const dot = v.open ? 'isopen' : v.soon ? 'soon' : 'closed';
+            return `<div class="open-item" onclick="${v.action}"><div class="oi-dot ${dot}"></div><div class="oi-name">${v.name}</div><div class="oi-time">${v.note}</div></div>`;
+        }
+        const visible = rows.slice(0, 6), rest = rows.slice(6);
+        el.innerHTML = `
+            <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:10px;">⏰ What's Open Now <span style="font-size:11px;font-weight:400;color:#22c55e;margin-left:6px;">${openCount} open</span></div>
+            ${visible.map(row).join('')}
+            ${rest.length ? `<div class="open-toggle" onclick="document.getElementById('open-now-more').style.display='block';this.style.display='none'">+ ${rest.length} more venues</div><div id="open-now-more" style="display:none">${rest.map(row).join('')}</div>` : ''}
+        `;
+    }
+
+    // ── SURPRISE US ───────────────────────────────────────────────
+    const SURPRISE_POOL = [
+        { text: 'Walk Main St top to bottom', sub: 'Every gallery, shop, and hidden gem — takes about 45 min' },
+        { text: 'Find the Sliding Jail', sub: 'A concrete jail that slid 225 ft downhill — still sitting there' },
+        { text: 'Drinks at Wingwalker Lounge', sub: 'Top of Jerome Grand Hotel — 360° views, very haunted' },
+        { text: 'Get something cold and find a bench', sub: "There's no wrong bench in Jerome" },
+        { text: 'Ask a local for their #1 secret spot', sub: "Jerome's 450 residents love to talk about their town" },
+        { text: 'Spontaneous tasting at Caduceus Cellars', sub: "Maynard's winery on Main St — walk-ins usually welcome" },
+        { text: 'Stand on the Audrey Headframe glass floor', sub: '1,900 ft of mine shaft under your feet — free' },
+        { text: 'Browse Hull Ave galleries', sub: 'Ceramics, jewelry, photography — pressure-free and mostly free' },
+        { text: 'Count how many cats you can spot', sub: 'Jerome has an unofficial feline overpopulation situation' },
+        { text: 'Drive Perkinsville Rd for hidden views', sub: 'The back road past Gold King Mine has panoramas tourists skip' },
+        { text: 'Get breakfast, then do absolutely nothing', sub: 'Sometimes the best move in a great place is just being there' },
+        { text: "Find Jerome's most vertical block", sub: "The town claims 'most vertical main street' — walk it and see" },
+    ];
+
+    let _lastSurprise = -1;
+    function surpriseUs() {
+        let idx;
+        do { idx = Math.floor(Math.random() * SURPRISE_POOL.length); } while (idx === _lastSurprise && SURPRISE_POOL.length > 1);
+        _lastSurprise = idx;
+        const p = SURPRISE_POOL[idx];
+        const el = document.getElementById('surprise-title');
+        if (el) el.innerHTML = `${p.text}<br><span style="font-size:13px;font-weight:400;opacity:.8;">${p.sub}</span>`;
+    }
+
+    // ── WINE TASTING LOG ──────────────────────────────────────────
+    const WINE_VENUES = [
+        { key: 'caduceus', name: 'Caduceus Cellars', loc: 'Jerome · 158 Main St' },
+        { key: 'merkin', name: 'Merkin Vineyards', loc: 'Old Town Cottonwood' },
+        { key: 'page-springs', name: 'Page Springs Cellars', loc: 'Cornville · 10 min south' },
+        { key: 'pillsbury', name: 'Pillsbury Wine Co.', loc: 'Old Town Cottonwood' },
+        { key: 'az-stronghold', name: 'AZ Stronghold Vineyards', loc: 'Old Town Cottonwood' },
+        { key: 'passion', name: 'Passion Cellars', loc: 'Old Town Cottonwood' },
+    ];
+
+    function getWineLog() { try { return JSON.parse(localStorage.getItem('jerome-wine-log') || '{}'); } catch(e) { return {}; } }
+    function saveWineLog(log) { localStorage.setItem('jerome-wine-log', JSON.stringify(log)); }
+
+    function setWineRating(key, rating) {
+        const log = getWineLog();
+        if (!log[key]) log[key] = {};
+        log[key].rating = log[key].rating === rating ? 0 : rating;
+        saveWineLog(log);
+        renderWineLog();
+    }
+
+    function toggleWineVisited(key) {
+        const log = getWineLog();
+        if (!log[key]) log[key] = {};
+        log[key].visited = !log[key].visited;
+        saveWineLog(log);
+        renderWineLog();
+    }
+
+    function saveWineNote(key, val) {
+        const log = getWineLog();
+        if (!log[key]) log[key] = {};
+        log[key].note = val;
+        saveWineLog(log);
+    }
+
+    function renderWineLog() {
+        const el = document.getElementById('wine-log-items');
+        const hdr = document.getElementById('wine-log-header');
+        if (!el) return;
+        const log = getWineLog();
+        const visited = WINE_VENUES.filter(v => log[v.key] && log[v.key].visited).length;
+        if (hdr) hdr.textContent = `${visited}/${WINE_VENUES.length} visited`;
+        el.innerHTML = WINE_VENUES.map(v => {
+            const state = log[v.key] || {};
+            const r = state.rating || 0;
+            const stars = [1,2,3,4,5].map(i =>
+                `<span class="wine-star${i <= r ? ' lit' : ''}" onclick="setWineRating('${v.key}',${i})">★</span>`
+            ).join('');
+            return `<div class="wine-entry">
+                <div class="wine-top">
+                    <div><div class="wine-name">${v.name}</div><div class="wine-loc">${v.loc}</div></div>
+                    <button class="wine-visited-btn ${state.visited ? 'visited' : 'unvisited'}" onclick="toggleWineVisited('${v.key}')">${state.visited ? '✓ Visited' : 'Mark Visited'}</button>
+                </div>
+                ${state.visited ? `<div class="wine-stars-row">${stars}</div><textarea class="wine-note-input" rows="2" placeholder="Tasting notes…" oninput="saveWineNote('${v.key}',this.value)">${state.note || ''}</textarea>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    // ── PHOTO SHOT LIST ───────────────────────────────────────────
+    const SHOT_LIST = [
+        { icon: '🌅', loc: 'Audrey Headframe', desc: 'Golden hour panorama looking west over Verde Valley — the money shot' },
+        { icon: '⛏️', loc: 'Gold King Mine', desc: 'Rows of rusting antique cars with the hillside ghost town behind them' },
+        { icon: '🏛️', loc: 'Jerome State Historic Park', desc: 'Douglas Mansion veranda framing the Verde Valley below' },
+        { icon: '🚃', loc: 'Verde Canyon Railroad', desc: 'Train emerging from the canyon tunnel — be ready on the right side' },
+        { icon: '🏔️', loc: 'Tuzigoot', desc: 'Hilltop pueblo with Verde River below — shoot from the south trail' },
+        { icon: '🍷', loc: 'Wine Row', desc: 'Two glasses, Old Town Cottonwood backdrop at golden hour' },
+        { icon: '🎸', loc: 'Spirit Room', desc: 'Live band in the corner — candid crowd energy shot' },
+        { icon: '🐴', loc: 'Gold King Mine', desc: "Friendly burro close-up — they'll walk right up to you" },
+    ];
+
+    function getShotState() { try { return JSON.parse(localStorage.getItem('jerome-shots') || '{}'); } catch(e) { return {}; } }
+
+    function toggleShot(idx) {
+        const state = getShotState();
+        state[idx] = !state[idx];
+        localStorage.setItem('jerome-shots', JSON.stringify(state));
+        renderShots();
+    }
+
+    function renderShots() {
+        const el = document.getElementById('shot-list-items');
+        const ctr = document.getElementById('shot-counter');
+        if (!el) return;
+        const state = getShotState();
+        const done = SHOT_LIST.filter((_, i) => state[i]).length;
+        if (ctr) ctr.textContent = `${done}/${SHOT_LIST.length}`;
+        el.innerHTML = SHOT_LIST.map((s, i) => `
+            <div class="shot-item" onclick="toggleShot(${i})">
+                <div class="shot-check${state[i] ? ' done' : ''}">✓</div>
+                <div class="shot-icon">${s.icon}</div>
+                <div style="flex:1"><div class="shot-loc">${s.loc}</div><div class="shot-desc">${s.desc}</div></div>
+            </div>`).join('');
+    }
+
+    // ── VISIT LOG ────────────────────────────────────────────────
+    const VISIT_LIST = [
+        // Jerome · Food & Drinks
+        { key: 'flatiron',          name: 'Flatiron Cafe',                group: 'jerome-eats',    emoji: '☕' },
+        { key: 'clinkscale',        name: 'The Clinkscale',               group: 'jerome-eats',    emoji: '🍽️' },
+        { key: 'haunted-hamburger', name: 'Haunted Hamburger',            group: 'jerome-eats',    emoji: '🍔' },
+        { key: 'asylum',            name: 'The Asylum',                   group: 'jerome-eats',    emoji: '🦇' },
+        { key: 'vaqueros',          name: 'Vaqueros Grill & Cantina',     group: 'jerome-eats',    emoji: '🌮' },
+        { key: 'spirit-room',       name: 'Spirit Room Bar',              group: 'jerome-eats',    emoji: '🎸' },
+        { key: 'sullivans',         name: "Sullivan's Rest",              group: 'jerome-eats',    emoji: '🍺' },
+        { key: 'bobby-ds',          name: "Bobby D's BBQ",               group: 'jerome-eats',    emoji: '🍖' },
+        // Jerome · Landmarks & Experiences
+        { key: 'the-flat',          name: 'The Flat · Our Home Base',     group: 'jerome-places',  emoji: '🏠' },
+        { key: 'jerome-state-park', name: 'Jerome State Historic Park',   group: 'jerome-places',  emoji: '🏛️' },
+        { key: 'audrey-headframe',  name: 'Audrey Headframe Park',        group: 'jerome-places',  emoji: '⛏️' },
+        { key: 'gold-king',         name: 'Gold King Mine & Ghost Town',  group: 'jerome-places',  emoji: '🚗' },
+        { key: 'caduceus-mem',      name: 'Caduceus Cellars',             group: 'jerome-places',  emoji: '🍷' },
+        { key: 'la-victoria',       name: 'La Victoria Glass Blowing',    group: 'jerome-places',  emoji: '🔥' },
+        { key: 'sliding-jail',      name: 'The Sliding Jail',             group: 'jerome-places',  emoji: '🏚️' },
+        // Cottonwood · Food & Drinks
+        { key: 'sedonuts',          name: 'Sedonuts',                     group: 'cottonwood-eats', emoji: '🍩' },
+        { key: 'merkin-osteria',    name: 'Merkin Hilltop Trattoria',     group: 'cottonwood-eats', emoji: '🎸' },
+        { key: 'crema',             name: 'Crema Craft Kitchen',          group: 'cottonwood-eats', emoji: '🫕' },
+        { key: 'bocce',             name: 'Bocce Grill',                  group: 'cottonwood-eats', emoji: '🍕' },
+        { key: 'the-nic',           name: 'The Nic',                      group: 'cottonwood-eats', emoji: '🥃' },
+        // Verde Valley · Attractions
+        { key: 'tuzigoot',          name: 'Tuzigoot National Monument',   group: 'verde-places',   emoji: '🏺' },
+        { key: 'verde-canyon-rr',   name: 'Verde Canyon Railroad',        group: 'verde-places',   emoji: '🚂' },
+        { key: 'old-town-cwood',    name: 'Old Town Wine Row',            group: 'verde-places',   emoji: '🍷' },
+        { key: 'page-springs-mem',  name: 'Page Springs Cellars',         group: 'verde-places',   emoji: '🍾' },
+        { key: 'dead-horse-ranch',  name: 'Dead Horse Ranch State Park',  group: 'verde-places',   emoji: '🦌' },
+        { key: 'montezuma-castle',  name: 'Montezuma Castle',             group: 'verde-places',   emoji: '🏯' },
+    ];
+
+    const VISIT_GROUPS = [
+        { id: 'jerome-eats',      label: '🍽️ Jerome · Food & Drinks' },
+        { id: 'jerome-places',    label: '📍 Jerome · Landmarks & Experiences' },
+        { id: 'cottonwood-eats',  label: '🍷 Cottonwood · Food & Drinks' },
+        { id: 'verde-places',     label: '🌿 Verde Valley · Attractions' },
+    ];
+
+    function getVisitLog() { try { return JSON.parse(localStorage.getItem('jerome-visits') || '{}'); } catch(e) { return {}; } }
+    function saveVisitLog(log) { localStorage.setItem('jerome-visits', JSON.stringify(log)); }
+
+    function toggleRestaurantVisit(key) {
+        const log = getVisitLog();
+        if (!log[key]) log[key] = {};
+        log[key].visited = !log[key].visited;
+        saveVisitLog(log);
+        renderVisitLog();
+        renderMemStats();
+    }
+
+    function setVisitStars(key, n) {
+        const log = getVisitLog();
+        if (!log[key]) log[key] = {};
+        log[key].stars = (log[key].stars === n) ? 0 : n;
+        saveVisitLog(log);
+        renderVisitLog();
+    }
+
+    function saveVisitNote(key, val) {
+        const log = getVisitLog();
+        if (!log[key]) log[key] = {};
+        log[key].note = val;
+        saveVisitLog(log);
+    }
+
+    function _buildVisitEntries(venues) {
+        const log = getVisitLog();
+        return venues.map(v => {
+            const s = log[v.key] || {};
+            const stars = [1,2,3,4,5].map(i =>
+                `<span class="visit-star${i <= (s.stars||0) ? ' lit' : ''}" onclick="setVisitStars('${v.key}',${i})">★</span>`
+            ).join('');
+            return `<div class="visit-entry">
+                <div class="visit-top">
+                    <div class="visit-name-row">
+                        <span class="visit-emoji">${v.emoji}</span>
+                        <div class="visit-name">${v.name}</div>
+                    </div>
+                    <button class="visit-toggle${s.visited ? ' visited' : ''}" onclick="toggleRestaurantVisit('${v.key}')">${s.visited ? '✓ Went' : 'Mark Visited'}</button>
+                </div>
+                ${s.visited ? `
+                <div class="visit-stars-row">${stars}</div>
+                <div class="visit-memory-wrap">
+                    <textarea class="visit-note-input" rows="2" placeholder="How was it? What did you order?" oninput="saveVisitNote('${v.key}',this.value)">${s.note || ''}</textarea>
+                    <div id="photos-${v.key}" class="photo-gallery-wrap"></div>
+                    <label class="photo-add-btn">📷 Add Photo<input type="file" accept="image/*" style="display:none" onchange="handlePhotoInput(event,'${v.key}')"></label>
+                </div>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    function renderVisitLog() {
+        VISIT_GROUPS.forEach(g => {
+            const el = document.getElementById(`visit-log-${g.id}`);
+            if (el) el.innerHTML = _buildVisitEntries(VISIT_LIST.filter(v => v.group === g.id));
+        });
+        loadAllPhotoGalleries();
+    }
+
+    async function renderMemStats() {
+        const el = document.getElementById('mem-stats');
+        if (!el) return;
+        const visitLog = getVisitLog(), shotState = getShotState();
+        const visits = VISIT_LIST.filter(v => visitLog[v.key] && visitLog[v.key].visited).length;
+        const shots  = SHOT_LIST.filter((_, i) => shotState[i]).length;
+        let photos = 0;
+        for (const v of VISIT_LIST) {
+            if (visitLog[v.key] && visitLog[v.key].visited) photos += (await _getPhotos(v.key)).length;
+        }
+        el.innerHTML = `
+            <div class="mem-stat"><div class="mem-stat-n">${visits}</div><div class="mem-stat-l">Places Visited</div></div>
+            <div class="mem-stat"><div class="mem-stat-n">${photos}</div><div class="mem-stat-l">Photos Added</div></div>
+            <div class="mem-stat"><div class="mem-stat-n">${shots}</div><div class="mem-stat-l">Shots Captured</div></div>
+        `;
+    }
+
+    function renderMemWineLog() {
+        const el = document.getElementById('mem-wine-log');
+        if (!el) return;
+        const log = getWineLog();
+        el.innerHTML = WINE_VENUES.map(v => {
+            const s = log[v.key] || {};
+            const stars = [1,2,3,4,5].map(i =>
+                `<span class="wine-star${i <= (s.rating||0) ? ' lit' : ''}" onclick="setWineRating('${v.key}',${i}); renderMemWineLog(); renderMemStats()">★</span>`
+            ).join('');
+            return `<div class="wine-entry">
+                <div class="wine-top">
+                    <div><div class="wine-name">${v.name}</div><div class="wine-loc">${v.loc}</div></div>
+                    <button class="wine-visited-btn ${s.visited ? 'visited' : 'unvisited'}" onclick="toggleWineVisited('${v.key}'); renderMemWineLog(); renderMemStats()">${s.visited ? '✓ Visited' : 'Mark Visited'}</button>
+                </div>
+                ${s.visited ? `<div class="wine-stars-row">${stars}</div><textarea class="wine-note-input" rows="2" placeholder="Tasting notes…" oninput="saveWineNote('${v.key}',this.value)">${s.note || ''}</textarea>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    function renderMemShotList() {
+        const el = document.getElementById('mem-shot-list');
+        if (!el) return;
+        const state = getShotState();
+        el.innerHTML = SHOT_LIST.map((s, i) => `
+            <div class="shot-item" onclick="toggleShot(${i}); renderMemShotList(); renderMemStats()">
+                <div class="shot-check${state[i] ? ' done' : ''}">✓</div>
+                <div class="shot-icon">${s.icon}</div>
+                <div style="flex:1"><div class="shot-loc">${s.loc}</div><div class="shot-desc">${s.desc}</div></div>
+            </div>`).join('');
+    }
+
+    // ── PHOTO STORAGE (IndexedDB) ─────────────────────────────────
+    const _PDB = 'jerome-photos', _PST = 'venues';
+    function _photoDb() {
+        return new Promise((res, rej) => {
+            const r = indexedDB.open(_PDB, 1);
+            r.onupgradeneeded = e => e.target.result.createObjectStore(_PST);
+            r.onsuccess = e => res(e.target.result);
+            r.onerror   = () => res(null);
+        });
+    }
+    async function _getPhotos(key) {
+        const db = await _photoDb(); if (!db) return [];
+        return new Promise(r => {
+            const req = db.transaction(_PST,'readonly').objectStore(_PST).get(key);
+            req.onsuccess = () => r(req.result || []);
+            req.onerror  = () => r([]);
+        });
+    }
+    async function _savePhotos(key, photos) {
+        const db = await _photoDb(); if (!db) return;
+        return new Promise(r => {
+            const tx = db.transaction(_PST,'readwrite');
+            tx.objectStore(_PST).put(photos, key);
+            tx.oncomplete = r; tx.onerror = r;
+        });
+    }
+    function _compressImage(dataUrl, maxW, q) {
+        return new Promise(res => {
+            const img = new Image();
+            img.onload = () => {
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+                const c = document.createElement('canvas');
+                c.width = w; c.height = h;
+                c.getContext('2d').drawImage(img, 0, 0, w, h);
+                res(c.toDataURL('image/jpeg', q));
+            };
+            img.onerror = () => res(dataUrl);
+            img.src = dataUrl;
+        });
+    }
+    function handlePhotoInput(e, venueKey) {
+        const file = e.target.files[0]; if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async ev => {
+            const url = await _compressImage(ev.target.result, 900, 0.82);
+            const photos = await _getPhotos(venueKey);
+            photos.push({ url, ts: Date.now() });
+            await _savePhotos(venueKey, photos);
+            loadPhotoGallery(venueKey);
+            renderMemStats();
+        };
+        reader.readAsDataURL(file);
+        e.target.value = '';
+    }
+    async function removePhoto(venueKey, idx) {
+        const photos = await _getPhotos(venueKey);
+        photos.splice(idx, 1);
+        await _savePhotos(venueKey, photos);
+        closeModal();
+        loadPhotoGallery(venueKey);
+        renderMemStats();
+    }
+    async function viewPhoto(venueKey, idx) {
+        const p = (await _getPhotos(venueKey))[idx]; if (!p) return;
+        document.getElementById('modal-content').innerHTML = `
+            <img src="${p.url}" style="width:100%;border-radius:10px;display:block;max-height:70vh;object-fit:contain;">
+            <div style="margin-top:16px;text-align:center;">
+                <button onclick="removePhoto('${venueKey}',${idx})" style="padding:10px 24px;background:#b94040;color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">🗑️ Remove Photo</button>
+            </div>`;
+        document.getElementById('modal-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    async function loadPhotoGallery(venueKey) {
+        const el = document.getElementById(`photos-${venueKey}`); if (!el) return;
+        const photos = await _getPhotos(venueKey);
+        el.innerHTML = photos.length ? `
+            <div class="photo-gallery">${photos.map((p, i) =>
+                `<div class="photo-thumb-wrap">
+                    <img class="photo-thumb" src="${p.url}" onclick="viewPhoto('${venueKey}',${i})">
+                    <button class="photo-remove" onclick="event.stopPropagation();removePhoto('${venueKey}',${i})">✕</button>
+                </div>`).join('')}
+            </div>` : '';
+    }
+    async function loadAllPhotoGalleries() {
+        const log = getVisitLog();
+        for (const v of VISIT_LIST) {
+            if (log[v.key] && log[v.key].visited) loadPhotoGallery(v.key);
+        }
+    }
+
+    async function generateKeepsakePDF() {
+        const btn = document.getElementById('pdf-btn');
+        if (btn) btn.textContent = '⏳ Building…';
+
+        const visitLog = getVisitLog(), wineLog = getWineLog(), shotState = getShotState();
+
+        // Collect all photos for visited venues
+        const allPhotos = {};
+        for (const v of VISIT_LIST) {
+            if (visitLog[v.key] && visitLog[v.key].visited) {
+                allPhotos[v.key] = await _getPhotos(v.key);
+            }
+        }
+
+        // Stats
+        const totalVisits = VISIT_LIST.filter(v => visitLog[v.key] && visitLog[v.key].visited).length;
+        let totalPhotos = 0;
+        for (const p of Object.values(allPhotos)) totalPhotos += p.length;
+        const visitedWines = WINE_VENUES.filter(v => wineLog[v.key] && wineLog[v.key].visited);
+
+        // Build visit group sections
+        let sections = '';
+        for (const g of VISIT_GROUPS) {
+            const gVisited = VISIT_LIST.filter(v => v.group === g.id && visitLog[v.key] && visitLog[v.key].visited);
+            if (!gVisited.length) continue;
+            let html = `<div class="group-section"><h2 class="group-title">${g.label}</h2>`;
+            for (const v of gVisited) {
+                const s = visitLog[v.key] || {};
+                const photos = allPhotos[v.key] || [];
+                const starsHtml = s.stars ? `<div class="place-stars">${'★'.repeat(s.stars)}${'☆'.repeat(5 - s.stars)}</div>` : '';
+                const photosHtml = photos.length
+                    ? `<div class="photo-grid">${photos.map(p => `<div class="photo-item"><img src="${p.url}" alt="${v.name}" loading="lazy"></div>`).join('')}</div>`
+                    : '';
+                const noteHtml = s.note && s.note.trim()
+                    ? `<div class="place-note">&ldquo;${s.note.trim()}&rdquo;</div>` : '';
+                html += `<div class="place-entry">
+                    <div class="place-header">
+                        <span class="place-emoji">${v.emoji}</span>
+                        <div><div class="place-name">${v.name}</div>${starsHtml}</div>
+                    </div>${photosHtml}${noteHtml}
+                </div>`;
+            }
+            html += '</div>';
+            sections += html;
+        }
+
+        // Wine section
+        if (visitedWines.length) {
+            sections += '<div class="group-section"><h2 class="group-title">🍷 Wines Tasted</h2>';
+            for (const v of visitedWines) {
+                const s = wineLog[v.key] || {};
+                const starsHtml = s.rating ? `<div class="place-stars">${'★'.repeat(s.rating)}${'☆'.repeat(5 - s.rating)}</div>` : '';
+                const noteHtml = s.note && s.note.trim() ? `<div class="place-note">&ldquo;${s.note.trim()}&rdquo;</div>` : '';
+                sections += `<div class="place-entry">
+                    <div class="place-header">
+                        <span class="place-emoji">🍷</span>
+                        <div><div class="place-name">${v.name}</div><div class="place-sub">${v.loc}</div>${starsHtml}</div>
+                    </div>${noteHtml}
+                </div>`;
+            }
+            sections += '</div>';
+        }
+
+        // Shots captured
+        const capturedShots = SHOT_LIST.filter((_, i) => shotState[i]);
+        if (capturedShots.length) {
+            sections += `<div class="group-section"><h2 class="group-title">📸 Shots Captured</h2><div class="shot-grid">${
+                capturedShots.map(s => `<div class="shot-item"><span>${s.icon}</span> ${s.loc}</div>`).join('')
+            }</div></div>`;
+        }
+
+        const doc = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>Jerome Weekend Getaway · June 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@page { size: letter portrait; margin: 0.7in; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;color:#2d1a0e;background:#fff;font-size:11pt;line-height:1.55}
+.print-bar{background:#5c2d0e;color:#fff;padding:14px 20px;font-family:system-ui,sans-serif;font-size:13px;text-align:center;line-height:1.6}
+.print-bar button{margin-top:8px;padding:8px 24px;background:#c47840;color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.cover{text-align:center;padding:44px 0 36px;border-bottom:2px solid #c47840;margin-bottom:32px}
+.cover-eyebrow{font-size:9pt;letter-spacing:2px;text-transform:uppercase;color:#9b6b3a;font-weight:500;margin-bottom:8px}
+.cover-title{font-family:'Playfair Display',Georgia,serif;font-size:34pt;font-weight:600;color:#5c2d0e;line-height:1.1;margin-bottom:10px}
+.cover-sub{font-size:10.5pt;color:#7a5030;font-style:italic;margin-bottom:28px}
+.stats-row{display:flex;justify-content:center;gap:36px}
+.stat-n{font-family:'Playfair Display',Georgia,serif;font-size:24pt;font-weight:600;color:#c47840}
+.stat-l{font-size:8pt;text-transform:uppercase;letter-spacing:.6px;color:#9b6b3a;margin-top:2px}
+.group-section{margin-bottom:28px}
+.group-title{font-family:'Playfair Display',Georgia,serif;font-size:13.5pt;color:#5c2d0e;border-bottom:1px solid #e0c4a0;padding-bottom:7px;margin-bottom:14px;font-weight:600}
+.place-entry{margin-bottom:18px;padding-bottom:14px;border-bottom:1px dotted #e0c4a0;page-break-inside:avoid}
+.place-entry:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.place-header{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px}
+.place-emoji{font-size:18pt;line-height:1.1}
+.place-name{font-size:12pt;font-weight:600;color:#3d1f0a}
+.place-sub{font-size:9pt;color:#9b6b3a;margin-top:1px}
+.place-stars{font-size:12pt;color:#c47840;letter-spacing:1px;margin-top:2px}
+.place-note{font-style:italic;font-size:10.5pt;color:#5c3a1e;background:#fdf6ed;border-left:3px solid #c47840;padding:7px 11px;border-radius:0 6px 6px 0;margin-top:8px}
+.photo-grid{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.photo-item img{width:185px;height:124px;object-fit:cover;border-radius:7px;border:1px solid #e0c4a0;display:block}
+.shot-grid{display:flex;flex-wrap:wrap;gap:6px 24px}
+.shot-item{font-size:10pt;color:#5c3a1e}
+.footer{text-align:center;margin-top:40px;padding-top:14px;border-top:1px solid #e0c4a0;font-size:8.5pt;color:#9b6b3a}
+@media print{.print-bar{display:none}}
+</style>
+</head>
+<body>
+
+<div class="print-bar">
+  <strong>Save as PDF:</strong> Android → Menu (⋮) → Print → Save as PDF &nbsp;·&nbsp; iPhone → Share → Print → pinch the preview → Share → Save to Files<br>
+  <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+</div>
+
+<div class="cover">
+  <div class="cover-eyebrow">Verde Valley, Arizona · June 27–28, 2026</div>
+  <div class="cover-title">Jerome Weekend Getaway</div>
+  <div class="cover-sub">A copper-town escape — history, wine, and high-desert magic</div>
+  <div class="stats-row">
+    <div><div class="stat-n">${totalVisits}</div><div class="stat-l">Places Visited</div></div>
+    <div><div class="stat-n">${totalPhotos}</div><div class="stat-l">Photos Added</div></div>
+    <div><div class="stat-n">${visitedWines.length}</div><div class="stat-l">Wines Tasted</div></div>
+  </div>
+</div>
+
+${sections}
+
+<div class="footer">Jerome &amp; Cottonwood, Arizona · Verde Valley · June 2026</div>
+
+</body>
+</html>`;
+
+        if (btn) btn.textContent = '📄 Generate Keepsake PDF';
+
+        const w = window.open('', '_blank');
+        if (!w) {
+            alert('Please allow pop-ups and try again, or long-press the button to open in a new tab.');
+            return;
+        }
+        w.document.write(doc);
+        w.document.close();
+        setTimeout(() => { try { w.print(); } catch(e) {} }, 1400);
+    }
+
+    async function exportMemories() {
+        const visitLog = getVisitLog(), wineLog = getWineLog(), shotState = getShotState();
+        let txt = '🌵 Jerome Weekend Getaway · Verde Valley, AZ\n' + '─'.repeat(32) + '\n\n';
+
+        for (const g of VISIT_GROUPS) {
+            const gVisited = VISIT_LIST.filter(v => v.group === g.id && visitLog[v.key] && visitLog[v.key].visited);
+            if (!gVisited.length) continue;
+            txt += g.label + '\n';
+            for (const v of gVisited) {
+                const s = visitLog[v.key] || {};
+                const pc = (await _getPhotos(v.key)).length;
+                txt += `\n${v.emoji} ${v.name}`;
+                if (s.stars) txt += '  ' + '★'.repeat(s.stars) + '☆'.repeat(5 - s.stars);
+                if (pc) txt += `  📷 ${pc} photo${pc > 1 ? 's' : ''}`;
+                if (s.note && s.note.trim()) txt += `\n   "${s.note.trim()}"`;
+            }
+            txt += '\n\n';
+        }
+
+        const wines = WINE_VENUES.filter(v => wineLog[v.key] && wineLog[v.key].visited);
+        if (wines.length) {
+            txt += '🍷 WINERIES VISITED\n';
+            wines.forEach(v => {
+                const s = wineLog[v.key] || {};
+                txt += `\n${v.name} (${v.loc})`;
+                if (s.rating) txt += '  ' + '★'.repeat(s.rating) + '☆'.repeat(5 - s.rating);
+                if (s.note && s.note.trim()) txt += `\n   "${s.note.trim()}"`;
+            });
+            txt += '\n\n';
+        }
+
+        const shots = SHOT_LIST.filter((_, i) => shotState[i]);
+        if (shots.length) {
+            txt += '📸 SHOTS CAPTURED\n';
+            shots.forEach(s => { txt += `\n${s.icon} ${s.loc}`; });
+            txt += '\n\n';
+        }
+
+        txt += '─'.repeat(32) + '\nJune 2026 · Jerome & Cottonwood, Arizona';
+
+        navigator.clipboard.writeText(txt).then(() => {
+            const btn = document.getElementById('export-btn');
+            if (btn) { btn.textContent = '✓ Copied!'; setTimeout(() => btn.textContent = '📋 Copy to Clipboard', 2500); }
+        }).catch(() => {
+            const area = document.getElementById('export-preview');
+            if (area) { area.value = txt; area.style.display = 'block'; area.select(); }
+        });
+    }
+
+    // ── INIT ──────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+        renderOpenNow();
+        renderShots();
+        renderWineLog();
+        setInterval(renderOpenNow, 60000);
+    });
+
+</script>
+</body>
+</html>
