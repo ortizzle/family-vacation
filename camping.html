@@ -494,6 +494,273 @@
         .meal-tag.easy  { background: #e8f5ea; color: #2e7d3a; }
         .meal-tag.star  { background: var(--gold-pale); color: var(--gold); }
 
+        /* ── TAPPABLE EVENT ITEMS ── */
+        .event-item.tappable { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .event-item.tappable:active { background: #f0f4ff; border-radius: 8px; }
+        .event-item.tappable .event-name { color: var(--navy); }
+
+        /* ── INTERACTIVE CHECKLIST ── */
+        .icheck-list { list-style: none; }
+        .icheck-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 9px 0;
+            border-bottom: 1px solid #f0f2f8;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .icheck-item:last-child { border-bottom: none; }
+        .icheck-box {
+            width: 22px; height: 22px;
+            border: 2px solid #c0c8da;
+            border-radius: 6px;
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px;
+            transition: all .15s;
+            margin-top: 1px;
+        }
+        .icheck-item.checked .icheck-box { background: var(--navy); border-color: var(--navy); color: white; }
+        .icheck-label { font-size: 13px; color: var(--text-mid); line-height: 1.45; flex: 1; }
+        .icheck-item.checked .icheck-label { text-decoration: line-through; color: var(--text-light); }
+        .pack-progress {
+            background: #eef3fc;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pack-progress-bar-wrap {
+            flex: 1;
+            height: 8px;
+            background: #d0d8ec;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .pack-progress-bar { height: 100%; background: var(--navy); border-radius: 4px; transition: width .3s; }
+        .pack-progress-label { font-size: 12px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+        .pack-reset { font-size: 11px; color: var(--text-light); text-decoration: underline; cursor: pointer; margin-top: 6px; display: inline-block; }
+
+        /* ── BINGO ── */
+        .bingo-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            margin-bottom: 14px;
+        }
+        .bingo-cell {
+            background: var(--snow);
+            border: 2px solid #e0e6f4;
+            border-radius: 8px;
+            padding: 6px 2px;
+            text-align: center;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: all .15s;
+            min-height: 64px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+        }
+        .bingo-cell:active { transform: scale(.94); }
+        .bingo-cell.marked { background: var(--navy); border-color: var(--navy); }
+        .bingo-cell.free   { background: var(--red-mid); border-color: var(--red-mid); }
+        .bingo-cell.win    { background: var(--gold); border-color: var(--gold); animation: bingo-pop .3s ease; }
+        @keyframes bingo-pop { 0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)} }
+        .bc-emoji { font-size: 20px; line-height: 1; }
+        .bc-label { font-size: 8px; font-weight: 600; color: var(--text-mid); line-height: 1.2; padding: 0 2px; }
+        .bingo-cell.marked .bc-label,
+        .bingo-cell.free .bc-label,
+        .bingo-cell.win .bc-label { color: rgba(255,255,255,.9); }
+        .bingo-status {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-mid);
+            margin-bottom: 10px;
+            padding: 8px;
+            background: var(--cream);
+            border-radius: 8px;
+        }
+        .bingo-status.win { background: var(--gold-pale); color: var(--gold); }
+        .bingo-reset { display: block; text-align: center; font-size: 11px; color: var(--text-light); text-decoration: underline; cursor: pointer; margin-bottom: 14px; }
+
+        /* ── MAD LIBS ── */
+        .ml-story {
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--text-mid);
+            margin-bottom: 16px;
+        }
+        .ml-blank {
+            display: inline-block;
+            border-bottom: 2px solid var(--navy);
+            min-width: 80px;
+            text-align: center;
+            color: var(--navy);
+            font-weight: 700;
+            font-style: normal;
+            padding: 0 4px;
+        }
+        .ml-filled {
+            display: inline-block;
+            background: var(--navy);
+            color: white;
+            border-radius: 4px;
+            padding: 1px 6px;
+            font-weight: 600;
+        }
+        .ml-inputs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .ml-input-group { display: flex; flex-direction: column; gap: 4px; }
+        .ml-input-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--text-light); }
+        .ml-input {
+            border: 1.5px solid #d0d8ec;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: var(--snow);
+            width: 100%;
+        }
+        .ml-input:focus { outline: none; border-color: var(--navy); }
+        .ml-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: var(--navy);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            margin-bottom: 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ml-btn:active { opacity: .85; }
+        .ml-btn.red { background: var(--red-mid); }
+        .ml-result {
+            background: var(--snow);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: none;
+        }
+        .ml-result.visible { display: block; }
+        .ml-result-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        /* ── MEMORIES ── */
+        .memory-day-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+        .memory-day-tab {
+            padding: 7px 14px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid #d0d8ec;
+            color: var(--text-light);
+            background: var(--snow);
+            -webkit-tap-highlight-color: transparent;
+            transition: all .15s;
+        }
+        .memory-day-tab.active { background: var(--navy); color: white; border-color: var(--navy); }
+        .memory-panel { display: none; }
+        .memory-panel.active { display: block; }
+        .memory-field { margin-bottom: 14px; }
+        .memory-field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--text-light); margin-bottom: 6px; }
+        .memory-textarea {
+            width: 100%;
+            border: 1.5px solid #d0d8ec;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: var(--snow);
+            resize: vertical;
+            min-height: 72px;
+        }
+        .memory-textarea:focus { outline: none; border-color: var(--navy); }
+        .memory-save-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--navy);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+        .memory-saved-indicator { font-size: 12px; color: #2e7d3a; text-align: center; height: 16px; }
+        .memory-keepsake {
+            background: var(--snow);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 10px;
+        }
+        .mk-day { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--navy); margin-bottom: 8px; }
+        .mk-row { margin-bottom: 8px; }
+        .mk-label { font-size: 10px; color: var(--text-light); text-transform: uppercase; letter-spacing: .6px; }
+        .mk-value { font-size: 13px; color: var(--text-mid); line-height: 1.5; font-style: italic; }
+
+        /* ── MAP ── */
+        .map-card {
+            background: var(--snow);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-sm);
+        }
+        .map-title {
+            padding: 14px 16px 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .map-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 0 16px 14px;
+        }
+        .map-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            color: var(--text-mid);
+        }
+        .map-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
         /* ── MODAL ── */
         .modal-overlay {
             position: fixed;
@@ -584,7 +851,7 @@
     <div class="header-content">
         <div class="header-eyebrow">Ortiz Family</div>
         <div class="header-title">4th of July Camping</div>
-        <div class="header-sub">White Spar · Prescott · July 4–6</div>
+        <div class="header-sub">White Spar · Prescott · July 3–5</div>
     </div>
 </header>
 
@@ -605,9 +872,9 @@
         <div>
             <div class="warn-title">Weekend Weather — Prescott (5,641 ft)</div>
             <div class="warn-text">
-                <strong>Fri Jul 4:</strong> High 91°F · Mostly sunny · SW winds 5–10 mph<br>
-                <strong>Sat Jul 5:</strong> Overnight low 64°F · Partly cloudy · pleasant evening<br>
-                <strong>Sun Jul 6:</strong> High 93°F · Mostly sunny · SW winds 6–11 mph<br>
+                <strong>Fri Jul 3 (Arrival):</strong> High 91°F · Mostly sunny · SW winds 5–10 mph<br>
+                <strong>Sat Jul 4 🎆 (Independence Day):</strong> Overnight low 64°F · Partly cloudy · pleasant evening<br>
+                <strong>Sun Jul 5 (Departure):</strong> High 93°F · Mostly sunny · SW winds 6–11 mph<br>
                 Monsoon season starts in early July — afternoon thunderstorms possible. Nights at camp will be comfortable: mid-60s.
             </div>
         </div>
@@ -646,82 +913,97 @@
         </div>
     </div>
 
-    <div class="section-header">Friday · Late Arrival</div>
+    <div class="section-header">Friday, July 3 · Drive + Arrival</div>
+
+    <div class="info-banner">
+        <div class="info-icon">🕒</div>
+        <div>
+            <div class="info-title">Recommended Departure: Leave by 3:30 PM</div>
+            <div class="info-text">From Phoenix metro: ~90 miles, 1.5 hrs normally — add 30–45 min for holiday Friday traffic on I-17. Sunset in Prescott is <strong>7:46 PM</strong>. Leaving by 3:30 PM gets you to White Spar by ~5:30–6 PM with <strong>1.5–2 hours of daylight</strong> to set up camp comfortably.</div>
+        </div>
+    </div>
 
     <div class="card">
-        <div class="event-item">
-            <div class="event-time">Evening</div>
+        <div class="event-item tappable" onclick="openModal('drive-to-camp')">
+            <div class="event-time">3:30 PM</div>
             <div class="event-detail">
-                <div class="event-name">Drive to Campground <span class="ev-tag blue">Late Start</span></div>
-                <div class="event-note">Arriving after dark — have flashlights ready and campsite number confirmed</div>
+                <div class="event-name">🚗 Drive to White Spar <span class="ev-tag blue">~2 hrs</span></div>
+                <div class="event-note">I-17 N → AZ-69 W → Hwy 89 S · Site 38 · Tap for directions &amp; tips →</div>
             </div>
         </div>
         <div class="event-item">
-            <div class="event-time">Arrival</div>
+            <div class="event-time">~5:30 PM</div>
             <div class="event-detail">
-                <div class="event-name">Set Up Camp</div>
-                <div class="event-note">Tent, sleeping bags, camp chairs — keep it quick tonight</div>
+                <div class="event-name">Arrive &amp; Set Up Camp <span class="ev-tag green">2 hrs of daylight</span></div>
+                <div class="event-note">10-person tent, cots, screen canopy, Blackstone — do the big stuff first while there's light</div>
             </div>
         </div>
-        <div class="event-item">
-            <div class="event-time">Night</div>
+        <div class="event-item tappable" onclick="openModal('campfire')">
+            <div class="event-time">~8 PM</div>
             <div class="event-detail">
-                <div class="event-name">🔥 Quick Campfire + Snacks</div>
-                <div class="event-note">Get the fire going, unwind, maybe the first round of s'mores</div>
+                <div class="event-name">🔥 First Campfire + S'mores <span class="ev-tag gold">Round 1</span></div>
+                <div class="event-note">Get the fire going, unwind — the trip officially starts · Tap for campfire tips →</div>
             </div>
         </div>
     </div>
 
-    <div class="section-header">Saturday · Independence Day 🎆</div>
+    <div class="section-header">Saturday, July 4 · Independence Day 🎆</div>
 
     <div class="card">
         <div class="event-item">
             <div class="event-time">Morning</div>
             <div class="event-detail">
-                <div class="event-name">Camp Breakfast <span class="ev-tag gold">Tradition</span></div>
-                <div class="event-note">Eggs, bacon, camp coffee — the real start to the 4th</div>
+                <div class="event-name">☕ Camp Breakfast on the Blackstone <span class="ev-tag gold">Tradition</span></div>
+                <div class="event-note">Eggs, bacon, coffee — the real start to the 4th. Best meal of the trip.</div>
             </div>
         </div>
-        <div class="event-item">
-            <div class="event-time">Mid-Morning</div>
+        <div class="event-item tappable" onclick="openModal('hike')">
+            <div class="event-time">9–11 AM</div>
             <div class="event-detail">
-                <div class="event-name">Explore · Hike · Swim</div>
-                <div class="event-note">Check the Activities tab for ideas — go before the heat peaks</div>
+                <div class="event-name">🥾 Thumb Butte Trail or Granite Basin</div>
+                <div class="event-note">Go before the heat builds · 2 mi loop · 1.5 mi from camp · Tap for all trail options →</div>
             </div>
         </div>
         <div class="event-item">
             <div class="event-time">Midday</div>
             <div class="event-detail">
-                <div class="event-name">Lunch + Relax at Camp</div>
-                <div class="event-note">Hot dogs, sandwiches, shade time — rest up for the big evening</div>
+                <div class="event-name">🌭 Lunch + Shade Time at Camp</div>
+                <div class="event-note">Hot dogs on the fire, watermelon, relax under the canopy</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item tappable" onclick="openModal('camp-games')">
             <div class="event-time">Afternoon</div>
             <div class="event-detail">
-                <div class="event-name">Camp Games + Free Time</div>
-                <div class="event-note">Cards, frisbee, nature walks — let the kids run wild</div>
+                <div class="event-name">🃏 Camp Games + Free Time</div>
+                <div class="event-note">Bingo, Mad Libs, frisbee, cards — check Games tab · Tap for game ideas →</div>
             </div>
         </div>
-        <div class="event-item">
-            <div class="event-time">Dinner</div>
+        <div class="event-item tappable" onclick="openModal('rodeo')">
+            <div class="event-time">5–7 PM</div>
             <div class="event-detail">
-                <div class="event-name">4th of July Cookout <span class="ev-tag">Must</span></div>
-                <div class="event-note">Burgers, dogs, potato salad — the full American experience</div>
+                <div class="event-name">🤠 World's Oldest Rodeo <span class="ev-tag blue">Optional</span></div>
+                <div class="event-note">Prescott Frontier Days · 140th Annual · 840 Rodeo Dr · 5 min away · Tap for details →</div>
             </div>
         </div>
         <div class="event-item">
-            <div class="event-time">~9 PM</div>
+            <div class="event-time">6–7 PM</div>
             <div class="event-detail">
-                <div class="event-name">🎆 Prescott Fireworks <span class="ev-tag blue">Drive In</span></div>
-                <div class="event-note">Courthouse Plaza · 2.7 mi from camp · go early for parking · no fireworks allowed at the campsite</div>
+                <div class="event-name">🍔 4th of July Cookout <span class="ev-tag">Main Event</span></div>
+                <div class="event-note">Burgers, dogs, potato salad, watermelon — the full American spread on the Blackstone</div>
             </div>
         </div>
-        <div class="event-item">
+        <div class="event-item tappable" onclick="openModal('fireworks')">
+            <div class="event-time">~8:30 PM</div>
+            <div class="event-detail">
+                <div class="event-name">🎆 Drive to Prescott Fireworks <span class="ev-tag blue">Leave Early</span></div>
+                <div class="event-note">Courthouse Plaza · 2.7 mi · go early for parking · show ~9 PM · Tap for directions →</div>
+            </div>
+        </div>
+        <div class="event-item tappable" onclick="openModal('campfire')">
             <div class="event-time">After</div>
             <div class="event-detail">
-                <div class="event-name">🔥 Campfire + S'mores</div>
-                <div class="event-note">End the 4th the right way — fire, chocolate, marshmallows, stars</div>
+                <div class="event-name">🔥 Campfire + S'mores Round 2 <span class="ev-tag gold">Peak Experience</span></div>
+                <div class="event-note">Back at camp after the show · stars + fire + chocolate · Tap for s'more tips →</div>
             </div>
         </div>
     </div>
@@ -791,11 +1073,11 @@
         </div>
         <div class="info-row">
             <span class="info-row-label">Check-in</span>
-            <span class="info-row-value">Friday, July 4 — Late Arrival</span>
+            <span class="info-row-value">Friday, July 3 — Late Arrival</span>
         </div>
         <div class="info-row">
             <span class="info-row-label">Check-out</span>
-            <span class="info-row-value">Sunday, July 6 — Morning</span>
+            <span class="info-row-value">Sunday, July 5 — Morning</span>
         </div>
         <div class="info-row">
             <span class="info-row-label">Address</span>
@@ -893,6 +1175,141 @@
         <div class="info-row">
             <span class="info-row-label">Also Nearby</span>
             <span class="info-row-value">Whiskey Row bars + restaurants open all day</span>
+        </div>
+    </div>
+
+    <div class="section-header">Area Map</div>
+
+    <div class="map-card">
+        <div class="map-title">🗺️ Prescott Area — White Spar &amp; Surroundings</div>
+        <svg viewBox="0 0 390 440" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+            <!-- Forest background -->
+            <rect width="390" height="440" fill="#dce8d8"/>
+            <!-- Terrain shading -->
+            <ellipse cx="100" cy="130" rx="90" ry="70" fill="#c8dcbe" opacity=".6"/>
+            <ellipse cx="290" cy="390" rx="70" ry="50" fill="#c8e8c8" opacity=".5"/>
+            <!-- Highway 89 — main N-S artery -->
+            <path d="M195 430 C194 400 192 380 192 360 C192 320 193 290 194 250 C195 235 195 230 195 225 C190 190 170 160 140 130 C118 108 95 92 80 78" stroke="#f5e8c8" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M195 430 C194 400 192 380 192 360 C192 320 193 290 194 250 C195 235 195 230 195 225 C190 190 170 160 140 130 C118 108 95 92 80 78" stroke="#e8d4a8" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="none"/>
+            <!-- Label Hwy 89 -->
+            <text x="215" y="310" font-size="9" fill="#8b7040" font-family="Inter,sans-serif" font-weight="700">HWY 89</text>
+            <!-- Highway 69 — east toward Lynx Lake -->
+            <path d="M198 232 C220 240 255 270 285 310 C305 335 322 358 340 378" stroke="#f5e8c8" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M198 232 C220 240 255 270 285 310 C305 335 322 358 340 378" stroke="#e8d4a8" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <text x="258" y="290" font-size="9" fill="#8b7040" font-family="Inter,sans-serif" font-weight="700" transform="rotate(40,258,290)">HWY 69</text>
+            <!-- Road to Thumb Butte -->
+            <path d="M196 230 C175 228 158 226 128 222" stroke="#e0d4b8" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M196 230 C175 228 158 226 128 222" stroke="#ccc0a0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Road to Rodeo Grounds -->
+            <path d="M200 228 C215 215 228 200 248 180" stroke="#e0d4b8" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M200 228 C215 215 228 200 248 180" stroke="#ccc0a0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Road to Granite Basin -->
+            <path d="M147 128 C132 118 115 108 96 97" stroke="#e0d4b8" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <!-- Lynx Lake -->
+            <ellipse cx="342" cy="382" rx="22" ry="14" fill="#8ab8d8" opacity=".8"/>
+            <text x="342" y="386" font-size="8" fill="#1a3a5a" font-family="Inter,sans-serif" font-weight="700" text-anchor="middle">Lynx Lake</text>
+            <!-- Granite Basin Lake -->
+            <ellipse cx="88" cy="88" rx="18" ry="12" fill="#8ab8d8" opacity=".8"/>
+            <text x="88" y="92" font-size="8" fill="#1a3a5a" font-family="Inter,sans-serif" font-weight="700" text-anchor="middle">G. Basin</text>
+            <!-- NORTH indicator -->
+            <text x="356" y="24" font-size="14" fill="#3a5080" font-family="Inter,sans-serif" font-weight="900" text-anchor="middle">N</text>
+            <line x1="356" y1="28" x2="356" y2="42" stroke="#3a5080" stroke-width="2"/>
+            <polygon points="356,18 352,28 360,28" fill="#3a5080"/>
+
+            <!-- ── LOCATION PINS ── -->
+            <!-- White Spar Campground (green tent) -->
+            <circle cx="192" cy="362" r="14" fill="#2d6e2d" stroke="white" stroke-width="2.5"/>
+            <text x="192" y="367" font-size="14" text-anchor="middle">⛺</text>
+            <text x="192" y="384" font-size="9" font-weight="700" fill="#1a3a1a" font-family="Inter,sans-serif" text-anchor="middle">White Spar</text>
+            <text x="192" y="395" font-size="8" fill="#2d6e2d" font-family="Inter,sans-serif" text-anchor="middle">Site 38 ★</text>
+
+            <!-- Courthouse Plaza / Fireworks (red star) -->
+            <circle cx="195" cy="232" r="13" fill="#b02a22" stroke="white" stroke-width="2.5"/>
+            <text x="195" y="237" font-size="13" text-anchor="middle">🎆</text>
+            <text x="195" y="252" font-size="8" font-weight="700" fill="#7a1818" font-family="Inter,sans-serif" text-anchor="middle">Courthouse Plaza</text>
+            <text x="195" y="262" font-size="8" fill="#b02a22" font-family="Inter,sans-serif" text-anchor="middle">Fireworks 9 PM</text>
+
+            <!-- Rodeo Grounds (brown) -->
+            <circle cx="248" cy="176" r="12" fill="#7a4a1e" stroke="white" stroke-width="2.5"/>
+            <text x="248" y="181" font-size="12" text-anchor="middle">🤠</text>
+            <text x="248" y="195" font-size="8" font-weight="700" fill="#5c3010" font-family="Inter,sans-serif" text-anchor="middle">Rodeo Grounds</text>
+            <text x="248" y="205" font-size="8" fill="#7a4a1e" font-family="Inter,sans-serif" text-anchor="middle">840 Rodeo Dr</text>
+
+            <!-- Thumb Butte (dark green hike) -->
+            <circle cx="126" cy="222" r="12" fill="#1a5c3a" stroke="white" stroke-width="2.5"/>
+            <text x="126" y="227" font-size="12" text-anchor="middle">🥾</text>
+            <text x="126" y="240" font-size="8" font-weight="700" fill="#0e3824" font-family="Inter,sans-serif" text-anchor="middle">Thumb Butte</text>
+            <text x="126" y="250" font-size="8" fill="#1a5c3a" font-family="Inter,sans-serif" text-anchor="middle">Trail · 6,515 ft</text>
+
+            <!-- Granite Basin (blue hike) -->
+            <circle cx="88" cy="72" r="11" fill="#1a5c3a" stroke="white" stroke-width="2.5"/>
+            <text x="88" y="77" font-size="11" text-anchor="middle">🏞️</text>
+            <text x="88" y="62" font-size="8" font-weight="700" fill="#0e3824" font-family="Inter,sans-serif" text-anchor="middle">Granite Basin</text>
+
+            <!-- Lynx Lake hiking -->
+            <circle cx="342" cy="363" r="11" fill="#1a5c3a" stroke="white" stroke-width="2.5"/>
+            <text x="342" y="368" font-size="11" text-anchor="middle">🚣</text>
+            <text x="342" y="355" font-size="8" font-weight="700" fill="#0e3824" font-family="Inter,sans-serif" text-anchor="middle">Lynx Lake</text>
+
+            <!-- Hospital (red cross) -->
+            <circle cx="154" cy="196" r="11" fill="#c0392b" stroke="white" stroke-width="2.5"/>
+            <text x="154" y="200" font-size="10" text-anchor="middle" fill="white" font-weight="900" font-family="Inter,sans-serif">✚</text>
+            <text x="154" y="185" font-size="7.5" font-weight="700" fill="#8b0000" font-family="Inter,sans-serif" text-anchor="middle">Yavapai Med</text>
+
+            <!-- Distance label -->
+            <line x1="192" y1="350" x2="192" y2="244" stroke="#444" stroke-width="1" stroke-dasharray="3,3" opacity=".4"/>
+            <text x="210" y="300" font-size="8" fill="#555" font-family="Inter,sans-serif">2.7 mi</text>
+        </svg>
+        <div class="map-legend">
+            <div class="map-legend-item"><div class="map-dot" style="background:#2d6e2d"></div> Camp / You Are Here</div>
+            <div class="map-legend-item"><div class="map-dot" style="background:#b02a22"></div> 4th of July Events</div>
+            <div class="map-legend-item"><div class="map-dot" style="background:#1a5c3a"></div> Trails &amp; Recreation</div>
+            <div class="map-legend-item"><div class="map-dot" style="background:#c0392b"></div> Medical</div>
+        </div>
+    </div>
+
+    <div class="section-header">Emergency Services</div>
+
+    <div class="warn-banner">
+        <div class="warn-icon">🚨</div>
+        <div>
+            <div class="warn-title">Emergency: Call 911</div>
+            <div class="warn-text">Cell service can be limited at White Spar. In an emergency, drive toward downtown Prescott for stronger signal, or ask the camp host for the nearest emergency access point.</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="info-row">
+            <span class="info-row-label">🚑 Emergency</span>
+            <span class="info-row-value"><a href="tel:911" style="color:var(--red-mid);font-weight:700;">911</a></span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">🏥 Yavapai Regional Medical</span>
+            <span class="info-row-value"><a href="tel:9287712000" style="color:var(--navy);font-weight:600;">928-771-2000</a></span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label" style="font-size:11px;">1003 Willow Creek Rd · 5 min</span>
+            <span class="info-row-value"><a href="https://maps.google.com/?q=Yavapai+Regional+Medical+Center+Prescott+AZ" target="_blank" style="color:var(--navy);font-size:11px;">Directions ↗</a></span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">🚔 Prescott Police</span>
+            <span class="info-row-value"><a href="tel:9287778900" style="color:var(--navy);font-weight:600;">928-777-8900</a></span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">🌲 Forest Service</span>
+            <span class="info-row-value"><a href="tel:9284438000" style="color:var(--navy);font-weight:600;">928-443-8000</a></span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">🔥 Fire Restrictions</span>
+            <span class="info-row-value"><a href="https://www.fs.usda.gov/prescott" target="_blank" style="color:var(--navy);font-weight:600;">fs.usda.gov/prescott ↗</a></span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">☁️ Weather</span>
+            <span class="info-row-value"><a href="https://forecast.weather.gov/MapClick.php?CityName=Prescott&state=AZ" target="_blank" style="color:var(--navy);font-weight:600;">NWS Prescott ↗</a></span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">💊 Walgreens (24 hr)</span>
+            <span class="info-row-value"><a href="tel:9287780590" style="color:var(--navy);font-weight:600;">928-778-0590</a></span>
         </div>
     </div>
 
@@ -1264,6 +1681,215 @@
 
 </section>
 
+<!-- ═══════════════════════════════════ PACK ═══════════════════════════════════ -->
+<section class="section" id="section-pack">
+
+    <div class="hero-banner">
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0d1a33 0%,#1a2744 50%,#2d6e2d 100%);"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Checklist</div>
+            <div class="hero-title">Pack It Up</div>
+            <div class="hero-sub">Tap items to check them off</div>
+        </div>
+    </div>
+
+    <div class="pack-progress" id="pack-progress-bar">
+        <div class="pack-progress-bar-wrap"><div class="pack-progress-bar" id="pack-bar" style="width:0%"></div></div>
+        <div class="pack-progress-label" id="pack-label">0 / 0 packed</div>
+    </div>
+
+    <div class="section-header">🏕️ Shelter &amp; Sleep</div>
+    <div class="card">
+        <ul class="icheck-list" id="pack-shelter">
+            <li class="icheck-item" onclick="togglePack(this,'shelter-0')"><div class="icheck-box">✓</div><span class="icheck-label">10-person tent — confirm poles, stakes, rain fly &amp; footprint all loaded</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-1')"><div class="icheck-box">✓</div><span class="icheck-label">Cots (one per person) — set up first while there's daylight</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-2')"><div class="icheck-box">✓</div><span class="icheck-label">Sleeping bags — lows in the mid-60s, light-to-medium weight</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-3')"><div class="icheck-box">✓</div><span class="icheck-label">Pillows</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-4')"><div class="icheck-box">✓</div><span class="icheck-label">Screen canopy — poles, stakes, guy lines (SW winds forecast)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-5')"><div class="icheck-box">✓</div><span class="icheck-label">Camp chairs (one per person) + folding table</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-6')"><div class="icheck-box">✓</div><span class="icheck-label">Ground tarp / extra stakes</span></li>
+        </ul>
+    </div>
+
+    <div class="section-header">🍳 Cooking Gear</div>
+    <div class="card">
+        <ul class="icheck-list" id="pack-cooking">
+            <li class="icheck-item" onclick="togglePack(this,'cook-0')"><div class="icheck-box">✓</div><span class="icheck-label">Blackstone camping grill — cleaned and ready</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-1')"><div class="icheck-box">✓</div><span class="icheck-label">Propane tank (full) + spare canister</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-2')"><div class="icheck-box">✓</div><span class="icheck-label">Blackstone scraper, spatulas, tongs</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-3')"><div class="icheck-box">✓</div><span class="icheck-label">Blackstone seasoning oil / cooking spray</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-4')"><div class="icheck-box">✓</div><span class="icheck-label">Fire pit (check campground allows personal pits alongside site ring)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-5')"><div class="icheck-box">✓</div><span class="icheck-label">Firewood — buy locally in Prescott, don't transport across regions</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-6')"><div class="icheck-box">✓</div><span class="icheck-label">Firestarter, matches, lighter (2 of each)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-7')"><div class="icheck-box">✓</div><span class="icheck-label">Pot + skillet for anything off the Blackstone</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-8')"><div class="icheck-box">✓</div><span class="icheck-label">Plates, bowls, cups, utensils</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-9')"><div class="icheck-box">✓</div><span class="icheck-label">Dish soap, sponge, small wash basin</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-10')"><div class="icheck-box">✓</div><span class="icheck-label">Aluminum foil — endless camp uses</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-11')"><div class="icheck-box">✓</div><span class="icheck-label">S'more sticks / roasting skewers</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-12')"><div class="icheck-box">✓</div><span class="icheck-label">Trash bags (large) — pack in, pack out</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-13')"><div class="icheck-box">✓</div><span class="icheck-label">Paper towels + napkins</span></li>
+        </ul>
+    </div>
+
+    <div class="section-header">🧊 Food &amp; Drinks</div>
+    <div class="card">
+        <ul class="icheck-list" id="pack-food">
+            <li class="icheck-item" onclick="togglePack(this,'food-0')"><div class="icheck-box">✓</div><span class="icheck-label">2 coolers: one food, one drinks (food stays colder)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-1')"><div class="icheck-box">✓</div><span class="icheck-label">Twice the ice you think — 91°F days in July</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-2')"><div class="icheck-box">✓</div><span class="icheck-label">Frozen water bottles (become ice → drinking water)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-3')"><div class="icheck-box">✓</div><span class="icheck-label">Eggs (pre-cracked into sealed container)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-4')"><div class="icheck-box">✓</div><span class="icheck-label">Bacon / breakfast sausage</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-5')"><div class="icheck-box">✓</div><span class="icheck-label">Burger patties (pre-formed, wrapped individually)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-6')"><div class="icheck-box">✓</div><span class="icheck-label">Hot dogs + buns + condiments</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-7')"><div class="icheck-box">✓</div><span class="icheck-label">Burger buns, burger toppings (cheese, lettuce, tomato, onion)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-8')"><div class="icheck-box">✓</div><span class="icheck-label">Potato salad / baked beans (pre-made)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-9')"><div class="icheck-box">✓</div><span class="icheck-label">Watermelon 🍉 — it's the law on the 4th</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-10')"><div class="icheck-box">✓</div><span class="icheck-label">S'more kit: marshmallows, Hershey's bars, graham crackers</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-11')"><div class="icheck-box">✓</div><span class="icheck-label">S'more upgrade: Reese's cups + Nutella</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-12')"><div class="icheck-box">✓</div><span class="icheck-label">Bread + sandwich stuff (Friday night arrival meal)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-13')"><div class="icheck-box">✓</div><span class="icheck-label">Breakfast cereals / instant oatmeal / granola bars (Sunday)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-14')"><div class="icheck-box">✓</div><span class="icheck-label">Snacks: chips, trail mix, fruit, jerky</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-15')"><div class="icheck-box">✓</div><span class="icheck-label">Coffee + camp coffee maker / instant packets</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-16')"><div class="icheck-box">✓</div><span class="icheck-label">Kids' drinks + water bottles for everyone</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-17')"><div class="icheck-box">✓</div><span class="icheck-label">Ziploc bags (all sizes) — condensation is real</span></li>
+        </ul>
+    </div>
+
+    <div class="section-header">🧴 Safety &amp; Comfort</div>
+    <div class="card">
+        <ul class="icheck-list" id="pack-safety">
+            <li class="icheck-item" onclick="togglePack(this,'safe-0')"><div class="icheck-box">✓</div><span class="icheck-label">Headlamps / flashlights for everyone — CRITICAL for Friday night setup</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-1')"><div class="icheck-box">✓</div><span class="icheck-label">Lantern for canopy / table area</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-2')"><div class="icheck-box">✓</div><span class="icheck-label">First aid kit</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-3')"><div class="icheck-box">✓</div><span class="icheck-label">Any medications (daily + emergency)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-4')"><div class="icheck-box">✓</div><span class="icheck-label">Sunscreen (SPF 50+ — UV stronger at 5,641 ft)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-5')"><div class="icheck-box">✓</div><span class="icheck-label">Bug spray — July evenings can be buggy</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-6')"><div class="icheck-box">✓</div><span class="icheck-label">Portable battery pack + phone chargers</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-7')"><div class="icheck-box">✓</div><span class="icheck-label">Light layers / jackets for evenings (mid-60s at night)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-8')"><div class="icheck-box">✓</div><span class="icheck-label">Closed-toe shoes for hiking (sandals = no for trails)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-9')"><div class="icheck-box">✓</div><span class="icheck-label">Water bottles + hydration for hikes (1L per person per hr)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-10')"><div class="icheck-box">✓</div><span class="icheck-label">Glow sticks for kids — fireworks night fun</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-11')"><div class="icheck-box">✓</div><span class="icheck-label">Toilet paper + hand sanitizer (vault restrooms on-site)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-12')"><div class="icheck-box">✓</div><span class="icheck-label">Dog leash (6 ft required) + dog food + water bowl if bringing pups</span></li>
+        </ul>
+        <span class="pack-reset" onclick="resetPack()">Reset all checkboxes</span>
+    </div>
+
+</section>
+
+<!-- ═══════════════════════════════════ GAMES ═══════════════════════════════════ -->
+<section class="section" id="section-games">
+
+    <div class="hero-banner">
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0d1a33 0%,#1a2744 50%,#b02a22 100%);"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Family Fun</div>
+            <div class="hero-title">Camp Games</div>
+            <div class="hero-sub">Mad Libs · Hike Bingo · Memories</div>
+        </div>
+    </div>
+
+    <!-- ── MAD LIBS ── -->
+    <div class="section-header">📖 Spooky Camping Mad Libs</div>
+
+    <div class="card">
+        <div class="card-label">Fill in the blanks, then tap reveal</div>
+        <div class="card-title">The Night Something Lurked at White Spar</div>
+        <div class="ml-inputs-grid">
+            <div class="ml-input-group"><div class="ml-input-label">Adjective #1</div><input class="ml-input" id="ml0" placeholder="e.g. spooky"></div>
+            <div class="ml-input-group"><div class="ml-input-label">A Noise</div><input class="ml-input" id="ml1" placeholder="e.g. crackling"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Family Member</div><input class="ml-input" id="ml2" placeholder="e.g. Kat"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Adjective #2</div><input class="ml-input" id="ml3" placeholder="e.g. thunderous"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Color</div><input class="ml-input" id="ml4" placeholder="e.g. neon green"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Verb (past tense)</div><input class="ml-input" id="ml5" placeholder="e.g. shuffled"></div>
+            <div class="ml-input-group"><div class="ml-input-label">A Number</div><input class="ml-input" id="ml6" placeholder="e.g. 47"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Family Member #2</div><input class="ml-input" id="ml7" placeholder="e.g. River"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Adjective #3</div><input class="ml-input" id="ml8" placeholder="e.g. enormous"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Wild Animal</div><input class="ml-input" id="ml9" placeholder="e.g. elk"></div>
+            <div class="ml-input-group"><div class="ml-input-label">A Food</div><input class="ml-input" id="ml10" placeholder="e.g. s'more"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Body Part</div><input class="ml-input" id="ml11" placeholder="e.g. elbow"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Exclamation!</div><input class="ml-input" id="ml12" placeholder="e.g. HOLY MOLY"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Family Member #3</div><input class="ml-input" id="ml13" placeholder="e.g. Sedona"></div>
+            <div class="ml-input-group"><div class="ml-input-label">A Noun</div><input class="ml-input" id="ml14" placeholder="e.g. log"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Number of Somersaults</div><input class="ml-input" id="ml15" placeholder="e.g. 3"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Adverb</div><input class="ml-input" id="ml16" placeholder="e.g. frantically"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Adjective #4</div><input class="ml-input" id="ml17" placeholder="e.g. hideous"></div>
+            <div class="ml-input-group"><div class="ml-input-label">A Weapon (silly)</div><input class="ml-input" id="ml18" placeholder="e.g. spatula"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Another Food</div><input class="ml-input" id="ml19" placeholder="e.g. hot dog bun"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Family Member #4</div><input class="ml-input" id="ml20" placeholder="e.g. Chris"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Silly Verb (-ing)</div><input class="ml-input" id="ml21" placeholder="e.g. yodeling"></div>
+            <div class="ml-input-group"><div class="ml-input-label">A Song or TV Show</div><input class="ml-input" id="ml22" placeholder="e.g. Baby Shark"></div>
+            <div class="ml-input-group"><div class="ml-input-label">Another Body Part</div><input class="ml-input" id="ml23" placeholder="e.g. forehead"></div>
+            <div class="ml-input-group"><div class="ml-input-label">A Big Number</div><input class="ml-input" id="ml24" placeholder="e.g. 12"></div>
+        </div>
+        <button class="ml-btn" onclick="revealMadLib()">🎃 Reveal the Story!</button>
+        <button class="ml-btn red" onclick="resetMadLib()" style="display:none" id="ml-reset-btn">↺ New Story</button>
+        <div class="ml-result" id="ml-result">
+            <div class="ml-result-title">🏕️ The Night Something Lurked at White Spar</div>
+            <div class="ml-story" id="ml-story-text"></div>
+        </div>
+    </div>
+
+    <!-- ── HIKE BINGO ── -->
+    <div class="section-header">🥾 Prescott Hike Bingo</div>
+
+    <div class="card" style="padding:16px;">
+        <div class="card-label" style="margin-bottom:8px;">Find it on the trail — tap to mark!</div>
+        <div class="bingo-status" id="bingo-status">Find 5 in a row to win! 🎯</div>
+        <div class="bingo-grid" id="bingo-grid"></div>
+        <span class="bingo-reset" onclick="resetBingo()">Reset board</span>
+        <div class="tip-box" style="margin-top:4px;margin-bottom:0;">
+            <div class="tip-label">Where to Play</div>
+            <div class="tip-text">Best on Thumb Butte Trail (1.5 mi from camp) or the Granite Basin Lake walk. All items on this board have been spotted in Prescott National Forest in July.</div>
+        </div>
+    </div>
+
+    <!-- ── MEMORIES ── -->
+    <div class="section-header">📸 Trip Memories &amp; Keepsake</div>
+
+    <div class="card">
+        <div class="card-label">Write it down before you forget</div>
+        <div class="card-title">Weekend Journal</div>
+        <div class="memory-day-tabs">
+            <div class="memory-day-tab active" onclick="switchMemoryDay('fri', this)">Fri Jul 3</div>
+            <div class="memory-day-tab" onclick="switchMemoryDay('sat', this)">Sat Jul 4 🎆</div>
+            <div class="memory-day-tab" onclick="switchMemoryDay('sun', this)">Sun Jul 5</div>
+        </div>
+
+        <div class="memory-panel active" id="mem-fri">
+            <div class="memory-field"><label>✨ Best moment of the evening</label><textarea class="memory-textarea" id="mem-fri-best" oninput="autoSaveMemory('fri')" placeholder="Setting up camp, first campfire, the drive up..."></textarea></div>
+            <div class="memory-field"><label>😂 Funniest thing that happened</label><textarea class="memory-textarea" id="mem-fri-funny" oninput="autoSaveMemory('fri')" placeholder="Something only this family would do..."></textarea></div>
+            <div class="memory-field"><label>🐾 Wildlife spotted</label><textarea class="memory-textarea" id="mem-fri-wild" oninput="autoSaveMemory('fri')" placeholder="Deer, birds, squirrels..."></textarea></div>
+            <div class="memory-field"><label>📸 Photo you want to print someday</label><textarea class="memory-textarea" id="mem-fri-photo" oninput="autoSaveMemory('fri')" placeholder="Describe the shot — who, what, the light..."></textarea></div>
+        </div>
+
+        <div class="memory-panel" id="mem-sat">
+            <div class="memory-field"><label>✨ Best moment of the 4th</label><textarea class="memory-textarea" id="mem-sat-best" oninput="autoSaveMemory('sat')" placeholder="Fireworks? Rodeo? The campfire after?"></textarea></div>
+            <div class="memory-field"><label>😂 Funniest thing that happened</label><textarea class="memory-textarea" id="mem-sat-funny" oninput="autoSaveMemory('sat')" placeholder="The 4th always delivers a story..."></textarea></div>
+            <div class="memory-field"><label>🎆 Fireworks moment</label><textarea class="memory-textarea" id="mem-sat-fireworks" oninput="autoSaveMemory('sat')" placeholder="What the kids said, the colors, the crowd..."></textarea></div>
+            <div class="memory-field"><label>🐾 Wildlife + nature spotted</label><textarea class="memory-textarea" id="mem-sat-wild" oninput="autoSaveMemory('sat')" placeholder="On the hike, at camp, anywhere..."></textarea></div>
+            <div class="memory-field"><label>📸 Photo you want to print someday</label><textarea class="memory-textarea" id="mem-sat-photo" oninput="autoSaveMemory('sat')" placeholder="The one shot from the whole trip..."></textarea></div>
+        </div>
+
+        <div class="memory-panel" id="mem-sun">
+            <div class="memory-field"><label>☕ Last morning feeling</label><textarea class="memory-textarea" id="mem-sun-morning" oninput="autoSaveMemory('sun')" placeholder="The coffee, the quiet, the moment before packing up..."></textarea></div>
+            <div class="memory-field"><label>🏆 Highlight of the whole trip</label><textarea class="memory-textarea" id="mem-sun-highlight" oninput="autoSaveMemory('sun')" placeholder="If you had to pick one thing..."></textarea></div>
+            <div class="memory-field"><label>💬 Something a kid said you never want to forget</label><textarea class="memory-textarea" id="mem-sun-quote" oninput="autoSaveMemory('sun')" placeholder="Write it down now before it's gone..."></textarea></div>
+            <div class="memory-field"><label>📸 Photo you want to print someday</label><textarea class="memory-textarea" id="mem-sun-photo" oninput="autoSaveMemory('sun')" placeholder="The departure shot, the packed-up camp..."></textarea></div>
+        </div>
+
+        <div class="memory-saved-indicator" id="mem-saved"></div>
+    </div>
+
+    <div class="section-header">📓 Keepsake Summary</div>
+    <div id="keepsake-output">
+        <div class="info-banner"><div class="info-icon">💡</div><div><div class="info-title">Fill in the journal above</div><div class="info-text">Your entries will appear here as a keepsake you can screenshot and save.</div></div></div>
+    </div>
+
+</section>
+
 </main>
 
 <!-- ── BOTTOM NAV ── -->
@@ -1278,11 +1904,19 @@
     </button>
     <button class="nav-item" onclick="showSection('activities', this)">
         <span class="nav-icon">🎆</span>
-        <span class="nav-label">Activities</span>
+        <span class="nav-label">Events</span>
     </button>
     <button class="nav-item" onclick="showSection('eats', this)">
         <span class="nav-icon">🍔</span>
         <span class="nav-label">Eats</span>
+    </button>
+    <button class="nav-item" onclick="showSection('pack', this)">
+        <span class="nav-icon">🎒</span>
+        <span class="nav-label">Pack</span>
+    </button>
+    <button class="nav-item" onclick="showSection('games', this)">
+        <span class="nav-icon">🃏</span>
+        <span class="nav-label">Games</span>
     </button>
 </nav>
 
@@ -1507,6 +2141,217 @@
     }
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    /* ── DRIVE TO CAMP MODAL ── */
+    MODALS['drive-to-camp'] = {
+        emoji: '🚗',
+        title: 'Drive to White Spar',
+        sub: 'From Phoenix metro · July 3 (Friday)',
+        tags: [{t:'Leave by 3:30 PM',c:''},{t:'~2 hrs with traffic',c:'sand'},{t:'Arrives ~5:30 PM',c:'green'}],
+        info: [
+            ['Route','I-17 N → AZ-69 W → Hwy 89 S'],
+            ['Distance','~90 miles from Phoenix metro'],
+            ['Normal drive','1 hr 30 min'],
+            ['Holiday traffic','Add 30–45 min (July 3 Friday escape)'],
+            ['Recommended leave','3:00–3:30 PM'],
+            ['Sunset','7:46 PM — arrives with 2+ hrs of daylight'],
+            ['Site','White Spar Campground · Site 38 · Confirmation 0863734551-1'],
+        ],
+        facts: [
+            '<a href="https://maps.google.com/?daddr=White+Spar+Campground+Prescott+AZ&travelmode=driving" target="_blank" style="color:var(--navy);font-weight:700;">📍 Open Directions in Google Maps →</a><br><br>Take I-17 North to the Cordes Junction exit (AZ-69 W). Follow AZ-69 into Prescott, then take Hwy 89 South for 2.7 miles — the campground entrance will be on your left (east side of 89).',
+            'July 3rd Friday afternoon traffic on I-17 northbound is consistently the heaviest of the year — the holiday weekend exodus from Phoenix. Leave by 3 PM if possible. If you leave after 5 PM expect 3+ hours.',
+            'Pack the car the night before July 3. Load coolers last and sit them in the trunk the morning of — this keeps the food colder longer and means faster departure.',
+            'Have the reservation number ready at camp check-in: <strong>0863734551-1</strong>. The host booth may not be staffed late in the evening — if so, your site number (38) is on the confirmation and you can proceed directly.',
+        ]
+    };
+
+    /* ── PACK CHECKLIST ── */
+    const PACK_STORE = 'camp26-pack';
+    function loadPack() {
+        const saved = JSON.parse(localStorage.getItem(PACK_STORE) || '{}');
+        document.querySelectorAll('.icheck-item').forEach(el => {
+            const key = el.getAttribute('onclick').match(/'([^']+)'\)$/)?.[1];
+            if (key && saved[key]) el.classList.add('checked');
+        });
+        updatePackProgress();
+    }
+    function togglePack(el, key) {
+        el.classList.toggle('checked');
+        const saved = JSON.parse(localStorage.getItem(PACK_STORE) || '{}');
+        saved[key] = el.classList.contains('checked');
+        localStorage.setItem(PACK_STORE, JSON.stringify(saved));
+        updatePackProgress();
+    }
+    function updatePackProgress() {
+        const items = document.querySelectorAll('.icheck-item');
+        const checked = document.querySelectorAll('.icheck-item.checked').length;
+        const pct = items.length ? Math.round(checked / items.length * 100) : 0;
+        document.getElementById('pack-bar').style.width = pct + '%';
+        document.getElementById('pack-label').textContent = checked + ' / ' + items.length + ' packed';
+    }
+    function resetPack() {
+        localStorage.removeItem(PACK_STORE);
+        document.querySelectorAll('.icheck-item').forEach(el => el.classList.remove('checked'));
+        updatePackProgress();
+    }
+    loadPack();
+
+    /* ── HIKE BINGO ── */
+    const BINGO_ITEMS = [
+        {e:'🌲',l:'Ponderosa Pine'},{e:'🦌',l:'Mule Deer'},{e:'🐦‍⬛',l:'Raven'},{e:'🌰',l:'Pinecone'},{e:'🦎',l:'Lizard'},
+        {e:'🕸️',l:'Spider Web'},{e:'🐦',l:'Woodpecker'},{e:'🌸',l:'Wildflower'},{e:'🐿️',l:'Squirrel'},{e:'🪨',l:'Granite Boulder'},
+        {e:'🦶',l:'Elk Track'},{e:'🐦',l:'Scrub Jay'},{e:'⭐',l:'FREE!',free:true},{e:'🦅',l:'Hawk'},{e:'🌳',l:'Oak Tree'},
+        {e:'🦋',l:'Butterfly'},{e:'🐜',l:'Anthill'},{e:'🦃',l:'Wild Turkey'},{e:'🌿',l:'Juniper'},{e:'🍄',l:'Mushroom'},
+        {e:'🐾',l:'Coyote Track'},{e:'🌵',l:'Prickly Pear'},{e:'⛈️',l:'Monsoon Cloud'},{e:'💧',l:'Creek Water'},{e:'🌙',l:'Night Sky'},
+    ];
+    const BINGO_STORE = 'camp26-bingo';
+    const BINGO_WINS = [[0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24],
+                        [0,5,10,15,20],[1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],
+                        [0,6,12,18,24],[4,8,12,16,20]];
+    let bingoState = JSON.parse(localStorage.getItem(BINGO_STORE) || '{}');
+    function buildBingo() {
+        const grid = document.getElementById('bingo-grid');
+        grid.innerHTML = '';
+        BINGO_ITEMS.forEach((item, i) => {
+            const cell = document.createElement('div');
+            cell.className = 'bingo-cell' + (item.free ? ' free marked' : '') + (bingoState[i] ? ' marked' : '');
+            cell.innerHTML = `<div class="bc-emoji">${item.e}</div><div class="bc-label">${item.l}</div>`;
+            if (!item.free) cell.onclick = () => toggleBingo(i);
+            grid.appendChild(cell);
+        });
+        checkBingoWin();
+    }
+    function toggleBingo(i) {
+        bingoState[i] = !bingoState[i];
+        localStorage.setItem(BINGO_STORE, JSON.stringify(bingoState));
+        buildBingo();
+    }
+    function checkBingoWin() {
+        const cells = document.querySelectorAll('.bingo-cell');
+        let won = false;
+        BINGO_WINS.forEach(line => {
+            if (line.every(i => cells[i].classList.contains('marked'))) {
+                line.forEach(i => cells[i].classList.add('win'));
+                won = true;
+            }
+        });
+        const status = document.getElementById('bingo-status');
+        const marked = Object.values(bingoState).filter(Boolean).length;
+        if (won) {
+            status.textContent = '🎉 BINGO! Amazing find! S\'mores are earned!';
+            status.className = 'bingo-status win';
+        } else {
+            status.textContent = marked + ' found · ' + (marked < 5 ? (5 - marked) + ' more for BINGO!' : 'Keep going!');
+            status.className = 'bingo-status';
+        }
+    }
+    function resetBingo() {
+        bingoState = {};
+        localStorage.removeItem(BINGO_STORE);
+        buildBingo();
+    }
+    buildBingo();
+
+    /* ── MAD LIBS ── */
+    function revealMadLib() {
+        const v = i => (document.getElementById('ml'+i).value.trim() || '______');
+        const story = `
+It was a <span class="ml-filled">${v(0)}</span> night at White Spar Campground. The only sounds were the <span class="ml-filled">${v(1)}</span> of the campfire and <span class="ml-filled">${v(2)}</span>'s extremely <span class="ml-filled">${v(3)}</span> snoring echoing through Site 38.
+
+Suddenly, <span class="ml-filled">${v(7)}</span> woke up needing to use the vault restroom. They grabbed their <span class="ml-filled">${v(4)}</span> flashlight and <span class="ml-filled">${v(5)}</span> into the darkness alone. The restroom was <span class="ml-filled">${v(6)}</span> steps away — but that meant walking past the towering ponderosa pines in pitch blackness.
+
+That's when <span class="ml-filled">${v(7)}</span> heard it: a <span class="ml-filled">${v(8)}</span>, wet sound, like a <span class="ml-filled">${v(9)}</span> chewing an entire <span class="ml-filled">${v(10)}</span> with its bare <span class="ml-filled">${v(11)}</span>.
+
+"<span class="ml-filled">${v(12)}!</span>" screamed <span class="ml-filled">${v(13)}</span>, and launched themselves back toward the tent at full speed. They tripped over a <span class="ml-filled">${v(14)}</span>, completed <span class="ml-filled">${v(15)}</span> full somersaults in mid-air, and crash-landed directly on top of the sleeping <span class="ml-filled">${v(2)}</span>.
+
+"Wake UP!" <span class="ml-filled">${v(13)}</span> hissed <span class="ml-filled">${v(16)}</span>. "There's a <span class="ml-filled">${v(17)}</span> creature out there making the most <span class="ml-filled">${v(8)}</span> noise I've ever heard in my entire life!"
+
+Everyone exploded out of their cots and grabbed whatever they could find as weapons: <span class="ml-filled">${v(2)}</span> seized a <span class="ml-filled">${v(18)}</span>, <span class="ml-filled">${v(7)}</span> grabbed a bag of <span class="ml-filled">${v(19)}</span>, and <span class="ml-filled">${v(13)}</span> clutched the camp lantern with both hands.
+
+They crept toward the terrifying sound... flashlights trembling... hearts pounding... the <span class="ml-filled">${v(9)}</span>-sized shadow grew larger and larger...
+
+They rounded the screen canopy... shone the lights directly at the source of the horror...
+
+It was <span class="ml-filled">${v(20)}</span>. Sitting alone by the fire pit. Eating <span class="ml-filled">${v(24)}</span> s'mores. While <span class="ml-filled">${v(21)}</span> the entire theme song to <em><span class="ml-filled">${v(22)}</span></em> with a fully melted marshmallow dripping from their <span class="ml-filled">${v(23)}</span>.
+
+Everyone stared in complete silence.
+
+"What?" said <span class="ml-filled">${v(20)}</span>, not looking up. "I got hungry."
+
+The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'mores apiece to recover from the trauma. 🔥
+
+<strong>THE END.</strong> 🏕️👻`;
+        document.getElementById('ml-story-text').innerHTML = story;
+        document.getElementById('ml-result').classList.add('visible');
+        document.getElementById('ml-reset-btn').style.display = 'block';
+        document.querySelector('.ml-btn:not(.red)').style.display = 'none';
+    }
+    function resetMadLib() {
+        document.querySelectorAll('.ml-input').forEach(el => el.value = '');
+        document.getElementById('ml-result').classList.remove('visible');
+        document.getElementById('ml-reset-btn').style.display = 'none';
+        document.querySelector('.ml-btn:not(.red)').style.display = 'block';
+    }
+
+    /* ── MEMORIES ── */
+    const MEM_STORE = 'camp26-memories';
+    function loadMemories() {
+        const saved = JSON.parse(localStorage.getItem(MEM_STORE) || '{}');
+        Object.entries(saved).forEach(([id, val]) => {
+            const el = document.getElementById(id);
+            if (el) el.value = val;
+        });
+        renderKeepsake();
+    }
+    function autoSaveMemory(day) {
+        const saved = JSON.parse(localStorage.getItem(MEM_STORE) || '{}');
+        document.querySelectorAll(`#mem-${day} .memory-textarea`).forEach(el => {
+            saved[el.id] = el.value;
+        });
+        localStorage.setItem(MEM_STORE, JSON.stringify(saved));
+        const ind = document.getElementById('mem-saved');
+        ind.textContent = '✓ Saved';
+        setTimeout(() => { ind.textContent = ''; }, 1500);
+        renderKeepsake();
+    }
+    function switchMemoryDay(day, btn) {
+        document.querySelectorAll('.memory-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.memory-day-tab').forEach(b => b.classList.remove('active'));
+        document.getElementById('mem-' + day).classList.add('active');
+        btn.classList.add('active');
+    }
+    function renderKeepsake() {
+        const saved = JSON.parse(localStorage.getItem(MEM_STORE) || '{}');
+        const days = [
+            {id:'fri', label:'Friday, July 3 — Arrival Night', fields:[
+                {id:'mem-fri-best',label:'Best moment'},{id:'mem-fri-funny',label:'Funniest thing'},
+                {id:'mem-fri-wild',label:'Wildlife spotted'},{id:'mem-fri-photo',label:'Photo to print'},
+            ]},
+            {id:'sat', label:'Saturday, July 4 🎆 — Independence Day', fields:[
+                {id:'mem-sat-best',label:'Best moment'},{id:'mem-sat-funny',label:'Funniest thing'},
+                {id:'mem-sat-fireworks',label:'Fireworks moment'},{id:'mem-sat-wild',label:'Wildlife & nature'},
+                {id:'mem-sat-photo',label:'Photo to print'},
+            ]},
+            {id:'sun', label:'Sunday, July 5 — Morning Departure', fields:[
+                {id:'mem-sun-morning',label:'Last morning feeling'},{id:'mem-sun-highlight',label:'Trip highlight'},
+                {id:'mem-sun-quote',label:'Quote to remember'},{id:'mem-sun-photo',label:'Photo to print'},
+            ]},
+        ];
+        const hasAny = Object.values(saved).some(v => v && v.trim());
+        const out = document.getElementById('keepsake-output');
+        if (!hasAny) {
+            out.innerHTML = '<div class="info-banner"><div class="info-icon">💡</div><div><div class="info-title">Fill in the journal above</div><div class="info-text">Your entries will appear here as a keepsake you can screenshot and save.</div></div></div>';
+            return;
+        }
+        out.innerHTML = days.map(day => {
+            const rows = day.fields.filter(f => saved[f.id] && saved[f.id].trim()).map(f =>
+                `<div class="mk-row"><div class="mk-label">${f.label}</div><div class="mk-value">${saved[f.id]}</div></div>`
+            ).join('');
+            if (!rows) return '';
+            return `<div class="memory-keepsake"><div class="mk-day">${day.label}</div>${rows}</div>`;
+        }).join('');
+    }
+    loadMemories();
 </script>
 </body>
 </html>
