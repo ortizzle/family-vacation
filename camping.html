@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎆</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { overflow-x: hidden; }
@@ -511,17 +512,21 @@
             -webkit-tap-highlight-color: transparent;
         }
         .icheck-item:last-child { border-bottom: none; }
-        .icheck-box {
-            width: 22px; height: 22px;
-            border: 2px solid #c0c8da;
-            border-radius: 6px;
+        .icheck-item::before {
+            content: '✦';
+            color: #c8d0e0;
+            font-size: 12px;
             flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 13px;
-            transition: all .15s;
-            margin-top: 1px;
+            margin-top: 2px;
+            transition: all .2s;
+            width: 18px;
+            text-align: center;
         }
-        .icheck-item.checked .icheck-box { background: var(--navy); border-color: var(--navy); color: white; }
+        .icheck-item.checked::before {
+            content: '⭐';
+            color: var(--gold);
+            transform: scale(1.2);
+        }
         .icheck-label { font-size: 13px; color: var(--text-mid); line-height: 1.45; flex: 1; }
         .icheck-item.checked .icheck-label { text-decoration: line-through; color: var(--text-light); }
         .pack-progress {
@@ -766,7 +771,7 @@
             position: fixed;
             inset: 0;
             background: rgba(13,26,51,.52);
-            z-index: 200;
+            z-index: 400;
             display: none;
             align-items: flex-end;
             justify-content: center;
@@ -841,6 +846,26 @@
             margin-bottom: 8px;
         }
         .modal-section { margin-bottom: 18px; }
+        /* ── TAG STACK ── */
+        .tag-stack { display: flex; flex-wrap: wrap; }
+        .tag-stack .ev-tag { margin-left: -4px; box-shadow: -2px 0 0 white; position: relative; }
+        .tag-stack .ev-tag:first-child { margin-left: 0; }
+
+        /* ── SPARK GAME ── */
+        .spark-fire-base {
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 80px; height: 80px;
+            border-radius: 50% 50% 20% 20%;
+            background: radial-gradient(ellipse at 50% 80%, #ff6b35 0%, #ff4500 40%, #ff0000 70%, transparent 100%);
+            animation: fire-flicker 0.15s infinite alternate;
+            filter: blur(2px);
+        }
+        @keyframes fire-flicker {
+            0% { transform: translateX(-50%) scale(1,1) rotate(-1deg); opacity: .9; }
+            100% { transform: translateX(-50%) scale(1.05,0.95) rotate(1deg); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -872,10 +897,10 @@
         <div>
             <div class="warn-title">Weekend Weather — Prescott (5,641 ft)</div>
             <div class="warn-text">
-                <strong>Fri Jul 3 (Arrival):</strong> High 91°F · Mostly sunny · SW winds 5–10 mph<br>
-                <strong>Sat Jul 4 🎆 (Independence Day):</strong> Overnight low 64°F · Partly cloudy · pleasant evening<br>
-                <strong>Sun Jul 5 (Departure):</strong> High 93°F · Mostly sunny · SW winds 6–11 mph<br>
-                Monsoon season starts in early July — afternoon thunderstorms possible. Nights at camp will be comfortable: mid-60s.
+                <strong>Fri Jul 3 (Arrival):</strong> High 88°F · Mostly sunny · S winds 5–14 mph, gusts 25 mph<br>
+                <strong>Sat Jul 4 🎆 (Independence Day):</strong> High 91°F · Mostly sunny · SW winds 5–10 mph, gusts 21 mph<br>
+                <strong>Sun Jul 5 (Departure):</strong> High 93°F · Mostly sunny · SW winds 6–11 mph, gusts 21 mph<br>
+                Lows: 62–64°F nightly · No rain in 7-day forecast · No monsoon activity expected
             </div>
         </div>
     </div>
@@ -938,7 +963,7 @@
                 <div class="event-note">10-person tent, cots, screen canopy, Blackstone — do the big stuff first while there's light</div>
             </div>
         </div>
-        <div class="event-item tappable" onclick="openModal('campfire')">
+        <div class="event-item tappable" onclick="secretTapSpark();openModal('campfire')">
             <div class="event-time">~8 PM</div>
             <div class="event-detail">
                 <div class="event-name">🔥 First Campfire + S'mores <span class="ev-tag gold">Round 1</span></div>
@@ -1140,6 +1165,68 @@
             <span class="info-row-label">Dogs</span>
             <span class="info-row-value">✅ Welcome · 6-ft leash required · never unattended</span>
         </div>
+    </div>
+
+    <div class="section-header">🎒 Packing List</div>
+
+    <div class="pack-progress" id="pack-progress-bar">
+        <div class="pack-progress-bar-wrap"><div class="pack-progress-bar" id="pack-bar" style="width:0%"></div></div>
+        <div class="pack-progress-label" id="pack-label">0 / 0 packed</div>
+    </div>
+
+    <div class="section-header">🏕️ Shelter &amp; Sleep</div>
+    <div class="card">
+        <ul class="icheck-list" id="pack-shelter">
+            <li class="icheck-item" onclick="togglePack(this,'shelter-0')"><span class="icheck-label">10-person tent — confirm poles, stakes, rain fly &amp; footprint all loaded</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-1')"><span class="icheck-label">Cots (one per person) — set up first while there's daylight</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-2')"><span class="icheck-label">Sleeping bags — lows in the mid-60s, light-to-medium weight</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-3')"><span class="icheck-label">Pillows</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-4')"><span class="icheck-label">Screen canopy — poles, stakes, guy lines (SW winds forecast)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-5')"><span class="icheck-label">Camp chairs (one per person) + folding table</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'shelter-6')"><span class="icheck-label">Ground tarp / extra stakes</span></li>
+        </ul>
+    </div>
+
+    <div class="section-header">🍳 Cooking Gear</div>
+    <div class="card">
+        <ul class="icheck-list" id="pack-cooking">
+            <li class="icheck-item" onclick="togglePack(this,'cook-0')"><span class="icheck-label">Blackstone camping grill — cleaned and ready</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-1')"><span class="icheck-label">Propane tank (full) + spare canister</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-2')"><span class="icheck-label">Blackstone scraper, spatulas, tongs</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-3')"><span class="icheck-label">Blackstone seasoning oil / cooking spray</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-4')"><span class="icheck-label">Fire pit (check campground allows personal pits alongside site ring)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-5')"><span class="icheck-label">Firewood — buy locally in Prescott, don't transport across regions</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-6')"><span class="icheck-label">Firestarter, matches, lighter (2 of each)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-7')"><span class="icheck-label">GSI camping cooking set — confirm all pieces: pots, pans, lid/plates, pot gripper</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-8')"><span class="icheck-label">GSI utensil set — spatula, ladle, tongs if included</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-9')"><span class="icheck-label">GSI set works over direct fire AND on the Blackstone side burner</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-10')"><span class="icheck-label">Plates, bowls, cups, utensils</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-11')"><span class="icheck-label">Dish soap, sponge, small wash basin</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-12')"><span class="icheck-label">Aluminum foil — endless camp uses</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-13')"><span class="icheck-label">S'more sticks / roasting skewers</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-14')"><span class="icheck-label">Trash bags (large) — pack in, pack out</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'cook-15')"><span class="icheck-label">Paper towels + napkins</span></li>
+        </ul>
+    </div>
+
+    <div class="section-header">🧴 Safety &amp; Comfort</div>
+    <div class="card">
+        <ul class="icheck-list" id="pack-safety">
+            <li class="icheck-item" onclick="togglePack(this,'safe-0')"><span class="icheck-label">Headlamps / flashlights for everyone — CRITICAL for Friday night setup</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-1')"><span class="icheck-label">Lantern for canopy / table area</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-2')"><span class="icheck-label">First aid kit</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-3')"><span class="icheck-label">Any medications (daily + emergency)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-4')"><span class="icheck-label">Sunscreen (SPF 50+ — UV stronger at 5,641 ft)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-5')"><span class="icheck-label">Bug spray — July evenings can be buggy</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-6')"><span class="icheck-label">Portable battery pack + phone chargers</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-7')"><span class="icheck-label">Light layers / jackets for evenings (mid-60s at night)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-8')"><span class="icheck-label">Closed-toe shoes for hiking (sandals = no for trails)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-9')"><span class="icheck-label">Water bottles + hydration for hikes (1L per person per hr)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-10')"><span class="icheck-label">Glow sticks for kids — fireworks night fun</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-11')"><span class="icheck-label">Toilet paper + hand sanitizer (vault restrooms on-site)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'safe-12')"><span class="icheck-label">Dog leash (6 ft required) + dog food + water bowl if bringing pups</span></li>
+        </ul>
+        <span class="pack-reset" onclick="resetPack()">Reset all checkboxes</span>
     </div>
 
     <div class="section-header">Fireworks Nearby</div>
@@ -1452,7 +1539,7 @@
 
     <div class="section-header">At Camp</div>
 
-    <div class="activity-card must" onclick="openModal('campfire')">
+    <div class="activity-card must" onclick="secretTapSpark();openModal('campfire')">
         <div class="ac-inner">
             <div class="ac-emoji">🔥</div>
             <div class="ac-body">
@@ -1663,6 +1750,31 @@
         </div>
     </div>
 
+    <div class="section-header">🛒 Food Checklist</div>
+
+    <div class="card">
+        <ul class="icheck-list" id="pack-food">
+            <li class="icheck-item" onclick="togglePack(this,'food-0')"><span class="icheck-label">2 coolers: one food, one drinks (food stays colder)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-1')"><span class="icheck-label">Twice the ice you think — 91°F days in July</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-2')"><span class="icheck-label">Frozen water bottles (become ice → drinking water)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-3')"><span class="icheck-label">Eggs (pre-cracked into sealed container)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-4')"><span class="icheck-label">Bacon / breakfast sausage</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-5')"><span class="icheck-label">Burger patties (pre-formed, wrapped individually)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-6')"><span class="icheck-label">Hot dogs + buns + condiments</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-7')"><span class="icheck-label">Burger buns, burger toppings (cheese, lettuce, tomato, onion)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-8')"><span class="icheck-label">Potato salad / baked beans (pre-made)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-9')"><span class="icheck-label">Watermelon 🍉 — it's the law on the 4th</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-10')"><span class="icheck-label">S'more kit: marshmallows, Hershey's bars, graham crackers</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-11')"><span class="icheck-label">S'more upgrade: Reese's cups + Nutella</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-12')"><span class="icheck-label">Bread + sandwich stuff (Friday night arrival meal)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-13')"><span class="icheck-label">Breakfast cereals / instant oatmeal / granola bars (Sunday)</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-14')"><span class="icheck-label">Snacks: chips, trail mix, fruit, jerky</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-15')"><span class="icheck-label">Coffee + camp coffee maker / instant packets</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-16')"><span class="icheck-label">Kids' drinks + water bottles for everyone</span></li>
+            <li class="icheck-item" onclick="togglePack(this,'food-17')"><span class="icheck-label">Ziploc bags (all sizes) — condensation is real</span></li>
+        </ul>
+    </div>
+
     <div class="section-header">Grocery List Tips</div>
 
     <div class="card">
@@ -1679,101 +1791,64 @@
         </ul>
     </div>
 
-</section>
-
-<!-- ═══════════════════════════════════ PACK ═══════════════════════════════════ -->
-<section class="section" id="section-pack">
-
-    <div class="hero-banner">
-        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0d1a33 0%,#1a2744 50%,#2d6e2d 100%);"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="hero-tag">Checklist</div>
-            <div class="hero-title">Pack It Up</div>
-            <div class="hero-sub">Tap items to check them off</div>
-        </div>
+    <div class="tip-box">
+        <div class="tip-label">GSI Tip</div>
+        <div class="tip-text">The GSI set is perfect for camp pasta, soups, or hot chocolate over the fire. Use the Blackstone for high-heat cooking (burgers, eggs, bacon) and the GSI over the fire ring for low-and-slow.</div>
     </div>
 
-    <div class="pack-progress" id="pack-progress-bar">
-        <div class="pack-progress-bar-wrap"><div class="pack-progress-bar" id="pack-bar" style="width:0%"></div></div>
-        <div class="pack-progress-label" id="pack-label">0 / 0 packed</div>
-    </div>
+    <div class="section-header">🛒 Shopping List — Family of 4</div>
 
-    <div class="section-header">🏕️ Shelter &amp; Sleep</div>
     <div class="card">
-        <ul class="icheck-list" id="pack-shelter">
-            <li class="icheck-item" onclick="togglePack(this,'shelter-0')"><div class="icheck-box">✓</div><span class="icheck-label">10-person tent — confirm poles, stakes, rain fly &amp; footprint all loaded</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-1')"><div class="icheck-box">✓</div><span class="icheck-label">Cots (one per person) — set up first while there's daylight</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-2')"><div class="icheck-box">✓</div><span class="icheck-label">Sleeping bags — lows in the mid-60s, light-to-medium weight</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-3')"><div class="icheck-box">✓</div><span class="icheck-label">Pillows</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-4')"><div class="icheck-box">✓</div><span class="icheck-label">Screen canopy — poles, stakes, guy lines (SW winds forecast)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-5')"><div class="icheck-box">✓</div><span class="icheck-label">Camp chairs (one per person) + folding table</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'shelter-6')"><div class="icheck-box">✓</div><span class="icheck-label">Ground tarp / extra stakes</span></li>
+        <div class="card-label">Proteins</div>
+        <ul class="checklist">
+            <li>2 lbs ground beef (pre-form into 8 patties)</li>
+            <li>1 pack hot dogs (8 count)</li>
+            <li>1 lb bacon</li>
+            <li>1 doz eggs</li>
         </ul>
     </div>
 
-    <div class="section-header">🍳 Cooking Gear</div>
     <div class="card">
-        <ul class="icheck-list" id="pack-cooking">
-            <li class="icheck-item" onclick="togglePack(this,'cook-0')"><div class="icheck-box">✓</div><span class="icheck-label">Blackstone camping grill — cleaned and ready</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-1')"><div class="icheck-box">✓</div><span class="icheck-label">Propane tank (full) + spare canister</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-2')"><div class="icheck-box">✓</div><span class="icheck-label">Blackstone scraper, spatulas, tongs</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-3')"><div class="icheck-box">✓</div><span class="icheck-label">Blackstone seasoning oil / cooking spray</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-4')"><div class="icheck-box">✓</div><span class="icheck-label">Fire pit (check campground allows personal pits alongside site ring)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-5')"><div class="icheck-box">✓</div><span class="icheck-label">Firewood — buy locally in Prescott, don't transport across regions</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-6')"><div class="icheck-box">✓</div><span class="icheck-label">Firestarter, matches, lighter (2 of each)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-7')"><div class="icheck-box">✓</div><span class="icheck-label">Pot + skillet for anything off the Blackstone</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-8')"><div class="icheck-box">✓</div><span class="icheck-label">Plates, bowls, cups, utensils</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-9')"><div class="icheck-box">✓</div><span class="icheck-label">Dish soap, sponge, small wash basin</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-10')"><div class="icheck-box">✓</div><span class="icheck-label">Aluminum foil — endless camp uses</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-11')"><div class="icheck-box">✓</div><span class="icheck-label">S'more sticks / roasting skewers</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-12')"><div class="icheck-box">✓</div><span class="icheck-label">Trash bags (large) — pack in, pack out</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'cook-13')"><div class="icheck-box">✓</div><span class="icheck-label">Paper towels + napkins</span></li>
+        <div class="card-label">Produce</div>
+        <ul class="checklist">
+            <li>1 whole watermelon</li>
+            <li>Corn on the cob (4–6 ears)</li>
+            <li>Lettuce, tomato, onion (burger toppings)</li>
+            <li>Bag of apples / easy trail snacks</li>
         </ul>
     </div>
 
-    <div class="section-header">🧊 Food &amp; Drinks</div>
     <div class="card">
-        <ul class="icheck-list" id="pack-food">
-            <li class="icheck-item" onclick="togglePack(this,'food-0')"><div class="icheck-box">✓</div><span class="icheck-label">2 coolers: one food, one drinks (food stays colder)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-1')"><div class="icheck-box">✓</div><span class="icheck-label">Twice the ice you think — 91°F days in July</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-2')"><div class="icheck-box">✓</div><span class="icheck-label">Frozen water bottles (become ice → drinking water)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-3')"><div class="icheck-box">✓</div><span class="icheck-label">Eggs (pre-cracked into sealed container)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-4')"><div class="icheck-box">✓</div><span class="icheck-label">Bacon / breakfast sausage</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-5')"><div class="icheck-box">✓</div><span class="icheck-label">Burger patties (pre-formed, wrapped individually)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-6')"><div class="icheck-box">✓</div><span class="icheck-label">Hot dogs + buns + condiments</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-7')"><div class="icheck-box">✓</div><span class="icheck-label">Burger buns, burger toppings (cheese, lettuce, tomato, onion)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-8')"><div class="icheck-box">✓</div><span class="icheck-label">Potato salad / baked beans (pre-made)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-9')"><div class="icheck-box">✓</div><span class="icheck-label">Watermelon 🍉 — it's the law on the 4th</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-10')"><div class="icheck-box">✓</div><span class="icheck-label">S'more kit: marshmallows, Hershey's bars, graham crackers</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-11')"><div class="icheck-box">✓</div><span class="icheck-label">S'more upgrade: Reese's cups + Nutella</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-12')"><div class="icheck-box">✓</div><span class="icheck-label">Bread + sandwich stuff (Friday night arrival meal)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-13')"><div class="icheck-box">✓</div><span class="icheck-label">Breakfast cereals / instant oatmeal / granola bars (Sunday)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-14')"><div class="icheck-box">✓</div><span class="icheck-label">Snacks: chips, trail mix, fruit, jerky</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-15')"><div class="icheck-box">✓</div><span class="icheck-label">Coffee + camp coffee maker / instant packets</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-16')"><div class="icheck-box">✓</div><span class="icheck-label">Kids' drinks + water bottles for everyone</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'food-17')"><div class="icheck-box">✓</div><span class="icheck-label">Ziploc bags (all sizes) — condensation is real</span></li>
+        <div class="card-label">Pantry / Dry</div>
+        <ul class="checklist">
+            <li>Burger buns + hot dog buns</li>
+            <li>Graham crackers (2 boxes)</li>
+            <li>Hershey's chocolate bars (multipack)</li>
+            <li>Marshmallows (2 bags — you'll use both)</li>
+            <li>Granola bars / trail mix (variety pack)</li>
+            <li>Chips + salsa</li>
+            <li>Instant oatmeal packets (Sunday morning)</li>
+            <li>Coffee (ground or pods)</li>
+            <li>Cooking oil / spray for Blackstone</li>
         </ul>
     </div>
 
-    <div class="section-header">🧴 Safety &amp; Comfort</div>
     <div class="card">
-        <ul class="icheck-list" id="pack-safety">
-            <li class="icheck-item" onclick="togglePack(this,'safe-0')"><div class="icheck-box">✓</div><span class="icheck-label">Headlamps / flashlights for everyone — CRITICAL for Friday night setup</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-1')"><div class="icheck-box">✓</div><span class="icheck-label">Lantern for canopy / table area</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-2')"><div class="icheck-box">✓</div><span class="icheck-label">First aid kit</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-3')"><div class="icheck-box">✓</div><span class="icheck-label">Any medications (daily + emergency)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-4')"><div class="icheck-box">✓</div><span class="icheck-label">Sunscreen (SPF 50+ — UV stronger at 5,641 ft)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-5')"><div class="icheck-box">✓</div><span class="icheck-label">Bug spray — July evenings can be buggy</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-6')"><div class="icheck-box">✓</div><span class="icheck-label">Portable battery pack + phone chargers</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-7')"><div class="icheck-box">✓</div><span class="icheck-label">Light layers / jackets for evenings (mid-60s at night)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-8')"><div class="icheck-box">✓</div><span class="icheck-label">Closed-toe shoes for hiking (sandals = no for trails)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-9')"><div class="icheck-box">✓</div><span class="icheck-label">Water bottles + hydration for hikes (1L per person per hr)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-10')"><div class="icheck-box">✓</div><span class="icheck-label">Glow sticks for kids — fireworks night fun</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-11')"><div class="icheck-box">✓</div><span class="icheck-label">Toilet paper + hand sanitizer (vault restrooms on-site)</span></li>
-            <li class="icheck-item" onclick="togglePack(this,'safe-12')"><div class="icheck-box">✓</div><span class="icheck-label">Dog leash (6 ft required) + dog food + water bowl if bringing pups</span></li>
+        <div class="card-label">Drinks</div>
+        <ul class="checklist">
+            <li>Cases of water (4 minimum)</li>
+            <li>Kids' juice boxes / sports drinks</li>
+            <li>Sodas for the cookout</li>
         </ul>
-        <span class="pack-reset" onclick="resetPack()">Reset all checkboxes</span>
+    </div>
+
+    <div class="card">
+        <div class="card-label">Condiments</div>
+        <ul class="checklist">
+            <li>Ketchup, mustard, relish</li>
+            <li>Cheese slices (burger)</li>
+            <li>Potato salad (pre-made from deli)</li>
+        </ul>
     </div>
 
 </section>
@@ -1894,31 +1969,58 @@
 
 <!-- ── BOTTOM NAV ── -->
 <nav class="bottom-nav">
-    <button class="nav-item active" onclick="showSection('home', this)">
+    <button class="nav-item active" onclick="showSection('home', this);burstNav(event)">
         <span class="nav-icon">🏠</span>
         <span class="nav-label">Home</span>
     </button>
-    <button class="nav-item" onclick="showSection('camp', this)">
+    <button class="nav-item" onclick="showSection('camp', this);burstNav(event)">
         <span class="nav-icon">⛺</span>
         <span class="nav-label">Camp</span>
     </button>
-    <button class="nav-item" onclick="showSection('activities', this)">
+    <button class="nav-item" onclick="showSection('activities', this);burstNav(event)">
         <span class="nav-icon">🎆</span>
         <span class="nav-label">Events</span>
     </button>
-    <button class="nav-item" onclick="showSection('eats', this)">
+    <button class="nav-item" onclick="showSection('eats', this);burstNav(event)">
         <span class="nav-icon">🍔</span>
         <span class="nav-label">Eats</span>
     </button>
-    <button class="nav-item" onclick="showSection('pack', this)">
-        <span class="nav-icon">🎒</span>
-        <span class="nav-label">Pack</span>
-    </button>
-    <button class="nav-item" onclick="showSection('games', this)">
+    <button class="nav-item" onclick="showSection('games', this);burstNav(event)">
         <span class="nav-icon">🃏</span>
         <span class="nav-label">Games</span>
     </button>
 </nav>
+
+<!-- ── SPARK CATCHER GAME ── -->
+<div id="spark-game" style="display:none;position:fixed;inset:0;background:#080d1e;z-index:300;flex-direction:column;align-items:center;justify-content:flex-start;overflow:hidden;">
+    <!-- Stars -->
+    <div id="spark-stars" style="position:absolute;inset:0;pointer-events:none;"></div>
+    <!-- HUD -->
+    <div style="position:relative;z-index:20;display:flex;justify-content:space-between;align-items:center;width:100%;padding:20px 24px 0;color:white;">
+        <div style="font-size:13px;font-weight:700;letter-spacing:1px;opacity:.8;">SPARK CATCHER 🔥</div>
+        <div style="display:flex;gap:20px;align-items:center;">
+            <div style="text-align:center;"><div style="font-size:22px;font-weight:900;color:var(--gold-light);" id="spark-score-el">0</div><div style="font-size:9px;opacity:.7;letter-spacing:1px;">SPARKS</div></div>
+            <div style="text-align:center;"><div style="font-size:22px;font-weight:900;color:white;" id="spark-time-el">30</div><div style="font-size:9px;opacity:.7;letter-spacing:1px;">SECS</div></div>
+            <button onclick="closeSparkGame()" style="background:rgba(255,255,255,.15);border:none;color:white;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;">✕</button>
+        </div>
+    </div>
+    <!-- Play area -->
+    <div id="spark-play-area" style="position:absolute;inset:0;">
+        <!-- Fire at bottom -->
+        <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:200px;height:120px;pointer-events:none;">
+            <div class="spark-fire-base"></div>
+        </div>
+        <div style="position:absolute;bottom:130px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.45);font-size:12px;font-weight:600;letter-spacing:1px;white-space:nowrap;pointer-events:none;">TAP THE SPARKS! 🔥</div>
+    </div>
+    <!-- Result screen -->
+    <div id="spark-result" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:white;padding:40px;position:absolute;inset:0;">
+        <div id="spark-result-text" style="font-size:22px;line-height:1.6;"></div>
+        <div style="display:flex;gap:12px;margin-top:28px;">
+            <button onclick="openSparkGame()" style="padding:14px 28px;background:var(--gold);color:#333;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;">Play Again 🔥</button>
+            <button onclick="closeSparkGame()" style="padding:14px 28px;background:rgba(255,255,255,.2);color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;">Close</button>
+        </div>
+    </div>
+</div>
 
 <!-- ── MODAL ── -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
@@ -1941,6 +2043,114 @@
         s.style.animationDelay = (Math.random() * 3) + 's';
         s.style.fontSize = (Math.random() * 8 + 6) + 'px';
         starField.appendChild(s);
+    }
+
+    /* ── FIREWORKS BURST ── */
+    function createBurst(x, y, count, radius, colors) {
+        colors = colors || ['#c0392b','#1a2744','#f0c040','#ffffff','#e8534a','#4a90d9'];
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('div');
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            p.style.cssText = `position:fixed;width:6px;height:6px;border-radius:50%;pointer-events:none;z-index:9999;left:${x}px;top:${y}px;background:${color};transform:translate(-50%,-50%);`;
+            document.body.appendChild(p);
+            const angle = (i / count) * Math.PI * 2 + Math.random() * 0.3;
+            const dist = radius * (0.6 + Math.random() * 0.8);
+            const tx = Math.cos(angle) * dist;
+            const ty = Math.sin(angle) * dist;
+            p.animate([
+                { transform: 'translate(-50%,-50%) scale(1.4)', opacity: 1 },
+                { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`, opacity: 0 }
+            ], { duration: 700, delay: Math.random() * 80, easing: 'cubic-bezier(0,.9,.57,1)', fill: 'forwards' })
+            .onfinish = () => p.remove();
+        }
+    }
+    function burstNav(e) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        createBurst(rect.left + rect.width/2, rect.top + rect.height/2, 14, 40);
+    }
+
+    /* ── SECRET SPARK GAME ── */
+    let sparkTaps = 0, sparkTimer = null;
+    function secretTapSpark() {
+        sparkTaps++;
+        if (sparkTaps >= 5) { sparkTaps = 0; clearTimeout(sparkTimer); openSparkGame(); return; }
+        clearTimeout(sparkTimer);
+        sparkTimer = setTimeout(() => { sparkTaps = 0; }, 2500);
+    }
+
+    let sparkGameTimer, sparkGameInterval, sparkScore = 0, sparkTimeLeft = 30;
+    const SPARK_COLORS = ['#ff6b35','#f7c59f','#ffd700','#ff4500','#ff8c00'];
+
+    function openSparkGame() {
+        sparkScore = 0; sparkTimeLeft = 30;
+        document.getElementById('spark-score-el').textContent = '0';
+        document.getElementById('spark-time-el').textContent = '30';
+        document.getElementById('spark-game').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        document.getElementById('spark-result').style.display = 'none';
+        document.getElementById('spark-play-area').style.display = 'block';
+        // Generate stars
+        const starContainer = document.getElementById('spark-stars');
+        starContainer.innerHTML = '';
+        for (let i = 0; i < 60; i++) {
+            const s = document.createElement('div');
+            s.style.cssText = `position:absolute;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;border-radius:50%;background:white;left:${Math.random()*100}%;top:${Math.random()*70}%;opacity:${0.3+Math.random()*0.7};animation:twinkle ${2+Math.random()*3}s infinite;`;
+            starContainer.appendChild(s);
+        }
+        spawnEmbers();
+        sparkGameTimer = setInterval(() => {
+            sparkTimeLeft--;
+            document.getElementById('spark-time-el').textContent = sparkTimeLeft;
+            if (sparkTimeLeft <= 0) endSparkGame();
+        }, 1000);
+    }
+
+    function closeSparkGame() {
+        clearInterval(sparkGameTimer);
+        clearInterval(sparkGameInterval);
+        document.querySelectorAll('.spark-ember').forEach(e => e.remove());
+        document.getElementById('spark-game').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    function spawnEmbers() {
+        sparkGameInterval = setInterval(() => {
+            if (sparkTimeLeft <= 0) return;
+            const game = document.getElementById('spark-game');
+            const w = game.offsetWidth, h = game.offsetHeight;
+            const ember = document.createElement('div');
+            ember.className = 'spark-ember';
+            const size = 18 + Math.random() * 16;
+            const startX = w/2 + (Math.random() - 0.5) * 120;
+            const driftX = (Math.random() - 0.5) * 180;
+            const riseY = h * 0.25 + Math.random() * h * 0.35;
+            const color = SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)];
+            ember.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:radial-gradient(circle,white 0%,${color} 60%,transparent 100%);box-shadow:0 0 ${size}px ${color};left:${startX}px;bottom:120px;cursor:pointer;z-index:10;transition:none;`;
+            ember.animate([
+                { transform: `translate(0,0) scale(1)`, opacity: 1 },
+                { transform: `translate(${driftX}px,-${riseY}px) scale(0.3)`, opacity: 0 }
+            ], { duration: 2200 + Math.random() * 1000, easing: 'ease-out', fill: 'forwards' })
+            .onfinish = () => ember.remove();
+            ember.addEventListener('pointerdown', (e) => {
+                e.stopPropagation();
+                sparkScore++;
+                document.getElementById('spark-score-el').textContent = sparkScore;
+                createBurst(e.clientX, e.clientY, 8, 22, SPARK_COLORS);
+                ember.remove();
+            });
+            game.appendChild(ember);
+        }, 500);
+    }
+
+    function endSparkGame() {
+        clearInterval(sparkGameTimer);
+        clearInterval(sparkGameInterval);
+        document.querySelectorAll('.spark-ember').forEach(e => e.remove());
+        document.getElementById('spark-play-area').style.display = 'none';
+        const result = document.getElementById('spark-result');
+        result.style.display = 'flex';
+        const msg = sparkScore >= 20 ? '🏆 Fireworks Master!' : sparkScore >= 12 ? '⭐ Great Spark Catcher!' : sparkScore >= 6 ? '🔥 Getting Warmer!' : '🌱 Keep practicing!';
+        document.getElementById('spark-result-text').innerHTML = `You caught<br><span style="font-size:64px;font-family:'Playfair Display',serif;color:var(--gold)">${sparkScore}</span><br>sparks! 🔥<br><br><em style="font-size:14px">${msg}</em>`;
     }
 
     /* ── NAVIGATION ── */
@@ -2176,11 +2386,16 @@
         updatePackProgress();
     }
     function togglePack(el, key) {
+        const isChecking = !el.classList.contains('checked');
         el.classList.toggle('checked');
         const saved = JSON.parse(localStorage.getItem(PACK_STORE) || '{}');
         saved[key] = el.classList.contains('checked');
         localStorage.setItem(PACK_STORE, JSON.stringify(saved));
         updatePackProgress();
+        if (isChecking) {
+            const rect = el.getBoundingClientRect();
+            createBurst(rect.left + 20, rect.top + rect.height/2, 10, 28);
+        }
     }
     function updatePackProgress() {
         const items = document.querySelectorAll('.icheck-item');
