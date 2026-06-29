@@ -164,21 +164,14 @@
 
         /* ── SECTION DIVIDER ── */
         .section-header {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-light);
-            margin: 6px 0 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .section-header::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--slate);
-            opacity: .22;
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--navy-dark);
+            margin: 18px 0 10px;
+            padding: 0 0 0 12px;
+            border-left: 4px solid var(--gold);
+            line-height: 1.2;
         }
 
         /* ── HERO BANNER ── */
@@ -312,27 +305,43 @@
 
         /* ── TAB TABLE OF CONTENTS ── */
         .tab-toc {
-            background: var(--snow);
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 100%);
             border-radius: var(--radius);
             padding: 14px 16px;
-            margin-bottom: 14px;
-            box-shadow: var(--shadow-sm);
+            margin-bottom: 18px;
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
+            align-items: center;
+        }
+        .tab-toc::before {
+            content: '↓ Jump to';
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(240,192,64,.65);
+            width: 100%;
+            margin-bottom: 2px;
         }
         .toc-link {
             font-size: 12px;
-            font-weight: 600;
-            color: var(--navy);
-            background: #eef1f8;
+            font-weight: 700;
+            color: white;
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.18);
             border-radius: 20px;
-            padding: 5px 12px;
+            padding: 6px 13px;
             text-decoration: none;
             -webkit-tap-highlight-color: transparent;
             white-space: nowrap;
+            letter-spacing: .2px;
         }
-        .toc-link:active { background: var(--navy); color: white; }
+        .toc-link:active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--navy-dark);
+        }
 
         /* ── FAMILY CREW BANNER ── */
         .crew-banner {
