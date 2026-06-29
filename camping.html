@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>4th of July Camping</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { overflow-x: hidden; }
+        :root {
+            --navy:         #1a2744;
+            --navy-dark:    #0d1a33;
+            --navy-mid:     #253560;
+            --navy-light:   #3a5080;
+            --red:          #b02a22;
+            --red-mid:      #c0392b;
+            --red-light:    #d4534a;
+            --red-pale:     #fdf0ee;
+            --gold:         #c9960c;
+            --gold-light:   #f0c040;
+            --gold-pale:    #fffae8;
+            --cream:        #faf9f5;
+            --snow:         #ffffff;
+            --slate:        #7a8599;
+            --text-dark:    #0d1a33;
+            --text-mid:     #3a4a6b;
+            --text-light:   #7a8599;
+            --radius:       16px;
+            --shadow-sm:    0 2px 8px rgba(13,26,51,.09);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        .app-header {
+            position: relative;
+            height: 128px;
+            overflow: hidden;
+            background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-mid) 100%);
+        }
+        .header-stars {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            color: rgba(255,255,255,.55);
+            font-size: 10px;
+            animation: twinkle 3s infinite;
+        }
+        @keyframes twinkle {
+            0%,100% { opacity: .55; } 50% { opacity: .15; }
+        }
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 16px 20px;
+            text-align: center;
+        }
+        .header-eyebrow {
+            font-size: 10px;
+            color: rgba(240,192,64,.8);
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.1;
+            text-shadow: 0 2px 12px rgba(0,0,0,.4);
+        }
+        .header-sub {
+            font-size: 11px;
+            color: rgba(240,192,64,.75);
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        /* ── BOTTOM NAV ── */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 100%; max-width: 430px;
+            background: var(--snow);
+            border-top: 1px solid #dde2ec;
+            display: flex;
+            z-index: 100;
+            box-shadow: 0 -4px 20px rgba(13,26,51,.08);
+        }
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 2px 13px;
+            gap: 3px;
+            cursor: pointer;
+            color: #a0aabf;
+            border: none;
+            background: none;
+            font-family: 'Inter', sans-serif;
+            transition: color .18s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-item.active { color: var(--navy); }
+        .nav-icon  { font-size: 19px; }
+        .nav-label { font-size: 9px; font-weight: 600; letter-spacing: .3px; }
+
+        /* ── CONTENT / SECTIONS ── */
+        .content  { padding: 16px 16px 96px; }
+        .section  { display: none; }
+        .section.active { display: block; }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--snow);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card-label {
+            font-size: 10px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+            margin-bottom: 6px;
+        }
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            line-height: 1.25;
+        }
+        .card-body {
+            font-size: 13.5px;
+            color: var(--text-mid);
+            line-height: 1.6;
+        }
+
+        /* ── SECTION DIVIDER ── */
+        .section-header {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-light);
+            margin: 6px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--slate);
+            opacity: .22;
+        }
+
+        /* ── HERO BANNER ── */
+        .hero-banner {
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 14px;
+            position: relative;
+            min-height: 138px;
+            display: flex;
+            align-items: flex-end;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,.65) 0%, transparent 60%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 18px 20px;
+            color: white;
+            width: 100%;
+        }
+        .hero-tag {
+            display: inline-block;
+            background: rgba(255,255,255,.2);
+            border-radius: 100px;
+            padding: 3px 12px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 7px;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1.15;
+            text-shadow: 0 2px 8px rgba(0,0,0,.4);
+        }
+        .hero-sub { font-size: 12px; opacity: .85; margin-top: 4px; }
+
+        /* ── FIREWORKS STRIP ── */
+        .fireworks-strip {
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy));
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            color: white;
+            margin-bottom: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+        .fireworks-strip::before {
+            content: '🎆';
+            position: absolute;
+            right: 16px; top: 50%;
+            transform: translateY(-50%);
+            font-size: 44px;
+            opacity: .35;
+        }
+        .fw-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: .72; margin-bottom: 5px; color: var(--gold-light); }
+        .fw-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 3px; }
+        .fw-body  { font-size: 13px; opacity: .88; line-height: 1.55; }
+
+        /* ── FAMILY CREW BANNER ── */
+        .crew-banner {
+            background: var(--snow);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .crew-icon { font-size: 34px; flex-shrink: 0; }
+        .crew-body { flex: 1; }
+        .crew-title { font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+        .crew-members { display: flex; flex-wrap: wrap; gap: 6px; }
+        .crew-dot {
+            background: var(--navy);
+            color: white;
+            border-radius: 100px;
+            padding: 3px 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .crew-dot.maybe { background: #e0e6f0; color: var(--text-mid); }
+
+        /* ── WARN BANNER ── */
+        .warn-banner {
+            background: linear-gradient(135deg, #fff9e6, #fff3c4);
+            border: 1px solid #e0c44a;
+            border-radius: 12px;
+            padding: 13px 15px;
+            margin-bottom: 14px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .warn-icon  { font-size: 22px; flex-shrink: 0; }
+        .warn-title { font-size: 13px; font-weight: 700; color: #856404; margin-bottom: 4px; }
+        .warn-text  { font-size: 12px; color: #7a5800; line-height: 1.5; }
+
+        /* ── INFO BANNER (blue) ── */
+        .info-banner {
+            background: linear-gradient(135deg, #eef3fc, #dce9fb);
+            border: 1px solid #aec6ef;
+            border-radius: 12px;
+            padding: 13px 15px;
+            margin-bottom: 14px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .info-icon  { font-size: 22px; flex-shrink: 0; }
+        .info-title { font-size: 13px; font-weight: 700; color: #1a3a6b; margin-bottom: 4px; }
+        .info-text  { font-size: 12px; color: #2a4a80; line-height: 1.5; }
+
+        /* ── TIP BOX ── */
+        .tip-box {
+            background: var(--red-pale);
+            border-left: 3px solid var(--red-mid);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+        }
+        .tip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--red-mid); margin-bottom: 5px; }
+        .tip-text  { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+        /* ── EVENT ITEMS ── */
+        .event-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f2f8;
+        }
+        .event-item:last-child { border-bottom: none; }
+        .event-time {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-light);
+            width: 70px;
+            flex-shrink: 0;
+            padding-top: 2px;
+        }
+        .event-detail { flex: 1; }
+        .event-name  { font-size: 14px; font-weight: 500; color: var(--text-dark); line-height: 1.35; }
+        .event-note  { font-size: 12px; color: var(--text-light); margin-top: 3px; line-height: 1.45; }
+        .ev-tag {
+            display: inline-block;
+            background: var(--red-pale);
+            color: var(--red-mid);
+            border-radius: 100px;
+            padding: 1px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        .ev-tag.blue  { background: #eef3fc; color: var(--navy); }
+        .ev-tag.gold  { background: var(--gold-pale); color: var(--gold); }
+        .ev-tag.green { background: #e8f5ea; color: #2e7d3a; }
+
+        /* ── STAT GRID ── */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .stat-card {
+            background: var(--snow);
+            border-radius: 12px;
+            padding: 14px 12px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        /* ── ACTIVITY CARDS ── */
+        .activity-card {
+            background: var(--snow);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform .14s;
+            border-left: 4px solid transparent;
+        }
+        .activity-card:active { transform: scale(.98); }
+        .activity-card.must  { border-left-color: var(--red-mid); }
+        .activity-card.great { border-left-color: var(--navy); }
+        .activity-card.fun   { border-left-color: var(--gold); }
+        .ac-inner {
+            padding: 14px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .ac-emoji { font-size: 28px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+        .ac-body  { flex: 1; min-width: 0; }
+        .ac-name  { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
+        .ac-desc  { font-size: 12px; color: var(--text-mid); line-height: 1.5; margin-bottom: 7px; }
+        .ac-tags  { display: flex; flex-wrap: wrap; gap: 5px; }
+        .ac-tag   { background: var(--red-pale); color: var(--red-mid); border-radius: 100px; padding: 2px 9px; font-size: 11px; font-weight: 500; }
+        .ac-tag.blue  { background: #eef3fc; color: var(--navy); }
+        .ac-tag.sand  { background: #f5f0e8; color: var(--text-mid); }
+        .ac-tag.gold  { background: var(--gold-pale); color: var(--gold); }
+        .ac-tag.green { background: #e8f5ea; color: #2e7d3a; }
+        .ac-tag.warn  { background: #fff3cd; color: #856404; }
+        .tap-hint { font-size: 11px; color: var(--navy); margin-top: 5px; }
+
+        /* ── BADGES ── */
+        .badge-must {
+            display: inline-block;
+            background: var(--red-mid);
+            color: white;
+            border-radius: 100px;
+            padding: 2px 9px;
+            font-size: 9px;
+            font-weight: 700;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .badge-top {
+            display: inline-block;
+            background: var(--navy);
+            color: white;
+            border-radius: 100px;
+            padding: 2px 9px;
+            font-size: 9px;
+            font-weight: 700;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .badge-gold {
+            display: inline-block;
+            background: var(--gold);
+            color: white;
+            border-radius: 100px;
+            padding: 2px 9px;
+            font-size: 9px;
+            font-weight: 700;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        /* ── CAMP INFO ROWS ── */
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f2f8;
+            font-size: 13px;
+            gap: 12px;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row-label { color: var(--text-light); flex-shrink: 0; font-size: 12px; }
+        .info-row-value { font-weight: 600; color: var(--text-dark); text-align: right; flex: 1; }
+
+        /* ── CHECKLIST ── */
+        .checklist { list-style: none; }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 7px 0;
+            font-size: 13px;
+            color: var(--text-mid);
+            border-bottom: 1px solid #f0f2f8;
+            line-height: 1.45;
+        }
+        .checklist li:last-child { border-bottom: none; }
+        .checklist li::before { content: '✦'; color: var(--navy); font-size: 9px; margin-top: 4px; flex-shrink: 0; }
+
+        /* ── MEAL CARD ── */
+        .meal-card {
+            background: var(--snow);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            gap: 12px;
+        }
+        .meal-emoji { font-size: 30px; flex-shrink: 0; line-height: 1; }
+        .meal-body  { flex: 1; }
+        .meal-name  { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; }
+        .meal-meta  { font-size: 11px; color: var(--text-light); margin-bottom: 6px; }
+        .meal-note  { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+        .meal-tags  { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+        .meal-tag   { border-radius: 100px; padding: 2px 9px; font-size: 11px; font-weight: 500; }
+        .meal-tag.type  { background: var(--red-pale); color: var(--red-mid); }
+        .meal-tag.time  { background: #f5f0e8; color: var(--text-mid); }
+        .meal-tag.easy  { background: #e8f5ea; color: #2e7d3a; }
+        .meal-tag.star  { background: var(--gold-pale); color: var(--gold); }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(13,26,51,.52);
+            z-index: 200;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .modal-overlay.open { display: flex; animation: overlay-in .2s ease; }
+        @keyframes overlay-in { from{opacity:0} to{opacity:1} }
+        .modal-sheet {
+            background: white;
+            border-radius: 24px 24px 0 0;
+            padding: 10px 22px 48px;
+            width: 100%; max-width: 430px;
+            position: relative;
+            animation: sheet-up .26s cubic-bezier(.4,0,.2,1);
+            max-height: 86vh;
+            overflow-y: auto;
+        }
+        @keyframes sheet-up { from{transform:translateY(60px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .modal-handle {
+            width: 40px; height: 4px;
+            background: #dde2ec;
+            border-radius: 2px;
+            margin: 10px auto 18px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px; right: 16px;
+            background: #eef3fc;
+            border: none; border-radius: 100px;
+            width: 34px; height: 34px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-mid);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .modal-emoji { font-size: 52px; display: block; text-align: center; margin-bottom: 6px; }
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 23px;
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+        .modal-sub   { text-align: center; font-size: 12px; color: var(--text-light); margin-bottom: 16px; line-height: 1.5; }
+        .modal-tags  { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+        .modal-tag   { background: var(--red-pale); color: var(--red-mid); border-radius: 100px; padding: 4px 12px; font-size: 12px; font-weight: 500; }
+        .modal-tag.blue  { background: #eef3fc; color: var(--navy); }
+        .modal-tag.sand  { background: #f5f0e8; color: var(--text-mid); }
+        .modal-tag.gold  { background: var(--gold-pale); color: var(--gold); }
+        .modal-tag.green { background: #e8f5ea; color: #2e7d3a; }
+        .modal-tag.warn  { background: #fff3cd; color: #856404; }
+        .modal-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-light); margin-bottom: 8px; }
+        .modal-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f2f8;
+            font-size: 13px;
+            gap: 12px;
+        }
+        .modal-info-row:last-child { border-bottom: none; }
+        .modal-info-label { color: var(--text-light); flex-shrink: 0; width: 40%; }
+        .modal-info-value { font-weight: 600; color: var(--text-dark); text-align: right; flex: 1; }
+        .modal-fact {
+            background: var(--cream);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+            color: var(--text-mid);
+            line-height: 1.55;
+            margin-bottom: 8px;
+        }
+        .modal-section { margin-bottom: 18px; }
+    </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="app-header">
+    <div class="header-stars" id="star-field"></div>
+    <div class="header-content">
+        <div class="header-eyebrow">Ortiz Family</div>
+        <div class="header-title">4th of July Camping</div>
+        <div class="header-sub">July 4–6, 2025</div>
+    </div>
+</header>
+
+<!-- ── CONTENT ── -->
+<main class="content">
+
+<!-- ═══════════════════════════════════ HOME ═══════════════════════════════════ -->
+<section class="section active" id="section-home">
+
+    <div class="fireworks-strip">
+        <div class="fw-label">Independence Day Weekend</div>
+        <div class="fw-title">Happy 4th! 🇺🇸</div>
+        <div class="fw-body">Ortiz family camping trip — arrive late Friday, full day Saturday, head home Sunday morning.</div>
+    </div>
+
+    <div class="crew-banner">
+        <div class="crew-icon">⛺</div>
+        <div class="crew-body">
+            <div class="crew-title">The Crew</div>
+            <div class="crew-members">
+                <span class="crew-dot">Chris</span>
+                <span class="crew-dot">Kat</span>
+                <span class="crew-dot">Sedona</span>
+                <span class="crew-dot">River</span>
+                <span class="crew-dot maybe">🐾 Dogs TBD</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-number">2</div>
+            <div class="stat-label">Nights Under Stars</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">Jul 4</div>
+            <div class="stat-label">Independence Day</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">🎆</div>
+            <div class="stat-label">Fireworks Tonight</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">S'more</div>
+            <div class="stat-label">Mandatory Activity</div>
+        </div>
+    </div>
+
+    <div class="section-header">Friday · Late Arrival</div>
+
+    <div class="card">
+        <div class="event-item">
+            <div class="event-time">Evening</div>
+            <div class="event-detail">
+                <div class="event-name">Drive to Campground <span class="ev-tag blue">Late Start</span></div>
+                <div class="event-note">Arriving after dark — have flashlights ready and campsite number confirmed</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Arrival</div>
+            <div class="event-detail">
+                <div class="event-name">Set Up Camp</div>
+                <div class="event-note">Tent, sleeping bags, camp chairs — keep it quick tonight</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Night</div>
+            <div class="event-detail">
+                <div class="event-name">🔥 Quick Campfire + Snacks</div>
+                <div class="event-note">Get the fire going, unwind, maybe the first round of s'mores</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Saturday · Independence Day 🎆</div>
+
+    <div class="card">
+        <div class="event-item">
+            <div class="event-time">Morning</div>
+            <div class="event-detail">
+                <div class="event-name">Camp Breakfast <span class="ev-tag gold">Tradition</span></div>
+                <div class="event-note">Eggs, bacon, camp coffee — the real start to the 4th</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Mid-Morning</div>
+            <div class="event-detail">
+                <div class="event-name">Explore · Hike · Swim</div>
+                <div class="event-note">Check the Activities tab for ideas — go before the heat peaks</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Midday</div>
+            <div class="event-detail">
+                <div class="event-name">Lunch + Relax at Camp</div>
+                <div class="event-note">Hot dogs, sandwiches, shade time — rest up for the big evening</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Afternoon</div>
+            <div class="event-detail">
+                <div class="event-name">Camp Games + Free Time</div>
+                <div class="event-note">Cards, frisbee, nature walks — let the kids run wild</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Dinner</div>
+            <div class="event-detail">
+                <div class="event-name">4th of July Cookout <span class="ev-tag">Must</span></div>
+                <div class="event-note">Burgers, dogs, potato salad — the full American experience</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Evening</div>
+            <div class="event-detail">
+                <div class="event-name">🎆 Fireworks!</div>
+                <div class="event-note">Find the best viewing spot — check Camp tab for local show details</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">After</div>
+            <div class="event-detail">
+                <div class="event-name">🔥 Campfire + S'mores</div>
+                <div class="event-note">End the 4th the right way — fire, chocolate, marshmallows, stars</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Sunday · Morning Departure</div>
+
+    <div class="card">
+        <div class="event-item">
+            <div class="event-time">Early</div>
+            <div class="event-detail">
+                <div class="event-name">☕ Coffee + Sunrise</div>
+                <div class="event-note">One last camp morning — savor it</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Morning</div>
+            <div class="event-detail">
+                <div class="event-name">Pack Up + Break Camp</div>
+                <div class="event-note">Leave no trace — pack out everything you packed in</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <div class="event-time">Checkout</div>
+            <div class="event-detail">
+                <div class="event-name">Head Home</div>
+                <div class="event-note">Check out by campground checkout time before heading back</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-label">Weekend Essentials</div>
+        <div class="tip-text">
+            🔦 Flashlights for Friday night arrival<br>
+            🪲 Bug spray — July evenings can be buggy<br>
+            🌡️ Check weather: layers for night, sunscreen for day<br>
+            🎇 Snap the fireworks moment with the kids<br>
+            ☕ Pre-measure coffee for Sunday morning — worth it
+        </div>
+    </div>
+
+</section>
+
+<!-- ═══════════════════════════════════ CAMP ═══════════════════════════════════ -->
+<section class="section" id="section-camp">
+
+    <div class="hero-banner">
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0d1a33 0%,#1a2744 50%,#253560 100%);"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Your Campsite</div>
+            <div class="hero-title">Camp HQ</div>
+            <div class="hero-sub">July 4–6 · 2 nights</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-label">Campsite Details</div>
+        <div class="card-title">📍 [Campground Name]</div>
+        <div class="info-row">
+            <span class="info-row-label">Campground</span>
+            <span class="info-row-value">[Fill in campground name]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Site #</span>
+            <span class="info-row-value">[Site number]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Check-in</span>
+            <span class="info-row-value">Friday, July 4 — Late Arrival</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Check-out</span>
+            <span class="info-row-value">Sunday, July 6 — Morning</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Address</span>
+            <span class="info-row-value">[Address / GPS coordinates]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Reservation #</span>
+            <span class="info-row-value">[Confirmation number]</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-label">Site Hookups</div>
+        <div class="card-title">What We've Got</div>
+        <div class="info-row">
+            <span class="info-row-label">Fire Ring</span>
+            <span class="info-row-value">[Yes / No]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Picnic Table</span>
+            <span class="info-row-value">[Yes / No]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Water Hookup</span>
+            <span class="info-row-value">[Yes / No]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Electric</span>
+            <span class="info-row-value">[Yes / No]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Restrooms</span>
+            <span class="info-row-value">[Flush / Vault / Distance]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Showers</span>
+            <span class="info-row-value">[Yes / No / Distance]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Cell Signal</span>
+            <span class="info-row-value">[Carrier / Weak / None]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Dogs Allowed</span>
+            <span class="info-row-value">[Yes / Leash required / No]</span>
+        </div>
+    </div>
+
+    <div class="section-header">Fireworks Nearby</div>
+
+    <div class="card">
+        <div class="card-label">July 4th Shows</div>
+        <div class="card-title">🎆 Local Fireworks</div>
+        <div class="card-body">Fill in local fireworks show details here — time, location, driving distance from camp.</div>
+        <div class="info-row" style="margin-top:12px;">
+            <span class="info-row-label">Show Location</span>
+            <span class="info-row-value">[Nearest town / venue]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Start Time</span>
+            <span class="info-row-value">[Usually ~9–9:30 PM]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">From Camp</span>
+            <span class="info-row-value">[Distance / drive time]</span>
+        </div>
+        <div class="info-row">
+            <span class="info-row-label">Viewing from Camp?</span>
+            <span class="info-row-value">[Yes / Partial / Drive needed]</span>
+        </div>
+    </div>
+
+    <div class="section-header">Campfire Rules</div>
+
+    <div class="warn-banner">
+        <div class="warn-icon">🔥</div>
+        <div>
+            <div class="warn-title">Fire Safety — Always Check</div>
+            <div class="warn-text">Check current <strong>fire restrictions</strong> for your area before arrival — 4th of July weekend often has burn bans in AZ. Confirm fires are allowed at your specific campground. Never leave a fire unattended; always fully extinguish before sleeping.</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <ul class="checklist">
+            <li>Keep fire within the designated fire ring — never on the ground</li>
+            <li>Bucket of water nearby at all times when fire is lit</li>
+            <li>Drown, stir, feel — fire is out when ash is cold to touch</li>
+            <li>No fireworks at the campsite — follow campground rules</li>
+            <li>Pack out all ash and fire debris if required by campground</li>
+            <li>Check quiet hours — usually 10 PM, respect your neighbors</li>
+        </ul>
+    </div>
+
+    <div class="section-header">Packing Reminder</div>
+
+    <div class="card">
+        <div class="card-label">Don't Forget</div>
+        <div class="card-title">Friday Night Priorities</div>
+        <ul class="checklist">
+            <li>Tent + poles + stakes + rain fly</li>
+            <li>Sleeping bags + pads</li>
+            <li>Flashlights / headlamps (arriving in the dark!)</li>
+            <li>Firewood or check if campground sells it</li>
+            <li>Camp chairs + table</li>
+            <li>Cooler loaded — ice, drinks, food for 3 days</li>
+            <li>First aid kit + any medications</li>
+            <li>Sunscreen + bug spray</li>
+            <li>Camp stove + fuel + cookware</li>
+            <li>S'more supplies: marshmallows, chocolate, graham crackers</li>
+            <li>Phone charger / portable battery pack</li>
+            <li>Trash bags — pack it in, pack it out</li>
+        </ul>
+    </div>
+
+</section>
+
+<!-- ═══════════════════════════════════ ACTIVITIES ═══════════════════════════════════ -->
+<section class="section" id="section-activities">
+
+    <div class="hero-banner">
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0d1a33 0%,#1a3a6b 50%,#2a5090 100%);"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">July 4th Weekend</div>
+            <div class="hero-title">Things To Do</div>
+            <div class="hero-sub">Hike · Swim · Explore · Celebrate</div>
+        </div>
+    </div>
+
+    <div class="info-banner">
+        <div class="info-icon">📍</div>
+        <div>
+            <div class="info-title">Fill In Your Activities</div>
+            <div class="info-text">Add hikes, swimming holes, trails, or nearby attractions once you know your campground location. The cards below are good starting frameworks.</div>
+        </div>
+    </div>
+
+    <div class="section-header">4th of July Must-Do</div>
+
+    <div class="activity-card must" onclick="openModal('fireworks')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🎆</div>
+            <div class="ac-body">
+                <div class="ac-name">Fireworks Show <span class="badge-must">Tonight</span></div>
+                <div class="ac-desc">The main event. Find the best local show and get there early for a good spot. Check Camp tab for nearby show details.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag blue">Saturday Night</span>
+                    <span class="ac-tag sand">Usually 9–9:30 PM</span>
+                    <span class="ac-tag green">Free to watch</span>
+                </div>
+                <div class="tap-hint">Tap for tips →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="activity-card must" onclick="openModal('campfire')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🔥</div>
+            <div class="ac-body">
+                <div class="ac-name">Campfire + S'mores <span class="badge-must">Must</span></div>
+                <div class="ac-desc">The cornerstone of the trip. Every night, but especially after the 4th of July fireworks. The kids won't forget it.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag blue">Every Night</span>
+                    <span class="ac-tag">Check fire restrictions first</span>
+                </div>
+                <div class="tap-hint">Tap for s'more tips →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Outdoor Adventures</div>
+
+    <div class="activity-card great" onclick="openModal('hike')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🥾</div>
+            <div class="ac-body">
+                <div class="ac-name">Morning Hike <span class="badge-top">Saturday</span></div>
+                <div class="ac-desc">Fill in your specific trail once you know the campground. Go before 10 AM — midday July heat can be intense depending on elevation.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag blue">Saturday Morning</span>
+                    <span class="ac-tag sand">[Trail name + distance]</span>
+                </div>
+                <div class="tap-hint">Tap for hiking tips →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="activity-card great" onclick="openModal('swim')">
+        <div class="ac-inner">
+            <div class="ac-emoji">💦</div>
+            <div class="ac-body">
+                <div class="ac-name">Swimming / Water Play</div>
+                <div class="ac-desc">Lake, river, creek, or pool — if there's water near the campground, the kids will want it. Best in the afternoon heat.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag blue">Saturday Afternoon</span>
+                    <span class="ac-tag sand">[Location TBD]</span>
+                </div>
+                <div class="tap-hint">Tap for water safety tips →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="activity-card great" onclick="openModal('nature-walk')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🌿</div>
+            <div class="ac-body">
+                <div class="ac-name">Nature Walk + Wildlife Spotting</div>
+                <div class="ac-desc">Shorter, easier than a hike — great for the whole family including little legs. Look for birds, insects, wildflowers, and animal tracks.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag green">All Ages</span>
+                    <span class="ac-tag sand">Morning or Evening</span>
+                </div>
+                <div class="tap-hint">Tap for what to look for →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Camp Games</div>
+
+    <div class="activity-card fun" onclick="openModal('camp-games')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🃏</div>
+            <div class="ac-body">
+                <div class="ac-name">Camp Games <span class="badge-gold">Family Faves</span></div>
+                <div class="ac-desc">Cards, Uno, frisbee, cornhole, glow-in-the-dark activities for after dark. The simplest things become the best memories.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag gold">Anytime</span>
+                    <span class="ac-tag green">All Ages</span>
+                </div>
+                <div class="tap-hint">Tap for game ideas →</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="activity-card fun" onclick="openModal('stargazing')">
+        <div class="ac-inner">
+            <div class="ac-emoji">🌟</div>
+            <div class="ac-body">
+                <div class="ac-name">Stargazing</div>
+                <div class="ac-desc">Away from city lights, July skies can be spectacular. Look for the Milky Way, summer constellations (Scorpius, Hercules, Lyra), and maybe a shooting star.</div>
+                <div class="ac-tags">
+                    <span class="ac-tag blue">After Dark</span>
+                    <span class="ac-tag sand">After fireworks wind down</span>
+                </div>
+                <div class="tap-hint">Tap for what to look for →</div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ═══════════════════════════════════ EATS ═══════════════════════════════════ -->
+<section class="section" id="section-eats">
+
+    <div class="section-header">Friday Night</div>
+
+    <div class="meal-card">
+        <div class="meal-emoji">🔥</div>
+        <div class="meal-body">
+            <div class="meal-name">Late Night Camp Snacks</div>
+            <div class="meal-meta">Friday Night · Arrival</div>
+            <div class="meal-note">Arriving late means keeping it simple. Pre-made sandwiches or wraps from home, chips, and whatever's easy. Main goal: get the fire going and settle in.</div>
+            <div class="meal-tags">
+                <span class="meal-tag easy">Easy</span>
+                <span class="meal-tag time">No cooking needed</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="meal-card">
+        <div class="meal-emoji">🍫</div>
+        <div class="meal-body">
+            <div class="meal-name">S'mores Round One 🏆</div>
+            <div class="meal-meta">Friday Night · Campfire</div>
+            <div class="meal-note">The obligatory first s'mores of the trip. Golden marshmallow, Hershey's bar, graham cracker. Sedona and River will not accept any substitutes.</div>
+            <div class="meal-tags">
+                <span class="meal-tag star">⭐ Required</span>
+                <span class="meal-tag easy">Easy</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Saturday · Independence Day</div>
+
+    <div class="meal-card">
+        <div class="meal-emoji">🍳</div>
+        <div class="meal-body">
+            <div class="meal-name">Camp Breakfast</div>
+            <div class="meal-meta">Saturday Morning</div>
+            <div class="meal-note">Scrambled eggs, bacon or sausage, toast on the camp stove, coffee or hot chocolate. The meal that makes everyone feel like the trip really started.</div>
+            <div class="meal-tags">
+                <span class="meal-tag type">Camp Stove</span>
+                <span class="meal-tag time">45 min</span>
+                <span class="meal-tag star">⭐ Family Tradition</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="meal-card">
+        <div class="meal-emoji">🌭</div>
+        <div class="meal-body">
+            <div class="meal-name">4th of July Hot Dogs</div>
+            <div class="meal-meta">Saturday Lunch · Over the Fire</div>
+            <div class="meal-note">Classic campfire hot dogs on sticks. Bring the buns, mustard, ketchup, relish. Simple and perfect. The kids can cook their own.</div>
+            <div class="meal-tags">
+                <span class="meal-tag type">Campfire</span>
+                <span class="meal-tag easy">Easy · Kids Help</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="meal-card">
+        <div class="meal-emoji">🍔</div>
+        <div class="meal-body">
+            <div class="meal-name">4th of July Cookout</div>
+            <div class="meal-meta">Saturday Dinner · The Main Event</div>
+            <div class="meal-note">Burgers on the camp grill, potato salad, baked beans, corn on the cob if you can swing it. The full American cookout experience. Pre-form the patties at home to save time.</div>
+            <div class="meal-tags">
+                <span class="meal-tag type">Grill / Camp Stove</span>
+                <span class="meal-tag star">⭐ The Big Meal</span>
+                <span class="meal-tag time">Prep ahead</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="meal-card">
+        <div class="meal-emoji">🍉</div>
+        <div class="meal-body">
+            <div class="meal-name">Watermelon</div>
+            <div class="meal-meta">Saturday · All Day</div>
+            <div class="meal-note">It's not the 4th of July without a whole watermelon. Keep it in the cooler. Zero prep, everyone's happy, extremely patriotic.</div>
+            <div class="meal-tags">
+                <span class="meal-tag easy">No Prep</span>
+                <span class="meal-tag star">⭐ Mandatory</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="meal-card">
+        <div class="meal-emoji">🍫</div>
+        <div class="meal-body">
+            <div class="meal-name">S'mores Round Two 🥇</div>
+            <div class="meal-meta">Saturday Night · After Fireworks</div>
+            <div class="meal-note">Post-fireworks campfire s'mores. This is the peak. Upgrade option: add Reese's cups or Nutella instead of Hershey's. The kids get to stay up late. Worth it.</div>
+            <div class="meal-tags">
+                <span class="meal-tag star">⭐ Peak Experience</span>
+                <span class="meal-tag type">Campfire</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Sunday Morning</div>
+
+    <div class="meal-card">
+        <div class="meal-emoji">☕</div>
+        <div class="meal-body">
+            <div class="meal-name">Simple Departure Breakfast</div>
+            <div class="meal-meta">Sunday Morning · Before Pack-Up</div>
+            <div class="meal-note">Keep it quick — instant oatmeal, granola bars, camp coffee, fruit. Save the big breakfast for when you're breaking camp and ready to hit the road.</div>
+            <div class="meal-tags">
+                <span class="meal-tag easy">Quick &amp; Easy</span>
+                <span class="meal-tag time">Use up remaining food</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">Grocery List Tips</div>
+
+    <div class="card">
+        <div class="card-label">Pack Smart</div>
+        <div class="card-title">Cooler Strategy</div>
+        <ul class="checklist">
+            <li>Pre-form burger patties and wrap individually — easier at camp</li>
+            <li>Pre-crack eggs into a sealed container — skip the shells at camp</li>
+            <li>Bring twice the ice you think you need — it melts fast in July</li>
+            <li>Keep a separate small cooler for drinks so the food cooler stays cold</li>
+            <li>Freeze water bottles: they become ice packs, then drinking water</li>
+            <li>Ziplock bags for everything — condensation is real</li>
+            <li>Pack food in reverse meal order — Sunday stuff goes in last, comes out first</li>
+        </ul>
+    </div>
+
+</section>
+
+</main>
+
+<!-- ── BOTTOM NAV ── -->
+<nav class="bottom-nav">
+    <button class="nav-item active" onclick="showSection('home', this)">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" onclick="showSection('camp', this)">
+        <span class="nav-icon">⛺</span>
+        <span class="nav-label">Camp</span>
+    </button>
+    <button class="nav-item" onclick="showSection('activities', this)">
+        <span class="nav-icon">🎆</span>
+        <span class="nav-label">Activities</span>
+    </button>
+    <button class="nav-item" onclick="showSection('eats', this)">
+        <span class="nav-icon">🍔</span>
+        <span class="nav-label">Eats</span>
+    </button>
+</nav>
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+        <div class="modal-handle"></div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <div id="modal-content"></div>
+    </div>
+</div>
+
+<script>
+    /* ── STARS ── */
+    const starField = document.getElementById('star-field');
+    for (let i = 0; i < 28; i++) {
+        const s = document.createElement('span');
+        s.className = 'star';
+        s.textContent = '★';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.animationDelay = (Math.random() * 3) + 's';
+        s.style.fontSize = (Math.random() * 8 + 6) + 'px';
+        starField.appendChild(s);
+    }
+
+    /* ── NAVIGATION ── */
+    function showSection(name, btnEl) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+        document.getElementById('section-' + name).classList.add('active');
+        if (btnEl) btnEl.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    /* ── MODAL DATA ── */
+    const MODALS = {
+        'fireworks': {
+            emoji: '🎆',
+            title: 'Fireworks Show',
+            sub: 'July 4th · The Main Event',
+            tags: [{ t: 'Saturday Night', c: 'blue' }, { t: '~9–9:30 PM', c: 'sand' }, { t: 'Free to Watch', c: 'green' }],
+            info: [
+                ['Nearest Show', '[Fill in location]'],
+                ['Show Time', '[Usually 9–9:30 PM]'],
+                ['Drive from Camp', '[Distance / time]'],
+                ['Parking', '[Check ahead — gets crowded]'],
+                ['Blanket/Chairs', 'Bring them — arrive 30–45 min early'],
+            ],
+            facts: [
+                'July 4th fireworks are the most attended live event in the United States — over 14,000 shows happen nationwide every Independence Day.',
+                'Arrive early for a good spot. Bring a blanket or low-slung camp chairs. Bug spray is your best friend for outdoor evening events in July.',
+                'If the campground has line-of-sight to a show, you might be able to watch right from camp. Ask the camp hosts — they\'ll know.',
+                'Pro tip for the kids: glow sticks or glow-in-the-dark bracelets make waiting way more fun. Pick some up at the dollar store before you leave.',
+            ]
+        },
+        'campfire': {
+            emoji: '🔥',
+            title: 'Campfire + S\'mores',
+            sub: 'Every night · The centerpiece',
+            tags: [{ t: 'Check Fire Restrictions', c: 'warn' }, { t: 'Every Night', c: 'blue' }, { t: 'Required', c: '' }],
+            info: [
+                ['Fire Check', 'Verify restrictions at campground before lighting'],
+                ['Wood', 'Buy locally — don\'t transport firewood across regions'],
+                ['Build method', 'Teepee start, then log cabin to sustain'],
+                ['Extinguish', 'Drown, stir, feel — cold to touch before bed'],
+                ['S\'more ratio', '1 marshmallow : 1 square chocolate : 2 graham halves'],
+            ],
+            facts: [
+                'The perfect s\'more marshmallow is golden-brown, not charred black — hold it 6–8 inches above the flame and rotate slowly. Worth the patience.',
+                'S\'more upgrade ideas: Reese\'s cups instead of chocolate, Nutella spread on the graham, or a Thin Mint cookie in place of regular graham.',
+                'Campfire safety: the fire is only out when the ash is cold enough to hold your hand against it. A quick hiss-and-steam is not enough.',
+                'Night sounds + campfire light + family around the fire is one of the best parts of camping. No phones, no screens — just the fire and each other. Protect that.',
+            ]
+        },
+        'hike': {
+            emoji: '🥾',
+            title: 'Morning Hike',
+            sub: 'Saturday · Go early',
+            tags: [{ t: 'Saturday Morning', c: 'blue' }, { t: 'Start Before 10 AM', c: '' }, { t: '[Trail TBD]', c: 'sand' }],
+            info: [
+                ['Trail', '[Fill in once campground is known]'],
+                ['Distance', '[Miles / loop or out-and-back]'],
+                ['Difficulty', '[Easy / Moderate / Hard]'],
+                ['Start Time', 'Before 9–10 AM in July heat'],
+                ['Water', '1 liter per person minimum'],
+            ],
+            facts: [
+                'July mornings are the window for hiking in Arizona and the Southwest — temperatures are coolest before 9 AM and climb fast after 10. Start early, even if that means waking the kids up.',
+                'Sturdy closed-toe shoes are a must on rocky trails. Sandals are fine for flat camp strolls but not for real hiking terrain.',
+                'Snacks for the trail: salty snacks help replace electrolytes lost in sweat. Trail mix, jerky, and granola bars are lightweight and effective.',
+                'Tell someone your plan before you go — trail name, expected return time. Even a quick word to the camp host is good practice.',
+            ]
+        },
+        'swim': {
+            emoji: '💦',
+            title: 'Swimming / Water Play',
+            sub: 'Best in the afternoon heat',
+            tags: [{ t: 'Saturday Afternoon', c: 'blue' }, { t: '[Location TBD]', c: 'sand' }, { t: 'All Ages', c: 'green' }],
+            info: [
+                ['Location', '[Lake / river / creek / pool — TBD]'],
+                ['Water temp', '[Depends on elevation and water source]'],
+                ['Lifeguards', '[Check in advance at lakes and parks]'],
+                ['Bring', 'Towels, sunscreen, water shoes, floaties'],
+                ['Kids', 'Life jackets for non-swimmers in any moving water'],
+            ],
+            facts: [
+                'Natural swimming holes — creeks, rivers, and lakes — are some of the best camping experiences for kids. The cold water in July feels genuinely magical after a hot morning.',
+                'Water shoes or sandals with straps are essential for rocky creek bottoms and slippery lake entries.',
+                'Moving water (rivers, creeks) can be stronger than it looks even at low water — keep little ones close and respect the current.',
+                'Sunscreen re-application after swimming is easy to forget. Set a reminder — July sun reflecting off water is intense.',
+            ]
+        },
+        'nature-walk': {
+            emoji: '🌿',
+            title: 'Nature Walk',
+            sub: 'Family exploration · No agenda',
+            tags: [{ t: 'All Ages', c: 'green' }, { t: 'Morning or Evening', c: 'blue' }, { t: 'Free', c: 'green' }],
+            info: [
+                ['Distance', 'As short or long as you want'],
+                ['Best time', 'Morning before heat, or late afternoon'],
+                ['Bring', 'Water, sunscreen, maybe a field guide'],
+                ['Goal', 'None — just look at stuff'],
+            ],
+            facts: [
+                'July is actually great for wildlife spotting — deer at dawn, lizards mid-morning, birds everywhere. Slower is better: stop, be quiet, watch.',
+                'Look for animal tracks near water sources and in soft dirt. Common July sightings in most campgrounds: deer, squirrels, chipmunks, raptors, hummingbirds.',
+                'Let the kids lead the nature walk — their curiosity will take you places you wouldn\'t think to go. Rocks, bugs, and sticks are all interesting when you\'re 8.',
+                'Download iNaturalist before the trip — it can identify plants, animals, and insects from a photo. Sedona and River will love it.',
+            ]
+        },
+        'camp-games': {
+            emoji: '🃏',
+            title: 'Camp Games',
+            sub: 'The simple stuff is the best stuff',
+            tags: [{ t: 'Anytime', c: 'gold' }, { t: 'All Ages', c: 'green' }, { t: 'No Setup', c: 'sand' }],
+            info: [
+                ['Card games', 'Uno, Go Fish, War, Slapjack'],
+                ['Outdoor', 'Frisbee, cornhole, bocce, spike ball'],
+                ['Night games', 'Glow-in-the-dark frisbee, flashlight tag'],
+                ['No-gear option', 'Two Truths and a Lie, 20 Questions, storytelling'],
+            ],
+            facts: [
+                'Camp games don\'t need to be complicated. A $1 deck of cards and Uno have powered more memorable camping moments than any fancy gear.',
+                'Glow-in-the-dark frisbees and glow sticks make after-dark play genuinely exciting for kids — especially after the fireworks when they\'re still wired.',
+                'Nature scavenger hunt: make a list before you leave (pinecone, feather, smooth rock, bug, wildflower) and send the kids off. Whoever finds the most wins. Zero prep.',
+                'Flashlight tag and hide-and-seek after dark in a campground are the kind of things Sedona and River will remember for years. The unstructured outdoor evening is the whole point of camping.',
+            ]
+        },
+        'stargazing': {
+            emoji: '🌟',
+            title: 'Stargazing',
+            sub: 'After dark · After the fireworks wind down',
+            tags: [{ t: 'After 9 PM', c: 'blue' }, { t: 'Free', c: 'green' }, { t: 'No Equipment Needed', c: 'sand' }],
+            info: [
+                ['Best time', 'After 9:30–10 PM when sky is fully dark'],
+                ['Eyes adjust in', '15–20 minutes away from bright lights'],
+                ['App', 'Star Walk or Sky Map (free) — point at sky to identify'],
+                ['July constellations', 'Scorpius, Sagittarius, Hercules, Lyra, Cygnus'],
+                ['Milky Way', 'Visible as a faint band if far from city lights'],
+            ],
+            facts: [
+                'July is one of the best months for stargazing in the Northern Hemisphere — the Milky Way core is high in the sky and the nights are warm enough to lay outside comfortably.',
+                'The Summer Triangle — three bright stars (Vega, Deneb, Altair) — is almost directly overhead in July and easy to spot even with minimal dark adaptation.',
+                'Scorpius is the summer showstopper: a full "S" curve of stars with the bright red star Antares at its heart, right above the southern horizon. You can\'t miss it.',
+                'The key to seeing more stars is time away from white light. Turn off flashlights, let your eyes adjust for 15–20 minutes, and the sky will reveal itself. Red-light headlamps preserve night vision.',
+            ]
+        },
+    };
+
+    function openModal(key) {
+        const d = MODALS[key];
+        if (!d) return;
+        const tagsHtml = d.tags.map(t => `<span class="modal-tag ${t.c}">${t.t}</span>`).join('');
+        const infoHtml = d.info.map(r => `<div class="modal-info-row"><span class="modal-info-label">${r[0]}</span><span class="modal-info-value">${r[1]}</span></div>`).join('');
+        const factsHtml = d.facts.map(f => `<div class="modal-fact">${f}</div>`).join('');
+        document.getElementById('modal-content').innerHTML = `
+            <span class="modal-emoji">${d.emoji}</span>
+            <div class="modal-title">${d.title}</div>
+            <div class="modal-sub">${d.sub}</div>
+            <div class="modal-tags">${tagsHtml}</div>
+            <div class="modal-section">
+                <div class="modal-section-title">Quick Info</div>
+                ${infoHtml}
+            </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Need to Know</div>
+                ${factsHtml}
+            </div>
+        `;
+        document.getElementById('modal-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('modal-overlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
