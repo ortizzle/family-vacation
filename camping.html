@@ -286,7 +286,7 @@
 
         /* ── COUNTDOWN / SUN STRIP ── */
         .countdown-card {
-            background: rgba(255,255,255,.07); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.13); box-shadow: 0 4px 24px rgba(0,0,0,.3);
+            background: rgba(4,6,18,.35); border: 1px solid rgba(255,255,255,.07);
             border-radius: var(--radius);
             padding: 16px 20px;
             color: white;
@@ -302,7 +302,7 @@
         .cd-time { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; line-height: 1; }
         .cd-sub { font-size: 12px; opacity: .75; margin-top: 3px; }
         .sun-strip {
-            background: rgba(255,255,255,.07); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.13); box-shadow: 0 4px 24px rgba(0,0,0,.3);
+            background: rgba(4,6,18,.35); border: 1px solid rgba(255,255,255,.07);
             border-radius: var(--radius);
             padding: 14px 16px;
             margin-bottom: 14px;
@@ -341,7 +341,7 @@
         .const-cards::-webkit-scrollbar { display: none; }
         .const-card {
             min-width: 72vw; max-width: 260px; flex-shrink: 0; scroll-snap-align: start;
-            background: rgba(255,255,255,.08); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            background: rgba(4,6,18,.35); border: 1px solid rgba(255,255,255,.07);
             border-radius: 14px; padding: 16px; color: white;
         }
         .const-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 2px; color: var(--gold-light); }
@@ -354,7 +354,7 @@
 
         /* ── TAB TABLE OF CONTENTS ── */
         .tab-toc {
-            background: rgba(255,255,255,.07); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.13); box-shadow: 0 4px 24px rgba(0,0,0,.3);
+            background: rgba(4,6,18,.35); border: 1px solid rgba(255,255,255,.07);
             border-radius: var(--radius);
             padding: 14px 16px;
             margin-bottom: 18px;
@@ -526,7 +526,7 @@
             margin-bottom: 14px;
         }
         .stat-card {
-            background: rgba(255,255,255,.07); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.13); box-shadow: 0 4px 24px rgba(0,0,0,.3);
+            background: rgba(4,6,18,.35); border: 1px solid rgba(255,255,255,.07);
             border-radius: 12px;
             padding: 14px 12px;
             text-align: center;
@@ -549,8 +549,7 @@
 
         /* ── ACTIVITY CARDS ── */
         .activity-card {
-            background: rgba(255,255,255,.06);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            background: rgba(4,6,18,.35);
             border-radius: var(--radius);
             margin-bottom: 10px;
             box-shadow: 0 2px 14px rgba(0,0,0,.5);
@@ -652,10 +651,8 @@
 
         /* ── MEAL CARD ── */
         .meal-card {
-            background: rgba(255,255,255,.07);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,.12);
+            background: rgba(4,6,18,.35);
+            border: 1px solid rgba(255,255,255,.07);
             border-radius: var(--radius);
             padding: 16px;
             margin-bottom: 10px;
@@ -737,8 +734,8 @@
             margin-bottom: 14px;
         }
         .bingo-cell {
-            background: rgba(255,255,255,.10);
-            border: 2px solid rgba(255,255,255,.22);
+            background: rgba(4,6,18,.5);
+            border: 2px solid rgba(255,255,255,.18);
             border-radius: 8px;
             padding: 6px 2px;
             text-align: center;
@@ -1052,6 +1049,48 @@
             0% { transform: translateX(-50%) scale(1,1) rotate(-1deg); opacity: .9; }
             100% { transform: translateX(-50%) scale(1.05,0.95) rotate(1deg); opacity: 1; }
         }
+
+        /* ── TONIGHT'S SKY ── */
+        .sky-card { background: rgba(4,6,18,.5); border: 1px solid rgba(100,140,255,.2); border-radius: var(--radius); padding: 16px; margin-bottom: 14px; }
+        .sky-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .sky-card-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--text-dark); }
+        .sky-card-sub { font-size: 11px; color: rgba(245,237,208,.5); margin-top: 2px; }
+        .sky-night { border-bottom: 1px solid rgba(255,255,255,.07); padding: 10px 0; }
+        .sky-night:last-child { border-bottom: none; padding-bottom: 0; }
+        .sky-night-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold); margin-bottom: 6px; }
+        .sky-object { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; font-size: 12px; color: rgba(245,237,208,.8); line-height: 1.4; }
+        .sky-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-light); flex-shrink: 0; margin-top: 4px; }
+        .sky-dot.red { background: #ff9966; }
+        .sky-dot.blue { background: #aaccff; }
+        .sky-dot.white { background: rgba(255,255,255,.9); }
+        .sky-tip { font-size: 11px; color: rgba(245,237,208,.4); margin-top: 10px; font-style: italic; }
+
+        /* ── PICTIONARY GAME ── */
+        #draw-game { display: none; position: fixed; inset: 0; background: #04060e; z-index: 400; flex-direction: column; }
+        #draw-game.open { display: flex; }
+        .draw-header { display: flex; align-items: center; justify-content: space-between; padding: 52px 20px 12px; background: rgba(4,6,18,.85); flex-shrink: 0; }
+        .draw-word-box { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 12px; padding: 8px 16px; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--gold-light); letter-spacing: 1px; }
+        .draw-timer { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--text-dark); min-width: 44px; text-align: right; }
+        .draw-timer.urgent { color: #ff6644; }
+        #draw-canvas { flex: 1; display: block; width: 100%; touch-action: none; cursor: crosshair; }
+        .draw-toolbar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(4,6,18,.92); flex-shrink: 0; flex-wrap: wrap; }
+        .draw-color { width: 30px; height: 30px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; flex-shrink: 0; transition: border-color .15s; }
+        .draw-color.active { border-color: white; }
+        .draw-size { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px; font-weight: 700; color: white; flex-shrink: 0; }
+        .draw-size.active { background: rgba(255,255,255,.32); }
+        .draw-eraser { margin-left: auto; padding: 6px 14px; border-radius: 10px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); color: rgba(245,237,208,.9); font-size: 13px; cursor: pointer; font-family: 'Inter', sans-serif; }
+        .draw-eraser.active { background: rgba(255,100,60,.3); border-color: rgba(255,100,60,.5); color: #ff9977; }
+        .draw-guess-row { display: flex; gap: 8px; padding: 10px 14px 28px; background: rgba(4,6,18,.92); flex-shrink: 0; }
+        .draw-guess-input { flex: 1; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 12px; padding: 10px 14px; color: var(--text-dark); font-size: 14px; font-family: 'Inter', sans-serif; outline: none; }
+        .draw-guess-input::placeholder { color: rgba(245,237,208,.3); }
+        .draw-give-up { padding: 10px 14px; border-radius: 12px; background: rgba(255,80,40,.15); border: 1px solid rgba(255,80,40,.3); color: rgba(255,150,120,.9); font-size: 13px; cursor: pointer; font-family: 'Inter', sans-serif; white-space: nowrap; }
+        .draw-reveal { display: none; position: absolute; inset: 0; background: rgba(4,6,14,.96); flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; z-index: 10; }
+        .draw-reveal.show { display: flex; }
+        .draw-reveal-emoji { font-size: 64px; margin-bottom: 16px; }
+        .draw-reveal-msg { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--gold-light); margin-bottom: 8px; }
+        .draw-reveal-word { font-size: 16px; color: rgba(245,237,208,.65); margin-bottom: 32px; }
+        .draw-ready-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; position: absolute; inset: 0; background: #04060e; z-index: 5; text-align: center; padding: 40px; }
+        .draw-ready-screen.gone { display: none; }
     </style>
 </head>
 <body>
@@ -1129,6 +1168,42 @@
             <div class="sun-day-label">Sun Jul 5</div>
             <div class="sun-row"><span class="sun-rise">🌅 5:19a</span><span class="sun-set">🌇 7:44p</span></div>
         </div>
+    </div>
+
+
+    <!-- ── TONIGHT'S SKY ── -->
+    <div class="sky-card">
+        <div class="sky-card-header">
+            <span style="font-size:28px;">🌌</span>
+            <div>
+                <div class="sky-card-title">Tonight's Sky</div>
+                <div class="sky-card-sub">White Spar · 5,641 ft · Low light pollution</div>
+            </div>
+        </div>
+
+        <div class="sky-night">
+            <div class="sky-night-label">Fri Jul 3</div>
+            <div class="sky-object"><span class="sky-dot red"></span>Scorpius rising in the south — look for bright orange-red Antares (heart of the scorpion)</div>
+            <div class="sky-object"><span class="sky-dot blue"></span>Jupiter brilliant low in the east, outshines everything except the moon</div>
+            <div class="sky-object"><span class="sky-dot white"></span>Milky Way visible after 9:30 PM — faint band stretching overhead south to north</div>
+        </div>
+
+        <div class="sky-night">
+            <div class="sky-night-label">Sat Jul 4 🎆 — Best Night</div>
+            <div class="sky-object"><span class="sky-dot red"></span>Scorpius high in the south, tail curling toward the horizon</div>
+            <div class="sky-object"><span class="sky-dot"></span>Sagittarius (Teapot) just left of Scorpius — the "steam" rising from the spout IS the Milky Way core</div>
+            <div class="sky-object"><span class="sky-dot blue"></span>Jupiter + Mars visible in the east after 9 PM</div>
+            <div class="sky-object"><span class="sky-dot white"></span>Look for shooting stars — peak Perseid warmup activity</div>
+        </div>
+
+        <div class="sky-night">
+            <div class="sky-night-label">Sun Jul 5</div>
+            <div class="sky-object"><span class="sky-dot red"></span>Scorpius and Sagittarius still high and brilliant</div>
+            <div class="sky-object"><span class="sky-dot blue"></span>Saturn rises around 11 PM — look for its steady non-twinkling glow</div>
+            <div class="sky-object"><span class="sky-dot white"></span>Milky Way best after midnight if you're still up</div>
+        </div>
+
+        <div class="sky-tip">👁️ Dark-adapt for 15 min — put phones away and let your eyes adjust. You'll see 10× more stars.</div>
     </div>
 
     <div class="warn-banner">
@@ -2210,6 +2285,7 @@
 <section class="section" id="section-games">
 
     <div class="tab-toc">
+        <a class="toc-link" href="#toc-draw">Camp Pictionary</a>
         <a class="toc-link" href="#toc-spark">Spark Catcher</a>
         <a class="toc-link" href="#toc-sky">Night Sky</a>
         <a class="toc-link" href="#toc-madlibs">Mad Libs</a>
@@ -2224,11 +2300,19 @@
         <div class="hero-content">
             <div class="hero-tag">Family Fun</div>
             <div class="hero-title">Camp Games</div>
-            <div class="hero-sub">Mad Libs · Hike Bingo · Memories</div>
+            <div class="hero-sub">Pictionary · Spark Catcher · Bingo · More</div>
         </div>
     </div>
 
     <!-- ── MAD LIBS ── -->
+    <div class="section-header" id="toc-draw">🎨 Camp Pictionary</div>
+    <div class="card" style="text-align:center;padding:24px 20px;">
+        <div style="font-size:48px;margin-bottom:10px;">🎨</div>
+        <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:6px;">Camp Pictionary</div>
+        <div style="font-size:13px;color:var(--text-mid);margin-bottom:18px;line-height:1.5;">One person gets a secret word and draws it. Everyone else guesses. 60 seconds on the clock — go!</div>
+        <button onclick="openDrawGame()" style="background:linear-gradient(135deg,#1a2a4a,#2a3a6a);color:white;border:none;border-radius:14px;padding:14px 32px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;width:100%;">Play Pictionary 🎨</button>
+    </div>
+
     <div class="section-header" id="toc-spark">🔥 Spark Catcher</div>
     <div class="card" style="text-align:center;padding:24px 20px;">
         <div style="font-size:48px;margin-bottom:10px;">🔥</div>
@@ -2938,6 +3022,170 @@
     let sparkGameTimer, sparkGameInterval, sparkScore = 0, sparkTimeLeft = 30;
     const SPARK_COLORS = ['#ff6b35','#f7c59f','#ffd700','#ff4500','#ff8c00'];
 
+    // ── CAMP PICTIONARY ──────────────────────────────────────────
+    const DRAW_WORDS = [
+        // Camping
+        'tent','campfire','marshmallow','sleeping bag','flashlight','lantern',
+        'firewood','hiking boot','canteen','backpack','compass','hammock',
+        'bear','owl','deer','pine tree','mountain','river','lake',
+        // 4th of July
+        'fireworks','sparkler','American flag','hot dog','watermelon','BBQ grill',
+        'eagle','parade','sunglasses','rocket','popsicle','BBQ sauce',
+        // Nature / activities
+        'sunrise','sunset','shooting star','Big Dipper','telescope',
+        'butterfly','campfire smoke','s\'mores','guitar','fishing rod',
+        'snake','hawk','cactus','rain cloud','moon','star'
+    ];
+
+    let _drawCtx, _drawColor = '#f0e6cc', _drawSize = 4, _drawErasing = false;
+    let _drawWord = '', _drawTimer = 60, _drawInterval = null, _drawActive = false;
+
+    function openDrawGame() {
+        _drawWord = DRAW_WORDS[Math.floor(Math.random() * DRAW_WORDS.length)];
+        _drawActive = false;
+        document.getElementById('draw-ready').classList.remove('gone');
+        document.getElementById('draw-reveal').classList.remove('show');
+        document.getElementById('draw-word-display').textContent = '???';
+        document.getElementById('draw-timer').textContent = '60';
+        document.getElementById('draw-timer').classList.remove('urgent');
+        document.getElementById('draw-guess').value = '';
+        document.getElementById('draw-game').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        initDrawCanvas();
+    }
+
+    function initDrawCanvas() {
+        const canvas = document.getElementById('draw-canvas');
+        const container = document.getElementById('draw-game');
+        // Size the canvas to fill the flex gap
+        setTimeout(() => {
+            const h = container.offsetHeight
+                - (document.querySelector('.draw-header').offsetHeight || 80)
+                - (document.querySelector('.draw-toolbar').offsetHeight || 58)
+                - (document.querySelector('.draw-guess-row').offsetHeight || 54);
+            canvas.width  = container.offsetWidth;
+            canvas.height = Math.max(h, 200);
+            _drawCtx = canvas.getContext('2d');
+            _drawCtx.fillStyle = '#06091a';
+            _drawCtx.fillRect(0, 0, canvas.width, canvas.height);
+        }, 50);
+
+        // Touch events
+        canvas.ontouchstart = (e) => { e.preventDefault(); drawStart(e.touches[0]); };
+        canvas.ontouchmove  = (e) => { e.preventDefault(); drawMove(e.touches[0]); };
+        canvas.ontouchend   = () => drawEnd();
+        canvas.onmousedown  = (e) => { drawStart(e); canvas.onmousemove = (ev) => drawMove(ev); };
+        canvas.onmouseup    = () => { drawEnd(); canvas.onmousemove = null; };
+    }
+
+    function _pos(e) {
+        const r = document.getElementById('draw-canvas').getBoundingClientRect();
+        return { x: (e.clientX ?? e.pageX) - r.left, y: (e.clientY ?? e.pageY) - r.top };
+    }
+
+    let _drawing = false;
+    function drawStart(e) {
+        if (!_drawActive) return;
+        _drawing = true;
+        const p = _pos(e);
+        _drawCtx.beginPath();
+        _drawCtx.moveTo(p.x, p.y);
+    }
+    function drawMove(e) {
+        if (!_drawing || !_drawActive) return;
+        const p = _pos(e);
+        _drawCtx.lineTo(p.x, p.y);
+        _drawCtx.strokeStyle = _drawErasing ? '#06091a' : _drawColor;
+        _drawCtx.lineWidth   = _drawErasing ? _drawSize * 4 : _drawSize;
+        _drawCtx.lineCap     = 'round';
+        _drawCtx.lineJoin    = 'round';
+        _drawCtx.stroke();
+        _drawCtx.beginPath();
+        _drawCtx.moveTo(p.x, p.y);
+    }
+    function drawEnd() { _drawing = false; }
+
+    function setDrawColor(el, color) {
+        _drawColor = color; _drawErasing = false;
+        document.querySelectorAll('.draw-color').forEach(e => e.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('draw-eraser-btn').classList.remove('active');
+    }
+    function setDrawSize(el, size) {
+        _drawSize = size;
+        document.querySelectorAll('.draw-size').forEach(e => e.classList.remove('active'));
+        el.classList.add('active');
+    }
+    function toggleEraser() {
+        _drawErasing = !_drawErasing;
+        document.getElementById('draw-eraser-btn').classList.toggle('active', _drawErasing);
+    }
+
+    function drawRevealWord() {
+        document.getElementById('draw-ready').classList.add('gone');
+        document.getElementById('draw-word-display').textContent = _drawWord.toUpperCase();
+        _drawActive = true;
+        _drawTimer = 60;
+        clearInterval(_drawInterval);
+        _drawInterval = setInterval(() => {
+            _drawTimer--;
+            const el = document.getElementById('draw-timer');
+            el.textContent = _drawTimer;
+            if (_drawTimer <= 10) el.classList.add('urgent');
+            if (_drawTimer <= 0) {
+                clearInterval(_drawInterval);
+                drawEndRound(false);
+            }
+        }, 1000);
+    }
+
+    function checkDrawGuess(val) {
+        if (!_drawActive) return;
+        if (val.trim().toLowerCase() === _drawWord.toLowerCase()) {
+            clearInterval(_drawInterval);
+            _drawActive = false;
+            createBurst(window.innerWidth/2, window.innerHeight/2, 30, 70, ['#f5b030','#ffffff','#ff6644','#66dd66']);
+            showDrawReveal(true);
+        }
+    }
+
+    function drawGiveUp() {
+        clearInterval(_drawInterval);
+        _drawActive = false;
+        showDrawReveal(false);
+    }
+
+    function showDrawReveal(won) {
+        const el = document.getElementById('draw-reveal');
+        document.getElementById('draw-reveal-emoji').textContent = won ? '🎉' : '⏰';
+        document.getElementById('draw-reveal-msg').textContent   = won ? 'Nice guess!' : 'Time\'s up!';
+        document.getElementById('draw-reveal-word').textContent  = 'The word was: ' + _drawWord;
+        el.classList.add('show');
+    }
+
+    function restartDrawGame() {
+        document.getElementById('draw-reveal').classList.remove('show');
+        _drawWord = DRAW_WORDS[Math.floor(Math.random() * DRAW_WORDS.length)];
+        document.getElementById('draw-ready').classList.remove('gone');
+        document.getElementById('draw-word-display').textContent = '???';
+        document.getElementById('draw-timer').textContent = '60';
+        document.getElementById('draw-timer').classList.remove('urgent');
+        document.getElementById('draw-guess').value = '';
+        _drawActive = false;
+        const canvas = document.getElementById('draw-canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#06091a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function closeDrawGame() {
+        clearInterval(_drawInterval);
+        _drawActive = false;
+        document.getElementById('draw-game').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    // ── END PICTIONARY ───────────────────────────────────────────
+
     function openSparkGame() {
         sparkScore = 0; sparkTimeLeft = 30;
         document.getElementById('spark-score-el').textContent = '0';
@@ -3458,5 +3706,50 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
     }
     loadMemories();
 </script>
+
+<!-- ── CAMP PICTIONARY GAME ── -->
+<div id="draw-game">
+    <!-- Ready screen shown to everyone before word is revealed -->
+    <div class="draw-ready-screen" id="draw-ready">
+        <div style="font-size:56px;margin-bottom:20px;">🎨</div>
+        <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--gold-light);margin-bottom:10px;">Camp Pictionary</div>
+        <div style="font-size:14px;color:rgba(245,237,208,.7);margin-bottom:30px;line-height:1.6;">Pass the phone to the artist.<br>Everyone else look away!</div>
+        <button onclick="drawRevealWord()" style="background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:16px;padding:16px 40px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:16px;width:100%;max-width:280px;">I'm Ready — Show My Word</button>
+        <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(245,237,208,.6);border-radius:12px;padding:10px 24px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Cancel</button>
+    </div>
+
+    <!-- Drawing UI -->
+    <div class="draw-header">
+        <div class="draw-word-box" id="draw-word-display">???</div>
+        <div class="draw-timer" id="draw-timer">60</div>
+    </div>
+    <canvas id="draw-canvas"></canvas>
+    <div class="draw-toolbar" id="draw-toolbar">
+        <div class="draw-color active" style="background:#f0e6cc;" onclick="setDrawColor(this,'#f0e6cc')"></div>
+        <div class="draw-color" style="background:#ff6644;" onclick="setDrawColor(this,'#ff6644')"></div>
+        <div class="draw-color" style="background:#44aaff;" onclick="setDrawColor(this,'#44aaff')"></div>
+        <div class="draw-color" style="background:#66dd66;" onclick="setDrawColor(this,'#66dd66')"></div>
+        <div class="draw-color" style="background:#ffcc44;" onclick="setDrawColor(this,'#ffcc44')"></div>
+        <div class="draw-color" style="background:#cc66ff;" onclick="setDrawColor(this,'#cc66ff')"></div>
+        <div class="draw-size active" id="draw-sz-sm" onclick="setDrawSize(this,4)">S</div>
+        <div class="draw-size" id="draw-sz-md" onclick="setDrawSize(this,10)">M</div>
+        <div class="draw-size" id="draw-sz-lg" onclick="setDrawSize(this,22)">L</div>
+        <div class="draw-eraser" id="draw-eraser-btn" onclick="toggleEraser()">Eraser</div>
+    </div>
+    <div class="draw-guess-row">
+        <input class="draw-guess-input" id="draw-guess" placeholder="Type a guess…" oninput="checkDrawGuess(this.value)" autocomplete="off" autocorrect="off"/>
+        <button class="draw-give-up" onclick="drawGiveUp()">Give Up</button>
+    </div>
+
+    <!-- Reveal overlay (correct / timeout) -->
+    <div class="draw-reveal" id="draw-reveal">
+        <div class="draw-reveal-emoji" id="draw-reveal-emoji">🎉</div>
+        <div class="draw-reveal-msg" id="draw-reveal-msg">Got it!</div>
+        <div class="draw-reveal-word" id="draw-reveal-word"></div>
+        <button onclick="restartDrawGame()" style="background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:16px;padding:14px 36px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:12px;width:100%;max-width:260px;">Play Again 🎨</button>
+        <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(245,237,208,.6);border-radius:12px;padding:10px 24px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Done</button>
+    </div>
+</div>
+
 </body>
 </html>
