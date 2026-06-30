@@ -32,6 +32,9 @@
             --radius:       16px;
             --shadow-sm:    0 2px 14px rgba(0,0,0,.55);
         }
+        /* ── STACKING: canvas is z-index:0 fixed; content must be above it ── */
+        .app-header, .content { position: relative; z-index: 1; }
+
         body {
             font-family: 'Inter', sans-serif;
             background: #04060e;
@@ -1066,7 +1069,7 @@
 </header>
 
 <!-- ── CONTENT ── -->
-<main class="content">
+<main class="content" style="position:relative;z-index:1;">
 
 <!-- ═══════════════════════════════════ HOME ═══════════════════════════════════ -->
 <section class="section active" id="section-home">
