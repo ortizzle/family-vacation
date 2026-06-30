@@ -12,25 +12,25 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { overflow-x: hidden; }
         :root {
-            --navy:         #1a2744;
-            --navy-dark:    #0d1a33;
-            --navy-mid:     #253560;
-            --navy-light:   #3a5080;
-            --red:          #b02a22;
-            --red-mid:      #c0392b;
-            --red-light:    #d4534a;
-            --red-pale:     #fdf0ee;
-            --gold:         #c9960c;
-            --gold-light:   #f0c040;
-            --gold-pale:    #fffae8;
-            --cream:        #faf9f5;
-            --snow:         #ffffff;
-            --slate:        #7a8599;
-            --text-dark:    #0d1a33;
-            --text-mid:     #3a4a6b;
-            --text-light:   #7a8599;
+            --navy:         #2d5a1a;
+            --navy-dark:    #1a3a0a;
+            --navy-mid:     #3d7225;
+            --navy-light:   #558a3a;
+            --red:          #b84810;
+            --red-mid:      #c95a18;
+            --red-light:    #d97040;
+            --red-pale:     #fef3e8;
+            --gold:         #b87800;
+            --gold-light:   #e8a200;
+            --gold-pale:    #fef8e0;
+            --cream:        #f0ece0;
+            --snow:         #fffdf4;
+            --slate:        #7a7a60;
+            --text-dark:    #1a2a0a;
+            --text-mid:     #3a4822;
+            --text-light:   #7a7a60;
             --radius:       16px;
-            --shadow-sm:    0 2px 8px rgba(13,26,51,.09);
+            --shadow-sm:    0 2px 10px rgba(26,42,10,.11);
         }
         body {
             font-family: 'Inter', sans-serif;
@@ -46,7 +46,7 @@
             position: relative;
             height: 128px;
             overflow: hidden;
-            background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-mid) 100%);
+            background: linear-gradient(160deg, #080f04 0%, #0f1a08 55%, #0a160e 100%);
         }
         .header-stars {
             position: absolute;
@@ -75,7 +75,7 @@
         }
         .header-eyebrow {
             font-size: 10px;
-            color: rgba(240,192,64,.8);
+            color: rgba(232,162,0,.85);
             letter-spacing: 2.5px;
             text-transform: uppercase;
             margin-bottom: 5px;
@@ -90,7 +90,7 @@
         }
         .header-sub {
             font-size: 11px;
-            color: rgba(240,192,64,.75);
+            color: rgba(232,162,0,.75);
             letter-spacing: 1.8px;
             text-transform: uppercase;
             margin-top: 6px;
@@ -102,11 +102,11 @@
             bottom: 0; left: 50%;
             transform: translateX(-50%);
             width: 100%; max-width: 430px;
-            background: var(--snow);
-            border-top: 1px solid #dde2ec;
+            background: #f5f0e4;
+            border-top: 1px solid #d4c8a8;
             display: flex;
             z-index: 100;
-            box-shadow: 0 -4px 20px rgba(13,26,51,.08);
+            box-shadow: 0 -4px 20px rgba(26,42,10,.10);
         }
         .nav-item {
             flex: 1;
@@ -117,7 +117,7 @@
             padding: 9px 2px 13px;
             gap: 3px;
             cursor: pointer;
-            color: #a0aabf;
+            color: #9a9070;
             border: none;
             background: none;
             font-family: 'Inter', sans-serif;
@@ -165,13 +165,26 @@
         /* ── SECTION DIVIDER ── */
         .section-header {
             font-family: 'Playfair Display', serif;
-            font-size: 17px;
+            font-size: 12px;
             font-weight: 700;
-            color: var(--navy-dark);
-            margin: 18px 0 10px;
-            padding: 0 0 0 12px;
-            border-left: 4px solid var(--gold);
-            line-height: 1.2;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin: 22px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+        .section-header::before,
+        .section-header::after {
+            content: '';
+            flex: 1;
+            height: 1.5px;
+            background: var(--gold);
+            opacity: .45;
+            flex-shrink: 1;
+            min-width: 10px;
         }
 
         /* ── HERO BANNER ── */
@@ -232,7 +245,7 @@
             text-align: center; color: white;
             pointer-events: none; z-index: 2;
         }
-        .fw-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: .75; margin-bottom: 6px; color: var(--gold-light); }
+        .fw-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: .75; margin-bottom: 6px; color: rgba(232,162,0,.85); }
         .fw-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; text-shadow: 0 0 20px rgba(240,192,64,.6); }
 
         /* ── COUNTDOWN / SUN STRIP ── */
@@ -249,7 +262,7 @@
         .countdown-card.trip-live { background: linear-gradient(135deg, #1a4a1a, #2d6e2d); }
         .countdown-card.trip-done { display: none; }
         .cd-icon { font-size: 28px; flex-shrink: 0; }
-        .cd-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(240,192,64,.8); margin-bottom: 3px; }
+        .cd-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(232,162,0,.85); margin-bottom: 3px; }
         .cd-time { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; line-height: 1; }
         .cd-sub { font-size: 12px; opacity: .75; margin-top: 3px; }
         .sun-strip {
@@ -271,7 +284,7 @@
         /* ── PRE-DEPARTURE CHECKLIST ── */
         .preflight-card {
             background: linear-gradient(135deg, #fff8e8, #fffae8);
-            border: 2px solid var(--gold-light);
+            border: 2px solid var(--gold);
             border-radius: var(--radius);
             padding: 18px 20px;
             margin-bottom: 14px;
@@ -410,19 +423,42 @@
         .tip-text  { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
 
         /* ── EVENT ITEMS ── */
+        .event-list-wrap {
+            position: relative;
+            padding-left: 14px;
+        }
+        .event-list-wrap::before {
+            content: '';
+            position: absolute;
+            left: 5px; top: 14px; bottom: 14px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--gold), rgba(184,120,0,.15));
+            border-radius: 1px;
+        }
         .event-item {
             display: flex;
             gap: 12px;
             align-items: flex-start;
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f2f8;
+            padding: 9px 0 9px 16px;
+            border-bottom: 1px solid rgba(160,140,100,.14);
+            position: relative;
+        }
+        .event-item::before {
+            content: '';
+            position: absolute;
+            left: 5px; top: 16px;
+            width: 9px; height: 9px;
+            background: var(--snow);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            transform: translateX(-50%);
         }
         .event-item:last-child { border-bottom: none; }
         .event-time {
             font-size: 11px;
             font-weight: 600;
             color: var(--text-light);
-            width: 70px;
+            width: 62px;
             flex-shrink: 0;
             padding-top: 2px;
         }
@@ -440,9 +476,9 @@
             vertical-align: middle;
             margin-left: 4px;
         }
-        .ev-tag.blue  { background: #eef3fc; color: var(--navy); }
+        .ev-tag.blue  { background: #eaf3e8; color: var(--navy); }
         .ev-tag.gold  { background: var(--gold-pale); color: var(--gold); }
-        .ev-tag.green { background: #e8f5ea; color: #2e7d3a; }
+        .ev-tag.green { background: #e8f5ea; color: #2a6020; }
 
         /* ── STAT GRID ── */
         .stat-grid {
@@ -452,22 +488,21 @@
             margin-bottom: 14px;
         }
         .stat-card {
-            background: var(--snow);
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
             border-radius: 12px;
             padding: 14px 12px;
-            box-shadow: var(--shadow-sm);
             text-align: center;
         }
         .stat-number {
             font-family: 'Playfair Display', serif;
             font-size: 26px;
             font-weight: 700;
-            color: var(--navy);
+            color: var(--gold-light);
             line-height: 1;
         }
         .stat-label {
             font-size: 10px;
-            color: var(--text-light);
+            color: rgba(255,255,255,.65);
             margin-top: 4px;
             text-transform: uppercase;
             letter-spacing: .5px;
@@ -596,7 +631,7 @@
 
         /* ── TAPPABLE EVENT ITEMS ── */
         .event-item.tappable { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-        .event-item.tappable:active { background: #f0f4ff; border-radius: 8px; }
+        .event-item.tappable:active { background: rgba(184,120,0,.10); border-radius: 8px; }
         .event-item.tappable .event-name { color: var(--navy); }
 
         /* ── INTERACTIVE CHECKLIST ── */
@@ -644,7 +679,7 @@
             border-radius: 4px;
             overflow: hidden;
         }
-        .pack-progress-bar { height: 100%; background: var(--navy); border-radius: 4px; transition: width .3s; }
+        .pack-progress-bar { height: 100%; background: linear-gradient(to right, var(--navy), var(--navy-mid)); border-radius: 4px; transition: width .3s; }
         .pack-progress-label { font-size: 12px; font-weight: 700; color: var(--navy); white-space: nowrap; }
         .pack-reset { font-size: 11px; color: var(--text-light); text-decoration: underline; cursor: pointer; margin-top: 6px; display: inline-block; }
 
@@ -2314,7 +2349,7 @@
 </nav>
 
 <!-- ── SPARK CATCHER GAME ── -->
-<div id="spark-game" style="display:none;position:fixed;inset:0;background:#080d1e;z-index:300;overflow:hidden;">
+<div id="spark-game" style="display:none;position:fixed;inset:0;background:#060e04;z-index:300;overflow:hidden;">
     <!-- Stars background -->
     <div id="spark-stars" style="position:absolute;inset:0;pointer-events:none;z-index:1;"></div>
     <!-- HUD — fixed at top -->
