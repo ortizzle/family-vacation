@@ -34,11 +34,28 @@
         }
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--cream);
+            background: #04060e;
             color: var(--text-dark);
             max-width: 430px;
             margin: 0 auto;
             min-height: 100vh;
+        }
+        /* umbra gradient — fixed behind stars, dark zenith → lighter horizon */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: linear-gradient(
+                180deg,
+                #04060e   0%,
+                #060a18  18%,
+                #08102a  42%,
+                #0d1a3e  68%,
+                #122040  85%,
+                #172848 100%
+            );
         }
 
         /* ── HEADER ── */
