@@ -154,11 +154,28 @@
         .card, .card * {
             --text-dark:  #1a1004;
             --text-mid:   #3a2810;
-            --text-light: #7a5820;
+            --text-light: #6a4a18;
             --gold:       #7a4a10;
             --gold-light: #8a5a18;
             --navy:       #7a4a10;
         }
+        .card .memory-textarea {
+            background: #f0e4cc;
+            border-color: rgba(100,60,10,.25);
+            color: #1a0a00;
+        }
+        .card .memory-textarea::placeholder { color: rgba(60,30,5,.4); }
+        .card .memory-day-tab {
+            background: #e8d8b8;
+            border-color: rgba(100,60,10,.3);
+            color: #5a3810;
+        }
+        .card .memory-day-tab.active {
+            background: #7a4a10;
+            border-color: #7a4a10;
+            color: #fff8ee;
+        }
+        .card .memory-field label { color: #5a3810; }
         .card .card-label { color: #7a5820; }
         .card .card-title { color: #1a1004; }
         .card .card-body  { color: #3a2810; }
