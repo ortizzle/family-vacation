@@ -3155,15 +3155,13 @@
         clearInterval(_drawInterval);
         _g.drawSecs = _g.drawStart ? Math.min(Math.round((Date.now()-_g.drawStart)/1000), _g.hard?90:45) : 0;
         const canvas = document.getElementById('draw-canvas');
-        document.getElementById('draw-preview').src = canvas.toDataURL('image/png');
-        document.getElementById('draw-done-preview').src = canvas.toDataURL('image/png');
+        const snap = canvas.toDataURL('image/png');
+        document.getElementById('draw-preview').src = snap;
+        document.getElementById('draw-done-preview').src = snap;
         _showDrawPhase('guessing');
         const artist = _g.order[_g.turnIdx];
         const guessers = _g.players.filter(p => p !== artist);
-        _g.currentGuesser = guessers[0];
         _renderGuesserPills(guessers);
-        document.getElementById('draw-last-guess').textContent = '';
-        document.getElementById('draw-guess-input2').value = '';
         _g.guessStart = Date.now();
         _tick('guess-timer', _g.hard ? 60 : 45, () => _endRound(false, null));
     }
@@ -3171,37 +3169,20 @@
     function _renderGuesserPills(guessers) {
         const c = document.getElementById('draw-guesser-pills');
         c.innerHTML = '';
-        guessers.forEach((p,i) => {
+        guessers.forEach(p => {
             const btn = document.createElement('button');
-            btn.className = 'draw-player-pill' + (i===0?' active':'');
-            btn.textContent = p;
+            btn.className = 'draw-player-pill';
+            btn.textContent = p + ' ✓';
+            btn.style.cssText = 'font-size:15px;padding:10px 18px;';
             btn.onclick = () => {
-                _g.currentGuesser = p;
-                document.querySelectorAll('#draw-guesser-pills .draw-player-pill').forEach(b=>b.classList.remove('active'));
-                btn.classList.add('active');
+                clearInterval(_drawInterval);
+                const guessSecs = Math.round((Date.now()-_g.guessStart)/1000);
+                btn.classList.add('winner');
+                createBurst(window.innerWidth/2, window.innerHeight*.4, 30, 80, ['#f5b030','#ffffff','#ff6644','#66dd66']);
+                setTimeout(() => _endRound(true, p, guessSecs), 600);
             };
             c.appendChild(btn);
         });
-    }
-
-    function submitDrawGuess() {
-        const val = document.getElementById('draw-guess-input2').value.trim();
-        if (!val) return;
-        document.getElementById('draw-last-guess').textContent = '"' + val + '"';
-        document.getElementById('draw-guess-input2').value = '';
-    }
-
-    function drawJudge(correct) {
-        const guess = document.getElementById('draw-last-guess').textContent.replace(/"/g,'').trim();
-        if (correct && guess) {
-            clearInterval(_drawInterval);
-            const guessSecs = Math.round((Date.now()-_g.guessStart)/1000);
-            createBurst(window.innerWidth/2, window.innerHeight/2, 30, 80, ['#f5b030','#ffffff','#ff6644','#66dd66']);
-            _endRound(true, _g.currentGuesser, guessSecs);
-        } else {
-            document.getElementById('draw-last-guess').textContent = '';
-            document.getElementById('draw-guess-input2').value = '';
-        }
     }
 
     function _endRound(success, winner, guessSecs) {
@@ -3962,33 +3943,24 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
     <div style="padding:48px 14px 10px;background:rgba(4,6,18,.92);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;">
       <div>
         <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);">Guessing Time!</div>
-        <div style="font-size:12px;color:rgba(245,237,208,.5);margin-top:2px;">Artist judges each guess</div>
+        <div style="font-size:12px;color:rgba(245,237,208,.5);margin-top:2px;">Tap who got it right</div>
       </div>
       <div style="text-align:right;">
         <div style="font-size:10px;color:rgba(245,237,208,.4);text-transform:uppercase;letter-spacing:1px;">Time left</div>
         <div class="draw-timer" id="guess-timer">45</div>
       </div>
     </div>
-    <img id="draw-preview" style="flex:1;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
-    <div style="padding:10px 14px;background:rgba(4,6,18,.95);flex-shrink:0;">
-      <div style="font-size:11px;color:rgba(245,237,208,.45);margin-bottom:7px;">Who's guessing?</div>
-      <div id="draw-guesser-pills" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;"></div>
-      <div style="font-size:12px;color:rgba(245,237,208,.45);margin-bottom:5px;text-align:center;">Current guess:</div>
-      <div id="draw-last-guess" style="font-size:20px;font-weight:700;color:var(--text-dark);text-align:center;min-height:26px;margin-bottom:10px;font-family:'Playfair Display',serif;"></div>
-      <div style="display:flex;gap:8px;margin-bottom:10px;">
-        <button onclick="drawJudge(true)"  style="flex:1;background:rgba(40,180,80,.25);border:1px solid rgba(40,180,80,.4);color:#88ffaa;border-radius:12px;padding:14px;font-size:22px;cursor:pointer;">✓</button>
-        <button onclick="drawJudge(false)" style="flex:1;background:rgba(200,60,40,.2);border:1px solid rgba(200,60,40,.35);color:#ff9977;border-radius:12px;padding:14px;font-size:22px;cursor:pointer;">✗</button>
-      </div>
-      <div style="display:flex;gap:8px;">
-        <input class="draw-guess-input" id="draw-guess-input2" placeholder="Type guess, then ✓ or ✗…" autocomplete="off" autocorrect="off" style="flex:1;"/>
-        <button onclick="submitDrawGuess()" style="padding:10px 14px;border-radius:12px;background:rgba(232,144,10,.25);border:1px solid rgba(232,144,10,.4);color:var(--gold-light);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;">Submit</button>
-      </div>
+    <img id="draw-preview" style="flex:1;min-height:0;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
+    <div style="padding:10px 14px 16px;background:rgba(4,6,18,.95);flex-shrink:0;">
+      <div style="font-size:11px;color:rgba(245,237,208,.45);margin-bottom:8px;text-align:center;">Who guessed it correctly?</div>
+      <div id="draw-guesser-pills" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:8px;"></div>
+      <button onclick="_endRound(false,null)" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(245,237,208,.4);border-radius:12px;padding:9px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Nobody got it</button>
     </div>
   </div>
 
   <!-- BETWEEN ROUNDS -->
   <div id="draw-phase-between" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
-    <img id="draw-done-preview" style="flex:1;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
+    <img id="draw-done-preview" style="flex:1;min-height:0;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
     <div style="background:rgba(4,6,18,.97);padding:22px 20px 36px;text-align:center;flex-shrink:0;">
       <div id="draw-bw-emoji" style="font-size:44px;margin-bottom:10px;">🎉</div>
       <div id="draw-bw-result" style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--gold-light);margin-bottom:5px;"></div>

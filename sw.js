@@ -1,5 +1,5 @@
 // Alaska Adventure 2026 — Service Worker
-const CACHE = 'ak26-v67';
+const CACHE = 'ak26-v68';
 const ASSETS = [
   './splash.html',
   './index.html',
