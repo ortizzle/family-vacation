@@ -13,9 +13,9 @@
         html { overflow-x: hidden; }
         :root {
             --navy:         #d4820a;
-            --navy-dark:    #0d0a06;
-            --navy-mid:     #201408;
-            --navy-light:   #3d2810;
+            --navy-dark:    #060914;
+            --navy-mid:     #0f1a33;
+            --navy-light:   #1a2a4a;
             --red:          #c04a18;
             --red-mid:      #d45a20;
             --red-light:    #e07040;
@@ -23,8 +23,8 @@
             --gold:         #e8900a;
             --gold-light:   #f5b030;
             --gold-pale:    #201505;
-            --cream:        #0d0a06;
-            --snow:         #1c1208;
+            --cream:        #06091a;
+            --snow:         #0d1228;
             --slate:        #6a5a3a;
             --text-dark:    #f5edd0;
             --text-mid:     #c8b890;
@@ -44,10 +44,11 @@
         /* ── HEADER ── */
         .app-header {
             position: relative;
-            height: 128px;
+            height: 148px;
             overflow: hidden;
-            background: linear-gradient(180deg, #080604 0%, #100A04 65%, #180C04 100%);
+            background: linear-gradient(180deg, #04060f 0%, #06091a 60%, #0d1230 100%);
         }
+        #header-fw-canvas { position:absolute;inset:0;width:100%;height:100%;pointer-events:none; }
         .header-stars {
             position: absolute;
             inset: 0;
@@ -102,8 +103,8 @@
             bottom: 0; left: 50%;
             transform: translateX(-50%);
             width: 100%; max-width: 430px;
-            background: #120c04;
-            border-top: 1px solid rgba(232,144,10,.2);
+            background: #060814;
+            border-top: 1px solid rgba(200,160,255,.1);
             display: flex;
             z-index: 100;
             box-shadow: 0 -4px 20px rgba(0,0,0,.6);
@@ -135,13 +136,42 @@
 
         /* ── CARDS ── */
         .card {
-            background: var(--snow);
+            background: #c8a84a;
             border-radius: var(--radius);
             padding: 20px;
             margin-bottom: 14px;
-            box-shadow: var(--shadow-sm);
-            border: 0.5px solid rgba(232,144,10,.18);
+            box-shadow: 0 3px 16px rgba(0,0,0,.55);
+            border: 2px solid #a07a28;
+            outline: 5px dotted rgba(140,95,20,.3);
+            outline-offset: -7px;
+            position: relative;
         }
+        .card, .card * {
+            --text-dark:  #1a1004;
+            --text-mid:   #3a2810;
+            --text-light: #7a5820;
+        }
+        .card .card-label { color: #7a5820; }
+        .card .card-title { color: #1a1004; }
+        .card .card-body  { color: #3a2810; }
+        .card .detail-label { color: #7a5820 !important; }
+        .card .section-header { color: #3a2810 !important; }
+        .card .section-header::before,
+        .card .section-header::after { background: #a07a28; }
+        .card .icheck-label { color: #3a2810; }
+        .card .icheck-item { border-bottom-color: rgba(140,95,20,.2); }
+        .card .pack-progress-bar-wrap { background: rgba(140,95,20,.2); }
+        .card .pack-progress-bar { background: #a07a28; }
+        .card .detail-row { border-bottom-color: rgba(140,95,20,.2); }
+        .card .info-title  { color: #1a1004; }
+        .card .info-text   { color: #3a2810; }
+        .card .tip-label   { color: #8a4010; }
+        .card .event-name  { color: #1a1004; }
+        .card .event-note  { color: #5a3a18; }
+        .card .event-time  { color: #8a6030; }
+        .card .event-item  { border-bottom-color: rgba(140,95,20,.18); }
+        .card .event-list-wrap::before { background: linear-gradient(to bottom, #a07a28, rgba(160,120,40,.1)); }
+        .card .event-item::before { background: #c8a84a; border-color: #a07a28; }
         .card-label {
             font-size: 10px;
             color: var(--text-light);
@@ -183,7 +213,7 @@
             flex: 1;
             height: 1.5px;
             background: var(--gold);
-            opacity: .45;
+            opacity: .5;
             flex-shrink: 1;
             min-width: 10px;
         }
@@ -321,14 +351,14 @@
         .tab-toc {
             background: rgba(13,10,6,.8);
             border-radius: var(--radius);
-            border: 1px solid rgba(232,144,10,.25);
+            border: 1px solid rgba(150,170,255,.15);
             padding: 14px 16px;
             margin-bottom: 18px;
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             align-items: center;
-            box-shadow: 0 0 20px rgba(200,80,10,.08);
+            box-shadow: 0 0 20px rgba(80,100,200,.08);
         }
         .tab-toc::before {
             content: '↓ Jump to';
@@ -336,7 +366,7 @@
             font-weight: 700;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            color: rgba(245,176,48,.55);
+            color: rgba(180,200,255,.5);
             width: 100%;
             margin-bottom: 2px;
         }
@@ -345,7 +375,7 @@
             font-weight: 700;
             color: rgba(245,237,208,.8);
             background: rgba(232,144,10,.1);
-            border: 1px solid rgba(232,144,10,.25);
+            border: 1px solid rgba(150,170,255,.15);
             border-radius: 20px;
             padding: 6px 13px;
             text-decoration: none;
@@ -355,7 +385,7 @@
         }
         .toc-link:active {
             background: var(--gold);
-            border-color: var(--gold);
+            border-color: rgba(200,160,255,.4);
             color: var(--navy-dark);
         }
 
@@ -401,8 +431,9 @@
 
         /* ── INFO BANNER (blue) ── */
         .info-banner {
-            background: linear-gradient(135deg, #eef3fc, #dce9fb);
-            border: 1px solid #aec6ef;
+            background: rgba(14,22,60,.7);
+            border: 0.5px solid rgba(150,170,255,.15);
+            border-left: 3px solid rgba(180,140,255,.4);
             border-radius: 12px;
             padding: 13px 15px;
             margin-bottom: 14px;
@@ -435,7 +466,7 @@
             position: absolute;
             left: 5px; top: 14px; bottom: 14px;
             width: 2px;
-            background: linear-gradient(to bottom, var(--gold), rgba(232,144,10,.08));
+            background: linear-gradient(to bottom, var(--gold), rgba(232,144,10,.05));
             border-radius: 1px;
         }
         .event-item {
@@ -451,7 +482,7 @@
             position: absolute;
             left: 5px; top: 16px;
             width: 9px; height: 9px;
-            background: var(--navy-dark);
+            background: #06091a;
             border: 2px solid var(--gold);
             border-radius: 50%;
             transform: translateX(-50%);
@@ -491,12 +522,12 @@
             margin-bottom: 14px;
         }
         .stat-card {
-            background: #180d04;
-            border: 0.5px solid rgba(232,144,10,.25);
+            background: #070d24;
+            border: 0.5px solid rgba(150,170,255,.18);
             border-radius: 12px;
             padding: 14px 12px;
             text-align: center;
-            box-shadow: inset 0 0 20px rgba(200,80,10,.06);
+            box-shadow: inset 0 0 20px rgba(80,100,220,.08);
         }
         .stat-number {
             font-family: 'Playfair Display', serif;
@@ -515,15 +546,18 @@
 
         /* ── ACTIVITY CARDS ── */
         .activity-card {
-            background: var(--snow);
+            background: #0a0f2a;
             border-radius: var(--radius);
             margin-bottom: 10px;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 2px 14px rgba(0,0,0,.5);
             overflow: hidden;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
             transition: transform .14s;
             border-left: 4px solid transparent;
+            border-top: 0.5px solid rgba(150,170,255,.12);
+            border-right: 0.5px solid rgba(150,170,255,.12);
+            border-bottom: 0.5px solid rgba(150,170,255,.12);
         }
         .activity-card:active { transform: scale(.98); }
         .activity-card.must  { border-left-color: var(--red-mid); }
@@ -540,10 +574,10 @@
         .ac-name  { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
         .ac-desc  { font-size: 12px; color: var(--text-mid); line-height: 1.5; margin-bottom: 7px; }
         .ac-tags  { display: flex; flex-wrap: wrap; gap: 5px; }
-        .ac-tag   { background: var(--red-pale); color: var(--red-mid); border-radius: 100px; padding: 2px 9px; font-size: 11px; font-weight: 500; }
-        .ac-tag.blue  { background: #eef3fc; color: var(--navy); }
-        .ac-tag.sand  { background: #f5f0e8; color: var(--text-mid); }
-        .ac-tag.gold  { background: var(--gold-pale); color: var(--gold); }
+        .ac-tag   { background: rgba(212,90,32,.18); color: var(--red-light); border-radius: 100px; padding: 2px 9px; font-size: 11px; font-weight: 500; }
+        .ac-tag.blue  { background: rgba(150,170,255,.15); color: rgba(180,200,255,.9); }
+        .ac-tag.sand  { background: rgba(255,255,255,.08); color: rgba(245,237,208,.6); }
+        .ac-tag.gold  { background: rgba(232,144,10,.15); color: var(--gold-light); }
         .ac-tag.green { background: #e8f5ea; color: #2e7d3a; }
         .ac-tag.warn  { background: #fff3cd; color: #856404; }
         .tap-hint { font-size: 11px; color: var(--navy); margin-top: 5px; }
@@ -636,7 +670,7 @@
 
         /* ── TAPPABLE EVENT ITEMS ── */
         .event-item.tappable { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-        .event-item.tappable:active { background: rgba(232,144,10,.12); border-radius: 8px; }
+        .event-item.tappable:active { background: rgba(150,170,255,.12); border-radius: 8px; }
         .event-item.tappable .event-name { color: var(--navy); }
 
         /* ── INTERACTIVE CHECKLIST ── */
@@ -714,7 +748,7 @@
         .bingo-cell:active { transform: scale(.94); }
         .bingo-cell.marked { background: var(--navy); border-color: var(--navy); }
         .bingo-cell.free   { background: var(--red-mid); border-color: var(--red-mid); }
-        .bingo-cell.win    { background: var(--gold); border-color: var(--gold); animation: bingo-pop .3s ease; }
+        .bingo-cell.win    { background: var(--gold); border-color: rgba(200,160,255,.4); animation: bingo-pop .3s ease; }
         @keyframes bingo-pop { 0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)} }
         .bc-emoji { font-size: 20px; line-height: 1; }
         .bc-label { font-size: 8px; font-weight: 600; color: var(--text-mid); line-height: 1.2; padding: 0 2px; }
@@ -843,7 +877,7 @@
             resize: vertical;
             min-height: 72px;
         }
-        .memory-textarea:focus { outline: none; border-color: var(--gold); }
+        .memory-textarea:focus { outline: none; border-color: rgba(200,160,255,.4); }
         .memory-save-btn {
             display: block;
             width: 100%;
@@ -1012,6 +1046,7 @@
 <!-- ── HEADER ── -->
 <header class="app-header">
     <div class="header-stars" id="star-field"></div>
+    </div>
     <div class="header-content">
         <div class="header-eyebrow">Ortiz Family</div>
         <div class="header-title" onclick="secretTapSpark()" style="cursor:default;-webkit-tap-highlight-color:transparent;">4th of July Camping</div>
@@ -1347,7 +1382,7 @@
     </div>
 
     <div class="hero-banner">
-        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0d0804 0%,#1c1004 50%,#261808 100%);"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#060914 0%,#0d1430 50%,#131d40 100%);"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <div class="hero-tag">Prescott National Forest</div>
@@ -1627,7 +1662,7 @@
     </div>
 
     <div class="hero-banner">
-        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0d1a33 0%,#1a3a6b 50%,#2a5090 100%);"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#060914 0%,#0d1430 50%,#131d40 100%);"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <div class="hero-tag">July 4th Weekend</div>
@@ -2354,7 +2389,7 @@
 </nav>
 
 <!-- ── SPARK CATCHER GAME ── -->
-<div id="spark-game" style="display:none;position:fixed;inset:0;background:#080604;z-index:300;overflow:hidden;">
+<div id="spark-game" style="display:none;position:fixed;inset:0;background:#04060f;z-index:300;overflow:hidden;">
     <!-- Stars background -->
     <div id="spark-stars" style="position:absolute;inset:0;pointer-events:none;z-index:1;"></div>
     <!-- HUD — fixed at top -->
