@@ -3202,15 +3202,16 @@
 
         const isLast = _g.turnIdx >= _g.order.length - 1;
         const nextBtn = document.getElementById('draw-bw-next');
+        const endBtn  = document.getElementById('draw-bw-endgame');
         if (isLast) {
-            nextBtn.textContent = 'See Results 🏆';
-            nextBtn.onclick = _showStats;
-            document.getElementById('draw-bw-endgame').style.display = 'none';
+            nextBtn.textContent = 'Keep Going 🎨';
+            nextBtn.onclick = playMoreRounds;
         } else {
             nextBtn.textContent = 'Next: ' + _g.order[_g.turnIdx+1] + "'s Turn →";
             nextBtn.onclick = _nextTurn;
-            document.getElementById('draw-bw-endgame').style.display = 'block';
         }
+        endBtn.style.display = 'block';
+        endBtn.textContent = 'See Results 🏆';
     }
 
     function _nextTurn() {
