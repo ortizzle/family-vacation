@@ -3099,8 +3099,25 @@
         });
     }
 
+    let _hardMode = false;
+    function toggleHardMode() {
+        _hardMode = !_hardMode;
+        const track = document.getElementById('draw-hard-track');
+        const thumb = document.getElementById('draw-hard-thumb');
+        const lbl   = document.getElementById('draw-hard-label');
+        if (_hardMode) {
+            track.style.background = 'rgba(232,144,10,.5)';
+            thumb.style.left = '21px'; thumb.style.background = 'var(--gold-light)';
+            lbl.textContent = 'On — trickier words, more time';
+        } else {
+            track.style.background = 'rgba(255,255,255,.15)';
+            thumb.style.left = '3px'; thumb.style.background = 'rgba(245,237,208,.5)';
+            lbl.textContent = 'Trickier words, more time';
+        }
+    }
+
     function startDrawGame() {
-        _g.hard = document.getElementById('draw-hard-toggle').checked;
+        _g.hard = _hardMode;
         _g.order = [..._g.players].sort(() => Math.random() - .5);
         _g.turnIdx = 0; _g.rounds = [];
         _prepTurn();
@@ -3121,13 +3138,22 @@
         document.getElementById('draw-word-show').textContent = _g.word.toUpperCase();
         document.getElementById('draw-turn-label').textContent =
             _g.order[_g.turnIdx] + ' is drawing';
+        document.getElementById('draw-timer').textContent = _g.hard ? '90' : '45';
+        document.getElementById('draw-canvas-start').style.display = 'flex';
+        document.getElementById('draw-tap-hint').style.display = 'block';
+        _g.drawStart = 0; // timer not started yet
+    }
+
+    function beginActualDrawing() {
+        if (_g.drawStart) return; // already started
         _g.drawStart = Date.now();
+        document.getElementById('draw-canvas-start').style.display = 'none';
         _tick('draw-timer', _g.hard ? 90 : 45, () => drawFinishDrawing());
     }
 
     function drawFinishDrawing() {
         clearInterval(_drawInterval);
-        _g.drawSecs = Math.min(Math.round((Date.now()-_g.drawStart)/1000), _g.hard?90:45);
+        _g.drawSecs = _g.drawStart ? Math.min(Math.round((Date.now()-_g.drawStart)/1000), _g.hard?90:45) : 0;
         const canvas = document.getElementById('draw-canvas');
         document.getElementById('draw-preview').src = canvas.toDataURL('image/png');
         document.getElementById('draw-done-preview').src = canvas.toDataURL('image/png');
@@ -3294,7 +3320,7 @@
         return { x:(e.clientX??e.pageX)-r.left, y:(e.clientY??e.pageY)-r.top };
     }
     let _drawing = false;
-    function _dStart(e) { if (_drawPhase!=='drawing') return; _drawing=true; const p=_pos(e); const ctx=document.getElementById('draw-canvas').getContext('2d'); ctx.beginPath(); ctx.moveTo(p.x,p.y); }
+    function _dStart(e) { if (_drawPhase!=='drawing' || !_g.drawStart) return; _drawing=true; const p=_pos(e); const ctx=document.getElementById('draw-canvas').getContext('2d'); ctx.beginPath(); ctx.moveTo(p.x,p.y); }
     function _dMove(e) {
         if (!_drawing) return;
         const p=_pos(e); const ctx=document.getElementById('draw-canvas').getContext('2d');
@@ -3875,13 +3901,12 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
     <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold-light);margin-bottom:6px;">Camp Pictionary</div>
     <div style="font-size:13px;color:rgba(245,237,208,.55);margin-bottom:22px;">Who's playing?</div>
     <div id="draw-setup-pills" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:24px;"></div>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;padding:10px 18px;background:rgba(255,255,255,.06);border-radius:12px;border:1px solid rgba(255,255,255,.1);">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;padding:10px 18px;background:rgba(255,255,255,.06);border-radius:12px;border:1px solid rgba(255,255,255,.1);" onclick="toggleHardMode()" style="cursor:pointer;">
       <span style="font-size:13px;color:rgba(245,237,208,.7);">Hard Mode</span>
-      <label style="position:relative;display:inline-block;width:42px;height:24px;cursor:pointer;">
-        <input type="checkbox" id="draw-hard-toggle" style="opacity:0;width:0;height:0;">
-        <span onclick="this.previousElementSibling.click()" style="position:absolute;inset:0;background:rgba(255,255,255,.15);border-radius:12px;transition:.2s;"></span>
-      </label>
-      <span style="font-size:11px;color:rgba(245,237,208,.4);">90s draw · 60s guess · harder words</span>
+      <div id="draw-hard-track" style="position:relative;width:42px;height:24px;border-radius:12px;background:rgba(255,255,255,.15);transition:background .2s;flex-shrink:0;">
+        <div id="draw-hard-thumb" style="position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:rgba(245,237,208,.5);transition:left .2s,background .2s;"></div>
+      </div>
+      <span style="font-size:11px;color:rgba(245,237,208,.4);" id="draw-hard-label">Trickier words, more time</span>
     </div>
     <button onclick="startDrawGame()" style="width:100%;max-width:300px;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:16px;padding:15px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;">Start Game</button>
     <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.45);border-radius:12px;padding:9px 22px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Cancel</button>
@@ -3897,19 +3922,25 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
   </div>
 
   <!-- DRAWING -->
-  <div id="draw-phase-drawing" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:48px 16px 10px;background:rgba(4,6,18,.9);flex-shrink:0;">
+  <div id="draw-phase-drawing" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;pointer-events:none;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:48px 16px 10px;background:rgba(4,6,18,.9);flex-shrink:0;pointer-events:auto;">
       <div>
         <div style="font-size:11px;color:rgba(245,237,208,.4);text-transform:uppercase;letter-spacing:1px;" id="draw-turn-label">Drawing</div>
         <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:6px 12px;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--gold-light);margin-top:4px;" id="draw-word-show">WORD</div>
       </div>
       <div style="text-align:right;">
         <div style="font-size:10px;color:rgba(245,237,208,.4);text-transform:uppercase;letter-spacing:1px;">Time</div>
-        <div class="draw-timer" id="draw-timer">45</div>
+        <div class="draw-timer" id="draw-timer">—</div>
       </div>
     </div>
-    <div style="flex:1;"></div>
-    <div class="draw-toolbar">
+    <div id="draw-canvas-start" style="flex:1;display:flex;align-items:center;justify-content:center;pointer-events:auto;" onclick="beginActualDrawing()">
+      <div id="draw-tap-hint" style="background:rgba(4,6,18,.7);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:16px 28px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:6px;">✏️</div>
+        <div style="font-size:15px;font-weight:600;color:var(--gold-light);">Tap to start drawing</div>
+        <div style="font-size:12px;color:rgba(245,237,208,.45);margin-top:4px;">Timer starts on first touch</div>
+      </div>
+    </div>
+    <div class="draw-toolbar" style="pointer-events:auto;">
       <div class="draw-color active" style="background:#f0e6cc;" onclick="setDrawColor(this,'#f0e6cc')"></div>
       <div class="draw-color" style="background:#ff6644;" onclick="setDrawColor(this,'#ff6644')"></div>
       <div class="draw-color" style="background:#44aaff;" onclick="setDrawColor(this,'#44aaff')"></div>
@@ -3921,7 +3952,7 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
       <div class="draw-size" id="draw-sz-lg" onclick="setDrawSize(this,22)">L</div>
       <div class="draw-eraser" id="draw-eraser-btn" onclick="toggleEraser()">Eraser</div>
     </div>
-    <div style="padding:10px 14px 28px;background:rgba(4,6,18,.9);flex-shrink:0;">
+    <div style="padding:10px 14px 28px;background:rgba(4,6,18,.9);flex-shrink:0;pointer-events:auto;">
       <button onclick="drawFinishDrawing()" style="width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(245,237,208,.9);border-radius:14px;padding:13px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;">Done Drawing ✓</button>
     </div>
   </div>
