@@ -3073,7 +3073,7 @@
     let _drawInterval = null;
 
     function openDrawGame() {
-        _g = { players:[...CREW], order:[], turnIdx:0, rounds:[], hard:false,
+        _g = { players:[], order:[], turnIdx:0, rounds:[], hard:false,
                word:'', drawStart:0, drawSecs:0, guessStart:0, currentGuesser:null };
         document.getElementById('draw-game').classList.add('open');
         document.body.style.overflow = 'hidden';
@@ -3092,7 +3092,7 @@
             btn.textContent = p;
             btn.onclick = () => {
                 const i = _g.players.indexOf(p);
-                if (i >= 0) { if (_g.players.length <= 2) return; _g.players.splice(i,1); btn.classList.remove('active'); }
+                if (i >= 0) { if (_g.players.length <= 1) return; _g.players.splice(i,1); btn.classList.remove('active'); }
                 else { _g.players.push(p); btn.classList.add('active'); }
             };
             c.appendChild(btn);
@@ -3117,6 +3117,7 @@
     }
 
     function startDrawGame() {
+        if (_g.players.length < 2) { alert('Pick at least 2 players!'); return; }
         _g.hard = _hardMode;
         _g.order = [..._g.players].sort(() => Math.random() - .5);
         _g.turnIdx = 0; _g.rounds = [];
