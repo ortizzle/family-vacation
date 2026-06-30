@@ -960,6 +960,12 @@
             animation: sheet-up .26s cubic-bezier(.4,0,.2,1);
             max-height: 86vh;
             overflow-y: auto;
+            --text-dark:  #2a1a08;
+            --text-mid:   #5a3a20;
+            --text-light: #8a6040;
+            --cream: #f8f2e8;
+            --red-pale: #fdebd8;
+            --gold-pale: #fdf2d8;
         }
         @keyframes sheet-up { from{transform:translateY(60px);opacity:0} to{transform:translateY(0);opacity:1} }
         .modal-handle {
@@ -971,13 +977,13 @@
         .modal-close {
             position: absolute;
             top: 16px; right: 16px;
-            background: #eef3fc;
+            background: #f5ede0;
             border: none; border-radius: 100px;
             width: 34px; height: 34px;
             font-size: 14px;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            color: var(--text-mid);
+            color: #5a3a20;
             -webkit-tap-highlight-color: transparent;
         }
         .modal-emoji { font-size: 52px; display: block; text-align: center; margin-bottom: 6px; }
@@ -989,15 +995,15 @@
             margin-bottom: 5px;
             line-height: 1.2;
         }
-        .modal-sub   { text-align: center; font-size: 12px; color: var(--text-light); margin-bottom: 16px; line-height: 1.5; }
+        .modal-sub   { text-align: center; font-size: 12px; color: #7a5030; margin-bottom: 16px; line-height: 1.5; }
         .modal-tags  { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
         .modal-tag   { background: var(--red-pale); color: var(--red-mid); border-radius: 100px; padding: 4px 12px; font-size: 12px; font-weight: 500; }
-        .modal-tag.blue  { background: #eef3fc; color: var(--navy); }
-        .modal-tag.sand  { background: #f5f0e8; color: var(--text-mid); }
+        .modal-tag.blue  { background: #e8f0fc; color: #1a3a7a; }
+        .modal-tag.sand  { background: #f5f0e8; color: #5a3a20; }
         .modal-tag.gold  { background: var(--gold-pale); color: var(--gold); }
         .modal-tag.green { background: #e8f5ea; color: #2e7d3a; }
         .modal-tag.warn  { background: #fff3cd; color: #856404; }
-        .modal-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-light); margin-bottom: 8px; }
+        .modal-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #8a6040; margin-bottom: 8px; }
         .modal-info-row {
             display: flex;
             justify-content: space-between;
@@ -1007,7 +1013,7 @@
             gap: 12px;
         }
         .modal-info-row:last-child { border-bottom: none; }
-        .modal-info-label { color: var(--text-light); flex-shrink: 0; width: 40%; }
+        .modal-info-label { color: #7a5030; flex-shrink: 0; width: 40%; }
         .modal-info-value { font-weight: 600; color: var(--text-dark); text-align: right; flex: 1; }
         .modal-fact {
             background: var(--cream);
@@ -1062,6 +1068,7 @@
 <section class="section active" id="section-home">
 
     <div class="fireworks-hero">
+        <canvas id="hero-star-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
         <canvas id="fw-canvas"></canvas>
         <div class="fw-hero-text">
             <div class="fw-label">Independence Day Weekend</div>
@@ -1187,7 +1194,7 @@
                 <span style="font-size:12px;font-weight:700;color:#5a2008;">🌲 Prescott NF Alerts (Official)</span>
                 <span style="font-size:11px;color:#8a4020;">fs.usda.gov →</span>
             </a>
-            <a href="https://inciweb.wildfire.gov/accessible-view/state/AZ" target="_blank" style="display:flex;align-items:center;justify-content:space-between;background:rgba(200,70,10,.1);border:1px solid rgba(200,70,10,.3);border-radius:10px;padding:10px 12px;text-decoration:none;">
+            <a href="https://inciweb.wildfire.gov/state/arizona" target="_blank" style="display:flex;align-items:center;justify-content:space-between;background:rgba(200,70,10,.1);border:1px solid rgba(200,70,10,.3);border-radius:10px;padding:10px 12px;text-decoration:none;">
                 <span style="font-size:12px;font-weight:700;color:#5a2008;">🔥 InciWeb — Active AZ Fires</span>
                 <span style="font-size:11px;color:#8a4020;">inciweb.gov →</span>
             </a>
@@ -2561,6 +2568,47 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             stars.forEach(s => {
                 const alpha = 0.2 + 0.65 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            t++;
+            requestAnimationFrame(draw);
+        }
+        draw();
+    })();
+
+
+    // ── HAPPY 4TH HERO STARS ──
+    (function() {
+        const canvas = document.getElementById('hero-star-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        function resize() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            stars = [];
+            const n = 55;
+            for (let i = 0; i < n; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 1.1 + 0.2,
+                    speed: 0.004 + Math.random() * 0.009,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+        resize();
+        let t = 0;
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => {
+                const alpha = 0.15 + 0.7 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
                 ctx.globalAlpha = alpha;
                 ctx.fillStyle = '#ffffff';
                 ctx.beginPath();
