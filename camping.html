@@ -40,23 +40,6 @@
             margin: 0 auto;
             min-height: 100vh;
         }
-        /* umbra gradient — fixed behind stars, dark zenith → lighter horizon */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            background: linear-gradient(
-                180deg,
-                #04060e   0%,
-                #060a18  18%,
-                #08102a  42%,
-                #0d1a3e  68%,
-                #122040  85%,
-                #172848 100%
-            );
-        }
 
         /* ── HEADER ── */
         .app-header {
@@ -120,11 +103,13 @@
             bottom: 0; left: 50%;
             transform: translateX(-50%);
             width: 100%; max-width: 430px;
-            background: #060814;
-            border-top: 1px solid rgba(200,160,255,.1);
+            background: rgba(10,16,40,.92);
+            border-top: 1px solid rgba(180,200,255,.25);
             display: flex;
             z-index: 100;
-            box-shadow: 0 -4px 20px rgba(0,0,0,.6);
+            box-shadow: 0 -2px 24px rgba(30,60,180,.18);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
         .nav-item {
             flex: 1;
@@ -135,14 +120,14 @@
             padding: 9px 2px 13px;
             gap: 3px;
             cursor: pointer;
-            color: rgba(245,237,208,.3);
+            color: rgba(245,237,208,.7);
             border: none;
             background: none;
             font-family: 'Inter', sans-serif;
             transition: color .18s;
             -webkit-tap-highlight-color: transparent;
         }
-        .nav-item.active { color: var(--gold); text-shadow: 0 0 10px rgba(232,144,10,.4); }
+        .nav-item.active { color: var(--gold-light); text-shadow: 0 0 14px rgba(245,176,48,.6); }
         .nav-icon  { font-size: 19px; }
         .nav-label { font-size: 9px; font-weight: 600; letter-spacing: .3px; }
 
@@ -298,7 +283,7 @@
 
         /* ── COUNTDOWN / SUN STRIP ── */
         .countdown-card {
-            background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid));
+            background: rgba(255,255,255,.07); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.13); box-shadow: 0 4px 24px rgba(0,0,0,.3);
             border-radius: var(--radius);
             padding: 16px 20px;
             color: white;
@@ -314,7 +299,7 @@
         .cd-time { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; line-height: 1; }
         .cd-sub { font-size: 12px; opacity: .75; margin-top: 3px; }
         .sun-strip {
-            background: var(--snow);
+            background: rgba(255,255,255,.07); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.13); box-shadow: 0 4px 24px rgba(0,0,0,.3);
             border-radius: var(--radius);
             padding: 14px 16px;
             margin-bottom: 14px;
@@ -353,7 +338,7 @@
         .const-cards::-webkit-scrollbar { display: none; }
         .const-card {
             min-width: 72vw; max-width: 260px; flex-shrink: 0; scroll-snap-align: start;
-            background: linear-gradient(160deg, #06091a, #0d1533);
+            background: rgba(255,255,255,.08); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border-radius: 14px; padding: 16px; color: white;
         }
         .const-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 2px; color: var(--gold-light); }
@@ -366,9 +351,8 @@
 
         /* ── TAB TABLE OF CONTENTS ── */
         .tab-toc {
-            background: rgba(13,10,6,.8);
+            background: rgba(255,255,255,.07); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.13); box-shadow: 0 4px 24px rgba(0,0,0,.3);
             border-radius: var(--radius);
-            border: 1px solid rgba(150,170,255,.15);
             padding: 14px 16px;
             margin-bottom: 18px;
             display: flex;
@@ -539,8 +523,7 @@
             margin-bottom: 14px;
         }
         .stat-card {
-            background: #070d24;
-            border: 0.5px solid rgba(150,170,255,.18);
+            background: rgba(255,255,255,.07); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.13); box-shadow: 0 4px 24px rgba(0,0,0,.3);
             border-radius: 12px;
             padding: 14px 12px;
             text-align: center;
@@ -563,7 +546,8 @@
 
         /* ── ACTIVITY CARDS ── */
         .activity-card {
-            background: #0a0f2a;
+            background: rgba(255,255,255,.06);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border-radius: var(--radius);
             margin-bottom: 10px;
             box-shadow: 0 2px 14px rgba(0,0,0,.5);
@@ -1467,7 +1451,7 @@
     </div>
 
     <div class="hero-banner">
-        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#060914 0%,#0d1430 50%,#131d40 100%);"></div>
+        <div style="position:absolute;inset:0;background:rgba(255,255,255,.06);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <div class="hero-tag">Prescott National Forest</div>
@@ -1747,7 +1731,7 @@
     </div>
 
     <div class="hero-banner">
-        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#060914 0%,#0d1430 50%,#131d40 100%);"></div>
+        <div style="position:absolute;inset:0;background:rgba(255,255,255,.06);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <div class="hero-tag">July 4th Weekend</div>
@@ -2579,10 +2563,24 @@
             }
         }
         resize();
-        window.addEventListener('resize', resize);
+        window.addEventListener('resize', () => { resize(); buildGradient(); });
+        let gradient;
+        function buildGradient() {
+            gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0.00, '#04060e');
+            gradient.addColorStop(0.18, '#060a18');
+            gradient.addColorStop(0.42, '#08102a');
+            gradient.addColorStop(0.68, '#0d1a3e');
+            gradient.addColorStop(0.85, '#122040');
+            gradient.addColorStop(1.00, '#172848');
+        }
+        buildGradient();
         let t = 0;
         function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // fill with umbra gradient first, then paint stars over it
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             stars.forEach(s => {
                 const alpha = 0.2 + 0.65 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
                 ctx.globalAlpha = alpha;
