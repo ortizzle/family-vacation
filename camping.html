@@ -1091,6 +1091,29 @@
         .draw-reveal-word { font-size: 16px; color: rgba(245,237,208,.65); margin-bottom: 32px; }
         .draw-ready-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; position: absolute; inset: 0; background: #04060e; z-index: 5; text-align: center; padding: 40px; }
         .draw-ready-screen.gone { display: none; }
+
+        /* ── PICTIONARY PLAYER PILLS ── */
+        .draw-player-pill {
+            padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600;
+            font-family: 'Inter', sans-serif; cursor: pointer; transition: all .15s;
+            background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.15);
+            color: rgba(245,237,208,.7);
+        }
+        .draw-player-pill.active {
+            background: rgba(232,144,10,.3); border-color: var(--gold);
+            color: var(--gold-light);
+        }
+        .draw-player-pill.winner {
+            background: rgba(40,180,80,.25); border-color: #66ee88; color: #88ffaa;
+        }
+        .draw-stat-row {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+        .draw-stat-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+        .draw-stat-title { font-size: 11px; color: var(--gold); font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+        .draw-stat-val { font-size: 14px; color: var(--text-dark); }
     </style>
 </head>
 <body>
@@ -3030,50 +3053,234 @@
         'fireworks','sparkler','American flag','hot dog','watermelon','BBQ grill',
         'eagle','sunglasses','rocket','popsicle',
         'sunrise','sunset','shooting star','Big Dipper','telescope',
-        'butterfly','smores','fishing rod','snake','hawk','guitar',
-        'sleeping bear','moonrise','campfire smoke','rain cloud','moon'
+        'butterfly','smores','fishing rod','snake','hawk','guitar','moonrise'
     ];
     const DRAW_WORDS_HARD = [
-        'condensation','altitude sickness','bear spray','dutch oven','tinder bundle',
-        'night vision','ambient temperature','camp hygiene','fire ring','foil packet meal',
-        'dehydration','orienteering','Leave No Trace','light pollution','star cluster',
-        'Milky Way core','galactic center','monsoon season','flash flood warning',
-        'campsite etiquette','wilderness permit','trail register','switchback','ridgeline'
+        'altitude sickness','bear canister','dutch oven','tinder bundle',
+        'night vision','ambient temperature','camp hygiene','fire ring',
+        'dehydration','orienteering','Leave No Trace','light pollution',
+        'star cluster','Milky Way core','monsoon season','flash flood',
+        'campsite etiquette','wilderness permit','switchback','ridgeline',
+        'condensation','foil packet','galactic center','star trail'
     ];
+    const CREW = ['Chris','Kat','Sedona','River'];
 
-    let _drawCtx, _drawColor = '#f0e6cc', _drawSize = 4, _drawErasing = false;
-    let _drawWord = '', _drawTimeLeft = 45, _drawInterval = null;
-    let _drawPhase = 'ready'; // ready | drawing | guessing | done
-    let _drawHard = false;
+    let _g = {
+        players:[], order:[], turnIdx:0, rounds:[], hard:false,
+        word:'', drawStart:0, drawSecs:0, guessStart:0, currentGuesser:null
+    };
+    let _drawPhase = 'setup';
+    let _drawInterval = null;
 
     function openDrawGame() {
-        _drawHard = document.getElementById('draw-hard-toggle')?.checked || false;
-        const pool = _drawHard ? DRAW_WORDS_HARD : DRAW_WORDS;
-        _drawWord = pool[Math.floor(Math.random() * pool.length)];
-        _drawPhase = 'ready';
+        _g = { players:[...CREW], order:[], turnIdx:0, rounds:[], hard:false,
+               word:'', drawStart:0, drawSecs:0, guessStart:0, currentGuesser:null };
         document.getElementById('draw-game').classList.add('open');
         document.body.style.overflow = 'hidden';
-        _showDrawPhase('ready');
+        _showDrawPhase('setup');
+        _renderSetupPills();
         initDrawCanvas();
     }
 
-    function _showDrawPhase(phase) {
-        _drawPhase = phase;
-        document.getElementById('draw-phase-ready').style.display    = phase==='ready'    ? 'flex' : 'none';
-        document.getElementById('draw-phase-drawing').style.display  = phase==='drawing'  ? 'flex' : 'none';
-        document.getElementById('draw-phase-guessing').style.display = phase==='guessing' ? 'flex' : 'none';
-        document.getElementById('draw-phase-done').style.display     = phase==='done'     ? 'flex' : 'none';
+    function _renderSetupPills() {
+        const c = document.getElementById('draw-setup-pills');
+        c.innerHTML = '';
+        CREW.forEach(p => {
+            const active = _g.players.includes(p);
+            const btn = document.createElement('button');
+            btn.className = 'draw-player-pill' + (active ? ' active' : '');
+            btn.textContent = p;
+            btn.onclick = () => {
+                const i = _g.players.indexOf(p);
+                if (i >= 0) { if (_g.players.length <= 2) return; _g.players.splice(i,1); btn.classList.remove('active'); }
+                else { _g.players.push(p); btn.classList.add('active'); }
+            };
+            c.appendChild(btn);
+        });
+    }
+
+    function startDrawGame() {
+        _g.hard = document.getElementById('draw-hard-toggle').checked;
+        _g.order = [..._g.players].sort(() => Math.random() - .5);
+        _g.turnIdx = 0; _g.rounds = [];
+        _prepTurn();
+    }
+
+    function _prepTurn() {
+        const pool = _g.hard ? DRAW_WORDS_HARD : DRAW_WORDS;
+        _g.word = pool[Math.floor(Math.random() * pool.length)];
+        _showDrawPhase('ready');
+        const artist = _g.order[_g.turnIdx];
+        document.getElementById('draw-ready-artist').textContent = artist + "'s Turn";
+        document.getElementById('draw-ready-round').textContent =
+            'Round ' + (_g.turnIdx+1) + ' of ' + _g.order.length;
+    }
+
+    function drawStartDrawing() {
+        _showDrawPhase('drawing');
+        document.getElementById('draw-word-show').textContent = _g.word.toUpperCase();
+        document.getElementById('draw-turn-label').textContent =
+            _g.order[_g.turnIdx] + ' is drawing';
+        _g.drawStart = Date.now();
+        _tick('draw-timer', _g.hard ? 90 : 45, () => drawFinishDrawing());
+    }
+
+    function drawFinishDrawing() {
+        clearInterval(_drawInterval);
+        _g.drawSecs = Math.min(Math.round((Date.now()-_g.drawStart)/1000), _g.hard?90:45);
+        const canvas = document.getElementById('draw-canvas');
+        document.getElementById('draw-preview').src = canvas.toDataURL('image/png');
+        document.getElementById('draw-done-preview').src = canvas.toDataURL('image/png');
+        _showDrawPhase('guessing');
+        const artist = _g.order[_g.turnIdx];
+        const guessers = _g.players.filter(p => p !== artist);
+        _g.currentGuesser = guessers[0];
+        _renderGuesserPills(guessers);
+        document.getElementById('draw-last-guess').textContent = '';
+        document.getElementById('draw-guess-input2').value = '';
+        _g.guessStart = Date.now();
+        _tick('guess-timer', _g.hard ? 60 : 45, () => _endRound(false, null));
+    }
+
+    function _renderGuesserPills(guessers) {
+        const c = document.getElementById('draw-guesser-pills');
+        c.innerHTML = '';
+        guessers.forEach((p,i) => {
+            const btn = document.createElement('button');
+            btn.className = 'draw-player-pill' + (i===0?' active':'');
+            btn.textContent = p;
+            btn.onclick = () => {
+                _g.currentGuesser = p;
+                document.querySelectorAll('#draw-guesser-pills .draw-player-pill').forEach(b=>b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+            c.appendChild(btn);
+        });
+    }
+
+    function submitDrawGuess() {
+        const val = document.getElementById('draw-guess-input2').value.trim();
+        if (!val) return;
+        document.getElementById('draw-last-guess').textContent = '"' + val + '"';
+        document.getElementById('draw-guess-input2').value = '';
+    }
+
+    function drawJudge(correct) {
+        const guess = document.getElementById('draw-last-guess').textContent.replace(/"/g,'').trim();
+        if (correct && guess) {
+            clearInterval(_drawInterval);
+            const guessSecs = Math.round((Date.now()-_g.guessStart)/1000);
+            createBurst(window.innerWidth/2, window.innerHeight/2, 30, 80, ['#f5b030','#ffffff','#ff6644','#66dd66']);
+            _endRound(true, _g.currentGuesser, guessSecs);
+        } else {
+            document.getElementById('draw-last-guess').textContent = '';
+            document.getElementById('draw-guess-input2').value = '';
+        }
+    }
+
+    function _endRound(success, winner, guessSecs) {
+        clearInterval(_drawInterval);
+        const elapsed = guessSecs ?? Math.round((Date.now()-_g.guessStart)/1000);
+        _g.rounds.push({ artist:_g.order[_g.turnIdx], word:_g.word,
+            success, winner: winner||null, drawSecs:_g.drawSecs,
+            guessSecs: success ? elapsed : null });
+        _showDrawPhase('between');
+        const r = _g.rounds[_g.rounds.length-1];
+        document.getElementById('draw-bw-emoji').textContent  = success ? '🎉' : '😅';
+        document.getElementById('draw-bw-word').textContent   = 'The word was: "' + r.word + '"';
+        document.getElementById('draw-bw-result').textContent = success
+            ? r.winner + ' got it in ' + r.guessSecs + 's!' : 'Nobody got it this round!';
+        document.getElementById('draw-bw-artist').textContent = r.artist + ' drew for ' + r.drawSecs + 's';
+
+        const isLast = _g.turnIdx >= _g.order.length - 1;
+        const nextBtn = document.getElementById('draw-bw-next');
+        if (isLast) {
+            nextBtn.textContent = 'See Results 🏆';
+            nextBtn.onclick = _showStats;
+            document.getElementById('draw-bw-endgame').style.display = 'none';
+        } else {
+            nextBtn.textContent = 'Next: ' + _g.order[_g.turnIdx+1] + "'s Turn →";
+            nextBtn.onclick = _nextTurn;
+            document.getElementById('draw-bw-endgame').style.display = 'block';
+        }
+    }
+
+    function _nextTurn() {
+        _g.turnIdx++;
+        const canvas = document.getElementById('draw-canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#070b1e'; ctx.fillRect(0,0,canvas.width,canvas.height);
+        _prepTurn();
+    }
+
+    function _showStats() {
+        _showDrawPhase('gameover');
+        const rounds = _g.rounds;
+        const won = rounds.filter(r => r.success);
+        let html = '';
+
+        html += '<div class="draw-stat-row"><span class="draw-stat-icon">🎯</span><div><div class="draw-stat-title">Final Score</div><div class="draw-stat-val">' + won.length + ' of ' + rounds.length + ' words guessed</div></div></div>';
+
+        if (won.length > 0) {
+            const wins = {};
+            won.forEach(r => { wins[r.winner] = (wins[r.winner]||0)+1; });
+            const top = Object.entries(wins).sort((a,b)=>b[1]-a[1])[0];
+            html += '<div class="draw-stat-row"><span class="draw-stat-icon">🧠</span><div><div class="draw-stat-title">Best Guesser</div><div class="draw-stat-val">' + top[0] + ' — ' + top[1] + ' correct' + (top[1]>1?' guesses':' guess') + '</div></div></div>';
+
+            const fastest = won.reduce((a,b) => a.guessSecs < b.guessSecs ? a : b);
+            html += '<div class="draw-stat-row"><span class="draw-stat-icon">⚡</span><div><div class="draw-stat-title">Quickest Guess</div><div class="draw-stat-val">' + fastest.winner + ' got "' + fastest.word + '" in ' + fastest.guessSecs + 's</div></div></div>';
+
+            const speedDraw = won.reduce((a,b) => a.drawSecs < b.drawSecs ? a : b);
+            html += '<div class="draw-stat-row"><span class="draw-stat-icon">✏️</span><div><div class="draw-stat-title">Speed Artist</div><div class="draw-stat-val">' + speedDraw.artist + ' drew "' + speedDraw.word + '" in just ' + speedDraw.drawSecs + 's</div></div></div>';
+        }
+
+        const stumped = rounds.filter(r => !r.success);
+        if (stumped.length > 0) {
+            html += '<div class="draw-stat-row"><span class="draw-stat-icon">🤔</span><div><div class="draw-stat-title">Stumped Everyone</div><div class="draw-stat-val">' + stumped.map(r=>'"'+r.word+'" by '+r.artist).join(' · ') + '</div></div></div>';
+        }
+
+        html += '<div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);">';
+        html += '<div style="font-size:10px;color:rgba(245,237,208,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">All Rounds</div>';
+        rounds.forEach(r => {
+            html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);">';
+            html += '<div style="font-size:13px;"><span style="color:var(--gold);">' + r.artist + '</span> <span style="color:rgba(245,237,208,.5);">drew</span> <em style="color:var(--text-dark);">"' + r.word + '"</em></div>';
+            html += '<div style="font-size:12px;color:' + (r.success?'#88ffaa':'rgba(245,237,208,.35)') + ';">' + (r.success ? r.winner+' · '+r.guessSecs+'s' : '—') + '</div>';
+            html += '</div>';
+        });
+        html += '</div>';
+
+        document.getElementById('draw-stats-body').innerHTML = html;
+    }
+
+    function playMoreRounds() {
+        _g.order = [..._g.players].sort(() => Math.random()-.5);
+        _g.turnIdx = 0;
+        const canvas = document.getElementById('draw-canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#070b1e'; ctx.fillRect(0,0,canvas.width,canvas.height);
+        _prepTurn();
+    }
+
+    function saveDrawing() {
+        const canvas = document.getElementById('draw-canvas');
+        const a = document.createElement('a');
+        a.download = 'camp-pictionary-' + _g.word.replace(/\s+/g,'-') + '.png';
+        a.href = canvas.toDataURL('image/png'); a.click();
+    }
+
+    function closeDrawGame() {
+        clearInterval(_drawInterval);
+        document.getElementById('draw-game').classList.remove('open');
+        document.body.style.overflow = '';
     }
 
     function initDrawCanvas() {
         const canvas = document.getElementById('draw-canvas');
+        const game = document.getElementById('draw-game');
         setTimeout(() => {
-            const game = document.getElementById('draw-game');
-            canvas.width  = game.offsetWidth;
-            canvas.height = game.offsetHeight;
-            _drawCtx = canvas.getContext('2d');
-            _drawCtx.fillStyle = '#070b1e';
-            _drawCtx.fillRect(0, 0, canvas.width, canvas.height);
+            canvas.width = game.offsetWidth; canvas.height = game.offsetHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#070b1e'; ctx.fillRect(0,0,canvas.width,canvas.height);
         }, 80);
         canvas.ontouchstart = e => { e.preventDefault(); _dStart(e.touches[0]); };
         canvas.ontouchmove  = e => { e.preventDefault(); _dMove(e.touches[0]); };
@@ -3084,22 +3291,22 @@
 
     function _pos(e) {
         const r = document.getElementById('draw-canvas').getBoundingClientRect();
-        return { x: (e.clientX??e.pageX)-r.left, y: (e.clientY??e.pageY)-r.top };
+        return { x:(e.clientX??e.pageX)-r.left, y:(e.clientY??e.pageY)-r.top };
     }
     let _drawing = false;
-    function _dStart(e) { if (_drawPhase!=='drawing') return; _drawing=true; const p=_pos(e); _drawCtx.beginPath(); _drawCtx.moveTo(p.x,p.y); }
+    function _dStart(e) { if (_drawPhase!=='drawing') return; _drawing=true; const p=_pos(e); const ctx=document.getElementById('draw-canvas').getContext('2d'); ctx.beginPath(); ctx.moveTo(p.x,p.y); }
     function _dMove(e) {
         if (!_drawing) return;
-        const p=_pos(e);
-        _drawCtx.lineTo(p.x,p.y);
-        _drawCtx.strokeStyle = _drawErasing ? '#070b1e' : _drawColor;
-        _drawCtx.lineWidth   = _drawErasing ? _drawSize*4 : _drawSize;
-        _drawCtx.lineCap='round'; _drawCtx.lineJoin='round';
-        _drawCtx.stroke();
-        _drawCtx.beginPath(); _drawCtx.moveTo(p.x,p.y);
+        const p=_pos(e); const ctx=document.getElementById('draw-canvas').getContext('2d');
+        ctx.lineTo(p.x,p.y);
+        ctx.strokeStyle = _drawErasing ? '#070b1e' : _drawColor;
+        ctx.lineWidth   = _drawErasing ? _drawSize*4 : _drawSize;
+        ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(p.x,p.y);
     }
     function _dEnd() { _drawing=false; }
 
+    let _drawColor='#f0e6cc', _drawSize=4, _drawErasing=false;
     function setDrawColor(el,color) {
         _drawColor=color; _drawErasing=false;
         document.querySelectorAll('.draw-color').forEach(e=>e.classList.remove('active'));
@@ -3116,96 +3323,19 @@
         document.getElementById('draw-eraser-btn').classList.toggle('active',_drawErasing);
     }
 
-    // Artist taps "I'm Ready — Show My Word"
-    function drawStartDrawing() {
-        _showDrawPhase('drawing');
-        document.getElementById('draw-word-show').textContent = _drawWord.toUpperCase();
-        const drawSecs = _drawHard ? 90 : 45;
-        _drawTimeLeft = drawSecs;
-        _tick('draw-timer', drawSecs, () => drawFinishDrawing());
-    }
-
-    // Called when timer ends OR artist taps "Done Drawing"
-    function drawFinishDrawing() {
-        clearInterval(_drawInterval);
-        _showDrawPhase('guessing');
-        // Show canvas as a static preview behind guessing UI
-        const canvas = document.getElementById('draw-canvas');
-        const preview = document.getElementById('draw-preview');
-        preview.src = canvas.toDataURL('image/png');
-        const guessSecs = _drawHard ? 60 : 45;
-        _drawTimeLeft = guessSecs;
-        document.getElementById('guess-timer').textContent = guessSecs;
-        _tick('guess-timer', guessSecs, () => drawEndRound(false, ''));
-        document.getElementById('draw-last-guess').textContent = '';
-        document.getElementById('draw-guess-input2').value = '';
-    }
-
-    // Guesser submits a guess
-    function submitDrawGuess() {
-        const val = document.getElementById('draw-guess-input2').value.trim();
-        if (!val) return;
-        document.getElementById('draw-last-guess').textContent = '"' + val + '"';
-        document.getElementById('draw-guess-input2').value = '';
-    }
-
-    // Artist judges
-    function drawJudge(correct) {
-        const guess = document.getElementById('draw-last-guess').textContent.replace(/"/g,'').trim();
-        if (correct) {
-            clearInterval(_drawInterval);
-            createBurst(window.innerWidth/2, window.innerHeight/3, 30, 80, ['#f5b030','#ffffff','#ff6644','#66dd66']);
-            drawEndRound(true, guess);
-        } else {
-            document.getElementById('draw-last-guess').textContent = '';
-            document.getElementById('draw-guess-input2').value = '';
-        }
-    }
-
-    function drawEndRound(won, guesser) {
-        clearInterval(_drawInterval);
-        _showDrawPhase('done');
-        document.getElementById('draw-done-emoji').textContent = won ? '🎉' : '⏰';
-        document.getElementById('draw-done-msg').textContent = won
-            ? (guesser ? '"' + guesser + '" got it!' : 'Got it!')
-            : "Time's up!";
-        document.getElementById('draw-done-word').textContent = 'The word was: ' + _drawWord;
-        // Show the finished drawing
-        const canvas = document.getElementById('draw-canvas');
-        const donePreview = document.getElementById('draw-done-preview');
-        donePreview.src = canvas.toDataURL('image/png');
-    }
-
-    function saveDrawing() {
-        const canvas = document.getElementById('draw-canvas');
-        const a = document.createElement('a');
-        a.download = 'camp-pictionary-' + _drawWord.replace(/\s+/g,'-') + '.png';
-        a.href = canvas.toDataURL('image/png');
-        a.click();
-    }
-
-    function restartDrawGame() {
-        clearInterval(_drawInterval);
-        const pool = _drawHard ? DRAW_WORDS_HARD : DRAW_WORDS;
-        _drawWord = pool[Math.floor(Math.random() * pool.length)];
-        _drawPhase = 'ready';
-        const canvas = document.getElementById('draw-canvas');
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#070b1e';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        _showDrawPhase('ready');
-    }
-
-    function closeDrawGame() {
-        clearInterval(_drawInterval);
-        document.getElementById('draw-game').classList.remove('open');
-        document.body.style.overflow = '';
+    function _showDrawPhase(phase) {
+        _drawPhase = phase;
+        ['setup','ready','drawing','guessing','between','gameover'].forEach(p => {
+            const el = document.getElementById('draw-phase-'+p);
+            if (el) el.style.display = p===phase ? 'flex' : 'none';
+        });
     }
 
     function _tick(elId, total, onDone) {
         clearInterval(_drawInterval);
         let t = total;
         const el = document.getElementById(elId);
+        if (el) el.textContent = t;
         _drawInterval = setInterval(() => {
             t--;
             if (el) { el.textContent = t; el.classList.toggle('urgent', t<=10); }
@@ -3737,93 +3867,120 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
 
 <!-- ── CAMP PICTIONARY GAME ── -->
 <div id="draw-game">
-    <!-- The canvas is always in the background -->
-    <canvas id="draw-canvas" style="position:absolute;inset:0;z-index:0;"></canvas>
+  <canvas id="draw-canvas" style="position:absolute;inset:0;z-index:0;"></canvas>
 
-    <!-- PHASE: READY — pass to artist -->
-    <div id="draw-phase-ready" style="display:flex;flex-direction:column;align-items:center;justify-content:center;position:absolute;inset:0;background:#04060e;z-index:5;text-align:center;padding:40px;">
-        <div style="font-size:52px;margin-bottom:16px;">🎨</div>
-        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold-light);margin-bottom:8px;">Camp Pictionary</div>
-        <div style="font-size:14px;color:rgba(245,237,208,.65);margin-bottom:10px;line-height:1.6;">Pass the phone to the artist.<br>Everyone else look away!</div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;padding:10px 16px;background:rgba(255,255,255,.06);border-radius:12px;border:1px solid rgba(255,255,255,.1);">
-            <span style="font-size:13px;color:rgba(245,237,208,.7);">Hard Mode</span>
-            <label style="position:relative;display:inline-block;width:42px;height:24px;cursor:pointer;">
-                <input type="checkbox" id="draw-hard-toggle" style="opacity:0;width:0;height:0;">
-                <span onclick="this.previousElementSibling.click()" style="position:absolute;inset:0;background:rgba(255,255,255,.15);border-radius:12px;transition:.2s;"></span>
-            </label>
-            <span style="font-size:11px;color:rgba(245,237,208,.45);">90s draw · 60s guess</span>
-        </div>
-        <button onclick="drawStartDrawing()" style="background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:16px;padding:16px 40px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:12px;width:100%;max-width:300px;">I'm Ready — Show My Word</button>
-        <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.5);border-radius:12px;padding:10px 24px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Cancel</button>
+  <!-- SETUP -->
+  <div id="draw-phase-setup" style="display:flex;flex-direction:column;align-items:center;justify-content:center;position:absolute;inset:0;background:#04060e;z-index:5;text-align:center;padding:36px 28px;">
+    <div style="font-size:48px;margin-bottom:14px;">🎨</div>
+    <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold-light);margin-bottom:6px;">Camp Pictionary</div>
+    <div style="font-size:13px;color:rgba(245,237,208,.55);margin-bottom:22px;">Who's playing?</div>
+    <div id="draw-setup-pills" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:24px;"></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;padding:10px 18px;background:rgba(255,255,255,.06);border-radius:12px;border:1px solid rgba(255,255,255,.1);">
+      <span style="font-size:13px;color:rgba(245,237,208,.7);">Hard Mode</span>
+      <label style="position:relative;display:inline-block;width:42px;height:24px;cursor:pointer;">
+        <input type="checkbox" id="draw-hard-toggle" style="opacity:0;width:0;height:0;">
+        <span onclick="this.previousElementSibling.click()" style="position:absolute;inset:0;background:rgba(255,255,255,.15);border-radius:12px;transition:.2s;"></span>
+      </label>
+      <span style="font-size:11px;color:rgba(245,237,208,.4);">90s draw · 60s guess · harder words</span>
     </div>
+    <button onclick="startDrawGame()" style="width:100%;max-width:300px;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:16px;padding:15px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;">Start Game</button>
+    <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.45);border-radius:12px;padding:9px 22px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Cancel</button>
+  </div>
 
-    <!-- PHASE: DRAWING — artist draws -->
-    <div id="draw-phase-drawing" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:48px 16px 10px;background:rgba(4,6,18,.9);flex-shrink:0;">
-            <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:7px 14px;font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--gold-light);letter-spacing:1px;" id="draw-word-show">WORD</div>
-            <div style="text-align:center;">
-                <div style="font-size:10px;color:rgba(245,237,208,.4);text-transform:uppercase;letter-spacing:1px;">Drawing</div>
-                <div class="draw-timer" id="draw-timer">45</div>
-            </div>
-        </div>
-        <!-- canvas visible here (z-index 0 below) -->
-        <div style="flex:1;"></div>
-        <div class="draw-toolbar">
-            <div class="draw-color active" style="background:#f0e6cc;" onclick="setDrawColor(this,'#f0e6cc')"></div>
-            <div class="draw-color" style="background:#ff6644;" onclick="setDrawColor(this,'#ff6644')"></div>
-            <div class="draw-color" style="background:#44aaff;" onclick="setDrawColor(this,'#44aaff')"></div>
-            <div class="draw-color" style="background:#66dd66;" onclick="setDrawColor(this,'#66dd66')"></div>
-            <div class="draw-color" style="background:#ffcc44;" onclick="setDrawColor(this,'#ffcc44')"></div>
-            <div class="draw-color" style="background:#cc66ff;" onclick="setDrawColor(this,'#cc66ff')"></div>
-            <div class="draw-size active" id="draw-sz-sm" onclick="setDrawSize(this,4)">S</div>
-            <div class="draw-size" id="draw-sz-md" onclick="setDrawSize(this,10)">M</div>
-            <div class="draw-size" id="draw-sz-lg" onclick="setDrawSize(this,22)">L</div>
-            <div class="draw-eraser" id="draw-eraser-btn" onclick="toggleEraser()">Eraser</div>
-        </div>
-        <div style="padding:10px 14px 28px;background:rgba(4,6,18,.9);flex-shrink:0;">
-            <button onclick="drawFinishDrawing()" style="width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(245,237,208,.9);border-radius:14px;padding:12px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;">Done Drawing ✓</button>
-        </div>
-    </div>
+  <!-- READY -->
+  <div id="draw-phase-ready" style="display:none;flex-direction:column;align-items:center;justify-content:center;position:absolute;inset:0;background:#04060e;z-index:5;text-align:center;padding:40px;">
+    <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);margin-bottom:8px;" id="draw-ready-round">Round 1 of 4</div>
+    <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--text-dark);margin-bottom:10px;" id="draw-ready-artist">Chris's Turn</div>
+    <div style="font-size:14px;color:rgba(245,237,208,.55);margin-bottom:32px;line-height:1.6;">Pass the phone to the artist.<br>Everyone else look away!</div>
+    <button onclick="drawStartDrawing()" style="width:100%;max-width:300px;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:16px;padding:15px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:12px;">I'm Ready — Show My Word</button>
+    <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.4);border-radius:12px;padding:9px 22px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">End Game</button>
+  </div>
 
-    <!-- PHASE: GUESSING — others guess, artist judges -->
-    <div id="draw-phase-guessing" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
-        <div style="padding:48px 16px 10px;background:rgba(4,6,18,.92);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;">
-            <div>
-                <div style="font-size:11px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Guessing Time!</div>
-                <div style="font-size:13px;color:rgba(245,237,208,.6);margin-top:2px;">Artist: tap ✓ if they got it</div>
-            </div>
-            <div style="text-align:center;">
-                <div style="font-size:10px;color:rgba(245,237,208,.4);text-transform:uppercase;letter-spacing:1px;">Time left</div>
-                <div class="draw-timer" id="guess-timer">45</div>
-            </div>
-        </div>
-        <img id="draw-preview" style="flex:1;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
-        <div style="padding:12px 14px;background:rgba(4,6,18,.95);flex-shrink:0;">
-            <div style="font-size:12px;color:rgba(245,237,208,.5);margin-bottom:6px;text-align:center;">Current guess:</div>
-            <div id="draw-last-guess" style="font-size:20px;font-weight:700;color:var(--text-dark);text-align:center;min-height:28px;margin-bottom:10px;font-family:'Playfair Display',serif;"></div>
-            <div style="display:flex;gap:8px;margin-bottom:10px;">
-                <button onclick="drawJudge(true)"  style="flex:1;background:rgba(40,180,80,.25);border:1px solid rgba(40,180,80,.4);color:#88ffaa;border-radius:12px;padding:12px;font-size:20px;cursor:pointer;">✓</button>
-                <button onclick="drawJudge(false)" style="flex:1;background:rgba(200,60,40,.2);border:1px solid rgba(200,60,40,.35);color:#ff9977;border-radius:12px;padding:12px;font-size:20px;cursor:pointer;">✗</button>
-            </div>
-            <div style="display:flex;gap:8px;">
-                <input class="draw-guess-input" id="draw-guess-input2" placeholder="Type guess then tap ✓ or ✗…" autocomplete="off" autocorrect="off" style="flex:1;"/>
-                <button onclick="submitDrawGuess()" style="padding:10px 14px;border-radius:12px;background:rgba(232,144,10,.25);border:1px solid rgba(232,144,10,.4);color:var(--gold-light);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;">Submit</button>
-            </div>
-        </div>
+  <!-- DRAWING -->
+  <div id="draw-phase-drawing" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:48px 16px 10px;background:rgba(4,6,18,.9);flex-shrink:0;">
+      <div>
+        <div style="font-size:11px;color:rgba(245,237,208,.4);text-transform:uppercase;letter-spacing:1px;" id="draw-turn-label">Drawing</div>
+        <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:6px 12px;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--gold-light);margin-top:4px;" id="draw-word-show">WORD</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:10px;color:rgba(245,237,208,.4);text-transform:uppercase;letter-spacing:1px;">Time</div>
+        <div class="draw-timer" id="draw-timer">45</div>
+      </div>
     </div>
+    <div style="flex:1;"></div>
+    <div class="draw-toolbar">
+      <div class="draw-color active" style="background:#f0e6cc;" onclick="setDrawColor(this,'#f0e6cc')"></div>
+      <div class="draw-color" style="background:#ff6644;" onclick="setDrawColor(this,'#ff6644')"></div>
+      <div class="draw-color" style="background:#44aaff;" onclick="setDrawColor(this,'#44aaff')"></div>
+      <div class="draw-color" style="background:#66dd66;" onclick="setDrawColor(this,'#66dd66')"></div>
+      <div class="draw-color" style="background:#ffcc44;" onclick="setDrawColor(this,'#ffcc44')"></div>
+      <div class="draw-color" style="background:#cc66ff;" onclick="setDrawColor(this,'#cc66ff')"></div>
+      <div class="draw-size active" id="draw-sz-sm" onclick="setDrawSize(this,4)">S</div>
+      <div class="draw-size" id="draw-sz-md" onclick="setDrawSize(this,10)">M</div>
+      <div class="draw-size" id="draw-sz-lg" onclick="setDrawSize(this,22)">L</div>
+      <div class="draw-eraser" id="draw-eraser-btn" onclick="toggleEraser()">Eraser</div>
+    </div>
+    <div style="padding:10px 14px 28px;background:rgba(4,6,18,.9);flex-shrink:0;">
+      <button onclick="drawFinishDrawing()" style="width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(245,237,208,.9);border-radius:14px;padding:13px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;">Done Drawing ✓</button>
+    </div>
+  </div>
 
-    <!-- PHASE: DONE — result + save -->
-    <div id="draw-phase-done" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
-        <img id="draw-done-preview" style="flex:1;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
-        <div style="background:rgba(4,6,18,.96);padding:24px 20px 36px;text-align:center;flex-shrink:0;">
-            <div id="draw-done-emoji" style="font-size:52px;margin-bottom:10px;">🎉</div>
-            <div id="draw-done-msg" style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold-light);margin-bottom:6px;"></div>
-            <div id="draw-done-word" style="font-size:14px;color:rgba(245,237,208,.6);margin-bottom:22px;"></div>
-            <button onclick="saveDrawing()" style="width:100%;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(245,237,208,.9);border-radius:14px;padding:12px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;">💾 Save Drawing</button>
-            <button onclick="restartDrawGame()" style="width:100%;max-width:300px;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;">Play Again 🎨</button>
-            <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.45);border-radius:12px;padding:8px 20px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Done</button>
-        </div>
+  <!-- GUESSING -->
+  <div id="draw-phase-guessing" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
+    <div style="padding:48px 14px 10px;background:rgba(4,6,18,.92);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);">Guessing Time!</div>
+        <div style="font-size:12px;color:rgba(245,237,208,.5);margin-top:2px;">Artist judges each guess</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:10px;color:rgba(245,237,208,.4);text-transform:uppercase;letter-spacing:1px;">Time left</div>
+        <div class="draw-timer" id="guess-timer">45</div>
+      </div>
     </div>
+    <img id="draw-preview" style="flex:1;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
+    <div style="padding:10px 14px;background:rgba(4,6,18,.95);flex-shrink:0;">
+      <div style="font-size:11px;color:rgba(245,237,208,.45);margin-bottom:7px;">Who's guessing?</div>
+      <div id="draw-guesser-pills" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;"></div>
+      <div style="font-size:12px;color:rgba(245,237,208,.45);margin-bottom:5px;text-align:center;">Current guess:</div>
+      <div id="draw-last-guess" style="font-size:20px;font-weight:700;color:var(--text-dark);text-align:center;min-height:26px;margin-bottom:10px;font-family:'Playfair Display',serif;"></div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <button onclick="drawJudge(true)"  style="flex:1;background:rgba(40,180,80,.25);border:1px solid rgba(40,180,80,.4);color:#88ffaa;border-radius:12px;padding:14px;font-size:22px;cursor:pointer;">✓</button>
+        <button onclick="drawJudge(false)" style="flex:1;background:rgba(200,60,40,.2);border:1px solid rgba(200,60,40,.35);color:#ff9977;border-radius:12px;padding:14px;font-size:22px;cursor:pointer;">✗</button>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <input class="draw-guess-input" id="draw-guess-input2" placeholder="Type guess, then ✓ or ✗…" autocomplete="off" autocorrect="off" style="flex:1;"/>
+        <button onclick="submitDrawGuess()" style="padding:10px 14px;border-radius:12px;background:rgba(232,144,10,.25);border:1px solid rgba(232,144,10,.4);color:var(--gold-light);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BETWEEN ROUNDS -->
+  <div id="draw-phase-between" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
+    <img id="draw-done-preview" style="flex:1;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
+    <div style="background:rgba(4,6,18,.97);padding:22px 20px 36px;text-align:center;flex-shrink:0;">
+      <div id="draw-bw-emoji" style="font-size:44px;margin-bottom:10px;">🎉</div>
+      <div id="draw-bw-result" style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--gold-light);margin-bottom:5px;"></div>
+      <div id="draw-bw-word" style="font-size:13px;color:rgba(245,237,208,.55);margin-bottom:3px;"></div>
+      <div id="draw-bw-artist" style="font-size:11px;color:rgba(245,237,208,.35);margin-bottom:20px;"></div>
+      <button onclick="saveDrawing()" style="width:100%;max-width:300px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.8);border-radius:12px;padding:11px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;">💾 Save Drawing</button>
+      <button id="draw-bw-next" style="width:100%;max-width:300px;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;"></button>
+      <button id="draw-bw-endgame" onclick="_showStats()" style="display:none;width:100%;max-width:300px;background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.45);border-radius:12px;padding:9px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">End Game &amp; See Stats</button>
+    </div>
+  </div>
+
+  <!-- GAME OVER / STATS -->
+  <div id="draw-phase-gameover" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;background:#04060e;">
+    <div style="padding:52px 20px 16px;background:rgba(4,6,18,.9);flex-shrink:0;text-align:center;">
+      <div style="font-size:32px;margin-bottom:6px;">🏆</div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold-light);">Game Over!</div>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:16px 20px;" id="draw-stats-body"></div>
+    <div style="padding:16px 20px 36px;background:rgba(4,6,18,.95);flex-shrink:0;display:flex;flex-direction:column;gap:10px;">
+      <button onclick="playMoreRounds()" style="width:100%;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;">Play More Rounds 🎨</button>
+      <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.45);border-radius:12px;padding:10px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Done</button>
+    </div>
+  </div>
 </div>
 
 </body>
