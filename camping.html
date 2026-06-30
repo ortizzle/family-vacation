@@ -286,7 +286,7 @@
 
         /* ── COUNTDOWN / SUN STRIP ── */
         .countdown-card {
-            background: rgba(4,6,18,.35); border: 1px solid rgba(255,255,255,.07);
+            background: linear-gradient(135deg, rgba(6,8,24,.9) 0%, rgba(14,20,50,.85) 100%); border: 1px solid rgba(100,130,255,.15);
             border-radius: var(--radius);
             padding: 16px 20px;
             color: white;
@@ -302,7 +302,7 @@
         .cd-time { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; line-height: 1; }
         .cd-sub { font-size: 12px; opacity: .75; margin-top: 3px; }
         .sun-strip {
-            background: rgba(4,6,18,.35); border: 1px solid rgba(255,255,255,.07);
+            background: rgba(20,12,4,.5); border: 1px solid rgba(232,144,10,.18);
             border-radius: var(--radius);
             padding: 14px 16px;
             margin-bottom: 14px;
@@ -341,7 +341,7 @@
         .const-cards::-webkit-scrollbar { display: none; }
         .const-card {
             min-width: 72vw; max-width: 260px; flex-shrink: 0; scroll-snap-align: start;
-            background: rgba(4,6,18,.35); border: 1px solid rgba(255,255,255,.07);
+            background: #060a1c; border: 1px solid rgba(100,140,255,.18);
             border-radius: 14px; padding: 16px; color: white;
         }
         .const-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 2px; color: var(--gold-light); }
@@ -1051,14 +1051,14 @@
         }
 
         /* ── TONIGHT'S SKY ── */
-        .sky-card { background: rgba(4,6,18,.5); border: 1px solid rgba(100,140,255,.2); border-radius: var(--radius); padding: 16px; margin-bottom: 14px; }
+        .sky-card { background: rgba(4,8,28,.6); border: 1px solid rgba(100,160,255,.25); border-radius: var(--radius); padding: 16px; margin-bottom: 14px; box-shadow: 0 0 30px rgba(80,120,255,.08); }
         .sky-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
         .sky-card-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--text-dark); }
         .sky-card-sub { font-size: 11px; color: rgba(245,237,208,.5); margin-top: 2px; }
         .sky-night { border-bottom: 1px solid rgba(255,255,255,.07); padding: 10px 0; }
         .sky-night:last-child { border-bottom: none; padding-bottom: 0; }
-        .sky-night-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold); margin-bottom: 6px; }
-        .sky-object { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; font-size: 12px; color: rgba(245,237,208,.8); line-height: 1.4; }
+        .sky-night-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold); margin-bottom: 8px; }
+        .sky-object { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; font-size: 13px; color: rgba(245,237,208,.85); line-height: 1.45; }
         .sky-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-light); flex-shrink: 0; margin-top: 4px; }
         .sky-dot.red { background: #ff9966; }
         .sky-dot.blue { background: #aaccff; }
@@ -3024,165 +3024,193 @@
 
     // ── CAMP PICTIONARY ──────────────────────────────────────────
     const DRAW_WORDS = [
-        // Camping
         'tent','campfire','marshmallow','sleeping bag','flashlight','lantern',
         'firewood','hiking boot','canteen','backpack','compass','hammock',
-        'bear','owl','deer','pine tree','mountain','river','lake',
-        // 4th of July
+        'bear','owl','deer','pine tree','mountain','river','lake','cactus',
         'fireworks','sparkler','American flag','hot dog','watermelon','BBQ grill',
-        'eagle','parade','sunglasses','rocket','popsicle','BBQ sauce',
-        // Nature / activities
+        'eagle','sunglasses','rocket','popsicle',
         'sunrise','sunset','shooting star','Big Dipper','telescope',
-        'butterfly','campfire smoke','s\'mores','guitar','fishing rod',
-        'snake','hawk','cactus','rain cloud','moon','star'
+        'butterfly','smores','fishing rod','snake','hawk','guitar',
+        'sleeping bear','moonrise','campfire smoke','rain cloud','moon'
+    ];
+    const DRAW_WORDS_HARD = [
+        'condensation','altitude sickness','bear spray','dutch oven','tinder bundle',
+        'night vision','ambient temperature','camp hygiene','fire ring','foil packet meal',
+        'dehydration','orienteering','Leave No Trace','light pollution','star cluster',
+        'Milky Way core','galactic center','monsoon season','flash flood warning',
+        'campsite etiquette','wilderness permit','trail register','switchback','ridgeline'
     ];
 
     let _drawCtx, _drawColor = '#f0e6cc', _drawSize = 4, _drawErasing = false;
-    let _drawWord = '', _drawTimer = 60, _drawInterval = null, _drawActive = false;
+    let _drawWord = '', _drawTimeLeft = 45, _drawInterval = null;
+    let _drawPhase = 'ready'; // ready | drawing | guessing | done
+    let _drawHard = false;
 
     function openDrawGame() {
-        _drawWord = DRAW_WORDS[Math.floor(Math.random() * DRAW_WORDS.length)];
-        _drawActive = false;
-        document.getElementById('draw-ready').classList.remove('gone');
-        document.getElementById('draw-reveal').classList.remove('show');
-        document.getElementById('draw-word-display').textContent = '???';
-        document.getElementById('draw-timer').textContent = '60';
-        document.getElementById('draw-timer').classList.remove('urgent');
-        document.getElementById('draw-guess').value = '';
+        _drawHard = document.getElementById('draw-hard-toggle')?.checked || false;
+        const pool = _drawHard ? DRAW_WORDS_HARD : DRAW_WORDS;
+        _drawWord = pool[Math.floor(Math.random() * pool.length)];
+        _drawPhase = 'ready';
         document.getElementById('draw-game').classList.add('open');
         document.body.style.overflow = 'hidden';
+        _showDrawPhase('ready');
         initDrawCanvas();
+    }
+
+    function _showDrawPhase(phase) {
+        _drawPhase = phase;
+        document.getElementById('draw-phase-ready').style.display    = phase==='ready'    ? 'flex' : 'none';
+        document.getElementById('draw-phase-drawing').style.display  = phase==='drawing'  ? 'flex' : 'none';
+        document.getElementById('draw-phase-guessing').style.display = phase==='guessing' ? 'flex' : 'none';
+        document.getElementById('draw-phase-done').style.display     = phase==='done'     ? 'flex' : 'none';
     }
 
     function initDrawCanvas() {
         const canvas = document.getElementById('draw-canvas');
-        const container = document.getElementById('draw-game');
-        // Size the canvas to fill the flex gap
         setTimeout(() => {
-            const h = container.offsetHeight
-                - (document.querySelector('.draw-header').offsetHeight || 80)
-                - (document.querySelector('.draw-toolbar').offsetHeight || 58)
-                - (document.querySelector('.draw-guess-row').offsetHeight || 54);
-            canvas.width  = container.offsetWidth;
-            canvas.height = Math.max(h, 200);
+            const game = document.getElementById('draw-game');
+            canvas.width  = game.offsetWidth;
+            canvas.height = game.offsetHeight;
             _drawCtx = canvas.getContext('2d');
-            _drawCtx.fillStyle = '#06091a';
+            _drawCtx.fillStyle = '#070b1e';
             _drawCtx.fillRect(0, 0, canvas.width, canvas.height);
-        }, 50);
-
-        // Touch events
-        canvas.ontouchstart = (e) => { e.preventDefault(); drawStart(e.touches[0]); };
-        canvas.ontouchmove  = (e) => { e.preventDefault(); drawMove(e.touches[0]); };
-        canvas.ontouchend   = () => drawEnd();
-        canvas.onmousedown  = (e) => { drawStart(e); canvas.onmousemove = (ev) => drawMove(ev); };
-        canvas.onmouseup    = () => { drawEnd(); canvas.onmousemove = null; };
+        }, 80);
+        canvas.ontouchstart = e => { e.preventDefault(); _dStart(e.touches[0]); };
+        canvas.ontouchmove  = e => { e.preventDefault(); _dMove(e.touches[0]); };
+        canvas.ontouchend   = () => _dEnd();
+        canvas.onmousedown  = e => { _dStart(e); canvas.onmousemove = ev => _dMove(ev); };
+        canvas.onmouseup    = () => { _dEnd(); canvas.onmousemove = null; };
     }
 
     function _pos(e) {
         const r = document.getElementById('draw-canvas').getBoundingClientRect();
-        return { x: (e.clientX ?? e.pageX) - r.left, y: (e.clientY ?? e.pageY) - r.top };
+        return { x: (e.clientX??e.pageX)-r.left, y: (e.clientY??e.pageY)-r.top };
     }
-
     let _drawing = false;
-    function drawStart(e) {
-        if (!_drawActive) return;
-        _drawing = true;
-        const p = _pos(e);
-        _drawCtx.beginPath();
-        _drawCtx.moveTo(p.x, p.y);
-    }
-    function drawMove(e) {
-        if (!_drawing || !_drawActive) return;
-        const p = _pos(e);
-        _drawCtx.lineTo(p.x, p.y);
-        _drawCtx.strokeStyle = _drawErasing ? '#06091a' : _drawColor;
-        _drawCtx.lineWidth   = _drawErasing ? _drawSize * 4 : _drawSize;
-        _drawCtx.lineCap     = 'round';
-        _drawCtx.lineJoin    = 'round';
+    function _dStart(e) { if (_drawPhase!=='drawing') return; _drawing=true; const p=_pos(e); _drawCtx.beginPath(); _drawCtx.moveTo(p.x,p.y); }
+    function _dMove(e) {
+        if (!_drawing) return;
+        const p=_pos(e);
+        _drawCtx.lineTo(p.x,p.y);
+        _drawCtx.strokeStyle = _drawErasing ? '#070b1e' : _drawColor;
+        _drawCtx.lineWidth   = _drawErasing ? _drawSize*4 : _drawSize;
+        _drawCtx.lineCap='round'; _drawCtx.lineJoin='round';
         _drawCtx.stroke();
-        _drawCtx.beginPath();
-        _drawCtx.moveTo(p.x, p.y);
+        _drawCtx.beginPath(); _drawCtx.moveTo(p.x,p.y);
     }
-    function drawEnd() { _drawing = false; }
+    function _dEnd() { _drawing=false; }
 
-    function setDrawColor(el, color) {
-        _drawColor = color; _drawErasing = false;
-        document.querySelectorAll('.draw-color').forEach(e => e.classList.remove('active'));
+    function setDrawColor(el,color) {
+        _drawColor=color; _drawErasing=false;
+        document.querySelectorAll('.draw-color').forEach(e=>e.classList.remove('active'));
         el.classList.add('active');
         document.getElementById('draw-eraser-btn').classList.remove('active');
     }
-    function setDrawSize(el, size) {
-        _drawSize = size;
-        document.querySelectorAll('.draw-size').forEach(e => e.classList.remove('active'));
+    function setDrawSize(el,size) {
+        _drawSize=size;
+        document.querySelectorAll('.draw-size').forEach(e=>e.classList.remove('active'));
         el.classList.add('active');
     }
     function toggleEraser() {
-        _drawErasing = !_drawErasing;
-        document.getElementById('draw-eraser-btn').classList.toggle('active', _drawErasing);
+        _drawErasing=!_drawErasing;
+        document.getElementById('draw-eraser-btn').classList.toggle('active',_drawErasing);
     }
 
-    function drawRevealWord() {
-        document.getElementById('draw-ready').classList.add('gone');
-        document.getElementById('draw-word-display').textContent = _drawWord.toUpperCase();
-        _drawActive = true;
-        _drawTimer = 60;
+    // Artist taps "I'm Ready — Show My Word"
+    function drawStartDrawing() {
+        _showDrawPhase('drawing');
+        document.getElementById('draw-word-show').textContent = _drawWord.toUpperCase();
+        const drawSecs = _drawHard ? 90 : 45;
+        _drawTimeLeft = drawSecs;
+        _tick('draw-timer', drawSecs, () => drawFinishDrawing());
+    }
+
+    // Called when timer ends OR artist taps "Done Drawing"
+    function drawFinishDrawing() {
         clearInterval(_drawInterval);
-        _drawInterval = setInterval(() => {
-            _drawTimer--;
-            const el = document.getElementById('draw-timer');
-            el.textContent = _drawTimer;
-            if (_drawTimer <= 10) el.classList.add('urgent');
-            if (_drawTimer <= 0) {
-                clearInterval(_drawInterval);
-                drawEndRound(false);
-            }
-        }, 1000);
+        _showDrawPhase('guessing');
+        // Show canvas as a static preview behind guessing UI
+        const canvas = document.getElementById('draw-canvas');
+        const preview = document.getElementById('draw-preview');
+        preview.src = canvas.toDataURL('image/png');
+        const guessSecs = _drawHard ? 60 : 45;
+        _drawTimeLeft = guessSecs;
+        document.getElementById('guess-timer').textContent = guessSecs;
+        _tick('guess-timer', guessSecs, () => drawEndRound(false, ''));
+        document.getElementById('draw-last-guess').textContent = '';
+        document.getElementById('draw-guess-input2').value = '';
     }
 
-    function checkDrawGuess(val) {
-        if (!_drawActive) return;
-        if (val.trim().toLowerCase() === _drawWord.toLowerCase()) {
+    // Guesser submits a guess
+    function submitDrawGuess() {
+        const val = document.getElementById('draw-guess-input2').value.trim();
+        if (!val) return;
+        document.getElementById('draw-last-guess').textContent = '"' + val + '"';
+        document.getElementById('draw-guess-input2').value = '';
+    }
+
+    // Artist judges
+    function drawJudge(correct) {
+        const guess = document.getElementById('draw-last-guess').textContent.replace(/"/g,'').trim();
+        if (correct) {
             clearInterval(_drawInterval);
-            _drawActive = false;
-            createBurst(window.innerWidth/2, window.innerHeight/2, 30, 70, ['#f5b030','#ffffff','#ff6644','#66dd66']);
-            showDrawReveal(true);
+            createBurst(window.innerWidth/2, window.innerHeight/3, 30, 80, ['#f5b030','#ffffff','#ff6644','#66dd66']);
+            drawEndRound(true, guess);
+        } else {
+            document.getElementById('draw-last-guess').textContent = '';
+            document.getElementById('draw-guess-input2').value = '';
         }
     }
 
-    function drawGiveUp() {
+    function drawEndRound(won, guesser) {
         clearInterval(_drawInterval);
-        _drawActive = false;
-        showDrawReveal(false);
+        _showDrawPhase('done');
+        document.getElementById('draw-done-emoji').textContent = won ? '🎉' : '⏰';
+        document.getElementById('draw-done-msg').textContent = won
+            ? (guesser ? '"' + guesser + '" got it!' : 'Got it!')
+            : "Time's up!";
+        document.getElementById('draw-done-word').textContent = 'The word was: ' + _drawWord;
+        // Show the finished drawing
+        const canvas = document.getElementById('draw-canvas');
+        const donePreview = document.getElementById('draw-done-preview');
+        donePreview.src = canvas.toDataURL('image/png');
     }
 
-    function showDrawReveal(won) {
-        const el = document.getElementById('draw-reveal');
-        document.getElementById('draw-reveal-emoji').textContent = won ? '🎉' : '⏰';
-        document.getElementById('draw-reveal-msg').textContent   = won ? 'Nice guess!' : 'Time\'s up!';
-        document.getElementById('draw-reveal-word').textContent  = 'The word was: ' + _drawWord;
-        el.classList.add('show');
+    function saveDrawing() {
+        const canvas = document.getElementById('draw-canvas');
+        const a = document.createElement('a');
+        a.download = 'camp-pictionary-' + _drawWord.replace(/\s+/g,'-') + '.png';
+        a.href = canvas.toDataURL('image/png');
+        a.click();
     }
 
     function restartDrawGame() {
-        document.getElementById('draw-reveal').classList.remove('show');
-        _drawWord = DRAW_WORDS[Math.floor(Math.random() * DRAW_WORDS.length)];
-        document.getElementById('draw-ready').classList.remove('gone');
-        document.getElementById('draw-word-display').textContent = '???';
-        document.getElementById('draw-timer').textContent = '60';
-        document.getElementById('draw-timer').classList.remove('urgent');
-        document.getElementById('draw-guess').value = '';
-        _drawActive = false;
+        clearInterval(_drawInterval);
+        const pool = _drawHard ? DRAW_WORDS_HARD : DRAW_WORDS;
+        _drawWord = pool[Math.floor(Math.random() * pool.length)];
+        _drawPhase = 'ready';
         const canvas = document.getElementById('draw-canvas');
         const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#06091a';
+        ctx.fillStyle = '#070b1e';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+        _showDrawPhase('ready');
     }
 
     function closeDrawGame() {
         clearInterval(_drawInterval);
-        _drawActive = false;
         document.getElementById('draw-game').classList.remove('open');
         document.body.style.overflow = '';
+    }
+
+    function _tick(elId, total, onDone) {
+        clearInterval(_drawInterval);
+        let t = total;
+        const el = document.getElementById(elId);
+        _drawInterval = setInterval(() => {
+            t--;
+            if (el) { el.textContent = t; el.classList.toggle('urgent', t<=10); }
+            if (t<=0) { clearInterval(_drawInterval); onDone(); }
+        }, 1000);
     }
     // ── END PICTIONARY ───────────────────────────────────────────
 
@@ -3709,45 +3737,92 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
 
 <!-- ── CAMP PICTIONARY GAME ── -->
 <div id="draw-game">
-    <!-- Ready screen shown to everyone before word is revealed -->
-    <div class="draw-ready-screen" id="draw-ready">
-        <div style="font-size:56px;margin-bottom:20px;">🎨</div>
-        <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--gold-light);margin-bottom:10px;">Camp Pictionary</div>
-        <div style="font-size:14px;color:rgba(245,237,208,.7);margin-bottom:30px;line-height:1.6;">Pass the phone to the artist.<br>Everyone else look away!</div>
-        <button onclick="drawRevealWord()" style="background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:16px;padding:16px 40px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:16px;width:100%;max-width:280px;">I'm Ready — Show My Word</button>
-        <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(245,237,208,.6);border-radius:12px;padding:10px 24px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Cancel</button>
+    <!-- The canvas is always in the background -->
+    <canvas id="draw-canvas" style="position:absolute;inset:0;z-index:0;"></canvas>
+
+    <!-- PHASE: READY — pass to artist -->
+    <div id="draw-phase-ready" style="display:flex;flex-direction:column;align-items:center;justify-content:center;position:absolute;inset:0;background:#04060e;z-index:5;text-align:center;padding:40px;">
+        <div style="font-size:52px;margin-bottom:16px;">🎨</div>
+        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold-light);margin-bottom:8px;">Camp Pictionary</div>
+        <div style="font-size:14px;color:rgba(245,237,208,.65);margin-bottom:10px;line-height:1.6;">Pass the phone to the artist.<br>Everyone else look away!</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;padding:10px 16px;background:rgba(255,255,255,.06);border-radius:12px;border:1px solid rgba(255,255,255,.1);">
+            <span style="font-size:13px;color:rgba(245,237,208,.7);">Hard Mode</span>
+            <label style="position:relative;display:inline-block;width:42px;height:24px;cursor:pointer;">
+                <input type="checkbox" id="draw-hard-toggle" style="opacity:0;width:0;height:0;">
+                <span onclick="this.previousElementSibling.click()" style="position:absolute;inset:0;background:rgba(255,255,255,.15);border-radius:12px;transition:.2s;"></span>
+            </label>
+            <span style="font-size:11px;color:rgba(245,237,208,.45);">90s draw · 60s guess</span>
+        </div>
+        <button onclick="drawStartDrawing()" style="background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:16px;padding:16px 40px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:12px;width:100%;max-width:300px;">I'm Ready — Show My Word</button>
+        <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.5);border-radius:12px;padding:10px 24px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Cancel</button>
     </div>
 
-    <!-- Drawing UI -->
-    <div class="draw-header">
-        <div class="draw-word-box" id="draw-word-display">???</div>
-        <div class="draw-timer" id="draw-timer">60</div>
-    </div>
-    <canvas id="draw-canvas"></canvas>
-    <div class="draw-toolbar" id="draw-toolbar">
-        <div class="draw-color active" style="background:#f0e6cc;" onclick="setDrawColor(this,'#f0e6cc')"></div>
-        <div class="draw-color" style="background:#ff6644;" onclick="setDrawColor(this,'#ff6644')"></div>
-        <div class="draw-color" style="background:#44aaff;" onclick="setDrawColor(this,'#44aaff')"></div>
-        <div class="draw-color" style="background:#66dd66;" onclick="setDrawColor(this,'#66dd66')"></div>
-        <div class="draw-color" style="background:#ffcc44;" onclick="setDrawColor(this,'#ffcc44')"></div>
-        <div class="draw-color" style="background:#cc66ff;" onclick="setDrawColor(this,'#cc66ff')"></div>
-        <div class="draw-size active" id="draw-sz-sm" onclick="setDrawSize(this,4)">S</div>
-        <div class="draw-size" id="draw-sz-md" onclick="setDrawSize(this,10)">M</div>
-        <div class="draw-size" id="draw-sz-lg" onclick="setDrawSize(this,22)">L</div>
-        <div class="draw-eraser" id="draw-eraser-btn" onclick="toggleEraser()">Eraser</div>
-    </div>
-    <div class="draw-guess-row">
-        <input class="draw-guess-input" id="draw-guess" placeholder="Type a guess…" oninput="checkDrawGuess(this.value)" autocomplete="off" autocorrect="off"/>
-        <button class="draw-give-up" onclick="drawGiveUp()">Give Up</button>
+    <!-- PHASE: DRAWING — artist draws -->
+    <div id="draw-phase-drawing" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:48px 16px 10px;background:rgba(4,6,18,.9);flex-shrink:0;">
+            <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:7px 14px;font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--gold-light);letter-spacing:1px;" id="draw-word-show">WORD</div>
+            <div style="text-align:center;">
+                <div style="font-size:10px;color:rgba(245,237,208,.4);text-transform:uppercase;letter-spacing:1px;">Drawing</div>
+                <div class="draw-timer" id="draw-timer">45</div>
+            </div>
+        </div>
+        <!-- canvas visible here (z-index 0 below) -->
+        <div style="flex:1;"></div>
+        <div class="draw-toolbar">
+            <div class="draw-color active" style="background:#f0e6cc;" onclick="setDrawColor(this,'#f0e6cc')"></div>
+            <div class="draw-color" style="background:#ff6644;" onclick="setDrawColor(this,'#ff6644')"></div>
+            <div class="draw-color" style="background:#44aaff;" onclick="setDrawColor(this,'#44aaff')"></div>
+            <div class="draw-color" style="background:#66dd66;" onclick="setDrawColor(this,'#66dd66')"></div>
+            <div class="draw-color" style="background:#ffcc44;" onclick="setDrawColor(this,'#ffcc44')"></div>
+            <div class="draw-color" style="background:#cc66ff;" onclick="setDrawColor(this,'#cc66ff')"></div>
+            <div class="draw-size active" id="draw-sz-sm" onclick="setDrawSize(this,4)">S</div>
+            <div class="draw-size" id="draw-sz-md" onclick="setDrawSize(this,10)">M</div>
+            <div class="draw-size" id="draw-sz-lg" onclick="setDrawSize(this,22)">L</div>
+            <div class="draw-eraser" id="draw-eraser-btn" onclick="toggleEraser()">Eraser</div>
+        </div>
+        <div style="padding:10px 14px 28px;background:rgba(4,6,18,.9);flex-shrink:0;">
+            <button onclick="drawFinishDrawing()" style="width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(245,237,208,.9);border-radius:14px;padding:12px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;">Done Drawing ✓</button>
+        </div>
     </div>
 
-    <!-- Reveal overlay (correct / timeout) -->
-    <div class="draw-reveal" id="draw-reveal">
-        <div class="draw-reveal-emoji" id="draw-reveal-emoji">🎉</div>
-        <div class="draw-reveal-msg" id="draw-reveal-msg">Got it!</div>
-        <div class="draw-reveal-word" id="draw-reveal-word"></div>
-        <button onclick="restartDrawGame()" style="background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:16px;padding:14px 36px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:12px;width:100%;max-width:260px;">Play Again 🎨</button>
-        <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(245,237,208,.6);border-radius:12px;padding:10px 24px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Done</button>
+    <!-- PHASE: GUESSING — others guess, artist judges -->
+    <div id="draw-phase-guessing" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
+        <div style="padding:48px 16px 10px;background:rgba(4,6,18,.92);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;">
+            <div>
+                <div style="font-size:11px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Guessing Time!</div>
+                <div style="font-size:13px;color:rgba(245,237,208,.6);margin-top:2px;">Artist: tap ✓ if they got it</div>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:10px;color:rgba(245,237,208,.4);text-transform:uppercase;letter-spacing:1px;">Time left</div>
+                <div class="draw-timer" id="guess-timer">45</div>
+            </div>
+        </div>
+        <img id="draw-preview" style="flex:1;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
+        <div style="padding:12px 14px;background:rgba(4,6,18,.95);flex-shrink:0;">
+            <div style="font-size:12px;color:rgba(245,237,208,.5);margin-bottom:6px;text-align:center;">Current guess:</div>
+            <div id="draw-last-guess" style="font-size:20px;font-weight:700;color:var(--text-dark);text-align:center;min-height:28px;margin-bottom:10px;font-family:'Playfair Display',serif;"></div>
+            <div style="display:flex;gap:8px;margin-bottom:10px;">
+                <button onclick="drawJudge(true)"  style="flex:1;background:rgba(40,180,80,.25);border:1px solid rgba(40,180,80,.4);color:#88ffaa;border-radius:12px;padding:12px;font-size:20px;cursor:pointer;">✓</button>
+                <button onclick="drawJudge(false)" style="flex:1;background:rgba(200,60,40,.2);border:1px solid rgba(200,60,40,.35);color:#ff9977;border-radius:12px;padding:12px;font-size:20px;cursor:pointer;">✗</button>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <input class="draw-guess-input" id="draw-guess-input2" placeholder="Type guess then tap ✓ or ✗…" autocomplete="off" autocorrect="off" style="flex:1;"/>
+                <button onclick="submitDrawGuess()" style="padding:10px 14px;border-radius:12px;background:rgba(232,144,10,.25);border:1px solid rgba(232,144,10,.4);color:var(--gold-light);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHASE: DONE — result + save -->
+    <div id="draw-phase-done" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
+        <img id="draw-done-preview" style="flex:1;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
+        <div style="background:rgba(4,6,18,.96);padding:24px 20px 36px;text-align:center;flex-shrink:0;">
+            <div id="draw-done-emoji" style="font-size:52px;margin-bottom:10px;">🎉</div>
+            <div id="draw-done-msg" style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold-light);margin-bottom:6px;"></div>
+            <div id="draw-done-word" style="font-size:14px;color:rgba(245,237,208,.6);margin-bottom:22px;"></div>
+            <button onclick="saveDrawing()" style="width:100%;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(245,237,208,.9);border-radius:14px;padding:12px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;">💾 Save Drawing</button>
+            <button onclick="restartDrawGame()" style="width:100%;max-width:300px;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;">Play Again 🎨</button>
+            <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.45);border-radius:12px;padding:8px 20px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Done</button>
+        </div>
     </div>
 </div>
 
