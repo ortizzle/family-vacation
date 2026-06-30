@@ -1044,7 +1044,8 @@
 <body>
 
 <!-- ── HEADER ── -->
-<header class="app-header">
+<canvas id="star-bg" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<header class="app-header" style="position:relative;z-index:1;">
     <div class="header-stars" id="star-field"></div>
     </div>
     <div class="header-content">
@@ -1069,6 +1070,7 @@
     </div>
 
     <div class="tab-toc">
+        <a class="toc-link" href="#wildfire-card">🔥 Fire Alert</a>
         <a class="toc-link" href="#toc-fri">Fri Arrival</a>
         <a class="toc-link" href="#toc-sat">Sat Jul 4</a>
         <a class="toc-link" href="#toc-sun">Sun Departure</a>
@@ -1140,6 +1142,55 @@
                 <span class="crew-dot maybe">🐾 Dogs TBD</span>
             </div>
         </div>
+    </div>
+
+
+    <!-- ── WILDFIRE ALERT ── -->
+    <div class="card" id="wildfire-card" style="border: 2px solid #c84010; outline: 5px dotted rgba(200,70,10,.25); outline-offset: -7px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <span style="font-size:26px;">🔥</span>
+            <div>
+                <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8a3010;">Active Fire Alert</div>
+                <div style="font-size:17px;font-weight:700;color:#1a0a04;font-family:'Playfair Display',serif;line-height:1.2;">Prescott National Forest</div>
+            </div>
+        </div>
+        <div style="background:rgba(200,70,10,.12);border-radius:8px;padding:10px 12px;margin-bottom:10px;border-left:3px solid #c84010;">
+            <div style="font-size:12px;font-weight:700;color:#7a2a08;margin-bottom:3px;">⚠️ Check before you go</div>
+            <div style="font-size:12px;color:#3a1a08;line-height:1.5;">Wildfires are active in the Prescott area. Fire restrictions, road closures, and campfire bans may be in effect at White Spar. Confirm your site is open before departure July 3.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(140,80,20,.2);">
+                <span style="font-size:12px;color:#7a5820;font-weight:600;">Campfire restrictions</span>
+                <span style="font-size:12px;color:#1a0a04;font-weight:700;">Check site below</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(140,80,20,.2);">
+                <span style="font-size:12px;color:#7a5820;font-weight:600;">Campground status</span>
+                <span style="font-size:12px;color:#1a0a04;font-weight:700;">Verify before driving</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;">
+                <span style="font-size:12px;color:#7a5820;font-weight:600;">Air quality (Prescott)</span>
+                <a href="https://www.airnow.gov/?city=Prescott&state=AZ&country=USA" target="_blank" style="font-size:12px;color:#8a4010;font-weight:700;text-decoration:none;">See AirNow →</a>
+            </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+            <a href="https://www.fs.usda.gov/prescott" target="_blank" style="display:flex;align-items:center;justify-content:space-between;background:rgba(200,70,10,.1);border:1px solid rgba(200,70,10,.3);border-radius:10px;padding:10px 12px;text-decoration:none;">
+                <span style="font-size:12px;font-weight:700;color:#5a2008;">🌲 Prescott NF — Official Site</span>
+                <span style="font-size:11px;color:#8a4020;">Closures &amp; alerts →</span>
+            </a>
+            <a href="https://inciweb.wildfire.gov/accessible-view/state/AZ" target="_blank" style="display:flex;align-items:center;justify-content:space-between;background:rgba(200,70,10,.1);border:1px solid rgba(200,70,10,.3);border-radius:10px;padding:10px 12px;text-decoration:none;">
+                <span style="font-size:12px;font-weight:700;color:#5a2008;">🔥 InciWeb — Active AZ Fires</span>
+                <span style="font-size:11px;color:#8a4020;">Live map →</span>
+            </a>
+            <a href="https://azfire.org" target="_blank" style="display:flex;align-items:center;justify-content:space-between;background:rgba(200,70,10,.1);border:1px solid rgba(200,70,10,.3);border-radius:10px;padding:10px 12px;text-decoration:none;">
+                <span style="font-size:12px;font-weight:700;color:#5a2008;">🚒 AZ Fire Restrictions (Stage I / II)</span>
+                <span style="font-size:11px;color:#8a4020;">azfire.org →</span>
+            </a>
+            <a href="https://www.airnow.gov/?city=Prescott&state=AZ&country=USA" target="_blank" style="display:flex;align-items:center;justify-content:space-between;background:rgba(200,70,10,.1);border:1px solid rgba(200,70,10,.3);border-radius:10px;padding:10px 12px;text-decoration:none;">
+                <span style="font-size:12px;font-weight:700;color:#5a2008;">💨 AirNow — Prescott AQI</span>
+                <span style="font-size:11px;color:#8a4020;">Air quality →</span>
+            </a>
+        </div>
+        <div style="font-size:10px;color:#8a7040;margin-top:10px;text-align:center;">Links open official government sources — check daily leading up to July 3</div>
     </div>
 
     <div class="stat-grid">
@@ -2046,54 +2097,54 @@
 
     <div class="card">
         <div class="card-label">Proteins</div>
-        <ul class="checklist">
-            <li>2 lbs ground beef (pre-form into 8 patties)</li>
-            <li>1 pack hot dogs (8 count)</li>
-            <li>1 lb bacon</li>
-            <li>1 doz eggs</li>
+        <ul class="icheck-list">
+            <li class="icheck-item" data-pack-key="shop-beef" onclick="toggleShop(this,'shop-beef',event)"><span class="icheck-label">2 lbs ground beef (pre-form into 8 patties)</span></li>
+            <li class="icheck-item" data-pack-key="shop-dogs" onclick="toggleShop(this,'shop-dogs',event)"><span class="icheck-label">1 pack hot dogs (8 count)</span></li>
+            <li class="icheck-item" data-pack-key="shop-bacon" onclick="toggleShop(this,'shop-bacon',event)"><span class="icheck-label">1 lb bacon</span></li>
+            <li class="icheck-item" data-pack-key="shop-eggs" onclick="toggleShop(this,'shop-eggs',event)"><span class="icheck-label">1 doz eggs</span></li>
         </ul>
     </div>
 
     <div class="card">
         <div class="card-label">Produce</div>
-        <ul class="checklist">
-            <li>1 whole watermelon</li>
-            <li>Corn on the cob (4–6 ears)</li>
-            <li>Lettuce, tomato, onion (burger toppings)</li>
-            <li>Bag of apples / easy trail snacks</li>
+        <ul class="icheck-list">
+            <li class="icheck-item" data-pack-key="shop-wmelon" onclick="toggleShop(this,'shop-wmelon',event)"><span class="icheck-label">1 whole watermelon</span></li>
+            <li class="icheck-item" data-pack-key="shop-corn" onclick="toggleShop(this,'shop-corn',event)"><span class="icheck-label">Corn on the cob (4–6 ears)</span></li>
+            <li class="icheck-item" data-pack-key="shop-toppings" onclick="toggleShop(this,'shop-toppings',event)"><span class="icheck-label">Lettuce, tomato, onion (burger toppings)</span></li>
+            <li class="icheck-item" data-pack-key="shop-apples" onclick="toggleShop(this,'shop-apples',event)"><span class="icheck-label">Bag of apples / easy trail snacks</span></li>
         </ul>
     </div>
 
     <div class="card">
         <div class="card-label">Pantry / Dry</div>
-        <ul class="checklist">
-            <li>Burger buns + hot dog buns</li>
-            <li>Graham crackers (2 boxes)</li>
-            <li>Hershey's chocolate bars (multipack)</li>
-            <li>Marshmallows (2 bags — you'll use both)</li>
-            <li>Granola bars / trail mix (variety pack)</li>
-            <li>Chips + salsa</li>
-            <li>Instant oatmeal packets (Sunday morning)</li>
-            <li>Coffee (ground or pods)</li>
-            <li>Cooking oil / spray for Blackstone</li>
+        <ul class="icheck-list">
+            <li class="icheck-item" data-pack-key="shop-buns" onclick="toggleShop(this,'shop-buns',event)"><span class="icheck-label">Burger buns + hot dog buns</span></li>
+            <li class="icheck-item" data-pack-key="shop-grahams" onclick="toggleShop(this,'shop-grahams',event)"><span class="icheck-label">Graham crackers (2 boxes)</span></li>
+            <li class="icheck-item" data-pack-key="shop-choc" onclick="toggleShop(this,'shop-choc',event)"><span class="icheck-label">Hershey's chocolate bars (multipack)</span></li>
+            <li class="icheck-item" data-pack-key="shop-marsh" onclick="toggleShop(this,'shop-marsh',event)"><span class="icheck-label">Marshmallows (2 bags — you'll use both)</span></li>
+            <li class="icheck-item" data-pack-key="shop-granola" onclick="toggleShop(this,'shop-granola',event)"><span class="icheck-label">Granola bars / trail mix (variety pack)</span></li>
+            <li class="icheck-item" data-pack-key="shop-chips" onclick="toggleShop(this,'shop-chips',event)"><span class="icheck-label">Chips + salsa</span></li>
+            <li class="icheck-item" data-pack-key="shop-oats" onclick="toggleShop(this,'shop-oats',event)"><span class="icheck-label">Instant oatmeal packets (Sunday morning)</span></li>
+            <li class="icheck-item" data-pack-key="shop-coffee" onclick="toggleShop(this,'shop-coffee',event)"><span class="icheck-label">Coffee (ground or pods)</span></li>
+            <li class="icheck-item" data-pack-key="shop-oil" onclick="toggleShop(this,'shop-oil',event)"><span class="icheck-label">Cooking oil / spray for Blackstone</span></li>
         </ul>
     </div>
 
     <div class="card">
         <div class="card-label">Drinks</div>
-        <ul class="checklist">
-            <li>Cases of water (4 minimum)</li>
-            <li>Kids' juice boxes / sports drinks</li>
-            <li>Sodas for the cookout</li>
+        <ul class="icheck-list">
+            <li class="icheck-item" data-pack-key="shop-water" onclick="toggleShop(this,'shop-water',event)"><span class="icheck-label">Cases of water (4 minimum)</span></li>
+            <li class="icheck-item" data-pack-key="shop-juice" onclick="toggleShop(this,'shop-juice',event)"><span class="icheck-label">Kids' juice boxes / sports drinks</span></li>
+            <li class="icheck-item" data-pack-key="shop-sodas" onclick="toggleShop(this,'shop-sodas',event)"><span class="icheck-label">Sodas for the cookout</span></li>
         </ul>
     </div>
 
     <div class="card">
         <div class="card-label">Condiments</div>
-        <ul class="checklist">
-            <li>Ketchup, mustard, relish</li>
-            <li>Cheese slices (burger)</li>
-            <li>Potato salad (pre-made from deli)</li>
+        <ul class="icheck-list">
+            <li class="icheck-item" data-pack-key="shop-condim" onclick="toggleShop(this,'shop-condim',event)"><span class="icheck-label">Ketchup, mustard, relish</span></li>
+            <li class="icheck-item" data-pack-key="shop-cheese" onclick="toggleShop(this,'shop-cheese',event)"><span class="icheck-label">Cheese slices (burger)</span></li>
+            <li class="icheck-item" data-pack-key="shop-potato" onclick="toggleShop(this,'shop-potato',event)"><span class="icheck-label">Potato salad (pre-made from deli)</span></li>
         </ul>
     </div>
 
@@ -2365,7 +2416,7 @@
 </main>
 
 <!-- ── BOTTOM NAV ── -->
-<nav class="bottom-nav">
+<nav class="bottom-nav" style="position:fixed;z-index:100;">
     <button class="nav-item active" onclick="showSection('home', this);burstNav(event)">
         <span class="nav-icon">🏠</span>
         <span class="nav-label">Home</span>
@@ -2440,6 +2491,103 @@
 </div>
 
 <script>
+    // ── FULL-PAGE STAR FIELD ──
+    (function() {
+        const canvas = document.getElementById('star-bg');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        function resize() {
+            canvas.width  = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = [];
+            const n = Math.floor((canvas.width * canvas.height) / 3200);
+            for (let i = 0; i < n; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 1.2 + 0.2,
+                    speed: 0.003 + Math.random() * 0.008,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+        resize();
+        window.addEventListener('resize', resize);
+        let t = 0;
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => {
+                const alpha = 0.2 + 0.65 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            t++;
+            requestAnimationFrame(draw);
+        }
+        draw();
+    })();
+
+    // ── HEADER FIREWORKS ──
+    (function() {
+        const canvas = document.getElementById('header-fw-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+        resize();
+        const rockets = [], particles = [];
+        function randBetween(a, b) { return a + Math.random() * (b - a); }
+        const COLORS = ['#f0c040','#ff6060','#60c0ff','#ffffff','#ff9040','#c060ff','#60ff90'];
+        function launchRocket() {
+            const x = randBetween(canvas.width * .15, canvas.width * .85);
+            rockets.push({ x, y: canvas.height, vy: -randBetween(3.5, 5.5), vx: randBetween(-.4,.4), life: 1, color: COLORS[Math.floor(Math.random()*COLORS.length)], trail: [] });
+        }
+        function burst(x, y, color) {
+            const n = 28 + Math.floor(Math.random()*12);
+            for (let i = 0; i < n; i++) {
+                const angle = (i / n) * Math.PI * 2;
+                const spd = randBetween(1.2, 3.2);
+                particles.push({ x, y, vx: Math.cos(angle)*spd, vy: Math.sin(angle)*spd, life: 1, color, size: randBetween(1.5, 3) });
+            }
+        }
+        let lastLaunch = 0;
+        function frame(ts) {
+            ctx.fillStyle = 'rgba(4,6,15,.18)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if (ts - lastLaunch > randBetween(600, 1400)) { launchRocket(); lastLaunch = ts; }
+            for (let i = rockets.length - 1; i >= 0; i--) {
+                const r = rockets[i];
+                r.trail.push({x: r.x, y: r.y});
+                if (r.trail.length > 10) r.trail.shift();
+                r.trail.forEach((p, idx) => {
+                    ctx.globalAlpha = (idx / r.trail.length) * .6;
+                    ctx.fillStyle = r.color;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI*2); ctx.fill();
+                });
+                r.x += r.vx; r.y += r.vy; r.life -= .018;
+                ctx.globalAlpha = 1;
+                ctx.fillStyle = r.color;
+                ctx.beginPath(); ctx.arc(r.x, r.y, 2.5, 0, Math.PI*2); ctx.fill();
+                if (r.y < canvas.height * .55 || r.life < .3) { burst(r.x, r.y, r.color); rockets.splice(i, 1); }
+            }
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx; p.y += p.vy; p.vy += .06; p.life -= .022;
+                ctx.globalAlpha = Math.max(0, p.life);
+                ctx.fillStyle = p.color;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI*2); ctx.fill();
+                if (p.life <= 0) particles.splice(i, 1);
+            }
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+    })();
+
     /* ── STARS ── */
     const starField = document.getElementById('star-field');
     for (let i = 0; i < 28; i++) {
@@ -2984,6 +3132,25 @@
     };
 
     /* ── PACK CHECKLIST ── */
+
+    const SHOP_STORE = 'camp26-shopping';
+    function loadShop() {
+        const saved = JSON.parse(localStorage.getItem(SHOP_STORE) || '{}');
+        document.querySelectorAll('.icheck-item[data-pack-key^="shop-"]').forEach(el => {
+            if (saved[el.dataset.packKey]) el.classList.add('checked');
+        });
+    }
+    function toggleShop(el, key, event) {
+        const isChecking = !el.classList.contains('checked');
+        el.classList.toggle('checked');
+        const saved = JSON.parse(localStorage.getItem(SHOP_STORE) || '{}');
+        saved[key] = el.classList.contains('checked');
+        localStorage.setItem(SHOP_STORE, JSON.stringify(saved));
+        if (isChecking && event) {
+            createBurst(event.clientX, event.clientY, 18, 45, ['#c8a84a','#ffffff','#e8900a','#f5b030']);
+        }
+    }
+
     const PACK_STORE = 'camp26-pack';
     function loadPack() {
         const saved = JSON.parse(localStorage.getItem(PACK_STORE) || '{}');
@@ -3018,6 +3185,10 @@
         updatePackProgress();
     }
     loadPack();
+        loadShop();
+        // AQI display — link-only, no API key needed
+        const aqiEl = document.getElementById('aqi-status');
+        if (aqiEl) aqiEl.textContent = 'See AirNow link →';
 
     /* ── HIKE BINGO ── */
     const BINGO_ITEMS = [
