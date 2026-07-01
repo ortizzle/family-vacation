@@ -3218,10 +3218,20 @@
             guessSecs: success ? elapsed : null });
         _showDrawPhase('between');
         const r = _g.rounds[_g.rounds.length-1];
-        document.getElementById('draw-bw-emoji').textContent  = success ? '🎉' : '😅';
-        document.getElementById('draw-bw-word').textContent   = 'The word was: "' + r.word + '"';
-        document.getElementById('draw-bw-result').textContent = success
-            ? r.winner + ' got it in ' + r.guessSecs + 's!' : 'Nobody got it this round!';
+        const wordEl   = document.getElementById('draw-bw-word');
+        const resultEl = document.getElementById('draw-bw-result');
+        document.getElementById('draw-bw-emoji').textContent = success ? '🎉' : '😅';
+        if (success) {
+            wordEl.textContent = 'The word was: "' + r.word + '"';
+            wordEl.style.cssText = 'font-size:13px;color:rgba(245,237,208,.55);margin-bottom:3px;';
+            resultEl.textContent = r.winner + ' got it in ' + r.guessSecs + 's!';
+            resultEl.style.cssText = 'font-family:\'Playfair Display\',serif;font-size:19px;font-weight:700;color:var(--gold-light);margin-bottom:5px;';
+        } else {
+            wordEl.textContent = r.word.toUpperCase();
+            wordEl.style.cssText = 'font-family:\'Playfair Display\',serif;font-size:38px;font-weight:700;color:var(--gold-light);letter-spacing:1px;margin-bottom:4px;';
+            resultEl.textContent = 'Nobody got it!';
+            resultEl.style.cssText = 'font-size:13px;color:rgba(245,237,208,.5);margin-bottom:5px;';
+        }
         document.getElementById('draw-bw-artist').textContent = r.artist + ' drew for ' + r.drawSecs + 's';
 
         const isLast = _g.turnIdx >= _g.order.length - 1;
