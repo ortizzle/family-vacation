@@ -1144,7 +1144,7 @@
             box-shadow:0 4px 18px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06);
         }
         .wyr-theme-btn:active { transform:scale(.97); }
-        #wyr-game { display:none; position:fixed; inset:0; background:#04060e; z-index:400; flex-direction:column; align-items:center; justify-content:center; padding:48px 24px 36px; }
+        #wyr-game { display:none; position:fixed; inset:0; background:#04060e; z-index:410; flex-direction:column; align-items:center; justify-content:center; padding:48px 24px 36px; }
         #wyr-game.open { display:flex; }
         .wyr-btn {
             width:100%; padding:20px 18px; border-radius:18px; font-size:16px; font-weight:600;
@@ -1165,8 +1165,8 @@
 <!-- ── HEADER ── -->
 <canvas id="star-bg" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
 <header class="app-header" style="position:relative;z-index:1;">
+    <canvas id="header-fw-canvas"></canvas>
     <div class="header-stars" id="star-field"></div>
-    </div>
     <div class="header-content">
         <div class="header-eyebrow">Ortiz Family</div>
         <div class="header-title" onclick="secretTapSpark()" style="cursor:default;-webkit-tap-highlight-color:transparent;">4th of July Camping</div>
@@ -3708,6 +3708,7 @@
 
     /* ── NAVIGATION ── */
     function showSection(name, btnEl) {
+        document.body.style.overflow = '';
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         document.getElementById('section-' + name).classList.add('active');
@@ -4295,7 +4296,7 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
   </div>
 
   <!-- Bottom bar (only shown during play) -->
-  <div id="wyr-bottom" style="position:absolute;bottom:0;left:0;right:0;display:flex;gap:10px;padding:16px 20px 36px;">
+  <div id="wyr-bottom" style="position:absolute;bottom:0;left:0;right:0;display:none;gap:10px;padding:16px 20px 36px;">
     <button onclick="_wyrShowThemePicker()" style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(245,237,208,.55);border-radius:12px;padding:12px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">← Themes</button>
     <button onclick="wyrNext()" style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(245,237,208,.7);border-radius:12px;padding:12px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;">Skip →</button>
     <button onclick="closeWyrGame()" style="flex:1;background:transparent;border:1px solid rgba(255,255,255,.12);color:rgba(245,237,208,.35);border-radius:12px;padding:12px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Done</button>
