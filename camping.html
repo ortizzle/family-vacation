@@ -1140,12 +1140,15 @@
         #wyr-game.open { display:flex; }
         .wyr-btn {
             width:100%; padding:20px 18px; border-radius:18px; font-size:16px; font-weight:600;
-            font-family:'Inter',sans-serif; line-height:1.4; cursor:pointer; transition:all .2s;
-            background:rgba(255,255,255,.07); border:2px solid rgba(255,255,255,.12);
-            color:var(--text-dark); text-align:center;
+            font-family:'Inter',sans-serif; line-height:1.4; cursor:pointer; transition:all .25s;
+            background:linear-gradient(160deg,#060a18 0%,#08102a 40%,#0d1a3e 70%,#172848 100%);
+            border:1.5px solid rgba(100,140,220,.18);
+            color:rgba(245,237,208,.85); text-align:center;
+            box-shadow:0 4px 18px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06);
         }
-        .wyr-btn.chosen { background:rgba(232,144,10,.3); border-color:var(--gold); color:var(--gold-light); transform:scale(1.03); }
-        .wyr-btn.dim    { opacity:.3; }
+        .wyr-btn:active { transform:scale(.98); }
+        .wyr-btn.chosen { background:linear-gradient(160deg,#2a1a04 0%,#3a2a08 40%,#4a3a10 70%,#5a4818 100%); border-color:var(--gold); color:var(--gold-light); transform:scale(1.03); box-shadow:0 4px 24px rgba(232,144,10,.25), inset 0 1px 0 rgba(255,255,255,.08); }
+        .wyr-btn.dim    { opacity:.28; }
         .wyr-or { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--gold); margin:18px 0; transition:opacity .2s; }
     </style>
 </head>
@@ -3234,6 +3237,46 @@
         });
     }
 
+    function _drawFireworks() {
+        const modal = document.getElementById('draw-game');
+        const canvas = document.createElement('canvas');
+        canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:50;';
+        modal.appendChild(canvas);
+        const W = modal.offsetWidth, H = modal.offsetHeight;
+        canvas.width = W; canvas.height = H;
+        const ctx2 = canvas.getContext('2d');
+        const colors = ['#e8900a','#f5b030','#ff6644','#44ddff','#88ff88','#ff88cc','#ffdd44'];
+        let rockets=[], parts=[];
+        function rkt() {
+            const x = W*(.15 + Math.random()*.7);
+            rockets.push({x, y:H, vx:(Math.random()-.5)*1.5, vy:-(H*.012 + Math.random()*H*.006), color:colors[Math.floor(Math.random()*colors.length)]});
+        }
+        function pop(rx, ry, col) {
+            for(let i=0;i<32;i++){const a=i/32*Math.PI*2,s=2+Math.random()*3;parts.push({x:rx,y:ry,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,color:col,sz:1.5+Math.random()*2});}
+        }
+        let t=0, launched=0;
+        function tick() {
+            ctx2.clearRect(0,0,W,H);
+            if (t%22===0 && launched<7) { rkt(); launched++; }
+            for(let i=rockets.length-1;i>=0;i--){
+                const r=rockets[i]; r.x+=r.vx; r.y+=r.vy; r.vy+=.07;
+                ctx2.beginPath(); ctx2.arc(r.x,r.y,2.5,0,Math.PI*2); ctx2.fillStyle=r.color; ctx2.globalAlpha=.9; ctx2.fill();
+                if (r.y < H*.45 || r.vy > 0) { pop(r.x,r.y,r.color); rockets.splice(i,1); }
+            }
+            for(let i=parts.length-1;i>=0;i--){
+                const p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=.06; p.life-=.022;
+                if(p.life<=0){parts.splice(i,1);continue;}
+                ctx2.beginPath(); ctx2.arc(p.x,p.y,p.sz*p.life,0,Math.PI*2);
+                ctx2.fillStyle=p.color; ctx2.globalAlpha=p.life; ctx2.fill();
+            }
+            ctx2.globalAlpha=1;
+            t++;
+            if(t<200) requestAnimationFrame(tick);
+            else canvas.remove();
+        }
+        tick();
+    }
+
     function _endRound(success, winner, guessSecs) {
         clearInterval(_drawInterval);
         const elapsed = guessSecs ?? Math.round((Date.now()-_g.guessStart)/1000);
@@ -3246,6 +3289,7 @@
         const resultEl = document.getElementById('draw-bw-result');
         document.getElementById('draw-bw-emoji').textContent = success ? '🎉' : '😅';
         if (success) {
+            _drawFireworks();
             wordEl.textContent = 'The word was: "' + r.word + '"';
             wordEl.style.cssText = 'font-size:13px;color:rgba(245,237,208,.55);margin-bottom:3px;';
             resultEl.textContent = r.winner + ' got it in ' + r.guessSecs + 's!';
