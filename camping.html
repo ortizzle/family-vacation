@@ -3176,10 +3176,17 @@
         const snap = canvas.toDataURL('image/png');
         document.getElementById('draw-preview').src = snap;
         document.getElementById('draw-done-preview').src = snap;
+        // Show guessing phase but hold timer until artist taps Start Guessing
         _showDrawPhase('guessing');
         const artist = _g.order[_g.turnIdx];
         const guessers = _g.players.filter(p => p !== artist);
         _renderGuesserPills(guessers);
+        document.getElementById('guess-timer').textContent = _g.hard ? '60' : '45';
+        document.getElementById('draw-start-guessing').style.display = 'block';
+    }
+
+    function beginGuessing() {
+        document.getElementById('draw-start-guessing').style.display = 'none';
         _g.guessStart = Date.now();
         _tick('guess-timer', _g.hard ? 60 : 45, () => _endRound(false, null));
     }
@@ -3357,6 +3364,15 @@
         });
     }
 
+    function _flashWarning() {
+        const flash = document.getElementById('draw-flash');
+        if (!flash) return;
+        flash.style.opacity = '1';
+        setTimeout(() => { flash.style.opacity = '0'; }, 400);
+        setTimeout(() => { flash.style.opacity = '1'; }, 700);
+        setTimeout(() => { flash.style.opacity = '0'; }, 1100);
+    }
+
     function _tick(elId, total, onDone) {
         clearInterval(_drawInterval);
         let t = total;
@@ -3365,6 +3381,7 @@
         _drawInterval = setInterval(() => {
             t--;
             if (el) { el.textContent = t; el.classList.toggle('urgent', t<=10); }
+            if (t === 5) _flashWarning();
             if (t<=0) { clearInterval(_drawInterval); onDone(); }
         }, 1000);
     }
@@ -3894,6 +3911,7 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
 <!-- ── CAMP PICTIONARY GAME ── -->
 <div id="draw-game">
   <canvas id="draw-canvas" style="position:absolute;inset:0;z-index:0;"></canvas>
+  <div id="draw-flash" style="position:absolute;inset:0;z-index:10;background:rgba(255,80,40,.45);opacity:0;pointer-events:none;transition:opacity .15s;"></div>
 
   <!-- SETUP -->
   <div id="draw-phase-setup" style="display:flex;flex-direction:column;align-items:center;justify-content:center;position:absolute;inset:0;background:#04060e;z-index:5;text-align:center;padding:36px 28px;">
@@ -3971,6 +3989,7 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
     </div>
     <img id="draw-preview" style="flex:1;min-height:0;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
     <div style="padding:10px 14px 16px;background:rgba(4,6,18,.95);flex-shrink:0;">
+      <button id="draw-start-guessing" onclick="beginGuessing()" style="display:none;width:100%;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:12px;">▶ Start Guessing — Show Everyone</button>
       <div style="font-size:11px;color:rgba(245,237,208,.45);margin-bottom:8px;text-align:center;">Who guessed it correctly?</div>
       <div id="draw-guesser-pills" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:8px;"></div>
       <button onclick="_endRound(false,null)" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(245,237,208,.4);border-radius:12px;padding:9px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Nobody got it</button>
