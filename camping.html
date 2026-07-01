@@ -3211,6 +3211,7 @@
         document.getElementById('draw-preview').src = snap;
         document.getElementById('draw-done-preview').src = snap;
         // Show guessing phase but hold timer until artist taps Start Guessing
+        document.getElementById('draw-preview-cover').style.display = 'flex';
         _showDrawPhase('guessing');
         const artist = _g.order[_g.turnIdx];
         const guessers = _g.players.filter(p => p !== artist);
