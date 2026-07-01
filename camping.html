@@ -1134,6 +1134,19 @@
         .draw-stat-title { font-size: 11px; color: var(--gold); font-weight: 700;
             text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
         .draw-stat-val { font-size: 14px; color: var(--text-dark); }
+
+        /* ── WOULD YOU RATHER ── */
+        #wyr-game { display:none; position:fixed; inset:0; background:#04060e; z-index:400; flex-direction:column; align-items:center; justify-content:center; padding:48px 24px 36px; }
+        #wyr-game.open { display:flex; }
+        .wyr-btn {
+            width:100%; padding:20px 18px; border-radius:18px; font-size:16px; font-weight:600;
+            font-family:'Inter',sans-serif; line-height:1.4; cursor:pointer; transition:all .2s;
+            background:rgba(255,255,255,.07); border:2px solid rgba(255,255,255,.12);
+            color:var(--text-dark); text-align:center;
+        }
+        .wyr-btn.chosen { background:rgba(232,144,10,.3); border-color:var(--gold); color:var(--gold-light); transform:scale(1.03); }
+        .wyr-btn.dim    { opacity:.3; }
+        .wyr-or { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--gold); margin:18px 0; transition:opacity .2s; }
     </style>
 </head>
 <body>
@@ -2327,6 +2340,7 @@
     <div class="tab-toc">
         <a class="toc-link" href="#toc-draw">Camp Pictionary</a>
         <a class="toc-link" href="#toc-spark">Spark Catcher</a>
+        <a class="toc-link" href="#toc-wyr">Would You Rather</a>
         <a class="toc-link" href="#toc-sky">Night Sky</a>
         <a class="toc-link" href="#toc-madlibs">Mad Libs</a>
         <a class="toc-link" href="#toc-bingo">Hike Bingo</a>
@@ -2360,6 +2374,15 @@
         <div style="font-size:13px;color:var(--text-mid);margin-bottom:18px;line-height:1.5;">Tap the glowing embers rising from the campfire before they fade. 30 seconds. How many can you catch?</div>
         <button onclick="openSparkGame()" style="background:linear-gradient(135deg,var(--navy-dark),var(--navy));color:white;border:none;border-radius:14px;padding:14px 32px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;width:100%;">Play Spark Catcher 🔥</button>
     </div>
+
+    <div class="section-header" id="toc-wyr">🤔 Would You Rather</div>
+    <div class="card" style="text-align:center;padding:24px 20px;">
+        <div style="font-size:48px;margin-bottom:10px;">🤔</div>
+        <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:6px;">Would You Rather</div>
+        <div style="font-size:13px;color:var(--text-mid);margin-bottom:18px;line-height:1.5;">Summer, camping &amp; travel edition. Pick your side and defend it!</div>
+        <button onclick="openWyrGame()" style="background:linear-gradient(135deg,#1a3a2a,#2a5a3a);color:white;border:none;border-radius:14px;padding:14px 32px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;width:100%;">Play Would You Rather 🤔</button>
+    </div>
+
 
     <div class="section-header" id="toc-sky">🌌 Night Sky Guide — Prescott Dark Skies</div>
     <div class="card" style="padding:16px 16px 10px;">
@@ -3396,6 +3419,89 @@
             if (t<=0) { clearInterval(_drawInterval); onDone(); }
         }, 1000);
     }
+
+    // ── WOULD YOU RATHER ─────────────────────────────────────────
+    const WYR_QUESTIONS = [
+        // Camping
+        {a:'Sleep in a tent during a thunderstorm', b:'Sleep in a hammock all night with no rain'},
+        {a:'Cook every meal over a campfire', b:'Eat every meal from a cooler of snacks'},
+        {a:'Hike 5 miles to a waterfall', b:'Spend the whole day at camp with a perfect view'},
+        {a:'Wake up at 5 AM to see the sunrise', b:'Stay up until midnight watching the Milky Way'},
+        {a:'Forget your sleeping bag', b:'Forget your food'},
+        {a:'Camp with no phone for a weekend', b:'Camp with no running water for a week'},
+        {a:'Roast the perfect golden marshmallow', b:'Eat a s\'more someone else made'},
+        {a:'Set up camp in the rain', b:'Break camp in the mud'},
+        {a:'Share a tent with a snorer', b:'Sleep outside with no tent'},
+        {a:'Find a scorpion in your shoe', b:'Find a spider in your sleeping bag'},
+        {a:'Have a campsite right next to a noisy family', b:'Have a campsite a mile walk from the bathrooms'},
+        {a:'Only listen to campfire crackling all weekend', b:'Only listen to nature sounds — no music'},
+        // Summer
+        {a:'Summer in the mountains every year', b:'Summer at the beach every year'},
+        {a:'Have a pool in your backyard', b:'Live 5 minutes from a lake'},
+        {a:'Fireworks every night of summer', b:'No bugs the whole summer'},
+        {a:'Unlimited ice cream all summer', b:'Perfect 78° weather every single day'},
+        {a:'Fourth of July with fireworks', b:'Fourth of July camping with a bonfire'},
+        {a:'Road trip with great music', b:'Flight that gets you there in 1 hour'},
+        {a:'Summer with no school AND no phones', b:'Summer with phones but lots of chores'},
+        {a:'Get sunburned every day', b:'Be cold every single night'},
+        // Travel
+        {a:'Road trip with no GPS — just a paper map', b:'Fly somewhere you\'ve never been alone'},
+        {a:'Visit every national park in the US', b:'Visit 10 countries you\'ve never seen'},
+        {a:'Always have the window seat', b:'Always have extra legroom'},
+        {a:'Travel with unlimited budget but only 3 days off', b:'Travel for 3 months on a tight budget'},
+        {a:'Explore a city you\'ve always wanted to visit', b:'Return to your all-time favorite place'},
+        {a:'Only travel by road trip forever', b:'Only travel by plane forever'},
+        {a:'Never wait in line at any attraction', b:'Always get a free upgrade at every hotel'},
+        {a:'Eat only local street food every trip', b:'Eat only familiar food but never miss a meal'},
+        {a:'Carry one tiny backpack for any trip', b:'Have a porter carry unlimited bags for you'},
+        {a:'Get lost in a new city', b:'Know exactly where you\'re going but miss hidden gems'},
+        // Family / fun
+        {a:'Win every board game but nobody wants to play with you', b:'Always lose but everyone loves playing with you'},
+        {a:'Be first to call the front seat forever', b:'Always get the best snack on road trips'},
+        {a:'Have a surprise road trip every month', b:'Plan the perfect family vacation once a year'},
+        {a:'Kids pick every restaurant', b:'Parents pick every activity'},
+    ];
+    let _wyrIdx = 0, _wyrOrder = [];
+
+    function openWyrGame() {
+        document.getElementById('wyr-game').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        _wyrOrder = WYR_QUESTIONS.map((_,i)=>i).sort(()=>Math.random()-.5);
+        _wyrIdx = 0;
+        _showWyrQuestion();
+    }
+
+    function _showWyrQuestion() {
+        const q = WYR_QUESTIONS[_wyrOrder[_wyrIdx]];
+        document.getElementById('wyr-count').textContent = (_wyrIdx+1) + ' of ' + _wyrOrder.length;
+        const btnA = document.getElementById('wyr-btn-a');
+        const btnB = document.getElementById('wyr-btn-b');
+        btnA.textContent = q.a;
+        btnB.textContent = q.b;
+        btnA.className = 'wyr-btn'; btnB.className = 'wyr-btn';
+        document.getElementById('wyr-or').style.opacity = '1';
+    }
+
+    function wyrPick(side) {
+        const btnA = document.getElementById('wyr-btn-a');
+        const btnB = document.getElementById('wyr-btn-b');
+        if (side === 'a') { btnA.classList.add('chosen'); btnB.classList.add('dim'); }
+        else              { btnB.classList.add('chosen'); btnA.classList.add('dim'); }
+        document.getElementById('wyr-or').style.opacity = '0';
+        setTimeout(() => wyrNext(), 900);
+    }
+
+    function wyrNext() {
+        _wyrIdx = (_wyrIdx + 1) % _wyrOrder.length;
+        if (_wyrIdx === 0) _wyrOrder = _wyrOrder.sort(()=>Math.random()-.5);
+        _showWyrQuestion();
+    }
+
+    function closeWyrGame() {
+        document.getElementById('wyr-game').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    // ── END WOULD YOU RATHER ──────────────────────────────────────
     // ── END PICTIONARY ───────────────────────────────────────────
 
     function openSparkGame() {
@@ -4039,6 +4145,26 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
       <button onclick="playMoreRounds()" style="width:100%;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;">Play More Rounds 🎨</button>
       <button onclick="closeDrawGame()" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.45);border-radius:12px;padding:10px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Done</button>
     </div>
+  </div>
+</div>
+
+
+<!-- ── WOULD YOU RATHER GAME ── -->
+<div id="wyr-game">
+  <div style="position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:52px 20px 12px;">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);">Would You Rather</div>
+    <div id="wyr-count" style="font-size:11px;color:rgba(245,237,208,.4);"></div>
+  </div>
+
+  <div style="width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center;">
+    <button class="wyr-btn" id="wyr-btn-a" onclick="wyrPick('a')"></button>
+    <div class="wyr-or" id="wyr-or">— or —</div>
+    <button class="wyr-btn" id="wyr-btn-b" onclick="wyrPick('b')"></button>
+  </div>
+
+  <div style="position:absolute;bottom:0;left:0;right:0;display:flex;gap:10px;padding:16px 20px 36px;">
+    <button onclick="wyrNext()" style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(245,237,208,.7);border-radius:12px;padding:12px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;">Skip →</button>
+    <button onclick="closeWyrGame()" style="flex:1;background:transparent;border:1px solid rgba(255,255,255,.12);color:rgba(245,237,208,.35);border-radius:12px;padding:12px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Done</button>
   </div>
 </div>
 
