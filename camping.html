@@ -3187,6 +3187,7 @@
 
     function beginGuessing() {
         document.getElementById('draw-start-guessing').style.display = 'none';
+        document.getElementById('draw-preview-cover').style.display = 'none';
         _g.guessStart = Date.now();
         _tick('guess-timer', _g.hard ? 60 : 45, () => _endRound(false, null));
     }
@@ -3997,7 +3998,14 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
         <div class="draw-timer" id="guess-timer">45</div>
       </div>
     </div>
-    <img id="draw-preview" style="flex:1;min-height:0;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
+    <div style="flex:1;min-height:0;position:relative;">
+      <img id="draw-preview" style="width:100%;height:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
+      <div id="draw-preview-cover" style="position:absolute;inset:0;background:#070b1e;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
+        <div style="font-size:48px;">🙈</div>
+        <div style="font-size:15px;font-weight:600;color:rgba(245,237,208,.7);">Drawing hidden</div>
+        <div style="font-size:12px;color:rgba(245,237,208,.4);text-align:center;padding:0 32px;">Turn the phone around,<br>then tap Start Guessing</div>
+      </div>
+    </div>
     <div style="padding:10px 14px 16px;background:rgba(4,6,18,.95);flex-shrink:0;">
       <button id="draw-start-guessing" onclick="beginGuessing()" style="display:none;width:100%;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:12px;">▶ Start Guessing — Show Everyone</button>
       <div style="font-size:11px;color:rgba(245,237,208,.45);margin-bottom:8px;text-align:center;">Who guessed it correctly?</div>
@@ -4009,14 +4017,14 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
   <!-- BETWEEN ROUNDS -->
   <div id="draw-phase-between" style="display:none;flex-direction:column;position:absolute;inset:0;z-index:5;">
     <img id="draw-done-preview" style="flex:1;min-height:0;width:100%;object-fit:contain;background:#070b1e;" src="" alt="drawing"/>
-    <div style="background:rgba(4,6,18,.97);padding:22px 20px 36px;text-align:center;flex-shrink:0;">
+    <div style="background:rgba(4,6,18,.97);padding:22px 20px 36px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;text-align:center;">
       <div id="draw-bw-emoji" style="font-size:44px;margin-bottom:10px;">🎉</div>
       <div id="draw-bw-result" style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--gold-light);margin-bottom:5px;"></div>
       <div id="draw-bw-word" style="font-size:13px;color:rgba(245,237,208,.55);margin-bottom:3px;"></div>
       <div id="draw-bw-artist" style="font-size:11px;color:rgba(245,237,208,.35);margin-bottom:20px;"></div>
-      <button onclick="saveDrawing()" style="width:100%;max-width:300px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.8);border-radius:12px;padding:11px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;">💾 Save Drawing</button>
-      <button id="draw-bw-next" style="width:100%;max-width:300px;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;"></button>
-      <button id="draw-bw-endgame" onclick="_showStats()" style="display:none;width:100%;max-width:300px;background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.45);border-radius:12px;padding:9px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">End Game &amp; See Stats</button>
+      <button onclick="saveDrawing()" style="width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.8);border-radius:12px;padding:11px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;">💾 Save Drawing</button>
+      <button id="draw-bw-next" style="width:100%;background:linear-gradient(135deg,#e8900a,#f5b030);color:#1a0a00;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px;"></button>
+      <button id="draw-bw-endgame" onclick="_showStats()" style="display:none;width:100%;background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(245,237,208,.45);border-radius:12px;padding:9px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">See Results 🏆</button>
     </div>
   </div>
 
