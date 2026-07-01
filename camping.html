@@ -1136,6 +1136,14 @@
         .draw-stat-val { font-size: 14px; color: var(--text-dark); }
 
         /* ── WOULD YOU RATHER ── */
+        .wyr-theme-btn {
+            width:100%; padding:18px 20px; border-radius:18px; font-size:17px; font-weight:700;
+            font-family:'Inter',sans-serif; cursor:pointer; transition:all .2s; text-align:center;
+            background:linear-gradient(160deg,#060a18 0%,#08102a 40%,#0d1a3e 70%,#172848 100%);
+            border:1.5px solid rgba(100,140,220,.22); color:rgba(245,237,208,.9);
+            box-shadow:0 4px 18px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06);
+        }
+        .wyr-theme-btn:active { transform:scale(.97); }
         #wyr-game { display:none; position:fixed; inset:0; background:#04060e; z-index:400; flex-direction:column; align-items:center; justify-content:center; padding:48px 24px 36px; }
         #wyr-game.open { display:flex; }
         .wyr-btn {
@@ -3465,58 +3473,126 @@
     }
 
     // ── WOULD YOU RATHER ─────────────────────────────────────────
-    const WYR_QUESTIONS = [
-        // Camping
-        {a:'Sleep in a tent during a thunderstorm', b:'Sleep in a hammock all night with no rain'},
-        {a:'Cook every meal over a campfire', b:'Eat every meal from a cooler of snacks'},
-        {a:'Hike 5 miles to a waterfall', b:'Spend the whole day at camp with a perfect view'},
-        {a:'Wake up at 5 AM to see the sunrise', b:'Stay up until midnight watching the Milky Way'},
-        {a:'Forget your sleeping bag', b:'Forget your food'},
-        {a:'Camp with no phone for a weekend', b:'Camp with no running water for a week'},
-        {a:'Roast the perfect golden marshmallow', b:'Eat a s\'more someone else made'},
-        {a:'Set up camp in the rain', b:'Break camp in the mud'},
-        {a:'Share a tent with a snorer', b:'Sleep outside with no tent'},
-        {a:'Find a scorpion in your shoe', b:'Find a spider in your sleeping bag'},
-        {a:'Have a campsite right next to a noisy family', b:'Have a campsite a mile walk from the bathrooms'},
-        {a:'Only listen to campfire crackling all weekend', b:'Only listen to nature sounds — no music'},
-        // Summer
-        {a:'Summer in the mountains every year', b:'Summer at the beach every year'},
-        {a:'Have a pool in your backyard', b:'Live 5 minutes from a lake'},
-        {a:'Fireworks every night of summer', b:'No bugs the whole summer'},
-        {a:'Unlimited ice cream all summer', b:'Perfect 78° weather every single day'},
-        {a:'Fourth of July with fireworks', b:'Fourth of July camping with a bonfire'},
-        {a:'Road trip with great music', b:'Flight that gets you there in 1 hour'},
-        {a:'Summer with no school AND no phones', b:'Summer with phones but lots of chores'},
-        {a:'Get sunburned every day', b:'Be cold every single night'},
-        // Travel
-        {a:'Road trip with no GPS — just a paper map', b:'Fly somewhere you\'ve never been alone'},
-        {a:'Visit every national park in the US', b:'Visit 10 countries you\'ve never seen'},
-        {a:'Always have the window seat', b:'Always have extra legroom'},
-        {a:'Travel with unlimited budget but only 3 days off', b:'Travel for 3 months on a tight budget'},
-        {a:'Explore a city you\'ve always wanted to visit', b:'Return to your all-time favorite place'},
-        {a:'Only travel by road trip forever', b:'Only travel by plane forever'},
-        {a:'Never wait in line at any attraction', b:'Always get a free upgrade at every hotel'},
-        {a:'Eat only local street food every trip', b:'Eat only familiar food but never miss a meal'},
-        {a:'Carry one tiny backpack for any trip', b:'Have a porter carry unlimited bags for you'},
-        {a:'Get lost in a new city', b:'Know exactly where you\'re going but miss hidden gems'},
-        // Family / fun
-        {a:'Win every board game but nobody wants to play with you', b:'Always lose but everyone loves playing with you'},
-        {a:'Be first to call the front seat forever', b:'Always get the best snack on road trips'},
-        {a:'Have a surprise road trip every month', b:'Plan the perfect family vacation once a year'},
-        {a:'Kids pick every restaurant', b:'Parents pick every activity'},
-    ];
-    let _wyrIdx = 0, _wyrOrder = [];
+    const WYR_SETS = {
+        camping: {
+            label:'⛺ Camping & Travel', emoji:'⛺',
+            questions:[
+                {a:'Sleep in a tent during a thunderstorm', b:'Sleep in a hammock all night with no rain'},
+                {a:'Cook every meal over a campfire', b:'Eat every meal from a cooler of snacks'},
+                {a:'Hike 5 miles to a waterfall', b:'Spend the whole day at camp with a perfect view'},
+                {a:'Wake up at 5 AM to see the sunrise', b:'Stay up until midnight watching the Milky Way'},
+                {a:'Forget your sleeping bag', b:'Forget your food'},
+                {a:'Camp with no phone for a weekend', b:'Camp with no running water for a week'},
+                {a:'Roast the perfect golden marshmallow', b:'Eat a s\'more someone else made'},
+                {a:'Set up camp in the rain', b:'Break camp in the mud'},
+                {a:'Share a tent with a snorer', b:'Sleep outside with no tent'},
+                {a:'Find a scorpion in your shoe', b:'Find a spider in your sleeping bag'},
+                {a:'Have a campsite right next to a noisy family', b:'Have a campsite a mile walk from the bathrooms'},
+                {a:'Only listen to campfire crackling all weekend', b:'Only listen to nature sounds — no music'},
+                {a:'Summer in the mountains every year', b:'Summer at the beach every year'},
+                {a:'Fireworks every night of summer', b:'No bugs the whole summer'},
+                {a:'Unlimited ice cream all summer', b:'Perfect 78° weather every single day'},
+                {a:'Fourth of July with fireworks', b:'Fourth of July camping with a bonfire'},
+                {a:'Road trip with great music', b:'Flight that gets you there in 1 hour'},
+                {a:'Summer with no school AND no phones', b:'Summer with phones but lots of chores'},
+                {a:'Road trip with no GPS — just a paper map', b:'Fly somewhere you\'ve never been alone'},
+                {a:'Visit every national park in the US', b:'Visit 10 countries you\'ve never seen'},
+                {a:'Always have the window seat', b:'Always have extra legroom'},
+                {a:'Travel with unlimited budget but only 3 days off', b:'Travel for 3 months on a tight budget'},
+                {a:'Only travel by road trip forever', b:'Only travel by plane forever'},
+                {a:'Never wait in line at any attraction', b:'Always get a free upgrade at every hotel'},
+                {a:'Get lost in a new city', b:'Know exactly where you\'re going but miss hidden gems'},
+                {a:'Win every board game but nobody wants to play with you', b:'Always lose but everyone loves playing with you'},
+                {a:'Kids pick every restaurant', b:'Parents pick every activity'},
+                {a:'Have a surprise road trip every month', b:'Plan the perfect family vacation once a year'},
+            ]
+        },
+        disney: {
+            label:'🏰 Disney', emoji:'🏰',
+            questions:[
+                {a:'Live in the Magic Kingdom castle for a year', b:'Have a Golden Pass to every Disney park forever'},
+                {a:'Be best friends with Mickey Mouse', b:'Be best friends with Stitch'},
+                {a:'Meet every Disney princess', b:'Meet every Disney villain'},
+                {a:'Ride Space Mountain in the dark forever', b:'Ride It\'s a Small World on repeat for a day'},
+                {a:'Only eat Dole Whip for every dessert', b:'Only eat Mickey waffles for every breakfast'},
+                {a:'Have Elsa\'s ice powers', b:'Have Moana\'s ability to talk to the ocean'},
+                {a:'Go on a Disney cruise every summer', b:'Go to a Disney park every winter break'},
+                {a:'Be a Disney cast member for a summer', b:'Be in a Disney parade as a character'},
+                {a:'Have Rapunzel\'s hair (long but magical)', b:'Have Merida\'s wild curls (impossible to tame)'},
+                {a:'Live in the world of Encanto', b:'Live in the world of Coco'},
+                {a:'Have Wall-E as your personal robot', b:'Have Baymax as your personal health companion'},
+                {a:'Fly on Dumbo for real', b:'Ride Pegasus from Hercules'},
+                {a:'Eat dinner at Cinderella\'s Royal Table', b:'Eat breakfast with Mickey and friends'},
+                {a:'Be in the Haunted Mansion as a ghost for one night', b:'Get trapped in the Pirates of the Caribbean ride overnight'},
+                {a:'Watch fireworks from Cinderella\'s castle balcony', b:'Watch fireworks from a private beach at the Grand Floridian'},
+                {a:'Have Timon & Pumbaa as your road trip companions', b:'Have Genie granting jokes but no wishes'},
+                {a:'Only listen to Disney soundtracks forever', b:'Have every Disney movie available any time but no other movies'},
+                {a:'Spend a day inside Toy Story (you\'re full sized)', b:'Spend a day inside Inside Out (inside someone\'s head)'},
+                {a:'Have Simba as your pet lion', b:'Have Sven as your personal reindeer'},
+                {a:'Be the hero in a Disney movie', b:'Be the sidekick in a Disney movie'},
+                {a:'Go on the Disney Wonder to Alaska again', b:'Go on a Disney cruise to the Caribbean'},
+                {a:'Have Remy (from Ratatouille) cook every meal for you', b:'Have the enchanted objects from Beauty and the Beast serve you forever'},
+            ]
+        },
+        family: {
+            label:'👨‍👩‍👧‍👦 Ortiz Family', emoji:'💛',
+            questions:[
+                {a:'Chris plans every trip but keeps it a total surprise', b:'Kat plans every trip with a perfectly organized spreadsheet'},
+                {a:'Sedona picks every activity for a whole summer', b:'River picks every restaurant for a whole summer'},
+                {a:'Camp at White Spar every 4th of July forever', b:'Take one big family vacation somewhere new every year'},
+                {a:'Have Chris cook every meal at home', b:'Have Kat cook every meal at home'},
+                {a:'Road trip to a new national park every summer', b:'Return to your favorite place as a family every summer'},
+                {a:'Do the Alaska cruise again next year', b:'Take a totally different Disney cruise adventure'},
+                {a:'Sedona\'s energy for one whole day', b:'River\'s chill vibe for one whole day'},
+                {a:'Have family game night every Friday forever', b:'Have a family movie night every Friday forever'},
+                {a:'The whole family reads the same book together', b:'Everyone reads whatever they want and shares their favorites'},
+                {a:'Live somewhere with mountains and pine trees', b:'Live somewhere with warm beaches year-round'},
+                {a:'The family pet is a dog that loves camping', b:'The family pet is a cat that stays home and judges everyone'},
+                {a:'Take a summer reading challenge with cash prizes', b:'Take a summer reading challenge with a big family reward trip'},
+                {a:'Spend a week completely off-grid — no devices at all', b:'Take a normal family trip but everyone gets to use their phone'},
+                {a:'The kids run the family for one whole day', b:'The parents get to be kids for one whole day'},
+                {a:'Sedona becomes a professional artist', b:'Sedona becomes a professional athlete'},
+                {a:'River becomes a famous chef', b:'River becomes a professional gamer'},
+                {a:'The Ortiz family buys an RV and road trips all summer', b:'The Ortiz family flies somewhere international every summer'},
+                {a:'Move to Prescott to be closer to the mountains', b:'Stay in Arizona but get a cabin for family weekends'},
+                {a:'Have every family dinner be a sit-down home-cooked meal', b:'Have a family taco Tuesday takeout tradition every week'},
+                {a:'Spend New Year\'s camping under the stars', b:'Spend New Year\'s in a big city watching the countdown'},
+                {a:'Chris gives up coffee for a year', b:'Kat gives up her morning routine for a year'},
+                {a:'The whole family wakes up early every day for a summer', b:'The whole family stays up late every night for a summer'},
+            ]
+        }
+    };
+    const WYR_ALL = Object.values(WYR_SETS).flatMap(s => s.questions);
+    let _wyrIdx = 0, _wyrOrder = [], _wyrActiveSet = null;
 
     function openWyrGame() {
         document.getElementById('wyr-game').classList.add('open');
         document.body.style.overflow = 'hidden';
-        _wyrOrder = WYR_QUESTIONS.map((_,i)=>i).sort(()=>Math.random()-.5);
+        _wyrShowThemePicker();
+    }
+
+    function _wyrShowThemePicker() {
+        document.getElementById('wyr-picker').style.display = 'flex';
+        document.getElementById('wyr-play').style.display = 'none';
+        document.getElementById('wyr-bottom').style.display = 'none';
+        document.getElementById('wyr-count').textContent = '';
+        document.getElementById('wyr-header-label').textContent = 'Would You Rather';
+    }
+
+    function wyrSelectTheme(key) {
+        const set = key === 'all' ? { label:'🎲 All Questions', questions: WYR_ALL } : WYR_SETS[key];
+        _wyrActiveSet = set;
+        _wyrOrder = set.questions.map((_,i)=>i).sort(()=>Math.random()-.5);
         _wyrIdx = 0;
+        document.getElementById('wyr-picker').style.display = 'none';
+        document.getElementById('wyr-play').style.display = 'flex';
+        document.getElementById('wyr-bottom').style.display = 'flex';
+        document.getElementById('wyr-header-label').textContent = set.label;
         _showWyrQuestion();
     }
 
     function _showWyrQuestion() {
-        const q = WYR_QUESTIONS[_wyrOrder[_wyrIdx]];
+        const q = _wyrActiveSet.questions[_wyrOrder[_wyrIdx]];
         document.getElementById('wyr-count').textContent = (_wyrIdx+1) + ' of ' + _wyrOrder.length;
         const btnA = document.getElementById('wyr-btn-a');
         const btnB = document.getElementById('wyr-btn-b');
@@ -4195,18 +4271,32 @@ The Ortiz family required <span class="ml-filled">${v(24)}</span> additional s'm
 
 <!-- ── WOULD YOU RATHER GAME ── -->
 <div id="wyr-game">
+  <!-- Header -->
   <div style="position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:52px 20px 12px;">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);">Would You Rather</div>
+    <div id="wyr-header-label" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);">Would You Rather</div>
     <div id="wyr-count" style="font-size:11px;color:rgba(245,237,208,.4);"></div>
   </div>
 
-  <div style="width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center;">
+  <!-- THEME PICKER -->
+  <div id="wyr-picker" style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:360px;gap:14px;padding:0 4px;">
+    <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold-light);margin-bottom:6px;text-align:center;">Pick a theme</div>
+    <button onclick="wyrSelectTheme('camping')" class="wyr-theme-btn">⛺ Camping &amp; Travel</button>
+    <button onclick="wyrSelectTheme('disney')"  class="wyr-theme-btn">🏰 Disney</button>
+    <button onclick="wyrSelectTheme('family')"  class="wyr-theme-btn">💛 Ortiz Family</button>
+    <button onclick="wyrSelectTheme('all')"     class="wyr-theme-btn" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:rgba(245,237,208,.5);font-size:13px;padding:12px 20px;">🎲 Mix it all together</button>
+    <button onclick="closeWyrGame()" style="margin-top:6px;background:transparent;border:none;color:rgba(245,237,208,.3);font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">✕ Close</button>
+  </div>
+
+  <!-- PLAY AREA -->
+  <div id="wyr-play" style="display:none;flex-direction:column;align-items:center;width:100%;max-width:380px;">
     <button class="wyr-btn" id="wyr-btn-a" onclick="wyrPick('a')"></button>
     <div class="wyr-or" id="wyr-or">— or —</div>
     <button class="wyr-btn" id="wyr-btn-b" onclick="wyrPick('b')"></button>
   </div>
 
-  <div style="position:absolute;bottom:0;left:0;right:0;display:flex;gap:10px;padding:16px 20px 36px;">
+  <!-- Bottom bar (only shown during play) -->
+  <div id="wyr-bottom" style="position:absolute;bottom:0;left:0;right:0;display:flex;gap:10px;padding:16px 20px 36px;">
+    <button onclick="_wyrShowThemePicker()" style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(245,237,208,.55);border-radius:12px;padding:12px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">← Themes</button>
     <button onclick="wyrNext()" style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(245,237,208,.7);border-radius:12px;padding:12px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;">Skip →</button>
     <button onclick="closeWyrGame()" style="flex:1;background:transparent;border:1px solid rgba(255,255,255,.12);color:rgba(245,237,208,.35);border-radius:12px;padding:12px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Done</button>
   </div>
