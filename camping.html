@@ -754,8 +754,8 @@
             margin-bottom: 14px;
         }
         .bingo-cell {
-            background: rgba(4,6,18,.5);
-            border: 2px solid rgba(255,255,255,.18);
+            background: rgba(255,245,220,.6);
+            border: 2px solid rgba(160,110,40,.25);
             border-radius: 8px;
             padding: 6px 2px;
             text-align: center;
@@ -770,27 +770,27 @@
             gap: 2px;
         }
         .bingo-cell:active { transform: scale(.94); }
-        .bingo-cell.marked { background: var(--navy); border-color: var(--navy); }
-        .bingo-cell.free   { background: var(--red-mid); border-color: var(--red-mid); }
-        .bingo-cell.win    { background: var(--gold); border-color: rgba(200,160,255,.4); animation: bingo-pop .3s ease; }
+        .bingo-cell.marked { background: #7a4a10; border-color: #5a3408; }
+        .bingo-cell.free   { background: #b03020; border-color: #8a2010; }
+        .bingo-cell.win    { background: #d4820a; border-color: #b06008; animation: bingo-pop .3s ease; }
         @keyframes bingo-pop { 0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)} }
         .bc-emoji { font-size: 20px; line-height: 1; }
-        .bc-label { font-size: 8px; font-weight: 600; color: var(--text-mid); line-height: 1.2; padding: 0 2px; }
+        .bc-label { font-size: 8px; font-weight: 600; color: #5a3810; line-height: 1.2; padding: 0 2px; }
         .bingo-cell.marked .bc-label,
         .bingo-cell.free .bc-label,
-        .bingo-cell.win .bc-label { color: rgba(255,255,255,.9); }
+        .bingo-cell.win .bc-label { color: rgba(255,245,210,.95); }
         .bingo-status {
             text-align: center;
             font-size: 13px;
             font-weight: 600;
-            color: var(--text-mid);
+            color: #5a3810;
             margin-bottom: 10px;
             padding: 8px;
-            background: var(--cream);
+            background: rgba(255,245,220,.5);
             border-radius: 8px;
         }
-        .bingo-status.win { background: var(--gold-pale); color: var(--gold); }
-        .bingo-reset { display: block; text-align: center; font-size: 11px; color: var(--text-light); text-decoration: underline; cursor: pointer; margin-bottom: 14px; }
+        .bingo-status.win { background: rgba(212,130,10,.15); color: #7a4a08; }
+        .bingo-reset { display: block; text-align: center; font-size: 11px; color: #8a6030; text-decoration: underline; cursor: pointer; margin-bottom: 14px; }
 
         /* ── MAD LIBS ── */
         .ml-story {
