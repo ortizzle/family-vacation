@@ -746,6 +746,35 @@
         .pack-progress-label { font-size: 12px; font-weight: 700; color: var(--navy); white-space: nowrap; }
         .pack-reset { font-size: 11px; color: var(--text-light); text-decoration: underline; cursor: pointer; margin-top: 6px; display: inline-block; }
 
+        /* ── AMERICA'S 250TH (history facts + quiz) ── */
+        .hfact { border-bottom: 1px solid rgba(122,74,16,.15); }
+        .hfact:last-child { border-bottom: none; }
+        .hfact-head {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 2px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+        }
+        .hfact-emoji { font-size: 22px; flex-shrink: 0; }
+        .hfact-title { font-size: 14px; font-weight: 700; color: #5a3810; flex: 1; line-height: 1.35; }
+        .hfact-chevron { font-size: 13px; color: #8a6030; transition: transform .2s; flex-shrink: 0; }
+        .hfact.open .hfact-chevron { transform: rotate(90deg); }
+        .hfact-body {
+            max-height: 0; overflow: hidden; transition: max-height .25s ease;
+            font-size: 13px; color: #3a2810; line-height: 1.65; padding: 0 2px;
+        }
+        .hfact.open .hfact-body { max-height: 400px; padding-bottom: 14px; }
+        .hquiz-item { margin-bottom: 16px; }
+        .hquiz-item:last-child { margin-bottom: 0; }
+        .hquiz-q { font-size: 13px; font-weight: 700; color: #5a3810; margin-bottom: 8px; line-height: 1.4; }
+        .hquiz-opts { display: flex; flex-direction: column; gap: 6px; }
+        .hquiz-opt {
+            text-align: left; padding: 10px 12px; border-radius: 10px; font-size: 13px;
+            font-family: 'Inter', sans-serif; cursor: pointer; -webkit-tap-highlight-color: transparent;
+            background: rgba(255,245,220,.6); border: 1.5px solid rgba(160,110,40,.25); color: #3a2810;
+        }
+        .hquiz-opt.correct { background: #2a6a2a; border-color: #1a4a1a; color: #eaffea; font-weight: 700; }
+        .hquiz-opt.wrong { background: #8a2a20; border-color: #6a1a10; color: #ffe8e4; }
+        .hquiz-note { font-size: 12px; color: #5a3810; margin-top: 8px; line-height: 1.55; font-style: italic; }
+
         /* ── BINGO ── */
         .bingo-grid {
             display: grid;
@@ -2352,6 +2381,7 @@
         <a class="toc-link" href="#toc-draw">Camp Pictionary</a>
         <a class="toc-link" href="#toc-spark">Spark Catcher</a>
         <a class="toc-link" href="#toc-wyr">Would You Rather</a>
+        <a class="toc-link" href="#toc-history250">America's 250th</a>
         <a class="toc-link" href="#toc-sky">Night Sky</a>
         <a class="toc-link" href="#toc-madlibs">Mad Libs</a>
         <a class="toc-link" href="#toc-bingo">Hike Bingo</a>
@@ -2394,6 +2424,28 @@
         <button onclick="openWyrGame()" style="background:linear-gradient(135deg,#1a3a2a,#2a5a3a);color:white;border:none;border-radius:14px;padding:14px 32px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;width:100%;">Play Would You Rather 🤔</button>
     </div>
 
+    <!-- ── AMERICA'S 250TH ── -->
+    <div class="section-header" id="toc-history250">🎆 America's 250th — The Real Story of July 4th</div>
+
+    <div class="card">
+        <div class="card-label">1776 → 2026</div>
+        <div class="card-title" style="margin-bottom:10px;">This Is a Big One 🎉</div>
+        <div class="card-body" style="font-size:13px;color:var(--text-mid);line-height:1.65;">
+            This 4th of July is the <strong>Semiquincentennial</strong> — the <strong>250th anniversary</strong> of the Declaration of Independence. It's only the second time America has ever marked this anniversary as one country (the last one, the Bicentennial, was 1976 — 50 years ago).<br><br>
+            But the real story of July 4th is bigger and more complicated than fireworks and hot dogs. It's a story about a big promise — and about how long, and how hard, our country has had to work to actually keep it. Tap through the cards below with the kids. Some of it is uplifting. Some of it is uncomfortable. Both parts are true, and both parts are worth knowing.
+        </div>
+    </div>
+
+    <div class="card" style="padding:16px;">
+        <div class="card-label" style="margin-bottom:10px;">Tap each one to reveal</div>
+        <div id="history250-list"></div>
+    </div>
+
+    <div class="card" style="padding:16px;">
+        <div class="card-label" style="margin-bottom:2px;">Quiz the Kids</div>
+        <div class="card-title" style="margin-bottom:12px;">Do You Know Your 4th of July? 🧠</div>
+        <div id="history250-quiz"></div>
+    </div>
 
     <div class="section-header" id="toc-sky">🌌 Night Sky Guide — Prescott Dark Skies</div>
     <div class="card" style="padding:16px 16px 10px;">
@@ -3988,6 +4040,71 @@
         // AQI display — link-only, no API key needed
         const aqiEl = document.getElementById('aqi-status');
         if (aqiEl) aqiEl.textContent = 'See AirNow link →';
+
+    /* ── AMERICA'S 250TH — HISTORY FACTS + QUIZ ── */
+    const HISTORY250_FACTS = [
+        {e:'📜', t:'July 4th isn\'t actually the day it was signed', b:'On July 4, 1776, the Continental Congress voted to adopt the Declaration of Independence — that\'s the moment we celebrate. But most of the 56 delegates didn\'t actually sign the document until <strong>August 2, 1776</strong>, almost a month later. John Adams even thought <em>July 2</em> (the day Congress voted for independence) would go down as the big anniversary. He was off by two days.'},
+        {e:'✍️', t:'Mostly one guy wrote it — at age 33', b:'Thomas Jefferson wrote most of the first draft, working mostly alone in a rented room in Philadelphia. A five-person committee (Jefferson, John Adams, Benjamin Franklin, Roger Sherman, and Robert Livingston) reviewed it, and then Congress cut and edited about a quarter of what Jefferson wrote before approving it.'},
+        {e:'⚖️', t:'"All men are created equal" — a radical idea', b:'The most famous line in the Declaration says people aren\'t ruled by kings because of birth or bloodline — that all people start out equal, with rights no government can take away. In 1776, building a country on that idea was genuinely new and dangerous. Kings across the world were watching to see if it would get everyone involved hanged for treason.'},
+        {e:'⛓️', t:'The people who wrote it didn\'t live up to it', b:'Here\'s the hard part: the man who wrote "all men are created equal" enslaved over 600 people during his lifetime and freed almost none of them. About a third of the 56 signers enslaved people themselves. Women couldn\'t vote. Native American nations weren\'t treated as equals — they were treated as obstacles. The ideal was real. So was the failure to live up to it. Both are part of the true story.'},
+        {e:'🪶', t:'The Declaration itself said something troubling about Native nations', b:'Buried in the Declaration\'s list of complaints against the King is a line accusing him of bringing against the colonists "the merciless Indian Savages." It\'s ugly language, and it\'s in the actual founding document. It shows that even while writing about universal liberty, the founders viewed Native nations as enemies to be feared, not as equals with rights of their own — a contradiction that shaped how the U.S. government treated Native peoples for the next 150 years.'},
+        {e:'🗣️', t:'"This Fourth of July is yours, not mine"', b:'In 1852, Frederick Douglass — who had escaped slavery and become one of the most powerful speakers in America — was invited to give a July 4th speech. Instead of celebrating, he asked the crowd a hard question: how could he celebrate a "freedom" he didn\'t have? He said, <em>"This Fourth of July is yours, not mine. You may rejoice, I must mourn."</em> He wasn\'t saying America\'s ideals were wrong — he was demanding the country actually live up to the ones it had written down.'},
+        {e:'📈', t:'The promise kept expanding — slowly, and only through struggle', b:'"All men are created equal" didn\'t become more true on its own. People had to fight for it, generation after generation: slavery was abolished in 1865 (13th Amendment), Native Americans were finally granted U.S. citizenship in 1924, women won the right to vote in 1920 (19th Amendment), and the Civil Rights Act of 1964 outlawed segregation. Nobody would say that work is finished even today — but the direction, over 250 years, has been toward including more people in the promise, not fewer.'},
+        {e:'🎆', t:'Fireworks were part of the plan from day one', b:'In a letter to his wife Abigail in 1776, John Adams predicted the anniversary should be celebrated "with pomp and parade... bonfires and illuminations from one end of this continent to the other, from this time forward forever more." He got the exact date wrong, but he called the fireworks perfectly.'},
+        {e:'🛂', t:'New Americans are still being added to the story — today', b:'Every year, thousands of immigrants become U.S. citizens at naturalization ceremonies held on or right around July 4th. It\'s one of the only national holidays where brand-new citizens are literally joining the story on the day itself — this year included.'},
+        {e:'🎉', t:'Why 2026 is such a big deal', b:'2026 is the <strong>Semiquincentennial</strong> — 250 years since the Declaration of Independence. The country has only marked this milestone once before: the Bicentennial in 1976, 50 years ago. It\'s a good year to ask the same question Frederick Douglass asked: has America lived up to what it promised? The honest answer is — more than it used to, not yet all the way, and that\'s exactly why the story isn\'t over.'},
+    ];
+
+    function buildHistory250() {
+        const list = document.getElementById('history250-list');
+        if (!list) return;
+        list.innerHTML = '';
+        HISTORY250_FACTS.forEach((f, i) => {
+            const item = document.createElement('div');
+            item.className = 'hfact';
+            item.innerHTML = `
+                <div class="hfact-head" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="hfact-emoji">${f.e}</div>
+                    <div class="hfact-title">${f.t}</div>
+                    <div class="hfact-chevron">▶</div>
+                </div>
+                <div class="hfact-body">${f.b}</div>`;
+            list.appendChild(item);
+        });
+    }
+    buildHistory250();
+
+    const HISTORY250_QUIZ = [
+        {q:'What actually happened on July 4, 1776?', opts:['Congress voted to adopt the Declaration of Independence','All 56 delegates signed the Declaration','The Revolutionary War officially ended'], correct:0, note:'Most signatures came about a month later, on August 2, 1776.'},
+        {q:'Who wrote most of the first draft of the Declaration?', opts:['Benjamin Franklin','George Washington','Thomas Jefferson'], correct:2, note:'A committee of five reviewed it, but Jefferson wrote the bulk of it alone.'},
+        {q:'Who gave the famous 1852 speech asking why he should celebrate a freedom he didn\'t have?', opts:['Frederick Douglass','Abraham Lincoln','Thomas Jefferson'], correct:0, note:'His speech "What to the Slave is the Fourth of July?" pushed America to live up to its own words.'},
+        {q:'Which amendment abolished slavery in the United States?', opts:['19th Amendment (1920)','13th Amendment (1865)','1st Amendment (1791)'], correct:1, note:'The 19th gave women the right to vote (1920); the 13th ended slavery (1865).'},
+        {q:'What is 2026 the 250th anniversary of?', opts:['The first Independence Day fireworks show','The end of the Revolutionary War','The Declaration of Independence being adopted'], correct:2, note:'This milestone is called the Semiquincentennial — only the second time it\'s ever been marked, after the 1976 Bicentennial.'},
+    ];
+
+    function buildHistory250Quiz() {
+        const c = document.getElementById('history250-quiz');
+        if (!c) return;
+        c.innerHTML = '';
+        HISTORY250_QUIZ.forEach((item, qi) => {
+            const div = document.createElement('div');
+            div.className = 'hquiz-item';
+            const opts = item.opts.map((o, oi) => `<div class="hquiz-opt" onclick="_history250Pick(${qi},${oi},this)">${o}</div>`).join('');
+            div.innerHTML = `<div class="hquiz-q">${qi+1}. ${item.q}</div><div class="hquiz-opts">${opts}</div><div class="hquiz-note" id="hquiz-note-${qi}" style="display:none;"></div>`;
+            c.appendChild(div);
+        });
+    }
+    function _history250Pick(qi, oi, el) {
+        const item = HISTORY250_QUIZ[qi];
+        const opts = el.parentElement.querySelectorAll('.hquiz-opt');
+        if (opts[0].classList.contains('correct') || opts[0].classList.contains('wrong')) return;
+        opts.forEach((o, i) => { if (i === item.correct) o.classList.add('correct'); });
+        if (oi !== item.correct) el.classList.add('wrong');
+        const note = document.getElementById('hquiz-note-' + qi);
+        note.textContent = item.note;
+        note.style.display = 'block';
+    }
+    buildHistory250Quiz();
 
     /* ── HIKE BINGO ── */
     const BINGO_ITEMS = [
