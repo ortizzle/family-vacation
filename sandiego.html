@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>San Diego Week</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#081626">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌴</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { overflow-x: hidden; }
+        :root {
+            --ocean-deep:  #081626;
+            --ocean:       #0e2438;
+            --ocean-mid:   #16334d;
+            --ocean-light: #1f4463;
+            --coral:       #ff7a55;
+            --coral-soft:  #ff9a7a;
+            --sunset:      #f5a83c;
+            --sunset-pale: #ffd98a;
+            --aqua:        #46c8be;
+            --sand:        #f2e3c4;
+            --sand-dim:    #c9b896;
+            --sand-faint:  #8d8268;
+            --surface:     #10283e;
+            --radius:      16px;
+            --shadow-sm:   0 2px 14px rgba(0,0,0,.45);
+        }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #050e1a;
+            color: var(--sand);
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+        .app-header, .content { position: relative; z-index: 1; }
+
+        /* ── HEADER ── */
+        .app-header {
+            position: relative;
+            height: 158px;
+            overflow: hidden;
+            background: linear-gradient(180deg, #081626 0%, #14304a 45%, #2a4a66 72%, #b05a3c 96%, #d4703c 100%);
+        }
+        .hdr-sun {
+            position: absolute;
+            left: 50%; bottom: -34px;
+            transform: translateX(-50%);
+            width: 92px; height: 92px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffd98a 0%, #f5a83c 55%, rgba(245,168,60,0) 78%);
+            opacity: .9;
+        }
+        .hdr-wave {
+            position: absolute;
+            left: 0; right: 0; bottom: -2px;
+            height: 30px;
+            pointer-events: none;
+        }
+        .hdr-wave svg { display: block; width: 100%; height: 100%; }
+        .hdr-gulls {
+            position: absolute;
+            top: 26px; right: 40px;
+            font-size: 13px;
+            opacity: .7;
+            animation: gullDrift 14s ease-in-out infinite alternate;
+        }
+        @keyframes gullDrift {
+            from { transform: translate(0,0); }
+            to   { transform: translate(-40px,8px); }
+        }
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 16px 20px 26px;
+            text-align: center;
+        }
+        .header-eyebrow {
+            font-size: 10px;
+            color: var(--sunset-pale);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        .header-title {
+            font-family: 'Fraunces', serif;
+            font-size: 30px;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.08;
+            text-shadow: 0 2px 14px rgba(0,0,0,.45);
+        }
+        .header-sub {
+            font-size: 11px;
+            color: rgba(255,217,138,.85);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 7px;
+            font-weight: 700;
+        }
+
+        /* ── BOTTOM NAV ── */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 100%; max-width: 430px;
+            background: rgba(8,20,34,.94);
+            border-top: 1px solid rgba(255,170,120,.22);
+            display: flex;
+            z-index: 100;
+            box-shadow: 0 -2px 24px rgba(255,122,85,.10);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 2px 12px;
+            gap: 3px;
+            cursor: pointer;
+            color: rgba(242,227,196,.62);
+            border: none;
+            background: none;
+            font-family: 'Nunito', sans-serif;
+            transition: color .18s;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 52px;
+        }
+        .nav-item.active { color: var(--coral-soft); text-shadow: 0 0 14px rgba(255,122,85,.55); }
+        .nav-icon  { font-size: 19px; }
+        .nav-label { font-size: 9px; font-weight: 800; letter-spacing: .4px; }
+
+        /* ── CONTENT / SECTIONS ── */
+        .content  { padding: 16px 16px 100px; }
+        .section  { display: none; }
+        .section.active { display: block; animation: fadeUp .28s ease; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── SECTION DIVIDER ── */
+        .section-header {
+            font-family: 'Fraunces', serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--sunset);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin: 24px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+        .section-header::before,
+        .section-header::after {
+            content: '';
+            flex: 1;
+            height: 1.5px;
+            background: var(--coral);
+            opacity: .4;
+            flex-shrink: 1;
+            min-width: 10px;
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--surface);
+            border: 1px solid rgba(255,170,120,.14);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card-label {
+            font-size: 10px;
+            color: var(--sunset);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            font-weight: 800;
+        }
+        .card-title {
+            font-family: 'Fraunces', serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--sand);
+            margin-bottom: 8px;
+            line-height: 1.25;
+        }
+        .card-body {
+            font-size: 13.5px;
+            color: var(--sand-dim);
+            line-height: 1.6;
+        }
+
+        /* ── WEATHER ── */
+        .wx-card {
+            background: linear-gradient(150deg, #123048 0%, #0d2338 100%);
+            border: 1px solid rgba(120,190,255,.18);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-sm);
+        }
+        .wx-now {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 4px;
+        }
+        .wx-now-icon { font-size: 40px; flex-shrink: 0; }
+        .wx-now-temp {
+            font-family: 'Fraunces', serif;
+            font-size: 38px;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+        }
+        .wx-now-meta { flex: 1; }
+        .wx-now-desc { font-size: 13px; font-weight: 700; color: var(--sand); }
+        .wx-now-sub  { font-size: 11px; color: var(--sand-faint); margin-top: 2px; line-height: 1.5; }
+        .wx-week {
+            display: flex;
+            gap: 4px;
+            margin-top: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .wx-week::-webkit-scrollbar { display: none; }
+        .wx-day {
+            flex: 1;
+            min-width: 44px;
+            text-align: center;
+            background: rgba(255,255,255,.045);
+            border-radius: 10px;
+            padding: 8px 2px;
+        }
+        .wx-day.wx-today { background: rgba(245,168,60,.16); border: 1px solid rgba(245,168,60,.35); }
+        .wx-day-name { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: var(--sand-faint); }
+        .wx-day-icon { font-size: 17px; margin: 3px 0; }
+        .wx-day-hi { font-size: 12px; font-weight: 800; color: var(--sand); }
+        .wx-day-lo { font-size: 10px; color: var(--sand-faint); }
+        .wx-foot { font-size: 10px; color: var(--sand-faint); margin-top: 10px; text-align: center; }
+
+        /* ── STAT STRIP ── */
+        .stat-strip {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .stat-box {
+            background: var(--surface);
+            border: 1px solid rgba(255,170,120,.12);
+            border-radius: 12px;
+            padding: 12px 6px;
+            text-align: center;
+        }
+        .stat-num { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 900; color: var(--coral-soft); }
+        .stat-lbl { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: var(--sand-faint); margin-top: 3px; }
+
+        /* ── CREW BANNER ── */
+        .crew-banner {
+            background: var(--surface);
+            border: 1px solid rgba(255,170,120,.14);
+            border-radius: var(--radius);
+            padding: 15px 18px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .crew-icon { font-size: 32px; flex-shrink: 0; }
+        .crew-title { font-size: 14px; font-weight: 800; color: var(--sand); margin-bottom: 5px; }
+        .crew-members { display: flex; flex-wrap: wrap; gap: 6px; }
+        .crew-dot {
+            background: var(--ocean-light);
+            color: var(--sand);
+            border-radius: 100px;
+            padding: 3px 10px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .crew-dot.kid { background: rgba(255,122,85,.22); color: var(--coral-soft); }
+
+        /* ── QUICK LINK GRID ── */
+        .ql-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .ql-card {
+            background: var(--surface);
+            border: 1px solid rgba(255,170,120,.14);
+            border-radius: 14px;
+            padding: 15px 14px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            text-align: left;
+            font-family: 'Nunito', sans-serif;
+            transition: transform .12s;
+        }
+        .ql-card:active { transform: scale(.97); }
+        .ql-icon { font-size: 24px; margin-bottom: 6px; }
+        .ql-title { font-size: 14px; font-weight: 800; color: var(--sand); }
+        .ql-sub { font-size: 11px; color: var(--sand-faint); margin-top: 2px; line-height: 1.4; }
+
+        /* ── TODAY CARD ── */
+        .today-card {
+            background: linear-gradient(135deg, rgba(255,122,85,.16), rgba(245,168,60,.10));
+            border: 1px solid rgba(255,122,85,.35);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            margin-bottom: 14px;
+        }
+        .today-tag { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--coral-soft); margin-bottom: 5px; }
+        .today-title { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+        .today-body { font-size: 13px; color: var(--sand-dim); line-height: 1.55; }
+
+        /* ── FILTER CHIPS ── */
+        .chip-row {
+            display: flex;
+            gap: 7px;
+            overflow-x: auto;
+            padding: 2px 0 10px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .chip-row::-webkit-scrollbar { display: none; }
+        .chip {
+            flex-shrink: 0;
+            background: var(--surface);
+            border: 1px solid rgba(255,170,120,.2);
+            color: var(--sand-dim);
+            border-radius: 100px;
+            padding: 8px 15px;
+            font-size: 12px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 36px;
+        }
+        .chip.active {
+            background: var(--coral);
+            border-color: var(--coral);
+            color: #14090a;
+        }
+
+        /* ── SPOT / EAT LIST ITEMS ── */
+        .spot-item {
+            background: var(--surface);
+            border: 1px solid rgba(255,170,120,.13);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            transition: transform .12s;
+        }
+        .spot-item:active { transform: scale(.98); }
+        .spot-emoji { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
+        .spot-body { flex: 1; min-width: 0; }
+        .spot-name { font-size: 15px; font-weight: 800; color: var(--sand); line-height: 1.3; }
+        .spot-meta { font-size: 11.5px; color: var(--sand-faint); margin-top: 3px; line-height: 1.45; }
+        .spot-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+        .spot-tag {
+            font-size: 9.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            background: rgba(70,200,190,.14);
+            color: #6adcd2;
+            border-radius: 100px;
+            padding: 2px 8px;
+        }
+        .spot-tag.warm { background: rgba(245,168,60,.16); color: var(--sunset-pale); }
+        .spot-tag.hot  { background: rgba(255,122,85,.18); color: var(--coral-soft); }
+        .spot-arrow { color: var(--sand-faint); font-size: 16px; margin-top: 6px; }
+        .price-pips { color: var(--sunset); font-weight: 800; }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(3,8,16,.78);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn .18s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal-box {
+            background: var(--ocean);
+            border: 1px solid rgba(255,170,120,.2);
+            border-radius: 22px 22px 0 0;
+            padding: 22px 22px calc(24px + env(safe-area-inset-bottom));
+            max-width: 430px;
+            width: 100%;
+            max-height: 82vh;
+            overflow-y: auto;
+            animation: sheetUp .24s ease;
+        }
+        @keyframes sheetUp {
+            from { transform: translateY(40px); opacity: .4; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+        .modal-grab { width: 40px; height: 4px; border-radius: 4px; background: rgba(242,227,196,.25); margin: -6px auto 14px; }
+        .modal-emoji { font-size: 38px; margin-bottom: 8px; }
+        .modal-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 4px; }
+        .modal-sub { font-size: 12px; color: var(--sunset); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        .modal-text { font-size: 14px; color: var(--sand-dim); line-height: 1.65; margin-bottom: 12px; }
+        .modal-rows { margin-bottom: 12px; }
+        .modal-row {
+            display: flex;
+            gap: 10px;
+            padding: 9px 0;
+            border-bottom: 1px solid rgba(242,227,196,.08);
+            font-size: 13px;
+        }
+        .modal-row:last-child { border-bottom: none; }
+        .modal-row-k { color: var(--sand-faint); font-weight: 800; min-width: 74px; flex-shrink: 0; }
+        .modal-row-v { color: var(--sand-dim); line-height: 1.5; }
+        .modal-tip {
+            background: rgba(70,200,190,.1);
+            border: 1px solid rgba(70,200,190,.25);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 12.5px;
+            color: #a8e8e2;
+            line-height: 1.55;
+            margin-bottom: 12px;
+        }
+        .modal-tip b { color: #6adcd2; }
+        .modal-buttons { display: flex; gap: 12px; margin-top: 16px; }
+        .modal-buttons button {
+            flex: 1;
+            min-height: 46px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            border: none;
+        }
+        .btn-primary { background: var(--coral); color: #14090a; }
+        .btn-secondary { background: var(--ocean-light); color: var(--sand); }
+
+        /* ── GAME HUB ── */
+        .game-card {
+            background: var(--surface);
+            border: 1px solid rgba(255,170,120,.14);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: transform .12s;
+        }
+        .game-card:active { transform: scale(.98); }
+        .game-emoji { font-size: 30px; flex-shrink: 0; }
+        .game-info { flex: 1; }
+        .game-name { font-size: 15px; font-weight: 800; color: var(--sand); }
+        .game-desc { font-size: 11.5px; color: var(--sand-faint); margin-top: 2px; line-height: 1.4; }
+        .game-badge {
+            font-size: 10px;
+            font-weight: 800;
+            background: rgba(245,168,60,.15);
+            color: var(--sunset-pale);
+            border-radius: 100px;
+            padding: 3px 9px;
+            flex-shrink: 0;
+        }
+        .game-panel { display: none; }
+        .game-panel.active { display: block; animation: fadeUp .25s ease; }
+        .game-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 10px; }
+        .game-back {
+            background: var(--ocean-light);
+            border: none;
+            color: var(--sand);
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            border-radius: 100px;
+            padding: 9px 16px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 40px;
+        }
+        .game-title-sm { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 700; color: var(--sand); flex: 1; text-align: right; }
+
+        /* ── TRIVIA ── */
+        .tq-progress { font-size: 11px; font-weight: 800; color: var(--sand-faint); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .tq-question {
+            font-family: 'Fraunces', serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.35;
+            margin-bottom: 16px;
+        }
+        .tq-opt {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: var(--surface);
+            border: 1.5px solid rgba(255,170,120,.2);
+            border-radius: 12px;
+            padding: 13px 15px;
+            margin-bottom: 9px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Nunito', sans-serif;
+            color: var(--sand);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 46px;
+        }
+        .tq-opt.correct { background: rgba(70,200,120,.2); border-color: #46c878; color: #8ce8b0; }
+        .tq-opt.wrong { background: rgba(255,90,90,.15); border-color: #e05a5a; color: #ff9a9a; }
+        .tq-fact {
+            background: rgba(245,168,60,.1);
+            border: 1px solid rgba(245,168,60,.3);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 12.5px;
+            color: var(--sunset-pale);
+            line-height: 1.55;
+            margin: 4px 0 12px;
+        }
+        .tq-next {
+            width: 100%;
+            background: var(--coral);
+            color: #14090a;
+            border: none;
+            border-radius: 12px;
+            min-height: 48px;
+            font-size: 15px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .tq-score-big { font-family: 'Fraunces', serif; font-size: 44px; font-weight: 900; color: var(--sunset); text-align: center; margin: 10px 0 4px; }
+        .tq-score-sub { text-align: center; font-size: 14px; color: var(--sand-dim); margin-bottom: 16px; }
+
+        /* ── BINGO ── */
+        .bingo-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin-bottom: 12px;
+        }
+        .bingo-cell {
+            aspect-ratio: 1;
+            background: var(--surface);
+            border: 1px solid rgba(255,170,120,.16);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            padding: 2px;
+            transition: transform .1s;
+        }
+        .bingo-cell:active { transform: scale(.94); }
+        .bingo-cell .bc-emoji { font-size: 20px; line-height: 1; }
+        .bingo-cell .bc-label { font-size: 6.8px; font-weight: 800; text-transform: uppercase; letter-spacing: .2px; color: var(--sand-faint); text-align: center; line-height: 1.15; }
+        .bingo-cell.spotted { background: rgba(255,122,85,.24); border-color: var(--coral); }
+        .bingo-cell.spotted .bc-label { color: var(--coral-soft); }
+        .bingo-cell.free { background: rgba(245,168,60,.18); border-color: var(--sunset); }
+        .bingo-status { text-align: center; font-size: 12px; font-weight: 800; color: var(--sand-dim); margin-bottom: 10px; }
+
+        /* ── WOULD YOU RATHER ── */
+        .wyr-card {
+            background: linear-gradient(150deg, #16334d, #0e2438);
+            border: 1px solid rgba(255,170,120,.2);
+            border-radius: 18px;
+            padding: 24px 20px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+        .wyr-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--sunset); margin-bottom: 14px; }
+        .wyr-a, .wyr-b { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: #fff; line-height: 1.35; }
+        .wyr-or {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--coral);
+            margin: 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ── DECODER ── */
+        .dec-item {
+            background: var(--surface);
+            border: 1px solid rgba(255,170,120,.14);
+            border-radius: 14px;
+            padding: 15px 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .dec-emoji { font-size: 24px; letter-spacing: 5px; margin-bottom: 6px; }
+        .dec-hint { font-size: 11px; color: var(--sand-faint); font-weight: 700; }
+        .dec-answer { display: none; font-size: 14px; font-weight: 800; color: #6adcd2; margin-top: 7px; }
+        .dec-item.revealed .dec-answer { display: block; }
+        .dec-item.revealed .dec-hint { display: none; }
+
+        /* ── MISSIONS ── */
+        .mission-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--surface);
+            border: 1px solid rgba(255,170,120,.13);
+            border-radius: 12px;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 48px;
+        }
+        .mission-check {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            border: 2px solid rgba(242,227,196,.35);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: transparent;
+            transition: all .15s;
+        }
+        .mission-item.done .mission-check { background: var(--coral); border-color: var(--coral); color: #14090a; }
+        .mission-text { font-size: 13.5px; font-weight: 700; color: var(--sand); line-height: 1.4; flex: 1; }
+        .mission-item.done .mission-text { text-decoration: line-through; color: var(--sand-faint); }
+        .mission-pts { font-size: 11px; font-weight: 800; color: var(--sunset); flex-shrink: 0; }
+        .progress-wrap { background: rgba(255,255,255,.08); border-radius: 100px; height: 10px; margin: 6px 0 14px; overflow: hidden; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--coral), var(--sunset)); border-radius: 100px; transition: width .3s ease; width: 0%; }
+
+        /* ── PLAN / DAY TABS ── */
+        .day-tabs {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .day-tabs::-webkit-scrollbar { display: none; }
+        .day-tab {
+            flex-shrink: 0;
+            background: var(--surface);
+            border: 1px solid rgba(255,170,120,.18);
+            border-radius: 12px;
+            padding: 8px 13px;
+            text-align: center;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Nunito', sans-serif;
+            min-height: 48px;
+        }
+        .day-tab .dt-dow { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: var(--sand-faint); }
+        .day-tab .dt-num { font-size: 16px; font-weight: 800; color: var(--sand); margin-top: 1px; }
+        .day-tab.active { background: var(--coral); border-color: var(--coral); }
+        .day-tab.active .dt-dow, .day-tab.active .dt-num { color: #14090a; }
+        .day-tab.is-today:not(.active) { border-color: var(--sunset); }
+        .day-tab.is-today .dt-dow { color: var(--sunset); }
+        .day-tab.active.is-today .dt-dow { color: #14090a; }
+        .plan-idea {
+            background: rgba(70,200,190,.08);
+            border: 1px solid rgba(70,200,190,.22);
+            border-radius: 12px;
+            padding: 13px 15px;
+            font-size: 13px;
+            color: #a8e8e2;
+            line-height: 1.55;
+            margin-bottom: 12px;
+        }
+        .plan-idea b { color: #6adcd2; }
+        .plan-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--sand-faint); margin: 14px 0 7px; }
+        .plan-textarea {
+            width: 100%;
+            background: rgba(5,14,26,.6);
+            border: 1px solid rgba(255,170,120,.2);
+            border-radius: 12px;
+            color: var(--sand);
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 12px 14px;
+            min-height: 84px;
+            resize: vertical;
+        }
+        .plan-textarea::placeholder { color: rgba(242,227,196,.3); }
+        .plan-saved { font-size: 11px; color: #6adcd2; font-weight: 800; margin-top: 6px; opacity: 0; transition: opacity .3s; text-align: right; }
+        .plan-saved.show { opacity: 1; }
+
+        /* ── TIP LIST ── */
+        .tip-item {
+            display: flex;
+            gap: 11px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(242,227,196,.08);
+            font-size: 13px;
+            color: var(--sand-dim);
+            line-height: 1.55;
+        }
+        .tip-item:last-child { border-bottom: none; }
+        .tip-item .tip-emoji { flex-shrink: 0; font-size: 16px; }
+        .tip-item b { color: var(--sand); }
+
+        /* ── CONFETTI ── */
+        .confetti-bit {
+            position: fixed;
+            width: 8px; height: 8px;
+            border-radius: 2px;
+            pointer-events: none;
+            z-index: 2000;
+            animation: confFall 1.1s ease-in forwards;
+        }
+        @keyframes confFall {
+            from { transform: translateY(0) rotate(0deg); opacity: 1; }
+            to   { transform: translateY(130px) rotate(340deg); opacity: 0; }
+        }
+
+        /* ── TOAST ── */
+        .toast {
+            position: fixed;
+            bottom: 86px; left: 50%;
+            transform: translateX(-50%);
+            background: var(--ocean-light);
+            border: 1px solid rgba(255,170,120,.3);
+            color: var(--sand);
+            font-size: 13px;
+            font-weight: 800;
+            border-radius: 100px;
+            padding: 11px 20px;
+            z-index: 1500;
+            animation: toastIn .25s ease;
+            white-space: nowrap;
+            max-width: 90vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+            to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<header class="app-header">
+    <div class="hdr-sun"></div>
+    <div class="hdr-gulls">🕊️ 🕊️</div>
+    <div class="header-content">
+        <div class="header-eyebrow">The Ortiz Crew &amp; Friends</div>
+        <div class="header-title">San Diego Week</div>
+        <div class="header-sub">July 18 – 25 · 2026 🌴</div>
+    </div>
+    <div class="hdr-wave">
+        <svg viewBox="0 0 430 30" preserveAspectRatio="none"><path d="M0,18 C40,8 80,26 130,16 C180,6 220,24 270,14 C320,5 360,22 430,12 L430,30 L0,30 Z" fill="#050e1a" opacity="0.9"/></svg>
+    </div>
+</header>
+
+<main class="content">
+
+    <!-- ═══════════ HOME ═══════════ -->
+    <section class="section active" id="section-home">
+
+        <div class="today-card" id="today-card" hidden>
+            <div class="today-tag" id="today-tag">Today</div>
+            <div class="today-title" id="today-title"></div>
+            <div class="today-body" id="today-body"></div>
+        </div>
+
+        <div class="wx-card">
+            <div class="wx-now">
+                <div class="wx-now-icon" id="wx-icon">🌤️</div>
+                <div>
+                    <div class="wx-now-temp"><span id="wx-temp">--</span>°</div>
+                </div>
+                <div class="wx-now-meta">
+                    <div class="wx-now-desc" id="wx-desc">Loading forecast…</div>
+                    <div class="wx-now-sub" id="wx-sub">San Diego · coastal</div>
+                </div>
+            </div>
+            <div class="wx-week" id="wx-week"></div>
+            <div class="wx-foot" id="wx-foot">Mornings start gray at the coast — clouds burn off by ~11 AM. Beach in the afternoon!</div>
+        </div>
+
+        <div class="stat-strip">
+            <div class="stat-box"><div class="stat-num">72°</div><div class="stat-lbl">Ocean Temp</div></div>
+            <div class="stat-box"><div class="stat-num">9–10</div><div class="stat-lbl">Midday UV</div></div>
+            <div class="stat-box"><div class="stat-num" id="stat-days">8</div><div class="stat-lbl">Days Left</div></div>
+        </div>
+
+        <div class="card" style="border-color: rgba(245,168,60,.4);">
+            <div class="card-label">⚠️ Beach Smarts This Week</div>
+            <div class="card-body">
+                <b style="color:var(--sunset-pale)">High surf + rip currents Sun–Tue (Jul 19–21).</b> Swim near lifeguard towers.
+                Skip the water at Imperial Beach / Silver Strand (sewage closure) and check Coronado day-of.
+                Cleanest bets: <b style="color:var(--sand)">Mission Beach, Pacific Beach, La Jolla Shores, Moonlight Beach, Del Mar</b>.
+                Day-of status: sdbeachinfo.com · hotline (619) 338-2073.
+            </div>
+        </div>
+
+        <div class="card" style="border-color: rgba(255,122,85,.4);">
+            <div class="card-label">🦸 Heads Up: Comic-Con</div>
+            <div class="card-body">
+                San Diego Comic-Con takes over downtown <b style="color:var(--sand)">Thu Jul 23 – Sun Jul 26</b> (preview night Wed).
+                Gaslamp, the Embarcadero &amp; trolleys will be packed Wed–Sat — plan downtown stuff (Midway, ferry, Seaport Village) for
+                <b style="color:var(--sand)">Sat–Tue early in the week</b>. Or lean in: cosplay people-watching outside the convention center is free and the kids will love it.
+            </div>
+        </div>
+
+        <div class="crew-banner">
+            <div class="crew-icon">🏄</div>
+            <div>
+                <div class="crew-title">The Beach Crew</div>
+                <div class="crew-members">
+                    <span class="crew-dot">4 Adults</span>
+                    <span class="crew-dot kid">Kid · 12</span>
+                    <span class="crew-dot kid">Kid · 9</span>
+                    <span class="crew-dot kid">Kid · 8</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">Jump In</div>
+        <div class="ql-grid">
+            <button class="ql-card" data-goto="do"><div class="ql-icon">🗺️</div><div class="ql-title">Things To Do</div><div class="ql-sub">Beaches, big fun &amp; free stuff</div></button>
+            <button class="ql-card" data-goto="eat"><div class="ql-icon">🌮</div><div class="ql-title">Where To Eat</div><div class="ql-sub">Tacos, burgers &amp; ice cream</div></button>
+            <button class="ql-card" data-goto="games"><div class="ql-icon">🎮</div><div class="ql-title">Games</div><div class="ql-sub">Trivia, bingo &amp; missions</div></button>
+            <button class="ql-card" data-goto="plan"><div class="ql-icon">📅</div><div class="ql-title">The Week</div><div class="ql-sub">Day ideas &amp; notes</div></button>
+        </div>
+
+        <div class="section-header">Local Intel</div>
+        <div class="card">
+            <div id="tips-list"></div>
+        </div>
+    </section>
+
+    <!-- ═══════════ DO ═══════════ -->
+    <section class="section" id="section-do">
+        <div class="chip-row" id="do-chips"></div>
+        <div id="do-list"></div>
+    </section>
+
+    <!-- ═══════════ EAT ═══════════ -->
+    <section class="section" id="section-eat">
+        <div class="card" style="margin-bottom:12px;">
+            <div class="card-label">🏆 Best Of The Week</div>
+            <div class="card-body">
+                <b style="color:var(--sand)">Fish tacos:</b> Oscar's (PB) &amp; The Taco Stand (La Jolla) ·
+                <b style="color:var(--sand)">Burger:</b> Hodad's (OB) ·
+                <b style="color:var(--sand)">Ice cream:</b> Salt &amp; Straw, Baked Bear, MooTime ·
+                <b style="color:var(--sand)">Big-group hack:</b> food halls — everyone picks their own.
+            </div>
+        </div>
+        <div class="chip-row" id="eat-chips"></div>
+        <div id="eat-list"></div>
+    </section>
+
+    <!-- ═══════════ GAMES ═══════════ -->
+    <section class="section" id="section-games">
+
+        <div class="game-panel active" id="game-hub">
+            <div class="section-header">Pick A Game</div>
+            <div id="game-hub-list"></div>
+        </div>
+
+        <div class="game-panel" id="game-trivia">
+            <div class="game-topbar">
+                <button class="game-back" data-gameback>← Games</button>
+                <div class="game-title-sm">🧠 San Diego Trivia</div>
+            </div>
+            <div class="card" id="trivia-box"></div>
+        </div>
+
+        <div class="game-panel" id="game-bingo">
+            <div class="game-topbar">
+                <button class="game-back" data-gameback>← Games</button>
+                <div class="game-title-sm">🏖️ Beach Bingo</div>
+            </div>
+            <div class="bingo-status" id="bingo-status">Spot it? Tap it! 5 in a row wins.</div>
+            <div class="bingo-grid" id="bingo-grid"></div>
+            <div class="modal-buttons"><button class="btn-secondary" id="bingo-reset">Reset Board</button></div>
+        </div>
+
+        <div class="game-panel" id="game-wyr">
+            <div class="game-topbar">
+                <button class="game-back" data-gameback>← Games</button>
+                <div class="game-title-sm">🤔 Would You Rather</div>
+            </div>
+            <div class="wyr-card">
+                <div class="wyr-label">Would you rather…</div>
+                <div class="wyr-a" id="wyr-a"></div>
+                <div class="wyr-or">— or —</div>
+                <div class="wyr-b" id="wyr-b"></div>
+            </div>
+            <div class="modal-buttons"><button class="btn-primary" id="wyr-next">Next Question →</button></div>
+        </div>
+
+        <div class="game-panel" id="game-decoder">
+            <div class="game-topbar">
+                <button class="game-back" data-gameback>← Games</button>
+                <div class="game-title-sm">🔎 Emoji Decoder</div>
+            </div>
+            <div class="card-body" style="margin-bottom:12px;">Each emoji clue is a San Diego place or thing. Guess out loud, then tap to reveal!</div>
+            <div id="decoder-list"></div>
+        </div>
+
+        <div class="game-panel" id="game-missions">
+            <div class="game-topbar">
+                <button class="game-back" data-gameback>← Games</button>
+                <div class="game-title-sm">🎯 Vacation Missions</div>
+            </div>
+            <div class="bingo-status" id="missions-status"></div>
+            <div class="progress-wrap"><div class="progress-bar" id="missions-bar"></div></div>
+            <div id="missions-list"></div>
+        </div>
+
+    </section>
+
+    <!-- ═══════════ PLAN ═══════════ -->
+    <section class="section" id="section-plan">
+        <div class="day-tabs" id="plan-tabs"></div>
+        <div class="card">
+            <div class="card-label" id="plan-date-label"></div>
+            <div class="card-title" id="plan-day-title"></div>
+            <div class="plan-idea" id="plan-idea"></div>
+            <div class="plan-label">📝 Our Plan / Notes</div>
+            <textarea class="plan-textarea" id="plan-note" placeholder="What's the plan? Who are we meeting? Jot it here…"></textarea>
+            <div class="plan-label">⭐ Best Moment Today</div>
+            <textarea class="plan-textarea" id="plan-moment" style="min-height:60px;" placeholder="Fill this in each night — instant trip journal."></textarea>
+            <div class="plan-saved" id="plan-saved">Saved ✓</div>
+        </div>
+        <div class="card">
+            <div class="card-label">📓 Journal So Far</div>
+            <div id="journal-list" class="card-body">Nothing yet — fill in a Best Moment each night!</div>
+        </div>
+    </section>
+
+</main>
+
+<nav class="bottom-nav">
+    <button class="nav-item active" data-nav="home"><span class="nav-icon">🌅</span><span class="nav-label">Home</span></button>
+    <button class="nav-item" data-nav="do"><span class="nav-icon">🗺️</span><span class="nav-label">Do</span></button>
+    <button class="nav-item" data-nav="eat"><span class="nav-icon">🌮</span><span class="nav-label">Eat</span></button>
+    <button class="nav-item" data-nav="games"><span class="nav-icon">🎮</span><span class="nav-label">Games</span></button>
+    <button class="nav-item" data-nav="plan"><span class="nav-icon">📅</span><span class="nav-label">Week</span></button>
+</nav>
+<script>
+/* ══════════════════ HELPERS ══════════════════ */
+
+// Arizona time (UTC-7, no DST) — matches Pacific Daylight Time during the trip.
+const AZ = {
+    tz: 'America/Phoenix',
+    today() { return new Intl.DateTimeFormat('en-CA', { timeZone: this.tz }).format(new Date()); },
+    daysBetween(a, b) { return Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 86400000); }
+};
+
+// ?simdate=2026-07-20 previews any trip day
+function tripToday() {
+    const sim = new URLSearchParams(location.search).get('simdate');
+    return (sim && /^\d{4}-\d{2}-\d{2}$/.test(sim)) ? sim : AZ.today();
+}
+
+const Store = {
+    ns: 'sd26_',
+    get(key, fallback = null) {
+        try {
+            const raw = localStorage.getItem(this.ns + key);
+            return raw === null ? fallback : JSON.parse(raw);
+        } catch (e) { return fallback; }
+    },
+    set(key, value) {
+        try { localStorage.setItem(this.ns + key, JSON.stringify(value)); return true; }
+        catch (e) { return false; }
+    }
+};
+
+function el(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+}
+
+function toast(msg) {
+    document.querySelectorAll('.toast').forEach(t => t.remove());
+    const t = el('div', 'toast', msg);
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2200);
+}
+
+const CONF_COLORS = ['#ff7a55', '#f5a83c', '#46c8be', '#ffd98a', '#fff'];
+function confettiBurst(x, y, count) {
+    for (let i = 0; i < (count || 14); i++) {
+        const c = el('div', 'confetti-bit');
+        c.style.left = (x + (Math.random() * 60 - 30)) + 'px';
+        c.style.top = (y + (Math.random() * 20 - 10)) + 'px';
+        c.style.background = CONF_COLORS[i % CONF_COLORS.length];
+        c.style.animationDelay = (Math.random() * .15) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 1400);
+    }
+}
+function confettiCenter() { confettiBurst(window.innerWidth / 2, window.innerHeight / 3, 26); }
+
+/* ── Modal (bottom sheet) ── */
+function closeSheet() {
+    const ov = document.querySelector('.modal-overlay');
+    if (ov) ov.remove();
+    document.body.style.overflow = '';
+}
+function openSheet(build) {
+    closeSheet();
+    const overlay = el('div', 'modal-overlay');
+    const box = el('div', 'modal-box');
+    box.appendChild(el('div', 'modal-grab'));
+    build(box);
+    const btnRow = el('div', 'modal-buttons');
+    const closeBtn = el('button', 'btn-primary', 'Close');
+    closeBtn.addEventListener('click', closeSheet);
+    btnRow.appendChild(closeBtn);
+    box.appendChild(btnRow);
+    overlay.appendChild(box);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeSheet(); });
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+}
+function sheetFromData(d) {
+    openSheet(box => {
+        box.appendChild(el('div', 'modal-emoji', d.emoji));
+        box.appendChild(el('div', 'modal-title', d.name));
+        if (d.sub) box.appendChild(el('div', 'modal-sub', d.sub));
+        if (d.text) box.appendChild(el('div', 'modal-text', d.text));
+        if (d.rows) {
+            const rows = el('div', 'modal-rows');
+            for (const [k, v] of d.rows) {
+                const r = el('div', 'modal-row');
+                r.appendChild(el('div', 'modal-row-k', k));
+                r.appendChild(el('div', 'modal-row-v', v));
+                rows.appendChild(r);
+            }
+            box.appendChild(rows);
+        }
+        if (d.tip) {
+            const t = el('div', 'modal-tip');
+            const b = el('b', null, 'Pro tip: ');
+            t.appendChild(b);
+            t.appendChild(document.createTextNode(d.tip));
+            box.appendChild(t);
+        }
+    });
+}
+
+/* ══════════════════ NAV ══════════════════ */
+function showSection(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + name).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.nav === name));
+    window.scrollTo(0, 0);
+}
+document.querySelectorAll('.nav-item').forEach(b => b.addEventListener('click', () => showSection(b.dataset.nav)));
+document.querySelectorAll('[data-goto]').forEach(b => b.addEventListener('click', () => showSection(b.dataset.goto)));
+
+/* ══════════════════ TRIP DATA ══════════════════ */
+
+const TRIP_START = '2026-07-18', TRIP_END = '2026-07-25';
+
+const DAYS = [
+    { key: '2026-07-18', dow: 'Sat', num: 18, title: 'Beach Hello 🌅', idea: 'Ease in: afternoon at Mission Beach or Pacific Beach (clean water, lifeguards), then Belmont Park at golden hour — ride the 1925 Giant Dipper coaster (kids all clear the 50" mark). Ice cream sandwiches at The Baked Bear after.' },
+    { key: '2026-07-19', dow: 'Sun', num: 19, title: 'La Jolla Day 🦭', idea: 'Morning at La Jolla Shores (arrive by 9:30 for parking) — gentlest waves in town, perfect boogie boarding. Walk to Birch Aquarium after, then The Taco Stand or Duke’s. High surf kicks up tonight — stay near lifeguards.' },
+    { key: '2026-07-20', dow: 'Mon', num: 20, title: 'Flight Deck Monday ✈️', idea: 'USS Midway at 10 AM opening (3–4 hrs of cockpits and ejection seats), lunch at Seaport Village next door, then the $8 ferry to Coronado — bikes, sand and MooTime ice cream. Do downtown NOW, before Comic-Con lands Thursday.' },
+    { key: '2026-07-21', dow: 'Tue', num: 21, title: 'Safari Tuesday 🦁', idea: 'Safari Park in Escondido — arrive at 9 AM sharp (it’s hot inland; the animals nap by noon). Africa Tram included. Back by late afternoon; free Twilight in the Park concert at Balboa Park tonight (San Diego Jazz Orchestra).' },
+    { key: '2026-07-22', dow: 'Wed', num: 22, title: 'Sea Cave Adventure 🛶', idea: 'The signature adventure: kayak the La Jolla sea caves (~2 hrs, tandem kayaks, all 3 kids qualify with an adult — book ahead!). Beach chill at the Shores after. Tonight: Latin Sol concert at Balboa Park, free.' },
+    { key: '2026-07-23', dow: 'Thu', num: 23, title: 'Cliffs & Coasters 🌲', idea: 'Early Torrey Pines Beach Trail hike (8–9 AM beats heat and parking), then Moonlight Beach in Encinitas — playground ON the sand. Comic-Con starts downtown today; steer clear or go cosplay-spotting (free, outside the center).' },
+    { key: '2026-07-24', dow: 'Fri', num: 24, title: 'Day at the Races 🐎', idea: 'Del Mar racetrack — Friday first post is 2 PM, and the seaside track is surprisingly family-friendly (paddock, infield). North County dinner after: Pizza Port Carlsbad, built for big loud families.' },
+    { key: '2026-07-25', dow: 'Sat', num: 25, title: 'Little Italy Finale 🇮🇹', idea: 'Little Italy Mercato farmers market (Sat morning, the city’s best), Waterfront Park spray fountains for the kids, Salt & Straw scoops. Balboa Park gardens in the afternoon for anything you missed. Arrivederci, San Diego!' }
+];
+
+const TIPS = [
+    ['🌫️', 'Marine layer: coast mornings are gray — clouds burn off ~11 AM. Attractions in the morning, beach in the afternoon (but claim beach parking early on weekends).'],
+    ['🧴', 'UV hits 9–10 midday even under clouds. Sunscreen every 2 hours, 10 AM–4 PM.'],
+    ['🌊', 'Ocean is 72°F this week — unusually warm. No wetsuits needed.'],
+    ['🚗', 'Inland (Safari Park, Escondido) runs 10–15° hotter than the coast. Pack water.'],
+    ['🅿️', 'Beach parking is the real boss battle: La Jolla Shores full by 9:30 AM, Mission Beach by 10:30 on weekends.'],
+    ['⚾', 'Padres are on the road all week (back Jul 28) — no home games, but Petco Park tours run.'],
+    ['🌮', 'Peak dinner waits at beach spots are 6–8 PM. Eat at 5 or after 8, or hit the marquee places at lunch.'],
+    ['🦭', 'Sea lion pups at La Jolla Cove right now (born Jun–Jul). Go before 9 AM. Watch from the boardwalk — the bluff is closed for pupping season.']
+];
+
+/* ── Things To Do ── */
+const DO_CATS = [['all', 'All'], ['top', '⭐ Top Picks'], ['beach', '🏖️ Beaches'], ['big', '🎢 Big Fun'], ['free', '🆓 Free & Cheap'], ['week', '📅 This Week']];
+
+const SPOTS = [
+    { emoji: '🛶', name: 'La Jolla Sea Cave Kayaking', cats: ['top', 'big'], meta: 'The trip’s signature adventure · ~$64–75/person · 2 hrs', tags: [['ALL 3 KIDS OK', 'hot'], ['BOOK AHEAD', 'warm']],
+      sub: 'La Jolla Shores · Top Pick #1',
+      text: 'Paddle tandem kayaks out to the seven sea caves with sea lions, garibaldi and (harmless!) leopard sharks below. Kids ride tandem with an adult — 7 people = 4 tandems. Operators: Everyday California, La Jolla Kayak, Bike & Kayak Tours.',
+      rows: [['Cost', '~$64–75 per person'], ['Time', '~2 hours on the water'], ['Kids', 'Ages ~5+ on tandems — all three qualify'], ['Book', 'Reserve 1–2 days ahead in July']],
+      tip: 'Take a morning tour — calmer water, better wildlife. Ask about the leopard shark snorkel add-on; they school at the Shores in late summer.' },
+    { emoji: '🦁', name: 'San Diego Zoo Safari Park', cats: ['top', 'big'], meta: 'Escondido · ~$68–78 + $20 parking · 4–6 hrs', tags: [['BEST FOR 8–12', 'hot'], ['GO WEEKDAY 9AM', 'warm']],
+      sub: 'Better than the Zoo for these ages',
+      text: 'Feels like an actual safari: open savannas from the included Africa Tram, cheetah run, lorikeet feeding. For kids 8–12 it beats the classic Zoo — more wow, fewer strollers. Skip doing both parks in one week.',
+      rows: [['Cost', '~$68–78 (the 12-year-old pays adult price) + $20 parking'], ['Hours', 'Opens 9 AM — be there AT open'], ['Heat', 'Inland runs 10–15° hotter; animals nap after noon'], ['Time', '4–6 hours']],
+      tip: 'Weekday only — July weekend afternoons hit max capacity and the tram line tops 45 minutes by 11 AM.' },
+    { emoji: '✈️', name: 'USS Midway Museum', cats: ['top', 'big'], meta: 'Downtown Embarcadero · $39 adult / $26 kid · 3–4 hrs', tags: [['KIDS LOVE IT', 'hot'], ['DO EARLY IN WEEK', 'warm']],
+      sub: 'A real aircraft carrier',
+      text: 'Climb into cockpits, sit in ejection seats, wander the engine room and brig of a genuine aircraft carrier. Audio tour included; many docents are veterans — let the kids pepper them with questions.',
+      rows: [['Cost', '$39 adult (13+) / $26 child · ~$2 cheaper online'], ['Hours', '10 AM–5 PM, last entry 4 PM'], ['Time', '3–4 hours'], ['Comic-Con', 'It’s next to the convention center — go Sat–Tue, NOT Thu–Sat']],
+      tip: 'Arrive at 10 AM opening: cooler flight deck, no tour-bus crowds. Seaport Village next door for the wind-down.' },
+    { emoji: '🏄', name: 'La Jolla Shores + Birch Aquarium', cats: ['top', 'beach'], meta: 'Best combo day · beach free, aquarium ~$25', tags: [['GENTLEST WAVES', 'hot']],
+      sub: 'The all-around family beach day',
+      text: 'La Jolla Shores has the gentlest, sandiest-bottom waves in town — ideal boogie boarding for all three kids, with lifeguards separating surf and swim zones and Kellogg Park grass behind. Birch Aquarium (small but excellent, 1.5–2 hrs) is up the hill: seadragons, touch tanks, killer view deck.',
+      rows: [['Beach', 'Free · arrive before 9:30 AM for parking'], ['Aquarium', '~$25 adult / ~$21 kid · reserve at aquarium.ucsd.edu'], ['Bonus', 'Touch tanks solve the "no tide pools in July" problem']],
+      tip: 'Water-quality advisory sits at the boat-launch end (Avenida De La Playa) — swim at the main lifeguarded stretch and check sdbeachinfo.com day-of.' },
+    { emoji: '🎢', name: 'Belmont Park & Giant Dipper', cats: ['top', 'big', 'beach'], meta: 'Mission Beach · free entry, rides à la carte or ~$55–65 band', tags: [['1925 COASTER', 'warm'], ['GO AT SUNSET', '']],
+      sub: 'Beachfront boardwalk rides',
+      text: 'Free-entry boardwalk amusement park anchored by the Giant Dipper, a 1925 wooden coaster and National Historic Landmark (50" minimum — all three kids should clear it). Pair with a Mission Beach afternoon.',
+      rows: [['Cost', 'Pay-per-ride, or unlimited wristband ~$55–65'], ['Hack', 'Wristbands ~$20 off in the last 3 hours before close'], ['Best time', 'Golden hour — rides + sunset + boardwalk']],
+      tip: 'Short visit? Buy single Giant Dipper tickets instead of wristbands and spend the savings at The Baked Bear.' },
+    { emoji: '⛴️', name: 'Coronado Ferry + Bikes', cats: ['top', 'free'], meta: '$8/person each way · cheap all-day adventure', tags: [['BIG VALUE', 'hot']],
+      sub: 'The $8 mini-cruise',
+      text: 'Hourly ferry from Broadway Pier to Coronado Ferry Landing. Rent bikes there (or a 6-seat surrey), roll to Coronado Central Beach — wide, flat, gentle waves against the Hotel del backdrop — then MooTime Creamery, and catch the ferry back at dusk for skyline views.',
+      rows: [['Ferry', '$8 each way, hourly 9 AM–9/10 PM'], ['Beach', 'Sand play is fine; check water status day-of (on/off advisories this week)'], ['Food', 'Village Pizzeria at the Ferry Landing has bay views']],
+      tip: 'Time the return ferry for just after sunset — the skyline ride is the best $8 of the trip.' },
+    { emoji: '🔬', name: 'Balboa Park Half-Day', cats: ['top', 'free'], meta: 'Fleet Science Center ~$22/$19 + free gardens · parking free', tags: [['RAINY-GRAY MORNING FIX', '']],
+      sub: 'Museums + gardens + street performers',
+      text: 'Fleet Science Center is the hands-on hit for ages 8–12 (2–3 hrs); the Model Railroad Museum downstairs in Casa de Balboa is cheap and a sleeper favorite. The Botanical Building, lily pond and gardens are free, with street performers along El Prado.',
+      rows: [['Fleet', '$21.95 adult / $18.95 kid'], ['Trains', 'Model Railroad Museum ~$18, kids cheap'], ['Free', 'Gardens, El Prado, organ pavilion'], ['Parking', 'Free']],
+      tip: 'Free Twilight in the Park concerts this week: Tue (jazz orchestra), Wed (Latin Sol), Thu (rock) — evenings at the organ pavilion.' },
+    { emoji: '🦭', name: 'Sea Lion Pups at La Jolla Cove', cats: ['top', 'free'], meta: 'Free · best before 9 AM · pup season is NOW', tags: [['JULY = PUPS', 'hot'], ['FREE', '']],
+      sub: 'Wild sea lions, zero admission',
+      text: 'Pups born June–July are nursing and learning to swim right now. The Point La Jolla bluff is closed for pupping season, but the boardwalk viewing is excellent — you’ll be 20 feet from the colony. Harbor seals lounge at Children’s Pool around the corner (best late afternoon).',
+      rows: [['Cost', 'Free'], ['Best time', 'Before 9 AM — animals hauled out, parking findable'], ['Note', 'Look, don’t approach — mom sea lions are protective']],
+      tip: 'Combine with breakfast at Brockton Villa above the Cove (get there early — no brunch reservations).' },
+    { emoji: '🌲', name: 'Torrey Pines Hike', cats: ['top', 'free'], meta: 'Beach Trail 1.3 mi · parking $10–25 · go 8–9 AM', tags: [['EPIC VIEWS', 'warm']],
+      sub: 'Cliffs, rare pines, ocean',
+      text: 'The Beach Trail winds 1.3 miles through sandstone canyons down to the sand — totally doable for the 8-year-old — or take the easy 0.7-mile Guy Fleming loop with two ocean overlooks. Dolphins sometimes cruise by below.',
+      rows: [['Parking', '$10–25 demand-priced (weekdays cheaper) — or free on the 101 shoulder + walk in'], ['Rules', 'Water only inside the reserve — no snacks'], ['Best time', '8–9 AM: cool, empty, parking exists']],
+      tip: 'Hike down the Beach Trail, walk back along the sand to the lower lot — feels like two adventures.' },
+    { emoji: '🏖️', name: 'Mission Beach & Pacific Beach', cats: ['beach'], meta: 'Boardwalk classic · clean water this week', tags: [['CLEAN WATER', 'hot']],
+      sub: 'The lively one',
+      text: 'Livelier surf and the famous boardwalk — great for the 12-year-old, with Belmont Park attached and The Baked Bear + Oscar’s fish tacos in walking range. More scene-y and crowded than the Shores.',
+      rows: [['Water', 'On the clean list this week'], ['Parking', 'Gone by ~10:30 AM weekends'], ['Combo', 'Afternoon beach → Belmont Park evening']],
+      tip: 'Rent boogie boards from a boardwalk shop rather than hauling them — cheap and zero schlep.' },
+    { emoji: '🏰', name: 'Coronado Central Beach', cats: ['beach'], meta: 'Wide, flat, gentle · Hotel del backdrop', tags: [['CHECK WATER DAY-OF', 'warm']],
+      sub: 'The postcard one',
+      text: 'Huge flat beach with gentle waves for boogie boarding and wading, lifeguards, and the Hotel del Coronado as your backdrop. Sand is mica-sparkly. Pair with the ferry + bikes.',
+      rows: [['Water', 'On/off advisories this week — check sdbeachinfo.com before swimming; sand play always fine'], ['Avoid', 'Silver Strand & Imperial Beach south of here — closed (sewage)'], ['Treat', 'MooTime Creamery on Orange Ave']],
+      tip: 'Late afternoon here is magic — golden light on the Del, and the day-trippers thin out.' },
+    { emoji: '🌙', name: 'Moonlight Beach (Encinitas)', cats: ['beach'], meta: '~30 min north · playground ON the sand', tags: [['CLEAN WATER', 'hot'], ['EASIEST W/ KIDS', '']],
+      sub: 'Built for families',
+      text: 'A playground on the sand, volleyball courts, snack bar, fire rings, easy drop-off — the lowest-friction beach day of the week, and solidly on the clean-water list. Good boogie-board waves.',
+      rows: [['Drive', '~30 min north — combine with Torrey Pines or Carlsbad'], ['Facilities', 'Playground, snack bar, showers, lifeguards'], ['Dinner', 'Buona Forchetta or Pizza Port nearby']],
+      tip: 'North County pairing: Torrey Pines hike in the morning, Moonlight Beach afternoon, Pizza Port Carlsbad dinner.' },
+    { emoji: '🚣', name: 'Mission Bay Calm Water', cats: ['beach'], meta: 'Waveless, warm & shallow · pedal boats ~$52/hr', tags: [['ZERO WAVES', '']],
+      sub: 'For the mellow day',
+      text: 'Bonita Cove and Ventura Cove are warm, waveless and shallow — a break from surf for the 8-year-old. Pedal boats (walk-ups OK) and shaded 6-seat surrey bikes along the boardwalk.',
+      rows: [['Pedal boat', '~$52/hour, seats the kids + an adult'], ['Surrey', 'Seats up to 6, shaded — very silly, very fun'], ['Where', 'Mission Bay, minutes from Belmont Park']],
+      tip: 'This is the recovery day move after a big-attraction day — low effort, high giggles.' },
+    { emoji: '🕰️', name: 'Old Town State Historic Park', cats: ['free'], meta: 'Free · blacksmiths, stagecoaches & old candy', tags: [['FREE', ''], ['EVENING = MARIACHI', '']],
+      sub: 'Time travel, no admission',
+      text: 'California’s birthplace: one-room schoolhouse, blacksmith demos, Seeley Stable stagecoaches, and a free Junior Ranger scavenger-hunt booklet at the visitor center that turns it into a game. Old-fashioned candy at the 1800s shop.',
+      rows: [['Cost', 'Free · free 4-hr parking lots'], ['Hours', 'Buildings ~10 AM–5 PM'], ['Dinner', 'Fiesta de Reyes courtyard or Casa Guadalajara — mariachis, kids menus, big tables']],
+      tip: 'Go late afternoon, grab Junior Ranger booklets first, then roll straight into a courtyard Mexican dinner with mariachis.' },
+    { emoji: '🗼', name: 'Cabrillo National Monument', cats: ['free'], meta: '$20/car (7-day pass) · best harbor view in SD', tags: [['JUNIOR RANGER', '']],
+      sub: 'Point Loma lighthouse + views',
+      text: 'Walk through the 1855 Old Point Loma Lighthouse and take in the single best panorama of the harbor and skyline. Junior Ranger badges at the visitor center. Skip the tide pools this week — summer low tides happen at night.',
+      rows: [['Cost', '$20/vehicle, good for 7 days'], ['Hours', '9 AM–5 PM'], ['Best time', 'Mid-late afternoon, after the marine layer burns off'], ['Combo', 'Liberty Station lunch → Cabrillo → Sunset Cliffs at dusk']],
+      tip: 'The whole Point Loma loop (food hall + lighthouse + sunset) is the best half-day nobody plans.' },
+    { emoji: '🌇', name: 'Sunset Cliffs', cats: ['free'], meta: 'Free · arrive 30–45 min before sunset', tags: [['FREE', '']],
+      sub: 'The sunset ritual',
+      text: 'Dramatic sandstone cliffs in Ocean Beach for the day’s finale. Keep the kids well back from the crumbly edges and let the sky do its thing.',
+      rows: [['Cost', 'Free'], ['When', '30–45 min before sunset (~7:55 PM this week)'], ['After', 'Hodad’s burgers on Newport Ave if the line’s sane']],
+      tip: 'Bring hoodies — the temp drops fast when the sun goes down at the coast.' },
+    { emoji: '🎨', name: 'Chicano Park Murals', cats: ['free'], meta: 'Free · 30–45 min · world-famous murals', tags: [['QUICK STOP', '']],
+      sub: 'Barrio Logan color',
+      text: 'The largest collection of outdoor murals in the country, painted on the Coronado Bridge pylons. A quick, genuinely impressive stop — pair with rolled tacos at the legendary Las Cuatro Milpas (new location: 1985 National Ave, cash, go before 11:30 AM).',
+      rows: [['Cost', 'Free'], ['Time', '30–45 minutes'], ['Eat', 'Las Cuatro Milpas — 90 years of family recipes, reopened May 2026']],
+      tip: 'Morning combo: murals + Milpas rolled tacos before the lunch line wraps the block.' },
+    { emoji: '🦸', name: 'Comic-Con Cosplay Safari', cats: ['week', 'free'], meta: 'Thu Jul 23 – Sun Jul 26 · free from outside', tags: [['THIS WEEK', 'hot'], ['FREE', '']],
+      sub: 'No badge needed',
+      text: 'SDCC takes over downtown Thu–Sun. You can’t get badges, but the spectacle spills outside free: cosplayers everywhere in the Gaslamp, building-size murals, and offsite activations around Petco Park that are open to the public.',
+      rows: [['Dates', 'Thu Jul 23 – Sun Jul 26 (preview Wed 22)'], ['Cost', 'Free from the street'], ['Warning', 'Traffic + parking downtown are brutal Thu–Sat — take the trolley']],
+      tip: 'Best spectating: Gaslamp Quarter + the area around the convention center, late morning. The 12-year-old will lose their mind.' },
+    { emoji: '🐎', name: 'Del Mar Races', cats: ['week'], meta: 'Season just opened · Fri first post 2 PM', tags: [['THIS WEEK', 'warm']],
+      sub: 'Where the surf meets the turf',
+      text: 'Del Mar’s summer season opened Jul 17 — the seaside track is surprisingly family-friendly: paddock viewing to see the horses up close, infield space to run around, and real spectacle. New for 2026: Friday racing starts at 2 PM.',
+      rows: [['When', 'Race days Wed–Sun typically (dark Mon–Tue) — confirm at dmtc.com'], ['Cost', 'General admission is cheap; kids usually free'], ['Combo', 'Moonlight Beach or Carlsbad dinner after']],
+      tip: 'Get to the paddock 20 minutes before a race so the kids can pick a horse by name and cheer it home.' },
+    { emoji: '🎺', name: 'Twilight in the Park Concerts', cats: ['week', 'free'], meta: 'Free · Tue/Wed/Thu evenings · Balboa Park', tags: [['THIS WEEK', ''], ['FREE', '']],
+      sub: 'Spreckels Organ Pavilion',
+      text: 'Free evening concerts at Balboa Park’s organ pavilion this week: Tue Jul 21 San Diego Jazz Orchestra, Wed Jul 22 Latin Sol, Thu Jul 23 3 Car Garage. Bring a picnic blanket.',
+      rows: [['Cost', 'Free'], ['This week', 'Tue jazz · Wed Latin · Thu rock'], ['Also', 'Free Summer Movies in the Park around the county — check summermoviesinthepark.com']],
+      tip: 'Pair the Tuesday concert with Safari Park day — you’re back from Escondido by 5 anyway.' },
+    { emoji: '🥕', name: 'Little Italy Mercato', cats: ['week', 'free'], meta: 'Saturday mornings · the city’s best market', tags: [['SATURDAY', '']],
+      sub: 'Farmers market + fountains',
+      text: 'The city’s biggest farmers market runs Saturday mornings on India Street: produce, hot food stalls, street musicians. Waterfront Park’s giant spray fountains are two blocks away for the kids, with Salt & Straw for dessert.',
+      rows: [['When', 'Sat mornings (this Sat & next)'], ['Kids', 'Waterfront Park fountains — bring swimsuits'], ['Dessert', 'Salt & Straw on India St, open late']],
+      tip: 'Perfect final-Saturday sendoff: market breakfast, fountain soak, gelato, gone.' }
+];
+
+/* ── Where To Eat ── */
+const EAT_CATS = [['all', 'All'], ['lajolla', 'La Jolla'], ['beach', 'OB · PB · Mission'], ['coronado', 'Coronado'], ['oldtown', 'Old Town'], ['downtown', 'Downtown'], ['north', 'North County']];
+
+const EATS = [
+    { emoji: '🍔', name: 'Hodad’s', cats: ['beach'], price: 1, meta: 'Ocean Beach · legendary bacon cheeseburgers & shakes', tags: [['SD ICON', 'hot']],
+      sub: 'Ocean Beach · $',
+      text: 'The undisputed San Diego burger — giant bacon cheeseburgers and thick shakes in a sticker-covered surf shack. Tiny room, big lines.',
+      rows: [['Party of 7', 'A squeeze — go 2–4 PM off-peak, or use the downtown location'], ['Wait', '30–60 min at lunch/dinner'], ['Combo', 'Sunset Cliffs is 5 minutes away']],
+      tip: 'Split a few burgers — they’re enormous. Minis for the kids.' },
+    { emoji: '🌮', name: 'Oscar’s Mexican Seafood', cats: ['beach'], price: 1, meta: 'Pacific Beach (746 Emerald St) · best-in-town fish tacos', tags: [['FISH TACO #1', 'hot']],
+      sub: 'Pacific Beach · $',
+      text: 'Ensenada-style battered fish tacos and famous smoked-fish tacos. Counter service, few seats — take them to the beach. (Heads up: the old Turquoise St location closed; Emerald St is the real one.)',
+      rows: [['Party of 7', 'Takeout to the sand works best'], ['Order', 'Battered fish taco + smoked fish taco, one of each per human']],
+      tip: 'Cheap enough to feed all 7 for the price of one sit-down entrée elsewhere.' },
+    { emoji: '🍪', name: 'The Baked Bear', cats: ['beach'], price: 1, meta: 'Pacific Beach · build-your-own ice cream cookie sandwiches', tags: [['KID HEAVEN', 'hot']],
+      sub: 'Pacific Beach · $',
+      text: 'San Diego original: pick two cookies, pick your ice cream, they smash it into a sandwich. The kids will talk about it for years.',
+      rows: [['Wait', 'Evening boardwalk lines in July — worth it'], ['Combo', 'Post-Belmont Park ritual']],
+      tip: 'Get it hot-pressed. Trust.' },
+    { emoji: '🏄', name: 'Taco Surf', cats: ['beach'], price: 1, meta: 'Pacific Beach · no-frills surf-shack burritos', tags: [['CHEAP & EASY', '']],
+      sub: 'Pacific Beach · $',
+      text: 'Surfboards on the ceiling, cheap massive burritos, zero stress with kids. The reliable refuel.',
+      rows: [['Party of 7', 'Easy'], ['Order', 'California burrito — fries inside, San Diego’s invention']],
+      tip: 'A California burrito is the city’s official food group. The kids need to know.' },
+    { emoji: '🥞', name: 'Kono’s Cafe', cats: ['beach'], price: 1, meta: 'PB boardwalk · huge cheap breakfast burritos, pier view', tags: [['BREAKFAST', '']],
+      sub: 'Pacific Beach · $',
+      text: 'Big cheap breakfast burritos and pancakes overlooking Crystal Pier. The morning line looks scary and moves fast.',
+      rows: [['Party of 7', 'Counter service + patio — fine'], ['Wait', 'Long-looking, fast-moving']],
+      tip: 'Eat on the seawall and watch the surfers while the marine layer burns off.' },
+    { emoji: '🦞', name: 'Point Loma Seafoods', cats: ['beach'], price: 2, meta: 'Point Loma · fresh-off-the-boat fish & chips, bay views', tags: [['FRESH CATCH', '']],
+      sub: 'Point Loma · $$',
+      text: 'Order-at-counter seafood market with the fish coming straight off the boats — fish & chips, crab sandwiches, sashimi, plus chicken strips for holdout kids. Tons of seating, skyline views.',
+      rows: [['Party of 7', 'Easy — big indoor/outdoor seating'], ['Combo', 'Cabrillo / Liberty Station day']],
+      tip: 'The line moves faster than it looks. Get the sourdough fish sandwich.' },
+    { emoji: '🐟', name: 'Mitch’s Seafood', cats: ['beach'], price: 2, meta: 'Point Loma docks · fisherman-owned fish tacos', tags: [['KIDS MENU', '']],
+      sub: 'Point Loma · $$',
+      text: 'Fisherman-owned dockside spot — local-catch fish tacos while the kids watch the boats come in. Kids menu and high chairs.',
+      rows: [['Party of 7', 'Casual counter service, deck seating'], ['Order', 'Local yellowtail taco']],
+      tip: 'Sunset on the deck here is an underrated show.' },
+    { emoji: '🎸', name: 'Corvette Diner', cats: ['beach'], price: 2, meta: 'Liberty Station · 50s diner, singing servers, arcade', tags: [['KID MAGNET', 'hot']],
+      sub: 'Liberty Station · $$',
+      text: 'Fifties time-warp with singing servers, balloon tricks, straws thrown in your hair, and an arcade room. Pure delight for the 8–12 crowd; handles big parties.',
+      rows: [['Party of 7', 'Yes — built for it'], ['Budget', 'Bring arcade quarters money']],
+      tip: 'This is the "kids pick tonight" card. Play it midweek when everyone needs a boost.' },
+    { emoji: '🧺', name: 'Liberty Public Market', cats: ['beach'], price: 1, meta: 'Liberty Station · food hall — everyone picks their own', tags: [['GROUP HACK', 'hot']],
+      sub: 'Liberty Station · $–$$',
+      text: 'Food hall with empanadas, pizza, tacos, lobster rolls, mini donuts — the lowest-friction meal for 4 adults + 3 kids with different opinions. Outdoor tables.',
+      rows: [['Party of 7', 'Perfect — zero negotiation required'], ['Busy', 'Weekend middays'], ['Combo', 'Cabrillo + Point Loma day']],
+      tip: 'Divide and conquer: adults grab tables, kids do a lap and vote with their feet.' },
+    { emoji: '🌮', name: 'The Taco Stand', cats: ['lajolla'], price: 1, meta: 'La Jolla · 2026 best-fish-taco lists · constant line', tags: [['WORTH THE LINE', 'hot']],
+      sub: 'La Jolla · $',
+      text: 'On every best-taco list for a reason. Counter service, ~15–30 min line, limited seats — takeout to the Cove lawn is the move.',
+      rows: [['Party of 7', 'Takeout picnic'], ['Order', 'Battered fish + carne asada, churros to finish']],
+      tip: 'One adult holds a Cove-lawn spot, one runs the taco mission.' },
+    { emoji: '🌺', name: 'Duke’s La Jolla', cats: ['lajolla'], price: 3, meta: 'Ocean-view Hawaiian · takes reservations for 7', tags: [['RESERVABLE', 'warm']],
+      sub: 'La Jolla · $$–$$$',
+      text: 'Hawaiian ocean-view spot that’s genuinely family-friendly — and crucially, takes OpenTable reservations for a party of 7. The one proper sit-down dinner in La Jolla that isn’t a battle.',
+      rows: [['Party of 7', 'Reserve on OpenTable — best big-table option in La Jolla'], ['Dessert', 'Hula Pie. Non-negotiable.']],
+      tip: 'Book a sunset-window table the day you do the Cove or kayaking.' },
+    { emoji: '🍞', name: 'Brockton Villa', cats: ['lajolla'], price: 2, meta: 'Historic cottage over the Cove · "Coast Toast"', tags: [['BREAKFAST', '']],
+      sub: 'La Jolla · $$',
+      text: '1894 beach cottage perched above the Cove. The soufflé-style "Coast Toast" French toast is the order; kids menu has cinnamon-roll pancakes.',
+      rows: [['Party of 7', 'No brunch reservations — arrive at open on weekends'], ['Combo', 'Sea-lion pups first (before 9), breakfast after']],
+      tip: 'Sea lions at 8, Coast Toast at 9. That’s a perfect morning.' },
+    { emoji: '🍨', name: 'Bobboi Natural Gelato', cats: ['lajolla'], price: 1, meta: 'Small-batch gelato near the Cove', tags: [['DESSERT', '']],
+      sub: 'La Jolla · $',
+      text: 'Small-batch gelato a short walk from the Cove — the civilized end to a La Jolla afternoon.',
+      rows: [['Wait', 'Short lines'], ['Try', 'Salted caramel + seasonal fruit flavors']],
+      tip: 'Gelato walk along Prospect St at golden hour: cheap, gorgeous, zero planning.' },
+    { emoji: '🍦', name: 'MooTime Creamery', cats: ['coronado'], price: 1, meta: 'Coronado · handmade scoops & waffle cones', tags: [['DESSERT', 'hot']],
+      sub: 'Coronado · $',
+      text: 'Coronado’s beloved scoop shop on Orange Ave (plus an outpost at the Hotel del). Post-beach ritual.',
+      rows: [['Wait', 'Evening lines after beach days'], ['Combo', 'Ferry + bikes + beach + MooTime = the perfect Coronado loop']],
+      tip: 'Elvis statue photo op out front. The kids won’t know who it is. That’s half the fun.' },
+    { emoji: '🍕', name: 'Village Pizzeria', cats: ['coronado'], price: 2, meta: 'Coronado · hand-tossed pies, Ferry Landing views', tags: [['EASY FOR 7', '']],
+      sub: 'Coronado · $$',
+      text: 'Hand-tossed pizza that handles big family tables easily. The Ferry Landing branch has bay + skyline views — time it with your ferry ride.',
+      rows: [['Party of 7', 'Yes — call ahead'], ['Location hack', 'Ferry Landing branch = dinner view + ferry home']],
+      tip: 'Order ahead, board the ferry back fed and victorious.' },
+    { emoji: '🥓', name: 'Clayton’s Coffee Shop', cats: ['coronado'], price: 1, meta: 'Coronado · retro diner, tabletop jukeboxes', tags: [['BREAKFAST', '']],
+      sub: 'Coronado · $',
+      text: 'True retro diner — counter stools, tabletop jukeboxes, classic breakfasts and burgers. Small, so 7 may split up or wait a bit.',
+      rows: [['Party of 7', 'Tight — split tables or off-peak'], ['Kids', 'Quarters for the jukeboxes = instant entertainment']],
+      tip: 'Bring actual quarters. The jukeboxes are the whole show.' },
+    { emoji: '🏨', name: 'Hotel Del Casual Trio', cats: ['coronado'], price: 3, meta: 'Sun Deck Grill · ENO Pizzeria · Beach + Taco Shack', tags: [['NO ROOM KEY NEEDED', '']],
+      sub: 'Hotel del Coronado · $$–$$$',
+      text: 'You don’t need to be a guest: Sun Deck Bar & Grill (beachfront), ENO Market & Pizzeria (wood-fired), and the Beach + Taco Shack are all walk-up friendly. Resort prices, but you’re eating at a national landmark.',
+      rows: [['Party of 7', 'Walk-up casual — fine'], ['Splurge-o-meter', 'High, but the setting earns it once']],
+      tip: 'Ice cream + a wander through the Del’s Victorian lobby costs less than lunch and feels like the full experience.' },
+    { emoji: '🪅', name: 'Casa Guadalajara', cats: ['oldtown'], price: 2, meta: 'Old Town · mariachis, tortilla ladies, kids menu', tags: [['BEST FOR 7', 'hot'], ['RESERVABLE', '']],
+      sub: 'Old Town · $$',
+      text: 'Big festive patios, strolling mariachis, tortillas made by hand at the window, dedicated kids menu — and it takes reservations for big tables. The easiest great Mexican dinner for this crew.',
+      rows: [['Party of 7', 'Reserve — they handle big families constantly'], ['Combo', 'Old Town park late afternoon → dinner here']],
+      tip: 'Ask for a patio table near the mariachis and let the kids request a song.' },
+    { emoji: '🫓', name: 'Old Town Mexican Cafe', cats: ['oldtown'], price: 2, meta: 'Old Town · famous window tortilla makers', tags: [['CLASSIC', '']],
+      sub: 'Old Town · $$',
+      text: 'The tortilla ladies in the front window are a show in themselves. Machaca, carnitas, loud and happily kid-tolerant. Waits at peak dinner.',
+      rows: [['Party of 7', 'Doable; expect a wait 6–8 PM'], ['Order', 'Carnitas + fresh tortillas, done']],
+      tip: 'Park the kids in front of the tortilla window while you wait for the table.' },
+    { emoji: '🍝', name: 'Filippi’s Pizza Grotto', cats: ['downtown'], price: 2, meta: 'Little Italy · enter through the deli · since 1950', tags: [['CLASSIC', 'warm']],
+      sub: 'Little Italy · $$',
+      text: 'Walk through the Italian deli to the red-checkered-tablecloth dining room in back. Giant pizzas and pastas, chianti bottles on the ceiling, big-family energy since 1950.',
+      rows: [['Party of 7', 'They handle big families well — no reservations, expect a dinner wait'], ['Order', 'The giant "special" pizza']],
+      tip: 'Go at 5 PM sharp and walk straight in.' },
+    { emoji: '🍧', name: 'Salt & Straw', cats: ['downtown'], price: 1, meta: 'Little Italy · inventive scoops, open till 11', tags: [['DESSERT', 'hot']],
+      sub: 'Little Italy · $',
+      text: 'The inventive-flavors scoop shop on India Street — 10–20 min evening lines, open late. Tasting spoons are free and encouraged.',
+      rows: [['Wait', '10–20 min evenings'], ['Combo', 'Mercato Saturday or post-Filippi’s']],
+      tip: 'Everyone gets two free tastes before committing. Use them on the weird ones.' },
+    { emoji: '🥘', name: 'Little Italy Food Hall', cats: ['downtown'], price: 1, meta: 'Piazza della Famiglia · 7 stations + piazza seating', tags: [['GROUP HACK', '']],
+      sub: 'Little Italy · $–$$',
+      text: 'Seven food stations around a European-style piazza — the downtown version of the everyone-picks-their-own move. Pairs with the Saturday Mercato and the Waterfront Park fountains.',
+      rows: [['Party of 7', 'Perfect'], ['Kids bonus', 'Waterfront Park spray fountains 2 blocks away — bring suits']],
+      tip: 'Saturday: Mercato → food hall lunch → fountain soak. The kids will sleep well.' },
+    { emoji: '🥞', name: 'Richard Walker’s Pancake House', cats: ['downtown'], price: 2, meta: 'Downtown · baked apple & German pancakes', tags: [['BREAKFAST', '']],
+      sub: 'Downtown · $$',
+      text: 'Downtown institution for oven-baked apple pancakes and puffy German pancakes. Weekend lines; skip during Comic-Con (Thu–Sun) when downtown is mobbed.',
+      rows: [['Party of 7', 'Fine off-peak; weekend waits'], ['Alternative', 'Breakfast Republic (several locations) takes reservations']],
+      tip: 'One baked apple pancake feeds roughly three children and one impressed adult.' },
+    { emoji: '🫔', name: 'Las Cuatro Milpas', cats: ['downtown'], price: 1, meta: 'Barrio Logan · 90 yrs of rolled tacos · NEW address', tags: [['LEGEND', 'warm'], ['CASH', '']],
+      sub: 'Barrio Logan · $',
+      text: 'Ninety-plus years of handmade tortillas, rolled tacos and chorizo-and-beans. Closed its historic building in 2025 and reopened May 2026 at 1985 National Ave — same family, same recipes. Cash, lunch only, line wraps the block.',
+      rows: [['Party of 7', 'Counter-style; go before 11:30 AM'], ['Note', 'New location: 1985 National Ave (not the old Logan Ave spot)'], ['Combo', 'Chicano Park murals are minutes away']],
+      tip: 'This is the "eat where the city actually eats" stop. Bring cash and go early.' },
+    { emoji: '🍺', name: 'Pizza Port Carlsbad', cats: ['north'], price: 2, meta: 'Carlsbad · surf-brewpub, communal picnic tables', tags: [['BUILT FOR FAMILIES', 'hot']],
+      sub: 'Carlsbad · $$',
+      text: 'Surf-themed brewpub with communal picnic tables, award-winning pizzas, and house root beer for the kids. Loud, happy, zero judgment — made for a 7-person crew.',
+      rows: [['Party of 7', 'Communal tables — easy'], ['Combo', 'Del Mar races or Moonlight Beach day']],
+      tip: 'Adults get the award-winning beer, kids get root beer, everyone gets pizza. Peace in our time.' },
+    { emoji: '🚂', name: 'Ruby’s Diner Carlsbad', cats: ['north'], price: 2, meta: 'Near Legoland · model train circles overhead', tags: [['KID FUN', '']],
+      sub: 'Carlsbad · $$',
+      text: 'Forties-style diner with a model train running laps above your head. Easy big-table seating, close to Legoland.',
+      rows: [['Party of 7', 'Easy'], ['Order', 'Shakes + burgers, obviously']],
+      tip: 'The train alone buys you 20 minutes of kid attention. Order accordingly.' }
+];
+
+/* ── Games data ── */
+const TRIVIA = [
+    { q: 'What does "San Diego" actually mean?', opts: ['Saint Diego', 'Sandy Place', 'Big Harbor', 'Sunny Land'], a: 0, fact: 'Named for Saint Didacus (San Diego) of Alcalá, a 15th-century Spanish friar.' },
+    { q: 'The Giant Dipper coaster at Belmont Park opened in what year?', opts: ['1955', '1985', '1925', '2005'], a: 2, fact: 'It’s a National Historic Landmark — over 100 years old and still running on wooden tracks!' },
+    { q: 'What burrito was invented in San Diego?', opts: ['The Breakfast Burrito', 'The California Burrito', 'The Bean Burrito', 'The Surf Burrito'], a: 1, fact: 'Carne asada + FRENCH FRIES inside a burrito. A true San Diego gift to the world.' },
+    { q: 'Which animals have pups at La Jolla Cove every June and July?', opts: ['Sea otters', 'Dolphins', 'Sea lions', 'Elephant seals'], a: 2, fact: 'Sea lion pups are born right on the rocks — that’s why the bluff is closed all summer.' },
+    { q: 'The USS Midway is what kind of ship?', opts: ['Battleship', 'Submarine', 'Aircraft carrier', 'Cruise ship'], a: 2, fact: 'It was the largest ship in the world for a decade after it launched in 1945.' },
+    { q: 'What is the harmless shark that gathers at La Jolla Shores every summer?', opts: ['Leopard shark', 'Hammerhead', 'Tiger shark', 'Nurse shark'], a: 0, fact: 'Hundreds of leopard sharks cruise the warm shallows — they have tiny mouths and zero interest in humans.' },
+    { q: 'San Diego is often called the birthplace of…', opts: ['Texas', 'California', 'Surfing', 'Hollywood'], a: 1, fact: 'The first European settlement in California started here in 1769, in what’s now Old Town.' },
+    { q: 'What famous hotel on Coronado is one of the largest wooden buildings in the USA?', opts: ['Hotel California', 'Hotel del Coronado', 'The Grand Surf', 'Casa del Mar'], a: 1, fact: 'Built in 1888. Marilyn Monroe filmed here, and some say a ghost named Kate still checks in.' },
+    { q: 'What’s the gray morning sky at the beach called?', opts: ['Sea smoke', 'The marine layer', 'Fog soup', 'Gray-out'], a: 1, fact: 'Locals call it "June Gloom" — cool ocean air makes low clouds that burn off by lunchtime.' },
+    { q: 'The San Diego Zoo pioneered what kind of exhibit?', opts: ['Underwater tunnels', 'Cageless, open-air enclosures', 'Night safaris', 'Robot animals'], a: 1, fact: 'In the 1920s it was one of the first zoos to ditch cages for open moated enclosures.' },
+    { q: 'What baseball team plays at Petco Park?', opts: ['The Sharks', 'The Padres', 'The Waves', 'The Gulls'], a: 1, fact: '"Padres" means "fathers" — named for the Spanish friars who founded the city’s mission.' },
+    { q: 'Comic-Con started in San Diego in 1970 with about how many people?', opts: ['300', '13,000', '50,000', '130,000'], a: 0, fact: 'About 300 fans in a hotel basement. Now it’s 130,000+ people and takes over the whole city.' },
+    { q: 'Which rare tree grows naturally ONLY around Torrey Pines and one island?', opts: ['Redwood', 'Joshua tree', 'Torrey pine', 'Giant sequoia'], a: 2, fact: 'The Torrey pine is the rarest pine in the U.S. — only here and on Santa Rosa Island.' },
+    { q: 'What do grunion (little silver fish) famously do on San Diego beaches?', opts: ['Glow in the dark', 'Surf the waves', 'Come ashore at night to lay eggs', 'Sing'], a: 2, fact: 'On certain nights they ride waves onto the sand to spawn. The next "grunion run" is July 29.' },
+    { q: 'How tall are the waves that Sunset Cliffs surfers ride in big winter swells?', opts: ['2 feet', '6 feet', '15+ feet', '100 feet'], a: 2, fact: 'Winter storms can push waves over 15 feet at Point Loma’s famous breaks.' }
+];
+
+const BINGO_ITEMS = [
+    ['🦭', 'Sea lion'], ['🏄', 'Surfer'], ['🌴', 'Palm tree'], ['🚁', 'Helicopter'], ['⛵', 'Sailboat'],
+    ['🐬', 'Dolphin'], ['🦀', 'Crab'], ['🪁', 'Kite'], ['🐕', 'Beach dog'], ['🌊', 'Big wave'],
+    ['🚤', 'Speedboat'], ['🦅', 'Pelican'], ['🍦', 'Ice cream cone'], ['🎸', 'Street musician'], ['🚂', 'Trolley'],
+    ['🧜', 'Mermaid (art!)'], ['🌮', 'Taco shop'], ['🏰', 'Sandcastle'], ['🚲', 'Beach cruiser'], ['🦸', 'Cosplayer'],
+    ['🐚', 'Cool shell'], ['🌅', 'Sunset photo'], ['🎡', 'Ferris wheel'], ['🇲🇽', 'Mexico (look south!)']
+];
+const BINGO_WINS = [];
+for (let r = 0; r < 5; r++) { const row = [], col = []; for (let c = 0; c < 5; c++) { row.push(r * 5 + c); col.push(c * 5 + r); } BINGO_WINS.push(row, col); }
+BINGO_WINS.push([0, 6, 12, 18, 24], [4, 8, 12, 16, 20]);
+
+const WYR = [
+    ['surf a wave like a pro for one day', 'talk to sea lions for one day'],
+    ['ride the Giant Dipper 10 times in a row', 'eat 10 fish tacos in a row'],
+    ['live in the Hotel del Coronado', 'live on an aircraft carrier'],
+    ['have a pet leopard shark', 'have a pet pelican'],
+    ['be a zookeeper at the Safari Park', 'be a fighter pilot on the Midway'],
+    ['find a $100 bill in the sand', 'find a perfect unbroken sand dollar'],
+    ['eat only California burritos for a year', 'eat only ice cream sandwiches for a year'],
+    ['sleep on the beach in a tent', 'sleep in a racecar bed at Legoland'],
+    ['be the best cosplayer at Comic-Con', 'win a race at Del Mar'],
+    ['kayak through a dark sea cave', 'zipline over Belmont Park'],
+    ['have sunscreen that never wears off', 'have flip-flops that never give you blisters'],
+    ['swim with dolphins', 'fly with pelicans'],
+    ['get a mariachi band to follow you for a day', 'get free churros for life'],
+    ['ride every roller coaster in California', 'visit every beach in California'],
+    ['speak fluent Spanish tomorrow', 'be able to hold your breath for 5 minutes'],
+    ['be grounded from screens for the trip', 'be grounded from ice cream for the trip']
+];
+
+const DECODER = [
+    ['🦁👑🏞️', 'Animal kingdom, but make it a road trip', 'Safari Park'],
+    ['⚓✈️🚢', 'Planes ON a boat', 'USS Midway'],
+    ['🦭👶🌊', 'New babies on the rocks', 'Sea lion pups at La Jolla Cove'],
+    ['🎢🎠🏖️', 'Old-school fun by the sand', 'Belmont Park'],
+    ['🏨👻🏝️', 'A famous stay with a spooky guest', 'Hotel del Coronado'],
+    ['🌮🐟🏆', 'The city’s champion food', 'Fish tacos'],
+    ['🦸🎭📚', 'Heroes take over downtown', 'Comic-Con'],
+    ['🌲⛰️🥾', 'Rare trees, big cliffs', 'Torrey Pines'],
+    ['🐎🌊🏁', 'Where the surf meets the turf', 'Del Mar races'],
+    ['🍟🌯😱', 'Fries where they don’t belong (or do they?)', 'California burrito'],
+    ['⛴️🚲🍦', 'Boat, wheels, dessert — the perfect loop', 'Coronado ferry + bikes + MooTime'],
+    ['🔭🧪🚂', 'Science and tiny trains in one park', 'Balboa Park museums']
+];
+
+const MISSIONS = [
+    ['Touch the Pacific Ocean (full hand, no cheating)', 10],
+    ['Boogie board a wave all the way to the sand', 20],
+    ['Spot a wild sea lion AND hear it bark', 15],
+    ['Eat a fish taco (at least two bites)', 15],
+    ['Ride the Giant Dipper with your hands up', 25],
+    ['Find a hermit crab or sea creature (look, don’t take)', 15],
+    ['Learn 5 Spanish words and use them at dinner', 15],
+    ['Watch the sun disappear completely into the ocean', 10],
+    ['Build a sandcastle with a moat that actually works', 15],
+    ['Spot a cosplayer in the wild (Comic-Con week!)', 20],
+    ['Sit in a real fighter jet cockpit on the Midway', 15],
+    ['Try a food you’ve never had before', 20],
+    ['Get an adult to go in the ocean past their waist', 25],
+    ['Take one family photo where EVERYONE is actually smiling', 25]
+];
+
+/* ── Static forecast fallback (if offline) ── */
+const STATIC_WX = [
+    { key: '2026-07-18', hi: 76, lo: 66, icon: '⛅' }, { key: '2026-07-19', hi: 77, lo: 66, icon: '🌤️' },
+    { key: '2026-07-20', hi: 78, lo: 67, icon: '🌤️' }, { key: '2026-07-21', hi: 79, lo: 69, icon: '☀️' },
+    { key: '2026-07-22', hi: 78, lo: 70, icon: '🌤️' }, { key: '2026-07-23', hi: 80, lo: 69, icon: '☀️' },
+    { key: '2026-07-24', hi: 78, lo: 70, icon: '🌤️' }, { key: '2026-07-25', hi: 77, lo: 69, icon: '🌤️' }
+];
+</script>
+<script>
+/* ══════════════════ WEATHER ══════════════════ */
+const WMO = [
+    [[0], '☀️', 'Sunny'], [[1], '🌤️', 'Mostly sunny'], [[2], '⛅', 'Partly cloudy'], [[3], '☁️', 'Cloudy'],
+    [[45, 48], '🌫️', 'Foggy'], [[51, 53, 55, 56, 57], '🌦️', 'Drizzle'],
+    [[61, 63, 65, 66, 67, 80, 81, 82], '🌧️', 'Rain'], [[71, 73, 75, 77, 85, 86], '🌨️', 'Snow?!'],
+    [[95, 96, 99], '⛈️', 'Thunderstorm']
+];
+function wmoLookup(code) {
+    for (const [codes, icon, desc] of WMO) if (codes.includes(code)) return { icon, desc };
+    return { icon: '🌤️', desc: 'Fair' };
+}
+function renderWeekStrip(days) {
+    const wrap = document.getElementById('wx-week');
+    wrap.textContent = '';
+    const today = tripToday();
+    days.forEach(d => {
+        const box = el('div', 'wx-day' + (d.key === today ? ' wx-today' : ''));
+        const dow = new Date(d.key + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short' });
+        box.appendChild(el('div', 'wx-day-name', d.key === today ? 'Today' : dow));
+        box.appendChild(el('div', 'wx-day-icon', d.icon));
+        box.appendChild(el('div', 'wx-day-hi', d.hi + '°'));
+        box.appendChild(el('div', 'wx-day-lo', d.lo + '°'));
+        wrap.appendChild(box);
+    });
+}
+function showStaticWeather() {
+    const today = tripToday();
+    const t = STATIC_WX.find(d => d.key === today) || STATIC_WX[0];
+    document.getElementById('wx-temp').textContent = t.hi;
+    document.getElementById('wx-icon').textContent = t.icon;
+    document.getElementById('wx-desc').textContent = 'Typical: sunny after morning clouds';
+    document.getElementById('wx-sub').textContent = 'Offline forecast · San Diego coastal';
+    renderWeekStrip(STATIC_WX);
+}
+async function loadWeather() {
+    showStaticWeather(); // instant paint; live data replaces it
+    try {
+        const url = 'https://api.open-meteo.com/v1/forecast?latitude=32.7157&longitude=-117.1611'
+            + '&current=temperature_2m,weather_code,wind_speed_10m'
+            + '&daily=weather_code,temperature_2m_max,temperature_2m_min'
+            + '&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FLos_Angeles&forecast_days=8';
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('wx ' + res.status);
+        const data = await res.json();
+        const cur = wmoLookup(data.current.weather_code);
+        document.getElementById('wx-temp').textContent = Math.round(data.current.temperature_2m);
+        document.getElementById('wx-icon').textContent = cur.icon;
+        document.getElementById('wx-desc').textContent = cur.desc + ' right now';
+        document.getElementById('wx-sub').textContent = 'Live · wind ' + Math.round(data.current.wind_speed_10m) + ' mph · San Diego';
+        const days = data.daily.time.map((key, i) => ({
+            key,
+            hi: Math.round(data.daily.temperature_2m_max[i]),
+            lo: Math.round(data.daily.temperature_2m_min[i]),
+            icon: wmoLookup(data.daily.weather_code[i]).icon
+        }));
+        renderWeekStrip(days);
+    } catch (e) { /* static fallback already shown */ }
+}
+
+/* ══════════════════ HOME ══════════════════ */
+function renderTips() {
+    const wrap = document.getElementById('tips-list');
+    TIPS.forEach(([emoji, text]) => {
+        const item = el('div', 'tip-item');
+        item.appendChild(el('span', 'tip-emoji', emoji));
+        item.appendChild(el('span', null, text));
+        wrap.appendChild(item);
+    });
+}
+function renderTodayCard() {
+    const today = tripToday();
+    const day = DAYS.find(d => d.key === today);
+    const card = document.getElementById('today-card');
+    if (!day) { card.hidden = true; return; }
+    card.hidden = false;
+    const dayNum = AZ.daysBetween(TRIP_START, today) + 1;
+    document.getElementById('today-tag').textContent = 'Today · ' + day.dow + ' July ' + day.num + ' · Day ' + dayNum + ' of 8';
+    document.getElementById('today-title').textContent = day.title;
+    document.getElementById('today-body').textContent = day.idea;
+    const left = AZ.daysBetween(today, TRIP_END) + 1;
+    document.getElementById('stat-days').textContent = Math.max(0, Math.min(8, left));
+}
+
+/* ══════════════════ DO + EAT LISTS ══════════════════ */
+function buildChips(wrapId, cats, onPick) {
+    const wrap = document.getElementById(wrapId);
+    cats.forEach(([id, label], i) => {
+        const c = el('button', 'chip' + (i === 0 ? ' active' : ''), label);
+        c.dataset.cat = id;
+        c.addEventListener('click', () => {
+            wrap.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+            c.classList.add('active');
+            onPick(id);
+        });
+        wrap.appendChild(c);
+    });
+}
+function spotRow(d) {
+    const item = el('div', 'spot-item');
+    item.appendChild(el('div', 'spot-emoji', d.emoji));
+    const body = el('div', 'spot-body');
+    const nameRow = el('div', 'spot-name', d.name + ' ');
+    if (d.price) {
+        const pips = el('span', 'price-pips', '$'.repeat(d.price));
+        nameRow.appendChild(pips);
+    }
+    body.appendChild(nameRow);
+    body.appendChild(el('div', 'spot-meta', d.meta));
+    if (d.tags && d.tags.length) {
+        const tags = el('div', 'spot-tags');
+        d.tags.forEach(([label, kind]) => tags.appendChild(el('span', 'spot-tag' + (kind ? ' ' + kind : ''), label)));
+        body.appendChild(tags);
+    }
+    item.appendChild(body);
+    item.appendChild(el('div', 'spot-arrow', '›'));
+    item.addEventListener('click', () => sheetFromData(d));
+    return item;
+}
+function renderList(wrapId, data, cat) {
+    const wrap = document.getElementById(wrapId);
+    wrap.textContent = '';
+    data.filter(d => cat === 'all' || d.cats.includes(cat)).forEach(d => wrap.appendChild(spotRow(d)));
+}
+
+/* ══════════════════ GAMES ══════════════════ */
+const GAME_DEFS = [
+    ['trivia', '🧠', 'San Diego Trivia', '15 questions about your new favorite city', () => Store.get('trivia_best') !== null ? 'Best: ' + Store.get('trivia_best') + '/15' : 'New!'],
+    ['bingo', '🏖️', 'Beach Bingo', 'Spot all the San Diego classics — 5 in a row wins', () => {
+        const n = (Store.get('bingo', [])).length;
+        return n ? n + '/24 spotted' : 'New!';
+    }],
+    ['wyr', '🤔', 'Would You Rather', 'Impossible beach-week choices for the car', () => 'Party game'],
+    ['decoder', '🔎', 'Emoji Decoder', 'Guess the San Diego spot from emoji clues', () => '12 puzzles'],
+    ['missions', '🎯', 'Vacation Missions', 'Real-world challenges worth points', () => {
+        const done = Store.get('missions', []);
+        return done.length ? done.length + '/' + MISSIONS.length + ' done' : 'New!';
+    }]
+];
+function renderGameHub() {
+    const wrap = document.getElementById('game-hub-list');
+    wrap.textContent = '';
+    GAME_DEFS.forEach(([id, emoji, name, desc, badge]) => {
+        const card = el('div', 'game-card');
+        card.appendChild(el('div', 'game-emoji', emoji));
+        const info = el('div', 'game-info');
+        info.appendChild(el('div', 'game-name', name));
+        info.appendChild(el('div', 'game-desc', desc));
+        card.appendChild(info);
+        card.appendChild(el('div', 'game-badge', badge()));
+        card.addEventListener('click', () => showGame(id));
+        wrap.appendChild(card);
+    });
+}
+function showGame(id) {
+    document.querySelectorAll('.game-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(id === 'hub' ? 'game-hub' : 'game-' + id).classList.add('active');
+    if (id === 'hub') renderGameHub();
+    if (id === 'trivia') triviaStart();
+    if (id === 'wyr') wyrNext();
+    window.scrollTo(0, 0);
+}
+document.querySelectorAll('[data-gameback]').forEach(b => b.addEventListener('click', () => showGame('hub')));
+
+/* ── Trivia ── */
+let tqOrder = [], tqIdx = 0, tqScore = 0;
+function shuffled(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    return a;
+}
+function triviaStart() {
+    tqOrder = shuffled(TRIVIA.map((_, i) => i));
+    tqIdx = 0; tqScore = 0;
+    triviaQuestion();
+}
+function triviaQuestion() {
+    const box = document.getElementById('trivia-box');
+    box.textContent = '';
+    if (tqIdx >= tqOrder.length) return triviaDone();
+    const q = TRIVIA[tqOrder[tqIdx]];
+    box.appendChild(el('div', 'tq-progress', 'Question ' + (tqIdx + 1) + ' of ' + tqOrder.length + ' · Score ' + tqScore));
+    box.appendChild(el('div', 'tq-question', q.q));
+    let answered = false;
+    q.opts.forEach((opt, i) => {
+        const btn = el('button', 'tq-opt', opt);
+        btn.addEventListener('click', () => {
+            if (answered) return;
+            answered = true;
+            if (i === q.a) {
+                tqScore++;
+                btn.classList.add('correct');
+                confettiBurst(window.innerWidth / 2, 200, 12);
+            } else {
+                btn.classList.add('wrong');
+                box.querySelectorAll('.tq-opt')[q.a].classList.add('correct');
+            }
+            box.appendChild(el('div', 'tq-fact', '💡 ' + q.fact));
+            const next = el('button', 'tq-next', tqIdx + 1 >= tqOrder.length ? 'See Score →' : 'Next →');
+            next.addEventListener('click', () => { tqIdx++; triviaQuestion(); });
+            box.appendChild(next);
+        });
+        box.appendChild(btn);
+    });
+}
+function triviaDone() {
+    const box = document.getElementById('trivia-box');
+    box.textContent = '';
+    const best = Store.get('trivia_best', 0);
+    if (tqScore > best) Store.set('trivia_best', tqScore);
+    box.appendChild(el('div', 'tq-score-big', tqScore + '/' + TRIVIA.length));
+    const msg = tqScore >= 13 ? 'Honorary local! 🏄' : tqScore >= 9 ? 'Solid beach cred! 🌊' : tqScore >= 5 ? 'Tourist with promise! 🌴' : 'More fish tacos needed! 🌮';
+    box.appendChild(el('div', 'tq-score-sub', msg + (tqScore > best ? ' · New best!' : ' · Best: ' + Math.max(best, tqScore))));
+    const again = el('button', 'tq-next', 'Play Again');
+    again.addEventListener('click', triviaStart);
+    box.appendChild(again);
+    if (tqScore >= 9) confettiCenter();
+}
+
+/* ── Beach Bingo ── */
+let bingoWonLines = new Set(Store.get('bingo_wins', []));
+function renderBingo() {
+    const grid = document.getElementById('bingo-grid');
+    grid.textContent = '';
+    const spotted = new Set(Store.get('bingo', []));
+    for (let i = 0; i < 25; i++) {
+        const cell = el('div', 'bingo-cell');
+        if (i === 12) {
+            cell.classList.add('free');
+            cell.appendChild(el('div', 'bc-emoji', '🌴'));
+            cell.appendChild(el('div', 'bc-label', 'FREE'));
+        } else {
+            const idx = i < 12 ? i : i - 1;
+            const [emoji, label] = BINGO_ITEMS[idx];
+            if (spotted.has(idx)) cell.classList.add('spotted');
+            cell.appendChild(el('div', 'bc-emoji', emoji));
+            cell.appendChild(el('div', 'bc-label', label));
+            cell.addEventListener('click', () => {
+                const s = new Set(Store.get('bingo', []));
+                if (s.has(idx)) s.delete(idx); else s.add(idx);
+                Store.set('bingo', [...s]);
+                renderBingo();
+                checkBingo(s);
+            });
+        }
+        grid.appendChild(cell);
+    }
+    updateBingoStatus(spotted);
+}
+function updateBingoStatus(spotted) {
+    document.getElementById('bingo-status').textContent =
+        spotted.size === 0 ? 'Spot it? Tap it! 5 in a row wins.' :
+        spotted.size + '/24 spotted · ' + bingoWonLines.size + ' bingo' + (bingoWonLines.size === 1 ? '' : 's') + '!';
+}
+function cellFilled(gridPos, spotted) {
+    if (gridPos === 12) return true;
+    const idx = gridPos < 12 ? gridPos : gridPos - 1;
+    return spotted.has(idx);
+}
+function checkBingo(spotted) {
+    BINGO_WINS.forEach((line, li) => {
+        if (bingoWonLines.has(li)) return;
+        if (line.every(p => cellFilled(p, spotted))) {
+            bingoWonLines.add(li);
+            Store.set('bingo_wins', [...bingoWonLines]);
+            confettiCenter();
+            toast('🎉 BINGO! Line complete!');
+        }
+    });
+    // Un-win lines that were unchecked back below 5
+    [...bingoWonLines].forEach(li => {
+        if (!BINGO_WINS[li].every(p => cellFilled(p, spotted))) {
+            bingoWonLines.delete(li);
+            Store.set('bingo_wins', [...bingoWonLines]);
+        }
+    });
+    updateBingoStatus(spotted);
+}
+document.getElementById('bingo-reset').addEventListener('click', () => {
+    openSheet(box => {
+        box.appendChild(el('div', 'modal-emoji', '🧹'));
+        box.appendChild(el('div', 'modal-title', 'Reset the board?'));
+        box.appendChild(el('div', 'modal-text', 'All spotted squares will be cleared for a fresh game.'));
+        const row = el('div', 'modal-buttons');
+        const yes = el('button', 'btn-secondary', 'Yes, Reset');
+        yes.addEventListener('click', () => {
+            Store.set('bingo', []); Store.set('bingo_wins', []);
+            bingoWonLines = new Set();
+            renderBingo(); closeSheet(); toast('Fresh board!');
+        });
+        row.appendChild(yes);
+        box.appendChild(row);
+    });
+});
+
+/* ── Would You Rather ── */
+let wyrDeck = [];
+function wyrNext() {
+    if (!wyrDeck.length) wyrDeck = shuffled(WYR.map((_, i) => i));
+    const [a, b] = WYR[wyrDeck.pop()];
+    document.getElementById('wyr-a').textContent = a.charAt(0).toUpperCase() + a.slice(1) + '…';
+    document.getElementById('wyr-b').textContent = '…' + b + '?';
+}
+document.getElementById('wyr-next').addEventListener('click', wyrNext);
+
+/* ── Emoji Decoder ── */
+function renderDecoder() {
+    const wrap = document.getElementById('decoder-list');
+    wrap.textContent = '';
+    DECODER.forEach(([emoji, hint, answer]) => {
+        const item = el('div', 'dec-item');
+        item.appendChild(el('div', 'dec-emoji', emoji));
+        item.appendChild(el('div', 'dec-hint', 'Hint: ' + hint + ' · tap to reveal'));
+        item.appendChild(el('div', 'dec-answer', '✓ ' + answer));
+        item.addEventListener('click', () => item.classList.toggle('revealed'));
+        wrap.appendChild(item);
+    });
+}
+
+/* ── Missions ── */
+function renderMissions() {
+    const wrap = document.getElementById('missions-list');
+    wrap.textContent = '';
+    const done = new Set(Store.get('missions', []));
+    let pts = 0, total = 0;
+    MISSIONS.forEach(([text, val], i) => {
+        total += val;
+        if (done.has(i)) pts += val;
+        const item = el('div', 'mission-item' + (done.has(i) ? ' done' : ''));
+        item.appendChild(el('div', 'mission-check', '✓'));
+        item.appendChild(el('div', 'mission-text', text));
+        item.appendChild(el('div', 'mission-pts', val + ' pts'));
+        item.addEventListener('click', e => {
+            const s = new Set(Store.get('missions', []));
+            const marking = !s.has(i);
+            if (marking) { s.add(i); confettiBurst(e.clientX || window.innerWidth / 2, e.clientY || 300, 10); }
+            else s.delete(i);
+            Store.set('missions', [...s]);
+            renderMissions();
+            if (marking && s.size === MISSIONS.length) { confettiCenter(); toast('🏆 ALL MISSIONS COMPLETE!'); }
+        });
+        wrap.appendChild(item);
+    });
+    document.getElementById('missions-status').textContent = done.size + '/' + MISSIONS.length + ' missions · ' + pts + '/' + total + ' points';
+    document.getElementById('missions-bar').style.width = (done.size / MISSIONS.length * 100) + '%';
+}
+
+/* ══════════════════ PLAN / WEEK ══════════════════ */
+let planDayKey = null;
+let planSaveTimer = null;
+function renderPlanTabs() {
+    const wrap = document.getElementById('plan-tabs');
+    wrap.textContent = '';
+    const today = tripToday();
+    DAYS.forEach(d => {
+        const tab = el('button', 'day-tab' + (d.key === planDayKey ? ' active' : '') + (d.key === today ? ' is-today' : ''));
+        tab.appendChild(el('div', 'dt-dow', d.key === today ? 'Today' : d.dow));
+        tab.appendChild(el('div', 'dt-num', String(d.num)));
+        tab.addEventListener('click', () => { planDayKey = d.key; renderPlanTabs(); renderPlanDay(); });
+        wrap.appendChild(tab);
+    });
+}
+function renderPlanDay() {
+    const d = DAYS.find(x => x.key === planDayKey) || DAYS[0];
+    const dayNum = AZ.daysBetween(TRIP_START, d.key) + 1;
+    document.getElementById('plan-date-label').textContent = d.dow + ' · July ' + d.num + ' · Day ' + dayNum + ' of 8';
+    document.getElementById('plan-day-title').textContent = d.title;
+    const idea = document.getElementById('plan-idea');
+    idea.textContent = '';
+    const b = el('b', null, '💡 Idea: ');
+    idea.appendChild(b);
+    idea.appendChild(document.createTextNode(d.idea));
+    const plan = Store.get('plan', {});
+    const entry = plan[d.key] || {};
+    document.getElementById('plan-note').value = entry.note || '';
+    document.getElementById('plan-moment').value = entry.moment || '';
+}
+function savePlanField(field, value) {
+    const plan = Store.get('plan', {});
+    if (!plan[planDayKey]) plan[planDayKey] = {};
+    plan[planDayKey][field] = value;
+    Store.set('plan', plan);
+    const saved = document.getElementById('plan-saved');
+    saved.classList.add('show');
+    clearTimeout(planSaveTimer);
+    planSaveTimer = setTimeout(() => saved.classList.remove('show'), 1200);
+    renderJournal();
+}
+document.getElementById('plan-note').addEventListener('input', e => savePlanField('note', e.target.value));
+document.getElementById('plan-moment').addEventListener('input', e => savePlanField('moment', e.target.value));
+function renderJournal() {
+    const wrap = document.getElementById('journal-list');
+    const plan = Store.get('plan', {});
+    const entries = DAYS.filter(d => plan[d.key] && plan[d.key].moment && plan[d.key].moment.trim());
+    wrap.textContent = '';
+    if (!entries.length) {
+        wrap.textContent = 'Nothing yet — fill in a Best Moment each night!';
+        return;
+    }
+    entries.forEach(d => {
+        const item = el('div', 'tip-item');
+        item.appendChild(el('span', 'tip-emoji', '⭐'));
+        const span = el('span');
+        span.appendChild(el('b', null, d.dow + ' ' + d.num + ': '));
+        span.appendChild(document.createTextNode(plan[d.key].moment));
+        item.appendChild(span);
+        wrap.appendChild(item);
+    });
+}
+
+/* ══════════════════ INIT ══════════════════ */
+(function init() {
+    renderTodayCard();
+    renderTips();
+    loadWeather();
+    buildChips('do-chips', DO_CATS, cat => renderList('do-list', SPOTS, cat));
+    renderList('do-list', SPOTS, 'all');
+    buildChips('eat-chips', EAT_CATS, cat => renderList('eat-list', EATS, cat));
+    renderList('eat-list', EATS, 'all');
+    renderGameHub();
+    renderBingo();
+    renderDecoder();
+    renderMissions();
+    const today = tripToday();
+    planDayKey = DAYS.some(d => d.key === today) ? today : DAYS[0].key;
+    renderPlanTabs();
+    renderPlanDay();
+    renderJournal();
+})();
+</script>
+</body>
+</html>
