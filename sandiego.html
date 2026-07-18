@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>San Diego Week</title>
+    <meta name="description" content="The Ortiz crew's San Diego trip companion — live weather, things to do, where to eat, and games for the whole family, July 18–24.">
+    <meta property="og:title" content="San Diego Week 🌴">
+    <meta property="og:description" content="Our San Diego trip companion — weather, things to do, where to eat, and games. July 18–24, 2026.">
+    <meta property="og:url" content="https://ortizzle.github.io/family-vacation/sandiego.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#081626">
@@ -470,6 +476,21 @@
         .btn-primary { background: var(--coral); color: #14090a; }
         .btn-secondary { background: var(--ocean-light); color: var(--sand); }
 
+        /* ── SHARE BUTTON ── */
+        .share-btn {
+            width: 100%;
+            min-height: 48px;
+            background: var(--coral);
+            color: #14090a;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         /* ── GAME HUB ── */
         .game-card {
             background: var(--surface);
@@ -789,7 +810,7 @@
     <div class="header-content">
         <div class="header-eyebrow">The Ortiz Crew &amp; Friends</div>
         <div class="header-title">San Diego Week</div>
-        <div class="header-sub">July 18 – 25 · 2026 🌴</div>
+        <div class="header-sub">July 18 – 24 · 2026 🌴</div>
     </div>
     <div class="hdr-wave">
         <svg viewBox="0 0 430 30" preserveAspectRatio="none"><path d="M0,18 C40,8 80,26 130,16 C180,6 220,24 270,14 C320,5 360,22 430,12 L430,30 L0,30 Z" fill="#050e1a" opacity="0.9"/></svg>
@@ -825,7 +846,7 @@
         <div class="stat-strip">
             <div class="stat-box"><div class="stat-num">72°</div><div class="stat-lbl">Ocean Temp</div></div>
             <div class="stat-box"><div class="stat-num">9–10</div><div class="stat-lbl">Midday UV</div></div>
-            <div class="stat-box"><div class="stat-num" id="stat-days">8</div><div class="stat-lbl">Days Left</div></div>
+            <div class="stat-box"><div class="stat-num" id="stat-days">7</div><div class="stat-lbl">Days Left</div></div>
         </div>
 
         <div class="card" style="border-color: rgba(245,168,60,.4);">
@@ -871,6 +892,13 @@
         <div class="section-header">Local Intel</div>
         <div class="card">
             <div id="tips-list"></div>
+        </div>
+
+        <div class="card" style="text-align:center;">
+            <div class="card-label">📤 Bring The Crew</div>
+            <div class="card-title" style="font-size:16px;">Send this to whoever else is coming</div>
+            <div class="card-body" style="margin-bottom:14px;">Everyone can open the link — no app or account needed.</div>
+            <button class="share-btn" id="share-btn">📤 Share This App</button>
         </div>
     </section>
 
@@ -1102,7 +1130,7 @@ document.querySelectorAll('[data-goto]').forEach(b => b.addEventListener('click'
 
 /* ══════════════════ TRIP DATA ══════════════════ */
 
-const TRIP_START = '2026-07-18', TRIP_END = '2026-07-25';
+const TRIP_START = '2026-07-18', TRIP_END = '2026-07-24';
 
 const DAYS = [
     { key: '2026-07-18', dow: 'Sat', num: 18, title: 'Beach Hello 🌅', idea: 'Ease in: afternoon at Mission Beach or Pacific Beach (clean water, lifeguards), then Belmont Park at golden hour — ride the 1925 Giant Dipper coaster (kids all clear the 50" mark). Ice cream sandwiches at The Baked Bear after.' },
@@ -1111,8 +1139,7 @@ const DAYS = [
     { key: '2026-07-21', dow: 'Tue', num: 21, title: 'Safari Tuesday 🦁', idea: 'Safari Park in Escondido — arrive at 9 AM sharp (it’s hot inland; the animals nap by noon). Africa Tram included. Back by late afternoon; free Twilight in the Park concert at Balboa Park tonight (San Diego Jazz Orchestra).' },
     { key: '2026-07-22', dow: 'Wed', num: 22, title: 'Sea Cave Adventure 🛶', idea: 'The signature adventure: kayak the La Jolla sea caves (~2 hrs, tandem kayaks, all 3 kids qualify with an adult — book ahead!). Beach chill at the Shores after. Tonight: Latin Sol concert at Balboa Park, free.' },
     { key: '2026-07-23', dow: 'Thu', num: 23, title: 'Cliffs & Coasters 🌲', idea: 'Early Torrey Pines Beach Trail hike (8–9 AM beats heat and parking), then Moonlight Beach in Encinitas — playground ON the sand. Comic-Con starts downtown today; steer clear or go cosplay-spotting (free, outside the center).' },
-    { key: '2026-07-24', dow: 'Fri', num: 24, title: 'Day at the Races 🐎', idea: 'Del Mar racetrack — Friday first post is 2 PM, and the seaside track is surprisingly family-friendly (paddock, infield). North County dinner after: Pizza Port Carlsbad, built for big loud families.' },
-    { key: '2026-07-25', dow: 'Sat', num: 25, title: 'Little Italy Finale 🇮🇹', idea: 'Little Italy Mercato farmers market (Sat morning, the city’s best), Waterfront Park spray fountains for the kids, Salt & Straw scoops. Balboa Park gardens in the afternoon for anything you missed. Arrivederci, San Diego!' }
+    { key: '2026-07-24', dow: 'Fri', num: 24, title: 'Last Day: Races & Little Italy 🐎', idea: 'Morning/afternoon at Del Mar racetrack — Friday first post is 2 PM, and the seaside track is surprisingly family-friendly (paddock, infield). Then swing back for a Little Italy sendoff dinner — Filippi’s or the Food Hall — and Salt & Straw scoops before you head out. Arrivederci, San Diego!' }
 ];
 
 const TIPS = [
@@ -1230,11 +1257,11 @@ const SPOTS = [
       text: 'Free evening concerts at Balboa Park’s organ pavilion this week: Tue Jul 21 San Diego Jazz Orchestra, Wed Jul 22 Latin Sol, Thu Jul 23 3 Car Garage. Bring a picnic blanket.',
       rows: [['Cost', 'Free'], ['This week', 'Tue jazz · Wed Latin · Thu rock'], ['Also', 'Free Summer Movies in the Park around the county — check summermoviesinthepark.com']],
       tip: 'Pair the Tuesday concert with Safari Park day — you’re back from Escondido by 5 anyway.' },
-    { emoji: '🥕', name: 'Little Italy Mercato', cats: ['week', 'free'], meta: 'Saturday mornings · the city’s best market', tags: [['SATURDAY', '']],
-      sub: 'Farmers market + fountains',
-      text: 'The city’s biggest farmers market runs Saturday mornings on India Street: produce, hot food stalls, street musicians. Waterfront Park’s giant spray fountains are two blocks away for the kids, with Salt & Straw for dessert.',
-      rows: [['When', 'Sat mornings (this Sat & next)'], ['Kids', 'Waterfront Park fountains — bring swimsuits'], ['Dessert', 'Salt & Straw on India St, open late']],
-      tip: 'Perfect final-Saturday sendoff: market breakfast, fountain soak, gelato, gone.' }
+    { emoji: '⛲', name: 'Waterfront Park Fountains', cats: ['free'], meta: 'Free · downtown spray fountains, any day', tags: [['FREE', '']],
+      sub: 'Little Italy / County Admin Center',
+      text: 'Big kid-magnet spray fountains right on the downtown waterfront — a great free cooldown any afternoon. Two blocks from Little Italy for a Salt & Straw or Food Hall follow-up.',
+      rows: [['Cost', 'Free'], ['Bring', 'Swimsuits or a change of clothes'], ['Combo', 'Little Italy Food Hall lunch or Salt & Straw after']],
+      tip: 'Perfect mid-afternoon reset between a museum morning and a dinner reservation.' }
 ];
 
 /* ── Where To Eat ── */
@@ -1344,13 +1371,13 @@ const EATS = [
     { emoji: '🍧', name: 'Salt & Straw', cats: ['downtown'], price: 1, meta: 'Little Italy · inventive scoops, open till 11', tags: [['DESSERT', 'hot']],
       sub: 'Little Italy · $',
       text: 'The inventive-flavors scoop shop on India Street — 10–20 min evening lines, open late. Tasting spoons are free and encouraged.',
-      rows: [['Wait', '10–20 min evenings'], ['Combo', 'Mercato Saturday or post-Filippi’s']],
+      rows: [['Wait', '10–20 min evenings'], ['Combo', 'Post-Filippi’s or the last-night sendoff']],
       tip: 'Everyone gets two free tastes before committing. Use them on the weird ones.' },
     { emoji: '🥘', name: 'Little Italy Food Hall', cats: ['downtown'], price: 1, meta: 'Piazza della Famiglia · 7 stations + piazza seating', tags: [['GROUP HACK', '']],
       sub: 'Little Italy · $–$$',
-      text: 'Seven food stations around a European-style piazza — the downtown version of the everyone-picks-their-own move. Pairs with the Saturday Mercato and the Waterfront Park fountains.',
+      text: 'Seven food stations around a European-style piazza — the downtown version of the everyone-picks-their-own move. Pairs with the Waterfront Park fountains two blocks away.',
       rows: [['Party of 7', 'Perfect'], ['Kids bonus', 'Waterfront Park spray fountains 2 blocks away — bring suits']],
-      tip: 'Saturday: Mercato → food hall lunch → fountain soak. The kids will sleep well.' },
+      tip: 'Good last-night pick: food hall lunch → fountain soak → Salt & Straw. The kids will sleep well.' },
     { emoji: '🥞', name: 'Richard Walker’s Pancake House', cats: ['downtown'], price: 2, meta: 'Downtown · baked apple & German pancakes', tags: [['BREAKFAST', '']],
       sub: 'Downtown · $$',
       text: 'Downtown institution for oven-baked apple pancakes and puffy German pancakes. Weekend lines; skip during Comic-Con (Thu–Sun) when downtown is mobbed.',
@@ -1459,7 +1486,7 @@ const STATIC_WX = [
     { key: '2026-07-18', hi: 76, lo: 66, icon: '⛅' }, { key: '2026-07-19', hi: 77, lo: 66, icon: '🌤️' },
     { key: '2026-07-20', hi: 78, lo: 67, icon: '🌤️' }, { key: '2026-07-21', hi: 79, lo: 69, icon: '☀️' },
     { key: '2026-07-22', hi: 78, lo: 70, icon: '🌤️' }, { key: '2026-07-23', hi: 80, lo: 69, icon: '☀️' },
-    { key: '2026-07-24', hi: 78, lo: 70, icon: '🌤️' }, { key: '2026-07-25', hi: 77, lo: 69, icon: '🌤️' }
+    { key: '2026-07-24', hi: 78, lo: 70, icon: '🌤️' }
 ];
 </script>
 <script>
@@ -1503,7 +1530,7 @@ async function loadWeather() {
         const url = 'https://api.open-meteo.com/v1/forecast?latitude=32.7157&longitude=-117.1611'
             + '&current=temperature_2m,weather_code,wind_speed_10m'
             + '&daily=weather_code,temperature_2m_max,temperature_2m_min'
-            + '&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FLos_Angeles&forecast_days=8';
+            + '&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FLos_Angeles&forecast_days=7';
         const res = await fetch(url);
         if (!res.ok) throw new Error('wx ' + res.status);
         const data = await res.json();
@@ -1539,11 +1566,11 @@ function renderTodayCard() {
     if (!day) { card.hidden = true; return; }
     card.hidden = false;
     const dayNum = AZ.daysBetween(TRIP_START, today) + 1;
-    document.getElementById('today-tag').textContent = 'Today · ' + day.dow + ' July ' + day.num + ' · Day ' + dayNum + ' of 8';
+    document.getElementById('today-tag').textContent = 'Today · ' + day.dow + ' July ' + day.num + ' · Day ' + dayNum + ' of ' + DAYS.length;
     document.getElementById('today-title').textContent = day.title;
     document.getElementById('today-body').textContent = day.idea;
     const left = AZ.daysBetween(today, TRIP_END) + 1;
-    document.getElementById('stat-days').textContent = Math.max(0, Math.min(8, left));
+    document.getElementById('stat-days').textContent = Math.max(0, Math.min(DAYS.length, left));
 }
 
 /* ══════════════════ DO + EAT LISTS ══════════════════ */
@@ -1827,7 +1854,7 @@ function renderPlanTabs() {
 function renderPlanDay() {
     const d = DAYS.find(x => x.key === planDayKey) || DAYS[0];
     const dayNum = AZ.daysBetween(TRIP_START, d.key) + 1;
-    document.getElementById('plan-date-label').textContent = d.dow + ' · July ' + d.num + ' · Day ' + dayNum + ' of 8';
+    document.getElementById('plan-date-label').textContent = d.dow + ' · July ' + d.num + ' · Day ' + dayNum + ' of ' + DAYS.length;
     document.getElementById('plan-day-title').textContent = d.title;
     const idea = document.getElementById('plan-idea');
     idea.textContent = '';
@@ -1871,6 +1898,22 @@ function renderJournal() {
         wrap.appendChild(item);
     });
 }
+
+/* ══════════════════ SHARE ══════════════════ */
+document.getElementById('share-btn').addEventListener('click', async () => {
+    const url = 'https://ortizzle.github.io/family-vacation/sandiego.html';
+    const shareData = { title: 'San Diego Week', text: 'Our San Diego trip companion — weather, things to do, eats & games:', url };
+    if (navigator.share) {
+        try { await navigator.share(shareData); } catch (e) { /* user cancelled — no-op */ }
+        return;
+    }
+    try {
+        await navigator.clipboard.writeText(url);
+        toast('Link copied! Paste it anywhere 📋');
+    } catch (e) {
+        toast(url);
+    }
+});
 
 /* ══════════════════ INIT ══════════════════ */
 (function init() {
