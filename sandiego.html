@@ -1270,7 +1270,7 @@ const TIPS = [
 ];
 
 /* ── Things To Do ── */
-const DO_CATS = [['all', 'All'], ['top', '⭐ Top Picks'], ['beach', '🏖️ Beaches'], ['big', '🎢 Big Fun'], ['free', '🆓 Free & Cheap'], ['week', '📅 This Week']];
+const DO_CATS = [['all', 'All'], ['top', '⭐ Top Picks'], ['beach', '🏖️ Beaches'], ['hike', '🥾 Hikes'], ['big', '🎢 Big Fun'], ['free', '🆓 Free & Cheap'], ['week', '📅 This Week']];
 
 const SPOTS = [
     { emoji: '🛶', name: 'La Jolla Sea Cave Kayaking', cats: ['top', 'big'], meta: 'The trip’s signature adventure · ~$64–75/person · 2 hrs', tags: [['ALL 3 KIDS OK', 'hot'], ['BOOK AHEAD', 'warm']],
@@ -1313,11 +1313,31 @@ const SPOTS = [
       text: 'Pups born June–July are nursing and learning to swim right now. The Point La Jolla bluff is closed for pupping season, but the boardwalk viewing is excellent — you’ll be 20 feet from the colony. Harbor seals lounge at Children’s Pool around the corner (best late afternoon).',
       rows: [['Cost', 'Free'], ['Best time', 'Before 9 AM — animals hauled out, parking findable'], ['Note', 'Look, don’t approach — mom sea lions are protective']],
       tip: 'Combine with breakfast at Brockton Villa above the Cove (get there early — no brunch reservations).' },
-    { emoji: '🌲', name: 'Torrey Pines Hike', cats: ['top', 'free'], meta: 'Beach Trail 1.3 mi · parking $10–25 · go 8–9 AM', tags: [['EPIC VIEWS', 'warm']],
+    { emoji: '🌲', name: 'Torrey Pines Hike', cats: ['top', 'free', 'hike'], meta: 'Beach Trail 1.3 mi · parking $10–25 · go 8–9 AM', tags: [['EPIC VIEWS', 'warm']],
       sub: 'Cliffs, rare pines, ocean',
       text: 'The Beach Trail winds 1.3 miles through sandstone canyons down to the sand — totally doable for the 8-year-old — or take the easy 0.7-mile Guy Fleming loop with two ocean overlooks. Dolphins sometimes cruise by below.',
       rows: [['Parking', '$10–25 demand-priced (weekdays cheaper) — or free on the 101 shoulder + walk in'], ['Rules', 'Water only inside the reserve — no snacks'], ['Best time', '8–9 AM: cool, empty, parking exists']],
       tip: 'Hike down the Beach Trail, walk back along the sand to the lower lot — feels like two adventures.' },
+    { emoji: '🕳️', name: 'Annie’s Canyon Slot Canyon', cats: ['top', 'hike', 'free'], meta: 'Solana Beach · ~5 min from your home base · 1.3–2.4 mi', tags: [['MOM’S PICK', 'hot'], ['FREE', ''], ['4.7★ ALLTRAILS', '']],
+      sub: 'San Elijo Lagoon · the kid hike',
+      text: 'THE kid hike in North County, minutes from where you’re staying: an easy lagoon-side walk that funnels into a genuine squeeze-through sandstone slot canyon — narrow walls, little ladder climbs, then lagoon-to-ocean views at the top. One-way up through the slot, so no squeeze traffic jams.',
+      rows: [['Route', 'Shortest: 1.3 mi loop from North Rios trailhead (Solana Beach) · longer 2.4 mi option via Solana Hills'], ['Cost', 'Free · street parking at North Rios'], ['Kids', 'Perfect for all three — the slot is the whole show'], ['Heat', 'Zero shade in the slot — morning or late afternoon']],
+      tip: 'Go clockwise: lagoon trail first, UP through the slot canyon (way more fun climbing than descending), viewpoint at the top.' },
+    { emoji: '💧', name: 'Peñasquitos Falls Hike', cats: ['hike', 'free'], meta: 'Easy 2.6 mi shady canyon loop to a waterfall · 4.7★', tags: [['WATERFALL', 'warm'], ['EASY', '']],
+      sub: 'Los Peñasquitos Canyon Preserve',
+      text: 'A flat, mostly shady canyon walk along a creek to a small waterfall tumbling over swirly volcanic rock — an easy win for all three kids, with lizards and raptors along the way. About 15 minutes inland from Del Mar (Park Village trailhead side is the shortest route).',
+      rows: [['Route', '2.6 mi loop from Park Village trailhead · ~1 hr'], ['Cost', 'Free'], ['Heat', 'Inland — go morning; bring water'], ['Note', 'The falls are a trickle in July — the rock scramble around them is the fun part']],
+      tip: 'Kids can rock-hop the volcanic boulders at the falls — build in 30 extra minutes of climbing-around time.' },
+    { emoji: '⛰️', name: 'Black Mountain Summit', cats: ['hike'], meta: 'Nighthawk Trail · 4 mi round-trip, 849 ft up · 4.6★', tags: [['CHALLENGE HIKE', 'warm']],
+      sub: 'The earn-your-view one',
+      text: 'A real summit for the crew’s strong legs: the Nighthawk Trail climbs steadily to a 1,554-ft peak with a 360° panorama — ocean one way, mountains the other. Best as the "big kid" challenge hike; the 8-year-old can do it with snack bribes.',
+      rows: [['Route', '4 mi out-and-back, ~2 hrs · 849 ft of climbing'], ['Cost', 'Free'], ['When', 'Early morning ONLY in July — it’s inland and exposed'], ['Payoff', 'You can see the whole trip map from the top']],
+      tip: 'Sunrise start = cool temps, empty trail, and you’re back at the beach by 11.' },
+    { emoji: '🔐', name: 'The Escape Game (UTC)', cats: ['big'], meta: 'Westfield UTC · ~$46/person · 60-min rooms · book ahead', tags: [['MOM’S PICK', 'hot'], ['RAINY-GRAY FIX', '']],
+      sub: 'La Jolla / UTC · ~10 min from Del Mar',
+      text: 'Polished 60-minute escape rooms at Westfield UTC — six themes from Playground (their family favorite: back in 6th grade, silly and puzzle-dense) to Prison Break and The Heist. A party of 7 books most of a room, so it’s basically a private game. Great gray-morning or too-much-sun move.',
+      rows: [['Cost', '~$46/person · 75 min total with briefing'], ['Rooms', 'Playground (easiest, kid gold) · Cosmic Crisis · Ruins · Timeliner · The Heist · Prison Break'], ['Book', 'Reserve online — July slots go fast'], ['Bonus', 'It’s in the mall: In-N-Out and shops for afters']],
+      tip: 'Book Playground for this crew — designed so kids genuinely contribute instead of watching the adults solve.' },
     { emoji: '🏖️', name: 'Mission Beach & Pacific Beach', cats: ['beach'], meta: 'Boardwalk classic · clean water this week', tags: [['CLEAN WATER', 'hot']],
       sub: 'The lively one',
       text: 'Livelier surf and the famous boardwalk — great for the 12-year-old, with Belmont Park attached and The Baked Bear + Oscar’s fish tacos in walking range. More scene-y and crowded than the Shores.',
