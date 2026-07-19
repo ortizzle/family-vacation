@@ -408,6 +408,103 @@
         .spot-arrow { color: var(--sand-faint); font-size: 16px; margin-top: 6px; }
         .price-pips { color: var(--sunset); font-weight: 800; }
 
+        /* ── ITINERARY ADD BUTTON ── */
+        .spot-add {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255,170,120,.45);
+            background: none;
+            color: var(--coral-soft);
+            font-size: 20px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            margin-top: 2px;
+            line-height: 1;
+            padding: 0 0 2px;
+        }
+        .spot-add.added { background: var(--coral); border-color: var(--coral); color: #14090a; }
+
+        /* ── DAY PICKER SHEET ── */
+        .dp-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--surface);
+            border: 1.5px solid rgba(255,170,120,.18);
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 50px;
+        }
+        .dp-row.on { background: rgba(255,122,85,.16); border-color: var(--coral); }
+        .dp-day { font-size: 13px; font-weight: 800; color: var(--sand); min-width: 62px; flex-shrink: 0; }
+        .dp-title { font-size: 12px; color: var(--sand-faint); flex: 1; line-height: 1.35; }
+        .dp-state { font-size: 16px; color: var(--coral-soft); flex-shrink: 0; }
+        .dp-row.on .dp-title { color: var(--coral-soft); }
+
+        /* ── ITINERARY ROWS (Week tab) ── */
+        .itin-row {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            background: rgba(5,14,26,.5);
+            border: 1px solid rgba(255,170,120,.16);
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            min-height: 48px;
+        }
+        .itin-check {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            border: 2px solid rgba(242,227,196,.35);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: transparent;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: all .15s;
+        }
+        .itin-row.done .itin-check { background: var(--coral); border-color: var(--coral); color: #14090a; }
+        .itin-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            min-width: 0;
+        }
+        .itin-emoji { font-size: 18px; flex-shrink: 0; }
+        .itin-name { font-size: 13.5px; font-weight: 700; color: var(--sand); line-height: 1.35; }
+        .itin-row.done .itin-name { text-decoration: line-through; color: var(--sand-faint); }
+        .itin-remove {
+            width: 32px; height: 32px;
+            border: none;
+            background: none;
+            color: var(--sand-faint);
+            font-size: 17px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            flex-shrink: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+        .itin-empty { font-size: 12.5px; color: var(--sand-faint); line-height: 1.5; padding: 4px 0 2px; }
+        .itin-count { font-size: 11px; font-weight: 800; color: #6adcd2; margin-bottom: 8px; }
+        .today-picks { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,122,85,.25); font-size: 12.5px; color: var(--sand-dim); line-height: 1.6; }
+        .today-picks b { color: var(--coral-soft); }
+
         /* ── MODAL ── */
         .modal-overlay {
             position: fixed; inset: 0;
@@ -826,6 +923,7 @@
             <div class="today-tag" id="today-tag">Today</div>
             <div class="today-title" id="today-title"></div>
             <div class="today-body" id="today-body"></div>
+            <div class="today-picks" id="today-picks" hidden></div>
         </div>
 
         <div class="wx-card">
@@ -991,11 +1089,17 @@
             <div class="card-label" id="plan-date-label"></div>
             <div class="card-title" id="plan-day-title"></div>
             <div class="plan-idea" id="plan-idea"></div>
+            <div class="plan-label">📌 Our Picks</div>
+            <div id="plan-picks"></div>
             <div class="plan-label">📝 Our Plan / Notes</div>
             <textarea class="plan-textarea" id="plan-note" placeholder="What's the plan? Who are we meeting? Jot it here…"></textarea>
             <div class="plan-label">⭐ Best Moment Today</div>
             <textarea class="plan-textarea" id="plan-moment" style="min-height:60px;" placeholder="Fill this in each night — instant trip journal."></textarea>
             <div class="plan-saved" id="plan-saved">Saved ✓</div>
+        </div>
+        <div class="card" id="someday-card" hidden>
+            <div class="card-label">🌊 Someday / Flexible Picks</div>
+            <div id="someday-picks"></div>
         </div>
         <div class="card">
             <div class="card-label">📓 Journal So Far</div>
@@ -1097,6 +1201,10 @@ function sheetFromData(d) {
         box.appendChild(el('div', 'modal-emoji', d.emoji));
         box.appendChild(el('div', 'modal-title', d.name));
         if (d.sub) box.appendChild(el('div', 'modal-sub', d.sub));
+        if (d.id) {
+            const days = itinDaysFor(d.id);
+            if (days.length) box.appendChild(el('div', 'itin-count', '📌 On your itinerary: ' + days.map(itinDayLabel).join(' · ')));
+        }
         if (d.text) box.appendChild(el('div', 'modal-text', d.text));
         if (d.rows) {
             const rows = el('div', 'modal-rows');
@@ -1114,6 +1222,14 @@ function sheetFromData(d) {
             t.appendChild(b);
             t.appendChild(document.createTextNode(d.tip));
             box.appendChild(t);
+        }
+        if (d.id) {
+            const addRow = el('div', 'modal-buttons');
+            addRow.style.marginTop = '0';
+            const addBtn = el('button', 'btn-secondary', '➕ Add to a Day');
+            addBtn.addEventListener('click', () => openDayPicker(d));
+            addRow.appendChild(addBtn);
+            box.appendChild(addRow);
         }
     });
 }
@@ -1609,7 +1725,11 @@ function spotRow(d) {
         body.appendChild(tags);
     }
     item.appendChild(body);
-    item.appendChild(el('div', 'spot-arrow', '›'));
+    const add = el('button', 'spot-add' + (itinDaysFor(d.id).length ? ' added' : ''), itinDaysFor(d.id).length ? '✓' : '+');
+    add.dataset.itemid = d.id;
+    add.setAttribute('aria-label', 'Add to itinerary');
+    add.addEventListener('click', e => { e.stopPropagation(); openDayPicker(d); });
+    item.appendChild(add);
     item.addEventListener('click', () => sheetFromData(d));
     return item;
 }
@@ -1870,6 +1990,7 @@ function renderPlanDay() {
     const entry = plan[d.key] || {};
     document.getElementById('plan-note').value = entry.note || '';
     document.getElementById('plan-moment').value = entry.moment || '';
+    renderPlanPicks();
 }
 function savePlanField(field, value) {
     const plan = Store.get('plan', {});
@@ -1902,6 +2023,126 @@ function renderJournal() {
         item.appendChild(span);
         wrap.appendChild(item);
     });
+}
+
+/* ══════════════════ ITINERARY ══════════════════ */
+function slugId(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+SPOTS.forEach(d => d.id = 'do-' + slugId(d.name));
+EATS.forEach(d => d.id = 'eat-' + slugId(d.name));
+const ITEM_BY_ID = {};
+SPOTS.concat(EATS).forEach(d => ITEM_BY_ID[d.id] = d);
+const SOMEDAY = 'someday';
+
+function getItin() { return Store.get('itin', {}); }
+function itinDaysFor(id) {
+    const itin = getItin();
+    return Object.keys(itin).filter(k => (itin[k] || []).some(p => p.id === id));
+}
+function itinDayLabel(key) {
+    if (key === SOMEDAY) return 'Someday';
+    const d = DAYS.find(x => x.key === key);
+    return d ? d.dow + ' ' + d.num : key;
+}
+function itinToggle(dayKey, item) {
+    const itin = getItin();
+    const list = itin[dayKey] || (itin[dayKey] = []);
+    const idx = list.findIndex(p => p.id === item.id);
+    if (idx >= 0) { list.splice(idx, 1); toast('Removed from ' + itinDayLabel(dayKey)); }
+    else { list.push({ id: item.id, done: false }); toast('📌 Added to ' + itinDayLabel(dayKey) + '!'); }
+    if (!list.length) delete itin[dayKey];
+    Store.set('itin', itin);
+    refreshItinUI();
+}
+function refreshItinUI() {
+    document.querySelectorAll('.spot-add').forEach(btn => {
+        const on = itinDaysFor(btn.dataset.itemid).length > 0;
+        btn.classList.toggle('added', on);
+        btn.textContent = on ? '✓' : '+';
+    });
+    renderPlanPicks();
+    renderSomedayPicks();
+    renderTodayPicks();
+}
+function openDayPicker(item) {
+    openSheet(box => {
+        box.appendChild(el('div', 'modal-emoji', item.emoji));
+        box.appendChild(el('div', 'modal-title', item.name));
+        box.appendChild(el('div', 'modal-sub', 'Add to which day? Tap again to remove.'));
+        const options = DAYS.map(d => ({ key: d.key, label: d.key === tripToday() ? 'Today' : d.dow + ' ' + d.num, title: d.title }))
+            .concat([{ key: SOMEDAY, label: '🌊', title: 'Someday / flexible' }]);
+        options.forEach(opt => {
+            const row = el('div', 'dp-row');
+            row.appendChild(el('div', 'dp-day', opt.label));
+            row.appendChild(el('div', 'dp-title', opt.title));
+            row.appendChild(el('div', 'dp-state', '+'));
+            const sync = () => {
+                const on = itinDaysFor(item.id).includes(opt.key);
+                row.classList.toggle('on', on);
+                row.querySelector('.dp-state').textContent = on ? '✓' : '+';
+            };
+            row.addEventListener('click', () => { itinToggle(opt.key, item); sync(); });
+            box.appendChild(row);
+            sync();
+        });
+    });
+}
+function itinRow(dayKey, pick) {
+    const item = ITEM_BY_ID[pick.id];
+    if (!item) return null;
+    const row = el('div', 'itin-row' + (pick.done ? ' done' : ''));
+    const check = el('div', 'itin-check', '✓');
+    check.setAttribute('aria-label', 'Mark done');
+    check.addEventListener('click', e => {
+        const itin = getItin();
+        const p = (itin[dayKey] || []).find(x => x.id === pick.id);
+        if (!p) return;
+        p.done = !p.done;
+        Store.set('itin', itin);
+        if (p.done) confettiBurst(e.clientX || window.innerWidth / 2, e.clientY || 300, 10);
+        refreshItinUI();
+    });
+    row.appendChild(check);
+    const main = el('div', 'itin-main');
+    main.appendChild(el('span', 'itin-emoji', item.emoji));
+    main.appendChild(el('span', 'itin-name', item.name));
+    main.addEventListener('click', () => sheetFromData(item));
+    row.appendChild(main);
+    const rm = el('button', 'itin-remove', '✕');
+    rm.setAttribute('aria-label', 'Remove from itinerary');
+    rm.addEventListener('click', () => itinToggle(dayKey, item));
+    row.appendChild(rm);
+    return row;
+}
+function renderPlanPicks() {
+    const wrap = document.getElementById('plan-picks');
+    wrap.textContent = '';
+    const picks = getItin()[planDayKey] || [];
+    const rows = picks.map(p => itinRow(planDayKey, p)).filter(Boolean);
+    if (!rows.length) {
+        wrap.appendChild(el('div', 'itin-empty', 'Nothing picked for this day yet — tap the ➕ on anything in the Do or Eat tabs.'));
+        return;
+    }
+    const done = picks.filter(p => p.done).length;
+    wrap.appendChild(el('div', 'itin-count', done + ' of ' + rows.length + ' done'));
+    rows.forEach(r => wrap.appendChild(r));
+}
+function renderSomedayPicks() {
+    const card = document.getElementById('someday-card');
+    const wrap = document.getElementById('someday-picks');
+    wrap.textContent = '';
+    const picks = getItin()[SOMEDAY] || [];
+    const rows = picks.map(p => itinRow(SOMEDAY, p)).filter(Boolean);
+    card.hidden = !rows.length;
+    rows.forEach(r => wrap.appendChild(r));
+}
+function renderTodayPicks() {
+    const box = document.getElementById('today-picks');
+    const picks = (getItin()[tripToday()] || []).map(p => ITEM_BY_ID[p.id]).filter(Boolean);
+    box.hidden = !picks.length;
+    if (!picks.length) return;
+    box.textContent = '';
+    box.appendChild(el('b', null, '📌 Picked for today: '));
+    box.appendChild(document.createTextNode(picks.map(i => i.emoji + ' ' + i.name).join(' · ')));
 }
 
 /* ══════════════════ SHARE ══════════════════ */
@@ -1938,6 +2179,7 @@ document.getElementById('share-btn').addEventListener('click', async () => {
     renderPlanTabs();
     renderPlanDay();
     renderJournal();
+    refreshItinUI();
 })();
 </script>
 </body>
