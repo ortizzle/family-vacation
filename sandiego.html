@@ -454,11 +454,11 @@
         .itin-row {
             display: flex;
             align-items: center;
-            gap: 11px;
+            gap: 7px;
             background: rgba(5,14,26,.5);
             border: 1px solid rgba(255,170,120,.16);
             border-radius: 12px;
-            padding: 10px 12px;
+            padding: 10px 8px 10px 12px;
             margin-bottom: 8px;
             min-height: 48px;
         }
@@ -490,7 +490,7 @@
         .itin-name { font-size: 13.5px; font-weight: 700; color: var(--sand); line-height: 1.35; }
         .itin-row.done .itin-name { text-decoration: line-through; color: var(--sand-faint); }
         .itin-remove {
-            width: 32px; height: 32px;
+            width: 27px; height: 44px;
             border: none;
             background: none;
             color: var(--sand-faint);
@@ -500,7 +500,61 @@
             flex-shrink: 0;
             font-family: 'Nunito', sans-serif;
         }
+        .itin-up, .itin-cal {
+            width: 27px; min-height: 44px;
+            border: none;
+            background: none;
+            color: var(--sand-faint);
+            font-size: 15px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            flex-shrink: 0;
+            font-family: 'Nunito', sans-serif;
+            padding: 0;
+        }
+        .itin-up:disabled { opacity: .22; }
         .itin-empty { font-size: 12.5px; color: var(--sand-faint); line-height: 1.5; padding: 4px 0 2px; }
+        .plan-title-row { display: flex; align-items: center; gap: 6px; }
+        .plan-title-row .card-title { margin-bottom: 0; flex: 1; }
+        .title-edit {
+            background: none;
+            border: none;
+            color: var(--sand-faint);
+            font-size: 16px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            min-width: 40px; min-height: 40px;
+            flex-shrink: 0;
+        }
+        .plan-idea.collapsible { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .plan-idea .pi-collapsed-line { font-weight: 800; color: #6adcd2; }
+        .day-share-btn {
+            width: 100%;
+            min-height: 44px;
+            margin-top: 12px;
+            background: var(--ocean-light);
+            color: var(--sand);
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .sheet-input {
+            width: 100%;
+            background: rgba(5,14,26,.6);
+            border: 1px solid rgba(255,170,120,.25);
+            border-radius: 12px;
+            color: var(--sand);
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 13px 14px;
+            margin-bottom: 4px;
+        }
+        .sheet-input::placeholder { color: rgba(242,227,196,.3); }
         .itin-count { font-size: 11px; font-weight: 800; color: #6adcd2; margin-bottom: 8px; }
         .today-picks { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,122,85,.25); font-size: 12.5px; color: var(--sand-dim); line-height: 1.6; }
         .today-picks b { color: var(--coral-soft); }
@@ -1087,8 +1141,11 @@
         <div class="day-tabs" id="plan-tabs"></div>
         <div class="card">
             <div class="card-label" id="plan-date-label"></div>
-            <div class="card-title" id="plan-day-title"></div>
-            <div class="plan-idea" id="plan-idea"></div>
+            <div class="plan-title-row">
+                <div class="card-title" id="plan-day-title"></div>
+                <button class="title-edit" id="plan-title-edit" aria-label="Rename this day">✏️</button>
+            </div>
+            <div class="plan-idea" id="plan-idea" style="margin-top:10px;"></div>
             <div class="plan-label">📌 Our Picks</div>
             <div id="plan-picks"></div>
             <div class="plan-label">📝 Our Plan / Notes</div>
@@ -1096,6 +1153,7 @@
             <div class="plan-label">⭐ Best Moment Today</div>
             <textarea class="plan-textarea" id="plan-moment" style="min-height:60px;" placeholder="Fill this in each night — instant trip journal."></textarea>
             <div class="plan-saved" id="plan-saved">Saved ✓</div>
+            <button class="day-share-btn" id="day-share-btn">📤 Text This Day's Plan</button>
         </div>
         <div class="card" id="someday-card" hidden>
             <div class="card-label">🌊 Someday / Flexible Picks</div>
@@ -1708,8 +1766,9 @@ function renderTodayCard() {
     card.hidden = false;
     const dayNum = AZ.daysBetween(TRIP_START, today) + 1;
     document.getElementById('today-tag').textContent = 'Today · ' + day.dow + ' July ' + day.num + ' · Day ' + dayNum + ' of ' + DAYS.length;
-    document.getElementById('today-title').textContent = day.title;
-    document.getElementById('today-body').textContent = day.idea;
+    const entry = Store.get('plan', {})[today] || {};
+    document.getElementById('today-title').textContent = dayTitle(today);
+    document.getElementById('today-body').textContent = (entry.note && entry.note.trim()) ? '📝 ' + entry.note.trim() : day.idea;
     const left = AZ.daysBetween(today, TRIP_END) + 1;
     document.getElementById('stat-days').textContent = Math.max(0, Math.min(DAYS.length, left));
 }
@@ -1996,22 +2055,89 @@ function renderPlanTabs() {
         wrap.appendChild(tab);
     });
 }
+function renderIdea(d, expanded) {
+    const idea = document.getElementById('plan-idea');
+    idea.textContent = '';
+    const entry = Store.get('plan', {})[d.key] || {};
+    const customized = !!((entry.title && entry.title.trim()) || (entry.note && entry.note.trim()) || (getItin()[d.key] || []).length);
+    if (customized && !expanded) {
+        idea.classList.add('collapsible');
+        idea.appendChild(el('span', 'pi-collapsed-line', '💡 Tap to see the suggested plan for this day'));
+        idea.onclick = () => renderIdea(d, true);
+    } else {
+        idea.classList.toggle('collapsible', customized);
+        const b = el('b', null, '💡 Suggestion: ');
+        idea.appendChild(b);
+        idea.appendChild(document.createTextNode(d.idea));
+        idea.onclick = customized ? () => renderIdea(d, false) : null;
+    }
+}
 function renderPlanDay() {
     const d = DAYS.find(x => x.key === planDayKey) || DAYS[0];
     const dayNum = AZ.daysBetween(TRIP_START, d.key) + 1;
     document.getElementById('plan-date-label').textContent = d.dow + ' · July ' + d.num + ' · Day ' + dayNum + ' of ' + DAYS.length;
-    document.getElementById('plan-day-title').textContent = d.title;
-    const idea = document.getElementById('plan-idea');
-    idea.textContent = '';
-    const b = el('b', null, '💡 Idea: ');
-    idea.appendChild(b);
-    idea.appendChild(document.createTextNode(d.idea));
+    document.getElementById('plan-day-title').textContent = dayTitle(d.key);
+    renderIdea(d, false);
     const plan = Store.get('plan', {});
     const entry = plan[d.key] || {};
     document.getElementById('plan-note').value = entry.note || '';
     document.getElementById('plan-moment').value = entry.moment || '';
     renderPlanPicks();
 }
+function openTitleEdit() {
+    const d = DAYS.find(x => x.key === planDayKey) || DAYS[0];
+    const plan = Store.get('plan', {});
+    const entry = plan[d.key] || {};
+    openSheet(box => {
+        box.appendChild(el('div', 'modal-emoji', '✏️'));
+        box.appendChild(el('div', 'modal-title', 'Rename ' + d.dow + ' July ' + d.num));
+        box.appendChild(el('div', 'modal-sub', 'Your title shows everywhere in the app'));
+        const input = el('input', 'sheet-input');
+        input.type = 'text';
+        input.maxLength = 40;
+        input.placeholder = d.title;
+        input.value = (entry.title && entry.title.trim()) ? entry.title.trim() : '';
+        box.appendChild(input);
+        const row = el('div', 'modal-buttons');
+        row.style.marginTop = '12px';
+        const save = el('button', 'btn-secondary', 'Save Title');
+        save.addEventListener('click', () => {
+            const p = Store.get('plan', {});
+            if (!p[d.key]) p[d.key] = {};
+            const val = input.value.trim();
+            if (val && val !== d.title) p[d.key].title = val;
+            else delete p[d.key].title;
+            Store.set('plan', p);
+            closeSheet();
+            renderPlanDay();
+            renderTodayCard();
+            toast(val ? '✏️ Day renamed!' : 'Back to the original title');
+        });
+        row.appendChild(save);
+        box.appendChild(row);
+        setTimeout(() => input.focus(), 250);
+    });
+}
+document.getElementById('plan-title-edit').addEventListener('click', openTitleEdit);
+function shareDayPlan() {
+    const d = DAYS.find(x => x.key === planDayKey) || DAYS[0];
+    const entry = Store.get('plan', {})[d.key] || {};
+    const picks = (getItin()[d.key] || []).map(p => ITEM_BY_ID[p.id]).filter(Boolean);
+    const lines = ['🌴 ' + d.dow + ' July ' + d.num + ' — ' + dayTitle(d.key)];
+    picks.forEach((item, i) => lines.push((i + 1) + '. ' + item.emoji + ' ' + item.name));
+    if (!picks.length) lines.push('(no picks yet)');
+    if (entry.note && entry.note.trim()) lines.push('📝 ' + entry.note.trim());
+    lines.push('— San Diego Week · https://ortizzle.github.io/family-vacation/sandiego.html');
+    const text = lines.join('\n');
+    if (navigator.share) {
+        navigator.share({ text }).catch(() => {});
+        return;
+    }
+    navigator.clipboard.writeText(text)
+        .then(() => toast('Day plan copied! Paste in the group chat 📋'))
+        .catch(() => toast('Could not copy — screenshot works too!'));
+}
+document.getElementById('day-share-btn').addEventListener('click', shareDayPlan);
 function savePlanField(field, value) {
     const plan = Store.get('plan', {});
     if (!plan[planDayKey]) plan[planDayKey] = {};
@@ -2022,6 +2148,7 @@ function savePlanField(field, value) {
     clearTimeout(planSaveTimer);
     planSaveTimer = setTimeout(() => saved.classList.remove('show'), 1200);
     renderJournal();
+    renderTodayCard();
 }
 document.getElementById('plan-note').addEventListener('input', e => savePlanField('note', e.target.value));
 document.getElementById('plan-moment').addEventListener('input', e => savePlanField('moment', e.target.value));
@@ -2063,6 +2190,25 @@ function itinDayLabel(key) {
     const d = DAYS.find(x => x.key === key);
     return d ? d.dow + ' ' + d.num : key;
 }
+function dayTitle(key) {
+    const entry = Store.get('plan', {})[key];
+    if (entry && entry.title && entry.title.trim()) return entry.title.trim();
+    const d = DAYS.find(x => x.key === key);
+    return d ? d.title : '';
+}
+function itinMove(fromKey, toKey, item) {
+    if (fromKey === toKey) return;
+    const itin = getItin();
+    const fromList = itin[fromKey] || [];
+    const idx = fromList.findIndex(p => p.id === item.id);
+    const pick = idx >= 0 ? fromList.splice(idx, 1)[0] : { id: item.id, done: false };
+    if (!fromList.length) delete itin[fromKey];
+    const toList = itin[toKey] || (itin[toKey] = []);
+    if (!toList.some(p => p.id === item.id)) toList.push(pick);
+    Store.set('itin', itin);
+    toast('📅 Moved to ' + itinDayLabel(toKey));
+    refreshItinUI();
+}
 function itinToggle(dayKey, item) {
     const itin = getItin();
     const list = itin[dayKey] || (itin[dayKey] = []);
@@ -2083,12 +2229,12 @@ function refreshItinUI() {
     renderSomedayPicks();
     renderTodayPicks();
 }
-function openDayPicker(item) {
+function openDayPicker(item, moveFrom) {
     openSheet(box => {
         box.appendChild(el('div', 'modal-emoji', item.emoji));
         box.appendChild(el('div', 'modal-title', item.name));
-        box.appendChild(el('div', 'modal-sub', 'Add to which day? Tap again to remove.'));
-        const options = DAYS.map(d => ({ key: d.key, label: d.key === tripToday() ? 'Today' : d.dow + ' ' + d.num, title: d.title }))
+        box.appendChild(el('div', 'modal-sub', moveFrom ? 'Move to which day?' : 'Add to which day? Tap again to remove.'));
+        const options = DAYS.map(d => ({ key: d.key, label: d.key === tripToday() ? 'Today' : d.dow + ' ' + d.num, title: dayTitle(d.key) }))
             .concat([{ key: SOMEDAY, label: '🌊', title: 'Someday / flexible' }]);
         options.forEach(opt => {
             const row = el('div', 'dp-row');
@@ -2100,7 +2246,10 @@ function openDayPicker(item) {
                 row.classList.toggle('on', on);
                 row.querySelector('.dp-state').textContent = on ? '✓' : '+';
             };
-            row.addEventListener('click', () => { itinToggle(opt.key, item); sync(); });
+            row.addEventListener('click', () => {
+                if (moveFrom) { itinMove(moveFrom, opt.key, item); closeSheet(); }
+                else { itinToggle(opt.key, item); sync(); }
+            });
             box.appendChild(row);
             sync();
         });
@@ -2127,6 +2276,26 @@ function itinRow(dayKey, pick) {
     main.appendChild(el('span', 'itin-name', item.name));
     main.addEventListener('click', () => sheetFromData(item));
     row.appendChild(main);
+    const list = getItin()[dayKey] || [];
+    const idx = list.findIndex(x => x.id === pick.id);
+    const up = el('button', 'itin-up', '↑');
+    up.setAttribute('aria-label', 'Move up in the day');
+    up.disabled = idx <= 0;
+    up.addEventListener('click', () => {
+        const itin = getItin();
+        const l = itin[dayKey] || [];
+        const i = l.findIndex(x => x.id === pick.id);
+        if (i > 0) {
+            [l[i - 1], l[i]] = [l[i], l[i - 1]];
+            Store.set('itin', itin);
+            refreshItinUI();
+        }
+    });
+    row.appendChild(up);
+    const cal = el('button', 'itin-cal', '📅');
+    cal.setAttribute('aria-label', 'Move to another day');
+    cal.addEventListener('click', () => openDayPicker(item, dayKey));
+    row.appendChild(cal);
     const rm = el('button', 'itin-remove', '✕');
     rm.setAttribute('aria-label', 'Remove from itinerary');
     rm.addEventListener('click', () => itinToggle(dayKey, item));
