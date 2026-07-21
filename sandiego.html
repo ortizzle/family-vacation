@@ -1328,7 +1328,7 @@ const TIPS = [
 ];
 
 /* ── Things To Do ── */
-const DO_CATS = [['all', 'All'], ['top', '⭐ Top Picks'], ['beach', '🏖️ Beaches'], ['hike', '🥾 Hikes'], ['big', '🎢 Big Fun'], ['free', '🆓 Free & Cheap'], ['week', '📅 This Week']];
+const DO_CATS = [['all', 'All'], ['top', '⭐ Top Picks'], ['beach', '🏖️ Beaches'], ['hike', '🥾 Hikes'], ['indoor', '🏠 Indoor'], ['big', '🎢 Big Fun'], ['free', '🆓 Free & Cheap'], ['week', '📅 This Week']];
 
 const SPOTS = [
     { emoji: '🛶', name: 'La Jolla Sea Cave Kayaking', cats: ['top', 'big'], meta: 'The trip’s signature adventure · ~$64–75/person · 2 hrs', tags: [['ALL 3 KIDS OK', 'hot'], ['BOOK AHEAD', 'warm']],
@@ -1361,7 +1361,7 @@ const SPOTS = [
       text: 'Hourly ferry from Broadway Pier to Coronado Ferry Landing. Rent bikes there (or a 6-seat surrey), roll to Coronado Central Beach — wide, flat, gentle waves against the Hotel del backdrop — then MooTime Creamery, and catch the ferry back at dusk for skyline views.',
       rows: [['Ferry', '$8 each way, hourly 9 AM–9/10 PM'], ['Beach', 'Sand play is fine; check water status day-of (on/off advisories this week)'], ['Food', 'Village Pizzeria at the Ferry Landing has bay views']],
       tip: 'Time the return ferry for just after sunset — the skyline ride is the best $8 of the trip.' },
-    { emoji: '🔬', name: 'Balboa Park Half-Day', cats: ['top', 'free'], meta: 'Fleet Science Center ~$22/$19 + free gardens · parking free', tags: [['RAINY-GRAY MORNING FIX', '']],
+    { emoji: '🔬', name: 'Balboa Park Half-Day', cats: ['top', 'free', 'indoor'], meta: 'Fleet Science Center ~$22/$19 + free gardens · parking free', tags: [['RAINY-GRAY MORNING FIX', '']],
       sub: 'Museums + gardens + street performers',
       text: 'Fleet Science Center is the hands-on hit for ages 8–12 (2–3 hrs); the Model Railroad Museum downstairs in Casa de Balboa is cheap and a sleeper favorite. The Botanical Building, lily pond and gardens are free, with street performers along El Prado.',
       rows: [['Fleet', '$21.95 adult / $18.95 kid'], ['Trains', 'Model Railroad Museum ~$18, kids cheap'], ['Free', 'Gardens, El Prado, organ pavilion'], ['Parking', 'Free']],
@@ -1391,7 +1391,17 @@ const SPOTS = [
       text: 'A real summit for the crew’s strong legs: the Nighthawk Trail climbs steadily to a 1,554-ft peak with a 360° panorama — ocean one way, mountains the other. Best as the "big kid" challenge hike; the 8-year-old can do it with snack bribes.',
       rows: [['Route', '4 mi out-and-back, ~2 hrs · 849 ft of climbing'], ['Cost', 'Free'], ['When', 'Early morning ONLY in July — it’s inland and exposed'], ['Payoff', 'You can see the whole trip map from the top']],
       tip: 'Sunrise start = cool temps, empty trail, and you’re back at the beach by 11.' },
-    { emoji: '🔐', name: 'The Escape Game (UTC)', cats: ['big'], meta: 'Westfield UTC · ~$46/person · 60-min rooms · book ahead', tags: [['MOM’S PICK', 'hot'], ['RAINY-GRAY FIX', '']],
+    { emoji: '🛝', name: 'Slick City Action Park', cats: ['indoor', 'big'], meta: 'Oceanside · brand-new indoor slide park · ages 4+', tags: [['NEW JUNE 2026', 'hot'], ['ENERGY BURNER', 'warm']],
+      sub: 'Oceanside · ~20 min from Del Mar',
+      text: 'A 29,000 sq ft indoor SLIDE park (think waterpark slides, no water): ten giant slides including the Twin Turbo racer, plus air-cushioned basketball and dodgeball courts. Opened in June — perfect fit for all three kids, and the adults are allowed to ride everything too.',
+      rows: [['Where', '4241 Oceanside Blvd, Oceanside'], ['Hours', 'Sun–Thu 10 AM–8:30 PM · Fri–Sat 10 AM–10 PM'], ['Cost', 'Timed passes — check slickcity.com/ca-oceanside for today’s pricing; grip socks required (a few $ there, reusable)'], ['Ages', '4+ for the big slides, junior zone for littles']],
+      tip: 'Weekday morning-to-lunch is quietest (birthday parties own the weekends). Long sleeves + leggings = faster slides.' },
+    { emoji: '🪂', name: 'iFLY Indoor Skydiving', cats: ['indoor', 'big'], meta: 'Oceanside · ages 3+ · weekday saver ~$75 for 2 flights', tags: [['BUCKET LIST', 'hot']],
+      sub: 'Oceanside · the wind-tunnel one',
+      text: 'Real skydiving freefall in a glass wind tunnel — instructors fly with each kid, and ages 3+ qualify, so all three are in. Each person gets two ~60-second flights (that’s longer than a real skydive’s freefall). Spectating is free and almost as fun.',
+      rows: [['Where', '3178 Vista Way, Oceanside'], ['Cost', 'Weekday 11 AM–4:30 PM saver: ~$75/person for 2 flights · standard ~$105'], ['Time', '~1 hour total with training'], ['Budget hack', 'Fly the 3 kids + 1 adult; everyone else cheers through the glass for free']],
+      tip: 'Book the weekday saver window online. The instructor’s high-flying demo at the end is worth staying for.' },
+    { emoji: '🔐', name: 'The Escape Game (UTC)', cats: ['big', 'indoor'], meta: 'Westfield UTC · ~$46/person · 60-min rooms · book ahead', tags: [['MOM’S PICK', 'hot'], ['RAINY-GRAY FIX', '']],
       sub: 'La Jolla / UTC · ~10 min from Del Mar',
       text: 'Polished 60-minute escape rooms at Westfield UTC — six themes from Playground (their family favorite: back in 6th grade, silly and puzzle-dense) to Prison Break and The Heist. A party of 7 books most of a room, so it’s basically a private game. Great gray-morning or too-much-sun move.',
       rows: [['Cost', '~$46/person · 75 min total with briefing'], ['Rooms', 'Playground (easiest, kid gold) · Cosmic Crisis · Ruins · Timeliner · The Heist · Prison Break'], ['Book', 'Reserve online — July slots go fast'], ['Bonus', 'It’s in the mall: In-N-Out and shops for afters']],
