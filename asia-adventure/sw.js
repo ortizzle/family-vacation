@@ -1,6 +1,6 @@
 /* Asia Adventure service worker — cache-first for offline (ship, planes, Great Firewall).
    RULE: bump CACHE on every content change. Phones need two opens after a push. */
-const CACHE = 'aa27-v3';
+const CACHE = 'aa27-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -10,6 +10,8 @@ const ASSETS = [
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
+  './icon-maskable-192.png',
+  './icon-maskable-512.png',
   './apple-touch-icon.png',
   './favicon.ico',
   'https://fonts.googleapis.com/css2?family=Special+Elite&family=Spectral:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600&display=swap'
