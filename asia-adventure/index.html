@@ -157,6 +157,13 @@ textarea,input{font-family:'Spectral',serif;font-size:15px;color:var(--ink)}
 /* park pages */
 .park-rail{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
 .park-rail::-webkit-scrollbar{display:none}
+/* park chips live on PAPER — ink-dark, not the navy-header leg chips */
+.park-chip{flex:0 0 auto;min-height:52px;padding:6px 10px 5px;border-radius:6px;border:1.5px solid var(--paper-line);
+  background:rgba(255,255,255,.45);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;justify-content:center}
+.park-chip .em{font-size:16px;line-height:1}
+.park-chip .nm{font-family:'Special Elite',monospace;font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink);white-space:nowrap;line-height:1.1}
+.park-chip.active{border:2.5px double var(--ink-cur,var(--stamp-jp));background:rgba(0,0,0,.06);transform:rotate(-1.5deg)}
+.park-chip.active .nm{color:var(--ink-cur,var(--stamp-jp));font-weight:700}
 .plist{list-style:none}
 .plist li{position:relative;padding:5px 0 5px 18px;font-size:13px;line-height:1.5}
 .plist li::before{content:'✦';position:absolute;left:0;color:var(--ink-cur, var(--stamp-hk));font-size:11px;top:8px}
@@ -499,14 +506,15 @@ function showGuide(legId){
 /* ============ DISNEY ============ */
 function renderDisney(){
   app.appendChild(pageCard(inner=>{
-    const rail=el('div','park-rail');
-    PARKS.forEach(p=>{ const c=el('button','leg-chip'+(p.id===ui.parkId?' active':''));
-      c.appendChild(el('span','em',p.em)); c.appendChild(el('span','',p.name.replace('Disney ','').replace(' Disneyland','')));
-      c.addEventListener('click',()=>{ ui.parkId=p.id; Store.set('ui_park',p.id); showTab('disney'); }); rail.appendChild(c); });
-    inner.appendChild(rail);
     const p=PARKS.find(x=>x.id===ui.parkId);
-    const inkMap={adv:'--stamp-sea',hkdl:'--stamp-hk',shdl:'--stamp-cn',tdl:'--stamp-jp',tds:'--stamp-jp'};
+    const inkMap={adv:'--stamp-sea',hkdl:'--stamp-hk',shdl:'--stamp-cn',tdl:'--stamp-jp',tds:'--stamp-ky'};
     inner.style.setProperty('--ink-cur',`var(${inkMap[p.id]})`);
+    const rail=el('div','park-rail');
+    PARKS.forEach(x=>{ const c=el('button','park-chip'+(x.id===ui.parkId?' active':''));
+      c.style.setProperty('--ink-cur',`var(${inkMap[x.id]})`);
+      c.appendChild(el('span','em',x.em)); c.appendChild(el('span','nm',x.short));
+      c.addEventListener('click',()=>{ ui.parkId=x.id; Store.set('ui_park',x.id); showTab('disney'); }); rail.appendChild(c); });
+    inner.appendChild(rail);
     const st=el('div','entry-stamp'); st.appendChild(el('span','wing',p.em));
     st.appendChild(el('div','arr',p.where)); st.appendChild(el('h2','',p.name)); st.appendChild(el('div','date',p.days));
     inner.appendChild(st);

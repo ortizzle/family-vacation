@@ -130,7 +130,7 @@ hi: {
 
 /* ---------------- Disney strategy pages ---------------- */
 const PARKS = [
-{id:'adv', em:'🚢', name:'Disney Adventure', where:'Sails from Singapore', days:'May 20–24 · 4 nights at sea',
+{id:'adv', em:'🚢', short:'The Ship', name:'Disney Adventure', where:'Sails from Singapore', days:'May 20–24 · 4 nights at sea',
  verdict:'The ship IS the destination — zero ports. Pace like a resort.',
  access:{label:'What to book & when', body:'Platinum 120-day window (~Jan 20): Palo, Mike & Sulley’s, Bibbidi Bobbidi, Royal Tea. At 30 days: check-in + earliest Port Arrival Time. The MINUTE you board: Ironcycle reservation in-app, then the fireworks dessert package.'},
  rope:['Board at your PAT (early as possible) — not hours before.','App the second you’re aboard: Ironcycle → fireworks package → karaoke slots.','Rides at Marvel Landing at opening; indoor afternoons (equatorial heat).','Theatre 30 min early; Garden Stage even earlier or catch a repeat.'],
@@ -139,7 +139,7 @@ const PARKS = [
  eats:['Mowgli’s Eatery (Indian) + Gramma Tala’s (Pacific) — best quick service','Bewitching Boba — free bubble tea','Palo = best-value splurge aboard'],
  facts:['Began life as the Global Dream; Disney bought the unfinished hull in 2022','~208,000 tons — 2.5× the Wonder','Fireworks narrated by Shah Rukh Khan','First Disney “castle” at sea · Deadpool’s only DCL show appearance']},
 
-{id:'hkdl', em:'🏰', name:'Hong Kong Disneyland', where:'Lantau Island', days:'May 25–26 · 1.5 park days',
+{id:'hkdl', em:'🏰', short:'Hong Kong', name:'Hong Kong Disneyland', where:'Lantau Island', days:'May 25–26 · 1.5 park days',
  verdict:'Smallest castle park, biggest character warmth. Shows are the differentiator — don’t skip them for re-rides.',
  access:{label:'Premier Access verdict', body:'SKIP the bundle — late-May weekdays are the year’s quietest. If Frozen Ever After spikes, buy that single ride in-app (HK$89–129) and nothing else.'},
  rope:['Staged opening: Main St + World of Frozen first → Tomorrowland/Adventureland at official open → Mystic Point/Grizzly/Toy Story +30 min.','Frozen Ever After → Oaken’s Sleighs in the first 30 min.','Let the third-drop crowd rush Grizzly; take Mystic Manor ~1 hr after its land opens (walk-on), ride twice.','Momentous: mid-Main-Street, 30–40 min early.'],
@@ -148,7 +148,7 @@ const PARKS = [
  eats:['Plaza Inn dim sum','Duffy egg tarts in paper boats (7 colors)','Crystal Lotus character dim sum (hotel, pre-booked)','Explorer’s Club semi-buffet = reserved Momentous viewing'],
  facts:['Castle of Magical Dreams honors 13 princesses — the only one','Mystic Manor has no track and no seatbelt-drop — trackless magic','The resort MTR line has Mickey-shaped windows']},
 
-{id:'shdl', em:'🐭', name:'Shanghai Disneyland', where:'Pudong', days:'May 28–29 · 2 park days',
+{id:'shdl', em:'🐭', short:'Shanghai', name:'Shanghai Disneyland', where:'Pudong', days:'May 28–29 · 2 park days',
  verdict:'Home of Disney’s best dark ride (Pirates), the original TRON, and the world’s only Zootopia land.',
  access:{label:'Premier Access verdict', body:'Friday: rope-drop + at most one single DPA. Saturday: BUY THE BUNDLE (¥890–1,400/person, drops ~10 days out, sells out) + Early Park Entry passes. Real-name tickets — passports at the gate.'},
  rope:['Arrive 60–75 min early — security X-rays every bag.','Zootopia first (or grab its Standby Pass in-app at open) → TRON → Soaring → Pirates before lunch.','Camp Discovery ropes course mid-afternoon (low waits).','TRON again after dark — a different ride at night.'],
@@ -157,7 +157,7 @@ const PARKS = [
  eats:['Hoisin turkey leg (2-per-person limit — the longest snack line)','Mickey pizza at Pinocchio Village Kitchen','In-park xiaolongbao (surprisingly good)','Steak popcorn + collectible bucket'],
  facts:['The castle is the biggest ever built — and represents ALL the princesses','TRON here was the first (2016); Florida copied it','Zootopia land exists only here (2023)']},
 
-{id:'tdl', em:'🎠', name:'Tokyo Disneyland', where:'Maihama', days:'June 1 · 1 park day',
+{id:'tdl', em:'🎠', short:'Disneyland', name:'Tokyo Disneyland', where:'Maihama', days:'June 1 · 1 park day',
  verdict:'One low-crowd day covers TDL’s unique bests — Space Mountain is mid-rebuild and Buzz is gone.',
  access:{label:'Premier Access verdict', body:'Free Priority Pass died Aug 2026. Rope-drop Pooh’s Hunny Hunt (NOT on DPA), then buy DPA for Beauty and the Beast (¥2,000) if waits spike. Tickets are date-specific, app-only, 60-day drop.'},
  rope:['Gates 45–60 min before posted open (they often open early).','Pooh’s Hunny Hunt first — trackless, best-in-class, no paid skip exists.','Enchanted Tale of Beauty and the Beast second (or DPA it).','Electrical Parade Dreamlights at night — rain cancels it outright, so clear night = priority.'],
@@ -166,7 +166,7 @@ const PARKS = [
  eats:['Little Green Men mochi','Teriyaki chicken leg','Mike Melon Bread','Popcorn flavors + collectible buckets'],
  facts:['Tokyo’s parks aren’t owned by Disney — Oriental Land Company licenses them (and spends MORE)','The Shinkansen-grade cleanliness is real: staff sweep with dustpans mid-parade','Popcorn flavors rotate by cart location — collecting is the game']},
 
-{id:'tds', em:'🌋', name:'Tokyo DisneySea', where:'Maihama', days:'May 31 + June 2 · 2 park days',
+{id:'tds', em:'🌋', short:'DisneySea', name:'Tokyo DisneySea', where:'Maihama', days:'May 31 + June 2 · 2 park days',
  verdict:'The consensus best Disney park on Earth. Its size is the trap — plan geographically.',
  access:{label:'Premier Access verdict', body:'Fantasy Springs is now free walk-in — rope-drop Frozen Journey standby, DPA Rapunzel (¥2,000) as insurance. Believe! viewing DPA (¥2,500) beats a 90-min ground stake if the budget allows. Total family DPA budget ~¥16–24k across 3 park days transforms the trip.'},
  rope:['Gates 60+ min before posted open — this park’s lines form earliest.','Day 1: Fantasy Springs sweep (Frozen → Rapunzel → Peter Pan).','Day 2: Soaring: Fantastic Flight at open, then favorites.','One parent buys DPA in-app at open while the other walks the family to ride #1.'],
