@@ -199,6 +199,47 @@ textarea,input{font-family:'Spectral',serif;font-size:15px;color:var(--ink)}
 .bcell.free .t{color:var(--cover)}
 .bcell.spotted{border:2.5px double var(--stamp-hk);background:rgba(142,59,110,.12);transform:rotate(-2deg)}
 
+/* ---------- Culture Academy ---------- */
+.aca-hero{text-align:center;padding:4px 0 10px}
+.aca-hero .rank{font-family:'Special Elite',monospace;font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--stamp-jp)}
+.aca-hero .bar{height:9px;border-radius:5px;background:rgba(0,0,0,.09);margin:8px 0 5px;overflow:hidden;border:1px solid var(--paper-line)}
+.aca-hero .fill{height:100%;background:repeating-linear-gradient(45deg,var(--gold) 0 6px,#d8bd6a 6px 12px);transition:width .5s}
+.aca-hero .cnt{font-size:11.5px;color:var(--ink-soft);font-style:italic}
+.lcard{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:10px 11px;margin-bottom:8px;border-radius:8px;
+  border:1.5px solid var(--paper-line);background:rgba(255,255,255,.45);cursor:pointer;min-height:56px}
+.lcard .lem{font-size:22px;line-height:1.1;flex:0 0 auto;width:30px;text-align:center}
+.lcard .lt{font-size:14.5px;font-weight:600;line-height:1.3}
+.lcard .lh{font-size:12.5px;line-height:1.45;color:var(--ink-soft);margin-top:2px}
+.lcard .lm{font-family:'Special Elite',monospace;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-cur,var(--stamp-jp));margin-top:4px;display:block}
+.lcard.read{border:2px double var(--ink-cur,var(--stamp-jp));background:rgba(0,0,0,.04)}
+.lcard.read .lt{color:var(--ink-cur,var(--stamp-jp))}
+/* reader */
+.les-head{text-align:center;padding:2px 0 6px}
+.les-head .kicker{font-family:'Special Elite',monospace;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-cur,var(--stamp-jp))}
+.les-head h2{font-size:22px;line-height:1.25;margin:5px 0 6px}
+.les-hook{font-size:15.5px;line-height:1.5;font-style:italic;color:var(--ink);padding:10px 12px;border-left:4px solid var(--ink-cur,var(--stamp-jp));
+  background:rgba(0,0,0,.035);border-radius:0 8px 8px 0;margin-bottom:14px}
+.les-card{margin-bottom:13px}
+.les-card h4{font-family:'Special Elite',monospace;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-cur,var(--stamp-jp));margin-bottom:4px}
+.les-card p{font-size:14.5px;line-height:1.62}
+.les-wow{margin:14px 0;padding:12px 13px;border:2px dashed var(--gold);border-radius:9px;background:rgba(201,168,76,.12)}
+.les-wow .lbl{font-family:'Special Elite',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a6d20;display:block;margin-bottom:3px}
+.les-wow p{font-size:14.5px;line-height:1.55;font-weight:600}
+.les-quote{margin:13px 6px;padding:6px 0 6px 14px;border-left:3px solid var(--paper-line);font-family:'Caveat',cursive;font-size:20px;line-height:1.35;color:#274168}
+.les-words{margin:14px 0;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.5);border:1px solid var(--paper-line)}
+.les-words .w{font-size:13.5px;line-height:1.5;padding:3px 0}
+.les-words .w b{font-family:'Special Elite',monospace;font-size:12.5px;letter-spacing:.5px;color:var(--ink-cur,var(--stamp-jp))}
+.les-look{margin:14px 0 4px;padding:12px 13px;border-radius:9px;border:2px solid var(--ink-cur,var(--stamp-jp));background:rgba(0,0,0,.03)}
+.les-look .lbl{font-family:'Special Elite',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-cur,var(--stamp-jp));display:block;margin-bottom:3px}
+.les-look p{font-size:14.5px;line-height:1.55}
+.les-check{margin-top:6px}
+.les-stampbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:64px;margin-top:6px;border-radius:10px;
+  border:3px double var(--ink-cur,var(--stamp-jp));background:rgba(255,255,255,.5);color:var(--ink-cur,var(--stamp-jp));
+  font-family:'Special Elite',monospace;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
+.les-stampbtn.done{transform:rotate(-2deg);background:rgba(0,0,0,.06)}
+.les-nav{display:flex;gap:8px;margin-top:12px}
+.les-nav .btn{flex:1;font-size:11px}
+
 /* journal */
 .jfield{margin-bottom:10px}
 .jfield label{display:block;font-family:'Special Elite',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px}
@@ -214,9 +255,9 @@ textarea,input{font-family:'Spectral',serif;font-size:15px;color:var(--ink)}
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;z-index:50;
   background:linear-gradient(180deg, var(--cover-2), var(--cover));border-top:1.5px solid rgba(201,168,76,.4);
   display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
-.bn{min-width:56px;min-height:48px;border:none;background:none;cursor:pointer;color:rgba(233,220,192,.55);
-  font-family:'Special Elite',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:3px}
-.bn .i{font-size:19px}
+.bn{min-width:48px;min-height:48px;border:none;background:none;cursor:pointer;color:rgba(233,220,192,.55);
+  font-family:'Special Elite',monospace;font-size:8.5px;letter-spacing:.5px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0 2px}
+.bn .i{font-size:18px}
 .bn.active{color:var(--gold)}
 
 /* modal + toast + chat */
@@ -259,6 +300,7 @@ textarea,input{font-family:'Spectral',serif;font-size:15px;color:var(--ink)}
   <button class="bn" data-tab="home"><span class="i">🏠</span>Home</button>
   <button class="bn" data-tab="journey"><span class="i">🗺</span>Journey</button>
   <button class="bn" data-tab="disney"><span class="i">🏰</span>Disney</button>
+  <button class="bn" data-tab="academy"><span class="i">🎓</span>Academy</button>
   <button class="bn" data-tab="quests"><span class="i">🎖</span>Quests</button>
   <button class="bn" data-tab="keepsake"><span class="i">📓</span>Keepsake</button>
 </nav>
@@ -267,6 +309,7 @@ textarea,input{font-family:'Spectral',serif;font-size:15px;color:var(--ink)}
 <script src="data/legs.js"></script>
 <script src="data/guides.js"></script>
 <script src="data/games.js"></script>
+<script src="data/lessons.js"></script>
 <script>
 'use strict';
 /* ============ core utils ============ */
@@ -310,13 +353,16 @@ function legInk(legId){ const leg=LEGS.find(l=>l.id===legId); return leg?`var(${
 /* ============ shell / nav ============ */
 const app=document.getElementById('app');
 let activeTab=null;
-const ui={ legId: Store.get('ui_leg','sg'), dayId: Store.get('ui_day',null), parkId: Store.get('ui_park','adv'), deck:'all' };
+const ui={ legId: Store.get('ui_leg','sg'), dayId: Store.get('ui_day',null), parkId: Store.get('ui_park','adv'),
+           deck:'all', acaRegion: Store.get('ui_aca','all'), lessonId:null };
 document.querySelectorAll('.bn').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
 function showTab(tab){
+  if(tab!=='academy') ui.lessonId=null;
   activeTab=tab;
   document.querySelectorAll('.bn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
   while(app.firstChild) app.removeChild(app.firstChild);
-  ({home:renderHome, journey:renderJourney, disney:renderDisney, quests:renderQuests, keepsake:renderKeepsake})[tab]();
+  ({home:renderHome, journey:renderJourney, disney:renderDisney, academy:renderAcademy,
+    quests:renderQuests, keepsake:renderKeepsake})[tab]();
   window.scrollTo(0,0);
 }
 function pageCard(build){ const page=el('div','page'); page.appendChild(el('div','perf'));
@@ -377,6 +423,7 @@ function renderHome(){
     inner.appendChild(prog);
     /* utility cards */
     const cards=[
+      ['🎓 Culture Academy', `${LESSONS.length} short lessons — read any of them, any time. ${acaCount()} stamped so far.`, ()=>showTab('academy')],
       ['🎒 Packing List', 'Interactive checklist per category.', showPacking],
       ['📖 Field Guides', 'Dining, logistics, etiquette per leg — the “why we picked it” notes.', showGuidePicker],
       ['🧭 Full Coach Timeline', 'Every dated booking trigger from now to the trip.', showCoachFull],
@@ -550,6 +597,8 @@ function renderQuests(){
     inner.appendChild(deckRow);
     const best=Store.get('trivia_best',{})[ui.deck];
     const tzone=el('div',''); inner.appendChild(tzone);
+    const bonus=triviaPool().length-TRIVIA.length;
+    if(bonus>0) inner.appendChild(el('div','pp-legend',`+${bonus} bonus questions unlocked from Academy lessons`));
     const start=el('button','btn btn-solid','▶ Start 8-question round'+(best!==undefined?`  (best: ${best}/8)`:''));
     start.style.cssText='display:block;width:100%';
     start.addEventListener('click',()=>runTrivia(tzone));
@@ -615,9 +664,17 @@ function lineCount(state){
   if([4,8,12,16,20].every(on)) lines++;
   return lines;
 }
+/* lesson quizzes join the trivia pool once their lesson is stamped */
+function triviaPool(){
+  const read=acaRead(); const extra=[];
+  LESSONS.forEach(l=>{ if(!read[l.id]) return;
+    const leg = l.region==='dis' ? 'sea' : l.region;
+    (l.quiz||[]).forEach(q=>extra.push({leg, k:1, q:q.q, a:q.a, w:q.w, fromLesson:true})); });
+  return TRIVIA.concat(extra);
+}
 function runTrivia(zone){
   while(zone.firstChild) zone.removeChild(zone.firstChild);
-  const pool=TRIVIA.filter(t=>ui.deck==='all'||t.leg===ui.deck);
+  const pool=triviaPool().filter(t=>ui.deck==='all'||t.leg===ui.deck);
   const qs=[...pool].sort(()=>Math.random()-.5).slice(0,8);
   let i=0, score=0;
   const scoreLine=el('div','trivia-score'); const qbox=el('div','');
@@ -646,6 +703,130 @@ function runTrivia(zone){
   next();
 }
 
+/* ============ CULTURE ACADEMY ============ */
+const ACA_RANKS=[[0,'Passport Holder'],[3,'Curious Traveler'],[8,'Explorer'],[15,'Navigator'],[24,'Scholar of Asia'],[36,'Professor Ortiz']];
+function acaRead(){ return Store.get('lessons',{}); }
+function acaCount(){ const r=acaRead(); return Object.keys(r).filter(k=>r[k]).length; }
+function acaRank(n){ let cur=ACA_RANKS[0], next=null;
+  for(const [need,name] of ACA_RANKS){ if(n>=need) cur=[need,name]; else { next=[need,name]; break; } }
+  return {name:cur[1], next}; }
+function regionInk(rid){ const map={sg:'--stamp-sg',hk:'--stamp-hk',sh:'--stamp-cn',tyo:'--stamp-jp',kyo:'--stamp-ky',hi:'--stamp-hi',dis:'--stamp-sea'};
+  return `var(${map[rid]||'--stamp-jp'})`; }
+function renderAcademy(){
+  if(ui.lessonId){ renderLesson(ui.lessonId); return; }
+  app.appendChild(pageCard(inner=>{
+    const n=acaCount(), total=LESSONS.length, rk=acaRank(n);
+    const hero=el('div','aca-hero');
+    hero.appendChild(el('div','rank','🎓 '+rk.name));
+    const bar=el('div','bar'); const fill=el('div','fill'); fill.style.width=Math.round(n/total*100)+'%'; bar.appendChild(fill); hero.appendChild(bar);
+    hero.appendChild(el('div','cnt', rk.next ? `${n} of ${total} lessons · ${rk.next[0]-n} more to reach ${rk.next[1]}`
+                                             : `${n} of ${total} lessons — you finished the whole Academy.`));
+    inner.appendChild(hero);
+    const intro=el('div','field-note','Read these in any order, any time — nothing is locked. Every lesson ends with something to find on the trip. — F.');
+    inner.appendChild(intro);
+    const rail=el('div','park-rail');
+    const regions=[['all','🌏','Everything'],...ACA_REGIONS];
+    regions.forEach(([rid,em,label])=>{
+      const c=el('button','park-chip'+(ui.acaRegion===rid?' active':''));
+      c.style.setProperty('--ink-cur', rid==='all'?'var(--stamp-jp)':regionInk(rid));
+      c.appendChild(el('span','em',em)); c.appendChild(el('span','nm',label));
+      c.addEventListener('click',()=>{ ui.acaRegion=rid; Store.set('ui_aca',rid); showTab('academy'); });
+      rail.appendChild(c); });
+    inner.appendChild(rail);
+    const read=acaRead();
+    const list=LESSONS.filter(l=>ui.acaRegion==='all'||l.region===ui.acaRegion);
+    let lastRegion=null;
+    list.forEach(l=>{
+      if(ui.acaRegion==='all' && l.region!==lastRegion){
+        const r=ACA_REGIONS.find(x=>x[0]===l.region);
+        inner.appendChild(el('div','sec-label',`${r?r[1]:''} ${r?r[2]:l.region}`));
+        lastRegion=l.region;
+      }
+      const card=el('button','lcard'+(read[l.id]?' read':''));
+      card.style.setProperty('--ink-cur', regionInk(l.region));
+      card.appendChild(el('div','lem', read[l.id]?'🛂':l.em));
+      const body=el('div',''); body.appendChild(el('div','lt',l.title)); body.appendChild(el('div','lh',l.hook));
+      body.appendChild(el('span','lm', (read[l.id]?'✔ stamped · ':'')+l.mins+' min read'));
+      card.appendChild(body);
+      card.addEventListener('click',()=>{ ui.lessonId=l.id; showTab('academy'); });
+      inner.appendChild(card);
+    });
+    inner.appendChild(mrz('ACADE'));
+  }));
+}
+function renderLesson(id){
+  const l=LESSONS.find(x=>x.id===id); if(!l){ ui.lessonId=null; renderAcademy(); return; }
+  const back=el('div','back-row'); const b=el('button','btn','‹ All lessons');
+  b.addEventListener('click',()=>{ ui.lessonId=null; showTab('academy'); }); back.appendChild(b); app.appendChild(back);
+  app.appendChild(pageCard(inner=>{
+    inner.style.setProperty('--ink-cur', regionInk(l.region));
+    const r=ACA_REGIONS.find(x=>x[0]===l.region);
+    const h=el('div','les-head');
+    h.appendChild(el('div','kicker', `${r?r[1]:''} ${r?r[2]:''} · ${l.mins} min`));
+    h.appendChild(el('h2','',l.title));
+    inner.appendChild(h);
+    inner.appendChild(el('div','les-hook',l.hook));
+    l.cards.forEach(c=>{
+      if(c.wow){ const w=el('div','les-wow'); w.appendChild(el('span','lbl','⚡ Wait, what?')); w.appendChild(el('p','',c.wow)); inner.appendChild(w); return; }
+      if(c.q){ inner.appendChild(el('div','les-quote','“'+c.q+'”')); return; }
+      const div=el('div','les-card');
+      if(c.h) div.appendChild(el('h4','',c.h));
+      if(c.p) div.appendChild(el('p','',c.p));
+      inner.appendChild(div);
+    });
+    if(l.words&&l.words.length){
+      const w=el('div','les-words'); w.appendChild(el('div','sec-label','🗣 Words worth knowing'));
+      l.words.forEach(([term,def])=>{ const row=el('div','w'); row.appendChild(el('b','',term+' — ')); row.appendChild(document.createTextNode(def)); w.appendChild(row); });
+      inner.appendChild(w);
+    }
+    const lk=el('div','les-look'); lk.appendChild(el('span','lbl','👀 Find this on the trip'));
+    lk.appendChild(el('p','',l.look)); inner.appendChild(lk);
+    /* self-check quiz */
+    if(l.quiz&&l.quiz.length){
+      inner.appendChild(el('div','sec-label','✅ Quick check'));
+      const zone=el('div','les-check'); inner.appendChild(zone);
+      l.quiz.forEach(q=>{
+        const box=el('div',''); box.style.marginBottom='14px';
+        box.appendChild(el('div','trivia-q',q.q));
+        const opts=[q.a,...q.w].sort(()=>Math.random()-.5);
+        let answered=false;
+        opts.forEach(o=>{ const btn=el('button','trivia-opt',o);
+          btn.addEventListener('click',()=>{ if(answered) return; answered=true;
+            if(o===q.a){ btn.classList.add('right'); }
+            else { btn.classList.add('wrong');
+              box.querySelectorAll('.trivia-opt').forEach(x=>{ if(x.textContent===q.a) x.classList.add('right'); }); }
+          });
+          box.appendChild(btn); });
+        zone.appendChild(box);
+      });
+    }
+    /* stamp */
+    const read=acaRead();
+    const sb=el('button','les-stampbtn'+(read[l.id]?' done':''));
+    sb.textContent = read[l.id] ? '🛂 Stamped — nice work' : '🛂 Stamp this lesson';
+    sb.addEventListener('click',e=>{
+      const all=acaRead(); const before=acaCount();
+      all[l.id]=!all[l.id]; Store.set('lessons',all);
+      sb.classList.toggle('done',all[l.id]);
+      sb.textContent = all[l.id] ? '🛂 Stamped — nice work' : '🛂 Stamp this lesson';
+      if(all[l.id]){
+        confetti(e.clientX||190,e.clientY||400);
+        const after=before+1, rkBefore=acaRank(before).name, rkAfter=acaRank(after).name;
+        if(rkAfter!==rkBefore) showModal({title:'🎓 Rank up!', message:`You are now: ${rkAfter}. ${after} of ${LESSONS.length} lessons stamped.`, confirmText:'Keep going'});
+        else toast('🛂 Lesson stamped');
+      }
+    });
+    inner.appendChild(sb);
+    /* prev / next */
+    const idx=LESSONS.findIndex(x=>x.id===l.id);
+    const nav=el('div','les-nav');
+    if(idx>0){ const p=el('button','btn','‹ Previous'); p.addEventListener('click',()=>{ ui.lessonId=LESSONS[idx-1].id; showTab('academy'); }); nav.appendChild(p); }
+    if(idx<LESSONS.length-1){ const nx=el('button','btn','Next lesson ›'); nx.addEventListener('click',()=>{ ui.lessonId=LESSONS[idx+1].id; showTab('academy'); }); nav.appendChild(nx); }
+    inner.appendChild(nav);
+    inner.appendChild(mrz('LESSN'));
+  }));
+}
+
 /* ============ KEEPSAKE ============ */
 function renderKeepsake(){
   app.appendChild(pageCard(inner=>{
@@ -656,7 +837,8 @@ function renderKeepsake(){
     const bests=Store.get('trivia_best',{}); const bestAll=bests.all!==undefined?bests.all+'/8':'—';
     const sg=el('div','stat-grid');
     [[String(journaled)+'/23','Days journaled'],[String(qcount)+'/'+total,'Quests stamped'],
-     [String(bingoCount())+'/24','Bingo spotted'],[bestAll,'Trivia best']].forEach(([v,l])=>{
+     [String(bingoCount())+'/24','Bingo spotted'],[bestAll,'Trivia best'],
+     [String(acaCount())+'/'+LESSONS.length,'Lessons stamped'],[acaRank(acaCount()).name,'Academy rank']].forEach(([v,l])=>{
       const s=el('div','stat'); s.appendChild(el('div','v',v)); s.appendChild(el('div','l',l)); sg.appendChild(s); });
     inner.appendChild(sg);
     inner.appendChild(el('div','sec-label','📓 Daily Journal'));
@@ -726,7 +908,7 @@ function showSettings(){
       const inp=el('input',''); inp.type='password'; inp.placeholder='sk-ant-…'; inp.value=Store.get('anthropic_key','')||''; inp.id='set-key'; box.appendChild(inp);
       const reset=el('button','btn','Reset ALL app data'); reset.style.cssText='margin-top:14px;border-color:var(--warn);color:var(--warn)';
       reset.addEventListener('click',()=>showModal({title:'Reset everything?', message:'Quests, journal, bingo, notes, packing — all cleared on this phone.',
-        confirmText:'Yes, reset', cancelText:'Keep it', onConfirm:()=>{ ['quests','journal','bingo','daynotes','pack','trivia_best'].forEach(k=>Store.remove(k)); toast('Cleared'); showTab('home'); }}));
+        confirmText:'Yes, reset', cancelText:'Keep it', onConfirm:()=>{ ['quests','journal','bingo','daynotes','pack','trivia_best','lessons'].forEach(k=>Store.remove(k)); toast('Cleared'); showTab('home'); }}));
       box.appendChild(reset); },
     onConfirm:(box)=>{ const v=box.querySelector('#set-key').value.trim(); if(v) Store.set('anthropic_key',v); else Store.remove('anthropic_key'); toast('Settings saved'); }});
 }

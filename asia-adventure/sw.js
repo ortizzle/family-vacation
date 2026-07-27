@@ -1,12 +1,13 @@
 /* Asia Adventure service worker — cache-first for offline (ship, planes, Great Firewall).
    RULE: bump CACHE on every content change. Phones need two opens after a push. */
-const CACHE = 'aa27-v5';
+const CACHE = 'aa27-v6';
 const ASSETS = [
   './',
   './index.html',
   './data/legs.js',
   './data/guides.js',
   './data/games.js',
+  './data/lessons.js',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
