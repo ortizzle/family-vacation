@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#152238">
+<title>Asia Adventure — Ortiz Family Passport</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Spectral:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cover:#152238; --cover-2:#1d2f4e; --gold:#c9a84c;
+  --paper:#f2e9d3; --paper-2:#e9dcc0; --paper-line:#d8c9a5;
+  --ink:#3a3226; --ink-soft:#6f6350;
+  --stamp-sg:#b03a2e; --stamp-sea:#1f6f78; --stamp-hk:#8e3b6e; --stamp-cn:#c0392b;
+  --stamp-jp:#2c3e7b; --stamp-ky:#4a6741; --stamp-hi:#c07830;
+  --warn:#a2321f; --ok:#3e6b3a;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--cover)}
+body{
+  font-family:'Spectral',serif;color:var(--ink);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(201,168,76,.06), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(201,168,76,.05), transparent 40%),
+    repeating-radial-gradient(circle at 50% 120%, transparent 0 34px, rgba(201,168,76,.035) 34px 35px),
+    linear-gradient(160deg, var(--cover), var(--cover-2) 60%, var(--cover));
+  min-height:100vh; padding:0 0 calc(76px + env(safe-area-inset-bottom));
+  max-width:520px;margin:0 auto;
+}
+button{font-family:inherit;color:inherit}
+textarea,input{font-family:'Spectral',serif;font-size:15px;color:var(--ink)}
+.hidden{display:none!important}
+
+/* ---------- header ---------- */
+.cover-strip{padding:calc(10px + env(safe-area-inset-top)) 16px 8px;text-align:center;color:var(--gold)}
+.cover-strip .crest{font-size:20px;letter-spacing:6px}
+.cover-strip h1{font-family:'Special Elite',monospace;font-size:15px;font-weight:400;letter-spacing:5px;text-transform:uppercase;margin-top:2px}
+.cover-strip .sub{font-size:10px;letter-spacing:1.5px;opacity:.75;text-transform:uppercase;margin-top:1px;white-space:nowrap}
+
+/* ---------- passport page card ---------- */
+.page{
+  margin:0 12px 14px;border-radius:10px;position:relative;
+  background:
+    repeating-linear-gradient(115deg, transparent 0 9px, rgba(142,59,110,.035) 9px 10px),
+    repeating-linear-gradient(-115deg, transparent 0 9px, rgba(44,62,123,.03) 9px 10px),
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.5), transparent 55%),
+    linear-gradient(175deg, var(--paper), var(--paper-2));
+  box-shadow:0 8px 30px rgba(0,0,0,.5), inset 0 0 40px rgba(160,130,80,.18);
+  overflow:hidden;
+}
+.perf{height:14px;background:radial-gradient(circle at 8px 0px, var(--cover) 0 4.5px, transparent 5px) 0 -1px/22px 14px repeat-x}
+.page-inner{padding:14px 16px 12px}
+
+/* rails & chips */
+.leg-rail{display:flex;gap:8px;overflow-x:auto;padding:10px 14px 14px;scrollbar-width:none}
+.leg-rail::-webkit-scrollbar{display:none}
+.leg-chip{flex:0 0 auto;min-height:44px;padding:6px 11px 5px;border-radius:6px;border:1.5px dashed rgba(201,168,76,.45);
+  color:rgba(233,220,192,.8);font-family:'Special Elite',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;
+  background:rgba(255,255,255,.03);text-align:center;cursor:pointer;display:flex;flex-direction:column;justify-content:center;line-height:1.35}
+.leg-chip .em{font-size:14px;letter-spacing:0}
+.leg-chip.active{border:2px solid var(--gold);color:var(--cover);background:var(--gold);transform:rotate(-2deg);box-shadow:0 2px 10px rgba(0,0,0,.4)}
+.day-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
+.day-tabs::-webkit-scrollbar{display:none}
+.day-tab{flex:0 0 auto;min-height:44px;min-width:62px;padding:5px 10px;border-radius:5px;font-family:'Special Elite',monospace;
+  font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);border:1.5px solid var(--paper-line);
+  background:rgba(255,255,255,.35);text-align:center;cursor:pointer;line-height:1.4}
+.day-tab .dnum{font-size:14px;color:var(--ink)}
+.day-tab.active{border:2.5px double var(--ink-cur, var(--stamp-hk));color:var(--ink-cur, var(--stamp-hk));background:rgba(0,0,0,.04);transform:rotate(-1.5deg)}
+.day-tab.active .dnum{color:inherit}
+.day-tab .today-dot{display:block;font-size:8.5px;letter-spacing:1.5px;color:var(--warn)}
+
+/* stamps & headers */
+.entry-stamp{margin:4px auto 14px;width:90%;max-width:340px;padding:10px 12px 8px;text-align:center;border:3px double var(--ink-cur, var(--stamp-hk));
+  border-radius:10px;color:var(--ink-cur, var(--stamp-hk));transform:rotate(-2.4deg);position:relative;opacity:.92;
+  -webkit-mask-image:radial-gradient(circle at 30% 40%, black 92%, rgba(0,0,0,.72) 100%)}
+.entry-stamp .arr{font-family:'Special Elite',monospace;font-size:10px;letter-spacing:2.5px;text-transform:uppercase}
+.entry-stamp h2{font-family:'Special Elite',monospace;font-size:19px;font-weight:400;letter-spacing:2px;text-transform:uppercase;margin:2px 0}
+.entry-stamp .date{font-family:'Special Elite',monospace;font-size:12px;letter-spacing:2px}
+.entry-stamp .wing{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--paper);padding:0 8px;font-size:12px}
+.day-title{text-align:center;margin-bottom:2px}
+.day-title h3{font-size:17px;font-weight:600}
+.day-title .sub{font-size:12.5px;font-style:italic;color:var(--ink-soft);margin-top:2px}
+.sec-label{font-family:'Special Elite',monospace;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--ink-cur, var(--stamp-hk));border-bottom:1.5px dashed var(--paper-line);padding:14px 0 4px;margin-bottom:8px}
+
+/* timeline */
+.timeline{position:relative;padding-left:14px}
+.timeline::before{content:'';position:absolute;left:3px;top:6px;bottom:6px;border-left:2px dotted var(--paper-line)}
+.ev{position:relative;margin-bottom:9px;padding:9px 11px 8px;border-radius:7px;background:rgba(255,255,255,.42);border:1px solid var(--paper-line);min-height:44px}
+.ev::before{content:'';position:absolute;left:-15px;top:16px;width:8px;height:8px;border-radius:50%;background:var(--ink-cur, var(--stamp-hk));box-shadow:0 0 0 3px rgba(0,0,0,.08)}
+.ev.milestone{border:1.5px solid var(--ink-cur, var(--stamp-hk));background:rgba(0,0,0,.035)}
+.ev .t{font-family:'Special Elite',monospace;font-size:12px;letter-spacing:1px;color:var(--ink-cur, var(--stamp-hk));text-transform:uppercase}
+.ev .n{font-size:14.5px;font-weight:600;line-height:1.35;margin:1px 0 2px}
+.ev .d{font-size:12.5px;line-height:1.5;color:var(--ink-soft)}
+.ev .tags{margin-top:5px;display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-family:'Special Elite',monospace;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;padding:3px 7px;border-radius:4px;border:1px solid currentColor}
+.tag-leave{color:#fff;background:var(--warn);border-color:var(--warn)}
+.tag-tip{color:var(--stamp-sea)} .tag-quest{color:var(--stamp-hk)} .tag-food{color:var(--stamp-cn)} .tag-show{color:var(--stamp-jp)}
+
+/* fork + note + editable day note */
+.fork{margin:12px 0;padding:10px 12px;border:1.5px dashed var(--stamp-sea);border-radius:8px;background:rgba(31,111,120,.05)}
+.fork h4{font-family:'Special Elite',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--stamp-sea);margin-bottom:6px}
+.fork p{font-size:12.5px;line-height:1.5;margin-bottom:5px}
+.fork p b{font-family:'Special Elite',monospace;font-size:10px;letter-spacing:1px}
+.field-note{margin:14px 4px 4px;padding:6px 12px 10px;transform:rotate(-.6deg);font-family:'Caveat',cursive;font-size:18px;line-height:26px;color:#274168;
+  background:repeating-linear-gradient(transparent 0 25px, rgba(39,65,104,.14) 25px 26px)}
+.daynote-wrap{margin-top:14px}
+.daynote{width:100%;min-height:64px;border:1.5px dashed var(--paper-line);border-radius:8px;background:rgba(255,255,255,.5);padding:9px 10px;resize:vertical}
+.btn{min-height:44px;padding:10px 16px;border-radius:8px;border:2px solid var(--ink-cur, var(--stamp-hk));background:rgba(255,255,255,.5);
+  font-family:'Special Elite',monospace;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-cur, var(--stamp-hk));cursor:pointer}
+.btn-solid{background:var(--cover);border-color:var(--cover);color:var(--gold)}
+.btn-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+
+/* stamp rows (quests) */
+.stamp-row{display:flex;align-items:center;gap:10px;min-height:52px;padding:6px 10px;border-radius:7px;border:1px dashed var(--paper-line);
+  margin-bottom:8px;background:rgba(255,255,255,.3);cursor:pointer;width:100%;text-align:left}
+.stamp-box{width:42px;height:42px;flex:0 0 auto;border-radius:6px;border:2px dashed var(--ink-cur, var(--stamp-hk));display:flex;align-items:center;justify-content:center;
+  font-family:'Special Elite',monospace;font-size:8px;color:var(--ink-cur, var(--stamp-hk));text-align:center;line-height:1.15;transition:transform .15s;white-space:pre-line}
+.stamp-row .q{font-size:13px;line-height:1.35;color:var(--ink-soft)}
+.stamp-row .q b{display:block;font-size:14px;color:var(--ink)}
+.stamp-row.done .stamp-box{border-style:double;border-width:3px;transform:rotate(-8deg) scale(1.05);background:rgba(0,0,0,.05);font-size:9px}
+.stamp-row.done .q{opacity:.6}
+
+/* home cards */
+.hcard{margin:0 0 12px;padding:12px 14px;border-radius:9px;border:1.5px solid var(--paper-line);background:rgba(255,255,255,.4)}
+.hcard h4{font-family:'Special Elite',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--stamp-jp);margin-bottom:6px}
+.hcard p{font-size:13px;line-height:1.5;color:var(--ink-soft)}
+.hcard .big{font-family:'Special Elite',monospace;font-size:30px;color:var(--ink);letter-spacing:2px;text-align:center;padding:4px 0}
+.hcard .big small{font-size:12px;letter-spacing:2px;color:var(--ink-soft)}
+.hcard.tappable{cursor:pointer}
+.coach-item{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-bottom:1px dashed var(--paper-line)}
+.coach-item:last-child{border-bottom:none}
+.coach-when{font-family:'Special Elite',monospace;font-size:10.5px;letter-spacing:1px;color:var(--warn)}
+.coach-item.done .coach-when{color:var(--ok)}
+.coach-body b{font-size:13.5px}
+.coach-body p{font-size:12px;line-height:1.45;color:var(--ink-soft)}
+
+/* park pages */
+.park-rail{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
+.park-rail::-webkit-scrollbar{display:none}
+.plist{list-style:none}
+.plist li{position:relative;padding:5px 0 5px 18px;font-size:13px;line-height:1.5}
+.plist li::before{content:'✦';position:absolute;left:0;color:var(--ink-cur, var(--stamp-hk));font-size:11px;top:8px}
+.verdict{margin:6px 0 4px;padding:9px 11px;border-radius:7px;border:1.5px solid var(--ink-cur, var(--stamp-hk));font-size:13px;line-height:1.5;background:rgba(0,0,0,.03)}
+
+/* dining table */
+.dine{padding:8px 0;border-bottom:1px dashed var(--paper-line)}
+.dine:last-child{border-bottom:none}
+.dine .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.dine b{font-size:14px}
+.dine .p{font-family:'Special Elite',monospace;font-size:11px;color:var(--stamp-cn);white-space:nowrap}
+.dine .c{font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);font-family:'Special Elite',monospace}
+.dine .w{font-size:12.5px;line-height:1.45;color:var(--ink-soft);margin-top:2px}
+
+/* trivia */
+.trivia-q{font-size:16px;font-weight:600;line-height:1.4;margin:8px 0 12px;text-align:center}
+.trivia-opt{display:block;width:100%;min-height:48px;margin-bottom:8px;padding:10px 12px;border-radius:8px;border:1.5px solid var(--paper-line);
+  background:rgba(255,255,255,.5);font-size:14px;text-align:left;cursor:pointer}
+.trivia-opt.right{border-color:var(--ok);background:rgba(62,107,58,.12)}
+.trivia-opt.wrong{border-color:var(--warn);background:rgba(162,50,31,.1)}
+.trivia-score{font-family:'Special Elite',monospace;text-align:center;font-size:13px;letter-spacing:2px;margin:6px 0}
+.deck-chip{flex:0 0 auto;min-height:44px;padding:6px 12px;border-radius:6px;border:1.5px solid var(--paper-line);background:rgba(255,255,255,.35);
+  font-family:'Special Elite',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);cursor:pointer}
+.deck-chip.active{border:2px solid var(--cover);color:var(--paper);background:var(--cover)}
+
+/* bingo */
+.bingo{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.bcell{aspect-ratio:1;border:1.5px solid var(--paper-line);border-radius:7px;background:rgba(255,255,255,.45);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:2px;cursor:pointer;padding:2px;text-align:center}
+.bcell .em{font-size:18px}
+.bcell .t{font-size:8px;line-height:1.15;font-family:'Special Elite',monospace;text-transform:uppercase;letter-spacing:.2px;color:var(--ink-soft)}
+.bcell.free{background:var(--gold);border-color:var(--gold);color:var(--cover)}
+.bcell.free .t{color:var(--cover)}
+.bcell.spotted{border:2.5px double var(--stamp-hk);background:rgba(142,59,110,.12);transform:rotate(-2deg)}
+
+/* journal */
+.jfield{margin-bottom:10px}
+.jfield label{display:block;font-family:'Special Elite',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px}
+.jfield input{width:100%;min-height:44px;border:1.5px dashed var(--paper-line);border-radius:8px;background:rgba(255,255,255,.5);padding:8px 10px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.stat{border:1.5px solid var(--paper-line);border-radius:8px;padding:10px;text-align:center;background:rgba(255,255,255,.4)}
+.stat .v{font-family:'Special Elite',monospace;font-size:20px}
+.stat .l{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);font-family:'Special Elite',monospace}
+
+/* MRZ + bottom nav */
+.mrz{margin-top:16px;padding:9px 14px 11px;background:rgba(255,255,255,.55);border-top:1.5px solid var(--paper-line);
+  font-family:'Courier New',monospace;font-weight:700;font-size:11.5px;letter-spacing:1.6px;color:#4a4436;white-space:nowrap;overflow:hidden}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;z-index:50;
+  background:linear-gradient(180deg, var(--cover-2), var(--cover));border-top:1.5px solid rgba(201,168,76,.4);
+  display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
+.bn{min-width:56px;min-height:48px;border:none;background:none;cursor:pointer;color:rgba(233,220,192,.55);
+  font-family:'Special Elite',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:3px}
+.bn .i{font-size:19px}
+.bn.active{color:var(--gold)}
+
+/* modal + toast + chat */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,15,28,.72);display:flex;align-items:center;justify-content:center;z-index:1000;padding:18px}
+.modal-box{background:var(--paper);border-radius:12px;padding:20px;max-width:92vw;width:360px;max-height:82vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+.modal-box h3{font-family:'Special Elite',monospace;font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--cover);margin-bottom:8px}
+.modal-box p{font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
+.modal-buttons{display:flex;gap:10px;margin-top:16px}
+.modal-buttons button{flex:1;min-height:44px;border-radius:9px;font-size:14px;cursor:pointer;font-family:'Special Elite',monospace;letter-spacing:1px}
+.btn-primary{background:var(--cover);color:var(--gold);border:none}
+.btn-secondary{background:none;border:1.5px solid var(--paper-line);color:var(--ink-soft)}
+.modal-box input[type=password],.modal-box input[type=text]{width:100%;min-height:44px;border:1.5px solid var(--paper-line);border-radius:8px;padding:8px 10px;margin-top:8px;background:#fff}
+#toast{position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--cover);color:var(--gold);
+  font-family:'Special Elite',monospace;font-size:12px;letter-spacing:1px;padding:10px 18px;border-radius:20px;z-index:1200;
+  border:1px solid rgba(201,168,76,.5);opacity:0;transition:opacity .25s;pointer-events:none;max-width:86vw;text-align:center}
+#toast.show{opacity:1}
+.chat-log{max-height:44vh;overflow-y:auto;margin:10px 0;display:flex;flex-direction:column;gap:8px}
+.chat-msg{padding:9px 11px;border-radius:9px;font-size:13.5px;line-height:1.5;white-space:pre-wrap}
+.chat-me{background:var(--cover);color:var(--paper);align-self:flex-end;max-width:85%}
+.chat-ai{background:rgba(255,255,255,.6);border:1px solid var(--paper-line);align-self:flex-start;max-width:92%}
+.chat-row{display:flex;gap:8px}
+.chat-row input{flex:1;min-height:44px;border:1.5px solid var(--paper-line);border-radius:9px;padding:8px 10px;background:#fff}
+.confetti-bit{position:fixed;z-index:1500;font-size:18px;pointer-events:none;animation:fall 1.2s ease-in forwards}
+@keyframes fall{from{transform:translateY(-10px) rotate(0)}to{transform:translateY(90px) rotate(220deg);opacity:0}}
+.back-row{padding:2px 14px 8px}
+.back-row .btn{border-color:var(--gold);color:var(--gold);background:none}
+</style>
+</head>
+<body>
+
+<header class="cover-strip">
+  <div class="crest">✦ ✈ ✦</div>
+  <h1>Asia Adventure</h1>
+  <div class="sub">Ortiz Family Passport · May 18 – June 9, 2027</div>
+</header>
+
+<div id="app"></div>
+
+<nav class="bottom-nav" aria-label="Main">
+  <button class="bn" data-tab="home"><span class="i">🏠</span>Home</button>
+  <button class="bn" data-tab="journey"><span class="i">🗺</span>Journey</button>
+  <button class="bn" data-tab="disney"><span class="i">🏰</span>Disney</button>
+  <button class="bn" data-tab="quests"><span class="i">🎖</span>Quests</button>
+  <button class="bn" data-tab="keepsake"><span class="i">📓</span>Keepsake</button>
+</nav>
+<div id="toast" role="status"></div>
+
+<script src="data/legs.js"></script>
+<script src="data/guides.js"></script>
+<script src="data/games.js"></script>
+<script>
+'use strict';
+/* ============ core utils ============ */
+const Store = {
+  ns:'aa27_',
+  get(k, fb=null){ try{ const r=localStorage.getItem(this.ns+k); return r===null?fb:JSON.parse(r);}catch(e){return fb;} },
+  set(k, v){ try{ localStorage.setItem(this.ns+k, JSON.stringify(v)); return true;}catch(e){return false;} },
+  remove(k){ localStorage.removeItem(this.ns+k); }
+};
+function el(tag, cls, text){ const n=document.createElement(tag); if(cls)n.className=cls; if(text!==undefined)n.textContent=text; return n; }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2200); }
+function confetti(x,y){ const ems=['✦','⭐','🎉','✨']; for(let i=0;i<7;i++){ const b=el('span','confetti-bit',ems[i%4]);
+  b.style.left=(x-20+Math.random()*40)+'px'; b.style.top=(y-10+Math.random()*10)+'px'; document.body.appendChild(b); setTimeout(()=>b.remove(),1250);} }
+function showModal({title, message, confirmText='OK', cancelText=null, onConfirm=null, build=null}){
+  const overlay=el('div','modal-overlay'); const box=el('div','modal-box');
+  box.appendChild(el('h3','',title));
+  if(message) box.appendChild(el('p','',message));
+  if(build) build(box, ()=>overlay.remove());
+  const row=el('div','modal-buttons');
+  if(cancelText){ const c=el('button','btn-secondary',cancelText); c.addEventListener('click',()=>overlay.remove()); row.appendChild(c); }
+  const ok=el('button','btn-primary',confirmText); ok.addEventListener('click',()=>{overlay.remove(); if(onConfirm)onConfirm(box);}); row.appendChild(ok);
+  box.appendChild(row); overlay.appendChild(box);
+  overlay.addEventListener('click',e=>{ if(e.target===overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+/* ============ trip time (tz-aware, simdate-able) ============ */
+const TRIP_START='2027-05-18', TRIP_END='2027-06-09';
+function simDate(){ const m=location.search.match(/simdate=(\d{4}-\d{2}-\d{2})/); return m?m[1]:null; }
+function zoneToday(tz){ const s=simDate(); if(s) return s; return new Intl.DateTimeFormat('en-CA',{timeZone:tz}).format(new Date()); }
+function azToday(){ return zoneToday('America/Phoenix'); }
+function daysBetween(a,b){ return Math.round((new Date(b+'T12:00:00')-new Date(a+'T12:00:00'))/86400000); }
+function prettyDate(ds){ const [y,m,d]=ds.split('-').map(Number); return new Date(y,m-1,d).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); }
+function currentDay(){ // per-leg tz: first leg whose local-today falls in range wins
+  for(const leg of LEGS){ const t=zoneToday(leg.tz); if(t>=leg.start && t<=leg.end) return DAY_BY_DATE[t]||null; }
+  return null;
+}
+function tripPhase(){ const t=azToday(); if(t<TRIP_START) return 'pre'; if(t>TRIP_END) return 'post'; return 'during'; }
+function legInk(legId){ const leg=LEGS.find(l=>l.id===legId); return leg?`var(${leg.ink})`:'var(--stamp-hk)'; }
+
+/* ============ shell / nav ============ */
+const app=document.getElementById('app');
+let activeTab=null;
+const ui={ legId: Store.get('ui_leg','sg'), dayId: Store.get('ui_day',null), parkId: Store.get('ui_park','adv'), deck:'all' };
+document.querySelectorAll('.bn').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+function showTab(tab){
+  activeTab=tab;
+  document.querySelectorAll('.bn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  while(app.firstChild) app.removeChild(app.firstChild);
+  ({home:renderHome, journey:renderJourney, disney:renderDisney, quests:renderQuests, keepsake:renderKeepsake})[tab]();
+  window.scrollTo(0,0);
+}
+function pageCard(build){ const page=el('div','page'); page.appendChild(el('div','perf'));
+  const inner=el('div','page-inner'); build(inner); page.appendChild(inner); return page; }
+
+/* ============ HOME ============ */
+function renderHome(){
+  const phase=tripPhase();
+  app.appendChild(pageCard(inner=>{
+    if(phase==='pre'){
+      const days=daysBetween(azToday(), TRIP_START);
+      const c=el('div','hcard'); c.appendChild(el('h4','','⏳ Countdown'));
+      const big=el('div','big', String(days)); big.appendChild(el('small','',' days until Singapore')); c.appendChild(big);
+      c.appendChild(el('p','','May 18 – June 9, 2027 · 23 days · 7 stamps · 5 Disney parks + 1 ship.'));
+      inner.appendChild(c);
+      inner.appendChild(coachCard(3));
+    } else if(phase==='during'){
+      const day=currentDay();
+      if(day){
+        const c=el('button','hcard tappable'); c.style.cssText='display:block;width:100%;text-align:left';
+        c.appendChild(el('h4','','📍 Today at a Glance'));
+        const leg=LEGS.find(l=>l.id===day.leg);
+        c.appendChild(el('p','', `${leg.em} ${prettyDate(day.date)} — ${day.title}`));
+        c.appendChild(el('p','', day.sub));
+        const dn=Store.get('daynotes',{})[day.id];
+        if(dn){ const p=el('p','','✏️ Note: '+dn); p.style.color='var(--warn)'; c.appendChild(p); }
+        c.addEventListener('click',()=>{ ui.legId=day.leg; ui.dayId=day.id; Store.set('ui_leg',ui.legId); Store.set('ui_day',ui.dayId); showTab('journey'); });
+        inner.appendChild(c);
+        const next=day.events.find(e=>e.tags.some(t=>t[0]==='tag-leave'));
+        if(next){ const w=el('div','hcard'); w.appendChild(el('h4','','⏱ Don’t Miss'));
+          w.appendChild(el('p','', `${next.t} — ${next.n}`)); inner.appendChild(w); }
+      }
+      inner.appendChild(coachCard(2));
+    } else {
+      const c=el('div','hcard'); c.appendChild(el('h4','','🏆 Trip Complete'));
+      c.appendChild(el('p','','Passport full — 7 stamps, 23 days. Head to Keepsake to relive it and export the family journal.'));
+      inner.appendChild(c);
+    }
+    /* passport progress */
+    const prog=el('div','hcard'); prog.appendChild(el('h4','','🛂 Passport'));
+    const rail=el('div','leg-rail'); rail.style.padding='4px 0';
+    const today=azToday();
+    LEGS.forEach(l=>{ const chip=el('div','leg-chip'); chip.style.cursor='default';
+      const done = today>l.end || (simDate()&&simDate()>l.end);
+      chip.appendChild(el('span','em', done?'✔':l.em)); chip.appendChild(el('span','',l.name));
+      if(done){ chip.style.borderStyle='double'; chip.style.color='var(--gold)'; }
+      rail.appendChild(chip); });
+    prog.appendChild(rail); inner.appendChild(prog);
+    /* utility cards */
+    const cards=[
+      ['🎒 Packing List', 'Interactive checklist per category.', showPacking],
+      ['📖 Field Guides', 'Dining, logistics, etiquette per leg — the “why we picked it” notes.', showGuidePicker],
+      ['🧭 Full Coach Timeline', 'Every dated booking trigger from now to the trip.', showCoachFull],
+      ['🤖 Concierge', 'Ask the AI anything mid-trip (needs an API key in Settings; works without it — just quieter).', showConcierge],
+      ['⚙️ Settings', 'Claude API key · reset options.', showSettings],
+    ];
+    cards.forEach(([t,d,fn])=>{ const c=el('button','hcard tappable'); c.style.cssText='display:block;width:100%;text-align:left';
+      c.appendChild(el('h4','',t)); c.appendChild(el('p','',d));
+      c.addEventListener('click',fn); inner.appendChild(c); });
+    inner.appendChild(mrz('HOME'));
+  }));
+}
+function coachCard(n){
+  const c=el('div','hcard'); c.appendChild(el('h4','','🧭 Travel Coach — next up'));
+  const today=azToday(); let shown=0;
+  COACH.forEach(item=>{ if(shown>=n) return; const past=item.date<today; if(past&&n<COACH.length&&COACH.some(i=>i.date>=today)&&shown===0&&item!==COACH[COACH.length-1]) return;
+    shown++; c.appendChild(coachRow(item,today)); });
+  if(!c.querySelector('.coach-item')) c.appendChild(el('p','','All booking triggers have passed — see the full timeline for the record.'));
+  const more=el('button','btn','Full timeline'); more.style.marginTop='8px'; more.addEventListener('click',showCoachFull); c.appendChild(more);
+  return c;
+}
+function coachRow(item,today){
+  const row=el('div','coach-item'+(item.date<today?' done':''));
+  const d=daysBetween(today,item.date);
+  row.appendChild(el('div','coach-when', item.date<today?'✔ done':(d===0?'TODAY':d+'d — '+prettyDate(item.date))));
+  const b=el('div','coach-body'); b.appendChild(el('b','',item.t)); b.appendChild(el('p','',item.d)); row.appendChild(b);
+  return row;
+}
+function showCoachFull(){
+  showModal({title:'🧭 Coach Timeline', message:'Every dated trigger, from research. Dates are drop-windows — set alarms.', confirmText:'Close',
+    build:(box)=>{ const today=azToday(); COACH.forEach(i=>box.appendChild(coachRow(i,today))); }});
+}
+
+/* ============ JOURNEY ============ */
+let journeyVisited=false;
+function renderJourney(){
+  const todayD=currentDay();
+  if(!journeyVisited && todayD){ ui.legId=todayD.leg; ui.dayId=todayD.id; }
+  journeyVisited=true;
+  const rail=el('nav','leg-rail');
+  LEGS.forEach(leg=>{ const c=el('button','leg-chip'+(leg.id===ui.legId?' active':''));
+    c.appendChild(el('span','em',leg.em)); c.appendChild(el('span','',leg.name));
+    c.addEventListener('click',()=>{ ui.legId=leg.id; ui.dayId=null; Store.set('ui_leg',leg.id); Store.set('ui_day',null); showTab('journey'); });
+    rail.appendChild(c); });
+  if(todayD && (todayD.leg!==ui.legId)){
+    const j=el('button','leg-chip'); j.style.borderColor='var(--warn)'; j.style.color='var(--paper)';
+    j.appendChild(el('span','em','●')); j.appendChild(el('span','','Today'));
+    j.addEventListener('click',()=>{ ui.legId=todayD.leg; ui.dayId=todayD.id; Store.set('ui_leg',ui.legId); Store.set('ui_day',ui.dayId); showTab('journey'); });
+    rail.appendChild(j);
+  }
+  app.appendChild(rail);
+  const leg=LEGS.find(l=>l.id===ui.legId);
+  const legDays=DAYS.filter(d=>d.leg===leg.id);
+  const today=currentDay();
+  let day = ui.dayId? DAY_BY_ID[ui.dayId] : null;
+  if(!day || day.leg!==leg.id) day = (today&&today.leg===leg.id)? today : legDays[0];
+  const page=pageCard(inner=>{
+    inner.style.setProperty('--ink-cur', legInk(leg.id));
+    const tabs=el('div','day-tabs');
+    legDays.forEach(d=>{ const t=el('button','day-tab'+(d.id===day.id?' active':''));
+      const top=el('span','',d.dow+' '); top.appendChild(el('span','dnum',d.dnum)); t.appendChild(top);
+      t.appendChild(document.createElement('br')); t.appendChild(el('span','',d.short));
+      if(today && today.id===d.id) t.appendChild(el('span','today-dot','● Today'));
+      t.addEventListener('click',()=>{ ui.dayId=d.id; Store.set('ui_day',d.id); showTab('journey'); });
+      tabs.appendChild(t); });
+    inner.appendChild(tabs);
+    if(day.stamp){ const st=el('div','entry-stamp'); st.appendChild(el('span','wing',day.stamp.wing));
+      st.appendChild(el('div','arr',day.stamp.arr)); st.appendChild(el('h2','',day.stamp.name));
+      const [y,m,d2]=day.date.split('-'); st.appendChild(el('div','date',`${d2} · ${['','JAN','FEB','MAR','APR','MAY','JUN'][+m]||m} · ${y}`));
+      inner.appendChild(st); }
+    const dt=el('div','day-title'); dt.appendChild(el('h3','',day.title)); dt.appendChild(el('div','sub',day.sub)); inner.appendChild(dt);
+    inner.appendChild(el('div','sec-label',`⌚ The Plan — ${prettyDate(day.date)}`));
+    const tl=el('div','timeline');
+    day.events.forEach(ev=>{ const card=el('div','ev'+(ev.milestone?' milestone':''));
+      card.appendChild(el('div','t',ev.t)); card.appendChild(el('div','n',ev.n)); card.appendChild(el('div','d',ev.d));
+      if(ev.tags&&ev.tags.length){ const tg=el('div','tags'); ev.tags.forEach(t=>tg.appendChild(el('span','tag '+t[0],t[1]))); card.appendChild(tg); }
+      tl.appendChild(card); });
+    inner.appendChild(tl);
+    if(day.fork){ const f=el('div','fork'); f.appendChild(el('h4','','⑂ '+day.fork.title));
+      const pa=el('p','');pa.appendChild(el('b','','Option A — '));pa.appendChild(document.createTextNode(day.fork.a));f.appendChild(pa);
+      const pb=el('p','');pb.appendChild(el('b','','Option B — '));pb.appendChild(document.createTextNode(day.fork.b));f.appendChild(pb);
+      inner.appendChild(f); }
+    if(day.note) inner.appendChild(el('div','field-note','Field note: '+day.note));
+    /* editable day note — the plans-changed escape hatch */
+    const wrap=el('div','daynote-wrap'); wrap.appendChild(el('div','sec-label','✏️ Day Note (plans changed? Kat’s picks?)'));
+    const ta=el('textarea','daynote'); ta.placeholder='Anything that overrides the plan today…';
+    ta.value=(Store.get('daynotes',{})[day.id])||'';
+    const row=el('div','btn-row'); const save=el('button','btn','Save note');
+    save.addEventListener('click',()=>{ const all=Store.get('daynotes',{}); const v=ta.value.trim();
+      if(v) all[day.id]=v; else delete all[day.id]; Store.set('daynotes',all); toast('Note saved'); });
+    row.appendChild(save);
+    const gbtn=el('button','btn',`📖 ${leg.name} guide`); gbtn.addEventListener('click',()=>showGuide(leg.id)); row.appendChild(gbtn);
+    wrap.appendChild(ta); wrap.appendChild(row); inner.appendChild(wrap);
+    inner.appendChild(mrz(leg.port+day.dnum));
+  });
+  app.appendChild(page);
+}
+function mrz(code){
+  const m=el('div','mrz');
+  m.appendChild(document.createTextNode(`P<${code}ORTIZ<<CHRIS<KAT<SEDONA<RIVER<<<<<<<<`));
+  m.appendChild(document.createElement('br'));
+  m.appendChild(document.createTextNode('AA2027ASIA<<MAGIC<<<<<<<<<<<<<<<<<<<<<<4'));
+  return m;
+}
+
+/* ============ FIELD GUIDES ============ */
+function showGuidePicker(){
+  showModal({title:'📖 Field Guides', confirmText:'Close', build:(box,close)=>{
+    LEGS.forEach(l=>{ const b=el('button','btn',`${l.em} ${l.name}`); b.style.cssText='display:block;width:100%;margin-bottom:8px';
+      b.addEventListener('click',()=>{ close(); showGuide(l.id); }); box.appendChild(b); }); }});
+}
+function showGuide(legId){
+  const g=GUIDES[legId]; const leg=LEGS.find(l=>l.id===legId); if(!g) return;
+  showModal({title:`${leg.em} ${leg.name} — Field Guide`, confirmText:'Close', build:(box)=>{
+    box.style.setProperty('--ink-cur', legInk(legId));
+    const sec=(t)=>box.appendChild(el('div','sec-label',t));
+    sec('🍜 Where to Eat');
+    g.dining.forEach(d=>{ const div=el('div','dine'); const top=el('div','top');
+      top.appendChild(el('b','',d.n)); top.appendChild(el('span','p',d.p)); div.appendChild(top);
+      div.appendChild(el('div','c',d.c)); div.appendChild(el('div','w',d.w)); box.appendChild(div); });
+    sec('🚉 Logistics'); const ul1=el('ul','plist'); g.logistics.forEach(x=>ul1.appendChild(el('li','',x))); box.appendChild(ul1);
+    sec('🙏 Etiquette'); const ul2=el('ul','plist'); g.etiquette.forEach(x=>ul2.appendChild(el('li','',x))); box.appendChild(ul2);
+    sec('🚩 Flags & bookings'); const ul3=el('ul','plist'); g.flags.forEach(x=>ul3.appendChild(el('li','',x))); box.appendChild(ul3);
+  }});
+}
+
+/* ============ DISNEY ============ */
+function renderDisney(){
+  app.appendChild(pageCard(inner=>{
+    const rail=el('div','park-rail');
+    PARKS.forEach(p=>{ const c=el('button','leg-chip'+(p.id===ui.parkId?' active':''));
+      c.appendChild(el('span','em',p.em)); c.appendChild(el('span','',p.name.replace('Disney ','').replace(' Disneyland','')));
+      c.addEventListener('click',()=>{ ui.parkId=p.id; Store.set('ui_park',p.id); showTab('disney'); }); rail.appendChild(c); });
+    inner.appendChild(rail);
+    const p=PARKS.find(x=>x.id===ui.parkId);
+    const inkMap={adv:'--stamp-sea',hkdl:'--stamp-hk',shdl:'--stamp-cn',tdl:'--stamp-jp',tds:'--stamp-jp'};
+    inner.style.setProperty('--ink-cur',`var(${inkMap[p.id]})`);
+    const st=el('div','entry-stamp'); st.appendChild(el('span','wing',p.em));
+    st.appendChild(el('div','arr',p.where)); st.appendChild(el('h2','',p.name)); st.appendChild(el('div','date',p.days));
+    inner.appendChild(st);
+    inner.appendChild(el('div','verdict','🧭 '+p.verdict));
+    inner.appendChild(el('div','sec-label','🎟 '+p.access.label));
+    const ac=el('div','verdict'); ac.style.borderStyle='dashed'; ac.textContent=p.access.body; inner.appendChild(ac);
+    const listSec=(t,arr)=>{ inner.appendChild(el('div','sec-label',t)); const ul=el('ul','plist'); arr.forEach(x=>ul.appendChild(el('li','',x))); inner.appendChild(ul); };
+    listSec('🌅 The plan', p.rope);
+    listSec('⭐ Must-do', p.must);
+    listSec('⏭ Skippable', p.skip);
+    listSec('🍿 Eat this', p.eats);
+    listSec('🤓 Imagineering lore', p.facts);
+    inner.appendChild(mrz(p.id.toUpperCase()));
+  }));
+}
+
+/* ============ QUESTS (stamps + trivia + bingo) ============ */
+function renderQuests(){
+  app.appendChild(pageCard(inner=>{
+    const done=Store.get('quests',{});
+    const total=Object.values(QUESTS).reduce((a,q)=>a+q.length,0);
+    const count=Object.keys(done).filter(k=>done[k]).length;
+    const sg=el('div','stat-grid');
+    [[String(count)+'/'+total,'Quests stamped'],[String(bingoCount())+'/24','Bingo spotted']].forEach(([v,l])=>{
+      const s=el('div','stat'); s.appendChild(el('div','v',v)); s.appendChild(el('div','l',l)); sg.appendChild(s); });
+    inner.appendChild(sg);
+    /* trivia */
+    inner.appendChild(el('div','sec-label','🧠 Trivia Challenge'));
+    const deckRow=el('div','park-rail');
+    const decks=[['all','🌏 All'],...LEGS.map(l=>[l.id,l.em+' '+l.name])];
+    decks.forEach(([id,label])=>{ const c=el('button','deck-chip'+(ui.deck===id?' active':''), label);
+      c.addEventListener('click',()=>{ ui.deck=id; showTab('quests'); }); deckRow.appendChild(c); });
+    inner.appendChild(deckRow);
+    const best=Store.get('trivia_best',{})[ui.deck];
+    const tzone=el('div',''); inner.appendChild(tzone);
+    const start=el('button','btn btn-solid','▶ Start 8-question round'+(best!==undefined?`  (best: ${best}/8)`:''));
+    start.style.cssText='display:block;width:100%';
+    start.addEventListener('click',()=>runTrivia(tzone));
+    tzone.appendChild(start);
+    /* per-leg quests */
+    LEGS.forEach(leg=>{
+      inner.appendChild(el('div','sec-label',`${leg.em} ${leg.name} quests`));
+      const box=el('div',''); box.style.setProperty('--ink-cur', legInk(leg.id));
+      (QUESTS[leg.id]||[]).forEach(q=>{
+        const row=el('button','stamp-row'+(done[q.id]?' done':''));
+        row.setAttribute('aria-pressed', done[q.id]?'true':'false');
+        const bx=el('div','stamp-box', done[q.id]?('★ '+leg.name.toUpperCase().slice(0,5)):'STAMP\nHERE');
+        const txt=el('div','q'); txt.appendChild(el('b','',q.b)); txt.appendChild(document.createTextNode(q.q));
+        row.appendChild(bx); row.appendChild(txt);
+        row.addEventListener('click',e=>{
+          const all=Store.get('quests',{}); all[q.id]=!all[q.id]; Store.set('quests',all);
+          row.classList.toggle('done',all[q.id]); row.setAttribute('aria-pressed',all[q.id]?'true':'false');
+          bx.textContent = all[q.id]? ('★ '+leg.name.toUpperCase().slice(0,5)) : 'STAMP\nHERE';
+          if(all[q.id]){ confetti(e.clientX||180, e.clientY||300); toast('🎖 Stamped: '+q.b); }
+          renderQuestStats(sg);
+        });
+        box.appendChild(row);
+      });
+      inner.appendChild(box);
+    });
+    /* bingo */
+    inner.appendChild(el('div','sec-label','🎯 Trip Bingo — spot it, stamp it'));
+    inner.appendChild(buildBingo());
+    inner.appendChild(mrz('QUEST'));
+  }));
+}
+function renderQuestStats(sg){
+  const done=Store.get('quests',{}); const total=Object.values(QUESTS).reduce((a,q)=>a+q.length,0);
+  const count=Object.keys(done).filter(k=>done[k]).length;
+  const vals=[String(count)+'/'+total, String(bingoCount())+'/24'];
+  sg.querySelectorAll('.stat .v').forEach((v,i)=>v.textContent=vals[i]);
+}
+function bingoCount(){ const b=Store.get('bingo',{}); return Object.keys(b).filter(k=>b[k]).length; }
+function buildBingo(){
+  const grid=el('div','bingo'); const state=Store.get('bingo',{});
+  const cells=[...BINGO.slice(0,12), {free:true}, ...BINGO.slice(12)];
+  cells.forEach((c,idx)=>{
+    if(c.free){ const f=el('div','bcell free'); f.appendChild(el('div','em','🌏')); f.appendChild(el('div','t','FREE')); grid.appendChild(f); return; }
+    const cell=el('button','bcell'+(state[c.id]?' spotted':''));
+    cell.appendChild(el('div','em',c.em)); cell.appendChild(el('div','t',c.t));
+    cell.addEventListener('click',e=>{
+      const s=Store.get('bingo',{}); const had=lineCount(s); s[c.id]=!s[c.id]; Store.set('bingo',s);
+      cell.classList.toggle('spotted',s[c.id]);
+      if(s[c.id]&&lineCount(s)>had){ confetti(e.clientX||180,e.clientY||400); toast('🎉 BINGO LINE!'); }
+      else if(s[c.id]) toast('Spotted: '+c.t);
+    });
+    grid.appendChild(cell);
+  });
+  return grid;
+}
+function lineCount(state){
+  const ids=[...BINGO.slice(0,12).map(b=>b.id), 'FREE', ...BINGO.slice(12).map(b=>b.id)];
+  const on=i=>ids[i]==='FREE'||state[ids[i]];
+  let lines=0;
+  for(let r=0;r<5;r++){ if([0,1,2,3,4].every(c=>on(r*5+c))) lines++; }
+  for(let c=0;c<5;c++){ if([0,1,2,3,4].every(r=>on(r*5+c))) lines++; }
+  if([0,6,12,18,24].every(on)) lines++;
+  if([4,8,12,16,20].every(on)) lines++;
+  return lines;
+}
+function runTrivia(zone){
+  while(zone.firstChild) zone.removeChild(zone.firstChild);
+  const pool=TRIVIA.filter(t=>ui.deck==='all'||t.leg===ui.deck);
+  const qs=[...pool].sort(()=>Math.random()-.5).slice(0,8);
+  let i=0, score=0;
+  const scoreLine=el('div','trivia-score'); const qbox=el('div','');
+  zone.appendChild(scoreLine); zone.appendChild(qbox);
+  function next(){
+    while(qbox.firstChild) qbox.removeChild(qbox.firstChild);
+    if(i>=qs.length){
+      scoreLine.textContent=`FINAL: ${score}/${qs.length}`;
+      const bests=Store.get('trivia_best',{});
+      if(score>(bests[ui.deck]??-1)){ bests[ui.deck]=score; Store.set('trivia_best',bests); toast('🏆 New best!'); confetti(190,320); }
+      const again=el('button','btn','Play again'); again.addEventListener('click',()=>runTrivia(zone)); qbox.appendChild(again);
+      return;
+    }
+    const q=qs[i];
+    scoreLine.textContent=`Q${i+1}/${qs.length} · SCORE ${score}`;
+    qbox.appendChild(el('div','trivia-q',(q.k?'⭐ ':'')+q.q));
+    const opts=[q.a,...q.w].sort(()=>Math.random()-.5);
+    let answered=false;
+    opts.forEach(o=>{ const b=el('button','trivia-opt',o);
+      b.addEventListener('click',()=>{ if(answered)return; answered=true;
+        if(o===q.a){ b.classList.add('right'); score++; } else { b.classList.add('wrong');
+          qbox.querySelectorAll('.trivia-opt').forEach(x=>{ if(x.textContent===q.a) x.classList.add('right'); }); }
+        i++; setTimeout(next, 900); });
+      qbox.appendChild(b); });
+  }
+  next();
+}
+
+/* ============ KEEPSAKE ============ */
+function renderKeepsake(){
+  app.appendChild(pageCard(inner=>{
+    inner.appendChild(el('div','sec-label','📊 Trip Stats'));
+    const j=Store.get('journal',{}); const journaled=Object.keys(j).filter(k=>{const e=j[k];return e&&(e.m||e.e||e.s);}).length;
+    const done=Store.get('quests',{}); const qcount=Object.keys(done).filter(k=>done[k]).length;
+    const total=Object.values(QUESTS).reduce((a,q)=>a+q.length,0);
+    const bests=Store.get('trivia_best',{}); const bestAll=bests.all!==undefined?bests.all+'/8':'—';
+    const sg=el('div','stat-grid');
+    [[String(journaled)+'/23','Days journaled'],[String(qcount)+'/'+total,'Quests stamped'],
+     [String(bingoCount())+'/24','Bingo spotted'],[bestAll,'Trivia best']].forEach(([v,l])=>{
+      const s=el('div','stat'); s.appendChild(el('div','v',v)); s.appendChild(el('div','l',l)); sg.appendChild(s); });
+    inner.appendChild(sg);
+    inner.appendChild(el('div','sec-label','📓 Daily Journal'));
+    const tabs=el('div','day-tabs');
+    const today=currentDay(); let sel=Store.get('ui_journal', today?today.id:DAYS[0].id);
+    if(!DAY_BY_ID[sel]) sel=DAYS[0].id;
+    const jzone=el('div','');
+    DAYS.forEach(d=>{ const t=el('button','day-tab'+(d.id===sel?' active':''));
+      const entry=j[d.id]; const has=entry&&(entry.m||entry.e||entry.s);
+      const top=el('span','',(has?'✔ ':'')+d.dow+' '); top.appendChild(el('span','dnum',d.dnum)); t.appendChild(top);
+      t.appendChild(document.createElement('br')); t.appendChild(el('span','',LEGS.find(l=>l.id===d.leg).em));
+      t.addEventListener('click',()=>{ Store.set('ui_journal',d.id); showTab('keepsake'); });
+      tabs.appendChild(t); });
+    inner.appendChild(tabs);
+    const d=DAY_BY_ID[sel]; const entry=(Store.get('journal',{})[sel])||{};
+    jzone.appendChild(el('div','day-title')).appendChild(el('h3','',prettyDate(d.date)+' — '+d.title));
+    const fields=[['m','⭐ Favorite moment'],['e','🍜 Best thing eaten'],['s','😲 Biggest surprise']];
+    const inputs={};
+    fields.forEach(([k,label])=>{ const f=el('div','jfield'); f.appendChild(el('label','',label));
+      const inp=el('input',''); inp.type='text'; inp.value=entry[k]||''; inputs[k]=inp; f.appendChild(inp); jzone.appendChild(f); });
+    const row=el('div','btn-row');
+    const save=el('button','btn btn-solid','Save entry');
+    save.addEventListener('click',()=>{ const all=Store.get('journal',{});
+      all[sel]={m:inputs.m.value.trim(), e:inputs.e.value.trim(), s:inputs.s.value.trim()};
+      Store.set('journal',all); toast('📓 Saved'); });
+    row.appendChild(save); jzone.appendChild(row);
+    inner.appendChild(jzone);
+    inner.appendChild(el('div','sec-label','📤 Export'));
+    const exp=el('button','btn','Copy full journal to clipboard'); exp.style.cssText='display:block;width:100%';
+    exp.addEventListener('click',exportJournal);
+    inner.appendChild(exp);
+    inner.appendChild(mrz('MEMOR'));
+  }));
+}
+function exportJournal(){
+  const j=Store.get('journal',{}); const done=Store.get('quests',{}); const lines=['ASIA ADVENTURE 2027 — Ortiz Family Journal',''];
+  DAYS.forEach(d=>{ const e=j[d.id]; if(!e||(!e.m&&!e.e&&!e.s)) return;
+    lines.push(`${prettyDate(d.date)} — ${d.title}`);
+    if(e.m) lines.push('  ⭐ '+e.m); if(e.e) lines.push('  🍜 '+e.e); if(e.s) lines.push('  😲 '+e.s); lines.push(''); });
+  const stamped=[]; LEGS.forEach(l=>(QUESTS[l.id]||[]).forEach(q=>{ if(done[q.id]) stamped.push(`${l.em} ${q.b}`); }));
+  if(stamped.length){ lines.push('QUESTS STAMPED ('+stamped.length+'):'); stamped.forEach(s=>lines.push('  🎖 '+s)); }
+  const text=lines.join('\n');
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(()=>toast('📋 Copied!'),()=>toast('Copy failed — try again')); }
+  else toast('Clipboard unavailable in this browser');
+}
+
+/* ============ PACKING ============ */
+function showPacking(){
+  showModal({title:'🎒 Packing List', confirmText:'Close', build:(box)=>{
+    const state=Store.get('pack',{});
+    PACKING.forEach((cat,ci)=>{ box.appendChild(el('div','sec-label',cat.cat));
+      cat.items.forEach((item,ii)=>{ const key=ci+'-'+ii;
+        const row=el('button','stamp-row'+(state[key]?' done':'')); row.style.minHeight='44px';
+        const bx=el('div','stamp-box',state[key]?'✔':''); bx.style.width='30px'; bx.style.height='30px';
+        const txt=el('div','q'); txt.appendChild(document.createTextNode(item));
+        row.appendChild(bx); row.appendChild(txt);
+        row.addEventListener('click',()=>{ const s=Store.get('pack',{}); s[key]=!s[key]; Store.set('pack',s);
+          row.classList.toggle('done',s[key]); bx.textContent=s[key]?'✔':''; });
+        box.appendChild(row); }); });
+  }});
+}
+
+/* ============ SETTINGS + CONCIERGE ============ */
+function showSettings(){
+  showModal({title:'⚙️ Settings', confirmText:'Save', cancelText:'Cancel',
+    build:(box)=>{ box.appendChild(el('p','','Claude API key (stored only on this phone; the app works fully without it).'));
+      const inp=el('input',''); inp.type='password'; inp.placeholder='sk-ant-…'; inp.value=Store.get('anthropic_key','')||''; inp.id='set-key'; box.appendChild(inp);
+      const reset=el('button','btn','Reset ALL app data'); reset.style.cssText='margin-top:14px;border-color:var(--warn);color:var(--warn)';
+      reset.addEventListener('click',()=>showModal({title:'Reset everything?', message:'Quests, journal, bingo, notes, packing — all cleared on this phone.',
+        confirmText:'Yes, reset', cancelText:'Keep it', onConfirm:()=>{ ['quests','journal','bingo','daynotes','pack','trivia_best'].forEach(k=>Store.remove(k)); toast('Cleared'); showTab('home'); }}));
+      box.appendChild(reset); },
+    onConfirm:(box)=>{ const v=box.querySelector('#set-key').value.trim(); if(v) Store.set('anthropic_key',v); else Store.remove('anthropic_key'); toast('Settings saved'); }});
+}
+async function askClaude(prompt,{system=null,maxTokens=700}={}){
+  const key=Store.get('anthropic_key'); if(!key) throw new Error('NO_KEY');
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-5',max_tokens:maxTokens,...(system?{system}:{}) ,messages:[{role:'user',content:prompt}]})});
+  if(!res.ok) throw new Error('API '+res.status);
+  const data=await res.json();
+  return data.content.filter(b=>b.type==='text').map(b=>b.text).join('\n');
+}
+function conciergeSystem(){
+  const day=currentDay();
+  return 'You are the Ortiz family travel concierge inside their trip app. Trip: Singapore May 18-20 2027, Disney Adventure cruise (all at sea) May 20-24, Hong Kong May 24-27 (HKDL, staying Explorers Lodge), Shanghai May 27-30 (SDL, Toy Story Hotel, 240-hr visa-free transit), Tokyo May 30-Jun 4 (2x DisneySea + 1x Disneyland + city, Maihama then Tokyo Station), Kyoto Jun 4-7 (Kawaramachi base), Oahu Jun 7-9 (Waikiki), home to Phoenix. Family: Chris, Kat, Sedona (13), River (10). Be concise, practical, warm. '+(day?('Today is '+day.date+': '+day.title+'.'):'The trip has not started or is over.');
+}
+function showConcierge(){
+  const hasKey=!!Store.get('anthropic_key');
+  showModal({title:'🤖 Concierge', confirmText:'Close', build:(box)=>{
+    if(!hasKey){ box.appendChild(el('p','','No API key set — add one in Settings to chat. Everything else in the app works offline without it; the Field Guides answer most questions.')); return; }
+    const log=el('div','chat-log'); box.appendChild(log);
+    const row=el('div','chat-row'); const inp=el('input',''); inp.type='text'; inp.placeholder='Ask anything…';
+    const send=el('button','btn btn-solid','→'); send.style.minWidth='52px';
+    async function go(){ const q=inp.value.trim(); if(!q) return; inp.value='';
+      log.appendChild(el('div','chat-msg chat-me',q));
+      const wait=el('div','chat-msg chat-ai','…thinking'); log.appendChild(wait); log.scrollTop=log.scrollHeight;
+      try{ const a=await askClaude(q,{system:conciergeSystem()}); wait.textContent=a; }
+      catch(e){ wait.textContent = e.message==='NO_KEY' ? 'Add an API key in Settings first.' : 'Offline or API error — the Field Guides have you covered meanwhile.'; }
+      log.scrollTop=log.scrollHeight; }
+    send.addEventListener('click',go);
+    inp.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+    row.appendChild(inp); row.appendChild(send); box.appendChild(row);
+  }});
+}
+
+/* ============ boot ============ */
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+showTab('home');
+</script>
+</body>
+</html>
