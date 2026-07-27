@@ -8,8 +8,16 @@ Full per-leg research: files 01–07 in this folder. This file holds the cross-l
 ## Assumptions made at intake
 
 - Year 2027 (prompt gave no year; girls' ages 13/10 match Sedona/River then).
-- Flights and hotels not booked; briefs recommend zones and flight-timing constraints instead.
 - Mid-range budget, one splurge per city; no dietary restrictions; no extended family.
+
+## Confirmed by Chris (2026-07-26)
+
+- **Booked already: the cruise + the Singapore Marina Bay hotel** (hotel name TBD — get for leave-by math). Everything else unbooked.
+- **Platinum Castaway Club** — DCL activity booking window is **120 days, not 90** → opens **~Jan 20, 2027** (paid-in-full required first).
+- **Disney-first directive**: itinerary optimizes the Disney parks experience; resort stays should leverage the Disney hotels/parks in each country. Lodging recs updated accordingly (see Decisions).
+- **Kat has pre-selected core activities — not yet provided.** App must treat city-day plans as editable/overridable (day-note + plan-override pattern) so her picks slot in later without a rebuild.
+- Pixels confirmed (Chrome/Android target per standards). Claude API chat module: include, off by default until a key is entered; no pre-trip AI need expected.
+- Folder renamed to `asia-adventure`.
 
 ## Hard logistics constraints discovered (bake into app + bookings)
 
@@ -31,7 +39,7 @@ Full per-leg research: files 01–07 in this folder. This file holds the cross-l
 | ASAP | Hotels all legs (Maihama family rooms + Mimaru apartments sell out for late May); cruise if not booked; flights (respect constraint #1; prefer SHA-Hongqiao arrival + HND arrival Tokyo) |
 | ~6–9 mo out | KIX→HNL flight (evening bank ~8:45–10:10 PM); HNL→PHX |
 | 3–6 mo out | Kyoto ryokan (if chosen — June Saturday); Gion Karyo kaiseki opens later but plan |
-| ~Feb 19, 2027 (90 days, paid in full ~mid-Jan) | DCL Silver activity window: Palo Trattoria, Mike & Sulley's, Bibbidi Bobbidi, Royal Tea |
+| **~Jan 20, 2027** (120 days — Platinum Castaway; paid in full first) | DCL activity window: Palo Trattoria, Mike & Sulley's, Bibbidi Bobbidi, Royal Tea |
 | ~Feb–Mar 2027 | Re-verify: China TWOV policy, China holiday calendar, HK Symphony of Lights status, event calendars (HeritageFest, French May, SIFF, Kyoto June events, King Kamehameha/Pan-Pacific) |
 | ~Apr 1–3, 2027 (60 days, 2 PM JST) | Tokyo Disney park tickets (May 31, Jun 1, Jun 2) — set up Disney account + app + payment first |
 | ~Apr 20, 2027 (30 days) | DCL online check-in — grab earliest Port Arrival Time |
@@ -43,17 +51,19 @@ Full per-leg research: files 01–07 in this folder. This file holds the cross-l
 | ~May 24 (14 days) & day-of | Diamond Head sunrise reservation (window 14 or 30 days — verify); Duke's Waikiki dinner |
 | On board May 20 | Ironcycle Test Run reservation in DCL app THE MINUTE you board; Dazzle & Delight fireworks package |
 
-## Decision forks for Chris (evening-fork rule + lodging)
+## Decisions locked (Chris, 2026-07-26) — Disney-first
 
-1. **Hong Kong lodging**: split stay (2 nt Disney Explorers Lodge → 1 nt TST) — recommended — vs single TST base (~90 min/day extra commuting).
-2. **HK city evening**: The Peak (classic, weather-flexible) vs Big Buddha/Ngong Ping (pairs with Disney half-day; wind-sensitive). Late option: Temple Street Night Market till ~11 PM vs early night before Disney day.
-3. **Shanghai park days**: Fri+Sat (city Thu evening only; buy DPA bundle for Sat) vs Thu+Fri (needs early May 27 flight; frees Sat city day). Flight timing decides.
-4. **Tokyo lodging**: split (3 nt Hilton Tokyo Bay Maihama → 2 nt Mimaru Tokyo Station) — recommended — vs single base.
-5. **Tokyo park split**: 2× DisneySea + 1× Disneyland (recommended for 13/10) vs 2 TDL.
-6. **Ghibli Museum**: attempt the May 10 ticket race (consumes a half day in Mitaka) or skip (Donguri Kyowakoku stores for merch fix).
-7. **Kyoto ryokan night**: skip the hotel move, splurge on kaiseki + tea ceremony instead (recommended) vs 1 ryokan night (Momijiya Takao on Arashiyama day, or in-city Seikoro compromise).
-8. **Kyoto stay-late forks**: firefly walks after 8 PM (Shirakawa canal / Philosopher's Path — early June is peak hotaru season) — plan 1–2 late evenings vs kids' early park mornings.
-9. **Oahu final flight**: morning HNL→PHX Jun 9 (kinder with early-riser jet lag) vs red-eye (buys a full last beach day).
+1. **Hong Kong lodging → 3 nights Disney Explorers Lodge** (upgraded from split stay per Disney-first directive). Airport is 15 min away, making both the Mon arrival and Thu departure trivial; priority park entry both park days; city day becomes an MTR day trip (~45 min each way, Disneyland Resort Line is itself an attraction).
+2. **Shanghai lodging → 3 nights Toy Story Hotel** (official Disney, ~¥1,000/nt — flipped from city-center rec per directive). Tradeoff accepted: city day + Bund evening become a Line 11 outing; dinners lean Disneytown/park.
+3. **Shanghai park days: Fri May 28 + Sat May 29** (DPA bundle for Saturday), city highlights Thu evening + as fits.
+4. **Tokyo lodging → 3 nights official Disney hotel + 2 nights Mimaru Tokyo Station.** Target **Hotel MiraCosta** (inside DisneySea; the single biggest Disney-experience lever of the trip) — books out nearly instantly, grab on window open; fallbacks: Toy Story Hotel (verify Happy Entry eligibility for the dates) → Disneyland Hotel → Hilton Tokyo Bay.
+5. **Tokyo park split: 2× DisneySea + 1× Disneyland.**
+6. **Ghibli Museum: skip** the ticket race; Donguri Kyowakoku stores for the merch fix.
+7. **Kyoto: no ryokan move** — splurge on Gion Karyo kaiseki + tea ceremony instead.
+8. **Kyoto evenings**: plan 1–2 firefly walks after 8 PM (no park mornings at stake here).
+9. **Oahu return: morning HNL→PHX Jun 9.**
+10. **HK city evening fork stays open** (Peak vs Big Buddha — weather-decided on the day; app presents both).
+11. City-day plans everywhere = provisional until **Kat's core activities** arrive; app must make them editable.
 
 ## Signature "only-this-trip" moments the research surfaced
 
