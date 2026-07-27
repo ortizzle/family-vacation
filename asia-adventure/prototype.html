@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Asia Adventure — Passport Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Spectral:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cover:#152238;          /* passport cover navy */
+  --cover-2:#1d2f4e;
+  --gold:#c9a84c;
+  --paper:#f2e9d3;
+  --paper-2:#e9dcc0;
+  --paper-line:#d8c9a5;
+  --ink:#3a3226;            /* body text ink */
+  --ink-soft:#6f6350;
+  --stamp-hk:#8e3b6e;       /* Hong Kong plum */
+  --stamp-sg:#b03a2e;       /* Singapore crimson */
+  --stamp-sea:#1f6f78;      /* cruise teal */
+  --stamp-cn:#c0392b;       /* Shanghai vermilion */
+  --stamp-jp:#2c3e7b;       /* Japan indigo */
+  --stamp-ky:#4a6741;       /* Kyoto matcha */
+  --stamp-hi:#c07830;       /* Oahu sunset */
+  --warn:#a2321f;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--cover)}
+body{
+  font-family:'Spectral',serif;color:var(--ink);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(201,168,76,.06), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(201,168,76,.05), transparent 40%),
+    repeating-radial-gradient(circle at 50% 120%, transparent 0 34px, rgba(201,168,76,.035) 34px 35px),
+    linear-gradient(160deg, var(--cover), var(--cover-2) 60%, var(--cover));
+  min-height:100vh;
+  padding:0 0 calc(76px + env(safe-area-inset-bottom));
+  max-width:520px;margin:0 auto;
+}
+
+/* ---------- top header: passport cover strip ---------- */
+.cover-strip{padding:calc(10px + env(safe-area-inset-top)) 16px 8px;text-align:center;color:var(--gold)}
+.cover-strip .crest{font-size:22px;letter-spacing:6px}
+.cover-strip h1{
+  font-family:'Special Elite',monospace;font-size:15px;font-weight:400;
+  letter-spacing:5px;margin-top:2px;text-transform:uppercase;
+}
+.cover-strip .sub{font-size:10px;letter-spacing:1.5px;opacity:.75;text-transform:uppercase;margin-top:1px;white-space:nowrap}
+
+/* ---------- leg stamp rail ---------- */
+.leg-rail{display:flex;gap:8px;overflow-x:auto;padding:10px 14px 14px;scrollbar-width:none}
+.leg-rail::-webkit-scrollbar{display:none}
+.leg-chip{
+  flex:0 0 auto;min-height:44px;padding:6px 11px 5px;border-radius:6px;
+  border:1.5px dashed rgba(201,168,76,.45);color:rgba(233,220,192,.8);
+  font-family:'Special Elite',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;
+  background:rgba(255,255,255,.03);text-align:center;cursor:pointer;
+  display:flex;flex-direction:column;justify-content:center;line-height:1.35;
+}
+.leg-chip .em{font-size:14px;letter-spacing:0}
+.leg-chip.active{
+  border:2px solid var(--gold);color:var(--cover);background:var(--gold);
+  transform:rotate(-2deg);box-shadow:0 2px 10px rgba(0,0,0,.4);
+}
+
+/* ---------- passport page ---------- */
+.page{
+  margin:0 12px;border-radius:10px;position:relative;
+  background:
+    repeating-linear-gradient(115deg, transparent 0 9px, rgba(142,59,110,.035) 9px 10px),
+    repeating-linear-gradient(-115deg, transparent 0 9px, rgba(44,62,123,.03) 9px 10px),
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.5), transparent 55%),
+    linear-gradient(175deg, var(--paper), var(--paper-2));
+  box-shadow:0 8px 30px rgba(0,0,0,.5), inset 0 0 40px rgba(160,130,80,.18);
+  overflow:hidden;
+}
+.perf{height:14px;background:
+  radial-gradient(circle at 8px 0px, var(--cover) 0 4.5px, transparent 5px) 0 -1px/22px 14px repeat-x}
+.page-inner{padding:14px 16px 10px}
+
+/* day tab bar (visa chips) */
+.day-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
+.day-tabs::-webkit-scrollbar{display:none}
+.day-tab{
+  flex:0 0 auto;min-height:44px;min-width:64px;padding:5px 10px;border-radius:5px;
+  font-family:'Special Elite',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;
+  color:var(--ink-soft);border:1.5px solid var(--paper-line);background:rgba(255,255,255,.35);
+  text-align:center;cursor:pointer;line-height:1.4;
+}
+.day-tab .dnum{font-size:14px;color:var(--ink)}
+.day-tab.active{
+  border:2.5px double var(--stamp-hk);color:var(--stamp-hk);
+  background:rgba(142,59,110,.07);transform:rotate(-1.5deg);
+}
+.day-tab.active .dnum{color:var(--stamp-hk)}
+.day-tab .today-dot{display:block;font-size:8.5px;letter-spacing:1.5px;color:var(--warn)}
+
+/* entry stamp header */
+.entry-stamp{
+  margin:4px auto 14px;width:88%;max-width:330px;padding:10px 12px 8px;text-align:center;
+  border:3px double var(--stamp-hk);border-radius:10px;color:var(--stamp-hk);
+  transform:rotate(-2.4deg);position:relative;opacity:.92;
+  -webkit-mask-image:radial-gradient(circle at 30% 40%, black 92%, rgba(0,0,0,.72) 100%);
+}
+.entry-stamp .arr{font-family:'Special Elite',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase}
+.entry-stamp h2{font-family:'Special Elite',monospace;font-size:19px;font-weight:400;letter-spacing:2px;text-transform:uppercase;margin:2px 0}
+.entry-stamp .date{font-family:'Special Elite',monospace;font-size:12px;letter-spacing:2px}
+.entry-stamp .wing{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--paper);padding:0 8px;font-size:12px}
+
+.day-title{text-align:center;margin-bottom:2px}
+.day-title h3{font-family:'Spectral',serif;font-size:17px;font-weight:600;letter-spacing:.3px}
+.day-title .sub{font-size:12.5px;font-style:italic;color:var(--ink-soft);margin-top:2px}
+
+/* section label — inked side tab */
+.sec-label{
+  font-family:'Special Elite',monospace;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--stamp-hk);border-bottom:1.5px dashed var(--paper-line);
+  padding:14px 0 4px;margin-bottom:8px;
+}
+
+/* timeline */
+.timeline{position:relative;padding-left:14px}
+.timeline::before{content:'';position:absolute;left:3px;top:6px;bottom:6px;border-left:2px dotted var(--paper-line)}
+.ev{
+  position:relative;margin-bottom:9px;padding:9px 11px 8px;border-radius:7px;
+  background:rgba(255,255,255,.42);border:1px solid var(--paper-line);
+  min-height:44px;
+}
+.ev::before{
+  content:'';position:absolute;left:-15px;top:16px;width:8px;height:8px;border-radius:50%;
+  background:var(--stamp-hk);box-shadow:0 0 0 3px rgba(142,59,110,.18);
+}
+.ev.milestone{border:1.5px solid rgba(142,59,110,.5);background:rgba(142,59,110,.06)}
+.ev .t{
+  font-family:'Special Elite',monospace;font-size:12px;letter-spacing:1px;color:var(--stamp-hk);
+  text-transform:uppercase;
+}
+.ev .n{font-size:14.5px;font-weight:600;line-height:1.35;margin:1px 0 2px}
+.ev .d{font-size:12.5px;line-height:1.5;color:var(--ink-soft)}
+.ev .tags{margin-top:5px;display:flex;flex-wrap:wrap;gap:5px}
+.tag{
+  font-family:'Special Elite',monospace;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 7px;border-radius:4px;border:1px solid currentColor;
+}
+.tag-leave{color:#fff;background:var(--warn);border-color:var(--warn)}
+.tag-tip{color:var(--stamp-sea)}
+.tag-quest{color:var(--stamp-hk)}
+.tag-food{color:var(--stamp-cn)}
+.tag-show{color:var(--stamp-jp)}
+
+/* field note (handwritten margin note) */
+.field-note{
+  margin:14px 4px 4px;padding:10px 12px;transform:rotate(-.6deg);
+  font-family:'Caveat',cursive;font-size:18px;line-height:1.3;color:#274168;
+  background:repeating-linear-gradient(transparent 0 26px, rgba(39,65,104,.14) 26px 27px);
+}
+.field-note b{color:var(--warn)}
+
+/* checklist stamp interaction */
+.stamp-row{
+  display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 10px;border-radius:7px;
+  border:1px dashed var(--paper-line);margin-bottom:8px;background:rgba(255,255,255,.3);cursor:pointer;
+}
+.stamp-box{
+  width:40px;height:40px;flex:0 0 auto;border-radius:6px;border:2px dashed var(--stamp-hk);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Special Elite',monospace;font-size:8px;color:var(--stamp-hk);text-align:center;line-height:1.1;
+  transition:transform .15s;
+}
+.stamp-row .q{font-size:13.5px;line-height:1.4}
+.stamp-row .q b{display:block;font-size:14px}
+.stamp-row.done .stamp-box{
+  border-style:double;border-width:3px;transform:rotate(-8deg) scale(1.05);
+  background:rgba(142,59,110,.1);font-size:9px;
+}
+.stamp-row.done .q{opacity:.65}
+
+/* MRZ footer */
+.mrz{
+  margin-top:16px;padding:9px 14px 11px;background:rgba(255,255,255,.55);
+  border-top:1.5px solid var(--paper-line);
+  font-family:'Courier New',monospace;font-weight:700;font-size:11.5px;letter-spacing:1.6px;
+  color:#4a4436;white-space:nowrap;overflow:hidden;
+}
+
+/* bottom nav */
+.bottom-nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;
+  background:linear-gradient(180deg, var(--cover-2), var(--cover));
+  border-top:1.5px solid rgba(201,168,76,.4);
+  display:flex;justify-content:space-around;
+  padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+}
+.bn{
+  min-width:56px;min-height:48px;border:none;background:none;cursor:pointer;
+  color:rgba(233,220,192,.55);font-family:'Special Elite',monospace;font-size:9px;
+  letter-spacing:1px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:3px;
+}
+.bn .i{font-size:19px}
+.bn.active{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<header class="cover-strip">
+  <div class="crest">✦ ✈ ✦</div>
+  <h1>Asia Adventure</h1>
+  <div class="sub">Ortiz Family Passport · May 18 – June 9, 2027</div>
+</header>
+
+<nav class="leg-rail" id="legRail" aria-label="Trip legs"></nav>
+
+<main class="page">
+  <div class="perf"></div>
+  <div class="page-inner">
+
+    <div class="day-tabs" id="dayTabs" aria-label="Hong Kong days"></div>
+
+    <div class="entry-stamp">
+      <span class="wing">🐉</span>
+      <div class="arr">Admitted · Lantau Island</div>
+      <h2>Hong Kong Disneyland</h2>
+      <div class="date">25 · May · 2027</div>
+    </div>
+
+    <div class="day-title">
+      <h3>Park Day 1 — The Headliner Day</h3>
+      <div class="sub">Low-crowd Tuesday · rope-drop plan in effect · staying at Explorers Lodge</div>
+    </div>
+
+    <div id="dayContent"></div>
+
+  </div>
+  <div class="mrz">P&lt;HKGORTIZ&lt;&lt;CHRIS&lt;KAT&lt;SEDONA&lt;RIVER&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>AK2027HKD25&lt;&lt;MAGIC&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;4</div>
+</main>
+
+<nav class="bottom-nav" aria-label="Main">
+  <button class="bn"><span class="i">🏠</span>Home</button>
+  <button class="bn active"><span class="i">🗺</span>Journey</button>
+  <button class="bn"><span class="i">🏰</span>Disney</button>
+  <button class="bn"><span class="i">🎖</span>Quests</button>
+  <button class="bn"><span class="i">📓</span>Keepsake</button>
+</nav>
+
+<script>
+'use strict';
+// ---- prototype data: one real researched day (HK Disneyland, Tue May 25 2027) ----
+const LEGS = [
+  {id:'sg', em:'🦁', name:'Singapore'},
+  {id:'sea', em:'🚢', name:'At Sea'},
+  {id:'hk', em:'🐉', name:'Hong Kong'},
+  {id:'sh', em:'🏮', name:'Shanghai'},
+  {id:'tyo', em:'🗼', name:'Tokyo'},
+  {id:'kyo', em:'⛩', name:'Kyoto'},
+  {id:'hi', em:'🌺', name:'Oahu'},
+];
+const HK_DAYS = [
+  {id:'d1', dow:'Mon', dnum:'24', label:'Arrive'},
+  {id:'d2', dow:'Tue', dnum:'25', label:'Disney', today:true},
+  {id:'d3', dow:'Wed', dnum:'26', label:'Disney'},
+  {id:'d4', dow:'Thu', dnum:'27', label:'Depart'},
+];
+const D2_EVENTS = [
+  {t:'7:00 AM', n:'Breakfast at Explorers Lodge', d:'Big breakfast — lunch will be late. Fill water bottles; refill stations exist in-park.', tags:[]},
+  {t:'8:30 AM', n:'Walk to the park gates', d:'Priority-entry lane for Disney hotel guests. Gates stage-open: Main St + World of Frozen first.', tags:[['tag-leave','⏱ Leave by 8:30']]},
+  {t:'9:00 AM', n:'Rope drop: World of Frozen', d:'Frozen Ever After first, straight onto Wandering Oaken’s Sliding Sleighs. Both done in ~30 min at open — they hold the park’s longest lines all day.', tags:[['tag-tip','Strategy']], milestone:true},
+  {t:'10:15 AM', n:'Mystic Manor ×2', d:'Exists nowhere else on Earth. Hit it ~1 hr after Mystic Point opens, when the rope-drop crowd has moved on — it’s a walk-on. Ride it twice. Hunt the Hidden Mickey in the music-box room.', tags:[['tag-quest','🎖 Hidden Mickey hunt']], milestone:true},
+  {t:'11:00 AM', n:'Big Grizzly Mountain', d:'Runaway mine coaster — River’s speed test. Single-digit waits on a May Tuesday.', tags:[]},
+  {t:'12:30 PM', n:'Dim sum lunch at Plaza Inn', d:'In-park Cantonese. Duffy egg tarts in paper boats for dessert — 7 character colors, one each.', tags:[['tag-food','🥟 Local icon']]},
+  {t:'2:00 PM', n:'A/C recharge block', d:'Mickey’s PhilharMagic, then Fairy Tale Forest (spinning-wheel dioramas, Tinker Bell). 88°F + humidity says slow down here.', tags:[['tag-tip','Heat plan']]},
+  {t:'3:30 PM', n:'Duffy Census begins', d:'Quest: spot all six Duffy & Friends — Duffy, ShellieMay, Gelatoni, StellaLou, CookieAnn, LinaBell. LinaBell is the phenomenon; watch the plushie economy in action.', tags:[['tag-quest','🎖 Family quest']]},
+  {t:'6:30 PM', n:'Dinner in park', d:'Explorer’s Club semi-buffet option includes reserved Momentous viewing — decide by lunchtime.', tags:[['tag-food','Kid-safe picks']]},
+  {t:'7:20 PM', n:'Stake out Main Street', d:'Mid-Main-Street for Momentous, 30–40 min early (15 works on light nights).', tags:[['tag-leave','⏱ Move by 7:20']]},
+  {t:'8:00 PM', n:'Momentous', d:'Fireworks + drones + castle projections. Genuinely elite — the day’s finale.', tags:[['tag-show','⭐ Nighttime spectacular']], milestone:true},
+];
+const D2_QUESTS = [
+  {code:'HKDL-01', b:'Duffy Census', q:'Spot all six Duffy & Friends characters in one day'},
+  {code:'HKDL-02', b:'Hidden Mickey ×5', q:'Mystic Manor + Main Street are rich hunting grounds'},
+  {code:'HKDL-03', b:'Egg Tart Rainbow', q:'Which character’s egg tart did you claim?'},
+];
+
+// ---- render helpers (createElement only) ----
+function el(tag, cls, text){
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined) n.textContent = text;
+  return n;
+}
+
+// leg rail
+const rail = document.getElementById('legRail');
+LEGS.forEach(function(leg){
+  const c = el('button','leg-chip' + (leg.id==='hk' ? ' active' : ''));
+  c.appendChild(el('span','em',leg.em));
+  c.appendChild(el('span','',leg.name));
+  c.addEventListener('click', function(){
+    rail.querySelectorAll('.leg-chip').forEach(function(x){ x.classList.remove('active'); });
+    c.classList.add('active');
+  });
+  rail.appendChild(c);
+});
+
+// day tabs
+const tabs = document.getElementById('dayTabs');
+HK_DAYS.forEach(function(d){
+  const t = el('button','day-tab' + (d.id==='d2' ? ' active' : ''));
+  const top = el('span','', d.dow + ' ');
+  const num = el('span','dnum', d.dnum);
+  top.appendChild(num);
+  t.appendChild(top);
+  t.appendChild(document.createElement('br'));
+  t.appendChild(el('span','', d.label));
+  if (d.today) t.appendChild(el('span','today-dot','● Today'));
+  t.addEventListener('click', function(){
+    tabs.querySelectorAll('.day-tab').forEach(function(x){ x.classList.remove('active'); });
+    t.classList.add('active');
+  });
+  tabs.appendChild(t);
+});
+
+// day content
+const content = document.getElementById('dayContent');
+content.appendChild(el('div','sec-label','⌚ The Plan — Tuesday'));
+const tl = el('div','timeline');
+D2_EVENTS.forEach(function(ev){
+  const card = el('div','ev' + (ev.milestone ? ' milestone' : ''));
+  card.appendChild(el('div','t',ev.t));
+  card.appendChild(el('div','n',ev.n));
+  card.appendChild(el('div','d',ev.d));
+  if (ev.tags.length){
+    const tags = el('div','tags');
+    ev.tags.forEach(function(tg){ tags.appendChild(el('span','tag ' + tg[0], tg[1])); });
+    card.appendChild(tags);
+  }
+  tl.appendChild(card);
+});
+content.appendChild(tl);
+
+content.appendChild(el('div','sec-label','🎖 Stamp Your Quests'));
+D2_QUESTS.forEach(function(q){
+  const row = el('div','stamp-row');
+  const box = el('div','stamp-box','STAMP\nHERE');
+  const txt = el('div','q');
+  const bold = el('b','',q.b);
+  txt.appendChild(bold);
+  txt.appendChild(document.createTextNode(q.q));
+  row.appendChild(box);
+  row.appendChild(txt);
+  row.addEventListener('click', function(){
+    row.classList.toggle('done');
+    box.textContent = row.classList.contains('done') ? '★ HKDL\n25 MAY' : 'STAMP\nHERE';
+  });
+  content.appendChild(row);
+});
+
+const note = el('div','field-note');
+note.appendChild(document.createTextNode('Field note: skip the Premier Access bundle today — May Tuesdays run walk-on. If Frozen spikes, buy the '));
+const noteB = el('b','','single ride pass in-app');
+note.appendChild(noteB);
+note.appendChild(document.createTextNode(' and nothing else. — F.'));
+content.appendChild(note);
+</script>
+</body>
+</html>
