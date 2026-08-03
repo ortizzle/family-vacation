@@ -1,1 +1,4 @@
 *.DS_Store
+
+# Personal booking docs (partial card #, address) — never publish
+Page, AZ/

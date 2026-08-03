@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f7f1e4">
+<title>Canyon Light — Page, AZ · Aug 21–23, 2026</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f7f1e4;
+    --paper-2:#f0e7d2;
+    --card:#fffcf5;
+    --line:#e3d7bf;
+    --line-soft:#ece2cc;
+    --ink:#33291d;
+    --muted:#7a6a53;
+    --navy:#2e4262;
+    --navy-deep:#22334e;
+    --lake:#4e88a0;
+    --sky:#bad2dc;
+    --maroon:#8e3b34;
+    --gold:#b98f45;
+    --gold-soft:#ead9b4;
+    --safe-top:env(safe-area-inset-top,0px);
+    --safe-bot:env(safe-area-inset-bottom,0px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Jost',sans-serif;font-weight:300;
+    background:var(--paper);color:var(--ink);
+    min-height:100vh;
+    padding-bottom:calc(86px + var(--safe-bot));
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.38 0 0 0 0 0.26 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ═══ Hero ═══ */
+  .hero{position:relative;text-align:center;padding:calc(30px + var(--safe-top)) 22px 0;overflow:hidden}
+  .hero .kicker{font-size:.7rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);font-weight:500}
+  .hero h1{
+    font-family:'Cormorant Garamond',serif;font-weight:500;
+    font-size:clamp(2.7rem,12vw,3.6rem);line-height:1.04;letter-spacing:.02em;
+    margin:12px 0 8px;color:var(--navy-deep);
+  }
+  .hero h1 em{font-style:italic;color:var(--lake)}
+  .hero .sub{font-size:.86rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .hero .sub b{color:var(--ink);font-weight:500}
+  .chip{
+    display:inline-flex;align-items:center;gap:9px;margin:18px auto 6px;
+    padding:9px 22px;border-radius:999px;background:var(--card);
+    border:1px solid var(--line);box-shadow:0 4px 18px rgba(46,66,98,.07);
+    font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);
+  }
+  .chip b{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--maroon)}
+  .canyon-art{display:block;width:100%;height:74px;margin-top:-4px}
+
+  /* ═══ Section chrome ═══ */
+  .section{display:none;max-width:600px;margin:0 auto;padding:4px 18px 30px}
+  .section.active{display:block}
+  .sec-head{margin:18px 4px 4px}
+  .sec-head .eyebrow{font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-weight:500}
+  .sec-head h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.9rem;color:var(--navy-deep);line-height:1.1;margin-top:4px}
+  .sec-head p{font-size:.86rem;color:var(--muted);margin-top:4px;line-height:1.55}
+
+  /* ═══ Day tabs ═══ */
+  .daybar{position:sticky;top:0;z-index:40;display:flex;gap:8px;padding:12px 0 10px;background:linear-gradient(var(--paper) 78%,transparent)}
+  .daytab{
+    flex:1;min-height:58px;border:1px solid var(--line);border-radius:14px;background:var(--card);
+    cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    font-family:'Jost',sans-serif;transition:all .22s;position:relative;
+  }
+  .daytab .d-day{font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:500}
+  .daytab .d-label{font-family:'Cormorant Garamond',serif;font-size:1.06rem;font-weight:600;color:var(--ink)}
+  .daytab.active{background:var(--navy);border-color:var(--navy);box-shadow:0 8px 20px rgba(46,66,98,.28)}
+  .daytab.active .d-day{color:var(--sky)}
+  .daytab.active .d-label{color:#fff}
+  .daytab .today-dot{
+    position:absolute;top:7px;right:9px;font-size:.5rem;letter-spacing:.14em;font-weight:600;
+    color:var(--maroon);text-transform:uppercase;
+  }
+
+  .day-head{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:500;color:var(--navy-deep);margin:14px 4px 2px}
+  .day-sub{font-size:.83rem;color:var(--muted);margin:0 4px 14px;line-height:1.5}
+
+  /* ═══ Timeline ═══ */
+  .timeline{position:relative;padding-left:16px}
+  .timeline::before{content:'';position:absolute;left:3px;top:10px;bottom:14px;width:1px;background:linear-gradient(var(--gold),var(--lake) 55%,transparent);opacity:.55}
+  .ev{
+    position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:14px 16px;margin-bottom:11px;box-shadow:0 2px 10px rgba(51,41,29,.04);
+  }
+  .ev::before{content:'';position:absolute;left:-16.5px;top:21px;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(185,143,69,.18)}
+  .ev.booked{border-color:rgba(46,66,98,.35)}
+  .ev.booked::before{background:var(--navy)}
+  .ev.tappable{cursor:pointer}
+  .ev.tappable:active{transform:scale(.985)}
+  .ev.beam{overflow:hidden}
+  .ev.beam::after{
+    content:'';position:absolute;top:-30%;right:6%;width:64px;height:170%;
+    background:linear-gradient(rgba(234,217,180,.5),rgba(234,217,180,0) 80%);
+    transform:rotate(16deg);pointer-events:none;
+  }
+  .ev-time{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.06rem;color:var(--maroon);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .ev-camp{font-family:'Jost',sans-serif;font-size:.68rem;font-weight:400;color:var(--lake);letter-spacing:.06em}
+  .ev-title{font-weight:500;font-size:1rem;margin-top:2px;display:flex;align-items:center;gap:6px}
+  .ev-title .more{margin-left:auto;color:var(--gold);font-size:.85rem;flex-shrink:0}
+  .ev-note{font-size:.85rem;color:var(--muted);line-height:1.55;margin-top:3px}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+  .tag{
+    font-size:.66rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+    padding:5px 11px;border-radius:999px;background:var(--paper-2);color:var(--muted);
+    border:1px solid var(--line-soft);display:inline-flex;align-items:center;min-height:26px;
+  }
+  .tag.booked{background:rgba(46,66,98,.08);color:var(--navy);border-color:rgba(46,66,98,.2)}
+  .tag.hard{background:rgba(142,59,52,.08);color:var(--maroon);border-color:rgba(142,59,52,.22)}
+  .tag.maps{background:rgba(78,136,160,.1);color:var(--lake);border-color:rgba(78,136,160,.25);text-decoration:none}
+  a.tag{min-height:30px}
+
+  /* bookings + todos strips */
+  .strip{
+    border:1px solid var(--line);border-radius:16px;background:var(--card);
+    margin:12px 0;overflow:hidden;box-shadow:0 2px 10px rgba(51,41,29,.04);
+  }
+  .strip-head{
+    display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;min-height:48px;
+  }
+  .strip-head .s-icon{font-size:1.05rem}
+  .strip-head .s-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.1rem;color:var(--navy-deep);flex:1}
+  .strip-head .s-count{font-size:.7rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+  .strip-head .s-arrow{color:var(--gold);transition:transform .25s}
+  .strip.open .s-arrow{transform:rotate(180deg)}
+  .strip-body{display:none;border-top:1px solid var(--line-soft);padding:6px 16px 14px}
+  .strip.open .strip-body{display:block}
+  .bk-row{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line-soft);align-items:flex-start}
+  .bk-row:last-child{border-bottom:none}
+  .bk-icon{font-size:1rem;margin-top:1px}
+  .bk-main{flex:1}
+  .bk-name{font-weight:500;font-size:.92rem}
+  .bk-det{font-size:.78rem;color:var(--muted);line-height:1.5}
+  .bk-conf{font-size:.72rem;color:var(--lake);letter-spacing:.05em}
+  .todo-row{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line-soft);min-height:44px}
+  .todo-row:last-child{border-bottom:none}
+  .todo-row input{width:20px;height:20px;accent-color:var(--navy);margin-top:2px;flex-shrink:0}
+  .todo-row .t-label{font-size:.88rem;line-height:1.45}
+  .todo-row .t-sub{font-size:.76rem;color:var(--muted)}
+  .todo-row a{color:var(--lake)}
+  .todo-row.done .t-label{text-decoration:line-through;color:var(--muted)}
+
+  /* dinner fork */
+  .fork{border:1px solid rgba(185,143,69,.45);border-radius:16px;background:linear-gradient(160deg,#fdf7ea, var(--card) 60%);padding:15px 16px;margin-bottom:11px}
+  .fork h3{font-family:'Cormorant Garamond',serif;color:var(--navy-deep);font-size:1.2rem;font-weight:600;margin-top:2px}
+  .fork > p{font-size:.8rem;color:var(--muted);margin:3px 0 8px;line-height:1.5}
+  .fork-opt{
+    display:flex;align-items:center;gap:10px;border-top:1px dashed var(--line-soft);
+    padding:10px 0;min-height:52px;cursor:pointer;
+  }
+  .fork-opt .fo-pick{
+    width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;
+  }
+  .fork-opt.chosen .fo-pick{background:var(--navy);border-color:var(--navy)}
+  .fork-opt .fo-main{flex:1}
+  .fork-opt .fo-name{font-weight:500;font-size:.95rem}
+  .fork-opt .fo-meta{font-size:.75rem;color:var(--muted)}
+  .fork-opt .fo-badge{font-size:.72rem;color:var(--gold);white-space:nowrap;text-align:right}
+  .fork-note{font-size:.74rem;color:var(--maroon);margin-top:8px}
+
+  /* ═══ Explore / dining cards ═══ */
+  .group-label{font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:500;margin:20px 4px 8px}
+  .poi{
+    display:flex;align-items:center;gap:13px;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:13px 15px;margin-bottom:9px;cursor:pointer;min-height:64px;
+    box-shadow:0 2px 10px rgba(51,41,29,.04);
+  }
+  .poi:active{transform:scale(.985)}
+  .poi .p-icon{
+    width:42px;height:42px;border-radius:12px;background:var(--paper-2);border:1px solid var(--line-soft);
+    display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;
+  }
+  .poi .p-main{flex:1;min-width:0}
+  .poi .p-name{font-weight:500;font-size:.95rem}
+  .poi .p-tag{font-size:.77rem;color:var(--muted);line-height:1.4}
+  .poi .p-side{text-align:right;flex-shrink:0}
+  .poi .p-rating{font-size:.78rem;color:var(--gold);font-weight:500}
+  .poi .p-dist{font-size:.7rem;color:var(--muted)}
+  .poi .p-chev{color:var(--gold);margin-left:2px}
+
+  /* ═══ Field guide ═══ */
+  .fg{border:1px solid var(--line);border-radius:16px;background:var(--card);margin-bottom:9px;overflow:hidden}
+  .fg-head{display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;min-height:52px}
+  .fg-head .f-title{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:600;color:var(--navy-deep);flex:1;line-height:1.25}
+  .fg-head .f-arrow{color:var(--gold);transition:transform .25s}
+  .fg.open .f-arrow{transform:rotate(180deg)}
+  .fg-body{display:none;padding:0 16px 15px;font-size:.88rem;line-height:1.68;color:#4c4030}
+  .fg.open .fg-body{display:block}
+  .fg-body em{color:var(--maroon);font-style:italic}
+
+  /* ═══ Games ═══ */
+  .game-card{border:1px solid var(--line);border-radius:18px;background:var(--card);padding:18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(51,41,29,.04)}
+  .game-card h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--navy-deep)}
+  .game-card .g-sub{font-size:.8rem;color:var(--muted);margin:2px 0 12px;line-height:1.5}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    min-height:46px;padding:10px 22px;border-radius:999px;border:none;cursor:pointer;
+    font-family:'Jost',sans-serif;font-size:.85rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+    background:var(--navy);color:#fff;box-shadow:0 6px 16px rgba(46,66,98,.25);
+  }
+  .btn.ghost{background:transparent;color:var(--navy);border:1px solid var(--line);box-shadow:none}
+  .btn:active{transform:scale(.97)}
+  .tq-progress{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+  .tq-q{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:500;line-height:1.35;color:var(--ink);margin-bottom:12px}
+  .tq-opt{
+    display:block;width:100%;text-align:left;background:var(--paper-2);border:1px solid var(--line);
+    border-radius:12px;padding:12px 14px;margin-bottom:8px;font-family:'Jost',sans-serif;
+    font-size:.9rem;font-weight:400;color:var(--ink);cursor:pointer;min-height:46px;
+  }
+  .tq-opt.correct{background:#e4eedd;border-color:#8aa876}
+  .tq-opt.wrong{background:#f3e0dd;border-color:#c48a82}
+  .tq-fact{font-size:.82rem;color:var(--muted);line-height:1.55;margin:4px 0 12px}
+  .tq-score{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--maroon)}
+  .spot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .spot{
+    aspect-ratio:1;border:1px solid var(--line);border-radius:13px;background:var(--paper-2);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+    cursor:pointer;padding:4px;text-align:center;
+  }
+  .spot .sp-emoji{font-size:1.35rem}
+  .spot .sp-label{font-size:.56rem;line-height:1.15;color:var(--muted);font-weight:400}
+  .spot.found{background:var(--navy);border-color:var(--navy)}
+  .spot.found .sp-label{color:var(--sky)}
+  .notes-area{width:100%;min-height:88px;border:1px solid var(--line);border-radius:12px;background:var(--paper-2);padding:11px 13px;font-family:'Jost',sans-serif;font-size:.88rem;color:var(--ink);resize:vertical;margin-bottom:10px}
+  .notes-label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin:4px 2px 5px}
+
+  /* ═══ Packing ═══ */
+  .pack-progress{font-size:.8rem;color:var(--muted);margin:4px 4px 10px}
+  .pack-progress b{color:var(--navy);font-weight:600}
+  .pk-cat{border:1px solid var(--line);border-radius:16px;background:var(--card);margin-bottom:10px;overflow:hidden}
+  .pk-head{display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;min-height:50px}
+  .pk-head .k-title{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:600;color:var(--navy-deep);flex:1}
+  .pk-head .k-count{font-size:.7rem;color:var(--muted);letter-spacing:.1em}
+  .pk-head .k-arrow{color:var(--gold);transition:transform .25s}
+  .pk-cat.open .k-arrow{transform:rotate(180deg)}
+  .pk-body{display:none;border-top:1px solid var(--line-soft);padding:4px 16px 12px}
+  .pk-cat.open .pk-body{display:block}
+  .pk-row{display:flex;gap:11px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line-soft);min-height:44px}
+  .pk-row:last-child{border-bottom:none}
+  .pk-row input{width:20px;height:20px;accent-color:var(--navy);flex-shrink:0}
+  .pk-row label{font-size:.88rem;line-height:1.4;flex:1;cursor:pointer}
+  .pk-row .pk-note{font-size:.74rem;color:var(--muted)}
+  .pk-row.done label{text-decoration:line-through;color:var(--muted)}
+
+  /* ═══ Modal sheet ═══ */
+  .sheet-backdrop{
+    display:none;position:fixed;inset:0;background:rgba(51,41,29,.4);z-index:90;
+    backdrop-filter:blur(2px);
+  }
+  .sheet-backdrop.show{display:block}
+  .sheet{
+    position:fixed;left:0;right:0;bottom:0;z-index:95;transform:translateY(105%);
+    transition:transform .3s cubic-bezier(.32,.72,.35,1);
+    background:var(--card);border-radius:22px 22px 0 0;max-height:86vh;overflow-y:auto;
+    padding:10px 20px calc(24px + var(--safe-bot));max-width:640px;margin:0 auto;
+    box-shadow:0 -12px 40px rgba(51,41,29,.22);
+  }
+  .sheet.show{transform:translateY(0)}
+  .sheet-grab{width:40px;height:4px;border-radius:2px;background:var(--line);margin:6px auto 14px}
+  .sh-icon{font-size:1.9rem}
+  .sh-title{font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:600;color:var(--navy-deep);line-height:1.15;margin:6px 0 2px}
+  .sh-tagline{font-size:.85rem;color:var(--muted);line-height:1.5}
+  .sh-facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+  .sh-fact{background:var(--paper-2);border:1px solid var(--line-soft);border-radius:12px;padding:9px 12px}
+  .sh-fact .fk{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500}
+  .sh-fact .fv{font-size:.84rem;font-weight:400;margin-top:2px;line-height:1.35}
+  .sh-body{font-size:.89rem;line-height:1.65;color:#4c4030;margin-bottom:10px}
+  .sh-body p{margin-bottom:9px}
+  .sh-menu{margin:6px 0 12px}
+  .sh-menu .m-item{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line-soft);font-size:.86rem}
+  .sh-menu .m-item span:last-child{color:var(--muted);white-space:nowrap}
+  .sh-tip{
+    background:rgba(78,136,160,.08);border:1px solid rgba(78,136,160,.2);border-radius:12px;
+    padding:11px 13px;font-size:.82rem;line-height:1.55;color:#3d5a68;margin-bottom:14px;
+  }
+  .sh-actions{display:flex;gap:9px;flex-wrap:wrap}
+  .sh-actions .btn{flex:1;min-width:130px;text-decoration:none;font-size:.78rem}
+  .sh-close{
+    position:sticky;top:4px;margin-left:auto;display:flex;align-items:center;justify-content:center;
+    width:34px;height:34px;border-radius:50%;background:var(--paper-2);border:1px solid var(--line);
+    color:var(--muted);font-size:1rem;cursor:pointer;float:right;
+  }
+
+  /* ═══ Bottom nav ═══ */
+  .bottomnav{
+    position:fixed;left:0;right:0;bottom:0;z-index:80;display:flex;
+    background:rgba(255,252,245,.94);backdrop-filter:blur(12px);
+    border-top:1px solid var(--line);padding:8px 6px calc(8px + var(--safe-bot));
+  }
+  .nav-btn{
+    flex:1;min-height:52px;border:none;background:transparent;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+    font-family:'Jost',sans-serif;color:var(--muted);border-radius:12px;
+  }
+  .nav-btn .n-icon{font-size:1.2rem}
+  .nav-btn .n-label{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+  .nav-btn.active{color:var(--navy)}
+  .nav-btn.active .n-icon{transform:translateY(-1px)}
+
+  .footer-note{text-align:center;font-size:.7rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin:26px 0 8px;line-height:2}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">Kat's Birthday Getaway</div>
+  <h1>Canyon <em>Light</em></h1>
+  <div class="sub">Page, Arizona · <b>Aug 21–23, 2026</b></div>
+  <div class="chip" id="countdown-chip">☀️ <b id="cd-num">—</b> <span id="cd-label">days to go</span></div>
+</header>
+
+<svg class="canyon-art" viewBox="0 0 400 74" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,30 C50,14 90,44 140,34 C200,22 240,46 300,36 C345,29 370,40 400,32 L400,74 L0,74 Z" fill="#bad2dc" opacity=".55"/>
+  <path d="M0,44 C60,30 110,56 170,46 C230,36 280,58 330,48 C360,42 385,50 400,46 L400,74 L0,74 Z" fill="#4e88a0" opacity=".35"/>
+  <path d="M0,56 C70,44 130,66 200,56 C270,46 320,66 400,56 L400,74 L0,74 Z" fill="#2e4262" opacity=".3"/>
+  <path d="M0,64 C80,56 160,72 250,64 C320,58 370,68 400,64 L400,74 L0,74 Z" fill="#8e3b34" opacity=".25"/>
+  <rect x="255" y="0" width="26" height="74" fill="#ead9b4" opacity=".35" transform="skewX(-14)"/>
+</svg>
+
+<main>
+  <section class="section active" id="section-days"></section>
+  <section class="section" id="section-explore"></section>
+  <section class="section" id="section-dining"></section>
+  <section class="section" id="section-games"></section>
+  <section class="section" id="section-pack"></section>
+</main>
+
+<div class="sheet-backdrop" id="sheet-backdrop"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+
+<nav class="bottomnav" id="bottomnav" aria-label="App sections"></nav>
+
+<script>
+'use strict';
+
+/* ═════════ Storage + time helpers (Arizona, no DST) ═════════ */
+const store = {
+  get(k, fb){ try{ const v = localStorage.getItem(k); return v===null ? fb : JSON.parse(v); }catch(e){ return fb; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+function azNow(){
+  const p = new URLSearchParams(location.search).get('simdate');
+  if(p) return new Date(p + 'T12:00:00-07:00');
+  return new Date(new Date().toLocaleString('en-US',{timeZone:'America/Phoenix'}));
+}
+function azTodayStr(){
+  const n = azNow();
+  return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0') + '-' + String(n.getDate()).padStart(2,'0');
+}
+function daysUntil(dateStr){
+  const n = azNow();
+  const today = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  return Math.round((new Date(dateStr+'T00:00:00') - today) / 86400000);
+}
+
+/* ═════════ DATA — everything researched Aug 2026 ═════════ */
+
+const BOOKINGS = [
+  { icon:'⛺', name:'Under Canvas Lake Powell — Stargazer Tent', det:'Fri Aug 21 → Sun Aug 23 · 2 adults · check-in 3 PM–1 AM camp time (2 PM AZ) · checkout 10 AM camp (9 AM AZ) · $883 paid', conf:'Conf #32688SG058962 · (888) 496-1148' },
+  { icon:'🏜️', name:"Dixie's Lower Antelope Canyon Tour", det:'Sat Aug 22 · 6:45 AM tour · 2 adults · arrive 45 min early (6:00 AM) · QR code check-in · look for the green roof', conf:'Booking #D-109970 · (928) 640-1761' },
+  { icon:'🛶', name:'Kayak the Colorado — Backhaul Taxi + Tandem Kayak', det:'Sat Aug 22 · 10:00 AM from Lees Ferry · arrive 9:30 · boat leaves ON TIME · waivers signed for both ✓', conf:'Bookings #368709798 &amp; #368709800 · (435) 275-2925' }
+];
+
+const TODOS = [
+  { id:'waiver-dixie', label:"Sign Dixie's hiking-tour waiver — both of you", sub:'Kayak waivers are done ✓ — but the canyon tour has its own. Link is in the Dixie’s confirmation email.', url:'https://www.antelopelowercanyon.com/' },
+  { id:'dinner-res', label:'Book the Saturday birthday-dinner table', sub:'Pick in the Saturday plan — Sunset 89 (928) 660-7716 or Rainbow Room on OpenTable.' },
+  { id:'wallet', label:'Save both QR tickets to Google Wallet', sub:'Dixie’s + Kayak the Colorado. No cell service at Lees Ferry — don’t rely on email.' },
+  { id:'offline', label:'Open this app once on each phone before Friday', sub:'It caches itself for offline — no WiFi at camp, no signal on the river.' },
+  { id:'maps', label:'Download offline Google Maps: Page ↔ Lees Ferry ↔ Kanab ↔ Zion', sub:'Plus playlists/podcasts for the drives.' },
+  { id:'pass', label:'Dig out the America the Beautiful pass (or budget $65)', sub:'$30 Glen Canyon (Lees Ferry) + $35 Zion. The pass covers both.' },
+  { id:'gift', label:'🎁 Birthday surprise for Kat — packed and hidden', sub:'The Stargazer tent has a telescope window. Just saying.' }
+];
+
+const POI = {
+  undercanvas: { icon:'⛺', name:'Under Canvas Lake Powell–Grand Staircase', tagline:'Luxury safari-style camp on the Grand Staircase rim — the world’s first DarkSky-certified resort', facts:[['Address','555 S Jacob Tank Rd, Big Water, UT'],['Clock','Utah time — 1 hr ahead of AZ'],['Dinner','Walk-up 5–10 PM camp time'],['Breakfast','7–10 AM · $50 credit Sun']], body:['Stargazer tent: king bed, private ensuite with hot pull-chain shower, a telescope viewing window over the bed, and a private deck. USB battery power only — no outlets, no WiFi, no A/C (fans + misting systems). Wood stove for cool nights.','Nightly campfire with complimentary s’mores, live music evenings, morning yoga, and an on-site slot-canyon hike. Café-style restaurant — no reservations needed. No food allowed in tents (keep the cooler in the car).'], tip:'Your phones will silently flip between AZ and UT time near camp. When in doubt: camp clocks are 1 hour AHEAD of every Page booking.', url:'https://www.undercanvas.com/camps/lake-powell/', maps:'https://maps.google.com/?q=Under+Canvas+Lake+Powell-Grand+Staircase' },
+  horseshoe: { icon:'🌅', name:'Horseshoe Bend Overlook', tagline:'The 270° entrenched meander, 1,000 ft above the Colorado', facts:[['From camp','~20 min (via Page)'],['Cost','$10/vehicle city lot'],['Walk','1.2–1.5 mi round trip, exposed'],['Hours','Sunrise–sunset, gate closes at sunset']], body:['The river kept its lazy curve while the Colorado Plateau rose beneath it, cutting a thousand feet straight down — an "entrenched meander." Friday golden hour (~6:15 PM, sunset 7:11) gives the warm glow with peak crowds; morning light (9:30–noon) fully lights the river.','You’ll also see the bend from the bottom on Saturday — very few people get both angles in one weekend.'], tip:'NPS passes do NOT work here — it’s a City of Page lot. Card or cash. Bring water even in the evening; the trail is fully exposed.', url:'https://horseshoebend.com/', maps:'https://maps.google.com/?q=Horseshoe+Bend+Overlook+Page+AZ' },
+  damoverlook: { icon:'🌉', name:'Glen Canyon Dam Overlook', tagline:'Free railed perch 1,000 ft over the dam and the cold green river', facts:[['From Page','5 min'],['Cost','Free — no pass needed'],['Walk','0.2 mi down rock steps'],['Time','15–20 min']], body:['A short stone staircase off Scenic View Rd drops to a railed ledge staring straight down at the 710-ft dam, the bridge, and the impossibly green water it releases. Best at golden hour.'], tip:'The perfect "we have 20 spare minutes in Page" stop — pair it with the Safeway run Friday.', url:'https://www.nps.gov/glca/planyourvisit/glen-canyon-dam-overlook.htm', maps:'https://maps.google.com/?q=Glen+Canyon+Dam+Overlook' },
+  visitorcenter: { icon:'🏛️', name:'Carl Hayden Visitor Center (the Dam)', tagline:'Walk the crest of Glen Canyon Dam — exhibits, dam tours', facts:[['From Page','5 min'],['Cost','Free entry · tours $5'],['Hours','~8 AM–6 PM summer'],['Time','30–45 min']], body:['Exhibits on the dam’s 1956–66 construction and the plumbing of the Colorado. Guided tours descend into the dam itself for $5 — first-come, and worth it if the timing lines up Sunday morning.'], tip:'Call (928) 608-6200 day-of for tour times.', url:'https://www.nps.gov/glca/planyourvisit/carl-hayden-visitor-center.htm', maps:'https://maps.google.com/?q=Carl+Hayden+Visitor+Center' },
+  wahweapview: { icon:'🌄', name:'Wahweap Overlook', tagline:'Drive-up panorama of Lake Powell, the marina, and Tower Butte', facts:[['From camp','~10 min'],['Cost','Free (outside the fee gate)'],['Time','10–15 min'],['Best','Sunset']], body:['A hilltop pullout with the full sweep of Wahweap Bay. Zero effort, huge payoff — the easy sunset if Saturday’s paddle left nothing in the tank.'], tip:'It’s right off US-89 between camp and Page — an effortless add to any drive.', url:'https://www.nps.gov/glca/index.htm', maps:'https://maps.google.com/?q=Wahweap+Overlook' },
+  lonerock: { icon:'🏖️', name:'Lone Rock Beach', tagline:'Drive your car onto the sand and swim beneath a monolith', facts:[['From camp','~10 min'],['Cost','$30 Glen Canyon (ATB pass ok)'],['Time','1–2 hrs'],['Best','Sunday AM dip']], body:['The only spot where you can drive to the waterline of Lake Powell, park on the beach, and float in view of the 200-ft Lone Rock. Warm water (the lake, unlike the river, sits in the sun).'], tip:'Soft sand traps low-clearance cars near the water — park on the firm upper beach.', url:'https://www.nps.gov/glca/planyourvisit/lone-rock-beach.htm', maps:'https://maps.google.com/?q=Lone+Rock+Beach+Big+Water' },
+  chains: { icon:'💎', name:'The Chains', tagline:'Local swim ledges on bare sandstone just above the dam', facts:[['From Page','7 min'],['Cost','Free — no pass'],['Time','30–60 min'],['Note','Road closed sunset–8 AM']], body:['Slickrock ledges dropping into deep, clear lake water — the locals’ answer to a pool. A short scramble from the parking area at the end of the access road off US-89.'], tip:'Water shoes help on the rock. Saturday pre-sunset dip if you skip Wahweap Overlook.', url:'https://www.gjhikes.com/2015/06/the-chains.html', maps:'https://maps.google.com/?q=The+Chains+Lake+Powell' },
+  toadstool: { icon:'🍄', name:'Toadstool Hoodoos', tagline:'Mushroom-cap rock spires — Grand Staircase’s easiest wonder', facts:[['From camp','~12 min west on US-89'],['Cost','Free'],['Walk','1.5–1.8 mi RT, flat wash'],['Best','Sunrise / last light']], body:['A sandy wash walk to a pocket of red-capped white hoodoos on the Paria Rimrocks. Zero shade — this is a golden-hour walk in August, not a midday one.'], tip:'Perfect Sunday-morning option if you’d rather stay close before the Zion drive — or a Friday last-light walk 12 minutes from camp.', url:'https://www.blm.gov/visit/toadstool-trailhead', maps:'https://maps.google.com/?q=Toadstool+Hoodoos+Trailhead' },
+  bigwatervc: { icon:'🦖', name:'BLM Big Water Visitor Center', tagline:'Real dinosaurs dug from the mesas you’re camping under', facts:[['From camp','5 min'],['Cost','Free'],['Hours','~8:30–5 · open Sun (closed Tue–Wed)'],['Time','20–30 min']], body:['The Kaiparowits Plateau behind camp has produced 15+ dinosaur species found nowhere else on Earth, including the tyrannosaur Teratophoneus — "monstrous murderer." Fossils and a great Late Cretaceous mural, right on US-89.'], tip:'Five minutes from camp — easy Sunday stop while the car warms up for Zion.', url:'https://www.blm.gov/visit/big-water-visitor-center', maps:'https://maps.google.com/?q=Big+Water+Visitor+Center' },
+  navajobridge: { icon:'🦅', name:'Navajo Bridge', tagline:'Twin arches 467 ft over the Colorado — and the best condor spotting in America', facts:[['Where','US-89A, Marble Canyon'],['Cost','Free'],['Time','10–15 min'],['Look for','Wing tags on the girders']], body:['The 1929 span closed the last road gap between Arizona and Utah; its 1995 twin now carries traffic while the original is pedestrian-only. California condors — 9.5-ft wingspans, reintroduced at the Vermilion Cliffs in 1996 — loaf on the steel beneath your feet.','About 82 fly wild in this region today. Check under the bridge deck, then scan the cliff line.'], tip:'You cross it twice Saturday. Save the walk for the return (~4 PM) when the boat clock isn’t ticking.', url:'https://www.nps.gov/glca/planyourvisit/navajo-bridge.htm', maps:'https://maps.google.com/?q=Navajo+Bridge+Interpretive+Center' },
+  antelope: { icon:'🏜️', name:'Lower Antelope Canyon — Dixie’s Tours', tagline:'Hazdistazí — "spiral rock arches" — on Navajo land, at first light', facts:[['Check-in','6:00 AM (45 min early — firm)'],['Tour','6:45–7:45 AM · ~1.1 mi'],['Bring','Phone, hat, water bottle ONLY'],['Banned','All bags, GoPros, tripods']], body:['Five flights of steel ladders descend into a corridor of flowing Navajo Sandstone, carved by flash floods driving sand like liquid sandpaper. The 6:45 slot is the coolest (~65°), quietest, and most evenly lit of the day — soft reflected glow, no harsh beams, ideal for phones.','Find the green roof on Indian Route 222 off AZ-98. QR code from the confirmation email checks you in. Closed-toe shoes required; the exit is a gradual climb out.'], tip:'Photograph the upper walls where the glow lives — drop your exposure slightly and the sandstone ignites.', url:'https://www.antelopelowercanyon.com/', maps:'https://maps.google.com/?q=Dixie%27s+Lower+Antelope+Canyon+Tours' },
+  kayak: { icon:'🛶', name:'Kayak the Colorado — Backhaul Day', tagline:'Motor 10 miles up a canyon only boats can reach, then paddle home', facts:[['Meet','Lees Ferry launch, 9:30 AM'],['Water','47°F year-round, flat Class I'],['Paddle','~10 mi, ~4 hrs with stops'],['Cell signal','None all day']], body:['The captain runs you ~30 minutes upriver — ask for the Petroglyph Beach drop (~mile 10), where a short walk reaches an ancient petroglyph panel. Then the river does half the work: a steady drift past 1,000-ft walls, under the rim-crowds at Horseshoe Bend, past Waterholes Canyon.','The water leaves the bottom of Lake Powell at ~47° — trout-cold in a 95° desert. PFDs on, phones in the dry bag, and dips are a knees-deep-and-shrieking affair.'], tip:'Entrance kiosk: $30/vehicle (ATB pass works) a quarter-mile down Lees Ferry Rd. Pass the bathrooms, park in the dirt 1-day lot, meet at the floating dock.', url:'https://www.kayakthecolorado.com/', maps:'https://maps.google.com/?q=Lees+Ferry+Boat+Launch+Marble+Canyon' },
+  stargazer: { icon:'✨', name:'Stargazing at Camp', tagline:'DarkSky-certified skies — with a birthday moon', facts:[['Where','Your tent’s telescope window'],['Moon','Waxing gibbous, 65–85% lit'],['Darkest','Pre-dawn, after moonset'],['S’mores','Complimentary, nightly']], body:['Under Canvas Lake Powell is the world’s first DarkSky-certified resort. Your weekend carries a bright waxing gibbous moon, so the Milky Way will be muted — but bright moonlight silvering the Grand Staircase cliffs is its own spectacle, best enjoyed horizontally through the Stargazer window.','If either of you wakes before dawn, step out: the moon sets in the small hours and the real star field switches on.'], tip:'Saturday counts as the birthday-eve finale: campfire, s’mores, moonlit mesa.', url:'https://darksky.org/places/under-canvas-lake-powell-grand-staircase/', maps:'https://maps.google.com/?q=Under+Canvas+Lake+Powell-Grand+Staircase' },
+  canyonoverlook: { icon:'⛰️', name:'Canyon Overlook Trail — Zion', tagline:'One mile to Zion’s best effort-to-view ratio, no shuttle required', facts:[['Drive from camp','~1 hr 45 (87 mi)'],['Fee','$35/vehicle (ATB pass ok)'],['Trail','1 mi RT, ~1 hr, some drop-offs'],['Parking','Tiny lot — circle patiently']], body:['Starts immediately east of the 1.1-mile Zion–Mt Carmel tunnel (1930) and ends at a stone porch hanging over Pine Creek Canyon — the great white throne of Zion’s west canyon spread below. This is the east-side play: in August the main canyon is shuttle-only with 30–60 min waits, so you skip it entirely and take the view the tour buses miss.','The trailhead lot holds ~8–10 cars with a small overflow 500 ft east. Midday means circling — patience, someone leaves every few minutes.'], tip:'Watch for bighorn sheep on the switchbacks and at Checkerboard Mesa. No timed entry in 2026 — just the gate fee.', url:'https://www.nps.gov/zion/planyourvisit/canyon-overlook-trail.htm', maps:'https://maps.google.com/?q=Canyon+Overlook+Trailhead+Zion' },
+  checkerboard: { icon:'♟️', name:'Checkerboard Mesa & the Tunnel', tagline:'Zion’s east side: crosshatched domes and a 1930 marvel', facts:[['Where','Zion–Mt Carmel Hwy'],['Cost','Included in park fee'],['Time','Pullouts, 20–30 min'],['Look for','Desert bighorn sheep']], body:['The east entrance road passes Checkerboard Mesa — a sandstone dome crosshatched by ancient wind-laid dunes and modern frost cracks — then dives through the 1.1-mile tunnel blasted in 1930, with gallery windows flashing canyon views as you drive.'], tip:'Drive through the tunnel to the switchbacks and back for the full show — normal cars need no permit (that’s RVs only).', url:'https://www.nps.gov/zion/planyourvisit/the-zion-mount-carmel-tunnel.htm', maps:'https://maps.google.com/?q=Checkerboard+Mesa+Zion' },
+  powelldays: { icon:'🎪', name:'Powell Days — Downtown Page', tagline:'The town’s John Wesley Powell celebration — Sat 11 AM–3 PM', facts:[['When','Sat Aug 22, 11–3'],['Where','Downtown Page'],['Cost','Free'],['Fit','Only if plans shift']], body:['Page celebrates the one-armed major who ran this river in 1869. You’ll be ON his river while it happens — the better tribute — but if weather cancels the paddle, this is the backup morning.'], tip:'Expect downtown parking to be tight midday Saturday.', url:'https://events.cityofpage.org/', maps:'https://maps.google.com/?q=Downtown+Page+AZ' }
+};
+
+const EAT = {
+  sunset89: { icon:'🌺', name:'Sunset 89', cuisine:'Polynesian–Pacific fusion', rating:'4.1★ Google', price:'$$$', dist:'20 min from camp · south edge of Page', hours:'Fri &amp; Sat 11 AM–9 PM', phone:'(928) 660-7716', order:'Kalua pork at sunset on the west-facing patio', menu:[['Kalua pork','island-style, slow roasted'],['Poke bowls','the house signature'],['Island fish tacos','crowd favorite'],['Tropical cocktails','patio + sunset built in']], body:['The occasion restaurant in Page: a patio aimed dead-west over Glen Canyon, timed for the 7:10 sunset. The most polished menu in town.'], tip:'RESERVE for Saturday ~7 PM — patio tables go first. Sunset is at 7:10; book for 6:45 and watch it happen.', url:'https://sunset89.com/', maps:'https://maps.google.com/?q=Sunset+89+Page+AZ' },
+  rainbow: { icon:'🌈', name:'Rainbow Room — Lake Powell Resort', cuisine:'Resort American, panoramic lake view', rating:'3.7★ Google (480)', price:'$$–$$$', dist:'12–15 min from camp — the shortest drive home', hours:'Dinner 5–9 PM · breakfast 6–10 AM', phone:'OpenTable or (928) 645-2433', order:'Braised short ribs with mac & cheese, window table', menu:[['Braised short ribs','+ smoked gouda mac'],['Ribeye','resort classic'],['Seared salmon','lake-view staple'],['Lobster tostada','the wildcard starter']], body:['A wall of glass over Wahweap Bay — the view outrates the food, and at sunset the view is doing a lot. The practical luxury pick: 12 minutes back to camp after wine.','Sunday bonus: their 6–10 AM breakfast is the area’s best send-off if you skip camp breakfast.'], tip:'Book on OpenTable ~24 hrs ahead and ask for a west window table.', url:'https://www.lakepowell.com/dining/lake-powell-dining-experience/rainbow-room', maps:'https://maps.google.com/?q=Rainbow+Room+Lake+Powell+Resort' },
+  bigjohns: { icon:'🍖', name:"Big John's Texas BBQ", cuisine:'Texas BBQ, live music nightly', rating:'4.2★ (1,076)', price:'$$', dist:'20 min from camp · downtown Page', hours:'Daily 11 AM–9 PM · band ~6:30–9', phone:'Walk-in only', order:'The Sampler Plate + peach cobbler, under the string lights', menu:[['Sampler Plate','brisket, pulled pork, ribs, sausage'],['Smoked brisket plate','the benchmark'],['Peach cobbler','save room'],['Live country-rock','6:30–9 nightly, free']], body:['A retro gas station turned open-air smokehouse: picnic tables, string lights, and a band every night. The low-key birthday option — or the perfect easy Friday.'], tip:'No reservations; the band starts ~6:30 and the line moves fast.', url:'https://bigjohnstexasbbq.com/', maps:'https://maps.google.com/?q=Big+Johns+Texas+BBQ+Page' },
+  birdhouse: { icon:'🍗', name:'BirdHouse', cuisine:'Nashville-style hot chicken', rating:'4.8★ (967) — highest in town', price:'$', dist:'20 min from camp', hours:'Daily 11 AM–9 PM', phone:'Counter service', order:'Hot-honey half bird + waffle fries', menu:[['Hot-honey chicken','the reason for the 4.8'],['Chicken sandwich','Yelp’s AZ best-of list 2024'],['Waffle fries','mandatory']], body:['Yelp called it the best fried chicken in Arizona. Counter-service simple, wildly consistent. If the birthday dinner is fancy, this is the other night’s treat.'], tip:'Take it to the Glen Canyon Dam Overlook for the best cheap dinner view in Arizona.', url:'https://www.yelp.com/biz/birdhouse-page', maps:'https://maps.google.com/?q=BirdHouse+Page+AZ' },
+  eltapatio: { icon:'🌮', name:'El Tapatio', cuisine:'Mexican — flaming fajitas', rating:'4.3★ Google', price:'$$', dist:'20 min from camp · downtown', hours:'Fri &amp; Sat 10 AM–11 PM — latest kitchen in town', phone:'(928) 645-4055', order:'Flaming fajitas + a jumbo margarita', menu:[['Flaming fajitas','arrive on fire, literally'],['Jumbo margaritas','the arrival-night reward'],['Combo plates','fast and generous']], body:['Open latest of anyone — the safety net if Friday’s drive runs long, and a lively room for zero planning.'], tip:'No reservation needed; seats fast even on summer weekends.', url:'https://restaurantguru.com/El-Tapatio-Page', maps:'https://maps.google.com/?q=El+Tapatio+Page+AZ' },
+  bonkers: { icon:'🥩', name:'Bonkers Restaurant & Steakhouse', cuisine:'Italian-American + Angus steaks', rating:'4.3★ (1,047)', price:'$$–$$$', dist:'20 min from camp', hours:'Fri–Sat 4–9 PM · CLOSED Sunday', phone:'(928) 645-2706 — takes reservations', order:'Certified Angus ribeye, old-school sit-down', menu:[['Angus steaks','the Page white-tablecloth-ish option'],['Pasta classics','Italian-American comfort'],['Early-bird special','4–6 PM']], body:['The reservable sit-down backup if the fork picks fall through. Closed Sundays.'], tip:'Reopened and busy in 2026 — call ahead on summer Saturdays.', url:'https://www.yelp.com/biz/bonkers-restaurant-page-2', maps:'https://maps.google.com/?q=Bonkers+Restaurant+Page+AZ' },
+  bluebar: { icon:'🍷', name:'Blue Bar & Wine — Dam Plaza', cuisine:'Wine bar · tapas · cocktails', rating:'Local favorite (small)', price:'$$–$$$', dist:'20 min from camp · downtown', hours:'Evenings ~6 PM–late · call to confirm', phone:'(928) 645-2161', order:'A wine flight as the birthday nightcap', menu:[['Wine flights','the move'],['Tapas plates','shareable, late'],['Craft cocktails','Page’s most grown-up room']], body:['Page’s most upscale-feeling little room — the right last stop after Sunset 89 before the dark drive back to camp.'], tip:'Hours flex seasonally — a 30-second call saves the trip.', url:'https://damplaza.com/blue-bar', maps:'https://maps.google.com/?q=Blue+Wine+Bar+Page+AZ' },
+  cliffdwellers: { icon:'🦬', name:'Cliff Dwellers Restaurant', cuisine:'Chef-driven roadhouse, Vermilion Cliffs', rating:'4.7★ (295)', price:'$–$$', dist:'10 min past Marble Canyon on US-89A', hours:'Breakfast 7–10 · dinner from ~5 PM (call re: afternoon)', phone:'(928) 355-2261', order:'Bison burger under the Vermilion Cliffs', menu:[['Bison burger','the star'],['Carnitas tacos','sleeper pick'],['Posole','chef’s soul food']], body:['Improbably good food in the middle of glorious nowhere. If the paddle ends near 5 PM, eat here before the drive and skip cooking a plan later.'], tip:'Likely closed mid-afternoon — if you’re off the water by 3, Lonely Jack Rabbit at Marble Canyon Lodge serves all afternoon instead.', url:'https://www.yelp.com/biz/the-cliff-dwellers-restaurant-marble-canyon', maps:'https://maps.google.com/?q=Cliff+Dwellers+Lodge+Marble+Canyon' },
+  jackrabbit: { icon:'🐇', name:'Lonely Jack Rabbit — Marble Canyon Lodge', cuisine:'Renovated 2025 roadhouse', rating:'New — renovated 2025', price:'$$', dist:'5 min from Lees Ferry Rd junction', hours:'6–10 AM &amp; 11 AM–9 PM daily', phone:'Marble Canyon Lodge', order:'The post-paddle burger — it’s the only 3 PM kitchen for 40 miles', menu:[['Burgers &amp; roadhouse plates','fresh off a full renovation'],['All-afternoon kitchen','the rare 3–5 PM option']], body:['Right at the Lees Ferry turnoff — the zero-detour refuel between takeout and the drive back to camp.'], tip:'If you’re starving at 3:30 PM, this is the answer; Cliff Dwellers is better but likely opens at 5.', url:'https://www.marblecanyonlodge.com/', maps:'https://maps.google.com/?q=Marble+Canyon+Lodge' },
+  ranchhouse: { icon:'🍳', name:'Ranch House Grille', cuisine:'Classic breakfast diner', rating:'Page’s breakfast institution', price:'$–$$', dist:'20 min from camp · downtown', hours:'Daily 6 AM–2 PM', phone:'(928) 645-1420', order:'Breakfast burrito — in for Sunday, to-go on Saturday', menu:[['Breakfast burritos','travel-proof'],['Full griddle spread','post-adventure portions']], body:['Opens at 6 AM daily. Too slow for the 6:00 canyon check-in Saturday, but the best sit-down breakfast in town any other morning.'], tip:'Sunday alternative to camp breakfast if you want a diner send-off before Zion.', url:'https://ranchhousegrille.com/', maps:'https://maps.google.com/?q=Ranch+House+Grille+Page' },
+  safeway: { icon:'🛒', name:'Safeway — 650 Elm St', cuisine:'The kayak-day quartermaster', rating:'Deli · Starbucks kiosk · ice', price:'$', dist:'20 min from camp · downtown Page', hours:'Daily 6 AM–10 PM', phone:'—', order:'Friday evening: deli sandwiches, ice, 6L water, snacks, cold brew', menu:[['Made-to-order deli subs','Saturday’s river lunch'],['Bagged ice + cooler','no food in tents — cooler lives in the car'],['Bottled cold brew','5:15 AM salvation']], body:['Nothing sells food at Lees Ferry, and camp grab-and-go opens too late Saturday. One Friday-evening run covers breakfast, lunch, and the cooler.'], tip:'Also the gas cue: fill up in Page Friday night — Saturday starts at 5:15 AM.', url:'https://local.safeway.com/safeway/az/page/650-elm-st.html', maps:'https://maps.google.com/?q=Safeway+650+Elm+St+Page+AZ' },
+  cameron: { icon:'🏺', name:'Cameron Trading Post', cuisine:'Historic Navajo trading post — est. 1916', rating:'The classic US-89 stop', price:'$$', dist:'On the drive, 1 hr south of Page', hours:'Daily 6 AM–9 PM', phone:'(928) 679-2231', order:'The Navajo taco on house-made fry bread', menu:[['Navajo taco','fry bread, beans, chile — the icon'],['Green chile stew','underrated'],['Gallery &amp; trading post','stretch-your-legs browsing']], body:['A working trading post since 1916 at the Little Colorado gorge. Friday lunch northbound (~1:30 PM), and the classic dinner stop southbound Sunday (~5:15 PM).'], tip:'The gallery upstairs is museum-grade — worth 15 minutes even when you’re road-weary.', url:'https://camerontradingpost.com/', maps:'https://maps.google.com/?q=Cameron+Trading+Post' },
+  rockingv: { icon:'🎨', name:'Rocking V Cafe — Kanab', cuisine:'Slow-food Southwestern', rating:'Kanab’s best table', price:'$$–$$$', dist:'On the Zion route, Sunday', hours:'Sun 11:30 AM–9:30 PM — reliably OPEN Sunday', phone:'(435) 644-8001', order:'Late Sunday lunch after Canyon Overlook', menu:[['Fresh trout &amp; steaks','slow-food ethos'],['Serious vegetarian plates','rare out here'],['Local art upstairs','gallery above the dining room']], body:['Kanab mostly closes on Sundays (Sego does — don’t route there). Rocking V doesn’t, and it’s the best food between Zion and home anyway. 97 W Center St.'], tip:'Hit it ~2:30 PM Utah time on the way back through — beats the 6 PM rush and sets up the drive home.', url:'https://rockingvcafe.com/', maps:'https://maps.google.com/?q=Rocking+V+Cafe+Kanab' }
+};
+
+/* Timeline days */
+const DAYS = [
+  { id:'fri', date:'2026-08-21', day:'Fri 21', label:'Arrive', head:'Chandler → the Canyon', sub:'~310 miles north · check-in opens 2:00 PM AZ (3:00 camp time) · sunset 7:11 PM', events:[
+    { t:'10:00 AM', title:'Leave Chandler', note:'I-17 north to Flagstaff, then US-89 past the Echo Cliffs. ~4¾ hrs driving — 5½ with stops. Full tank, coffee, playlist.', tags:[['maps','🗺️ Full route']], maps:'https://www.google.com/maps/dir/Chandler,+AZ/Under+Canvas+Lake+Powell-Grand+Staircase,+Big+Water,+UT' },
+    { t:'~1:30 PM', title:'Lunch — Cameron Trading Post', note:'Navajo taco on fry bread at the 1916 trading post over the Little Colorado gorge.', eat:'cameron' },
+    { t:'~3:30 PM', camp:'4:30 camp', title:'Check in — Under Canvas', note:'Stargazer tent: king bed, ensuite, telescope window. Drop bags, breathe. Remember: camp runs 1 hr ahead of your Page bookings.', tags:[['booked','✓ Conf 32688SG058962']], poi:'undercanvas', booked:true },
+    { t:'5:00 PM', title:'Page supply run — Safeway', note:'Saturday’s river lunch, ice, 6L water, snacks, cold brew for the 5:15 AM start. Gas up in Page tonight.', eat:'safeway', tags:[['hard','Do this tonight']] },
+    { t:'6:15 PM', title:'Golden hour — Horseshoe Bend Overlook', note:'$10 lot, easy 1.2-mi round trip. Sunset 7:11. (Quieter alternative: the free Dam Overlook, 5 min away.)', poi:'horseshoe' },
+    { t:'~7:45 PM', title:'Dinner in Page — easy mode', note:'Big John’s BBQ (live band till 9) or El Tapatio (open till 11). Or head back and eat at camp — kitchen serves till 9 PM AZ.', eat:'bigjohns' },
+    { t:'9:00 PM', camp:'10:00 camp', title:'Campfire, s’mores & moonlight', note:'Complimentary s’mores at the fire, then the Stargazer window: gibbous moonlight on the Grand Staircase.', poi:'stargazer' }
+  ]},
+  { id:'sat', date:'2026-08-22', day:'Sat 22', label:'Big Day', head:'Slot Canyon → the River', sub:'All times Arizona · the two hard deadlines are 6:00 AM and 9:30 AM', events:[
+    { t:'5:15 AM', title:'Leave camp — headlights on', note:'Cooler’s already packed (no food in tents anyway). 35 min to the canyon via Page and AZ-98. Cold brew from the cooler.', tags:[['hard','⏰ Hard start']] },
+    { t:'6:00 AM', title:'Check in — Dixie’s Lower Antelope', note:'The 45-minutes-early rule is firm. Green roof, QR code from email, waivers done. Leave EVERYTHING but phones, hats, water bottles in the car.', tags:[['booked','✓ #D-109970'],['hard','No bags allowed']], poi:'antelope', booked:true },
+    { t:'6:45–7:45', title:'Lower Antelope Canyon', note:'Hazdistazí — spiral rock arches. Five ladders down into the glow. 65° and nearly private at this hour.', poi:'antelope', booked:true, beam:true },
+    { t:'8:15 AM', title:'Drive to Lees Ferry', note:'US-89 S → US-89A across Navajo Bridge → Lees Ferry Rd. ~46 mi, ~55 min. $30 kiosk (ATB pass works). 9:15 arrival = comfortable.', tags:[['maps','🗺️ Route']], maps:'https://www.google.com/maps/dir/Lower+Antelope+Canyon/Lees+Ferry+Boat+Launch' },
+    { t:'9:30 AM', title:'Kayak the Colorado — check-in', note:'Park the dirt 1-day lot, meet at the floating dock. Boat leaves 10:00 SHARP — late means left behind, no refund.', tags:[['booked','✓ #368709798'],['hard','⏰ Boat waits for no one']], poi:'kayak', booked:true },
+    { t:'10:00 AM', title:'Backhaul up, paddle home', note:'~30 min motor to Petroglyph Beach (~mile 10), then ~4 hrs of drifting past Horseshoe Bend from the bottom. 47° water, PFDs on, zero cell service.', poi:'kayak', booked:true, beam:true },
+    { t:'~4:00 PM', title:'Navajo Bridge — condor stop', note:'Walk the 1929 span, 467 ft up. Scan the girders for wing tags — 9.5-ft wingspans.', poi:'navajobridge' },
+    { t:'~5:15 PM', camp:'6:15 camp', title:'Back at camp — shower & shine', note:'Hot pull-chain shower. You paddled 10 miles of the Colorado before dinner.', },
+    { t:'7:00 PM', camp:'8:00 camp', title:'🎂 Birthday dinner', fork:true },
+    { t:'~9:30 PM', camp:'10:30 camp', title:'Nightcap & moonrise', note:'Blue Bar wine flight in town, or straight to the campfire — s’mores, moonlit mesa, telescope window.', eat:'bluebar' }
+  ]},
+  { id:'sun', date:'2026-08-23', day:'Sun 23', label:'Zion', head:'Zion East → Home', sub:'Checkout 9:00 AM AZ (10:00 camp) · home in Chandler ~8:45 PM', events:[
+    { t:'7:00 AM', camp:'8:00 camp', title:'Camp breakfast — on the house', note:'Cooked-to-order, 7–10 AM camp time. Your "Breakfast On Us" $50 credit lands this morning. Pack the car first.', poi:'undercanvas' },
+    { t:'9:00 AM', camp:'10:00 camp', title:'Check out — one last look', note:'Optional 5-min stop: BLM Big Water Visitor Center — dinosaurs found in the cliffs behind camp.', poi:'bigwatervc' },
+    { t:'9:15 AM', title:'Drive to Zion — east entrance', note:'US-89 through Kanab to Mt Carmel Junction, then the climb to the east gate. ~87 mi, ~1:45. $35/vehicle (ATB pass works). No timed entry in 2026.', tags:[['maps','🗺️ Route']], maps:'https://www.google.com/maps/dir/Big+Water,+UT/Zion+National+Park+East+Entrance' },
+    { t:'11:00 AM', title:'Canyon Overlook Trail', note:'1 mi round trip to the stone porch over Pine Creek Canyon — Zion’s best short hike, no shuttle needed. Lot is tiny; circle patiently.', poi:'canyonoverlook', beam:true },
+    { t:'12:15 PM', title:'Tunnel run & Checkerboard Mesa', note:'Drive the 1930 tunnel to the switchbacks and back — gallery windows flashing canyon views. Bighorn sheep watch on the east side.', poi:'checkerboard' },
+    { t:'~1:30 PM', title:'Late lunch — Rocking V Cafe, Kanab', note:'Kanab’s best table, reliably open Sundays (Sego isn’t). 97 W Center St.', eat:'rockingv' },
+    { t:'2:45 PM', title:'The long road home', note:'Kanab → Page (gas) → Cameron → Flagstaff → Chandler. ~5¾ hrs. Trade drivers at Cameron.', tags:[['maps','🗺️ Route home']], maps:'https://www.google.com/maps/dir/Kanab,+UT/Chandler,+AZ' },
+    { t:'~5:15 PM', title:'Dinner stop — Cameron Trading Post', note:'One more Navajo taco for the road (open till 9). Or push to Flagstaff for Salsa Brava.', eat:'cameron' },
+    { t:'~8:45 PM', title:'Home — Chandler', note:'Two slot canyons, ten river miles, a national park, and a birthday. Not bad for one weekend.', tags:[] }
+  ]}
+];
+
+const FORK_OPTS = [
+  { id:'sunset89', name:'Sunset 89', meta:'Polynesian fusion · $$$ · sunset patio', badge:'4.1★ · reserve' },
+  { id:'rainbow', name:'Rainbow Room', meta:'Lake-view glass wall · $$–$$$ · 12 min home', badge:'3.7★ · OpenTable' },
+  { id:'bigjohns', name:"Big John's BBQ", meta:'Live band · picnic tables · $$', badge:'4.2★ · walk in' }
+];
+
+const HISTORY = [
+  { t:'A Town Born of the Dam (1957)', b:'Page didn’t exist before 1957. It began as a government construction camp on Manson Mesa, 600 feet above the river, acquired from the Navajo Nation in a land swap for ~24 square miles near Aneth, Utah. First called Government Camp, it was renamed for John C. Page, Reclamation commissioner in the 1930s–40s. It wasn’t incorporated until 1975 — a company town that outlived its job and became the gateway to Lake Powell.' },
+  { t:'Glen Canyon Dam & the Shrinking Lake', b:'Built 1956–1966: 710 feet of concrete arch — second in the U.S. only to Hoover’s 726 — holding back a lake that took 17 years to fill (1963–1980). Then the megadrought rewrote the story: Lake Powell hit a record-low 3,520 ft elevation in April 2023, rebounded on one big snow year, and by 2026 sits roughly 175 feet below full pool again. The dam’s cold, deep releases are why the river you’ll paddle runs 47°F through a 95° desert.' },
+  { t:'Powell: One-Armed into the Unknown (1869)', b:'John Wesley Powell lost his right forearm at Shiloh, then launched four wooden boats into the last blank space on the U.S. map on May 24, 1869 — ten men, no charts, three months of canyons. He named Glen Canyon for its fern-hung grottoes. Three men walked out days before the end and vanished; six finished. The lake that drowned his favorite canyon a century later bears his name — an irony, since Powell became the West’s great prophet of water scarcity.' },
+  { t:'Lees Ferry: Massacre, Honeymoons & Mile 0', b:'John D. Lee established the ferry in 1871 at the only drive-to-the-river spot for hundreds of miles — sent there partly to disappear, as a leader implicated in the 1857 Mountain Meadows Massacre; in 1877 he became the only person ever executed for it. His wife Emma ran the ferry after him, and Mormon couples crossed here on the "Honeymoon Trail" to be married in St. George until the ferry sank in 1928. Today it’s River Mile 0 — the legal dividing line of the Colorado, and where your kayak day begins.' },
+  { t:'Antelope Canyon: Hazdistazí & the 1997 Lesson', b:'Lower Antelope is Hazdistazí — "spiral rock arches" — on Navajo Nation land in the LeChee Chapter; every visit is Navajo-guided. Flash floods carved it, driving sand through cracks like liquid sandpaper, polishing the curves photographers chase. On August 12, 1997, a storm miles away sent a flood through under clear local skies, killing 11 tourists — the ladders, nets, and radio weather protocols you’ll see exist because of that day. The rule it taught: it doesn’t have to be raining on you to flood.' },
+  { t:'The Navajo Nation & the Vanished Power Plant', b:'Page sits nearly surrounded by the Navajo Nation — the largest reservation in the U.S. at ~27,000 square miles. From 1974 to 2019 the skyline belonged to the Navajo Generating Station, the West’s largest coal plant, whose 775-ft stacks stood taller than the dam. It closed in 2019, taking a fifth of the Nation’s government revenue with it; the stacks fell in December 2020, and the town pivoted hard to what you’re doing this weekend.' },
+  { t:'Navajo Bridge & the Condor Comeback', b:'The 1929 bridge — 834 feet of steel, 467 above the water — replaced Lees Ferry and closed the last road gap between Arizona and Utah; its 1995 twin carries today’s traffic while the original is yours to walk. In December 1996, six California condors were released atop the nearby Vermilion Cliffs; about 82 now fly wild here. With 9.5-foot wingspans, they loaf on the bridge girders — look for the wing tags under your feet.' },
+  { t:'Reading the Grand Staircase', b:'In the 1880s, geologist Clarence Dutton saw the land between the Grand Canyon and Bryce as a staircase climbing north in five colored cliff steps: Chocolate, Vermilion (behind Lees Ferry), White (Zion’s sandstone), Gray, and Pink (Bryce). Two hundred million years of Earth history, stacked in order. Your camp sits on a lower tread; Sunday’s drive to Zion climbs the White Cliffs step. The 1996 monument protecting it was the last region in the lower 48 to be mapped.' }
+];
+
+const TRIVIA = [
+  { q:'What do geologists call the process that made Horseshoe Bend?', a:'An entrenched meander', w:['A collapsed cavern','Glacier carving','An earthquake fault'], f:'The river kept its curve while the plateau rose beneath it, cutting 1,000 ft straight down.' },
+  { q:'How far does the Colorado turn at Horseshoe Bend?', a:'About 270°', w:['90°','180°','A full 360°'], f:'Three-quarters of a full circle — which is why the overlook photo needs a wide lens.' },
+  { q:'Where does Lake Powell rank among U.S. reservoirs?', a:'2nd — behind Lake Mead', w:['1st','5th','8th'], f:'The Colorado’s two giant reservoirs bracket the Grand Canyon.' },
+  { q:'Lake Powell’s shoreline at full pool is longer than…', a:'The entire U.S. West Coast', w:['Lake Tahoe’s shoreline','Route 66','The Rio Grande'], f:'~1,960 miles of coves and canyons.' },
+  { q:'How long did Lake Powell take to fill?', a:'17 years (1963–1980)', w:['18 months','5 years','40 years'], f:'And the drought has been draining that work since 2000.' },
+  { q:'How does Glen Canyon Dam compare to Hoover Dam?', a:'16 feet shorter', w:['Taller','Half as tall','Exactly the same'], f:'710 ft vs 726 ft — the second-tallest concrete arch dam in the U.S.' },
+  { q:'Roughly how far below "full" was Lake Powell in 2026?', a:'About 175 feet', w:['About 20 feet','About 500 feet','It was full'], f:'Near its record 2023 low after a weak snow year.' },
+  { q:'What was unusual about explorer John Wesley Powell?', a:'He had one arm', w:['He was blind in one eye','He couldn’t swim','He was 70 years old'], f:'Lost at Shiloh — then he ran the unmapped Colorado anyway.' },
+  { q:'How many boats did Powell launch with in 1869?', a:'Four', w:['One','Seven','Twelve'], f:'Ten men, four wooden boats, three months, six finishers.' },
+  { q:'A California condor’s wingspan is about…', a:'9.5 feet', w:['4 feet','6 feet','15 feet'], f:'North America’s largest land bird — check the Navajo Bridge girders.' },
+  { q:'How many condors were in the first 1996 Vermilion Cliffs release?', a:'Six', w:['One','25','60'], f:'About 82 fly wild in the region today.' },
+  { q:'Which sci-fi classic filmed its opening spacecraft crash on Lake Powell?', a:'Planet of the Apes (1968)', w:['Star Wars','2001: A Space Odyssey','Close Encounters'], f:'The astronauts trekked through Glen Canyon’s shoreline.' },
+  { q:'The riverboat-poker finale of Maverick (1994) was filmed…', a:'On Lake Powell', w:['On the Mississippi','In a studio tank','On Lake Mead'], f:'At Lone Rock and Warm Creek Bay — set pieces ended up in Big Water.' },
+  { q:'What now occupies the Broken Arrow (1996) shoot-out location?', a:'The Amangiri luxury resort', w:['A marina','A solar farm','A movie museum'], f:'Travolta’s canyon is now $3,000-a-night suites, 25 min from your tent.' },
+  { q:'"Wahweap" comes from the Southern Paiute for…', a:'Bitter water', w:['Big canyon','Red rock','Fast river'], f:'Named for the alkaline seeps of Wahweap Creek.' },
+  { q:'What was Big Water, Utah called before 1983?', a:'Glen Canyon City', w:['Powellville','Wahweap Flats','Damtown'], f:'Renamed under its famously unconventional mayor, Alex Joseph.' },
+  { q:'How many dinosaur species from Grand Staircase-Escalante are found nowhere else on Earth?', a:'At least 15', w:['Zero','Two','More than 100'], f:'Including the tyrannosaur Teratophoneus — "monstrous murderer." See them at the Big Water Visitor Center.' },
+  { q:'A Grand Staircase fossil site suggested tyrannosaurs may have…', a:'Hunted in packs', w:['Swum oceans','Been vegetarian','Lived in caves'], f:'Multiple tyrannosaurs died together at a Kaiparowits site.' },
+  { q:'What carves slot canyons like Antelope?', a:'Flash floods carrying abrasive sand', w:['Wind alone','Glaciers','Acidic groundwater'], f:'Liquid sandpaper, a few violent minutes at a time.' },
+  { q:'The deadly 1997 Antelope Canyon flood happened while the sky overhead was…', a:'Clear and sunny', w:['A hurricane','Snowing','Hailing'], f:'The storm was miles upstream — the lesson behind every modern slot-canyon protocol.' },
+  { q:'How cold is the Colorado just below Glen Canyon Dam in summer?', a:'About 47°F', w:['About 80°F','About 33°F','Same as the lake surface'], f:'Released from 230 ft down — desert trout water. You’ll feel it Saturday.' },
+  { q:'What was the tallest structure in Page before 2020?', a:'The power plant smokestacks', w:['Glen Canyon Dam','The water tower','Navajo Bridge'], f:'775 ft — taller than the dam. Demolished December 2020.' }
+];
+
+const SPOT = [
+  ['🦅','California condor'], ['🐏','Bighorn sheep'], ['🐴','Wild horses'], ['🎨','Petroglyph panel'],
+  ['🐟','Trout in clear water'], ['🪿','Great blue heron'], ['✨','Light beam in the slot'], ['⏳','Falling sand curtain'],
+  ['🍄','A hoodoo'], ['🌙','Moonrise over the mesa'], ['🌠','Shooting star'], ['🌵','Prickly pear in fruit'],
+  ['🚣','Another paddler’s wave'], ['🌮','Navajo taco'], ['🔥','Perfect s’more'], ['🥶','The 47° toe dip']
+];
+
+const PACK = [
+  { icon:'🛶', cat:'River Day', items:[
+    ['Dry bag','phones, keys, kayak QR tickets'],
+    ['Teton hydration packs (blue & red)','arriving Tuesday — the river daypacks'],
+    ['Water shoes or strap-on sandals','they WILL get wet'],
+    ['Sun shirts / SPF hoodies','sunscreen isn’t enough out there'],
+    ['Hats with chin straps + sunglasses retainer','canyon wind is real'],
+    ['SPF 50 + lip SPF','reapply at the petroglyph stop'],
+    ['3L water per person','plus electrolytes'],
+    ['Cooler lunch from Safeway','nothing is sold at Lees Ferry'],
+    ['Light layer','cold air rides the 47° water in the shade'],
+    ['Phone lanyard','the river keeps what it catches'],
+    ['Small quick-dry towel','for the inevitable toe dip']
+  ]},
+  { icon:'🏜️', cat:'Slot Canyon (6 AM)', items:[
+    ['Closed-toe shoes','required for the ladders'],
+    ['Light jacket','65° before sunrise'],
+    ['Phones charged','no bags, no GoPros — pockets only'],
+    ['Water bottle','the one thing allowed in hand'],
+    ['QR ticket in wallet app','loaded before you leave WiFi']
+  ]},
+  { icon:'⛺', cat:'Camp Luxe', items:[
+    ['Power bank + USB-A and USB-C cables','tents have USB ports only, no outlets'],
+    ['Headlamp or flashlight','the path to the fire pit is dark'],
+    ['Layers for 70° nights','desert drops fast after sunset'],
+    ['Rain shell','peak monsoon — brief, violent, gone'],
+    ['Swimsuits','Lone Rock or The Chains'],
+    ['Blanket for stargazing deck','the Stargazer window is the backup'],
+    ['Earplugs','canyon wind flaps canvas'],
+    ['NO food in tents','cooler lives in the car — camp rule']
+  ]},
+  { icon:'🗂️', cat:'Docs & Money', items:[
+    ['Both QR tickets in Google Wallet','Dixie’s + Kayak the Colorado'],
+    ['Kayak waivers','signed for both ✓ — done Aug 2'],
+    ['Dixie’s hiking waiver','sign online before Friday!'],
+    ['America the Beautiful pass','or $30 (Lees Ferry) + $35 (Zion)'],
+    ['Cash / Venmo for guide tips','canyon guide + boat captain'],
+    ['Under Canvas confirmation','#32688SG058962'],
+    ['IDs + the birthday card you almost forgot','🎂']
+  ]},
+  { icon:'📲', cat:'Before You Leave', items:[
+    ['Open this app on both phones','it caches itself — no WiFi at camp'],
+    ['Offline maps: Page, Lees Ferry, Kanab, Zion','no signal on the river or half of US-89'],
+    ['Playlists + podcasts downloaded','~10 hrs total driving'],
+    ['Gas up in Page Friday night','Saturday starts at 5:15 AM'],
+    ['Tell someone the Saturday plan','no cell service on the river corridor']
+  ]}
+];
+
+/* ═════════ Generic builders ═════════ */
+function el(tag, cls, text){
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(text !== undefined && text !== null) n.textContent = text;
+  return n;
+}
+
+/* ═════════ Modal sheet ═════════ */
+const sheet = document.getElementById('sheet');
+const backdrop = document.getElementById('sheet-backdrop');
+function closeSheet(){
+  sheet.classList.remove('show');
+  backdrop.classList.remove('show');
+  document.body.style.overflow = '';
+}
+backdrop.addEventListener('click', closeSheet);
+
+function openDetail(data, kind){
+  sheet.textContent = '';
+  const closeBtn = el('button','sh-close','✕');
+  closeBtn.setAttribute('aria-label','Close');
+  closeBtn.addEventListener('click', closeSheet);
+  sheet.appendChild(closeBtn);
+  sheet.appendChild(el('div','sheet-grab'));
+  sheet.appendChild(el('div','sh-icon', data.icon));
+  sheet.appendChild(el('div','sh-title', data.name));
+  sheet.appendChild(el('div','sh-tagline', kind==='eat' ? (data.cuisine + ' · ' + data.price) : data.tagline));
+
+  const facts = el('div','sh-facts');
+  const factRows = kind==='eat'
+    ? [['Rating',data.rating],['Distance',data.dist],['Hours',data.hours],['Contact',data.phone]]
+    : data.facts;
+  factRows.forEach(([k,v])=>{
+    const f = el('div','sh-fact');
+    f.appendChild(el('div','fk',k));
+    f.appendChild(el('div','fv', String(v).replace(/&amp;/g,'&')));
+    facts.appendChild(f);
+  });
+  sheet.appendChild(facts);
+
+  if(kind==='eat' && data.order){
+    const o = el('div','sh-tip');
+    o.textContent = '✦ The move: ' + data.order;
+    sheet.appendChild(o);
+  }
+  if(data.menu){
+    const m = el('div','sh-menu');
+    data.menu.forEach(([n,d])=>{
+      const row = el('div','m-item');
+      row.appendChild(el('span',null,String(n).replace(/&amp;/g,'&')));
+      row.appendChild(el('span',null,d));
+      m.appendChild(row);
+    });
+    sheet.appendChild(m);
+  }
+  if(data.body){
+    const b = el('div','sh-body');
+    data.body.forEach(p=> b.appendChild(el('p',null,p)));
+    sheet.appendChild(b);
+  }
+  if(data.tip){
+    const t = el('div','sh-tip','✦ ' + data.tip);
+    sheet.appendChild(t);
+  }
+  const actions = el('div','sh-actions');
+  if(data.maps){
+    const a = el('a','btn','🗺️ Google Maps');
+    a.href = data.maps; a.target = '_blank'; a.rel = 'noopener';
+    actions.appendChild(a);
+  }
+  if(data.url){
+    const a = el('a','btn ghost','Website ↗');
+    a.href = data.url; a.target = '_blank'; a.rel = 'noopener';
+    actions.appendChild(a);
+  }
+  sheet.appendChild(actions);
+  backdrop.classList.add('show');
+  sheet.classList.add('show');
+  sheet.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function openPoi(id){ if(POI[id]) openDetail(POI[id],'poi'); }
+function openEat(id){ if(EAT[id]) openDetail(EAT[id],'eat'); }
+
+/* ═════════ Days section ═════════ */
+function buildDays(){
+  const sec = document.getElementById('section-days');
+  sec.textContent = '';
+
+  /* bookings strip */
+  const bk = el('div','strip');
+  const bkHead = el('div','strip-head');
+  bkHead.appendChild(el('span','s-icon','🎟️'));
+  bkHead.appendChild(el('span','s-title','Reservations & confirmations'));
+  bkHead.appendChild(el('span','s-count', BOOKINGS.length + ' booked'));
+  bkHead.appendChild(el('span','s-arrow','▾'));
+  bkHead.addEventListener('click',()=> bk.classList.toggle('open'));
+  bk.appendChild(bkHead);
+  const bkBody = el('div','strip-body');
+  BOOKINGS.forEach(b=>{
+    const row = el('div','bk-row');
+    row.appendChild(el('span','bk-icon',b.icon));
+    const main = el('div','bk-main');
+    main.appendChild(el('div','bk-name',b.name));
+    main.appendChild(el('div','bk-det',b.det.replace(/&amp;/g,'&')));
+    main.appendChild(el('div','bk-conf',b.conf.replace(/&amp;/g,'&')));
+    row.appendChild(main);
+    bkBody.appendChild(row);
+  });
+  bk.appendChild(bkBody);
+  sec.appendChild(bk);
+
+  /* todos strip */
+  const todoState = store.get('pg26-todos', {});
+  const td = el('div','strip');
+  const openCount = TODOS.filter(t=>!todoState[t.id]).length;
+  const tdHead = el('div','strip-head');
+  tdHead.appendChild(el('span','s-icon','📝'));
+  tdHead.appendChild(el('span','s-title','Before-you-go checklist'));
+  const tdCount = el('span','s-count', openCount ? openCount + ' open' : 'all done ✓');
+  tdHead.appendChild(tdCount);
+  tdHead.appendChild(el('span','s-arrow','▾'));
+  tdHead.addEventListener('click',()=> td.classList.toggle('open'));
+  td.appendChild(tdHead);
+  const tdBody = el('div','strip-body');
+  TODOS.forEach(t=>{
+    const row = el('div','todo-row' + (todoState[t.id] ? ' done':''));
+    const cb = document.createElement('input');
+    cb.type = 'checkbox'; cb.checked = !!todoState[t.id];
+    cb.addEventListener('change',()=>{
+      const s = store.get('pg26-todos', {});
+      s[t.id] = cb.checked; store.set('pg26-todos', s);
+      row.classList.toggle('done', cb.checked);
+      const open = TODOS.filter(x=>!s[x.id]).length;
+      tdCount.textContent = open ? open + ' open' : 'all done ✓';
+    });
+    row.appendChild(cb);
+    const main = el('div');
+    main.appendChild(el('div','t-label',t.label));
+    if(t.sub){
+      const sub = el('div','t-sub',t.sub);
+      main.appendChild(sub);
+    }
+    if(t.url){
+      const a = el('a','t-sub','Open link ↗');
+      a.href = t.url; a.target='_blank'; a.rel='noopener';
+      main.appendChild(a);
+    }
+    row.appendChild(main);
+    tdBody.appendChild(row);
+  });
+  td.appendChild(tdBody);
+  sec.appendChild(td);
+
+  /* day tabs */
+  const bar = el('div','daybar');
+  const holder = el('div');
+  const today = azTodayStr();
+  DAYS.forEach((d,i)=>{
+    const b = el('button','daytab');
+    b.appendChild(el('span','d-day',d.day));
+    b.appendChild(el('span','d-label',d.label));
+    if(d.date === today) b.appendChild(el('span','today-dot','today'));
+    b.addEventListener('click',()=>{
+      bar.querySelectorAll('.daytab').forEach(t=>t.classList.remove('active'));
+      b.classList.add('active');
+      renderDay(d, holder);
+    });
+    bar.appendChild(b);
+  });
+  sec.appendChild(bar);
+  sec.appendChild(holder);
+
+  /* default: today if in-trip, else Friday */
+  let idx = DAYS.findIndex(d=>d.date === today);
+  if(idx < 0) idx = 0;
+  bar.children[idx].classList.add('active');
+  renderDay(DAYS[idx], holder);
+}
+
+function renderDay(d, holder){
+  holder.textContent = '';
+  holder.appendChild(el('h3','day-head',d.head));
+  holder.appendChild(el('p','day-sub',d.sub));
+  const tl = el('div','timeline');
+  d.events.forEach(ev=>{
+    if(ev.fork){ tl.appendChild(renderFork(ev)); return; }
+    const tappable = ev.poi || ev.eat;
+    const card = el('div','ev' + (ev.booked?' booked':'') + (ev.beam?' beam':'') + (tappable?' tappable':''));
+    const time = el('div','ev-time',ev.t);
+    if(ev.camp) time.appendChild(el('span','ev-camp','(' + ev.camp + ')'));
+    card.appendChild(time);
+    const title = el('div','ev-title',ev.title);
+    if(tappable) title.appendChild(el('span','more','›'));
+    card.appendChild(title);
+    if(ev.note) card.appendChild(el('div','ev-note',ev.note));
+    const tags = el('div','tags');
+    let hasTags = false;
+    (ev.tags||[]).forEach(([cls,label])=>{
+      hasTags = true;
+      if(cls==='maps' && ev.maps){
+        const a = el('a','tag maps',label);
+        a.href = ev.maps; a.target='_blank'; a.rel='noopener';
+        a.addEventListener('click',e=>e.stopPropagation());
+        tags.appendChild(a);
+      } else {
+        tags.appendChild(el('span','tag '+cls,label));
+      }
+    });
+    if(hasTags) card.appendChild(tags);
+    if(tappable){
+      card.addEventListener('click',()=>{ if(ev.poi) openPoi(ev.poi); else openEat(ev.eat); });
+    }
+    tl.appendChild(card);
+  });
+  holder.appendChild(tl);
+}
+
+function renderFork(ev){
+  const f = el('div','fork');
+  const time = el('div','ev-time',ev.t);
+  if(ev.camp) time.appendChild(el('span','ev-camp','(' + ev.camp + ')'));
+  f.appendChild(time);
+  f.appendChild(el('h3',null,'🎂 Birthday dinner — pick your table'));
+  f.appendChild(el('p',null,'Tap a name for the full menu, ratings & booking info. Tap the circle to lock in the pick.'));
+  const chosen = store.get('pg26-dinner', null);
+  FORK_OPTS.forEach(o=>{
+    const row = el('div','fork-opt' + (chosen===o.id?' chosen':''));
+    const pick = el('div','fo-pick', chosen===o.id ? '✓' : '');
+    pick.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const cur = store.get('pg26-dinner', null);
+      const next = cur===o.id ? null : o.id;
+      store.set('pg26-dinner', next);
+      f.parentNode.replaceChild(renderFork(ev), f);
+    });
+    row.appendChild(pick);
+    const main = el('div','fo-main');
+    main.appendChild(el('div','fo-name',o.name));
+    main.appendChild(el('div','fo-meta',o.meta));
+    row.appendChild(main);
+    row.appendChild(el('div','fo-badge',o.badge));
+    row.addEventListener('click',()=> openEat(o.id));
+    f.appendChild(row);
+  });
+  const chosenOpt = FORK_OPTS.find(o=>o.id===chosen);
+  f.appendChild(el('div','fork-note', chosenOpt
+    ? '✓ ' + chosenOpt.name + ' it is — remember to book the table.'
+    : 'Reservations: Sunset 89 (928) 660-7716 · Rainbow Room on OpenTable. Book before Friday.'));
+  return f;
+}
+
+/* ═════════ Explore section ═════════ */
+function buildExplore(){
+  const sec = document.getElementById('section-explore');
+  sec.textContent = '';
+  const head = el('div','sec-head');
+  head.appendChild(el('div','eyebrow','Points of Interest'));
+  head.appendChild(el('h2',null,'Explore'));
+  head.appendChild(el('p',null,'Every stop researched for this exact weekend. Tap anything for details, costs, hours, and map links.'));
+  sec.appendChild(head);
+
+  const groups = [
+    ['The Anchors', ['antelope','kayak','undercanvas']],
+    ['Around Page', ['horseshoe','damoverlook','visitorcenter','navajobridge','powelldays']],
+    ['Near Camp — Big Water side', ['wahweapview','lonerock','chains','toadstool','bigwatervc','stargazer']],
+    ['Zion Day — Sunday', ['canyonoverlook','checkerboard']]
+  ];
+  groups.forEach(([label, ids])=>{
+    sec.appendChild(el('div','group-label',label));
+    ids.forEach(id=>{
+      const p = POI[id];
+      const row = el('div','poi');
+      const ic = el('div','p-icon',p.icon);
+      row.appendChild(ic);
+      const main = el('div','p-main');
+      main.appendChild(el('div','p-name',p.name));
+      main.appendChild(el('div','p-tag',p.tagline));
+      row.appendChild(main);
+      row.appendChild(el('span','p-chev','›'));
+      row.addEventListener('click',()=> openPoi(id));
+      sec.appendChild(row);
+    });
+  });
+
+  /* field guide */
+  sec.appendChild(el('div','group-label','Field Guide — the stories'));
+  HISTORY.forEach(h=>{
+    const fg = el('div','fg');
+    const fgHead = el('div','fg-head');
+    fgHead.appendChild(el('div','f-title',h.t));
+    fgHead.appendChild(el('span','f-arrow','▾'));
+    fgHead.addEventListener('click',()=> fg.classList.toggle('open'));
+    fg.appendChild(fgHead);
+    fg.appendChild(el('div','fg-body',h.b));
+    sec.appendChild(fg);
+  });
+}
+
+/* ═════════ Dining section ═════════ */
+function buildDining(){
+  const sec = document.getElementById('section-dining');
+  sec.textContent = '';
+  const head = el('div','sec-head');
+  head.appendChild(el('div','eyebrow','Eat & Drink'));
+  head.appendChild(el('h2',null,'Dining'));
+  head.appendChild(el('p',null,'Verified open for Aug 21–23, 2026. Heads-up: State 48 Tavern closed permanently in Dec 2025 — ignore older lists.'));
+  sec.appendChild(head);
+
+  const groups = [
+    ['🎂 The Birthday Three', ['sunset89','rainbow','bigjohns']],
+    ['Casual Page', ['birdhouse','eltapatio','bonkers','bluebar']],
+    ['Marble Canyon — post-kayak', ['cliffdwellers','jackrabbit']],
+    ['Breakfast & Supplies', ['ranchhouse','safeway']],
+    ['On the Road', ['cameron','rockingv']]
+  ];
+  groups.forEach(([label, ids])=>{
+    sec.appendChild(el('div','group-label',label));
+    ids.forEach(id=>{
+      const e = EAT[id];
+      const row = el('div','poi');
+      row.appendChild(el('div','p-icon',e.icon));
+      const main = el('div','p-main');
+      main.appendChild(el('div','p-name',e.name));
+      main.appendChild(el('div','p-tag',e.cuisine));
+      row.appendChild(main);
+      const side = el('div','p-side');
+      side.appendChild(el('div','p-rating',e.rating.split(' ')[0]));
+      side.appendChild(el('div','p-dist',e.price));
+      row.appendChild(side);
+      row.appendChild(el('span','p-chev','›'));
+      row.addEventListener('click',()=> openEat(id));
+      sec.appendChild(row);
+    });
+  });
+}
+
+/* ═════════ Games section ═════════ */
+let tqOrder = [], tqIdx = 0, tqScore = 0;
+function buildGames(){
+  const sec = document.getElementById('section-games');
+  sec.textContent = '';
+  const head = el('div','sec-head');
+  head.appendChild(el('div','eyebrow','No WiFi Required'));
+  head.appendChild(el('h2',null,'Campfire Games'));
+  head.appendChild(el('p',null,'Everything works offline — built for the fire pit and the long drives.'));
+  sec.appendChild(head);
+
+  /* trivia */
+  const tq = el('div','game-card');
+  tq.id = 'trivia-card';
+  tq.appendChild(el('h3',null,'Canyon Trivia'));
+  const best = store.get('pg26-trivia-best', null);
+  tq.appendChild(el('p','g-sub','22 questions about the place you’re sleeping in.' + (best!==null ? ' Best so far: ' + best + '/22.' : '')));
+  const startBtn = el('button','btn','Deal the questions');
+  startBtn.addEventListener('click',()=> startTrivia(tq));
+  tq.appendChild(startBtn);
+  sec.appendChild(tq);
+
+  /* spotter */
+  const sp = el('div','game-card');
+  sp.appendChild(el('h3',null,'Canyon Spotter'));
+  const spotState = store.get('pg26-spot', {});
+  const found = Object.values(spotState).filter(Boolean).length;
+  const spSub = el('p','g-sub', 'Sixteen things this weekend might show you. Tap when spotted — ' + found + '/16 so far.');
+  sp.appendChild(spSub);
+  const grid = el('div','spot-grid');
+  SPOT.forEach(([emoji,label],i)=>{
+    const cell = el('div','spot' + (spotState[i]?' found':''));
+    cell.appendChild(el('div','sp-emoji',emoji));
+    cell.appendChild(el('div','sp-label',label));
+    cell.addEventListener('click',()=>{
+      const s = store.get('pg26-spot', {});
+      s[i] = !s[i]; store.set('pg26-spot', s);
+      cell.classList.toggle('found', !!s[i]);
+      const n = Object.values(s).filter(Boolean).length;
+      spSub.textContent = 'Sixteen things this weekend might show you. Tap when spotted — ' + n + '/16 so far.';
+    });
+    grid.appendChild(cell);
+  });
+  sp.appendChild(grid);
+  sec.appendChild(sp);
+
+  /* journal */
+  const jn = el('div','game-card');
+  jn.appendChild(el('h3',null,'Trip Journal'));
+  jn.appendChild(el('p','g-sub','One honest line per day. Future-you says thanks.'));
+  const notes = store.get('pg26-notes', {});
+  DAYS.forEach(d=>{
+    jn.appendChild(el('div','notes-label', d.day + ' — ' + d.label));
+    const ta = document.createElement('textarea');
+    ta.className = 'notes-area';
+    ta.placeholder = 'Best moment, best bite, the thing you’ll forget if you don’t write it down…';
+    ta.value = notes[d.id] || '';
+    ta.addEventListener('input',()=>{
+      const n = store.get('pg26-notes', {});
+      n[d.id] = ta.value; store.set('pg26-notes', n);
+    });
+    jn.appendChild(ta);
+  });
+  sec.appendChild(jn);
+}
+
+function startTrivia(card){
+  tqOrder = TRIVIA.map((_,i)=>i);
+  for(let i=tqOrder.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [tqOrder[i],tqOrder[j]]=[tqOrder[j],tqOrder[i]]; }
+  tqIdx = 0; tqScore = 0;
+  renderTriviaQ(card);
+}
+function renderTriviaQ(card){
+  card.textContent = '';
+  card.appendChild(el('h3',null,'Canyon Trivia'));
+  if(tqIdx >= tqOrder.length){
+    const best = store.get('pg26-trivia-best', 0) || 0;
+    if(tqScore > best) store.set('pg26-trivia-best', tqScore);
+    card.appendChild(el('div','tq-score', tqScore + ' / ' + tqOrder.length));
+    card.appendChild(el('p','g-sub', tqScore > best ? 'New best — the canyon is impressed.' : 'Best: ' + Math.max(best,tqScore) + '/22. The river remembers.'));
+    const again = el('button','btn','Run it back');
+    again.addEventListener('click',()=> startTrivia(card));
+    card.appendChild(again);
+    return;
+  }
+  const q = TRIVIA[tqOrder[tqIdx]];
+  card.appendChild(el('div','tq-progress','Question ' + (tqIdx+1) + ' of ' + tqOrder.length + ' · score ' + tqScore));
+  card.appendChild(el('div','tq-q',q.q));
+  const opts = [q.a, ...q.w];
+  for(let i=opts.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [opts[i],opts[j]]=[opts[j],opts[i]]; }
+  let answered = false;
+  opts.forEach(o=>{
+    const b = el('button','tq-opt',o);
+    b.addEventListener('click',()=>{
+      if(answered) return;
+      answered = true;
+      if(o === q.a){ b.classList.add('correct'); tqScore++; }
+      else {
+        b.classList.add('wrong');
+        card.querySelectorAll('.tq-opt').forEach(x=>{ if(x.textContent === q.a) x.classList.add('correct'); });
+      }
+      const fact = el('div','tq-fact','✦ ' + q.f);
+      const next = el('button','btn', tqIdx+1 < tqOrder.length ? 'Next →' : 'Finish');
+      next.addEventListener('click',()=>{ tqIdx++; renderTriviaQ(card); });
+      card.appendChild(fact);
+      card.appendChild(next);
+    });
+    card.appendChild(b);
+  });
+}
+
+/* ═════════ Pack section ═════════ */
+function buildPack(){
+  const sec = document.getElementById('section-pack');
+  sec.textContent = '';
+  const head = el('div','sec-head');
+  head.appendChild(el('div','eyebrow','The Kit'));
+  head.appendChild(el('h2',null,'Packing List'));
+  sec.appendChild(head);
+
+  const state = store.get('pg26-pack', {});
+  const total = PACK.reduce((n,c)=>n+c.items.length,0);
+  const done = Object.values(state).filter(Boolean).length;
+  const prog = el('p','pack-progress');
+  const progB = el('b', null, done + ' of ' + total);
+  prog.appendChild(progB);
+  prog.appendChild(document.createTextNode(' packed — the river rewards the prepared.'));
+  sec.appendChild(prog);
+
+  PACK.forEach((catObj, ci)=>{
+    const cat = el('div','pk-cat' + (ci===0 ? ' open':''));
+    const catState = ()=> store.get('pg26-pack', {});
+    const countDone = ()=> catObj.items.filter((_,i)=> catState()['p'+ci+'-'+i]).length;
+    const headRow = el('div','pk-head');
+    headRow.appendChild(el('span','s-icon',catObj.icon));
+    headRow.appendChild(el('span','k-title',catObj.cat));
+    const kc = el('span','k-count', countDone() + '/' + catObj.items.length);
+    headRow.appendChild(kc);
+    headRow.appendChild(el('span','k-arrow','▾'));
+    headRow.addEventListener('click',()=> cat.classList.toggle('open'));
+    cat.appendChild(headRow);
+    const body = el('div','pk-body');
+    catObj.items.forEach(([label,note],i)=>{
+      const key = 'p'+ci+'-'+i;
+      const row = el('div','pk-row' + (state[key]?' done':''));
+      const cb = document.createElement('input');
+      cb.type='checkbox'; cb.id='pk-'+key; cb.checked = !!state[key];
+      cb.addEventListener('change',()=>{
+        const s = store.get('pg26-pack', {});
+        s[key] = cb.checked; store.set('pg26-pack', s);
+        row.classList.toggle('done', cb.checked);
+        kc.textContent = countDone() + '/' + catObj.items.length;
+        const dn = Object.values(s).filter(Boolean).length;
+        progB.textContent = dn + ' of ' + total;
+      });
+      row.appendChild(cb);
+      const lab = document.createElement('label');
+      lab.htmlFor = 'pk-'+key;
+      lab.appendChild(document.createTextNode(label));
+      if(note){
+        lab.appendChild(document.createElement('br'));
+        const s = el('span','pk-note',note);
+        lab.appendChild(s);
+      }
+      row.appendChild(lab);
+      body.appendChild(row);
+    });
+    cat.appendChild(body);
+    sec.appendChild(cat);
+  });
+
+  const foot = el('div','footer-note');
+  foot.appendChild(document.createTextNode('Canyon Light · built for Kat’s birthday'));
+  foot.appendChild(document.createElement('br'));
+  foot.appendChild(document.createTextNode('works fully offline · Arizona time throughout'));
+  sec.appendChild(foot);
+}
+
+/* ═════════ Bottom nav ═════════ */
+const NAV = [
+  ['days','🗓️','Days'], ['explore','🧭','Explore'], ['dining','🍽️','Dining'], ['games','🔥','Games'], ['pack','🎒','Pack']
+];
+function buildNav(){
+  const nav = document.getElementById('bottomnav');
+  NAV.forEach(([id,icon,label],i)=>{
+    const b = el('button','nav-btn' + (i===0?' active':''));
+    b.appendChild(el('span','n-icon',icon));
+    b.appendChild(el('span','n-label',label));
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+      document.getElementById('section-'+id).classList.add('active');
+      window.scrollTo({top:0, behavior:'instant'});
+      closeSheet();
+    });
+    nav.appendChild(b);
+  });
+}
+
+/* ═════════ Countdown ═════════ */
+function renderCountdown(){
+  const n = daysUntil('2026-08-21');
+  const num = document.getElementById('cd-num');
+  const label = document.getElementById('cd-label');
+  const today = azTodayStr();
+  const dayIdx = DAYS.findIndex(d=>d.date===today);
+  if(dayIdx >= 0){
+    num.textContent = dayIdx+1;
+    label.textContent = 'day ' + (dayIdx+1) + ' of 3 — ' + DAYS[dayIdx].label;
+  } else if(n > 0){
+    num.textContent = n;
+    label.textContent = n === 1 ? 'day to go' : 'days to go';
+  } else {
+    num.textContent = '✓';
+    label.textContent = 'the canyon remembers you';
+  }
+}
+
+/* ═════════ Boot ═════════ */
+buildNav();
+buildDays();
+buildExplore();
+buildDining();
+buildGames();
+buildPack();
+renderCountdown();
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+</script>
+</body>
+</html>
