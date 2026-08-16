@@ -1,5 +1,5 @@
 /* Canyon Light service worker — cache-first for full offline use at camp (no WiFi). */
-const CACHE = 'pg26-v3';
+const CACHE = 'pg26-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -8,7 +8,10 @@ const ASSETS = [
   './icon-512.png',
   './icon-maskable-192.png',
   './icon-maskable-512.png',
-  './apple-touch-icon.png'
+  './apple-touch-icon.png',
+  './dixies-qr.png',
+  './kayak-qr-1.png',
+  './kayak-qr-2.png'
 ];
 
 self.addEventListener('install', (e) => {

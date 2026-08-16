@@ -145,6 +145,38 @@
   .bk-name{font-weight:500;font-size:.92rem}
   .bk-det{font-size:.78rem;color:var(--muted);line-height:1.5}
   .bk-conf{font-size:.72rem;color:var(--lake);letter-spacing:.05em}
+  /* tickets — quick access + full-screen QR */
+  .tix-strip{border-color:var(--gold);background:linear-gradient(180deg,#fffdf7,var(--card))}
+  .tix-strip .s-title{color:var(--maroon)}
+  .tix-row{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line-soft)}
+  .tix-row:last-child{border-bottom:none}
+  .tix-main{flex:1;min-width:0}
+  .tix-name{font-weight:500;font-size:.92rem}
+  .tix-when{font-size:.76rem;color:var(--muted);line-height:1.5}
+  .tix-btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;flex-shrink:0;
+    min-height:44px;padding:8px 16px;border-radius:999px;cursor:pointer;
+    font-family:'Jost',sans-serif;font-size:.74rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--navy);color:#fff;border:none;box-shadow:0 4px 12px rgba(46,66,98,.22);
+  }
+  .tix-note{font-size:.74rem;color:var(--muted);line-height:1.6;padding:10px 0 2px}
+  /* full-screen ticket: plain white, max contrast for the scanner */
+  .tv{
+    display:none;position:fixed;inset:0;z-index:200;background:#fff;overflow-y:auto;
+    padding:calc(20px + var(--safe-top)) 18px calc(24px + var(--safe-bot));
+    flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  }
+  .tv.show{display:flex}
+  .tv-vendor{font-family:'Jost',sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#666}
+  .tv-act{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:#111;margin:2px 0 4px;line-height:1.2}
+  .tv-when{font-size:.9rem;color:#333;margin-bottom:14px}
+  /* no image-rendering:pixelated — non-integer downscale of a QR breaks the module grid for scanners */
+  .tv-img{width:min(78vw,400px);height:auto;display:block;border:1px solid #eee;border-radius:8px;background:#fff}
+  .tv-meta{margin-top:14px;font-size:.82rem;color:#333;line-height:1.7}
+  .tv-meta b{color:#111;letter-spacing:.04em}
+  .tv-tip{margin-top:12px;font-size:.72rem;color:#777;max-width:320px;line-height:1.6}
+  .tv-close{margin-top:20px;min-height:46px;padding:10px 30px;border-radius:999px;border:1px solid #ccc;
+    background:#111;color:#fff;font-family:'Jost',sans-serif;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
   .todo-row{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line-soft);min-height:44px}
   .todo-row:last-child{border-bottom:none}
   .todo-row input{width:20px;height:20px;accent-color:var(--navy);margin-top:2px;flex-shrink:0}
@@ -341,6 +373,7 @@
 
 <div class="sheet-backdrop" id="sheet-backdrop"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+<div class="tv" id="ticket-view" role="dialog" aria-modal="true" aria-label="Check-in ticket"></div>
 
 <nav class="bottomnav" id="bottomnav" aria-label="App sections"></nav>
 
@@ -375,10 +408,31 @@ const BOOKINGS = [
   { icon:'🛶', name:'Kayak the Colorado — Backhaul Taxi + Tandem Kayak', det:'Sat Aug 22 · 10:00 AM from Lees Ferry · arrive 9:30 · boat leaves ON TIME · waivers signed for both ✓', conf:'Bookings #368709798 &amp; #368709800 · (435) 275-2925' }
 ];
 
+/* Scannable check-in tickets — images cached offline by sw.js.
+   Sources: Dixie's booking confirmation + FareHarbor ticket page (Drive: "Page, AZ"). */
+const TICKETS = [
+  { id:'dixie', vendor:'Dixie’s Lower Antelope Canyon Tours', act:'Lower Antelope Canyon',
+    when:'Sat Aug 22 · 6:45 AM tour · be there 6:00', img:'dixies-qr.png',
+    name:'Christopher Ortiz', conf:'Booking #D-109970', extra:'2 adults · Adult (8 & up)',
+    tip:'Green roof on Indian Route 222 off AZ-98. Phones, hats and water bottles only — every bag stays in the car.' },
+  { id:'kayak1', vendor:'Kayak the Colorado', act:'Backhaul Taxi — Guest 1 of 2',
+    when:'Sat Aug 22 · 10:00 AM · be there 9:30', img:'kayak-qr-1.png',
+    name:'Christopher Ortiz', conf:'Booking #368709798', extra:'Order #GBRSYG · tandem kayak #368709800',
+    tip:'Floating dock at the Lees Ferry launch, past the bathrooms in the dirt 1-day lot. The boat leaves at 10:00 sharp.' },
+  { id:'kayak2', vendor:'Kayak the Colorado', act:'Backhaul Taxi — Guest 2 of 2',
+    when:'Sat Aug 22 · 10:00 AM · be there 9:30', img:'kayak-qr-2.png',
+    name:'Christopher Ortiz', conf:'Booking #368709798', extra:'Order #GBRSYG · tandem kayak #368709800',
+    tip:'Second guest ticket — Kat’s. Both codes get scanned at the dock.' },
+  { id:'uc', vendor:'Under Canvas Lake Powell', act:'Stargazer Tent — no QR needed',
+    when:'Fri Aug 21 → Sun Aug 23 · check in from 3 PM camp time', img:null,
+    name:'Christopher Ortiz', conf:'Conf #32688SG058962', extra:'2 adults · Breakfast On Us rate · $883.12 paid',
+    tip:'Front desk checks you in by name and confirmation number — show them this screen.' }
+];
+
 const TODOS = [
   { id:'waiver-dixie', label:"Sign Dixie's hiking-tour waiver — both of you", sub:'Kayak waivers are done ✓ — but the canyon tour has its own. Link is in the Dixie’s confirmation email.', url:'https://www.antelopelowercanyon.com/' },
   { id:'dinner-res', label:'Book the Saturday birthday-dinner table', sub:'Pick in the Saturday plan — Sunset 89 (928) 660-7716 or Rainbow Room on OpenTable.' },
-  { id:'wallet', label:'Save both QR tickets to Google Wallet', sub:'Dixie’s + Kayak the Colorado. No cell service at Lees Ferry — don’t rely on email.' },
+  { id:'wallet', label:'Back up the QR tickets to Google Wallet', sub:'All three are already in this app under 🎟️ Check-in tickets — Wallet is the belt-and-suspenders copy in case a phone dies.' },
   { id:'offline', label:'Open this app once on each phone before Friday', sub:'It caches itself for offline — no WiFi at camp, no signal on the river.' },
   { id:'maps', label:'Download offline Google Maps: Page ↔ Lees Ferry ↔ Kanab ↔ Zion', sub:'Plus playlists/podcasts for the drives.' },
   { id:'pass', label:'Dig out the America the Beautiful pass (or budget $65)', sub:'$30 Glen Canyon (Lees Ferry) + $35 Zion. The pass covers both.' },
@@ -543,8 +597,8 @@ const PACK = [
     ['NO food in tents','cooler lives in the car — camp rule']
   ]},
   { icon:'🗂️', cat:'Docs & Money', items:[
-    ['Both QR tickets in Google Wallet','Dixie’s + Kayak the Colorado'],
-    ['Kayak waivers','signed for both ✓ — done Aug 2'],
+    ['QR tickets','in the app under 🎟️ Check-in tickets — Wallet as backup'],
+    ['Kayak waivers','signed for both ✓ — Chris + Kat, Aug 2'],
     ['Dixie’s hiking waiver','sign online before Friday!'],
     ['America the Beautiful pass','or $30 (Lees Ferry) + $35 (Zion)'],
     ['Cash / Venmo for guide tips','canyon guide + boat captain'],
@@ -577,6 +631,42 @@ function closeSheet(){
   document.body.style.overflow = '';
 }
 backdrop.addEventListener('click', closeSheet);
+
+/* ═════════ Full-screen check-in ticket ═════════ */
+const tv = document.getElementById('ticket-view');
+function closeTicket(){
+  tv.classList.remove('show');
+  tv.textContent = '';
+  document.body.style.overflow = '';
+}
+function openTicket(id){
+  const t = TICKETS.find(x => x.id === id);
+  if(!t) return;
+  tv.textContent = '';
+  tv.appendChild(el('div','tv-vendor',t.vendor));
+  tv.appendChild(el('div','tv-act',t.act));
+  tv.appendChild(el('div','tv-when',t.when));
+  if(t.img){
+    const img = el('img','tv-img');
+    img.src = t.img;
+    img.alt = t.act + ' check-in QR code';
+    tv.appendChild(img);
+  }
+  const meta = el('div','tv-meta');
+  meta.appendChild(el('div',null,t.name));
+  const conf = el('div',null); conf.appendChild(el('b',null,t.conf));
+  meta.appendChild(conf);
+  meta.appendChild(el('div',null,t.extra));
+  tv.appendChild(meta);
+  tv.appendChild(el('div','tv-tip',t.tip));
+  const done = el('button','tv-close','Done');
+  done.addEventListener('click', closeTicket);
+  tv.appendChild(done);
+  tv.classList.add('show');
+  tv.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && tv.classList.contains('show')) closeTicket(); });
 
 function openDetail(data, kind){
   sheet.textContent = '';
@@ -649,6 +739,31 @@ function openEat(id){ if(EAT[id]) openDetail(EAT[id],'eat'); }
 function buildDays(){
   const sec = document.getElementById('section-days');
   sec.textContent = '';
+
+  /* tickets strip — first thing on the page, opens by default */
+  const tx = el('div','strip tix-strip open');
+  const txHead = el('div','strip-head');
+  txHead.appendChild(el('span','s-icon','🎟️'));
+  txHead.appendChild(el('span','s-title','Check-in tickets'));
+  txHead.appendChild(el('span','s-count','Works offline'));
+  txHead.appendChild(el('span','s-arrow','▾'));
+  txHead.addEventListener('click',()=> tx.classList.toggle('open'));
+  tx.appendChild(txHead);
+  const txBody = el('div','strip-body');
+  TICKETS.forEach(t=>{
+    const row = el('div','tix-row');
+    const main = el('div','tix-main');
+    main.appendChild(el('div','tix-name',t.act));
+    main.appendChild(el('div','tix-when',t.when));
+    row.appendChild(main);
+    const btn = el('button','tix-btn', t.img ? 'Show QR' : 'Details');
+    btn.addEventListener('click',()=> openTicket(t.id));
+    row.appendChild(btn);
+    txBody.appendChild(row);
+  });
+  txBody.appendChild(el('div','tix-note','Turn screen brightness all the way up before you hand the phone over. No signal at Lees Ferry — these are stored in the app, not fetched.'));
+  tx.appendChild(txBody);
+  sec.appendChild(tx);
 
   /* bookings strip */
   const bk = el('div','strip');
