@@ -1,5 +1,5 @@
 /* Canyon Light service worker — cache-first for full offline use at camp (no WiFi). */
-const CACHE = 'pg26-v4';
+const CACHE = 'pg26-v5';
 const ASSETS = [
   './',
   './index.html',

@@ -404,7 +404,7 @@ function daysUntil(dateStr){
 
 const BOOKINGS = [
   { icon:'⛺', name:'Under Canvas Lake Powell — Stargazer Tent', det:'Fri Aug 21 → Sun Aug 23 · 2 adults · check-in 3 PM–1 AM camp time (2 PM AZ) · checkout 10 AM camp (9 AM AZ) · $883 paid', conf:'Conf #32688SG058962 · (888) 496-1148' },
-  { icon:'🏜️', name:"Dixie's Lower Antelope Canyon Tour", det:'Sat Aug 22 · 6:45 AM tour · 2 adults · arrive 45 min early (6:00 AM) · QR code check-in · look for the green roof', conf:'Booking #D-109970 · (928) 640-1761' },
+  { icon:'🏜️', name:"Dixie's Lower Antelope Canyon Tour", det:'Sat Aug 22 · 6:45 AM tour · 2 adults · arrive 45 min early (6:00 AM) · QR code check-in · look for the green roof · hiking waiver signed for both ✓', conf:'Booking #D-109970 · (928) 640-1761' },
   { icon:'🛶', name:'Kayak the Colorado — Backhaul Taxi + Tandem Kayak', det:'Sat Aug 22 · 10:00 AM from Lees Ferry · arrive 9:30 · boat leaves ON TIME · waivers signed for both ✓', conf:'Bookings #368709798 &amp; #368709800 · (435) 275-2925' }
 ];
 
@@ -413,7 +413,7 @@ const BOOKINGS = [
 const TICKETS = [
   { id:'dixie', vendor:'Dixie’s Lower Antelope Canyon Tours', act:'Lower Antelope Canyon',
     when:'Sat Aug 22 · 6:45 AM tour · be there 6:00', img:'dixies-qr.png',
-    name:'Christopher Ortiz', conf:'Booking #D-109970', extra:'2 adults · Adult (8 & up)',
+    name:'Christopher Ortiz', conf:'Booking #D-109970', extra:'2 adults · hiking waiver signed for both ✓',
     tip:'Green roof on Indian Route 222 off AZ-98. Phones, hats and water bottles only — every bag stays in the car.' },
   { id:'kayak1', vendor:'Kayak the Colorado', act:'Backhaul Taxi — Guest 1 of 2',
     when:'Sat Aug 22 · 10:00 AM · be there 9:30', img:'kayak-qr-1.png',
@@ -430,7 +430,6 @@ const TICKETS = [
 ];
 
 const TODOS = [
-  { id:'waiver-dixie', label:"Sign Dixie's hiking-tour waiver — both of you", sub:'Kayak waivers are done ✓ — but the canyon tour has its own. Link is in the Dixie’s confirmation email.', url:'https://www.antelopelowercanyon.com/' },
   { id:'dinner-res', label:'Book the Saturday birthday-dinner table', sub:'Pick in the Saturday plan — Sunset 89 (928) 660-7716 or Rainbow Room on OpenTable.' },
   { id:'wallet', label:'Back up the QR tickets to Google Wallet', sub:'All three are already in this app under 🎟️ Check-in tickets — Wallet is the belt-and-suspenders copy in case a phone dies.' },
   { id:'offline', label:'Open this app once on each phone before Friday', sub:'It caches itself for offline — no WiFi at camp, no signal on the river.' },
@@ -493,7 +492,7 @@ const DAYS = [
   ]},
   { id:'sat', date:'2026-08-22', day:'Sat 22', label:'Big Day', head:'Slot Canyon → the River', sub:'All times Arizona · the two hard deadlines are 6:00 AM and 9:30 AM', events:[
     { t:'5:15 AM', title:'Leave camp — headlights on', note:'Cooler’s already packed (no food in tents anyway). 35 min to the canyon via Page and AZ-98. Cold brew from the cooler.', tags:[['hard','⏰ Hard start']] },
-    { t:'6:00 AM', title:'Check in — Dixie’s Lower Antelope', note:'The 45-minutes-early rule is firm. Green roof, QR code from email, waivers done. Leave EVERYTHING but phones, hats, water bottles in the car.', tags:[['booked','✓ #D-109970'],['hard','No bags allowed']], poi:'antelope', booked:true },
+    { t:'6:00 AM', title:'Check in — Dixie’s Lower Antelope', note:'The 45-minutes-early rule is firm. Green roof, QR code in this app (Days → 🎟️ Check-in tickets), both waivers signed. Leave EVERYTHING but phones, hats, water bottles in the car.', tags:[['booked','✓ #D-109970'],['hard','No bags allowed']], poi:'antelope', booked:true },
     { t:'6:45–7:45', title:'Lower Antelope Canyon', note:'Hazdistazí — spiral rock arches. Five ladders down into the glow. 65° and nearly private at this hour.', poi:'antelope', booked:true, beam:true },
     { t:'8:15 AM', title:'Drive to Lees Ferry', note:'US-89 S → US-89A across Navajo Bridge → Lees Ferry Rd. ~46 mi, ~55 min. $30 kiosk (ATB pass works). 9:15 arrival = comfortable.', tags:[['maps','🗺️ Route']], maps:'https://www.google.com/maps/dir/Lower+Antelope+Canyon/Lees+Ferry+Boat+Launch' },
     { t:'9:30 AM', title:'Kayak the Colorado — check-in', note:'Park the dirt 1-day lot, meet at the floating dock. Boat leaves 10:00 SHARP — late means left behind, no refund.', tags:[['booked','✓ #368709798'],['hard','⏰ Boat waits for no one']], poi:'kayak', booked:true },
@@ -599,7 +598,7 @@ const PACK = [
   { icon:'🗂️', cat:'Docs & Money', items:[
     ['QR tickets','in the app under 🎟️ Check-in tickets — Wallet as backup'],
     ['Kayak waivers','signed for both ✓ — Chris + Kat, Aug 2'],
-    ['Dixie’s hiking waiver','sign online before Friday!'],
+    ['Dixie’s hiking waiver','signed ✓ — Chris + Kat, Aug 16'],
     ['America the Beautiful pass','or $30 (Lees Ferry) + $35 (Zion)'],
     ['Cash / Venmo for guide tips','canyon guide + boat captain'],
     ['Under Canvas confirmation','#32688SG058962'],
