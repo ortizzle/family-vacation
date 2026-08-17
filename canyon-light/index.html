@@ -155,6 +155,7 @@
   .wv-main{flex:1;min-width:0}
   .wv-name{font-size:.82rem;color:var(--ink);line-height:1.4}
   .wv-meta{font-size:.7rem;color:var(--muted)}
+  .wv-foot{font-size:.7rem;color:var(--muted);line-height:1.55;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line-soft)}
   .wv-ok{color:var(--forest,#4e7d5a);font-weight:600;flex-shrink:0}
   /* offline driving directions block in the detail sheet */
   .sh-drive{
@@ -211,23 +212,6 @@
   .todo-row.done .t-label{text-decoration:line-through;color:var(--muted)}
 
   /* dinner fork */
-  .fork{border:1px solid rgba(185,143,69,.45);border-radius:16px;background:linear-gradient(160deg,#fdf7ea, var(--card) 60%);padding:15px 16px;margin-bottom:11px}
-  .fork h3{font-family:'Cormorant Garamond',serif;color:var(--navy-deep);font-size:1.2rem;font-weight:600;margin-top:2px}
-  .fork > p{font-size:.8rem;color:var(--muted);margin:3px 0 8px;line-height:1.5}
-  .fork-opt{
-    display:flex;align-items:center;gap:10px;border-top:1px dashed var(--line-soft);
-    padding:10px 0;min-height:52px;cursor:pointer;
-  }
-  .fork-opt .fo-pick{
-    width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;
-  }
-  .fork-opt.chosen .fo-pick{background:var(--navy);border-color:var(--navy)}
-  .fork-opt .fo-main{flex:1}
-  .fork-opt .fo-name{font-weight:500;font-size:.95rem}
-  .fork-opt .fo-meta{font-size:.75rem;color:var(--muted)}
-  .fork-opt .fo-badge{font-size:.72rem;color:var(--gold);white-space:nowrap;text-align:right}
-  .fork-note{font-size:.74rem;color:var(--maroon);margin-top:8px}
 
   /* ═══ Explore / dining cards ═══ */
   .group-label{font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:500;margin:20px 4px 8px}
@@ -430,7 +414,8 @@ function daysUntil(dateStr){
 const BOOKINGS = [
   { icon:'⛺', name:'Under Canvas Lake Powell — Stargazer Tent', det:'Fri Aug 21 → Sun Aug 23 · 2 adults · check-in 3 PM–1 AM camp time (2 PM AZ) · checkout 10 AM camp (9 AM AZ) · $883 paid', conf:'Conf #32688SG058962 · (888) 496-1148', tix:[['uc','Details']] },
   { icon:'🏜️', name:"Dixie's Lower Antelope Canyon Tour", det:'Sat Aug 22 · 6:45 AM tour · 2 adults · arrive 45 min early (6:00 AM) · QR code check-in · look for the green roof · hiking waiver signed for both ✓', conf:'Booking #D-109970 · (928) 640-1761', tix:[['dixie','🎟️ Show QR']], docs:[['waiver-dixies.pdf','📄 Signed waiver']] },
-  { icon:'🛶', name:'Kayak the Colorado — Backhaul Taxi + Tandem Kayak', det:'Sat Aug 22 · 10:00 AM from Lees Ferry · arrive 9:30 · boat leaves ON TIME · waivers signed for both ✓', conf:'Bookings #368709798 &amp; #368709800 · (435) 275-2925', tix:[['kayak1','🎟️ Guest 1'],['kayak2','🎟️ Guest 2']] }
+  { icon:'🛶', name:'Kayak the Colorado — Backhaul Taxi + Tandem Kayak', det:'Sat Aug 22 · 10:00 AM from Lees Ferry · arrive 9:30 · boat leaves ON TIME · waivers signed for both ✓', conf:'Bookings #368709798 &amp; #368709800 · (435) 275-2925', tix:[['kayak1','🎟️ Guest 1'],['kayak2','🎟️ Guest 2']] },
+  { icon:'🎂', name:'Rainbow Room — birthday dinner', det:'Sat Aug 22 · 6:45 PM Arizona time (7:45 camp time) · 2 adults · Lake Powell Resort · ask for a west window table · 12 min back to camp', conf:'OpenTable reservation · (928) 645-2433' }
 ];
 
 /* Scannable check-in tickets — images cached offline by sw.js.
@@ -463,7 +448,6 @@ const WAIVERS = [
 ];
 
 const TODOS = [
-  { id:'dinner-res', label:'Decide the Saturday birthday dinner', sub:'Pick in the Saturday plan. Only Rainbow Room takes bookings (OpenTable) — Sunset 89 and Big John’s are walk-in. Note Sunset 89 is already Friday’s dinner.' },
   { id:'wallet', label:'Back up the QR tickets to Google Wallet', sub:'All three are already in this app under 🎟️ Check-in tickets — Wallet is the belt-and-suspenders copy in case a phone dies.' },
   { id:'offline', label:'Open this app once on each phone before Friday', sub:'It caches itself for offline — no WiFi at camp, no signal on the river.' },
   { id:'maps', label:'Download the offline map area — do this on home WiFi', sub:'Google Maps → profile → Offline maps → Select your own map. Drag the box to cover Flagstaff up through Page, Lees Ferry, Kanab and Zion, then Download. Without it the 🗺️ buttons in this app have nothing to route on. Grab playlists and podcasts while you’re at it.' },
@@ -487,7 +471,7 @@ const POI = {
   stargazer: { icon:'✨', name:'Stargazing at Camp', tagline:'DarkSky-certified skies — with a birthday moon', facts:[['Where','Your tent’s telescope window'],['Moon','Waxing gibbous, 65–85% lit'],['Darkest','Pre-dawn, after moonset'],['S’mores','Complimentary, nightly']], body:['Under Canvas Lake Powell is the world’s first DarkSky-certified resort. Your weekend carries a bright waxing gibbous moon, so the Milky Way will be muted — but bright moonlight silvering the Grand Staircase cliffs is its own spectacle, best enjoyed horizontally through the Stargazer window.','If either of you wakes before dawn, step out: the moon sets in the small hours and the real star field switches on.'], tip:'Saturday counts as the birthday-eve finale: campfire, s’mores, moonlit mesa.', url:'https://darksky.org/places/under-canvas-lake-powell-grand-staircase/', maps:'https://maps.google.com/?q=Under+Canvas+Lake+Powell-Grand+Staircase' },
   canyonoverlook: { icon:'⛰️', name:'Canyon Overlook Trail — Zion', tagline:'One mile to Zion’s best effort-to-view ratio, no shuttle required', facts:[['Drive from camp','~1 hr 45 (87 mi)'],['Fee','$35/vehicle (ATB pass ok)'],['Trail','1 mi RT, ~1 hr, some drop-offs'],['Parking','Tiny lot — circle patiently']], body:['Starts immediately east of the 1.1-mile Zion–Mt Carmel tunnel (1930) and ends at a stone porch hanging over Pine Creek Canyon — the great white throne of Zion’s west canyon spread below. This is the east-side play: in August the main canyon is shuttle-only with 30–60 min waits, so you skip it entirely and take the view the tour buses miss.','The trailhead lot holds ~8–10 cars with a small overflow 500 ft east. Midday means circling — patience, someone leaves every few minutes.'], drive:'Inside Zion\'s east entrance, the trailhead lot is IMMEDIATELY east of the long 1930 tunnel — first pullout on the left as you come uphill from the east gate, before you enter the tunnel. Lot holds ~8–10 cars with a small overflow 500 ft east. Trail starts across the road from the lot.', tip:'Watch for bighorn sheep on the switchbacks and at Checkerboard Mesa. No timed entry in 2026 — just the gate fee.', url:'https://www.nps.gov/zion/planyourvisit/canyon-overlook-trail.htm', maps:'https://maps.google.com/?q=Canyon+Overlook+Trailhead+Zion' },
   checkerboard: { icon:'♟️', name:'Checkerboard Mesa & the Tunnel', tagline:'Zion’s east side: crosshatched domes and a 1930 marvel', facts:[['Where','Zion–Mt Carmel Hwy'],['Cost','Included in park fee'],['Time','Pullouts, 20–30 min'],['Look for','Desert bighorn sheep']], body:['The east entrance road passes Checkerboard Mesa — a sandstone dome crosshatched by ancient wind-laid dunes and modern frost cracks — then dives through the 1.1-mile tunnel blasted in 1930, with gallery windows flashing canyon views as you drive.'], tip:'Drive through the tunnel to the switchbacks and back for the full show — normal cars need no permit (that’s RVs only).', url:'https://www.nps.gov/zion/planyourvisit/the-zion-mount-carmel-tunnel.htm', maps:'https://maps.google.com/?q=Checkerboard+Mesa+Zion' },
-  sandcave: { icon:'🐚', name:'Sand Cave — the Shell Station Secret', tagline:'A wind-carved sandstone alcove hiding behind a gas station — Page’s favorite local secret', facts:[['Where','Shell station, AZ-98 × Coppermine Rd'],['Cost','Free'],['Walk','~10 min round trip, unmarked trail'],['Bonus','Fry bread taco inside the Shell']], body:['Behind the Shell station on the road to Antelope Canyon, a short unmarked path leads to the Big Lake Sand Cave — an alcove scooped out of the sandstone by wind and water, glowing like a miniature Antelope in the right light.','Park in the dirt lot behind the station (northeast side) or at the Page Amphitheater, walk in, and don’t carve or litter — it stays secret-nice because people behave.'], drive:'From Page, AZ-98 EAST toward Antelope Canyon. At the Coppermine Rd junction (~3 mi out) the Shell station is on the right. Park in the dirt lot BEHIND the station on the northeast side, or across at the Page Amphitheater. The path leaves from the back of the lot — unmarked, ~5 min in.', tip:'Jon-approved. Friday-evening fit is perfect — and it’s 5 min from Dixie’s, so if you’re out of the canyon by 8:00 sharp Saturday you could squeeze it in… but never gamble against the 10:00 boat.', url:'https://grandcanyon.com/poi/sand-cave/', maps:'https://maps.google.com/?q=Shell+Station+Highway+98+Coppermine+Rd+Page+AZ' },
+  sandcave: { icon:'🐚', name:'Sand Cave — the Shell Station Secret', tagline:'A wind-carved sandstone alcove hiding behind a gas station — Page’s favorite local secret', facts:[['Where','Shell station, AZ-98 × Coppermine Rd'],['Cost','Free'],['Walk','~10 min round trip, unmarked trail'],['Bonus','Fry bread taco inside the Shell']], body:['Behind the Shell station on the road to Antelope Canyon, a short unmarked path leads to the Big Lake Sand Cave — an alcove scooped out of the sandstone by wind and water, glowing like a miniature Antelope in the right light.','Park in the dirt lot behind the station (northeast side) or at the Page Amphitheater, walk in, and don’t carve or litter — it stays secret-nice because people behave.'], drive:'From Page, AZ-98 EAST toward Antelope Canyon. At the Coppermine Rd junction (~3 mi out) the Shell station is on the right. Park in the dirt lot BEHIND the station on the northeast side, or across at the Page Amphitheater. The path leaves from the back of the lot — unmarked, ~5 min in.', tip:'Jon-approved, but Friday no longer has room for it — the 6:45 dinner took that slot. Two honest windows left: Saturday right after the canyon if you’re out by 8:00 sharp (never gamble against the 10:00 boat), or Sunday morning if you pick the UTV plan, since it’s 5 minutes from Page.', url:'https://grandcanyon.com/poi/sand-cave/', maps:'https://maps.google.com/?q=Shell+Station+Highway+98+Coppermine+Rd+Page+AZ' },
   dinotracks: { icon:'🦕', name:'Moenkopi Dinosaur Tracks', tagline:'Real ~193-million-year-old tracks in open rock — shown by Navajo guides since 1956', facts:[['Where','US-160, 5 mi west of Tuba City'],['Detour','~25 min off US-89 + 30–40 min visit'],['Cost','Tip the guide — $10–20/person, cash'],['Hours','Daylight · informal, no buildings']], body:['At Moenave, Early Jurassic mudflats hardened into rock printed with hundreds of three-toed theropod tracks — dilophosaurus country. Navajo families have guided visitors across the trackway from the roadside since 1956: no tickets, no fences, just a local walking you over 193-million-year-old ground.','It’s raw and DIY — that’s the charm. Bring cash for the tip and water; there’s no shade.'], tip:'Jon-approved. Adds ~1 hr to the Friday drive — stacked on the Flagstaff lunch that means camp closer to 5:15, which costs you Sand Cave and squeezes Horseshoe Bend. Pick one or the other, or save it for Sunday if you skip Zion.', url:'https://www.atlasobscura.com/places/moenave-dinosaur-tracks', maps:'https://maps.google.com/?q=Moenkopi+Dinosaur+Tracks+Tuba+City' },
   utv: { icon:'🏜️', name:'UTV Off-Road & Scenic Overlook Tour', tagline:'Drive your own machine along the rim — Horseshoe Bend from above', facts:[['Operator','Page Adventure Company'],['Length','~3 hrs · you drive'],['Price','~$125–139/person'],['Status','NOT BOOKED — call first']], body:['A guided convoy where you take the wheel: sandy washes and slickrock out to overlooks above Lake Powell, Glen Canyon, the Grand Staircase and the Vermilion Cliffs — including Horseshoe Bend seen from the top of the cliff rather than the rim path or the water. Between Friday’s overlook and Saturday’s paddle, that would be the third and last angle on the same bend.','Two-guest minimum per vehicle, so the pair of you is exactly one machine. A $500 damage deposit is held against a card and released after.','Other operators in town if they’re full: Epic Adventure Rides (928) 614-4094, or a ride-with-a-guide version around $169/person if you’d rather not drive.','Big Water itself has no UTV outfit — it’s a 500-person town and its rental trade is boats for Lake Powell (All In Boat Rentals, MB Surf). Page is 25 minutes south and sits on the way home, so it’s both the closest option and the right direction. Kanab has more UTV operators ($259–599) but it’s 75 minutes the wrong way, and leaving from there puts you home well after 8.'], tip:'Prices and the 3-hour length come from current listings, not a quote — confirm both when you call, along with the meeting point and the minimum driver age. Nothing here is booked.', url:'https://pageadventurecompany.com/', maps:'https://www.google.com/maps/search/?api=1&query=Page+Adventure+Company,+Page,+AZ' },
   powelldays: { icon:'🎪', name:'Powell Days — Downtown Page', tagline:'The town’s John Wesley Powell celebration — Sat 11 AM–3 PM', facts:[['When','Sat Aug 22, 11–3'],['Where','Downtown Page'],['Cost','Free'],['Fit','Only if plans shift']], body:['Page celebrates the one-armed major who ran this river in 1869. You’ll be ON his river while it happens — the better tribute — but if weather cancels the paddle, this is the backup morning.'], tip:'Expect downtown parking to be tight midday Saturday.', url:'https://events.cityofpage.org/', maps:'https://maps.google.com/?q=Downtown+Page+AZ' }
@@ -495,7 +479,7 @@ const POI = {
 
 const EAT = {
   sunset89: { icon:'🌺', name:'Sunset 89', cuisine:'Polynesian–Pacific fusion', rating:'4.1★ Google', price:'$$$', dist:'20 min from camp · south edge of Page', hours:'Fri &amp; Sat 11 AM–9 PM · walk-in only', phone:'(928) 660-7716', order:'Kalua pork on the west-facing patio', menu:[['Kalua pork','island-style, slow roasted'],['Poke bowls','the house signature'],['Island fish tacos','crowd favorite'],['Tropical cocktails','patio + sunset built in']], body:['The occasion restaurant in Page: a patio aimed dead-west over Glen Canyon, and the most polished menu in town.','No reservations — first come, first served. That makes the arrival time the whole game: roll in by 7:45 Friday and the 9 PM kitchen close is comfortable. If there’s a wait, put your name down and walk the Dam Plaza shops next door.'], tip:'Friday’s dinner, straight off Horseshoe Bend — 7 minutes up US-89. You’ll have just watched the sunset from the rim, so ask for the patio anyway and eat in the afterglow.', url:'https://sunset89.com/', maps:'https://maps.google.com/?q=Sunset+89+Page+AZ' },
-  rainbow: { icon:'🌈', name:'Rainbow Room — Lake Powell Resort', cuisine:'Resort American, panoramic lake view', rating:'3.7★ Google (480)', price:'$$–$$$', dist:'12–15 min from camp — the shortest drive home', hours:'Dinner 5–9 PM · breakfast 6–10 AM', phone:'OpenTable or (928) 645-2433', order:'Braised short ribs with mac & cheese, window table', menu:[['Braised short ribs','+ smoked gouda mac'],['Ribeye','resort classic'],['Seared salmon','lake-view staple'],['Lobster tostada','the wildcard starter']], body:['A wall of glass over Wahweap Bay — the view outrates the food, and at sunset the view is doing a lot. The practical luxury pick: 12 minutes back to camp after wine.','Sunday bonus: their 6–10 AM breakfast is the area’s best send-off if you skip camp breakfast.'], tip:'Book on OpenTable ~24 hrs ahead and ask for a west window table.', url:'https://www.lakepowell.com/dining/lake-powell-dining-experience/rainbow-room', maps:'https://maps.google.com/?q=Rainbow+Room+Lake+Powell+Resort' },
+  rainbow: { icon:'🌈', name:'Rainbow Room — Lake Powell Resort', cuisine:'Resort American, panoramic lake view', rating:'3.7★ Google (480)', price:'$$–$$$', dist:'12–15 min from camp — the shortest drive home', hours:'Dinner 5–9 PM · breakfast 6–10 AM', phone:'OpenTable or (928) 645-2433', order:'Braised short ribs with mac & cheese, window table', menu:[['Braised short ribs','+ smoked gouda mac'],['Ribeye','resort classic'],['Seared salmon','lake-view staple'],['Lobster tostada','the wildcard starter']], body:['A wall of glass over Wahweap Bay — the view outrates the food, and at sunset the view is doing a lot. The practical luxury pick: 12 minutes back to camp after wine.','Sunday bonus: their 6–10 AM breakfast is the area’s best send-off if you skip camp breakfast.'], tip:'Booked for Saturday 6:45 PM Arizona time — that is 7:45 on your tent clock, so set the alarm to the one that matters. Ask for a west window table; sunset is 7:10.', url:'https://www.lakepowell.com/dining/lake-powell-dining-experience/rainbow-room', maps:'https://maps.google.com/?q=Rainbow+Room+Lake+Powell+Resort' },
   bigjohns: { icon:'🍖', name:"Big John's Texas BBQ", cuisine:'Texas BBQ, live music nightly', rating:'4.2★ (1,076)', price:'$$', dist:'20 min from camp · downtown Page', hours:'Daily 11 AM–9 PM · band ~6:30–9', phone:'Walk-in only', order:'The Sampler Plate + peach cobbler, under the string lights', menu:[['Sampler Plate','brisket, pulled pork, ribs, sausage'],['Smoked brisket plate','the benchmark'],['Peach cobbler','save room'],['Live country-rock','6:30–9 nightly, free']], body:['A retro gas station turned open-air smokehouse: picnic tables, string lights, and a band every night. The low-key birthday option — or the perfect easy Friday.'], tip:'No reservations; the band starts ~6:30 and the line moves fast.', url:'https://bigjohnstexasbbq.com/', maps:'https://maps.google.com/?q=Big+Johns+Texas+BBQ+Page' },
   birdhouse: { icon:'🍗', name:'BirdHouse', cuisine:'Nashville-style hot chicken', rating:'4.8★ (967) — highest in town', price:'$', dist:'20 min from camp', hours:'Daily 11 AM–9 PM', phone:'Counter service', order:'Hot-honey half bird + waffle fries', menu:[['Hot-honey chicken','the reason for the 4.8'],['Chicken sandwich','Yelp’s AZ best-of list 2024'],['Waffle fries','mandatory']], body:['Yelp called it the best fried chicken in Arizona. Counter-service simple, wildly consistent. If the birthday dinner is fancy, this is the other night’s treat.'], tip:'Take it to the Glen Canyon Dam Overlook for the best cheap dinner view in Arizona.', url:'https://www.yelp.com/biz/birdhouse-page', maps:'https://maps.google.com/?q=BirdHouse+Page+AZ' },
   eltapatio: { icon:'🌮', name:'El Tapatio', cuisine:'Mexican — flaming fajitas', rating:'4.3★ Google', price:'$$', dist:'20 min from camp · downtown', hours:'Fri &amp; Sat 10 AM–11 PM — latest kitchen in town', phone:'(928) 645-4055', order:'Flaming fajitas + a jumbo margarita', menu:[['Flaming fajitas','arrive on fire, literally'],['Jumbo margaritas','the arrival-night reward'],['Combo plates','fast and generous']], body:['Open latest of anyone — the safety net if Friday’s drive runs long, and a lively room for zero planning.'], tip:'No reservation needed; seats fast even on summer weekends.', url:'https://restaurantguru.com/El-Tapatio-Page', maps:'https://maps.google.com/?q=El+Tapatio+Page+AZ' },
@@ -520,6 +504,8 @@ const RT = {
   toCamp:   'https://www.google.com/maps/dir/?api=1&origin=203+W+Phoenix+Ave,+Flagstaff,+AZ+86001&destination=Under+Canvas+Lake+Powell+Grand+Staircase,+555+S+Jacob+Tank+Rd,+Big+Water,+UT+84741&waypoints=Cameron+Trading+Post,+Cameron,+AZ&travelmode=driving',
   toDixie:  'https://www.google.com/maps/dir/?api=1&origin=555+S+Jacob+Tank+Rd,+Big+Water,+UT+84741&destination=Dixie%27s+Lower+Antelope+Canyon+Tours,+Indian+Route+222,+LeChee,+AZ+86040&travelmode=driving',
   toLees:   'https://www.google.com/maps/dir/?api=1&origin=Dixie%27s+Lower+Antelope+Canyon+Tours,+LeChee,+AZ+86040&destination=Lees+Ferry+Boat+Launch,+Marble+Canyon,+AZ+86036&travelmode=driving',
+  toRainbow:'https://www.google.com/maps/dir/?api=1&origin=555+S+Jacob+Tank+Rd,+Big+Water,+UT+84741&destination=Rainbow+Room,+Lake+Powell+Resort,+Page,+AZ+86040&travelmode=driving',
+  toHSB:'https://www.google.com/maps/dir/?api=1&origin=555+S+Jacob+Tank+Rd,+Big+Water,+UT+84741&destination=Horseshoe+Bend+Trailhead,+Page,+AZ+86040&travelmode=driving',
   toSunset89:'https://www.google.com/maps/dir/?api=1&origin=Horseshoe+Bend+Trailhead,+Page,+AZ+86040&destination=Sunset+89,+Page,+AZ+86040&travelmode=driving',
   toUTV:    'https://www.google.com/maps/dir/?api=1&origin=555+S+Jacob+Tank+Rd,+Big+Water,+UT+84741&destination=Page+Adventure+Company,+Page,+AZ+86040&travelmode=driving',
   homeFromPage:'https://www.google.com/maps/dir/?api=1&origin=Page,+AZ+86040&destination=Chandler,+AZ&waypoints=Cameron+Trading+Post,+Cameron,+AZ%7CFlagstaff,+AZ&travelmode=driving'
@@ -532,11 +518,11 @@ const DAYS = [
     { t:'~12:20 PM', title:'Lunch — Pizzicletta, Flagstaff', note:'Neapolitan pies out of the wood dome, a block off Route 66. Doors open at noon on Fridays — roll in right at open and the tiny room is still yours. Margherita, gelato, back on US-89 by 1:30.', eat:'pizzicletta', tags:[['maps','🗺️ Directions — Chandler → Pizzicletta']], maps:RT.toPizz },
     { t:'~2:30 PM', title:'Cameron Trading Post — stretch & gas', note:'Not lunch anymore — a 15-minute leg-stretch at the 1916 post over the Little Colorado gorge. The upstairs gallery is museum-grade, and it’s the last good fuel stop before Page.', eat:'cameron', tags:[['maps','🗺️ Directions — Flagstaff → Cameron']], maps:RT.toCameron },
     { t:'~4:15 PM', camp:'5:15 camp', title:'Check in — Under Canvas', note:'Stargazer tent: king bed, ensuite, telescope window. Drop bags, breathe. Remember: camp runs 1 hr ahead of your Page bookings.', tags:[['booked','✓ Conf 32688SG058962'],['maps','🗺️ Directions — Pizzicletta → camp']], maps:RT.toCamp, poi:'undercanvas', booked:true },
-    { t:'5:15 PM', title:'Page supply run — Safeway', note:'Saturday’s river lunch, ice, 6L water, snacks, cold brew for the 5:15 AM start. Gas up in Page tonight.', eat:'safeway', tags:[['hard','Do this tonight']] },
-    { t:'6:00 PM', title:'Sand Cave — the Shell station secret', note:'Optional 20-min wonder: a wind-carved alcove behind the Shell at AZ-98 & Coppermine. Jon’s tip. First thing to cut if the drive ran long — Horseshoe Bend at golden hour is the one that matters tonight.', poi:'sandcave' },
-    { t:'6:30 PM', title:'Golden hour — Horseshoe Bend Overlook', note:'$10 lot, easy 1.2-mi round trip. Sunset 7:11 — gate admits until sunset. (Quieter alternative: the free Dam Overlook, 5 min away.)', poi:'horseshoe' },
-    { t:'~7:45 PM', title:'Dinner — Sunset 89', note:'Kalua pork on the west-facing patio, 7 min from Horseshoe Bend. Walk-in only — no reservations, first come first served — so get there before the 9 PM kitchen close. Backup if there’s a wait: El Tapatio, open till 11.', eat:'sunset89', tags:[['maps','🗺️ Directions — Horseshoe Bend → Sunset 89']], maps:RT.toSunset89 },
-    { t:'9:00 PM', camp:'10:00 camp', title:'Campfire, s’mores & moonlight', note:'Complimentary s’mores at the fire, then the Stargazer window: gibbous moonlight on the Grand Staircase.', poi:'stargazer' }
+    { t:'5:15 PM', title:'Leave camp for Page', note:'Bags are dropped, you’re clean enough. Supply run happens tonight AFTER dinner — Safeway is open till 10, and ice bought at 8:15 survives the night far better than ice bought at 5:15.' },
+    { t:'5:45 PM', title:'Horseshoe Bend Overlook', note:'$10 city lot, 1.2-mi round trip, about 45 minutes. Golden hour starts right about now (sunset 7:12), and you’ll have the rim as the sunset crowd is still parking. Back at the car by 6:35.', poi:'horseshoe', tags:[['maps','🗺️ Directions — camp → Horseshoe Bend']], maps:RT.toHSB },
+    { t:'6:45 PM', title:'Dinner — Sunset 89', note:'Seven minutes up US-89 from the overlook. Walk-in only, first come first served. Sitting down at 6:45 puts sunset at 7:12 right through the west-facing patio — which is the entire point of this restaurant. Backup if there’s a wait: El Tapatio, open till 11.', eat:'sunset89', tags:[['maps','🗺️ Directions — Horseshoe Bend → Sunset 89']], maps:RT.toSunset89 },
+    { t:'~8:15 PM', title:'Page supply run — Safeway', note:'On the way back to camp. Saturday’s river lunch, 6L water, snacks, cold brew for the 5:15 AM start — and ice LAST so it goes straight into the cooler. Gas up while you’re here.', eat:'safeway', tags:[['hard','Do this tonight']] },
+    { t:'~9:15 PM', camp:'10:15 camp', title:'Campfire, s’mores & moonlight', note:'Complimentary s’mores at the fire, then the Stargazer window: gibbous moonlight on the Grand Staircase.', poi:'stargazer' }
   ]},
   { id:'sat', date:'2026-08-22', day:'Sat 22', label:'Big Day', head:'Slot Canyon → the River', sub:'All times Arizona · the two hard deadlines are 6:00 AM and 9:30 AM', events:[
     { t:'5:15 AM', title:'Leave camp — headlights on', note:'Cooler’s already packed (no food in tents anyway). 35 min to the canyon via Page and AZ-98. Cold brew from the cooler.', tags:[['hard','⏰ Hard start']] },
@@ -547,7 +533,7 @@ const DAYS = [
     { t:'10:00 AM', title:'Backhaul up, paddle home', note:'~30 min motor to Petroglyph Beach (~mile 10), then ~4 hrs of drifting past Horseshoe Bend from the bottom. 47° water, PFDs on, zero cell service.', poi:'kayak', booked:true, beam:true },
     { t:'~4:00 PM', title:'Navajo Bridge — condor stop', note:'Walk the 1929 span, 467 ft up. Scan the girders for wing tags — 9.5-ft wingspans.', poi:'navajobridge' },
     { t:'~5:15 PM', camp:'6:15 camp', title:'Back at camp — shower & shine', note:'Hot pull-chain shower. You paddled 10 miles of the Colorado before dinner.', },
-    { t:'7:00 PM', camp:'8:00 camp', title:'🎂 Birthday dinner', fork:true },
+    { t:'6:45 PM', camp:'7:45 camp', title:'🎂 Birthday dinner — Rainbow Room', note:'Booked. Wall of glass over Wahweap Bay, sunset at 7:10 through it, and only 12 minutes back to camp afterwards. Leave camp by 6:20 AZ (7:20 camp) — the table is on Arizona time, your tent clock is not.', eat:'rainbow', booked:true, tags:[['booked','✓ Reserved 6:45 PM'],['maps','🗺️ Directions — camp → Rainbow Room']], maps:RT.toRainbow },
     { t:'~9:30 PM', camp:'10:30 camp', title:'Nightcap & moonrise', note:'Blue Bar wine flight in town, or straight to the campfire — s’mores, moonlit mesa, telescope window.', eat:'bluebar' }
   ]},
   { id:'sun', date:'2026-08-23', day:'Sun 23', label:'Choose', plans:[
@@ -577,12 +563,6 @@ const DAYS = [
     { t:'~6:45 PM', title:'Home — Chandler', note:'Two slot canyons, ten river miles, a rim you drove yourself, and a birthday. Home before dark.', tags:[] }
    ]}
   ]}
-];
-
-const FORK_OPTS = [
-  { id:'sunset89', name:'Sunset 89', meta:'Polynesian fusion · $$$ · also Friday’s dinner', badge:'4.1★ · walk in' },
-  { id:'rainbow', name:'Rainbow Room', meta:'Lake-view glass wall · $$–$$$ · 12 min home', badge:'3.7★ · OpenTable' },
-  { id:'bigjohns', name:"Big John's BBQ", meta:'Live band · picnic tables · $$', badge:'4.2★ · walk in' }
 ];
 
 const HISTORY = [
@@ -854,6 +834,7 @@ function buildDays(){
     r.appendChild(el('div','wv-ok','✓'));
     wv.appendChild(r);
   });
+  wv.appendChild(el('div','wv-foot','Kayak PDFs are saved on Chris’s phone (Files / Drive offline) — not in this app, because they carry both birthdates. Dixie’s opens above.'));
   bkBody.appendChild(wv);
   bkBody.appendChild(el('div','tix-note','QR codes and the waiver PDF are stored in the app, not fetched — they work with no signal at Lees Ferry. Turn brightness all the way up before you hand the phone over.'));
   bk.appendChild(bkBody);
@@ -961,7 +942,6 @@ function renderDay(d, holder){
 function buildTimeline(events){
   const tl = el('div','timeline');
   events.forEach(ev=>{
-    if(ev.fork){ tl.appendChild(renderFork(ev)); return; }
     const tappable = ev.poi || ev.eat;
     const card = el('div','ev' + (ev.booked?' booked':'') + (ev.beam?' beam':'') + (tappable?' tappable':''));
     const time = el('div','ev-time',ev.t);
@@ -991,40 +971,6 @@ function buildTimeline(events){
     tl.appendChild(card);
   });
   return tl;
-}
-
-function renderFork(ev){
-  const f = el('div','fork');
-  const time = el('div','ev-time',ev.t);
-  if(ev.camp) time.appendChild(el('span','ev-camp','(' + ev.camp + ')'));
-  f.appendChild(time);
-  f.appendChild(el('h3',null,'🎂 Birthday dinner — pick your table'));
-  f.appendChild(el('p',null,'Tap a name for the full menu, ratings & booking info. Tap the circle to lock in the pick.'));
-  const chosen = store.get('pg26-dinner', null);
-  FORK_OPTS.forEach(o=>{
-    const row = el('div','fork-opt' + (chosen===o.id?' chosen':''));
-    const pick = el('div','fo-pick', chosen===o.id ? '✓' : '');
-    pick.addEventListener('click',(e)=>{
-      e.stopPropagation();
-      const cur = store.get('pg26-dinner', null);
-      const next = cur===o.id ? null : o.id;
-      store.set('pg26-dinner', next);
-      f.parentNode.replaceChild(renderFork(ev), f);
-    });
-    row.appendChild(pick);
-    const main = el('div','fo-main');
-    main.appendChild(el('div','fo-name',o.name));
-    main.appendChild(el('div','fo-meta',o.meta));
-    row.appendChild(main);
-    row.appendChild(el('div','fo-badge',o.badge));
-    row.addEventListener('click',()=> openEat(o.id));
-    f.appendChild(row);
-  });
-  const chosenOpt = FORK_OPTS.find(o=>o.id===chosen);
-  f.appendChild(el('div','fork-note', chosenOpt
-    ? '✓ ' + chosenOpt.name + ' it is.'
-    : 'Sunset 89 and Big John’s are walk-in only. Rainbow Room takes OpenTable — book that one ahead if it’s the pick.'));
-  return f;
 }
 
 /* ═════════ Explore section ═════════ */
