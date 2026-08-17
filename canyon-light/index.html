@@ -147,6 +147,15 @@
   .bk-conf{font-size:.72rem;color:var(--lake);letter-spacing:.05em}
   /* tickets — quick access + full-screen QR */
   .bk-tix{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
+  .tix-btn.ghost{background:transparent;color:var(--navy);border:1px solid var(--line);box-shadow:none;text-decoration:none}
+  /* signed-waiver record */
+  .wv-block{margin-top:14px;padding:11px 13px;border-radius:12px;background:rgba(122,106,83,.05);border:1px solid var(--line-soft)}
+  .wv-head{font-family:'Jost',sans-serif;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  .wv-row{display:flex;gap:10px;align-items:center;padding:5px 0}
+  .wv-main{flex:1;min-width:0}
+  .wv-name{font-size:.82rem;color:var(--ink);line-height:1.4}
+  .wv-meta{font-size:.7rem;color:var(--muted)}
+  .wv-ok{color:var(--forest,#4e7d5a);font-weight:600;flex-shrink:0}
   /* offline driving directions block in the detail sheet */
   .sh-drive{
     margin:14px 0 4px;padding:12px 14px;border-radius:12px;
@@ -420,7 +429,7 @@ function daysUntil(dateStr){
 
 const BOOKINGS = [
   { icon:'⛺', name:'Under Canvas Lake Powell — Stargazer Tent', det:'Fri Aug 21 → Sun Aug 23 · 2 adults · check-in 3 PM–1 AM camp time (2 PM AZ) · checkout 10 AM camp (9 AM AZ) · $883 paid', conf:'Conf #32688SG058962 · (888) 496-1148', tix:[['uc','Details']] },
-  { icon:'🏜️', name:"Dixie's Lower Antelope Canyon Tour", det:'Sat Aug 22 · 6:45 AM tour · 2 adults · arrive 45 min early (6:00 AM) · QR code check-in · look for the green roof · hiking waiver signed for both ✓', conf:'Booking #D-109970 · (928) 640-1761', tix:[['dixie','🎟️ Show QR']] },
+  { icon:'🏜️', name:"Dixie's Lower Antelope Canyon Tour", det:'Sat Aug 22 · 6:45 AM tour · 2 adults · arrive 45 min early (6:00 AM) · QR code check-in · look for the green roof · hiking waiver signed for both ✓', conf:'Booking #D-109970 · (928) 640-1761', tix:[['dixie','🎟️ Show QR']], docs:[['waiver-dixies.pdf','📄 Signed waiver']] },
   { icon:'🛶', name:'Kayak the Colorado — Backhaul Taxi + Tandem Kayak', det:'Sat Aug 22 · 10:00 AM from Lees Ferry · arrive 9:30 · boat leaves ON TIME · waivers signed for both ✓', conf:'Bookings #368709798 &amp; #368709800 · (435) 275-2925', tix:[['kayak1','🎟️ Guest 1'],['kayak2','🎟️ Guest 2']] }
 ];
 
@@ -443,6 +452,14 @@ const TICKETS = [
     when:'Fri Aug 21 → Sun Aug 23 · check in from 3 PM camp time', img:null,
     name:'Christopher Ortiz', conf:'Conf #32688SG058962', extra:'2 adults · Breakfast On Us rate · $883.12 paid',
     tip:'Front desk checks you in by name and confirmation number — show them this screen.' }
+];
+
+/* Signed-waiver record. Dixie's PDF ships with the app; the two FareHarbor
+   PDFs are held back because they carry dates of birth and a personal email. */
+const WAIVERS = [
+  { what:'Dixie’s Lower Antelope — hiking waiver', who:'Chris + Kat', when:'Aug 16, 2026', pdf:'waiver-dixies.pdf' },
+  { what:'Kayak the Colorado — Christopher', who:'FareHarbor', when:'Aug 2, 2026, 10:16 PM', pdf:null },
+  { what:'Kayak the Colorado — Katherine', who:'FareHarbor', when:'Aug 2, 2026, 10:17 PM', pdf:null }
 ];
 
 const TODOS = [
@@ -472,7 +489,7 @@ const POI = {
   checkerboard: { icon:'♟️', name:'Checkerboard Mesa & the Tunnel', tagline:'Zion’s east side: crosshatched domes and a 1930 marvel', facts:[['Where','Zion–Mt Carmel Hwy'],['Cost','Included in park fee'],['Time','Pullouts, 20–30 min'],['Look for','Desert bighorn sheep']], body:['The east entrance road passes Checkerboard Mesa — a sandstone dome crosshatched by ancient wind-laid dunes and modern frost cracks — then dives through the 1.1-mile tunnel blasted in 1930, with gallery windows flashing canyon views as you drive.'], tip:'Drive through the tunnel to the switchbacks and back for the full show — normal cars need no permit (that’s RVs only).', url:'https://www.nps.gov/zion/planyourvisit/the-zion-mount-carmel-tunnel.htm', maps:'https://maps.google.com/?q=Checkerboard+Mesa+Zion' },
   sandcave: { icon:'🐚', name:'Sand Cave — the Shell Station Secret', tagline:'A wind-carved sandstone alcove hiding behind a gas station — Page’s favorite local secret', facts:[['Where','Shell station, AZ-98 × Coppermine Rd'],['Cost','Free'],['Walk','~10 min round trip, unmarked trail'],['Bonus','Fry bread taco inside the Shell']], body:['Behind the Shell station on the road to Antelope Canyon, a short unmarked path leads to the Big Lake Sand Cave — an alcove scooped out of the sandstone by wind and water, glowing like a miniature Antelope in the right light.','Park in the dirt lot behind the station (northeast side) or at the Page Amphitheater, walk in, and don’t carve or litter — it stays secret-nice because people behave.'], drive:'From Page, AZ-98 EAST toward Antelope Canyon. At the Coppermine Rd junction (~3 mi out) the Shell station is on the right. Park in the dirt lot BEHIND the station on the northeast side, or across at the Page Amphitheater. The path leaves from the back of the lot — unmarked, ~5 min in.', tip:'Jon-approved. Friday-evening fit is perfect — and it’s 5 min from Dixie’s, so if you’re out of the canyon by 8:00 sharp Saturday you could squeeze it in… but never gamble against the 10:00 boat.', url:'https://grandcanyon.com/poi/sand-cave/', maps:'https://maps.google.com/?q=Shell+Station+Highway+98+Coppermine+Rd+Page+AZ' },
   dinotracks: { icon:'🦕', name:'Moenkopi Dinosaur Tracks', tagline:'Real ~193-million-year-old tracks in open rock — shown by Navajo guides since 1956', facts:[['Where','US-160, 5 mi west of Tuba City'],['Detour','~25 min off US-89 + 30–40 min visit'],['Cost','Tip the guide — $10–20/person, cash'],['Hours','Daylight · informal, no buildings']], body:['At Moenave, Early Jurassic mudflats hardened into rock printed with hundreds of three-toed theropod tracks — dilophosaurus country. Navajo families have guided visitors across the trackway from the roadside since 1956: no tickets, no fences, just a local walking you over 193-million-year-old ground.','It’s raw and DIY — that’s the charm. Bring cash for the tip and water; there’s no shade.'], tip:'Jon-approved. Adds ~1 hr to the Friday drive — stacked on the Flagstaff lunch that means camp closer to 5:15, which costs you Sand Cave and squeezes Horseshoe Bend. Pick one or the other, or save it for Sunday if you skip Zion.', url:'https://www.atlasobscura.com/places/moenave-dinosaur-tracks', maps:'https://maps.google.com/?q=Moenkopi+Dinosaur+Tracks+Tuba+City' },
-  utv: { icon:'🏜️', name:'UTV Off-Road & Scenic Overlook Tour', tagline:'Drive your own machine along the rim — Horseshoe Bend from above', facts:[['Operator','Page Adventure Company'],['Length','~3 hrs · you drive'],['Price','~$125–139/person'],['Status','NOT BOOKED — call first']], body:['A guided convoy where you take the wheel: sandy washes and slickrock out to overlooks above Lake Powell, Glen Canyon, the Grand Staircase and the Vermilion Cliffs — including Horseshoe Bend seen from the top of the cliff rather than the rim path or the water. Between Friday’s overlook and Saturday’s paddle, that would be the third and last angle on the same bend.','Two-guest minimum per vehicle, so the pair of you is exactly one machine. A $500 damage deposit is held against a card and released after.','Other operators in town if they’re full: Epic Adventure Rides (928) 614-4094, or a ride-with-a-guide version around $169/person if you’d rather not drive.'], tip:'Prices and the 3-hour length come from current listings, not a quote — confirm both when you call, along with the meeting point and the minimum driver age. Nothing here is booked.', url:'https://pageadventurecompany.com/', maps:'https://www.google.com/maps/search/?api=1&query=Page+Adventure+Company,+Page,+AZ' },
+  utv: { icon:'🏜️', name:'UTV Off-Road & Scenic Overlook Tour', tagline:'Drive your own machine along the rim — Horseshoe Bend from above', facts:[['Operator','Page Adventure Company'],['Length','~3 hrs · you drive'],['Price','~$125–139/person'],['Status','NOT BOOKED — call first']], body:['A guided convoy where you take the wheel: sandy washes and slickrock out to overlooks above Lake Powell, Glen Canyon, the Grand Staircase and the Vermilion Cliffs — including Horseshoe Bend seen from the top of the cliff rather than the rim path or the water. Between Friday’s overlook and Saturday’s paddle, that would be the third and last angle on the same bend.','Two-guest minimum per vehicle, so the pair of you is exactly one machine. A $500 damage deposit is held against a card and released after.','Other operators in town if they’re full: Epic Adventure Rides (928) 614-4094, or a ride-with-a-guide version around $169/person if you’d rather not drive.','Big Water itself has no UTV outfit — it’s a 500-person town and its rental trade is boats for Lake Powell (All In Boat Rentals, MB Surf). Page is 25 minutes south and sits on the way home, so it’s both the closest option and the right direction. Kanab has more UTV operators ($259–599) but it’s 75 minutes the wrong way, and leaving from there puts you home well after 8.'], tip:'Prices and the 3-hour length come from current listings, not a quote — confirm both when you call, along with the meeting point and the minimum driver age. Nothing here is booked.', url:'https://pageadventurecompany.com/', maps:'https://www.google.com/maps/search/?api=1&query=Page+Adventure+Company,+Page,+AZ' },
   powelldays: { icon:'🎪', name:'Powell Days — Downtown Page', tagline:'The town’s John Wesley Powell celebration — Sat 11 AM–3 PM', facts:[['When','Sat Aug 22, 11–3'],['Where','Downtown Page'],['Cost','Free'],['Fit','Only if plans shift']], body:['Page celebrates the one-armed major who ran this river in 1869. You’ll be ON his river while it happens — the better tribute — but if weather cancels the paddle, this is the backup morning.'], tip:'Expect downtown parking to be tight midday Saturday.', url:'https://events.cityofpage.org/', maps:'https://maps.google.com/?q=Downtown+Page+AZ' }
 };
 
@@ -534,19 +551,19 @@ const DAYS = [
     { t:'~9:30 PM', camp:'10:30 camp', title:'Nightcap & moonrise', note:'Blue Bar wine flight in town, or straight to the campfire — s’mores, moonlit mesa, telescope window.', eat:'bluebar' }
   ]},
   { id:'sun', date:'2026-08-23', day:'Sun 23', label:'Choose', plans:[
-   { id:'zion', name:'🏞️ Zion East', meta:'Canyon Overlook + the 1930 tunnel · $35 gate · home ~8:45 PM',
-     head:'Zion East → Home', sub:'Checkout 9:00 AM AZ (10:00 camp) · home in Chandler ~8:45 PM', events:[
-    { t:'7:00 AM', camp:'8:00 camp', title:'Camp breakfast — on the house', note:'Cooked-to-order, 7–10 AM camp time. Your "Breakfast On Us" $50 credit lands this morning. Pack the car first.', poi:'undercanvas' },
-    { t:'9:00 AM', camp:'10:00 camp', title:'Check out — one last look', note:'Optional 5-min stop: BLM Big Water Visitor Center — dinosaurs found in the cliffs behind camp.', poi:'bigwatervc' },
-    { t:'9:15 AM', title:'Drive to Zion — east entrance', note:'US-89 through Kanab to Mt Carmel Junction, then the climb to the east gate. ~87 mi, ~1:45. $35/vehicle (ATB pass works). No timed entry in 2026.', tags:[['maps','🗺️ Route']], maps:'https://www.google.com/maps/dir/Big+Water,+UT/Zion+National+Park+East+Entrance' },
-    { t:'11:00 AM', title:'Canyon Overlook Trail', note:'1 mi round trip to the stone porch over Pine Creek Canyon — Zion’s best short hike, no shuttle needed. Lot is tiny; circle patiently.', poi:'canyonoverlook', beam:true },
-    { t:'12:15 PM', title:'Tunnel run & Checkerboard Mesa', note:'Drive the 1930 tunnel to the switchbacks and back — gallery windows flashing canyon views. Bighorn sheep watch on the east side.', poi:'checkerboard' },
-    { t:'~1:30 PM', title:'Late lunch — Rocking V Cafe, Kanab', note:'Kanab’s best table, reliably open Sundays (Sego isn’t). 97 W Center St.', eat:'rockingv' },
-    { t:'2:45 PM', title:'The long road home', note:'Kanab → Page (gas) → Cameron → Flagstaff → Chandler. ~5¾ hrs. Trade drivers at Cameron.', tags:[['maps','🗺️ Route home']], maps:'https://www.google.com/maps/dir/Kanab,+UT/Chandler,+AZ' },
-    { t:'~5:15 PM', title:'Dinner stop — Cameron or Flagstaff', note:'Cameron Trading Post at 5:15 for the Navajo taco you skipped Friday — or push the last hour to Flagstaff (~6 PM) for Beaver Street Brewery, Jon’s other pick, open till 9. (Pizzicletta’s open too if Friday’s pie earned a repeat.) Details in Dining → On the Road.', eat:'cameron' },
-    { t:'~8:45 PM', title:'Home — Chandler', note:'Two slot canyons, ten river miles, a national park, and a birthday. Not bad for one weekend.', tags:[] }
+   { id:'zion', name:'🏞️ Zion East', meta:'Canyon Overlook + the 1930 tunnel · $35 gate · home ~7:45 PM',
+     head:'Zion East → Home', sub:'Early checkout · Kanab lunch · home in Chandler ~7:45 PM — the tight one, the clock runs all day', events:[
+    { t:'6:45 AM', camp:'7:45 camp', title:'Camp breakfast — on the house', note:'Cooked-to-order from 7:00 camp time. Your "Breakfast On Us" $50 credit lands this morning. Load the car before you eat — this plan has no slack in it.', poi:'undercanvas' },
+    { t:'8:00 AM', camp:'9:00 camp', title:'Check out — an hour early', note:'Checkout isn’t until 10:00 camp time, but leaving at 9:00 is what buys you a 7:45 PM arrival instead of 8:45. Optional 5-min stop on the way out: BLM Big Water Visitor Center.', poi:'bigwatervc', tags:[['hard','⏰ The whole day hinges on this']] },
+    { t:'8:15 AM', title:'Drive to Zion — east entrance', note:'US-89 through Kanab to Mt Carmel Junction, then the climb to the east gate. ~87 mi, ~1:45. $35/vehicle (ATB pass works). No timed entry in 2026 — verified.', tags:[['maps','🗺️ Route']], maps:'https://www.google.com/maps/dir/?api=1&origin=555+S+Jacob+Tank+Rd,+Big+Water,+UT+84741&destination=Zion+National+Park+East+Entrance,+UT&travelmode=driving' },
+    { t:'10:00 AM', title:'Canyon Overlook Trail', note:'1 mi round trip to the stone porch over Pine Creek Canyon — Zion’s best short hike, no shuttle needed. Lot is tiny; circle patiently.', poi:'canyonoverlook', beam:true },
+    { t:'11:15 AM', title:'Tunnel run & Checkerboard Mesa', note:'Drive the 1930 tunnel to the switchbacks and back — gallery windows flashing canyon views. Bighorn sheep watch on the east side.', poi:'checkerboard' },
+    { t:'12:15 PM', title:'Lunch — Rocking V Cafe, Kanab', note:'Opens 11:30 daily — verified. Kanab’s best table and the last good food before five hours of highway. 97 W Center St.', eat:'rockingv', tags:[['maps','🗺️ Directions — Zion → Kanab']], maps:'https://www.google.com/maps/dir/?api=1&origin=Zion+National+Park+East+Entrance,+UT&destination=Rocking+V+Cafe,+97+W+Center+St,+Kanab,+UT+84741&travelmode=driving' },
+    { t:'1:15 PM', title:'The long road home', note:'Kanab → Page (gas) → Cameron → Flagstaff → Chandler. ~5¾ hrs of driving. Trade drivers at Cameron. Leave later than 1:30 and 8 PM is gone.', tags:[['maps','🗺️ Route home'],['hard','⏰ Roll by 1:30']], maps:'https://www.google.com/maps/dir/?api=1&origin=Kanab,+UT&destination=Chandler,+AZ&waypoints=Page,+AZ%7CCameron+Trading+Post,+Cameron,+AZ&travelmode=driving' },
+    { t:'~3:45 PM', title:'Cameron Trading Post — gas & stretch', note:'The Navajo taco you skipped Friday, if you want a real meal. Twenty minutes here still gets you home before 8.', eat:'cameron' },
+    { t:'~7:45 PM', title:'Home — Chandler', note:'Two slot canyons, ten river miles, a national park, and a birthday. Not bad for one weekend.', tags:[] }
    ]},
-   { id:'atv', name:'🏜️ UTV morning', meta:'3 hrs off-road above Horseshoe Bend · ~$125–139pp · home ~6:45 PM',
+   { id:'atv', name:'🏜️ UTV morning', meta:'3 hrs off-road above Horseshoe Bend · ~$125–139pp · home ~6:45 PM — the relaxed one',
      head:'Off-Road Morning → Home', sub:'NOT BOOKED — call to hold a slot · checkout 9:00 AM AZ · home ~6:45 PM (or ~8:00 with a Flagstaff dinner)', events:[
     { t:'6:45 AM', camp:'7:45 camp', title:'Camp breakfast — on the house', note:'Cooked-to-order from 7:00 camp time. Your "Breakfast On Us" $50 credit lands this morning. Eat early — the UTV clock is tighter than Zion’s.', poi:'undercanvas' },
     { t:'8:00 AM', camp:'9:00 camp', title:'Check out & load the car', note:'An hour earlier than the Zion plan. Everything goes in the car now — you won’t come back through camp.', tags:[['hard','⏰ Earlier checkout']] },
@@ -816,12 +833,29 @@ function buildDays(){
         btn.addEventListener('click',()=> openTicket(id));
         btns.appendChild(btn);
       });
+      (b.docs||[]).forEach(([href,label])=>{
+        const a = el('a','tix-btn ghost',label);
+        a.href = href; a.target = '_blank'; a.rel = 'noopener';
+        btns.appendChild(a);
+      });
       main.appendChild(btns);
     }
     row.appendChild(main);
     bkBody.appendChild(row);
   });
-  bkBody.appendChild(el('div','tix-note','QR codes are stored in the app, not fetched — they work with no signal at Lees Ferry. Turn brightness all the way up before you hand the phone over.'));
+  const wv = el('div','wv-block');
+  wv.appendChild(el('div','wv-head','📄 Signed waivers — on record'));
+  WAIVERS.forEach(w=>{
+    const r = el('div','wv-row');
+    const m = el('div','wv-main');
+    m.appendChild(el('div','wv-name',w.what));
+    m.appendChild(el('div','wv-meta',w.who + ' · signed ' + w.when));
+    r.appendChild(m);
+    r.appendChild(el('div','wv-ok','✓'));
+    wv.appendChild(r);
+  });
+  bkBody.appendChild(wv);
+  bkBody.appendChild(el('div','tix-note','QR codes and the waiver PDF are stored in the app, not fetched — they work with no signal at Lees Ferry. Turn brightness all the way up before you hand the phone over.'));
   bk.appendChild(bkBody);
   sec.appendChild(bk);
 
