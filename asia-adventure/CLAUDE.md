@@ -19,6 +19,8 @@ PWA trip companion for the May 18 – June 9, 2027 trip (Singapore → Disney Ad
 
 ## localStorage (ns `aa27_`)
 
+Everything here except `anthropic_key` and `ui_*` is included in the repo-wide Google Drive copy (`../fv-drive.js`; card in Settings, bar on Home). `sw.js` must never cache `www.googleapis.com` / `accounts.google.com`.
+
 `quests` (id→bool) · `bingo` · `journal` (dayId→{m,e,s}) · `daynotes` (dayId→text, the plans-changed override; surfaces on Today at a Glance) · `pack` · `trivia_best` (deck→score) · `lessons` (lessonId→bool, Academy stamps; drives rank + trivia unlock) · `anthropic_key` (via Settings; app fully works without it) · `ui_*` (nav state).
 
 ## Culture Academy

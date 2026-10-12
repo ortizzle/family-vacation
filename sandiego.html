@@ -972,6 +972,7 @@
 
     <!-- ═══════════ HOME ═══════════ -->
     <section class="section active" id="section-home">
+        <div id="fv-drive-bar"></div>
 
         <div class="today-card" id="today-card" hidden>
             <div class="today-tag" id="today-tag">Today</div>
@@ -1051,6 +1052,11 @@
             <div class="card-title" style="font-size:16px;">Send this to whoever else is coming</div>
             <div class="card-body" style="margin-bottom:14px;">Everyone can open the link — no app or account needed.</div>
             <button class="share-btn" id="share-btn">📤 Share This App</button>
+        </div>
+
+        <div class="card">
+            <div class="card-label">☁ Backup</div>
+            <div id="fv-drive-card"></div>
         </div>
     </section>
 
@@ -1174,6 +1180,8 @@
     <button class="nav-item" data-nav="games"><span class="nav-icon">🎮</span><span class="nav-label">Games</span></button>
     <button class="nav-item" data-nav="plan"><span class="nav-icon">📅</span><span class="nav-label">Week</span></button>
 </nav>
+<script src="ortiz-drive.js"></script>
+<script src="fv-drive.js"></script>
 <script>
 /* ══════════════════ HELPERS ══════════════════ */
 
@@ -2385,6 +2393,9 @@ document.getElementById('share-btn').addEventListener('click', async () => {
     renderJournal();
     refreshItinUI();
 })();
+FamilyDrive.start({ toast: toast });
+FamilyDrive.card(document.getElementById('fv-drive-card'), { title: false });
+FamilyDrive.bar(document.getElementById('fv-drive-bar'));
 </script>
 </body>
 </html>
