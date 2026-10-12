@@ -1350,6 +1350,7 @@
         </div>
 
         <!-- ============ SECTION CARDS GRID ============ -->
+        <div id="fv-drive-bar" style="padding:0 16px;"></div>
         <div class="poster-grid-wrap">
             <div class="poster-grid-header"><span></span>Expedition Chapters<span></span></div>
             <div class="poster-grid">
@@ -4053,6 +4054,10 @@
         <!-- Export -->
         <button id="keepsake-copy-btn" onclick="copyKeepsake()" style="width:100%;background:var(--glacier);color:white;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-bottom:10px;">📋 Copy to Clipboard</button>
         <button id="keepsake-postcard-btn" onclick="savePostcard()" style="width:100%;background:var(--gold);color:#1a1a0e;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-bottom:24px;">🖼️ Save as Postcard</button>
+
+        <!-- Google Drive copy (fv-drive.js) -->
+        <div class="section-header">☁ Backup</div>
+        <div id="fv-drive-card" style="margin-bottom:24px;"></div>
     </section>
 
 </main>
@@ -4280,6 +4285,8 @@
     <button class="nav-item" onclick="showSection('games',this)"><span class="nav-icon">🏆</span><span class="nav-label">Games</span></button>
 </nav>
 
+<script src="ortiz-drive.js"></script>
+<script src="fv-drive.js"></script>
 <script>
     // Dual countdown
     (function() {
@@ -9443,6 +9450,10 @@
         const night = map[tripTodayStr()];
         if (night) { const el = document.getElementById('dn-' + night); if (el) el.style.display = ''; }
     })();
+
+    FamilyDrive.start();
+    FamilyDrive.card(document.getElementById('fv-drive-card'), { title: false });
+    FamilyDrive.bar(document.getElementById('fv-drive-bar'));
 
     // Service worker registration
     if ('serviceWorker' in navigator) {

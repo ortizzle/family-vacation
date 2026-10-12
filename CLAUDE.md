@@ -80,6 +80,16 @@ Dinner event items carry `data-dinner-key` (`ap-1`…`ap-3`, `tr-1`, `tr-2`, `ti
 | `POSTCARD_TYPES` | 3 postcard styles for the Keepsake builder (`showCrew` controls the family-names footer on export) |
 | `TONIGHT_PLAN` | Night → dinner key + show line for the Tonight strip |
 
+## Google Drive backup (all trip apps)
+
+`fv-drive.js` (repo root) + the shared `ortiz-drive.js` (a copy next to each app's page — never
+edit it here) save every trip's own localStorage data on this phone into one dated file,
+`Ortiz App Backups › Family Vacation › family-vacation-YYYY-MM-DD.json`, grouped by trip. Each
+trip page (index, camping, jerome, sandiego, canyon-light, asia-adventure) has a ☁ Backup card
+and a one-tap bar on its home screen; connecting on any page covers them all. **A new trip app
+must add its key prefix to `TRIPS` in `fv-drive.js`**, and keep secrets/UI state out of it via
+`SKIP`. Subfolder apps load `../fv-drive.js` and precache it in their own `sw.js`.
+
 ## State management (localStorage)
 
 | Key | Contents |

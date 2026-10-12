@@ -130,6 +130,9 @@ textarea,input{font-family:'Spectral',serif;font-size:15px;color:var(--ink)}
 .hcard{margin:0 0 12px;padding:12px 14px;border-radius:9px;border:1.5px solid var(--paper-line);background:rgba(255,255,255,.4)}
 .hcard h4{font-family:'Special Elite',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--stamp-jp);margin-bottom:6px}
 .hcard p{font-size:13px;line-height:1.5;color:var(--ink-soft)}
+.fv-drive-btn{display:block;width:100%;min-height:48px;margin:6px 0 8px;font-size:13px}
+.fv-drive-label{display:none}
+.fv-drive-card .fv-drive-title{font-family:'Special Elite',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--stamp-jp)}
 .hcard .big{font-family:'Special Elite',monospace;font-size:30px;color:var(--ink);letter-spacing:2px;text-align:center;padding:4px 0}
 .hcard .big small{font-size:12px;letter-spacing:2px;color:var(--ink-soft)}
 .hcard.tappable{cursor:pointer}
@@ -310,6 +313,8 @@ textarea,input{font-family:'Spectral',serif;font-size:15px;color:var(--ink)}
 <script src="data/guides.js"></script>
 <script src="data/games.js"></script>
 <script src="data/lessons.js"></script>
+<script src="ortiz-drive.js"></script>
+<script src="../fv-drive.js"></script>
 <script>
 'use strict';
 /* ============ core utils ============ */
@@ -372,6 +377,7 @@ function pageCard(build){ const page=el('div','page'); page.appendChild(el('div'
 function renderHome(){
   const phase=tripPhase();
   app.appendChild(pageCard(inner=>{
+    const driveBar=el('div'); inner.appendChild(driveBar); FamilyDrive.bar(driveBar,{className:'btn fv-drive-btn'});
     if(phase==='pre'){
       const days=daysBetween(azToday(), TRIP_START);
       const c=el('div','hcard'); c.appendChild(el('h4','','⏳ Countdown'));
@@ -428,7 +434,7 @@ function renderHome(){
       ['📖 Field Guides', 'Dining, logistics, etiquette per leg — the “why we picked it” notes.', showGuidePicker],
       ['🧭 Full Coach Timeline', 'Every dated booking trigger from now to the trip.', showCoachFull],
       ['🤖 Concierge', 'Ask the AI anything mid-trip (needs an API key in Settings; works without it — just quieter).', showConcierge],
-      ['⚙️ Settings', 'Claude API key · reset options.', showSettings],
+      ['⚙️ Settings', 'Claude API key · Google Drive backup · reset options.', showSettings],
     ];
     cards.forEach(([t,d,fn])=>{ const c=el('button','hcard tappable'); c.style.cssText='display:block;width:100%;text-align:left';
       c.appendChild(el('h4','',t)); c.appendChild(el('p','',d));
@@ -906,6 +912,8 @@ function showSettings(){
   showModal({title:'⚙️ Settings', confirmText:'Save', cancelText:'Cancel',
     build:(box)=>{ box.appendChild(el('p','','Claude API key (stored only on this phone; the app works fully without it).'));
       const inp=el('input',''); inp.type='password'; inp.placeholder='sk-ant-…'; inp.value=Store.get('anthropic_key','')||''; inp.id='set-key'; box.appendChild(inp);
+      const drive=el('div'); drive.style.marginTop='14px'; box.appendChild(drive);
+      FamilyDrive.card(drive,{title:'☁ Google Drive backup',block:{labelClass:'fv-drive-label',buttonClass:'btn fv-drive-btn'}});
       const reset=el('button','btn','Reset ALL app data'); reset.style.cssText='margin-top:14px;border-color:var(--warn);color:var(--warn)';
       reset.addEventListener('click',()=>showModal({title:'Reset everything?', message:'Quests, journal, bingo, notes, packing — all cleared on this phone.',
         confirmText:'Yes, reset', cancelText:'Keep it', onConfirm:()=>{ ['quests','journal','bingo','daynotes','pack','trivia_best','lessons'].forEach(k=>Store.remove(k)); toast('Cleared'); showTab('home'); }}));
@@ -946,6 +954,7 @@ function showConcierge(){
 
 /* ============ boot ============ */
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+FamilyDrive.start({toast});
 showTab('home');
 </script>
 </body>

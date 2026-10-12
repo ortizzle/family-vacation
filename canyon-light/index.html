@@ -282,6 +282,8 @@
   /* ═══ Packing ═══ */
   .pack-progress{font-size:.8rem;color:var(--muted);margin:4px 4px 10px}
   .pack-progress b{color:var(--navy);font-weight:600}
+  .fv-drive-host{padding:13px 16px}
+  .fv-drive-host .fv-drive-title{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:600;color:var(--navy-deep)}
   .pk-cat{border:1px solid var(--line);border-radius:16px;background:var(--card);margin-bottom:10px;overflow:hidden}
   .pk-head{display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;min-height:50px}
   .pk-head .k-title{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:600;color:var(--navy-deep);flex:1}
@@ -386,6 +388,8 @@
 
 <nav class="bottomnav" id="bottomnav" aria-label="App sections"></nav>
 
+<script src="ortiz-drive.js"></script>
+<script src="../fv-drive.js"></script>
 <script>
 'use strict';
 
@@ -788,6 +792,7 @@ function openEat(id){ if(EAT[id]) openDetail(EAT[id],'eat'); }
 function buildDays(){
   const sec = document.getElementById('section-days');
   sec.textContent = '';
+  const driveBar = el('div'); sec.appendChild(driveBar); FamilyDrive.bar(driveBar);
 
   /* bookings + tickets — one collapsed strip */
   const bk = el('div','strip');
@@ -1230,6 +1235,9 @@ function buildPack(){
     sec.appendChild(cat);
   });
 
+  const drive = el('div','pk-cat fv-drive-host'); sec.appendChild(drive);
+  FamilyDrive.card(drive, { title: '☁ Backup' });
+
   const foot = el('div','footer-note');
   foot.appendChild(document.createTextNode('Canyon Light · built for Kat’s birthday'));
   foot.appendChild(document.createElement('br'));
@@ -1279,6 +1287,7 @@ function renderCountdown(){
 }
 
 /* ═════════ Boot ═════════ */
+FamilyDrive.start();
 buildNav();
 buildDays();
 buildExplore();

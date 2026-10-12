@@ -1,6 +1,6 @@
 /* Asia Adventure service worker — cache-first for offline (ship, planes, Great Firewall).
    RULE: bump CACHE on every content change. Phones need two opens after a push. */
-const CACHE = 'aa27-v6';
+const CACHE = 'aa27-v7';
 const ASSETS = [
   './',
   './index.html',
@@ -15,6 +15,8 @@ const ASSETS = [
   './icon-maskable-512.png',
   './apple-touch-icon.png',
   './favicon.ico',
+  './ortiz-drive.js',
+  '../fv-drive.js',
   'https://fonts.googleapis.com/css2?family=Special+Elite&family=Spectral:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600&display=swap'
 ];
 
@@ -33,6 +35,9 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET') return;
   if (url.hostname === 'api.anthropic.com') return; // never cache AI calls
+  // Google sign-in and the Drive API must always hit the network — a cached folder lookup
+  // would point the backup at a stale (or trashed) folder.
+  if (url.hostname === 'www.googleapis.com' || url.hostname === 'accounts.google.com') return;
   e.respondWith(
     caches.match(e.request, { ignoreSearch: url.origin === location.origin }).then(hit => {
       if (hit) return hit;

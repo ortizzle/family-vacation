@@ -657,6 +657,7 @@
 
 <!-- ═══════════════════════════════════ HOME ═══════════════════════════════════ -->
 <section class="section active" id="section-home">
+    <div id="fv-drive-bar" style="padding:12px 16px 0;"></div>
 
     <div class="base-card">
         <div class="base-icon">🏠</div>
@@ -832,6 +833,10 @@
         <div style="font-size:11px;color:var(--text-light);margin-bottom:12px;">Track your tastings · rate each winery</div>
         <div id="wine-log-items"></div>
     </div>
+
+    <!-- Google Drive copy (fv-drive.js) -->
+    <div class="section-header">☁ Backup</div>
+    <div id="fv-drive-card" style="padding:0 16px 24px;"></div>
 
 </section>
 
@@ -1706,6 +1711,8 @@
     </div>
 </div>
 
+<script src="ortiz-drive.js"></script>
+<script src="fv-drive.js"></script>
 <script>
     function showSection(name, btnEl) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -3252,6 +3259,9 @@ ${sections}
         setInterval(renderOpenNow, 60000);
     });
 
+FamilyDrive.start();
+FamilyDrive.card(document.getElementById('fv-drive-card'), { title: false });
+FamilyDrive.bar(document.getElementById('fv-drive-bar'));
 </script>
 </body>
 </html>
