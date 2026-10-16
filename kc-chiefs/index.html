@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#140c0b">
+<title>Red Weekend — Kansas City · Oct 17–19, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#140c0b;        /* stadium-night background */
+    --night-2:#1f1311;
+    --red:#c8102e;          /* Red Friday */
+    --red-deep:#8f0b20;
+    --gold:#f2b632;
+    --gold-soft:#f7d98a;
+    --stub:#f5ecdc;         /* ticket paper */
+    --stub-2:#ebdfc8;
+    --ink:#1e1614;
+    --ink-soft:#5b4a43;
+    --perf:#cdbd9f;
+    --safe-top:env(safe-area-inset-top,0px);
+    --safe-bot:env(safe-area-inset-bottom,0px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{
+    font-family:'Barlow',sans-serif;background:var(--night);color:var(--stub);
+    min-height:100vh;padding-bottom:calc(84px + var(--safe-bot));
+    background-image:
+      radial-gradient(ellipse 120% 50% at 50% -10%, rgba(200,16,46,.35), transparent 70%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,.018) 0 2px, transparent 2px 9px);
+    background-attachment:fixed;
+  }
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  a{color:inherit}
+
+  /* ═══ Hero: the big ticket ═══ */
+  .hero{padding:calc(18px + var(--safe-top)) 16px 6px}
+  .admit{
+    position:relative;display:flex;background:var(--red);color:var(--stub);
+    border-radius:10px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.45);
+    -webkit-mask:radial-gradient(circle 11px at calc(100% - 92px) 0,#0000 98%,#000) top/100% 51% no-repeat,
+                 radial-gradient(circle 11px at calc(100% - 92px) 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+            mask:radial-gradient(circle 11px at calc(100% - 92px) 0,#0000 98%,#000) top/100% 51% no-repeat,
+                 radial-gradient(circle 11px at calc(100% - 92px) 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+  }
+  .admit-main{flex:1;padding:16px 16px 14px 18px;position:relative;
+    background:repeating-linear-gradient(90deg,rgba(0,0,0,.06) 0 1px,transparent 1px 6px)}
+  .admit-kicker{font-family:'Courier Prime',monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-soft)}
+  .admit h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(3rem,15vw,4.2rem);line-height:.86;letter-spacing:.01em;margin:8px 0 6px}
+  .admit h1 span{color:var(--gold)}
+  .admit-sub{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.95rem;letter-spacing:.12em;text-transform:uppercase}
+  .admit-sub b{color:var(--gold)}
+  .admit-stub{width:92px;border-left:2px dashed rgba(245,236,220,.55);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;padding:10px 6px;text-align:center;background:var(--red-deep)}
+  .admit-stub .big{font-family:'Bebas Neue',sans-serif;font-size:2.7rem;line-height:.9;color:var(--gold)}
+  .admit-stub .lbl{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+  .serial{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.2em;color:rgba(245,236,220,.7);margin-top:10px}
+
+  /* ═══ Day tabs ═══ */
+  .daytabs{position:sticky;top:0;z-index:20;display:flex;gap:8px;padding:12px 16px calc(10px);
+    background:linear-gradient(var(--night) 78%,rgba(20,12,11,0))}
+  .daytab{flex:1;min-height:56px;border-radius:8px;border:1.5px solid rgba(245,236,220,.18);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:rgba(245,236,220,.75);background:var(--night-2)}
+  .daytab .dow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.2em}
+  .daytab .num{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;line-height:1}
+  .daytab .tg{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}
+  .daytab.on{background:var(--stub);color:var(--ink);border-color:var(--gold);box-shadow:0 0 0 2px rgba(242,182,50,.25)}
+  .daytab.on .num{color:var(--red)}
+  .daytab .today{display:none;font-family:'Courier Prime',monospace;font-size:.55rem;background:var(--gold);color:var(--ink);padding:0 5px;border-radius:3px;margin-top:2px}
+  .daytab.is-today .today{display:block}
+
+  /* ═══ Day panel ═══ */
+  .panel{padding:4px 16px 20px;display:none}
+  .panel.on{display:block}
+  .day-head{display:flex;align-items:baseline;justify-content:space-between;margin:6px 2px 12px}
+  .day-head h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:2.1rem;letter-spacing:.02em;line-height:1}
+  .day-head h2 em{font-style:normal;color:var(--gold)}
+  .tzpill{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--gold-soft);border:1px solid rgba(242,182,50,.4);padding:3px 7px;border-radius:4px;white-space:nowrap}
+  .day-lede{font-size:.92rem;line-height:1.5;color:rgba(245,236,220,.82);margin:-4px 2px 16px}
+
+  /* ═══ Game ticket ═══ */
+  .gameticket{position:relative;background:var(--stub);color:var(--ink);border-radius:10px;margin-bottom:18px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.4)}
+  .gt-band{background:var(--red);color:var(--stub);display:flex;justify-content:space-between;align-items:center;padding:8px 14px;
+    font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase}
+  .gt-band b{color:var(--gold)}
+  .gt-body{padding:14px 14px 10px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;text-align:center}
+  .gt-team .nm{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:.95}
+  .gt-team .rec{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--ink-soft)}
+  .gt-team.home .nm{color:var(--red)}
+  .gt-at{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--ink-soft)}
+  .gt-meta{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px dashed var(--perf);margin:0 10px}
+  .gt-meta div{padding:9px 4px 11px;text-align:center}
+  .gt-meta .k{font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.16em;color:var(--ink-soft);text-transform:uppercase}
+  .gt-meta .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.05rem}
+  .gt-countdown{background:var(--ink);color:var(--gold);font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.14em;text-align:center;padding:7px;text-transform:uppercase}
+
+  /* ═══ Timeline (each row is a stub) ═══ */
+  .tl{list-style:none;position:relative}
+  .tl-item{position:relative;display:flex;background:var(--stub);color:var(--ink);border-radius:8px;margin-bottom:10px;min-height:64px;
+    -webkit-mask:radial-gradient(circle 7px at 74px 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 7px at 74px 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+            mask:radial-gradient(circle 7px at 74px 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 7px at 74px 100%,#0000 98%,#000) bottom/100% 51% no-repeat}
+  .tl-item.tap{cursor:pointer}
+  .tl-item.tap:active{transform:scale(.99)}
+  .tl-time{width:74px;flex:none;border-right:2px dashed var(--perf);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;text-align:center}
+  .tl-time .t{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;line-height:1;color:var(--red)}
+  .tl-time .az{font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.06em;color:var(--ink-soft);margin-top:3px}
+  .tl-body{flex:1;padding:10px 12px 10px 14px;min-width:0}
+  .tl-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.12rem;line-height:1.15;letter-spacing:.01em}
+  .tl-note{font-size:.84rem;line-height:1.42;color:var(--ink-soft);margin-top:3px}
+  .tl-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+  .tag{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:3px;background:var(--stub-2);color:var(--ink)}
+  .tag.red{background:var(--red);color:var(--stub)}
+  .tag.gold{background:var(--gold);color:var(--ink)}
+  .tag.warn{background:#ffe2a6;color:#6b3d00;border:1px solid #e7b04a}
+  .tl-item.anchor{box-shadow:inset 0 0 0 2px var(--gold)}
+  .tl-item.anchor .tl-time{background:var(--gold)}
+  .tl-item.anchor .tl-time .t{color:var(--ink)}
+  .tl-chev{align-self:center;padding-right:12px;color:var(--ink-soft);font-size:1.1rem}
+
+  /* ═══ A/B fork ═══ */
+  .fork{background:var(--night-2);border:1.5px solid rgba(242,182,50,.45);border-radius:10px;padding:12px;margin:4px 0 12px}
+  .fork-h{font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .fork-q{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:1.05rem;margin-bottom:10px;line-height:1.25}
+  .fork-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .fork-opt{min-height:44px;text-align:left;border-radius:8px;padding:10px;background:rgba(245,236,220,.06);border:1.5px solid rgba(245,236,220,.16)}
+  .fork-opt .l{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.03em;color:var(--gold)}
+  .fork-opt .d{font-size:.78rem;line-height:1.35;color:rgba(245,236,220,.8);margin-top:2px}
+  .fork-opt.on{background:var(--stub);border-color:var(--gold)}
+  .fork-opt.on .l{color:var(--red)}
+  .fork-opt.on .d{color:var(--ink-soft)}
+
+  /* ═══ Info card (rules) ═══ */
+  .card{background:var(--night-2);border:1px solid rgba(245,236,220,.12);border-radius:10px;padding:14px;margin-top:16px}
+  .card h3{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.45rem;letter-spacing:.03em;color:var(--gold);margin-bottom:8px}
+  .rules{list-style:none}
+  .rules li{display:flex;gap:10px;padding:8px 0;border-top:1px dashed rgba(245,236,220,.14);font-size:.88rem;line-height:1.42}
+  .rules li:first-child{border-top:0}
+  .rules .ic{flex:none;width:24px;text-align:center}
+  .rules b{color:var(--stub);font-weight:600}
+  .rules span{color:rgba(245,236,220,.8)}
+
+  /* ═══ Bottom nav ═══ */
+  .bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;background:var(--ink);
+    border-top:3px solid var(--red);padding:6px 6px calc(6px + var(--safe-bot))}
+  .nav-btn{flex:1;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:8px;color:rgba(245,236,220,.6)}
+  .nav-btn .i{font-size:1.25rem;line-height:1}
+  .nav-btn .l{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+  .nav-btn.on{color:var(--gold);background:rgba(200,16,46,.22)}
+
+  .proto-note{margin:18px 16px 0;padding:10px 12px;border:1px dashed rgba(245,236,220,.3);border-radius:8px;font-family:'Courier Prime',monospace;font-size:.7rem;color:rgba(245,236,220,.65);line-height:1.5}
+</style>
+</head>
+<body>
+
+<header class="hero" id="hero"></header>
+<nav class="daytabs" id="daytabs" aria-label="Trip days"></nav>
+<main id="days"></main>
+<div class="proto-note">PROTOTYPE · look &amp; feel check — Game Day is fully built; Sat/Mon, Eat, Play and Pack fill in after approval.</div>
+<nav class="bottomnav" id="bottomnav" aria-label="App sections"></nav>
+
+<script>
+'use strict';
+
+/* ═════════ Time helpers — Arizona is the home clock (UTC-7, no DST); KC is CDT (UTC-5) ═════════ */
+function tripNow(){
+  const p = new URLSearchParams(location.search).get('simdate');
+  if(p) return new Date(p + 'T09:00:00-05:00');
+  return new Date();
+}
+function kcDateStr(d){ return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago'}).format(d); }
+// "3:25 PM" Central → "1:25 AZ"
+function azOf(ct){
+  const m = ct.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if(!m) return '';
+  let h = (+m[1] % 12) + (m[3].toUpperCase()==='PM' ? 12 : 0) - 2;
+  if(h < 0) h += 24;
+  const ap = h >= 12 ? 'PM' : 'AM';
+  return ((h % 12) || 12) + ':' + m[2] + ' ' + ap + ' AZ';
+}
+
+const store = {
+  get(k, fb){ try{ const v = localStorage.getItem(k); return v===null ? fb : JSON.parse(v); }catch(e){ return fb; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+function el(tag, cls, text){
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(text !== undefined && text !== null) n.textContent = text;
+  return n;
+}
+
+/* ═════════ DATA ═════════ */
+const KICKOFF = new Date('2026-10-18T15:25:00-05:00');
+const DEPART  = new Date('2026-10-17T08:48:00-07:00');
+
+const DAYS = [
+  { id:'sat', date:'2026-10-17', dow:'SAT', num:'17', tag:'Arrive + BBQ', title:'Saturday <em>Barbecue</em>' },
+  { id:'sun', date:'2026-10-18', dow:'SUN', num:'18', tag:'Game Day', title:'Game <em>Day</em>',
+    lede:'Chargers at Chiefs, 3:25 PM. Rideshare both ways — no car, no parking pass, no designated driver. Eat chili where Truman did, tailgate in the free district, get inside for the drum.',
+    items:[
+      { t:'7:30 AM', title:'Hyatt Place breakfast', note:'Free hot breakfast downstairs. Keep it light — chili is coming.' },
+      { t:'9:00 AM', title:'🏈 Set the fantasy lineup', note:'Your 7 AM Arizona reminder lands now. Noon CT games lock first.', tags:[['gold','Reminder']] },
+      { t:'11:00 AM', title:'Uber → Dixon’s Chili', note:'Hotel → 9105 E US-40, Independence · ~25 mi, 30–35 min. Wear the red.', tags:[['','Rideshare']] },
+      { t:'11:30 AM', title:'Dixon’s Famous Chili', note:'Since 1919 — Harry Truman’s chili parlor, 5 miles from Arrowhead. Order it “dry” the way regulars do, then add beans and the house hot sauce.', tags:[['red','Recommended to Chris'],['warn','Verify Sunday hours']], tap:true, anchor:false },
+      { t:'12:30 PM', title:'Uber → Arrowhead', note:'~5 mi, 10 min. Drop-off is the Missouri Welcome Center between Gates 1 & 2 on Blue Ridge Cutoff — then a half-mile walk down the hill.', tags:[['','Rideshare']] },
+      { t:'12:45 PM', title:'Ford Tailgate District — Lot M', note:'Free fan zone: food trucks, games, live music, drink specials. The smoke you smell is everyone else’s brisket.', tags:[['gold','Free']] },
+      { t:'2:45 PM', title:'Inside & in your seats', note:'Pregame drum, anthem, flyover. Clear bag only — Arrowhead is fully cashless.', tags:[['warn','Clear bag']] },
+      { t:'3:25 PM', title:'KICKOFF · Chargers at Chiefs', note:'Week 6 · CBS. Bring the noise — this building holds the loudest-stadium world record.', anchor:true, tags:[['red','Anchor'],['','Tickets in Kat’s app']] },
+      { t:'6:40 PM', title:'Final whistle (approx.)', note:'Don’t sprint for the Uber — the queue at the Welcome Center is brutal for the first 45 minutes. Linger, finish your drink, let the lots drain.' }
+    ],
+    fork:{ id:'sun-dinner', q:'Sunday night — the alarm is 3:45 AM.',
+      a:{ l:'A · Q39 dinner', d:'Uber to Q39 Overland Park (1.5 mi from the hotel, open till 9). Reserve ~8:00 PM.' },
+      b:{ l:'B · Eat at the game', d:'Burnt-end anything at Arrowhead, straight to the hotel, lights out by 9.' } },
+    rules:[
+      ['👜','Clear bag only','12×6×12" clear tote or a clutch under 4.5×6.5". Leave everything else at the hotel.'],
+      ['💳','Cashless','Every stand is tap-or-scan. Phones charged.'],
+      ['🚗','Rideshare spot','Missouri Welcome Center, between Gates 1 & 2 on Blue Ridge Cutoff — drop-off AND pickup.'],
+      ['🍖','What to eat inside','Brisket Rangoon (Buck Tui BBQ), elote nachos, Drunken Fries in Guinness cheese.'],
+      ['🧥','Layers','Mid-October: low 70s at kickoff, ~50s by the 4th quarter.']
+    ]
+  },
+  { id:'mon', date:'2026-10-19', dow:'MON', num:'19', tag:'Fly Home', title:'Monday <em>Home</em>' }
+];
+
+/* ═════════ Render: hero ═════════ */
+function daysTo(target){
+  const ms = target - tripNow();
+  return Math.ceil(ms / 86400000);
+}
+function renderHero(){
+  const h = document.getElementById('hero');
+  const t = el('div','admit');
+  const main = el('div','admit-main');
+  main.appendChild(el('div','admit-kicker','Admit Two · Chris + Kat'));
+  const h1 = el('h1'); h1.append('Red Weekend', document.createElement('br'));
+  const sp = el('span','Kansas City'); h1.appendChild(sp);
+  main.appendChild(h1);
+  const sub = el('div','admit-sub'); sub.append('Oct 17–19 · ');
+  sub.appendChild(el('b',null,'Chargers @ Chiefs'));
+  main.appendChild(sub);
+  main.appendChild(el('div','serial','SEC KC · ROW 26 · NO. 1018-1525'));
+  const stub = el('div','admit-stub');
+  const n = daysTo(KICKOFF);
+  if(n > 0){ stub.appendChild(el('div','big', String(n))); stub.appendChild(el('div','lbl', n===1?'day to kickoff':'days to kickoff')); }
+  else if(tripNow() < new Date(KICKOFF.getTime()+4*3600000)){ stub.appendChild(el('div','big','TODAY')); stub.appendChild(el('div','lbl','game day')); }
+  else { stub.appendChild(el('div','big','GG')); stub.appendChild(el('div','lbl','what a weekend')); }
+  t.append(main, stub);
+  h.appendChild(t);
+}
+
+/* ═════════ Render: day tabs + panels ═════════ */
+let activeDay = store.get('kc26-day', null);
+function todayDayId(){
+  const k = kcDateStr(tripNow());
+  const d = DAYS.find(x => x.date === k);
+  return d ? d.id : null;
+}
+function renderDays(){
+  const tabs = document.getElementById('daytabs');
+  const wrap = document.getElementById('days');
+  const today = todayDayId();
+  if(!activeDay) activeDay = today || 'sun';
+  DAYS.forEach(d => {
+    const b = el('button','daytab' + (d.id===today?' is-today':''));
+    b.dataset.day = d.id;
+    b.append(el('span','dow',d.dow), el('span','num',d.num), el('span','tg',d.tag), el('span','today','TODAY'));
+    b.addEventListener('click', () => switchDay(d.id));
+    tabs.appendChild(b);
+    wrap.appendChild(buildPanel(d));
+  });
+  switchDay(activeDay);
+}
+function switchDay(id){
+  activeDay = id; store.set('kc26-day', id);
+  document.querySelectorAll('.daytab').forEach(b => b.classList.toggle('on', b.dataset.day===id));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('on', p.id==='day-'+id));
+}
+
+function setTitle(node, html){
+  // titles carry one <em> accent; built safely without innerHTML
+  const m = html.match(/^(.*)<em>(.*)<\/em>(.*)$/);
+  if(!m){ node.textContent = html; return; }
+  node.append(m[1], el('em',null,m[2]), m[3]);
+}
+
+function buildPanel(d){
+  const p = el('section','panel'); p.id = 'day-' + d.id;
+  const head = el('div','day-head');
+  const h2 = el('h2'); setTitle(h2, d.title);
+  head.append(h2, el('span','tzpill','CENTRAL · AZ +2'));
+  p.appendChild(head);
+  if(d.lede) p.appendChild(el('p','day-lede',d.lede));
+  if(d.id==='sun') p.appendChild(buildGameTicket());
+
+  if(d.items){
+    const ul = el('ul','tl');
+    d.items.forEach(it => {
+      const li = el('li','tl-item' + (it.anchor?' anchor':'') + (it.tap?' tap':''));
+      const tm = el('div','tl-time');
+      const [hm, ap] = it.t.split(' ');
+      tm.append(el('div','t',hm + (ap ? ' ' + ap.toLowerCase().replace('m','') : '')), el('div','az',azOf(it.t)));
+      const body = el('div','tl-body');
+      body.appendChild(el('div','tl-title',it.title));
+      if(it.note) body.appendChild(el('div','tl-note',it.note));
+      if(it.tags){
+        const tg = el('div','tl-tags');
+        it.tags.forEach(([c,txt]) => tg.appendChild(el('span','tag'+(c?' '+c:''),txt)));
+        body.appendChild(tg);
+      }
+      li.append(tm, body);
+      if(it.tap) li.appendChild(el('span','tl-chev','›'));
+      ul.appendChild(li);
+    });
+    p.appendChild(ul);
+  }else{
+    p.appendChild(el('p','day-lede','Filled in for the full build.'));
+  }
+
+  if(d.fork) p.appendChild(buildFork(d.fork));
+
+  if(d.rules){
+    const c = el('div','card');
+    c.appendChild(el('h3',null,'Gate Rules'));
+    const ul = el('ul','rules');
+    d.rules.forEach(([ic,b,s]) => {
+      const li = el('li'); li.appendChild(el('span','ic',ic));
+      const tx = el('div'); tx.append(el('b',null,b + ' — '), el('span',null,s));
+      li.appendChild(tx); ul.appendChild(li);
+    });
+    c.appendChild(ul); p.appendChild(c);
+  }
+  return p;
+}
+
+function buildGameTicket(){
+  const g = el('div','gameticket');
+  const band = el('div','gt-band');
+  band.append(el('span',null,'NFL · Week 6'), el('b',null,'GEHA Field at Arrowhead'));
+  g.appendChild(band);
+  const body = el('div','gt-body');
+  const away = el('div','gt-team'); away.append(el('div','nm','Chargers'), el('div','rec','LOS ANGELES'));
+  const home = el('div','gt-team home'); home.append(el('div','nm','Chiefs'), el('div','rec','KANSAS CITY'));
+  body.append(away, el('div','gt-at','@'), home);
+  g.appendChild(body);
+  const meta = el('div','gt-meta');
+  [['Kickoff','3:25 PM CT'],['Arizona','1:25 PM'],['TV','CBS']].forEach(([k,v]) => {
+    const d = el('div'); d.append(el('div','k',k), el('div','v',v)); meta.appendChild(d);
+  });
+  g.appendChild(meta);
+  const cd = el('div','gt-countdown');
+  const tick = () => {
+    const ms = KICKOFF - tripNow();
+    if(ms <= 0){ cd.textContent = '★ Game on ★'; return; }
+    const d = Math.floor(ms/86400000), h = Math.floor(ms/3600000)%24, m = Math.floor(ms/60000)%60;
+    cd.textContent = 'Kickoff in ' + (d?d+'d ':'') + h + 'h ' + m + 'm';
+  };
+  tick(); setInterval(tick, 30000);
+  g.appendChild(cd);
+  return g;
+}
+
+function buildFork(f){
+  const box = el('div','fork');
+  box.appendChild(el('div','fork-h','⚖ Your call'));
+  box.appendChild(el('div','fork-q',f.q));
+  const opts = el('div','fork-opts');
+  const picks = store.get('kc26-forks', {});
+  ['a','b'].forEach(k => {
+    const b = el('button','fork-opt' + (picks[f.id]===k?' on':''));
+    b.append(el('div','l',f[k].l), el('div','d',f[k].d));
+    b.addEventListener('click', () => {
+      const cur = store.get('kc26-forks', {});
+      cur[f.id] = cur[f.id]===k ? null : k;
+      store.set('kc26-forks', cur);
+      opts.querySelectorAll('.fork-opt').forEach((x,i) => x.classList.toggle('on', cur[f.id]===['a','b'][i]));
+    });
+    opts.appendChild(b);
+  });
+  box.appendChild(opts);
+  return box;
+}
+
+/* ═════════ Bottom nav (prototype: Days only live) ═════════ */
+function renderNav(){
+  const nav = document.getElementById('bottomnav');
+  [['🎟️','Days'],['🍖','Eat'],['🏈','Game'],['🎯','Play'],['🧳','Pack']].forEach(([i,l],idx) => {
+    const b = el('button','nav-btn' + (idx===0?' on':''));
+    b.append(el('span','i',i), el('span','l',l));
+    nav.appendChild(b);
+  });
+}
+
+renderHero();
+renderDays();
+renderNav();
+</script>
+</body>
+</html>
