@@ -90,6 +90,14 @@ and a one-tap bar on its home screen; connecting on any page covers them all. **
 must add its key prefix to `TRIPS` in `fv-drive.js`**, and keep secrets/UI state out of it via
 `SKIP`. Subfolder apps load `../fv-drive.js` and precache it in their own `sw.js`.
 
+## Trip Map (standard in every trip app)
+
+Every trip app ships a **🗺️ Map tab** that works offline: a Natural Earth base map baked in at
+build time (`trip-map/make-map-geo.py`), every stop pinned, tap-two-pins distance/drive time/Uber
+estimate, Uber and Google Maps deep links, a live OSRM road route when online (cached), and
+`ride:[from,to,surge]` Uber chips on timeline items. Spec + checklist: `trip-map/README.md`.
+Reference build: `kc-chiefs/index.html`.
+
 ## State management (localStorage)
 
 | Key | Contents |
