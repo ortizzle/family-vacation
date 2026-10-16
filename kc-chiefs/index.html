@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#140c0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Red Weekend">
+<title>Red Weekend — Kansas City · Oct 17–19, 2026</title>
+<link rel="manifest" href="manifest.json">
+<meta name="description" content="Chris + Kat in Kansas City — Chargers @ Chiefs, Oct 17–19, 2026. Itinerary, barbecue, game-day playbook, trivia and bingo.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Red Weekend — Kansas City">
+<meta property="og:description" content="Chargers @ Chiefs · Oct 17–19 · Jack Stack, Dixon’s, Q39 and the Arrowhead playbook.">
+<meta property="og:url" content="https://ortizzle.github.io/family-vacation/kc-chiefs/">
+<meta property="og:image" content="https://ortizzle.github.io/family-vacation/kc-chiefs/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#140c0b;        /* stadium-night background */
+    --night-2:#1f1311;
+    --night-3:#2a1916;
+    --red:#c8102e;          /* Red Friday */
+    --red-deep:#8f0b20;
+    --gold:#f2b632;
+    --gold-soft:#f7d98a;
+    --stub:#f5ecdc;         /* ticket paper */
+    --stub-2:#ebdfc8;
+    --ink:#1e1614;
+    --ink-soft:#5b4a43;
+    --perf:#cdbd9f;
+    --chris:#4f9fd8;        /* Chris */
+    --kat:#e07aa8;          /* Kat */
+    --safe-top:env(safe-area-inset-top,0px);
+    --safe-bot:env(safe-area-inset-bottom,0px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Barlow',sans-serif;background:var(--night);color:var(--stub);
+    min-height:100vh;padding-bottom:calc(84px + var(--safe-bot));
+    background-image:
+      radial-gradient(ellipse 120% 50% at 50% -10%, rgba(200,16,46,.35), transparent 70%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,.018) 0 2px, transparent 2px 9px);
+    background-attachment:fixed;
+  }
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  a{color:inherit}
+  input{font:inherit}
+
+  /* ═══ Sections ═══ */
+  .section{display:none}
+  .section.on{display:block}
+  .sec-head{padding:calc(20px + var(--safe-top)) 18px 6px}
+  .sec-kicker{font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-soft)}
+  .sec-head h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:2.6rem;line-height:.95;margin-top:4px}
+  .sec-head h2 em{font-style:normal;color:var(--gold)}
+  .sec-lede{font-size:.9rem;line-height:1.5;color:rgba(245,236,220,.78);margin-top:6px}
+  .wrap{padding:6px 16px 20px}
+
+  /* ═══ Hero: the big ticket ═══ */
+  .hero{padding:calc(18px + var(--safe-top)) 16px 6px}
+  .admit{
+    position:relative;display:flex;background:var(--red);color:var(--stub);
+    border-radius:10px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.45);
+    -webkit-mask:radial-gradient(circle 11px at calc(100% - 92px) 0,#0000 98%,#000) top/100% 51% no-repeat,
+                 radial-gradient(circle 11px at calc(100% - 92px) 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+            mask:radial-gradient(circle 11px at calc(100% - 92px) 0,#0000 98%,#000) top/100% 51% no-repeat,
+                 radial-gradient(circle 11px at calc(100% - 92px) 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+  }
+  .admit-main{flex:1;padding:16px 14px 14px 18px;position:relative;min-width:0;
+    background:repeating-linear-gradient(90deg,rgba(0,0,0,.06) 0 1px,transparent 1px 6px)}
+  .admit-kicker{font-family:'Courier Prime',monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-soft)}
+  .admit h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(3rem,15vw,4.2rem);line-height:.86;letter-spacing:.01em;margin:8px 0 6px}
+  .admit h1 span{color:var(--gold)}
+  .admit-sub{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.95rem;letter-spacing:.12em;text-transform:uppercase}
+  .admit-sub b{color:var(--gold)}
+  .admit-stub{width:92px;flex:none;border-left:2px dashed rgba(245,236,220,.55);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;padding:10px 6px;text-align:center;background:var(--red-deep)}
+  .admit-stub .big{font-family:'Bebas Neue',sans-serif;font-size:2.7rem;line-height:.9;color:var(--gold)}
+  .admit-stub .lbl{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+  .serial{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.2em;color:rgba(245,236,220,.7);margin-top:10px}
+
+  /* ═══ Trip docs strip ═══ */
+  .docs{display:flex;gap:8px;overflow-x:auto;padding:12px 16px 2px;scrollbar-width:none}
+  .docs::-webkit-scrollbar{display:none}
+  .doc{flex:none;min-width:148px;min-height:64px;text-align:left;border-radius:8px;padding:9px 11px;background:var(--night-2);border:1px solid rgba(245,236,220,.14)}
+  .doc .k{font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.16em;color:var(--gold-soft);text-transform:uppercase}
+  .doc .v{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.02em;line-height:1.05;margin-top:2px}
+  .doc .s{font-size:.72rem;color:rgba(245,236,220,.7);margin-top:1px}
+
+  /* ═══ Day tabs ═══ */
+  .daytabs{position:sticky;top:0;z-index:20;display:flex;gap:8px;padding:calc(10px + var(--safe-top)) 16px 10px;
+    background:linear-gradient(var(--night) 80%,rgba(20,12,11,0))}
+  .daytab{flex:1;min-height:56px;border-radius:8px;border:1.5px solid rgba(245,236,220,.18);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:rgba(245,236,220,.75);background:var(--night-2)}
+  .daytab .dow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.2em}
+  .daytab .num{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;line-height:1}
+  .daytab .tg{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}
+  .daytab.on{background:var(--stub);color:var(--ink);border-color:var(--gold);box-shadow:0 0 0 2px rgba(242,182,50,.25)}
+  .daytab.on .num{color:var(--red)}
+  .daytab .today{display:none;font-family:'Courier Prime',monospace;font-size:.55rem;background:var(--gold);color:var(--ink);padding:0 5px;border-radius:3px;margin-top:2px}
+  .daytab.is-today .today{display:block}
+
+  /* ═══ Day panel ═══ */
+  .panel{padding:4px 16px 20px;display:none}
+  .panel.on{display:block}
+  .day-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:6px 2px 12px}
+  .day-head h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:2.1rem;letter-spacing:.02em;line-height:1}
+  .day-head h2 em{font-style:normal;color:var(--gold)}
+  .tzpill{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--gold-soft);border:1px solid rgba(242,182,50,.4);padding:3px 7px;border-radius:4px;white-space:nowrap}
+  .day-lede{font-size:.92rem;line-height:1.5;color:rgba(245,236,220,.82);margin:-4px 2px 16px}
+
+  /* ═══ Game ticket ═══ */
+  .gameticket{position:relative;background:var(--stub);color:var(--ink);border-radius:10px;margin-bottom:18px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.4)}
+  .gt-band{background:var(--red);color:var(--stub);display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 14px;
+    font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase}
+  .gt-band b{color:var(--gold);text-align:right}
+  .gt-body{padding:14px 14px 10px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;text-align:center}
+  .gt-team .nm{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:.95}
+  .gt-team .rec{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--ink-soft)}
+  .gt-team.home .nm{color:var(--red)}
+  .gt-at{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--ink-soft)}
+  .gt-meta{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px dashed var(--perf);margin:0 10px}
+  .gt-meta div{padding:9px 4px 11px;text-align:center}
+  .gt-meta .k{font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.16em;color:var(--ink-soft);text-transform:uppercase}
+  .gt-meta .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.05rem}
+  .gt-countdown{background:var(--ink);color:var(--gold);font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.14em;text-align:center;padding:7px;text-transform:uppercase}
+
+  /* ═══ Timeline (each row is a stub) ═══ */
+  .tl{list-style:none;position:relative}
+  .tl-item{position:relative;display:flex;background:var(--stub);color:var(--ink);border-radius:8px;margin-bottom:10px;min-height:64px;
+    -webkit-mask:radial-gradient(circle 7px at 76px 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 7px at 76px 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+            mask:radial-gradient(circle 7px at 76px 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 7px at 76px 100%,#0000 98%,#000) bottom/100% 51% no-repeat}
+  .tl-item.tap{cursor:pointer}
+  .tl-item.tap:active{transform:scale(.99)}
+  .tl-item.alt{opacity:.92;background:var(--stub-2)}
+  .tl-time{width:76px;flex:none;border-right:2px dashed var(--perf);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;text-align:center}
+  .tl-time .t{font-family:'Bebas Neue',sans-serif;font-size:1.45rem;line-height:1;color:var(--red)}
+  .tl-time .ap{font-family:'Courier Prime',monospace;font-size:.62rem;font-weight:700;color:var(--red);letter-spacing:.1em}
+  .tl-time .az{font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.04em;color:var(--ink-soft);margin-top:3px}
+  .tl-body{flex:1;padding:10px 12px 10px 14px;min-width:0}
+  .tl-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.12rem;line-height:1.15;letter-spacing:.01em}
+  .tl-note{font-size:.84rem;line-height:1.42;color:var(--ink-soft);margin-top:3px}
+  .tl-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+  .tag{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:3px;background:var(--stub-2);color:var(--ink)}
+  .tag.red{background:var(--red);color:var(--stub)}
+  .tag.gold{background:var(--gold);color:var(--ink)}
+  .tag.warn{background:#ffe2a6;color:#6b3d00;border:1px solid #e7b04a}
+  .tag.dark{background:var(--ink);color:var(--gold-soft)}
+  .tl-item.anchor{box-shadow:inset 0 0 0 2px var(--gold)}
+  .tl-item.anchor .tl-time{background:var(--gold)}
+  .tl-item.anchor .tl-time .t,.tl-item.anchor .tl-time .ap{color:var(--ink)}
+  .tl-chev{align-self:center;padding-right:12px;color:var(--ink-soft);font-size:1.3rem}
+  .tl-item.done .tl-title{text-decoration:line-through;text-decoration-color:var(--red)}
+
+  /* ═══ A/B fork ═══ */
+  .fork{background:var(--night-2);border:1.5px solid rgba(242,182,50,.45);border-radius:10px;padding:12px;margin:4px 0 12px}
+  .fork-h{font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .fork-q{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:1.05rem;margin-bottom:10px;line-height:1.25}
+  .fork-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .fork-opt{min-height:44px;text-align:left;border-radius:8px;padding:10px;background:rgba(245,236,220,.06);border:1.5px solid rgba(245,236,220,.16)}
+  .fork-opt .l{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.03em;color:var(--gold)}
+  .fork-opt .d{font-size:.78rem;line-height:1.35;color:rgba(245,236,220,.8);margin-top:2px}
+  .fork-opt.on{background:var(--stub);border-color:var(--gold)}
+  .fork-opt.on .l{color:var(--red)}
+  .fork-opt.on .d{color:var(--ink-soft)}
+
+  /* ═══ Info card ═══ */
+  .card{background:var(--night-2);border:1px solid rgba(245,236,220,.12);border-radius:10px;padding:14px;margin-top:16px}
+  .card h3{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.45rem;letter-spacing:.03em;color:var(--gold);margin-bottom:8px}
+  .card p{font-size:.88rem;line-height:1.5;color:rgba(245,236,220,.85)}
+  .card p + p{margin-top:8px}
+  .rules{list-style:none}
+  .rules li{display:flex;gap:10px;padding:8px 0;border-top:1px dashed rgba(245,236,220,.14);font-size:.88rem;line-height:1.42}
+  .rules li:first-child{border-top:0}
+  .rules .ic{flex:none;width:24px;text-align:center}
+  .rules b{color:var(--stub);font-weight:600}
+  .rules span{color:rgba(245,236,220,.8)}
+  .card.warn{border-color:rgba(242,182,50,.5);background:linear-gradient(rgba(242,182,50,.08),rgba(242,182,50,.02))}
+
+  /* ═══ Eat: menu cards ═══ */
+  .eat{display:flex;flex-direction:column;gap:12px}
+  .eat-card{display:block;width:100%;text-align:left;background:var(--stub);color:var(--ink);border-radius:10px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+  .eat-top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 12px;background:var(--ink);color:var(--gold-soft);
+    font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase}
+  .eat-top b{color:var(--gold)}
+  .eat-main{padding:11px 12px 12px}
+  .eat-name{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;line-height:1;letter-spacing:.01em}
+  .eat-cuis{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin-top:2px}
+  .eat-why{font-size:.86rem;line-height:1.42;color:var(--ink-soft);margin-top:6px}
+  .eat-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+  .eat-card.closed{opacity:.75}
+
+  /* ═══ Sheet ═══ */
+  .sheet-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:80;display:none}
+  .sheet-backdrop.show{display:block}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:81;max-height:88vh;overflow-y:auto;background:var(--stub);color:var(--ink);
+    border-radius:16px 16px 0 0;padding:10px 18px calc(24px + var(--safe-bot));transform:translateY(105%);transition:transform .28s ease;
+    -webkit-overflow-scrolling:touch}
+  .sheet.show{transform:translateY(0)}
+  .sheet-grab{width:40px;height:4px;border-radius:2px;background:var(--perf);margin:4px auto 12px}
+  .sheet-x{position:absolute;top:8px;right:10px;width:44px;height:44px;font-size:1.4rem;color:var(--ink-soft)}
+  .sh-kicker{font-family:'Courier Prime',monospace;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+  .sh-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:.95;margin:4px 40px 4px 0}
+  .sh-tag{font-size:.9rem;color:var(--ink-soft);line-height:1.4}
+  .sh-facts{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:14px 0 4px;border-top:2px dashed var(--perf);border-bottom:2px dashed var(--perf)}
+  .sh-facts div{padding:8px 4px}
+  .sh-facts .k{font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .sh-facts .v{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:1rem;line-height:1.2}
+  .sh-h{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--red);margin:14px 0 4px;letter-spacing:.03em}
+  .sh-p{font-size:.92rem;line-height:1.55}
+  .sh-p + .sh-p{margin-top:8px}
+  .sh-list{list-style:none}
+  .sh-list li{padding:6px 0;border-top:1px dashed var(--perf);font-size:.9rem;line-height:1.4}
+  .sh-list li:first-child{border-top:0}
+  .sh-list b{font-weight:600}
+  .sh-tip{margin-top:14px;padding:10px 12px;border-radius:8px;background:#ffe9b8;font-size:.86rem;line-height:1.45;color:#5a3a00}
+  .sh-actions{display:flex;gap:8px;margin-top:16px}
+  .btn{flex:1;min-height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:6px;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+  .btn-red{background:var(--red);color:var(--stub)}
+  .btn-ink{background:var(--ink);color:var(--gold)}
+  .btn-ghost{border:1.5px solid rgba(245,236,220,.25);color:var(--stub)}
+
+  /* ═══ Play: trivia ═══ */
+  .subtabs{display:flex;gap:8px;margin:4px 0 14px}
+  .subtab{flex:1;min-height:44px;border-radius:8px;border:1.5px solid rgba(245,236,220,.18);background:var(--night-2);
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,236,220,.75)}
+  .subtab.on{background:var(--red);border-color:var(--red);color:var(--stub)}
+  .quiz{background:var(--stub);color:var(--ink);border-radius:10px;padding:14px;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+  .qz-top{display:flex;justify-content:space-between;align-items:center;font-family:'Courier Prime',monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .qz-score{color:var(--red);font-weight:700}
+  .qz-bar{height:5px;background:var(--stub-2);border-radius:3px;margin:8px 0 12px;overflow:hidden}
+  .qz-bar i{display:block;height:100%;background:var(--red);transition:width .3s}
+  .qz-q{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.3rem;line-height:1.2}
+  .qz-opts{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+  .qz-opt{min-height:48px;text-align:left;padding:10px 12px;border-radius:8px;background:#fff;border:1.5px solid var(--perf);font-size:.95rem;line-height:1.3}
+  .qz-opt.right{background:#d8f1d6;border-color:#3c9a3a}
+  .qz-opt.wrong{background:#f7d3d6;border-color:var(--red)}
+  .qz-fact{margin-top:12px;font-size:.88rem;line-height:1.45;color:var(--ink-soft);padding:10px;border-left:3px solid var(--gold);background:#fff8e6;border-radius:0 6px 6px 0}
+  .qz-next{margin-top:12px;width:100%}
+  .qz-done{text-align:center;padding:10px 0}
+  .qz-big{font-family:'Bebas Neue',sans-serif;font-size:4rem;line-height:1;color:var(--red)}
+  .qz-best{font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+
+  /* ═══ Play: bingo ═══ */
+  .bingo{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+  .bg-cell{aspect-ratio:1/1;min-height:44px;border-radius:6px;background:var(--stub);color:var(--ink);padding:3px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.66rem;line-height:1.05;position:relative;overflow:hidden;word-break:break-word;hyphens:auto}
+  .bg-cell .e{display:block;font-size:1rem;margin-bottom:1px}
+  .bg-cell.on{background:var(--red);color:var(--stub)}
+  .bg-cell.on::after{content:'';position:absolute;inset:6px;border:2px solid var(--gold);border-radius:50%;opacity:.8}
+  .bg-cell.free{background:var(--gold);color:var(--ink)}
+  .bg-cell.win{box-shadow:inset 0 0 0 3px var(--gold)}
+  .bg-status{text-align:center;margin:12px 0 4px;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gold);letter-spacing:.04em;min-height:1.5em}
+
+  /* ═══ Game: picks ═══ */
+  .picks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pick-col{background:var(--stub);color:var(--ink);border-radius:10px;padding:10px;border-top:5px solid var(--chris)}
+  .pick-col.kat{border-top-color:var(--kat)}
+  .pick-name{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;line-height:1}
+  .pick-col label{display:block;font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-top:9px}
+  .pick-col input{width:100%;min-height:44px;margin-top:3px;border-radius:6px;border:1.5px solid var(--perf);padding:6px 8px;font-size:16px;background:#fff;color:var(--ink)}
+  .seg{display:flex;gap:4px;margin-top:3px}
+  .seg button{flex:1;min-height:44px;border-radius:6px;border:1.5px solid var(--perf);background:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;color:var(--ink)}
+  .seg button.on{background:var(--red);border-color:var(--red);color:var(--stub)}
+  .final{margin-top:12px;background:var(--night-2);border:1px solid rgba(245,236,220,.14);border-radius:10px;padding:12px}
+  .final-row{display:flex;gap:8px;align-items:end}
+  .final-row label{flex:1;font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-soft)}
+  .final-row input{display:block;width:100%;min-height:44px;margin-top:3px;border-radius:6px;border:1.5px solid rgba(245,236,220,.25);background:var(--night-3);color:var(--stub);padding:6px 8px;font-size:16px}
+  .verdict{margin-top:10px;font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);letter-spacing:.03em;text-align:center;min-height:1.2em}
+  .verdict small{display:block;font-family:'Barlow',sans-serif;font-size:.82rem;color:rgba(245,236,220,.75);letter-spacing:0}
+
+  /* ═══ Pack ═══ */
+  .ck-group{margin-top:16px}
+  .ck-group h3{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.4rem;color:var(--gold);letter-spacing:.03em;margin-bottom:6px}
+  .ck{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;min-height:52px;padding:10px 12px;margin-bottom:6px;border-radius:8px;background:var(--night-2);border:1px solid rgba(245,236,220,.1)}
+  .ck .box{flex:none;width:24px;height:24px;border-radius:5px;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--ink);margin-top:1px}
+  .ck.on .box{background:var(--gold)}
+  .ck.on .box::after{content:'✓';font-weight:700}
+  .ck .lb{font-weight:600;font-size:.95rem;line-height:1.3}
+  .ck .sb{font-size:.8rem;line-height:1.4;color:rgba(245,236,220,.7);margin-top:2px}
+  .ck.on .lb{text-decoration:line-through;text-decoration-color:var(--red);opacity:.7}
+  .ck-count{font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.14em;color:var(--gold-soft);text-transform:uppercase}
+  .fv-drive-host{margin-top:20px;background:var(--night-2);border:1px solid rgba(245,236,220,.14);border-radius:10px;padding:14px}
+  .fv-drive-host .fv-drive-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;font-weight:400;color:var(--gold);letter-spacing:.03em}
+
+  /* ═══ Field guide (trivia list in Game) ═══ */
+  .facts{list-style:none;counter-reset:f}
+  .facts li{counter-increment:f;position:relative;padding:9px 0 9px 34px;border-top:1px dashed rgba(245,236,220,.14);font-size:.88rem;line-height:1.45;color:rgba(245,236,220,.85)}
+  .facts li:first-child{border-top:0}
+  .facts li b{color:var(--stub);font-weight:600}
+  .facts li::before{content:counter(f,decimal-leading-zero);position:absolute;left:0;top:9px;font-family:'Courier Prime',monospace;font-size:.72rem;color:var(--gold)}
+
+  /* ═══ Bottom nav ═══ */
+  .bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;background:var(--ink);
+    border-top:3px solid var(--red);padding:6px 6px calc(6px + var(--safe-bot))}
+  .nav-btn{flex:1;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:8px;color:rgba(245,236,220,.6)}
+  .nav-btn .i{font-size:1.25rem;line-height:1}
+  .nav-btn .l{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+  .nav-btn.on{color:var(--gold);background:rgba(200,16,46,.22)}
+
+  /* ═══ Toast + modal ═══ */
+  .toast{position:fixed;left:50%;bottom:calc(96px + var(--safe-bot));transform:translateX(-50%) translateY(20px);opacity:0;z-index:95;
+    background:var(--gold);color:var(--ink);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:10px 18px;border-radius:999px;transition:all .25s;pointer-events:none;max-width:90vw;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
+  .modal-box{background:var(--stub);color:var(--ink);border-radius:12px;padding:20px;width:340px;max-width:100%}
+  .modal-box h3{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.7rem;color:var(--red)}
+  .modal-box p{font-size:.92rem;line-height:1.5;margin-top:6px}
+  .modal-buttons{display:flex;gap:10px;margin-top:18px}
+  .modal-buttons button{flex:1;min-height:44px;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+  .btn-primary{background:var(--red);color:var(--stub)}
+  .btn-secondary{background:var(--stub-2);color:var(--ink)}
+
+  .foot{text-align:center;font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.14em;color:rgba(245,236,220,.4);padding:26px 16px 8px;text-transform:uppercase;line-height:1.7}
+</style>
+</head>
+<body>
+
+<main>
+  <section class="section" id="section-days">
+    <header class="hero" id="hero"></header>
+    <div class="docs" id="docs"></div>
+    <nav class="daytabs" id="daytabs" aria-label="Trip days"></nav>
+    <div id="days"></div>
+    <div class="wrap"><div id="drive-bar"></div></div>
+  </section>
+  <section class="section" id="section-eat"></section>
+  <section class="section" id="section-game"></section>
+  <section class="section" id="section-play"></section>
+  <section class="section" id="section-pack"></section>
+  <div class="foot">Red Weekend · Chris + Kat · Kansas City · Oct 2026<br>Times are Central unless marked AZ</div>
+</main>
+
+<div class="sheet-backdrop" id="sheet-backdrop"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<nav class="bottomnav" id="bottomnav" aria-label="App sections"></nav>
+
+<script src="ortiz-drive.js"></script>
+<script src="../fv-drive.js"></script>
+<script>
+'use strict';
+
+/* ═════════ Time helpers ═════════
+   Home clock is Arizona (UTC-7, no DST). Kansas City runs Central Daylight (UTC-5) — 2 hours ahead.
+   ?simdate=2026-10-18 previews any trip day (9 AM KC time that day). */
+function tripNow(){
+  const p = new URLSearchParams(location.search).get('simdate');
+  if(p) return new Date(p + 'T09:00:00-05:00');
+  return new Date();
+}
+function kcDateStr(d){ return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago'}).format(d); }
+// "3:25 PM" Central → "1:25 PM AZ"
+function azOf(ct){
+  const m = ct.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if(!m) return '';
+  let h = (+m[1] % 12) + (m[3].toUpperCase()==='PM' ? 12 : 0) - 2;
+  if(h < 0) h += 24;
+  return ((h % 12) || 12) + ':' + m[2] + (h >= 12 ? ' PM' : ' AM') + ' AZ';
+}
+
+const store = {
+  get(k, fb){ try{ const v = localStorage.getItem(k); return v===null ? fb : JSON.parse(v); }catch(e){ return fb; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+// localStorage keys: kc26-forks, kc26-done, kc26-pack, kc26-bingo, kc26-trivia-best, kc26-picks
+// UI-only state uses kc26-ui-* (excluded from the Drive backup).
+
+function el(tag, cls, text){
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(text !== undefined && text !== null) n.textContent = text;
+  return n;
+}
+function link(cls, href, text){
+  const a = el('a', cls, text);
+  a.href = href; a.target = '_blank'; a.rel = 'noopener';
+  return a;
+}
+const maps = q => 'https://maps.google.com/?q=' + encodeURIComponent(q);
+
+let toastTimer = null;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+function showModal({ title, message, confirmText = 'OK', cancelText = null, onConfirm = null }){
+  const overlay = el('div','modal-overlay');
+  const box = el('div','modal-box');
+  box.append(el('h3',null,title), el('p',null,message));
+  const row = el('div','modal-buttons');
+  if(cancelText){
+    const c = el('button','btn-secondary',cancelText);
+    c.addEventListener('click', () => overlay.remove());
+    row.appendChild(c);
+  }
+  const ok = el('button','btn-primary',confirmText);
+  ok.addEventListener('click', () => { overlay.remove(); if(onConfirm) onConfirm(); });
+  row.appendChild(ok);
+  box.appendChild(row);
+  overlay.appendChild(box);
+  overlay.addEventListener('click', e => { if(e.target === overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+/* ═════════ DATA — researched Oct 16, 2026 (calendar: Chris + Kat; Gmail; web) ═════════ */
+const KICKOFF = new Date('2026-10-18T15:25:00-05:00');
+const DEPART  = new Date('2026-10-17T08:48:00-07:00');
+
+const HOTEL = 'Hyatt Place Kansas City/Overland Park/Metcalf, 6801 W 112th St, Overland Park, KS 66211';
+
+/* Trip docs (flights from Kat's calendar; hotel from the Gmail invite) */
+const DOCS = {
+  out: { kicker:'Flight · Sat Oct 17', name:'AA 1635 · PHX → MCI', tag:'American Airlines, Phoenix Sky Harbor to Kansas City International.',
+    facts:[['Departs','8:48 AM AZ'],['Lands','1:34 PM CT'],['AZ clock lands','11:34 AM'],['Pickup','Joanne at MCI']],
+    list:[['Check in','24 hrs ahead — Fri 8:48 AM AZ in the American app.'],['Confirmation','In Kat’s American email / app.'],['On landing','Text Joanne from the jet bridge — MCI’s new single terminal has one arrivals curb.']],
+    tip:'You land at 1:34 PM and the Jack Stack table is 4:00 PM — about 2½ hours of cushion. See Saturday’s “Your call” for straight-to-dinner vs. hotel-first.' },
+  home: { kicker:'Flights · Mon Oct 19', name:'WN 3908 + WN 1749', tag:'Southwest, Kansas City → Los Angeles → Phoenix.',
+    facts:[['MCI departs','6:15 AM CT'],['LAX lands','7:50 AM PT'],['LAX departs','10:10 AM'],['PHX lands','11:35 AM AZ']],
+    list:[['Check in','24 hrs ahead — Sun 6:15 AM CT (4:15 AM AZ). Set a reminder; it lands mid-game-day prep.'],['LAX layover','2 hr 20 min. LAX time = Arizona time in October, so your phone won’t jump.'],['Confirmation','In Kat’s Southwest email / app.']],
+    tip:'The Uber to MCI should leave the hotel at 4:00 AM. Schedule it Sunday night in the Uber app (Reserve) — don’t trust a 4 AM on-demand ride in the suburbs.' },
+  hotel: { kicker:'Home base · Sat–Mon', name:'Hyatt Place Overland Park / Metcalf', tag:'6801 W 112th St, Overland Park, KS 66211 — yes, you’re sleeping in Kansas.',
+    facts:[['Check-in','Sat 3:00 PM'],['Nights','2 (Sat + Sun)'],['Phone','(913) 451-2553'],['Breakfast','Free, downstairs']],
+    list:[['To Arrowhead','~25 mi, 30–35 min by Uber'],['To MCI','~40 mi, 40–45 min'],['To the Crossroads','~17 mi, 25 min'],['Nearby','Q39 (1.5 mi) and Urban Egg (~2 mi)']],
+    tip:'Monday checkout happens at 4 AM — ask the front desk Saturday night for a quick express checkout so you can just drop the keys.',
+    maps:HOTEL }
+};
+
+const DAYS = [
+  { id:'sat', date:'2026-10-17', dow:'SAT', num:'17', tag:'Arrive + BBQ', title:'Saturday <em>Barbecue</em>',
+    lede:'Land at lunchtime, Joanne scoops you up, and the weekend starts at the most beautiful barbecue room in the city — a restored 1910s rail freight house next to Union Station.',
+    items:[
+      { t:'10:48 AM', title:'Wheels up · AA 1635 PHX → MCI', note:'8:48 AM in Arizona. Snacks on the plane — dinner is at 4.', tags:[['dark','Flight']], doc:'out' },
+      { t:'1:34 PM', title:'Land at MCI', note:'Text Joanne as you taxi. One terminal, one arrivals curb.', tags:[['gold','Joanne pickup']], doc:'out' },
+      { t:'2:15 PM', title:'Into the city with Joanne', note:'See “Your call” below — straight to the Crossroads, or drop bags at the hotel first.', fork:'sat-route' },
+      { t:'4:00 PM', title:'Jack Stack Barbecue — Freight House', note:'Your reservation. Burnt ends, the cheesy corn bake, and the award-winning beans. Order a jalapeño cornbread to go.', anchor:true, tags:[['red','Reserved'],['','Crossroads']], eat:'jackstack' },
+      { t:'5:45 PM', title:'Liberty Memorial lawn at golden hour', note:'Walk across Pershing Rd from Union Station. The hill above the National WWI Museum is the best free skyline view in KC; sunset is about 6:35.', tags:[['gold','Free']], poi:'liberty' },
+      { t:'7:00 PM', title:'Saturday night', note:'Power & Light District, or back to the hotel early — your call below.', fork:'sat-night' }
+    ],
+    forks:[
+      { id:'sat-route', q:'From the airport — where first?',
+        a:{ l:'A · Straight to dinner', d:'MCI → Crossroads ~30 min. Walk Union Station’s Grand Hall before the 4:00 table. Bags ride in Joanne’s car.' },
+        b:{ l:'B · Hotel first', d:'MCI → hotel ~45 min (check-in is 3:00), then ~25 min back up to the Freight House. Tight but doable.' } },
+      { id:'sat-night', q:'After sunset — big night or rest up for game day?',
+        a:{ l:'A · Power & Light', d:'KC Live! block downtown — the Kill Devil Club has live music. Uber back to the hotel ~25 min.' },
+        b:{ l:'B · Early night', d:'Hotel by 8. Game day starts with chili at 11:30 and ends late.' } }
+    ],
+    alerts:[
+      ['🏃','KC Marathon is this morning','In past years roads in the Crossroads, downtown and the Plaza closed about 7 AM–2 PM. You arrive downtown after 2:15, so it should be clear — if Joanne’s map looks weird, that’s why.'],
+      ['🧳','Bags in the car','If you go straight to dinner, keep luggage out of sight in Joanne’s car downtown.']
+    ]
+  },
+  { id:'sun', date:'2026-10-18', dow:'SUN', num:'18', tag:'Game Day', title:'Game <em>Day</em>',
+    lede:'Chargers at Chiefs, 3:25 PM. Rideshare both ways — no car, no parking pass, no designated driver. Chili where Truman ate it, the free tailgate district, inside for the drum.',
+    ticket:true,
+    items:[
+      { t:'7:30 AM', title:'Hyatt Place breakfast', note:'Free hot breakfast downstairs. Keep it light — chili is coming. (Bigger brunch? Urban Egg is 2 mi away.)', eat:'urbanegg' },
+      { t:'9:00 AM', title:'🏈 Set the fantasy lineup', note:'Your 7 AM Arizona reminder lands now. The noon CT games lock first.', tags:[['gold','Reminder']] },
+      { t:'11:00 AM', title:'Uber → Dixon’s Chili', note:'Hotel → 9105 E US-40, Independence · ~25 mi, 30–35 min. Wear the red.', tags:[['','Rideshare']] },
+      { t:'11:30 AM', title:'Dixon’s Famous Chili', note:'Since 1919 — Harry Truman’s chili parlor, 5 miles from Arrowhead. Order it dry, soupy or juicy.', tags:[['red','Recommended to Chris'],['warn','Verify Sunday hours']], eat:'dixons' },
+      { t:'12:30 PM', title:'Uber → Arrowhead', note:'~5 mi, 10 min. Drop-off is the Missouri Welcome Center between Gates 1 & 2 on Blue Ridge Cutoff — then a half-mile walk down the hill.', tags:[['','Rideshare']] },
+      { t:'12:45 PM', title:'Ford Tailgate District — Lot M', note:'Free fan zone: food trucks, games, live music, drink specials. The smoke you smell is everyone else’s brisket.', tags:[['gold','Free']] },
+      { t:'2:45 PM', title:'Inside & in your seats', note:'Pregame drum, anthem, flyover. Clear bag only — Arrowhead is fully cashless.', tags:[['warn','Clear bag']] },
+      { t:'3:25 PM', title:'KICKOFF · Chargers at Chiefs', note:'Week 6 · CBS. This building holds the loudest-outdoor-stadium world record. Help.', anchor:true, tags:[['red','Anchor'],['','Tickets in Kat’s app']] },
+      { t:'6:40 PM', title:'Final whistle (approx.)', note:'Don’t sprint for the Uber — the queue at the Welcome Center is brutal for the first 45 minutes. Linger, finish your drink, let the lots drain.' },
+      { t:'7:45 PM', title:'Dinner — your call below', note:'Q39 near the hotel, or you ate at the game and it’s bedtime.', fork:'sun-dinner' },
+      { t:'9:00 PM', title:'Schedule the 4:00 AM Uber + lights out', note:'Uber → Reserve → pickup 4:00 AM at the hotel → MCI. Alarm 3:45.', tags:[['warn','Don’t skip']] }
+    ],
+    forks:[
+      { id:'sun-dinner', q:'Sunday night — the alarm is 3:45 AM.',
+        a:{ l:'A · Q39 dinner', d:'Uber to Q39 Overland Park (1.5 mi from the hotel, open till 9). Reserve ~8:00 PM.' },
+        b:{ l:'B · Eat at the game', d:'Burnt-end anything at Arrowhead, straight to the hotel, lights out by 9.' } }
+    ],
+    rules:true
+  },
+  { id:'mon', date:'2026-10-19', dow:'MON', num:'19', tag:'Fly Home', title:'Monday <em>Home</em>',
+    lede:'An ugly-early alarm and a Los Angeles connection. You’re home for lunch.',
+    items:[
+      { t:'3:45 AM', title:'Alarm', note:'Bags were packed last night, right? Leave keys at the desk.' },
+      { t:'4:00 AM', title:'Uber → MCI', note:'~40 mi, 40–45 min. The one you scheduled Sunday night.', tags:[['','Rideshare']], doc:'hotel' },
+      { t:'4:45 AM', title:'MCI — bag drop + security', note:'Southwest counters, then TSA. 90 minutes is comfortable at this hour.' },
+      { t:'6:15 AM', title:'WN 3908 · MCI → LAX', note:'Lands 7:50 AM Pacific. Sleep.', tags:[['dark','Flight']], doc:'home' },
+      { t:'10:10 AM', az:true, title:'WN 1749 · LAX → PHX', note:'LAX clocks match Arizona in October.', tags:[['dark','Flight']], doc:'home' },
+      { t:'11:35 AM', az:true, title:'Home · PHX', note:'Back in Arizona before lunch. Debate the game in the car.', anchor:true }
+    ]
+  }
+];
+
+const RULES = [
+  ['👜','Clear bag only','A clear tote (about 12×6×12") or a small clutch under 4.5×6.5". Leave everything else at the hotel.'],
+  ['💳','Cashless','Every stand is tap-or-scan. Phones charged — they’re also your tickets and your ride home.'],
+  ['🚗','Rideshare spot','Missouri Welcome Center, between Gates 1 & 2 on Blue Ridge Cutoff — drop-off AND pickup. Half-mile walk to the stadium.'],
+  ['🎟️','Tickets','In Kat’s Ticketmaster app. Add them to Apple Wallet Saturday night so they work with no signal.'],
+  ['🧥','Layers','Mid-October averages: highs near 70, evenings in the 50s. You’ll be outside from 12:45 until about 7.']
+];
+
+const EAT = [
+  { id:'jackstack', when:'Sat 4:00 PM · reserved', name:'Jack Stack — Freight House', cuisine:'Kansas City barbecue', price:'$$–$$$',
+    rating:'4.5 Tripadvisor (3,882) · 4.8 OpenTable', dist:'~25 min from hotel · Crossroads', why:'The KC icon in the prettiest room in town — a 1910s rail freight house next to Union Station.',
+    order:[['Burnt ends','the reason you came'],['Baked beans','award-winning; even the skeptics convert'],['Cheesy corn bake','the side people fly home talking about'],['Jalapeño cornbread','order one to go']],
+    body:['The Fiorella family has been smoking meat in Kansas City since 1957; the Freight House is their showpiece. Reviewers rave about the food and occasionally grumble about portions for the price — order an extra side and share.'],
+    tip:'Reservation is under Kat (party per the reservation). Ask for a table by the windows facing the rail yard.',
+    q:'Jack Stack Barbecue Freight House Kansas City', tags:[['red','Anchor']] },
+  { id:'dixons', when:'Sun 11:30 AM · pre-game', name:'Dixon’s Famous Chili', cuisine:'Chili parlor · since 1919', price:'$',
+    rating:'4.1 Tripadvisor · 4.4 Uber Eats (150+)', dist:'5 mi from Arrowhead · ~30 min from hotel', why:'Harry Truman’s chili parlor — a century-old family recipe, five miles from the stadium.',
+    order:[['Chili “dry”','ground beef over beans, the regulars’ order'],['Soupy or juicy','if you want it wetter'],['House hot sauce','add it yourself']],
+    body:['The last remaining Dixon’s is a red-and-white diner in Independence. It’s been family-run for over a hundred years, and Truman was a regular.'],
+    tip:'The only hours we found (Uber Eats) say 11 AM–8 PM. Call (816) 861-7308 Saturday to confirm they’re open Sunday. Backup: brunch at Urban Egg, then Uber straight to Arrowhead.',
+    q:'Dixon’s Chili Parlor 9105 E US Highway 40 Independence MO', tags:[['red','Recommended to Chris'],['warn','Verify Sunday']] },
+  { id:'q39', when:'Sun ~8 PM · post-game option', name:'Q39 South', cuisine:'Competition-style barbecue', price:'$$',
+    rating:'9.2/10 Foursquare (126)', dist:'1.5 mi from hotel', why:'Chef-driven competition barbecue a few minutes from your bed — open until 9 on Sunday.',
+    order:[['Burnt ends','the line every reviewer repeats'],['Brisket','competition-style, sliced'],['Combo platter','if you can’t choose']],
+    body:['Q39 is the other name every Kansas City barbecue argument includes. The Overland Park location is at 11051 Antioch Rd — a $10 Uber from the hotel.'],
+    tip:'Reservations aren’t required but are strongly recommended — book through q39kc.com Saturday night for ~8:00 PM Sunday. (This is the place your friends meant by “Q24.”)',
+    q:'Q39 South 11051 Antioch Rd Overland Park KS', url:'https://www.q39kc.com/reservations/', tags:[['red','Recommended to Chris'],['','Reserve']] },
+  { id:'urbanegg', when:'Sun AM · brunch upgrade / backup', name:'Urban Egg', cuisine:'Breakfast + brunch', price:'$$',
+    rating:'4.8 Uber Eats (72)', dist:'~2 mi from hotel', why:'Gourmet pancakes and the only one of these outside Colorado — the backup if Dixon’s is closed.',
+    order:[['Cinnamon Swirl pancakes','the signature'],['Breakfast burrito','if you need fuel for six hours outside']],
+    body:['Weekend hours 7 AM–2:30 PM at 4921 W 119th St. If Dixon’s is closed Sunday, do a bigger brunch here around 10:30 and Uber straight to Arrowhead (~30 min).'],
+    q:'Urban Egg 4921 W 119th St Overland Park KS', tags:[['','Backup']] },
+  { id:'arrowhead', when:'Sun · inside the stadium', name:'Arrowhead Concessions', cuisine:'Stadium food (it’s good here)', price:'$$ · cashless',
+    rating:'USA Today readers: #1 stadium food', dist:'Inside GEHA Field', why:'The rare stadium where the food is part of the point.',
+    order:[['Brisket Rangoon','Buck Tui BBQ'],['Elote nachos','fan favorite'],['Drunken Fries','Guinness cheese sauce'],['Big Red Sandwich','Smoak BBQ']],
+    body:['Menus change season to season — the Chiefs app lists what’s sold where. Self-serve kiosks and grab-and-go markets keep lines short.'],
+    q:'GEHA Field at Arrowhead Stadium', tags:[['gold','Plan B dinner']] },
+  { id:'joes', when:'Heads up', name:'Joe’s Kansas City', cuisine:'Barbecue (the gas station one)', price:'$$',
+    rating:'KC legend', dist:'—', why:'Closed on Sundays. Don’t build game-day plans around it.',
+    order:[], body:['Joe’s locations close Sundays, so it doesn’t fit this weekend. Next trip: the Z-Man sandwich at the original gas-station location in Kansas City, Kansas.'],
+    q:'Joe’s Kansas City Bar-B-Que', closed:true, tags:[['warn','Closed Sundays']] }
+];
+
+const POI = {
+  liberty: { kicker:'Sat · free · golden hour', name:'Liberty Memorial & WWI Museum', tag:'America’s official World War I museum, on the hill across from Union Station.',
+    facts:[['From Freight House','~10 min walk'],['Cost','Lawn is free'],['Sunset','~6:35 PM'],['Museum','Closes 5 PM']],
+    body:['The 217-foot Liberty Memorial tower was dedicated in 1926; the museum under it is the only one Congress has designated as America’s WWI museum. The lawn and the deck at the top of the hill give the classic skyline view down Main Street, with Union Station lit up below.'],
+    tip:'Walk out the Freight House door, through Union Station’s Grand Hall, and across Pershing Rd. Golden hour starts around 6.', q:'Liberty Memorial Kansas City' }
+};
+
+const TRIVIA = [
+  { q:'Lamar Hunt named the “Super Bowl” after what?', o:['His kids’ Super Ball toy','A Kansas City diner','A bowl of chili','A college bowl game'], a:0, f:'Hunt, the Chiefs’ founder, borrowed it from his children’s bouncy Wham-O Super Ball. The name stuck.' },
+  { q:'Before they were the Chiefs, the team was called…', o:['The Kansas City Blues','The Dallas Texans','The Houston Oilers','The Missouri Mules'], a:1, f:'The Dallas Texans played in the AFL from 1960 and moved to Kansas City in 1963.' },
+  { q:'Who were the Chiefs named after?', o:['A Native American leader','Kansas City’s mayor, nicknamed “The Chief”','A fire chief','A railroad conductor'], a:1, f:'Mayor H. Roe Bartle — “The Chief” — helped lure the team to Kansas City.' },
+  { q:'Arrowhead’s Guinness record for crowd noise is…', o:['122.4 decibels','131.8 decibels','142.2 decibels','151.0 decibels'], a:2, f:'142.2 dB on Sept. 29, 2014, vs. the Patriots — loudest outdoor stadium on record.' },
+  { q:'What year did Arrowhead Stadium open?', o:['1963','1972','1985','1994'], a:1, f:'1972 — part of the Truman Sports Complex alongside the Royals’ Kauffman Stadium.' },
+  { q:'How many Super Bowls have the Chiefs won?', o:['2','3','4','5'], a:2, f:'Four: IV (1970), LIV (2020), LVII (2023) and LVIII (2024).' },
+  { q:'The Chiefs and Chargers were both founding members of which league?', o:['The NFL','The AFL','The USFL','The XFL'], a:1, f:'Both were charter AFL teams in 1960 — this rivalry is older than the Super Bowl.' },
+  { q:'Where did the Chargers play their very first season?', o:['San Diego','Los Angeles','Anaheim','Las Vegas'], a:1, f:'Los Angeles in 1960, then San Diego from 1961 to 2016, then back to L.A. in 2017.' },
+  { q:'What does the stadium’s name sponsor, GEHA, do?', o:['Makes grills','Health and dental benefits for federal workers','Sells trucks','Runs a bank'], a:1, f:'GEHA is a Lee’s Summit-based benefits provider; the name went on Arrowhead in 2021.' },
+  { q:'Kansas City claims more fountains than any city except…', o:['Paris','Rome','Vienna','Las Vegas'], a:1, f:'“The City of Fountains” counts around 200 — second only to Rome, by local reckoning.' },
+  { q:'Who is called the father of Kansas City barbecue?', o:['Arthur Bryant','Henry Perry','Ollie Gates','Jack Fiorella'], a:1, f:'Henry Perry started selling smoked meat from a trolley barn in 1908.' },
+  { q:'Burnt ends were made famous at which restaurant?', o:['Arthur Bryant’s','Gates','Joe’s','Q39'], a:0, f:'Arthur Bryant’s handed out the crispy brisket ends; writer Calvin Trillin made the place a legend.' },
+  { q:'Jack Stack’s Freight House sits next to which landmark?', o:['Union Station','Country Club Plaza','Arrowhead','The Nelson-Atkins'], a:0, f:'Union Station opened in 1914 and was once one of the busiest train stations in America.' },
+  { q:'Harry Truman’s favorite chili spot — tomorrow’s lunch — is…', o:['Dixon’s','Skyline','Chili’s','Steak ’n Shake'], a:0, f:'Dixon’s has been serving its recipe since 1919. Truman was a regular.' },
+  { q:'Which famous animator started his first studio, Laugh-O-Gram, in Kansas City?', o:['Chuck Jones','Walt Disney','Tex Avery','Jim Henson'], a:1, f:'Walt Disney’s Laugh-O-Gram Studio was in KC; legend says a studio mouse inspired Mickey.' },
+  { q:'Which greeting-card giant is headquartered in Kansas City?', o:['American Greetings','Hallmark','Papyrus','Shutterfly'], a:1, f:'Joyce Hall founded Hallmark in Kansas City in 1910.' },
+  { q:'Baseball’s Negro National League was founded in Kansas City in what year?', o:['1910','1920','1935','1947'], a:1, f:'Founded at the Paseo YMCA in 1920. The Negro Leagues Baseball Museum is at 18th & Vine.' },
+  { q:'The Country Club Plaza was designed to look like which city?', o:['Barcelona','Seville','Florence','Mexico City'], a:1, f:'Its towers echo Seville, Spain — it opened in 1923 as one of the first shopping districts built for cars.' },
+  { q:'Your hotel is in Overland Park. What state is that?', o:['Missouri','Kansas','Both','Neither'], a:1, f:'Kansas City straddles the state line. You fly into Missouri, sleep in Kansas, and the stadium is in Missouri.' },
+  { q:'At the end of the national anthem, Chiefs fans famously shout…', o:['“Red!”','“Chiefs!”','“KC!”','“Arrowhead!”'], a:1, f:'“…and the home of the CHIEFS!” Join in. Everyone does.' }
+];
+
+const BINGO = [
+  ['🔥','Smoker bigger than a car'],['🥁','The pregame drum'],['✈️','Flyover'],['🗣️','“…home of the CHIEFS!”'],['💙','Powder-blue Chargers fan'],
+  ['🐺','KC Wolf sighting'],['🌊','The wave'],['🏈','Football thrown in the lot'],['🎯','Cornhole game'],['🎨','Face paint'],
+  ['👵','Grandma in a jersey'],['🍖','Burnt ends eaten'],['⭐','FREE · Red Friday'],['🧀','Cheesehead (wrong team)'],['🪧','Funny fan sign'],
+  ['🚩','Flag on a big play'],['📺','Replay review'],['💥','Sack'],['🙌','Interception'],['🦵','50+ yard field goal'],
+  ['🕺','TD celebration'],['📸','Jumbotron fan cam'],['🌭','Foot-long hot dog'],['🚕','Uber surge pricing'],['🔊','Crowd too loud to talk']
+];
+const BINGO_LINES = (() => {
+  const L = [];
+  for(let r=0;r<5;r++) L.push([0,1,2,3,4].map(c=>r*5+c));
+  for(let c=0;c<5;c++) L.push([0,1,2,3,4].map(r=>r*5+c));
+  L.push([0,6,12,18,24],[4,8,12,16,20]);
+  return L;
+})();
+
+const PACK = [
+  { h:'To do before you go', items:[
+    ['todo-tix','Add the Chiefs tickets to Apple Wallet','Kat’s Ticketmaster app → ticket → Add to Wallet. Works with no signal at the gate.'],
+    ['todo-aa','Check in for AA 1635','Opens Fri 8:48 AM AZ.'],
+    ['todo-joanne','Send Joanne the flight','AA 1635, lands MCI 1:34 PM Central.'],
+    ['todo-dixons','Call Dixon’s about Sunday hours','(816) 861-7308. Backup is Urban Egg.'],
+    ['todo-q39','Reserve Q39 if you pick Sunday plan A','~8:00 PM, q39kc.com.'],
+    ['todo-wn','Check in for Southwest','Opens Sun 6:15 AM CT / 4:15 AM AZ.'],
+    ['todo-uber','Schedule the Monday 4:00 AM Uber','Sunday night: Uber → Reserve → hotel → MCI.'],
+    ['todo-offline','Open this app once on Wi-Fi','It saves itself for offline — the stadium eats cell signal.']
+  ]},
+  { h:'Game day bag (clear!)', items:[
+    ['bag-clear','Clear stadium tote or small clutch',''],
+    ['bag-battery','Battery pack + cable','Tickets, payments and the Uber home all live on your phone.'],
+    ['bag-id','IDs + one card','Cashless stadium.'],
+    ['bag-red','Something red','Red Friday counts on Sunday too.'],
+    ['bag-layer','A warm layer','Highs near 70, evenings in the 50s.'],
+    ['bag-sun','Sunglasses + lip balm','1:00–6:30 sun, depending on your seats.'],
+    ['bag-shoes','Walking shoes','Half-mile from the Uber drop + the lots.']
+  ]},
+  { h:'Suitcase', items:[
+    ['pk-clothes','2 days of clothes + sleepwear',''],
+    ['pk-jacket','Light jacket for Saturday night',''],
+    ['pk-charge','Phone chargers',''],
+    ['pk-toil','Toiletries (3-1-1 bag)',''],
+    ['pk-meds','Meds',''],
+    ['pk-ready','Monday outfit laid out Sunday night','You’ll be dressing at 3:45 AM.']
+  ]}
+];
+
+/* ═════════ Sheet ═════════ */
+const sheet = document.getElementById('sheet');
+const backdrop = document.getElementById('sheet-backdrop');
+function closeSheet(){
+  sheet.classList.remove('show'); backdrop.classList.remove('show');
+  document.body.style.overflow = '';
+}
+backdrop.addEventListener('click', closeSheet);
+function openSheet(d){
+  sheet.textContent = '';
+  const x = el('button','sheet-x','✕'); x.setAttribute('aria-label','Close');
+  x.addEventListener('click', closeSheet);
+  sheet.append(x, el('div','sheet-grab'));
+  if(d.kicker) sheet.appendChild(el('div','sh-kicker',d.kicker));
+  sheet.appendChild(el('div','sh-title',d.name));
+  if(d.tag) sheet.appendChild(el('div','sh-tag',d.tag));
+  if(d.facts){
+    const f = el('div','sh-facts');
+    d.facts.forEach(([k,v]) => { const c = el('div'); c.append(el('div','k',k), el('div','v',v)); f.appendChild(c); });
+    sheet.appendChild(f);
+  }
+  if(d.order && d.order.length){
+    sheet.appendChild(el('div','sh-h','What to order'));
+    const ul = el('ul','sh-list');
+    d.order.forEach(([a,b]) => { const li = el('li'); li.append(el('b',null,a), ' — ' + b); ul.appendChild(li); });
+    sheet.appendChild(ul);
+  }
+  if(d.list){
+    sheet.appendChild(el('div','sh-h','Good to know'));
+    const ul = el('ul','sh-list');
+    d.list.forEach(([a,b]) => { const li = el('li'); li.append(el('b',null,a), ' — ' + b); ul.appendChild(li); });
+    sheet.appendChild(ul);
+  }
+  (d.body || []).forEach(p => sheet.appendChild(el('p','sh-p',p)));
+  if(d.tip) sheet.appendChild(el('div','sh-tip','💡 ' + d.tip));
+  const acts = el('div','sh-actions');
+  if(d.q) acts.appendChild(link('btn btn-red', maps(d.q), '📍 Map'));
+  if(d.url) acts.appendChild(link('btn btn-ink', d.url, '↗ Website'));
+  if(acts.children.length) sheet.appendChild(acts);
+  sheet.scrollTop = 0;
+  sheet.classList.add('show'); backdrop.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function openEat(id){
+  const e = EAT.find(x => x.id === id);
+  if(!e) return;
+  openSheet({ kicker:e.when, name:e.name, tag:e.why,
+    facts:[['Cuisine',e.cuisine],['Price',e.price],['Rating',e.rating],['Distance',e.dist]],
+    order:e.order, body:e.body, tip:e.tip, q:e.q, url:e.url });
+}
+function openDoc(id){
+  const d = DOCS[id];
+  openSheet({ kicker:d.kicker, name:d.name, tag:d.tag, facts:d.facts, list:d.list, tip:d.tip, q:d.maps });
+}
+function openPoi(id){
+  const p = POI[id];
+  openSheet({ kicker:p.kicker, name:p.name, tag:p.tag, facts:p.facts, body:p.body, tip:p.tip, q:p.q });
+}
+
+/* ═════════ Days: hero, docs, tabs, panels ═════════ */
+// Calendar days between today and the target, both on the KC calendar (no DST traps: noon anchors)
+function daysTo(target){
+  const a = kcDateStr(tripNow()), b = kcDateStr(target);
+  return Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 86400000);
+}
+
+function renderHero(){
+  const h = document.getElementById('hero');
+  const t = el('div','admit');
+  const main = el('div','admit-main');
+  main.appendChild(el('div','admit-kicker','Admit Two · Chris + Kat'));
+  const h1 = el('h1'); h1.append('Red Weekend', document.createElement('br'), el('span',null,'Kansas City'));
+  main.appendChild(h1);
+  const sub = el('div','admit-sub'); sub.append('Oct 17–19 · ', el('b',null,'Chargers @ Chiefs'));
+  main.appendChild(sub);
+  main.appendChild(el('div','serial','SEC KC · ROW 26 · NO. 1018-1525'));
+  const stub = el('div','admit-stub');
+  const now = tripNow();
+  const big = (a,b) => { stub.append(el('div','big',a), el('div','lbl',b)); };
+  if(now < DEPART){
+    const n = daysTo(DEPART);
+    if(n <= 1) big(n <= 0 ? 'GO' : '1', n <= 0 ? 'wheels up today' : 'day to wheels up');
+    else big(String(n), 'days to wheels up');
+  }else if(now < KICKOFF){
+    const n = daysTo(KICKOFF);
+    if(kcDateStr(now) === '2026-10-18') big('TODAY','game day');
+    else big(String(Math.max(n,1)), n === 1 ? 'day to kickoff' : 'days to kickoff');
+  }else if(now < new Date(KICKOFF.getTime() + 4*3600000)) big('LIVE','game on');
+  else big('GG','what a weekend');
+  t.append(main, stub);
+  h.appendChild(t);
+}
+
+function renderDocs(){
+  const box = document.getElementById('docs');
+  [['out','Fly out · Sat','AA 1635','PHX 8:48a → MCI 1:34p'],
+   ['hotel','Home base','Hyatt Place','Overland Park · 2 nights'],
+   ['home','Fly home · Mon','WN 3908 + 1749','MCI 6:15a → PHX 11:35a']].forEach(([id,k,v,s]) => {
+    const b = el('button','doc');
+    b.append(el('div','k',k), el('div','v',v), el('div','s',s));
+    b.addEventListener('click', () => openDoc(id));
+    box.appendChild(b);
+  });
+}
+
+let activeDay = store.get('kc26-ui-day', null);
+function todayDayId(){
+  const d = DAYS.find(x => x.date === kcDateStr(tripNow()));
+  return d ? d.id : null;
+}
+function renderDays(){
+  const tabs = document.getElementById('daytabs');
+  const wrap = document.getElementById('days');
+  const today = todayDayId();
+  if(today) activeDay = today;
+  if(!activeDay) activeDay = 'sat';
+  DAYS.forEach(d => {
+    const b = el('button','daytab' + (d.id===today?' is-today':''));
+    b.dataset.day = d.id;
+    b.append(el('span','dow',d.dow), el('span','num',d.num), el('span','tg',d.tag), el('span','today','TODAY'));
+    b.addEventListener('click', () => switchDay(d.id, true));
+    tabs.appendChild(b);
+    wrap.appendChild(buildPanel(d));
+  });
+  switchDay(activeDay);
+}
+function switchDay(id, scroll){
+  activeDay = id; store.set('kc26-ui-day', id);
+  document.querySelectorAll('.daytab').forEach(b => b.classList.toggle('on', b.dataset.day===id));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('on', p.id==='day-'+id));
+  if(scroll){
+    const tabs = document.getElementById('daytabs');
+    if(window.scrollY > tabs.offsetTop) window.scrollTo({ top: tabs.offsetTop, behavior:'smooth' });
+  }
+}
+
+function setTitle(node, html){
+  const m = html.match(/^(.*)<em>(.*)<\/em>(.*)$/);
+  if(!m){ node.textContent = html; return; }
+  node.append(m[1], el('em',null,m[2]), m[3]);
+}
+
+function buildTime(it){
+  const tm = el('div','tl-time');
+  const [hm, ap] = it.t.split(' ');
+  tm.append(el('div','t',hm), el('div','ap',ap));
+  tm.appendChild(el('div','az', it.az ? 'AZ TIME' : azOf(it.t)));
+  return tm;
+}
+
+function buildPanel(d){
+  const p = el('section','panel'); p.id = 'day-' + d.id;
+  const head = el('div','day-head');
+  const h2 = el('h2'); setTitle(h2, d.title);
+  head.append(h2, el('span','tzpill','CENTRAL · AZ +2'));
+  p.appendChild(head);
+  if(d.lede) p.appendChild(el('p','day-lede',d.lede));
+  if(d.ticket) p.appendChild(buildGameTicket());
+
+  const done = store.get('kc26-done', {});
+  const ul = el('ul','tl');
+  d.items.forEach((it, i) => {
+    const key = d.id + '-' + i;
+    const tap = it.eat || it.doc || it.poi;
+    const li = el('li','tl-item' + (it.anchor?' anchor':'') + (tap?' tap':'') + (done[key]?' done':''));
+    li.appendChild(buildTime(it));
+    const body = el('div','tl-body');
+    body.appendChild(el('div','tl-title',it.title));
+    if(it.note) body.appendChild(el('div','tl-note',it.note));
+    if(it.tags){
+      const tg = el('div','tl-tags');
+      it.tags.forEach(([c,txt]) => tg.appendChild(el('span','tag'+(c?' '+c:''),txt)));
+      body.appendChild(tg);
+    }
+    li.appendChild(body);
+    if(tap){
+      li.appendChild(el('span','tl-chev','›'));
+      li.addEventListener('click', () => it.eat ? openEat(it.eat) : it.doc ? openDoc(it.doc) : openPoi(it.poi));
+    }
+    ul.appendChild(li);
+    if(it.fork){
+      const f = d.forks.find(x => x.id === it.fork);
+      if(f) ul.appendChild(buildFork(f));
+    }
+  });
+  p.appendChild(ul);
+
+  if(d.alerts){
+    const c = el('div','card warn');
+    c.appendChild(el('h3',null,'Heads Up'));
+    p.appendChild(rulesList(c, d.alerts));
+  }
+  if(d.rules){
+    const c = el('div','card');
+    c.appendChild(el('h3',null,'Gate Rules'));
+    p.appendChild(rulesList(c, RULES));
+  }
+  return p;
+}
+function rulesList(card, rows){
+  const ul = el('ul','rules');
+  rows.forEach(([ic,b,s]) => {
+    const li = el('li'); li.appendChild(el('span','ic',ic));
+    const tx = el('div'); tx.append(el('b',null,b + ' — '), el('span',null,s));
+    li.appendChild(tx); ul.appendChild(li);
+  });
+  card.appendChild(ul);
+  return card;
+}
+
+function buildGameTicket(){
+  const g = el('div','gameticket');
+  const band = el('div','gt-band');
+  band.append(el('span',null,'NFL · Week 6'), el('b',null,'GEHA Field at Arrowhead'));
+  g.appendChild(band);
+  const body = el('div','gt-body');
+  const away = el('div','gt-team'); away.append(el('div','nm','Chargers'), el('div','rec','LOS ANGELES'));
+  const home = el('div','gt-team home'); home.append(el('div','nm','Chiefs'), el('div','rec','KANSAS CITY'));
+  body.append(away, el('div','gt-at','@'), home);
+  g.appendChild(body);
+  const meta = el('div','gt-meta');
+  [['Kickoff','3:25 PM CT'],['Arizona','1:25 PM'],['TV','CBS']].forEach(([k,v]) => {
+    const d = el('div'); d.append(el('div','k',k), el('div','v',v)); meta.appendChild(d);
+  });
+  g.appendChild(meta);
+  const cd = el('div','gt-countdown');
+  const tick = () => {
+    const ms = KICKOFF - tripNow();
+    if(ms <= 0){ cd.textContent = ms > -4*3600000 ? '★ Game on ★' : '★ Final ★'; return; }
+    const d = Math.floor(ms/86400000), h = Math.floor(ms/3600000)%24, m = Math.floor(ms/60000)%60;
+    cd.textContent = 'Kickoff in ' + (d?d+'d ':'') + h + 'h ' + m + 'm';
+  };
+  tick(); setInterval(tick, 30000);
+  g.appendChild(cd);
+  return g;
+}
+
+function buildFork(f){
+  const box = el('li','fork');
+  box.appendChild(el('div','fork-h','⚖ Your call'));
+  box.appendChild(el('div','fork-q',f.q));
+  const opts = el('div','fork-opts');
+  const picks = store.get('kc26-forks', {});
+  ['a','b'].forEach(k => {
+    const b = el('button','fork-opt' + (picks[f.id]===k?' on':''));
+    b.dataset.k = k;
+    b.append(el('div','l',f[k].l), el('div','d',f[k].d));
+    b.addEventListener('click', () => {
+      const cur = store.get('kc26-forks', {});
+      cur[f.id] = cur[f.id]===k ? null : k;
+      store.set('kc26-forks', cur);
+      opts.querySelectorAll('.fork-opt').forEach(x => x.classList.toggle('on', cur[f.id]===x.dataset.k));
+      if(cur[f.id]) toast('Locked in: ' + f[k].l.replace(/^[AB] · /,''));
+    });
+    opts.appendChild(b);
+  });
+  box.appendChild(opts);
+  return box;
+}
+
+/* ═════════ Eat ═════════ */
+function renderEat(){
+  const s = document.getElementById('section-eat');
+  const head = el('header','sec-head');
+  head.appendChild(el('div','sec-kicker','The Menu · 6 Stops'));
+  const h2 = el('h2'); h2.append('Eat Like ', el('em',null,'Kansas City'));
+  head.append(h2, el('p','sec-lede','Two barbecue institutions, Truman’s chili, a pancake backup, the stadium itself — and one legend that’s closed when you need it. Tap any card for what to order.'));
+  s.appendChild(head);
+  const w = el('div','wrap'); const list = el('div','eat');
+  EAT.forEach(e => {
+    const c = el('button','eat-card' + (e.closed?' closed':''));
+    const top = el('div','eat-top'); top.append(el('span',null,e.when), el('b',null,e.price));
+    const m = el('div','eat-main');
+    m.append(el('div','eat-name',e.name), el('div','eat-cuis',e.cuisine), el('div','eat-why',e.why));
+    const row = el('div','eat-row');
+    row.appendChild(el('span','tag dark','★ ' + e.rating));
+    if(e.dist !== '—') row.appendChild(el('span','tag',e.dist));
+    (e.tags||[]).forEach(([c2,t]) => row.appendChild(el('span','tag'+(c2?' '+c2:''),t)));
+    m.appendChild(row);
+    c.append(top, m);
+    c.addEventListener('click', () => openEat(e.id));
+    list.appendChild(c);
+  });
+  w.appendChild(list); s.appendChild(w);
+}
+
+/* ═════════ Game ═════════ */
+function renderGame(){
+  const s = document.getElementById('section-game');
+  const head = el('header','sec-head');
+  head.appendChild(el('div','sec-kicker','Sunday · Week 6'));
+  const h2 = el('h2'); h2.append('Arrowhead ', el('em',null,'Playbook'));
+  head.append(h2);
+  s.appendChild(head);
+  const w = el('div','wrap');
+  w.appendChild(buildGameTicket());
+
+  const ride = el('div','card');
+  ride.appendChild(el('h3',null,'Getting There & Back'));
+  rulesList(ride, [
+    ['➡️','In','Uber from Dixon’s (~5 mi) to the Missouri Welcome Center, between Gates 1 & 2 on Blue Ridge Cutoff. Walk a half-mile downhill to the lots.'],
+    ['⬅️','Out','Same spot. Post-game rideshare waits can run long — some reports say hours at peak. Hang back 30–45 min, then request.'],
+    ['💸','Surge','Expect surge pricing right after the final whistle. Prices fall as the lots empty.'],
+    ['🔋','Battery','Keep 30%+ for the ride home. Tickets, payments and the Uber all live on your phone.']
+  ]);
+  w.appendChild(ride);
+
+  const rules = el('div','card');
+  rules.appendChild(el('h3',null,'Gate Rules'));
+  w.appendChild(rulesList(rules, RULES));
+
+  const tg = el('div','card');
+  tg.appendChild(el('h3',null,'Tailgate & Eats'));
+  rulesList(tg, [
+    ['🎪','Ford Tailgate District','Lot M — free fan zone with food trucks, games, live music and drink specials. Your tailgate without a car.'],
+    ['⏰','Lots open early','Roughly 4–4½ hours before kickoff (sources differ) — about 11 AM.'],
+    ['🍖','Inside','Brisket Rangoon (Buck Tui BBQ), elote nachos, Drunken Fries, the Big Red Sandwich (Smoak BBQ).']
+  ]);
+  w.appendChild(tg);
+
+  w.appendChild(buildPicks());
+
+  const fg = el('div','card');
+  fg.appendChild(el('h3',null,'Field Guide'));
+  const ol = el('ol','facts');
+  TRIVIA.forEach(t => { const li = el('li'); li.append(el('b',null,t.o[t.a] + ' — '), t.f); ol.appendChild(li); });
+  fg.appendChild(ol);
+  w.appendChild(fg);
+  s.appendChild(w);
+}
+
+/* Picks: Chris vs Kat, settled with the final score */
+function buildPicks(){
+  const card = el('div','card');
+  card.appendChild(el('h3',null,'Chris vs. Kat — Picks'));
+  card.appendChild(el('p',null,'Lock your picks before kickoff. Enter the final and the app names a winner (winner pick first, then closest total score).'));
+  const picks = store.get('kc26-picks', { chris:{}, kat:{}, final:{} });
+  const save = () => { store.set('kc26-picks', picks); judge(); };
+  const grid = el('div','picks'); grid.style.marginTop = '12px';
+  [['chris','Chris'],['kat','Kat']].forEach(([who,name]) => {
+    const col = el('div','pick-col' + (who==='kat'?' kat':''));
+    col.appendChild(el('div','pick-name',name));
+    col.appendChild(el('label',null,'Winner'));
+    const seg = el('div','seg');
+    ['KC','LAC'].forEach(tm => {
+      const b = el('button', picks[who].win===tm ? 'on' : '', tm);
+      b.addEventListener('click', () => { picks[who].win = tm; seg.querySelectorAll('button').forEach(x => x.classList.toggle('on', x.textContent===tm)); save(); });
+      seg.appendChild(b);
+    });
+    col.appendChild(seg);
+    [['kc','Chiefs score'],['lac','Chargers score']].forEach(([k,lbl]) => {
+      const l = el('label',null,lbl);
+      const inp = el('input'); inp.type = 'number'; inp.inputMode = 'numeric'; inp.min = '0'; inp.max = '99';
+      if(picks[who][k] !== undefined) inp.value = picks[who][k];
+      inp.addEventListener('input', () => { picks[who][k] = inp.value === '' ? undefined : +inp.value; save(); });
+      l.appendChild(inp); col.appendChild(l);
+    });
+    grid.appendChild(col);
+  });
+  card.appendChild(grid);
+
+  const fin = el('div','final');
+  const row = el('div','final-row');
+  [['kc','Final · Chiefs'],['lac','Final · Chargers']].forEach(([k,lbl]) => {
+    const l = el('label',null,lbl);
+    const inp = el('input'); inp.type = 'number'; inp.inputMode = 'numeric'; inp.min = '0';
+    if(picks.final[k] !== undefined) inp.value = picks.final[k];
+    inp.addEventListener('input', () => { picks.final[k] = inp.value === '' ? undefined : +inp.value; save(); });
+    l.appendChild(inp); row.appendChild(l);
+  });
+  fin.appendChild(row);
+  const v = el('div','verdict');
+  fin.appendChild(v);
+  card.appendChild(fin);
+
+  function judge(){
+    v.textContent = '';
+    const f = picks.final;
+    if(f.kc === undefined || f.lac === undefined) return;
+    if(f.kc === f.lac){ v.textContent = 'A tie? Nobody wins.'; return; }
+    const winner = f.kc > f.lac ? 'KC' : 'LAC';
+    const score = who => {
+      const p = picks[who];
+      const right = p.win === winner ? 1 : 0;
+      const off = (p.kc === undefined || p.lac === undefined) ? 999 : Math.abs(p.kc - f.kc) + Math.abs(p.lac - f.lac);
+      return { right, off };
+    };
+    const c = score('chris'), k = score('kat');
+    let champ;
+    if(c.right !== k.right) champ = c.right > k.right ? 'Chris' : 'Kat';
+    else if(c.off !== k.off) champ = c.off < k.off ? 'Chris' : 'Kat';
+    else champ = null;
+    v.append(champ ? champ + ' wins the weekend 🏆' : 'Dead even. Rematch at dinner.');
+    const sm = el('small', null, 'Points off — Chris: ' + (c.off===999?'—':c.off) + ' · Kat: ' + (k.off===999?'—':k.off));
+    v.appendChild(sm);
+  }
+  judge();
+  return card;
+}
+
+/* ═════════ Play: trivia + bingo ═════════ */
+function renderPlay(){
+  const s = document.getElementById('section-play');
+  const head = el('header','sec-head');
+  head.appendChild(el('div','sec-kicker','Tailgate Games'));
+  const h2 = el('h2'); h2.append('Play ', el('em',null,'Ball'));
+  head.append(h2, el('p','sec-lede','Trivia for the Uber ride, bingo for the stadium. Works with zero bars of signal.'));
+  s.appendChild(head);
+  const w = el('div','wrap');
+  const tabs = el('div','subtabs');
+  const body = el('div');
+  const which = store.get('kc26-ui-play','trivia');
+  [['trivia','🧠 Trivia'],['bingo','🎯 Game Day Bingo']].forEach(([id,lbl]) => {
+    const b = el('button','subtab' + (which===id?' on':''), lbl);
+    b.addEventListener('click', () => {
+      store.set('kc26-ui-play', id);
+      tabs.querySelectorAll('.subtab').forEach(x => x.classList.toggle('on', x===b));
+      body.textContent = '';
+      body.appendChild(id==='trivia' ? buildTrivia() : buildBingo());
+    });
+    tabs.appendChild(b);
+  });
+  w.append(tabs, body);
+  body.appendChild(which==='trivia' ? buildTrivia() : buildBingo());
+  s.appendChild(w);
+}
+
+function shuffle(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+
+function buildTrivia(){
+  const box = el('div','quiz');
+  let order = shuffle(TRIVIA.map((_,i)=>i)).slice(0,10);
+  let idx = 0, score = 0;
+  function draw(){
+    box.textContent = '';
+    if(idx >= order.length){
+      const best = Math.max(store.get('kc26-trivia-best',0), score);
+      store.set('kc26-trivia-best', best);
+      const d = el('div','qz-done');
+      d.append(el('div','qz-big', score + '/10'),
+        el('div','qz-q', score>=9 ? 'Hall of Fame.' : score>=7 ? 'Starting lineup.' : score>=4 ? 'Practice squad.' : 'Waiver wire.'),
+        el('div','qz-best','Best this trip: ' + best + '/10'));
+      const again = el('button','btn btn-red qz-next','Run it back');
+      again.addEventListener('click', () => { order = shuffle(TRIVIA.map((_,i)=>i)).slice(0,10); idx = 0; score = 0; draw(); });
+      d.appendChild(again);
+      box.appendChild(d);
+      return;
+    }
+    const t = TRIVIA[order[idx]];
+    const top = el('div','qz-top');
+    top.append(el('span',null,'Question ' + (idx+1) + ' of 10'), el('span','qz-score','Score ' + score));
+    const bar = el('div','qz-bar'); const fill = el('i'); fill.style.width = (idx/order.length*100) + '%'; bar.appendChild(fill);
+    box.append(top, bar, el('div','qz-q',t.q));
+    const opts = el('div','qz-opts');
+    const shown = shuffle(t.o.map((o,i)=>({o,i})));
+    shown.forEach(({o,i}) => {
+      const b = el('button','qz-opt',o);
+      b.addEventListener('click', () => {
+        if(opts.dataset.done) return;
+        opts.dataset.done = '1';
+        if(i === t.a){ score++; b.classList.add('right'); }
+        else{
+          b.classList.add('wrong');
+          opts.querySelectorAll('.qz-opt').forEach(x => { if(x.textContent === t.o[t.a]) x.classList.add('right'); });
+        }
+        box.appendChild(el('div','qz-fact',t.f));
+        const nx = el('button','btn btn-ink qz-next', idx+1 < order.length ? 'Next →' : 'See score');
+        nx.addEventListener('click', () => { idx++; draw(); });
+        box.appendChild(nx);
+        top.lastChild.textContent = 'Score ' + score;
+      });
+      opts.appendChild(b);
+    });
+    box.appendChild(opts);
+  }
+  draw();
+  return box;
+}
+
+function buildBingo(){
+  const wrap = el('div');
+  const state = store.get('kc26-bingo', {});
+  state[12] = true;
+  const grid = el('div','bingo');
+  const status = el('div','bg-status');
+  let won = new Set(BINGO_LINES.filter(l => l.every(i => state[i])).map(l => l.join('-')));
+  function paint(){
+    const lines = BINGO_LINES.filter(l => l.every(i => state[i]));
+    const winCells = new Set(lines.flat());
+    grid.querySelectorAll('.bg-cell').forEach((c,i) => {
+      c.classList.toggle('on', !!state[i] && i!==12);
+      c.classList.toggle('win', winCells.has(i));
+    });
+    status.textContent = lines.length ? (lines.length===1 ? 'BINGO!' : lines.length + ' × BINGO!') : (Object.keys(state).filter(k=>state[k]).length - 1) + ' / 24 spotted';
+    return lines;
+  }
+  BINGO.forEach(([e,t],i) => {
+    const c = el('button','bg-cell' + (i===12?' free':''));
+    const em = el('span','e',e); c.append(em, t);
+    c.setAttribute('aria-label', t);
+    if(i !== 12) c.addEventListener('click', () => {
+      state[i] = !state[i];
+      store.set('kc26-bingo', state);
+      const lines = paint();
+      const keys = lines.map(l => l.join('-'));
+      if(keys.some(k => !won.has(k))) toast('🏈 BINGO! Touchdown!');
+      won = new Set(keys);
+    });
+    grid.appendChild(c);
+  });
+  const reset = el('button','btn btn-ghost','Clear board');
+  reset.style.marginTop = '12px'; reset.style.width = '100%';
+  reset.addEventListener('click', () => showModal({ title:'Clear the board?', message:'This un-marks every square.', confirmText:'Clear', cancelText:'Keep', onConfirm:() => {
+    Object.keys(state).forEach(k => delete state[k]); state[12] = true; store.set('kc26-bingo', state); won = new Set(); paint();
+  }}));
+  wrap.append(grid, status, reset);
+  paint();
+  return wrap;
+}
+
+/* ═════════ Pack ═════════ */
+function renderPack(){
+  const s = document.getElementById('section-pack');
+  const head = el('header','sec-head');
+  head.appendChild(el('div','sec-kicker','Checklist'));
+  const h2 = el('h2'); h2.append('Pack & ', el('em',null,'Prep'));
+  const count = el('div','ck-count');
+  head.append(h2, count);
+  s.appendChild(head);
+  const w = el('div','wrap');
+  const st = store.get('kc26-pack', {});
+  const total = PACK.reduce((n,g) => n + g.items.length, 0);
+  const upd = () => { count.textContent = Object.values(st).filter(Boolean).length + ' of ' + total + ' done'; };
+  PACK.forEach(g => {
+    const grp = el('div','ck-group');
+    grp.appendChild(el('h3',null,g.h));
+    g.items.forEach(([id,lb,sb]) => {
+      const b = el('button','ck' + (st[id]?' on':''));
+      const tx = el('div'); tx.appendChild(el('div','lb',lb)); if(sb) tx.appendChild(el('div','sb',sb));
+      b.append(el('span','box'), tx);
+      b.addEventListener('click', () => { st[id] = !st[id]; b.classList.toggle('on', st[id]); store.set('kc26-pack', st); upd(); });
+      grp.appendChild(b);
+    });
+    w.appendChild(grp);
+  });
+  upd();
+  const drive = el('div','fv-drive-host'); w.appendChild(drive);
+  if(window.FamilyDrive) FamilyDrive.card(drive, { title:'☁ Backup' });
+  s.appendChild(w);
+}
+
+/* ═════════ Bottom nav ═════════ */
+const NAV = [['days','🎟️','Days'],['eat','🍖','Eat'],['game','🏈','Game'],['play','🎯','Play'],['pack','🧳','Pack']];
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s => s.classList.toggle('on', s.id === 'section-' + id));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('on', b.dataset.sec === id));
+  store.set('kc26-ui-sec', id);
+  window.scrollTo(0,0);
+}
+function renderNav(){
+  const nav = document.getElementById('bottomnav');
+  NAV.forEach(([id,i,l]) => {
+    const b = el('button','nav-btn');
+    b.dataset.sec = id;
+    b.append(el('span','i',i), el('span','l',l));
+    b.addEventListener('click', () => showSection(id));
+    nav.appendChild(b);
+  });
+}
+
+/* ═════════ Boot ═════════ */
+if(window.FamilyDrive) FamilyDrive.start({ toast });   // must run before any FamilyDrive.card/bar
+renderHero();
+renderDocs();
+renderDays();
+renderEat();
+renderGame();
+renderPlay();
+renderPack();
+renderNav();
+showSection(store.get('kc26-ui-sec','days'));
+if(window.FamilyDrive) FamilyDrive.bar(document.getElementById('drive-bar'));
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeSheet(); });
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
+</script>
+</body>
+</html>
