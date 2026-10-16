@@ -1,5 +1,5 @@
 /* Red Weekend service worker — cache-first so the app works in the stadium with no signal. */
-const CACHE = 'kc26-v1';
+const CACHE = 'kc26-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -10,6 +10,7 @@ const ASSETS = [
   './icon-maskable-512.png',
   './apple-touch-icon.png',
   './favicon.ico',
+  './og-image.png',
   './ortiz-drive.js',
   '../fv-drive.js'
 ];
