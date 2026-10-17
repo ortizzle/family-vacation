@@ -353,6 +353,31 @@
   .ride-chip .go{margin-left:auto;color:var(--gold);font-size:.9rem}
   .ride-chip .sg{display:block;color:#ffb37a}
 
+
+  /* ═══ Photo frames ═══ */
+  .fr-styles{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
+  .fr-style{min-height:48px;border-radius:8px;border:1.5px solid rgba(245,236,220,.18);background:var(--night-3);
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.05em;text-transform:uppercase;color:rgba(245,236,220,.8);line-height:1.1;padding:4px}
+  .fr-style.on{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+  .fr-canvas{display:block;width:100%;height:auto;border-radius:8px;background:#000;box-shadow:0 8px 22px rgba(0,0,0,.45)}
+  .fr-actions{display:flex;gap:8px;margin-top:10px}
+  .fr-pick{position:relative;overflow:hidden}
+  .fr-pick input{position:absolute;inset:0;opacity:0;font-size:16px;cursor:pointer}
+  .fr-edit{margin-top:12px;display:flex;flex-direction:column;gap:10px}
+  .fr-team{display:flex;align-items:center;gap:6px}
+  .fr-team .nm{width:44px;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:.03em}
+  .fr-team .nm.kc{color:#ff4d5e}.fr-team .nm.lac{color:#4fb3ff}
+  .fr-team .sc{width:52px;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--stub)}
+  .fr-team button{flex:1;min-height:44px;border-radius:6px;background:var(--night-3);border:1px solid rgba(245,236,220,.2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;color:var(--stub)}
+  .fr-team button.minus{flex:.7;color:var(--gold-soft)}
+  .fr-qs{display:flex;flex-wrap:wrap;gap:5px}
+  .fr-qs button{min-height:40px;min-width:44px;padding:0 9px;border-radius:6px;background:var(--night-3);border:1px solid rgba(245,236,220,.2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.9rem;color:var(--stub)}
+  .fr-qs button.on{background:var(--red);border-color:var(--red)}
+  .fr-row{display:flex;gap:8px}
+  .fr-row label{flex:1;font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-soft)}
+  .fr-row input{display:block;width:100%;min-height:44px;margin-top:3px;border-radius:6px;border:1.5px solid rgba(245,236,220,.25);background:var(--night-3);color:var(--stub);padding:6px 8px;font-size:16px}
+  .fr-privacy{font-size:.74rem;color:rgba(245,236,220,.55);margin-top:8px;line-height:1.4}
+
   /* ═══ Bottom nav ═══ */
   .bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;background:var(--ink);
     border-top:3px solid var(--red);padding:6px 6px calc(6px + var(--safe-bot))}
@@ -1015,6 +1040,7 @@ function renderGame(){
   s.appendChild(head);
   const w = el('div','wrap');
   w.appendChild(buildGameTicket());
+  w.appendChild(buildFrames());
 
   const ride = el('div','card');
   ride.appendChild(el('h3',null,'Getting There & Back'));
@@ -1117,6 +1143,257 @@ function buildPicks(){
   }
   judge();
   return card;
+}
+
+
+/* ═════════ Photo frames — photo stays on the phone; only the scoreboard text is saved ═════════ */
+const FRAME_STYLES = [['score','Scoreboard'],['ticket','Ticket Stub'],['polaroid','Red Friday Polaroid']];
+const QUARTERS = ['PRE','Q1','Q2','HALF','Q3','Q4','OT','FINAL'];
+const FW = 1080, FH = 1350;
+
+function buildFrames(){
+  const card = el('div','card');
+  card.appendChild(el('h3',null,'📸 Photo Frames'));
+  card.appendChild(el('p',null,'Frame your game-day photos. The Scoreboard frame takes the score, quarter and clock, so every shot is stamped with the moment.'));
+  const st = Object.assign({ style:'score', kc:0, lac:0, q:'PRE', clock:'', caption:'' }, store.get('kc26-frames', {}));
+  const save = () => store.set('kc26-frames', st);
+  let img = null;
+
+  const styles = el('div','fr-styles');
+  FRAME_STYLES.forEach(([id,l]) => {
+    const b = el('button','fr-style' + (st.style===id?' on':''), l);
+    b.addEventListener('click', () => { st.style = id; save(); styles.querySelectorAll('.fr-style').forEach(x => x.classList.toggle('on', x===b)); edit.style.display = id==='polaroid' ? 'none' : ''; draw(); });
+    styles.appendChild(b);
+  });
+  card.appendChild(styles);
+
+  const cv = el('canvas','fr-canvas'); cv.width = FW; cv.height = FH;
+  card.appendChild(cv);
+
+  const acts = el('div','fr-actions');
+  const pick = el('label','btn btn-ink fr-pick','📷 Add photo');
+  const inp = el('input'); inp.type = 'file'; inp.accept = 'image/*';
+  pick.appendChild(inp);
+  const out = el('button','btn btn-red','⬇ Save / Share');
+  acts.append(pick, out);
+  card.appendChild(acts);
+
+  inp.addEventListener('change', () => {
+    const f = inp.files && inp.files[0];
+    if(!f) return;
+    const url = URL.createObjectURL(f);
+    const im = new Image();
+    im.onload = () => { img = im; pick.firstChild.textContent = '📷 Change photo'; draw(); };
+    im.onerror = () => toast('Couldn’t open that photo');
+    im.src = url;
+  });
+
+  // scoreboard editor
+  const edit = el('div','fr-edit');
+  if(st.style === 'polaroid') edit.style.display = 'none';
+  [['kc','KC'],['lac','LAC']].forEach(([k,lbl]) => {
+    const row = el('div','fr-team');
+    const sc = el('span','sc', String(st[k]));
+    row.append(el('span','nm ' + k, lbl), sc);
+    [['−',-1,'minus'],['+1',1],['+2',2],['+3',3],['+7',7]].forEach(([t,d,cl]) => {
+      const b = el('button', cl || '', t);
+      b.setAttribute('aria-label', lbl + ' ' + t);
+      b.addEventListener('click', () => { st[k] = Math.max(0, st[k] + d); sc.textContent = st[k]; save(); draw(); });
+      row.appendChild(b);
+    });
+    edit.appendChild(row);
+  });
+  const qs = el('div','fr-qs');
+  QUARTERS.forEach(q => {
+    const b = el('button', st.q===q ? 'on' : '', q);
+    b.addEventListener('click', () => { st.q = q; save(); qs.querySelectorAll('button').forEach(x => x.classList.toggle('on', x===b)); draw(); });
+    qs.appendChild(b);
+  });
+  edit.appendChild(qs);
+  const row = el('div','fr-row');
+  const mk = (lbl, key, ph, max) => {
+    const l = el('label',null,lbl);
+    const i = el('input'); i.type = 'text'; i.placeholder = ph; i.maxLength = max; i.value = st[key] || '';
+    i.addEventListener('input', () => { st[key] = i.value; save(); draw(); });
+    l.appendChild(i); return l;
+  };
+  row.append(mk('Clock','clock','4:32',6));
+  edit.appendChild(row);
+  card.appendChild(edit);
+  const row2 = el('div','fr-row'); row2.style.marginTop = '10px';
+  row2.appendChild(mk('Caption','caption','Chiefs Kingdom, section 1-2-3',48));
+  card.appendChild(row2);
+  card.appendChild(el('div','fr-privacy','🔒 Your photo never leaves your phone — it isn’t saved in the app or backed up. Tap Save / Share, then “Save Image” to put it in Photos.'));
+
+  out.addEventListener('click', () => {
+    if(!img){ toast('Add a photo first'); return; }
+    cv.toBlob(blob => {
+      if(!blob){ toast('Couldn’t make the image'); return; }
+      const name = 'red-weekend-' + st.style + '-' + Date.now() + '.jpg';
+      const file = new File([blob], name, { type:'image/jpeg' });
+      if(navigator.canShare && navigator.canShare({ files:[file] })){
+        navigator.share({ files:[file], title:'Red Weekend' }).catch(() => {});
+      }else{
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = name;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      }
+    }, 'image/jpeg', 0.92);
+  });
+
+  let pending = false;
+  function draw(){
+    if(pending) return;
+    pending = true;
+    requestAnimationFrame(() => { pending = false; drawFrame(cv.getContext('2d'), st, img); });
+  }
+  // Canvas needs the theme fonts loaded before it can use them
+  const fontsReady = document.fonts && document.fonts.load
+    ? Promise.all(['400 80px "Bebas Neue"','700 30px "Courier Prime"','700 40px "Barlow Condensed"','600 40px "Barlow Condensed"'].map(f => document.fonts.load(f))).catch(() => {})
+    : Promise.resolve();
+  fontsReady.then(draw);
+  draw();
+  return card;
+}
+
+function coverDraw(ctx, img, x, y, w, h){
+  if(!img){
+    const g = ctx.createLinearGradient(x, y, x, y + h);
+    g.addColorStop(0, '#3a1514'); g.addColorStop(1, '#140c0b');
+    ctx.fillStyle = g; ctx.fillRect(x, y, w, h);
+    ctx.fillStyle = 'rgba(245,236,220,.55)';
+    ctx.font = '400 72px "Bebas Neue", sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('📷  ADD A PHOTO', x + w/2, y + h/2);
+    ctx.textAlign = 'left';
+    return;
+  }
+  const r = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+  const sw = w / r, sh = h / r;
+  const sx = (img.naturalWidth - sw) / 2, sy = (img.naturalHeight - sh) / 2;
+  ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+}
+function rr(ctx, x, y, w, h, r){
+  ctx.beginPath(); ctx.moveTo(x+r, y); ctx.arcTo(x+w, y, x+w, y+h, r); ctx.arcTo(x+w, y+h, x, y+h, r);
+  ctx.arcTo(x, y+h, x, y, r); ctx.arcTo(x, y, x+w, y, r); ctx.closePath();
+}
+function shadowText(ctx, t, x, y){
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.75)'; ctx.shadowBlur = 14; ctx.shadowOffsetY = 3; ctx.fillText(t, x, y); ctx.restore();
+}
+const qLabel = st => st.q === 'FINAL' ? 'FINAL' : st.q === 'HALF' ? 'HALF' : st.q === 'PRE' ? 'PREGAME' : st.q + (st.clock ? '  ' + st.clock : '');
+
+function drawFrame(ctx, st, img){
+  ctx.clearRect(0, 0, FW, FH);
+  ctx.textBaseline = 'alphabetic';
+  if(st.style === 'score') drawScoreFrame(ctx, st, img);
+  else if(st.style === 'ticket') drawTicketFrame(ctx, st, img);
+  else drawPolaroidFrame(ctx, st, img);
+}
+
+function drawScoreFrame(ctx, st, img){
+  coverDraw(ctx, img, 0, 0, FW, FH);
+  let g = ctx.createLinearGradient(0, 0, 0, 220); g.addColorStop(0, 'rgba(0,0,0,.6)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, FW, 220);
+  g = ctx.createLinearGradient(0, FH - 460, 0, FH); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.75)');
+  ctx.fillStyle = g; ctx.fillRect(0, FH - 460, FW, 460);
+  // top chips
+  ctx.fillStyle = '#c8102e'; rr(ctx, 44, 44, 430, 64, 10); ctx.fill();
+  ctx.fillStyle = '#f5ecdc'; ctx.font = '700 30px "Courier Prime", monospace';
+  ctx.fillText('● LIVE · ARROWHEAD', 66, 87);
+  ctx.textAlign = 'right'; ctx.fillStyle = '#f7d98a';
+  shadowText(ctx, 'SUN · OCT 18 · 2026', FW - 48, 88);
+  ctx.textAlign = 'left';
+  // caption
+  if(st.caption){
+    ctx.fillStyle = '#fff'; ctx.font = '700 50px "Barlow Condensed", sans-serif';
+    shadowText(ctx, st.caption, 50, FH - 250);
+  }
+  // score bug
+  const y = FH - 200, h = 150, x = 40, w = FW - 80;
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 24;
+  ctx.fillStyle = '#1e1614'; rr(ctx, x, y, w, h, 18); ctx.fill(); ctx.restore();
+  ctx.save(); rr(ctx, x, y, w, h, 18); ctx.clip();
+  const seg = 340;
+  ctx.fillStyle = '#0a5aa8'; ctx.fillRect(x, y, seg, h);          // Chargers
+  ctx.fillStyle = '#c8102e'; ctx.fillRect(x + seg, y, seg, h);    // Chiefs
+  ctx.fillStyle = '#f2b632'; ctx.fillRect(x, y + h - 10, seg*2, 10);
+  ctx.restore();
+  const team = (abbr, score, cx, accent) => {
+    ctx.fillStyle = accent; ctx.font = '400 66px "Bebas Neue", sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText(abbr, cx + 26, y + 98);
+    ctx.fillStyle = '#fff'; ctx.font = '400 118px "Bebas Neue", sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(String(score), cx + seg - 26, y + 112);
+  };
+  team('LAC', st.lac, x, '#ffd34e');
+  team('KC', st.kc, x + seg, '#f7d98a');
+  ctx.textAlign = 'center';
+  const qx = x + seg*2 + (w - seg*2)/2;
+  const ql = qLabel(st);
+  ctx.fillStyle = '#f2b632'; ctx.font = (ql.length > 8 ? '400 64px' : '400 82px') + ' "Bebas Neue", sans-serif';
+  ctx.fillText(ql, qx, y + 92);
+  ctx.fillStyle = 'rgba(245,236,220,.7)'; ctx.font = '700 22px "Courier Prime", monospace';
+  ctx.fillText('WEEK 6 · CBS', qx, y + 128);
+  ctx.textAlign = 'left';
+}
+
+function drawTicketFrame(ctx, st, img){
+  ctx.fillStyle = '#f5ecdc'; ctx.fillRect(0, 0, FW, FH);
+  ctx.fillStyle = '#1e1614'; ctx.fillRect(50, 50, FW - 100, 930);
+  coverDraw(ctx, img, 62, 62, FW - 124, 906);
+  if(st.caption){
+    ctx.fillStyle = '#fff'; ctx.font = '700 48px "Barlow Condensed", sans-serif';
+    shadowText(ctx, st.caption, 90, 930);
+  }
+  // ticket band
+  const y = 1020, h = 280, x = 50, w = FW - 100, perf = x + w - 270;
+  ctx.fillStyle = '#c8102e'; rr(ctx, x, y, w, h, 16); ctx.fill();
+  ctx.fillStyle = '#8f0b20'; ctx.save(); rr(ctx, x, y, w, h, 16); ctx.clip(); ctx.fillRect(perf, y, x + w - perf, h); ctx.restore();
+  ctx.fillStyle = '#f5ecdc';
+  [y, y + h].forEach(cy => { ctx.beginPath(); ctx.arc(perf, cy, 22, 0, Math.PI*2); ctx.fill(); });
+  ctx.strokeStyle = 'rgba(245,236,220,.75)'; ctx.lineWidth = 4; ctx.setLineDash([14, 12]);
+  ctx.beginPath(); ctx.moveTo(perf, y + 30); ctx.lineTo(perf, y + h - 30); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = '#f7d98a'; ctx.font = '700 28px "Courier Prime", monospace';
+  ctx.fillText('ADMIT TWO · CHRIS + KAT', x + 40, y + 62);
+  ctx.fillStyle = '#f5ecdc'; ctx.font = '400 104px "Bebas Neue", sans-serif';
+  ctx.fillText('CHARGERS @ CHIEFS', x + 36, y + 165);
+  ctx.fillStyle = 'rgba(245,236,220,.85)'; ctx.font = '700 26px "Courier Prime", monospace';
+  ctx.fillText('SUN OCT 18 2026 · 3:25 PM · ARROWHEAD', x + 40, y + 225);
+  ctx.textAlign = 'center';
+  const sx = perf + (x + w - perf)/2;
+  if(st.kc || st.lac || st.q !== 'PRE'){
+    const sw = x + w - perf - 40;
+    ctx.fillStyle = '#f2b632'; ctx.font = '400 92px "Bebas Neue", sans-serif';
+    ctx.fillText(st.kc + '–' + st.lac, sx, y + 125, sw);
+    ctx.fillStyle = '#f5ecdc'; ctx.font = '700 24px "Courier Prime", monospace';
+    ctx.fillText('KC – LAC', sx, y + 172, sw);
+    ctx.fillStyle = '#f7d98a'; ctx.font = '400 44px "Bebas Neue", sans-serif';
+    ctx.fillText(qLabel(st), sx, y + 222, sw);
+  }else{
+    ctx.fillStyle = '#f2b632'; ctx.font = '400 70px "Bebas Neue", sans-serif';
+    ctx.fillText('SEC KC', sx, y + 125);
+    ctx.fillText('ROW 26', sx, y + 195);
+  }
+  ctx.textAlign = 'left';
+}
+
+function drawPolaroidFrame(ctx, st, img){
+  ctx.fillStyle = '#c8102e'; ctx.fillRect(0, 0, FW, FH);
+  ctx.strokeStyle = 'rgba(0,0,0,.08)'; ctx.lineWidth = 6;
+  for(let i = -FH; i < FW; i += 26){ ctx.beginPath(); ctx.moveTo(i, FH); ctx.lineTo(i + FH, 0); ctx.stroke(); }
+  ctx.save(); ctx.translate(FW/2, 610); ctx.rotate(-0.025);
+  ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 40; ctx.shadowOffsetY = 12;
+  ctx.fillStyle = '#fbf6ec'; ctx.fillRect(-450, -540, 900, 1100);
+  ctx.shadowColor = 'transparent';
+  coverDraw(ctx, img, -410, -500, 820, 820);
+  ctx.fillStyle = '#1e1614'; ctx.textAlign = 'center';
+  ctx.font = '600 64px "Barlow Condensed", sans-serif';
+  ctx.fillText(st.caption || 'Chiefs Kingdom 🏈', 0, 420, 820);
+  ctx.fillStyle = '#c8102e'; ctx.font = '700 26px "Courier Prime", monospace';
+  ctx.fillText('RED WEEKEND · KANSAS CITY · OCT 2026', 0, 480);
+  ctx.restore();
+  ctx.textAlign = 'center'; ctx.fillStyle = '#f2b632'; ctx.font = '400 72px "Bebas Neue", sans-serif';
+  ctx.fillText('★  RED FRIDAY  ★', FW/2, FH - 70);
+  ctx.textAlign = 'left';
 }
 
 /* ═════════ Play: trivia + bingo ═════════ */
