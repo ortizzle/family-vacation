@@ -224,6 +224,15 @@
   .sh-list li{padding:6px 0;border-top:1px dashed var(--perf);font-size:.9rem;line-height:1.4}
   .sh-list li:first-child{border-top:0}
   .sh-list b{font-weight:600}
+  .sh-menu{margin-top:4px}
+  .sh-menu-h{font-family:'Courier Prime',monospace;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:12px 0 2px;padding-bottom:3px;border-bottom:2px solid var(--ink)}
+  .sh-mi{display:flex;align-items:baseline;gap:6px;padding:6px 0;border-bottom:1px dotted var(--perf)}
+  .sh-mi .nm{font-weight:600;font-size:.92rem}
+  .sh-mi .dots{flex:1;border-bottom:1px dotted var(--ink-soft);opacity:.35;transform:translateY(-3px);min-width:10px}
+  .sh-mi .pr{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--red);white-space:nowrap}
+  .sh-mi-note{font-size:.78rem;color:var(--ink-soft);line-height:1.35;margin:-2px 0 0}
+  .sh-mi-wrap.star .nm::before{content:'★ ';color:var(--gold)}
+  .sh-menu-note{font-size:.74rem;color:var(--ink-soft);font-style:italic;margin-top:8px;line-height:1.4}
   .sh-tip{margin-top:14px;padding:10px 12px;border-radius:8px;background:#ffe9b8;font-size:.86rem;line-height:1.45;color:#5a3a00}
   .sh-actions{display:flex;gap:8px;margin-top:16px}
   .btn{flex:1;min-height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:6px;
@@ -557,29 +566,57 @@ const EAT = [
     order:[['Burnt ends','the reason you came'],['Baked beans','award-winning; even the skeptics convert'],['Cheesy corn bake','the side people fly home talking about'],['Jalapeño cornbread','order one to go']],
     body:['The Fiorella family has been smoking meat in Kansas City since 1957; the Freight House is their showpiece. Reviewers rave about the food and occasionally grumble about portions for the price — order an extra side and share.'],
     tip:'Reservation is under Kat (party per the reservation). Ask for a table by the windows facing the rail yard.',
+    menu:[
+      { h:'Starters', items:[['Smoked Jalapeño Cheddar Cornbread','~$13','the to-go move'],['Burnt End Brussels Sprouts','~$15'],['Fire-Kissed Wings (10)','~$22'],['Smoked Salmon Dip','~$19.50']] },
+      { h:'Barbecue', items:[['Burnt Ends dinner','~$17–25','★ the order'],['Kansas City Combo','','pick your meats — upgrade: baby backs +$3 · beef ribs +$4 · lamb ribs +$5 · Crown Prime +$16'],['Crown Prime Beef Rib','~$39','the showpiece — huge, share it'],['Lamb Ribs dinner','~$38–40','a Jack Stack specialty'],['Poor Russ Sandwich','~$19'],['Grilled Salmon Sandwich','$19.50']] },
+      { h:'Classic sides · $5.50', items:[['Hickory Pit Beans','','★ award-winning'],['Cheesy Corn Bake','','★ get it'],['Creamy Coleslaw',''],['Potato Salad',''],['French Fries','']] }
+    ],
+    menuNote:'Prices from Jack Stack’s site and delivery listings (Oct 2026) — delivery apps run higher than dine-in, so treat as ballpark.',
     q:'Jack Stack Barbecue Freight House Kansas City', tags:[['red','Anchor']] },
   { id:'dixons', when:'Sun 11:30 AM · pre-game', name:'Dixon’s Famous Chili', cuisine:'Chili parlor · since 1919', price:'$',
     rating:'4.1 Tripadvisor · 4.4 Uber Eats (150+)', dist:'~1 mi from Arrowhead · ~30 min from hotel', why:'Harry Truman’s chili parlor — a century-old family recipe, a mile from the stadium.',
     order:[['Chili “dry”','ground beef over beans, the regulars’ order'],['Soupy or juicy','if you want it wetter'],['House hot sauce','add it yourself']],
     body:['The last remaining Dixon’s is a red-and-white diner in Independence. It’s been family-run for over a hundred years, and Truman was a regular.'],
     tip:'The only hours we found (Uber Eats) say 11 AM–8 PM. Call (816) 861-7308 Saturday to confirm they’re open Sunday. Backup: brunch at Urban Egg, then Uber straight to Arrowhead.',
+    menu:[
+      { h:'How do you want it?', items:[['Dry','','★ meat over beans, the regulars’ order'],['Soupy','','with broth'],['Juicy','','with the chili grease'],['Soupy & Juicy','','all in']] },
+      { h:'Chili · regular / large', items:[['Dixon’s Chili (meat over beans)','$8 / $9','★'],['All Meat (no beans)','$9 / $10'],['Spaghetti Chili','$9','$10 all meat'],['Tamale Spread','$10','tamale under chili · $11 all meat'],['Hot Tamales','$3.50 ea']] },
+      { h:'Dogs + tacos', items:[['Chili Dog','$9'],['Foot-long Chili Dog','$12'],['Hot Dog','$5'],['Tacos','$3 · 3 for $7.50']] }
+    ],
+    menuNote:'From Dixon’s own menu page (listings vary by a dollar). Chili comes on a plate, beans first — not a bowl of tomato chili.',
     q:'Dixon’s Chili Parlor 9105 E US Highway 40 Independence MO', tags:[['red','Recommended to Chris'],['warn','Verify Sunday']] },
   { id:'q39', when:'Sun ~8 PM · post-game option', name:'Q39 South', cuisine:'Competition-style barbecue', price:'$$',
     rating:'9.2/10 Foursquare (126)', dist:'1.5 mi from hotel', why:'Chef-driven competition barbecue a few minutes from your bed — open until 9 on Sunday.',
     order:[['Burnt ends','the line every reviewer repeats'],['Brisket','competition-style, sliced'],['Combo platter','if you can’t choose']],
     body:['Q39 is the other name every Kansas City barbecue argument includes. The Overland Park location is at 11051 Antioch Rd — a $10 Uber from the hotel.'],
     tip:'Reservations aren’t required but are strongly recommended — book through q39kc.com Saturday night for ~8:00 PM Sunday. (This is the place your friends meant by “Q24.”)',
+    menu:[
+      { h:'Starters', items:[['Q39 Spiced Onion Straws','$9'],['“Best Wings on the Planet”','$16','Chipotle BBQ or Q39 dry rub'],['Fire-Roasted Poblano Cheddar Cornbread','','']] },
+      { h:'Plates', items:[['Brisket & Burnt Ends platter','$26','★ both icons on one plate'],['Judge’s Plate (pick 3)','$28','for the indecisive'],['Brisket by the pound','$16+']] },
+      { h:'Sandwiches', items:[['Mr. Burns','$16','burnt ends, pepper jack, onion straws, chipotle BBQ']] },
+      { h:'Sides', items:[['Apple slaw','$6','the classic Q39 side']] }
+    ],
+    menuNote:'Overland Park in-house menu prices via Toast/Yelp (Oct 2026). Delivery apps list the same items ~$3–6 higher.',
     q:'Q39 South 11051 Antioch Rd Overland Park KS', url:'https://www.q39kc.com/reservations/', tags:[['red','Recommended to Chris'],['','Reserve']] },
   { id:'urbanegg', when:'Sun AM · brunch upgrade / backup', name:'Urban Egg', cuisine:'Breakfast + brunch', price:'$$',
     rating:'4.8 Uber Eats (72)', dist:'~2 mi from hotel', why:'Gourmet pancakes and the only one of these outside Colorado — the backup if Dixon’s is closed.',
     order:[['Cinnamon Swirl pancakes','the signature'],['Breakfast burrito','if you need fuel for six hours outside']],
     body:['Weekend hours 7 AM–2:30 PM at 4921 W 119th St. If Dixon’s is closed Sunday, do a bigger brunch here around 10:30 and Uber straight to Arrowhead (~30 min).'],
-    q:'Urban Egg 4921 W 119th St Overland Park KS', tags:[['','Backup']] },
+    q:'Urban Egg 4921 W 119th St Overland Park KS',
+    menu:[
+      { h:'Pancakes', items:[['Cinnamon Swirl pancake (single)','$9.25','★ the signature'],['Pancake flight','$15.50–17.40','buttermilk, choc chip, cinnamon swirl, lemon ricotta, strawberry cheesecake'],['Gluten-free swap','+$3']] },
+      { h:'Benedicts + mains', items:[['Classic Benedict','$17.90'],['Hot Chicken Benedict','$21.50'],['Chicken & Waffle Benedict','$22.70'],['Breakfast Burrito','$17.90+','add-ons extra']] }
+    ],
+    menuNote:'From DoorDash/Yelp listings (Oct 2026). Every modification costs extra, per reviewers.', tags:[['','Backup']] },
   { id:'arrowhead', when:'Sun · inside the stadium', name:'Arrowhead Concessions', cuisine:'Stadium food (it’s good here)', price:'$$ · cashless',
     rating:'USA Today readers: #1 stadium food', dist:'Inside GEHA Field', why:'The rare stadium where the food is part of the point.',
     order:[['Brisket Rangoon','Buck Tui BBQ'],['Elote nachos','fan favorite'],['Drunken Fries','Guinness cheese sauce'],['Big Red Sandwich','Smoak BBQ']],
     body:['Menus change season to season — the Chiefs app lists what’s sold where. Self-serve kiosks and grab-and-go markets keep lines short.'],
-    q:'GEHA Field at Arrowhead Stadium', tags:[['gold','Plan B dinner']] },
+    q:'GEHA Field at Arrowhead Stadium', tags:[['gold','Plan B dinner']],
+    menu:[
+      { h:'Worth finding', items:[['Brisket Rangoon','','Buck Tui BBQ'],['Big Red Sandwich','','Smoak BBQ'],['Elote Nachos',''],['Drunken Fries','','Guinness cheese sauce'],['Foot-long hot dog','']] }
+    ],
+    menuNote:'Prices are posted at each stand and change by season — the Chiefs app has the current stand map. Cashless only.', },
   { id:'joes', when:'Heads up', name:'Joe’s Kansas City', cuisine:'Barbecue (the gas station one)', price:'$$',
     rating:'KC legend', dist:'—', why:'Closed on Sundays. Don’t build game-day plans around it.',
     order:[], body:['Joe’s locations close Sundays, so it doesn’t fit this weekend. Next trip: the Z-Man sandwich at the original gas-station location in Kansas City, Kansas.'],
@@ -688,6 +725,25 @@ function openSheet(d){
     d.order.forEach(([a,b]) => { const li = el('li'); li.append(el('b',null,a), ' — ' + b); ul.appendChild(li); });
     sheet.appendChild(ul);
   }
+  if(d.menu && d.menu.length){
+    sheet.appendChild(el('div','sh-h','📋 Menu'));
+    const m = el('div','sh-menu');
+    d.menu.forEach(sec => {
+      m.appendChild(el('div','sh-menu-h',sec.h));
+      sec.items.forEach(([nm, pr, note]) => {
+        const star = note && note.startsWith('★');
+        const w = el('div','sh-mi-wrap' + (star ? ' star' : ''));
+        const row = el('div','sh-mi');
+        row.append(el('span','nm',nm), el('span','dots'), el('span','pr',pr || ''));
+        w.appendChild(row);
+        const n = star ? note.replace(/^★\s*/,'') : note;
+        if(n) w.appendChild(el('div','sh-mi-note',n));
+        m.appendChild(w);
+      });
+    });
+    if(d.menuNote) m.appendChild(el('div','sh-menu-note',d.menuNote));
+    sheet.appendChild(m);
+  }
   if(d.list){
     sheet.appendChild(el('div','sh-h','Good to know'));
     const ul = el('ul','sh-list');
@@ -709,7 +765,7 @@ function openEat(id){
   if(!e) return;
   openSheet({ kicker:e.when, name:e.name, tag:e.why,
     facts:[['Cuisine',e.cuisine],['Price',e.price],['Rating',e.rating],['Distance',e.dist]],
-    order:e.order, body:e.body, tip:e.tip, q:e.q, url:e.url });
+    order:e.order, menu:e.menu, menuNote:e.menuNote, body:e.body, tip:e.tip, q:e.q, url:e.url });
 }
 function openDoc(id){
   const d = DOCS[id];
@@ -940,6 +996,7 @@ function renderEat(){
     row.appendChild(el('span','tag dark','★ ' + e.rating));
     if(e.dist !== '—') row.appendChild(el('span','tag',e.dist));
     (e.tags||[]).forEach(([c2,t]) => row.appendChild(el('span','tag'+(c2?' '+c2:''),t)));
+    if(e.menu) row.appendChild(el('span','tag gold','📋 Menu'));
     m.appendChild(row);
     c.append(top, m);
     c.addEventListener('click', () => openEat(e.id));
