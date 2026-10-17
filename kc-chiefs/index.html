@@ -22,7 +22,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600&family=Courier+Prime:wght@400;700&family=Playfair+Display:ital,wght@1,400;1,600&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
   :root{
     --night:#140c0b;        /* stadium-night background */
@@ -1147,14 +1147,14 @@ function buildPicks(){
 
 
 /* ═════════ Photo frames — photo stays on the phone; only the scoreboard text is saved ═════════ */
-const FRAME_STYLES = [['score','Scoreboard'],['ticket','Ticket Stub'],['polaroid','Red Friday Polaroid']];
+const FRAME_STYLES = [['score','Broadcast'],['ticket','Commemorative Ticket'],['polaroid','Keepsake Print']];
 const QUARTERS = ['PRE','Q1','Q2','HALF','Q3','Q4','OT','FINAL'];
 const FW = 1080, FH = 1350;
 
 function buildFrames(){
   const card = el('div','card');
   card.appendChild(el('h3',null,'📸 Photo Frames'));
-  card.appendChild(el('p',null,'Frame your game-day photos. The Scoreboard frame takes the score, quarter and clock, so every shot is stamped with the moment.'));
+  card.appendChild(el('p',null,'Keepsake frames for your game-day photos. Broadcast stamps each shot with the live score, quarter and clock — update it as the game goes.'));
   const st = Object.assign({ style:'score', kc:0, lac:0, q:'PRE', clock:'', caption:'' }, store.get('kc26-frames', {}));
   const save = () => store.set('kc26-frames', st);
   let img = null;
@@ -1221,7 +1221,7 @@ function buildFrames(){
   edit.appendChild(row);
   card.appendChild(edit);
   const row2 = el('div','fr-row'); row2.style.marginTop = '10px';
-  row2.appendChild(mk('Caption','caption','Chiefs Kingdom, section 1-2-3',48));
+  row2.appendChild(mk('Caption','caption','Our first Chiefs game',40));
   card.appendChild(row2);
   card.appendChild(el('div','fr-privacy','🔒 Your photo never leaves your phone — it isn’t saved in the app or backed up. Tap Save / Share, then “Save Image” to put it in Photos.'));
 
@@ -1250,7 +1250,7 @@ function buildFrames(){
   }
   // Canvas needs the theme fonts loaded before it can use them
   const fontsReady = document.fonts && document.fonts.load
-    ? Promise.all(['400 80px "Bebas Neue"','700 30px "Courier Prime"','700 40px "Barlow Condensed"','600 40px "Barlow Condensed"'].map(f => document.fonts.load(f))).catch(() => {})
+    ? Promise.all(['400 80px "Bebas Neue"','700 30px "Courier Prime"','700 40px "Barlow Condensed"','italic 400 50px "Playfair Display"','600 70px "Caveat"'].map(f => document.fonts.load(f))).catch(() => {})
     : Promise.resolve();
   fontsReady.then(draw);
   draw();
@@ -1259,140 +1259,228 @@ function buildFrames(){
 
 function coverDraw(ctx, img, x, y, w, h){
   if(!img){
-    const g = ctx.createLinearGradient(x, y, x, y + h);
-    g.addColorStop(0, '#3a1514'); g.addColorStop(1, '#140c0b');
+    const g = ctx.createLinearGradient(x, y, x + w, y + h);
+    g.addColorStop(0, '#4a1a18'); g.addColorStop(1, '#140c0b');
     ctx.fillStyle = g; ctx.fillRect(x, y, w, h);
-    ctx.fillStyle = 'rgba(245,236,220,.55)';
-    ctx.font = '400 72px "Bebas Neue", sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('📷  ADD A PHOTO', x + w/2, y + h/2);
+    ctx.fillStyle = 'rgba(245,236,220,.5)'; ctx.textAlign = 'center';
+    ctx.font = 'italic 400 54px "Playfair Display", serif';
+    ctx.fillText('Add your photo', x + w/2, y + h/2);
     ctx.textAlign = 'left';
     return;
   }
   const r = Math.max(w / img.naturalWidth, h / img.naturalHeight);
   const sw = w / r, sh = h / r;
-  const sx = (img.naturalWidth - sw) / 2, sy = (img.naturalHeight - sh) / 2;
-  ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+  ctx.drawImage(img, (img.naturalWidth - sw)/2, (img.naturalHeight - sh)/2, sw, sh, x, y, w, h);
 }
 function rr(ctx, x, y, w, h, r){
   ctx.beginPath(); ctx.moveTo(x+r, y); ctx.arcTo(x+w, y, x+w, y+h, r); ctx.arcTo(x+w, y+h, x, y+h, r);
   ctx.arcTo(x, y+h, x, y, r); ctx.arcTo(x, y, x+w, y, r); ctx.closePath();
 }
-function shadowText(ctx, t, x, y){
-  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.75)'; ctx.shadowBlur = 14; ctx.shadowOffsetY = 3; ctx.fillText(t, x, y); ctx.restore();
+function shadowText(ctx, t, x, y, maxW){
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.7)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 3;
+  if(maxW) ctx.fillText(t, x, y, maxW); else ctx.fillText(t, x, y);
+  ctx.restore();
 }
-const qLabel = st => st.q === 'FINAL' ? 'FINAL' : st.q === 'HALF' ? 'HALF' : st.q === 'PRE' ? 'PREGAME' : st.q + (st.clock ? '  ' + st.clock : '');
+// Letter-spaced text (canvas letterSpacing isn't reliable in iOS Safari)
+function spaced(ctx, t, x, y, sp, align){
+  const chars = [...t];
+  const w = chars.reduce((a, c) => a + ctx.measureText(c).width, 0) + sp * (chars.length - 1);
+  let cx = align === 'center' ? x - w/2 : align === 'right' ? x - w : x;
+  const prev = ctx.textAlign; ctx.textAlign = 'left';
+  chars.forEach(c => { ctx.fillText(c, cx, y); cx += ctx.measureText(c).width + sp; });
+  ctx.textAlign = prev;
+  return w;
+}
+function foil(ctx, x0, y0, x1, y1){
+  const g = ctx.createLinearGradient(x0, y0, x1, y1);
+  [[0,'#a77a28'],[.22,'#f7dd92'],[.45,'#c4923a'],[.7,'#fde9ad'],[1,'#a97d2c']].forEach(([o,c]) => g.addColorStop(o, c));
+  return g;
+}
+let grainTile = null;
+function grain(ctx, x, y, w, h, strength){
+  if(!grainTile){
+    grainTile = document.createElement('canvas'); grainTile.width = grainTile.height = 220;
+    const g = grainTile.getContext('2d'), d = g.createImageData(220, 220);
+    for(let i = 0; i < d.data.length; i += 4){ const v = Math.random()*255; d.data[i] = d.data[i+1] = d.data[i+2] = v; d.data[i+3] = 255; }
+    g.putImageData(d, 0, 0);
+  }
+  ctx.save(); ctx.globalAlpha = strength || .06; ctx.globalCompositeOperation = 'overlay';
+  ctx.fillStyle = ctx.createPattern(grainTile, 'repeat'); ctx.fillRect(x, y, w, h); ctx.restore();
+}
+// Security-print linework, like the background of a real ticket
+function guilloche(ctx, x, y, w, h, color, rows){
+  ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  ctx.strokeStyle = color; ctx.lineWidth = 1.2;
+  for(let k = 0; k < rows; k++){
+    ctx.beginPath();
+    for(let px = 0; px <= w; px += 6){
+      const t = px / w;
+      const py = y + h/2 + Math.sin(t * Math.PI * 6 + k * 0.42) * h * 0.38 * Math.cos(t * Math.PI * 1.5 + k * 0.11);
+      px ? ctx.lineTo(x + px, py) : ctx.moveTo(x + px, py);
+    }
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+const Q_NAMES = { PRE:'PREGAME', Q1:'1ST', Q2:'2ND', Q3:'3RD', Q4:'4TH', HALF:'HALFTIME', OT:'OVERTIME', FINAL:'FINAL' };
+const qLabel = st => Q_NAMES[st.q] || st.q;
+const hasClock = st => st.clock && ['Q1','Q2','Q3','Q4','OT'].includes(st.q);
 
 function drawFrame(ctx, st, img){
   ctx.clearRect(0, 0, FW, FH);
-  ctx.textBaseline = 'alphabetic';
+  ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
   if(st.style === 'score') drawScoreFrame(ctx, st, img);
   else if(st.style === 'ticket') drawTicketFrame(ctx, st, img);
   else drawPolaroidFrame(ctx, st, img);
 }
 
+/* Broadcast — full-bleed photo, glass score bug with a gold hairline */
 function drawScoreFrame(ctx, st, img){
   coverDraw(ctx, img, 0, 0, FW, FH);
-  let g = ctx.createLinearGradient(0, 0, 0, 220); g.addColorStop(0, 'rgba(0,0,0,.6)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-  ctx.fillStyle = g; ctx.fillRect(0, 0, FW, 220);
-  g = ctx.createLinearGradient(0, FH - 460, 0, FH); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.75)');
-  ctx.fillStyle = g; ctx.fillRect(0, FH - 460, FW, 460);
-  // top chips
-  ctx.fillStyle = '#c8102e'; rr(ctx, 44, 44, 430, 64, 10); ctx.fill();
-  ctx.fillStyle = '#f5ecdc'; ctx.font = '700 30px "Courier Prime", monospace';
-  ctx.fillText('● LIVE · ARROWHEAD', 66, 87);
-  ctx.textAlign = 'right'; ctx.fillStyle = '#f7d98a';
-  shadowText(ctx, 'SUN · OCT 18 · 2026', FW - 48, 88);
-  ctx.textAlign = 'left';
-  // caption
+  let g = ctx.createRadialGradient(FW/2, FH*0.42, FH*0.28, FW/2, FH*0.5, FH*0.85);
+  g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.5)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, FW, FH);
+  g = ctx.createLinearGradient(0, 0, 0, 280); g.addColorStop(0, 'rgba(0,0,0,.55)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, FW, 280);
+  g = ctx.createLinearGradient(0, FH - 560, 0, FH); g.addColorStop(0, 'rgba(8,5,4,0)'); g.addColorStop(.55, 'rgba(8,5,4,.6)'); g.addColorStop(1, 'rgba(8,5,4,.94)');
+  ctx.fillStyle = g; ctx.fillRect(0, FH - 560, FW, 560);
+  grain(ctx, 0, 0, FW, FH, .07);
+
+  // monogram + date
+  ctx.fillStyle = '#f5ecdc'; ctx.font = 'italic 400 48px "Playfair Display", serif';
+  shadowText(ctx, 'Chris & Kat', 60, 112);
+  ctx.fillStyle = foil(ctx, 60, 0, 300, 0); ctx.fillRect(62, 134, 120, 2);
+  ctx.font = '700 24px "Courier Prime", monospace'; ctx.fillStyle = foil(ctx, FW - 300, 0, FW - 60, 0);
+  spaced(ctx, '10 · 18 · 26', FW - 60, 106, 5, 'right');
+
   if(st.caption){
-    ctx.fillStyle = '#fff'; ctx.font = '700 50px "Barlow Condensed", sans-serif';
-    shadowText(ctx, st.caption, 50, FH - 250);
+    ctx.fillStyle = '#fff'; ctx.font = 'italic 400 56px "Playfair Display", serif'; ctx.textAlign = 'center';
+    shadowText(ctx, st.caption, FW/2, FH - 300, FW - 140);
+    ctx.textAlign = 'left';
   }
+
   // score bug
-  const y = FH - 200, h = 150, x = 40, w = FW - 80;
-  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 24;
-  ctx.fillStyle = '#1e1614'; rr(ctx, x, y, w, h, 18); ctx.fill(); ctx.restore();
-  ctx.save(); rr(ctx, x, y, w, h, 18); ctx.clip();
-  const seg = 340;
-  ctx.fillStyle = '#0a5aa8'; ctx.fillRect(x, y, seg, h);          // Chargers
-  ctx.fillStyle = '#c8102e'; ctx.fillRect(x + seg, y, seg, h);    // Chiefs
-  ctx.fillStyle = '#f2b632'; ctx.fillRect(x, y + h - 10, seg*2, 10);
-  ctx.restore();
-  const team = (abbr, score, cx, accent) => {
-    ctx.fillStyle = accent; ctx.font = '400 66px "Bebas Neue", sans-serif'; ctx.textAlign = 'left';
-    ctx.fillText(abbr, cx + 26, y + 98);
-    ctx.fillStyle = '#fff'; ctx.font = '400 118px "Bebas Neue", sans-serif'; ctx.textAlign = 'right';
-    ctx.fillText(String(score), cx + seg - 26, y + 112);
+  const x = 60, y = FH - 236, w = FW - 120, h = 140, tw = 296;
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = 30; ctx.shadowOffsetY = 8;
+  ctx.fillStyle = 'rgba(16,10,9,.86)'; rr(ctx, x, y, w, h, 18); ctx.fill(); ctx.restore();
+  ctx.strokeStyle = foil(ctx, x, y, x + w, y + h); ctx.lineWidth = 2; rr(ctx, x + 1, y + 1, w - 2, h - 2, 17); ctx.stroke();
+  const team = (abbr, score, cx, stripe) => {
+    ctx.fillStyle = stripe; rr(ctx, cx + 26, y + 30, 7, h - 60, 3); ctx.fill();
+    ctx.fillStyle = 'rgba(245,236,220,.78)'; ctx.font = '400 60px "Bebas Neue", sans-serif';
+    spaced(ctx, abbr, cx + 52, y + 92, 3);
+    ctx.fillStyle = '#fff'; ctx.font = '400 108px "Bebas Neue", sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(String(score), cx + tw - 26, y + 108); ctx.textAlign = 'left';
   };
-  team('LAC', st.lac, x, '#ffd34e');
-  team('KC', st.kc, x + seg, '#f7d98a');
+  team('LAC', st.lac, x, '#3aa0e8');
+  team('KC', st.kc, x + tw, '#e0213f');
+  ctx.strokeStyle = 'rgba(242,182,50,.35)'; ctx.lineWidth = 1.5;
+  [x + tw, x + tw*2].forEach(lx => { ctx.beginPath(); ctx.moveTo(lx, y + 26); ctx.lineTo(lx, y + h - 26); ctx.stroke(); });
+  const qx = x + tw*2 + (w - tw*2)/2, ql = qLabel(st);
   ctx.textAlign = 'center';
-  const qx = x + seg*2 + (w - seg*2)/2;
-  const ql = qLabel(st);
-  ctx.fillStyle = '#f2b632'; ctx.font = (ql.length > 8 ? '400 64px' : '400 82px') + ' "Bebas Neue", sans-serif';
-  ctx.fillText(ql, qx, y + 92);
-  ctx.fillStyle = 'rgba(245,236,220,.7)'; ctx.font = '700 22px "Courier Prime", monospace';
-  ctx.fillText('WEEK 6 · CBS', qx, y + 128);
+  ctx.font = (ql.length > 6 ? '400 58px' : '400 78px') + ' "Bebas Neue", sans-serif';
+  ctx.fillStyle = foil(ctx, qx - 120, y, qx + 120, y + h);
+  spaced(ctx, ql, qx, y + (hasClock(st) ? 82 : 96), 3, 'center');
+  if(hasClock(st)){
+    ctx.fillStyle = 'rgba(245,236,220,.85)'; ctx.font = '700 28px "Courier Prime", monospace';
+    ctx.fillText(st.clock, qx, y + 118);
+  }
+  ctx.fillStyle = 'rgba(245,236,220,.55)'; ctx.font = '700 19px "Courier Prime", monospace';
+  spaced(ctx, 'CHARGERS AT CHIEFS  ·  GEHA FIELD AT ARROWHEAD', FW/2, FH - 52, 4, 'center');
   ctx.textAlign = 'left';
 }
 
+/* Commemorative ticket — cream stock, guilloche, foil, perforated stub */
 function drawTicketFrame(ctx, st, img){
-  ctx.fillStyle = '#f5ecdc'; ctx.fillRect(0, 0, FW, FH);
-  ctx.fillStyle = '#1e1614'; ctx.fillRect(50, 50, FW - 100, 930);
-  coverDraw(ctx, img, 62, 62, FW - 124, 906);
-  if(st.caption){
-    ctx.fillStyle = '#fff'; ctx.font = '700 48px "Barlow Condensed", sans-serif';
-    shadowText(ctx, st.caption, 90, 930);
-  }
-  // ticket band
-  const y = 1020, h = 280, x = 50, w = FW - 100, perf = x + w - 270;
-  ctx.fillStyle = '#c8102e'; rr(ctx, x, y, w, h, 16); ctx.fill();
-  ctx.fillStyle = '#8f0b20'; ctx.save(); rr(ctx, x, y, w, h, 16); ctx.clip(); ctx.fillRect(perf, y, x + w - perf, h); ctx.restore();
-  ctx.fillStyle = '#f5ecdc';
-  [y, y + h].forEach(cy => { ctx.beginPath(); ctx.arc(perf, cy, 22, 0, Math.PI*2); ctx.fill(); });
-  ctx.strokeStyle = 'rgba(245,236,220,.75)'; ctx.lineWidth = 4; ctx.setLineDash([14, 12]);
-  ctx.beginPath(); ctx.moveTo(perf, y + 30); ctx.lineTo(perf, y + h - 30); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = '#f7d98a'; ctx.font = '700 28px "Courier Prime", monospace';
-  ctx.fillText('ADMIT TWO · CHRIS + KAT', x + 40, y + 62);
-  ctx.fillStyle = '#f5ecdc'; ctx.font = '400 104px "Bebas Neue", sans-serif';
-  ctx.fillText('CHARGERS @ CHIEFS', x + 36, y + 165);
-  ctx.fillStyle = 'rgba(245,236,220,.85)'; ctx.font = '700 26px "Courier Prime", monospace';
-  ctx.fillText('SUN OCT 18 2026 · 3:25 PM · ARROWHEAD', x + 40, y + 225);
-  ctx.textAlign = 'center';
+  ctx.fillStyle = '#f3ead8'; ctx.fillRect(0, 0, FW, FH);
+  guilloche(ctx, 0, 0, FW, FH, 'rgba(168,122,40,.07)', 26);
+  grain(ctx, 0, 0, FW, FH, .09);
+  // photo mount
+  const px = 70, py = 70, pw = FW - 140, ph = 850;
+  ctx.save(); ctx.shadowColor = 'rgba(40,20,10,.35)'; ctx.shadowBlur = 30; ctx.shadowOffsetY = 10;
+  ctx.fillStyle = '#1e1614'; ctx.fillRect(px - 10, py - 10, pw + 20, ph + 20); ctx.restore();
+  coverDraw(ctx, img, px, py, pw, ph);
+  ctx.strokeStyle = foil(ctx, px, py, px + pw, py + ph); ctx.lineWidth = 2; ctx.strokeRect(px + 14, py + 14, pw - 28, ph - 28);
+  // caption
+  ctx.fillStyle = '#2a1d18'; ctx.font = 'italic 400 46px "Playfair Display", serif'; ctx.textAlign = 'center';
+  ctx.fillText(st.caption || 'Chris & Kat at Arrowhead', FW/2, 995, FW - 160);
+  ctx.textAlign = 'left';
+  // ticket
+  const x = 60, y = 1040, w = FW - 120, h = 250, perf = x + w - 250;
+  ctx.save();
+  ctx.shadowColor = 'rgba(60,10,10,.35)'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 8;
+  let g = ctx.createLinearGradient(x, y, x + w, y + h); g.addColorStop(0, '#6a0716'); g.addColorStop(.5, '#a00d25'); g.addColorStop(1, '#5e0613');
+  ctx.fillStyle = g; rr(ctx, x, y, w, h, 14); ctx.fill(); ctx.restore();
+  ctx.save(); rr(ctx, x, y, w, h, 14); ctx.clip();
+  guilloche(ctx, x, y, w, h, 'rgba(247,221,146,.12)', 22);
+  ctx.fillStyle = 'rgba(0,0,0,.2)'; ctx.fillRect(perf, y, x + w - perf, h);
+  ctx.restore();
+  ctx.strokeStyle = foil(ctx, x, y, x + w, y + h); ctx.lineWidth = 1.5; rr(ctx, x + 12, y + 12, w - 24, h - 24, 8); ctx.stroke();
+  ctx.fillStyle = '#f3ead8';
+  [y, y + h].forEach(cy => { ctx.beginPath(); ctx.arc(perf, cy, 20, 0, Math.PI*2); ctx.fill(); });
+  for(let dy = y + 32; dy < y + h - 26; dy += 16){ ctx.beginPath(); ctx.arc(perf, dy, 3, 0, Math.PI*2); ctx.fill(); }
+  ctx.fillStyle = '#f7d98a'; ctx.font = '700 21px "Courier Prime", monospace';
+  spaced(ctx, 'ADMIT TWO  ·  CHRIS & KAT', x + 42, y + 62, 4);
+  ctx.font = '400 96px "Bebas Neue", sans-serif'; ctx.fillStyle = foil(ctx, x, y + 80, perf, y + 160);
+  spaced(ctx, 'CHARGERS @ CHIEFS', x + 40, y + 160, 2);
+  ctx.fillStyle = 'rgba(245,236,220,.85)'; ctx.font = '700 19px "Courier Prime", monospace';
+  spaced(ctx, 'SUN 10.18.26  ·  KICKOFF 3:25 PM  ·  ARROWHEAD', x + 42, y + 208, 2);
   const sx = perf + (x + w - perf)/2;
+  ctx.textAlign = 'center';
   if(st.kc || st.lac || st.q !== 'PRE'){
-    const sw = x + w - perf - 40;
-    ctx.fillStyle = '#f2b632'; ctx.font = '400 92px "Bebas Neue", sans-serif';
-    ctx.fillText(st.kc + '–' + st.lac, sx, y + 125, sw);
-    ctx.fillStyle = '#f5ecdc'; ctx.font = '700 24px "Courier Prime", monospace';
-    ctx.fillText('KC – LAC', sx, y + 172, sw);
-    ctx.fillStyle = '#f7d98a'; ctx.font = '400 44px "Bebas Neue", sans-serif';
-    ctx.fillText(qLabel(st), sx, y + 222, sw);
+    ctx.font = '400 84px "Bebas Neue", sans-serif'; ctx.fillStyle = foil(ctx, perf, y, x + w, y + h);
+    ctx.fillText(st.kc + '–' + st.lac, sx, y + 118, 200);
+    ctx.fillStyle = 'rgba(245,236,220,.8)'; ctx.font = '700 18px "Courier Prime", monospace';
+    spaced(ctx, 'KC  –  LAC', sx, y + 152, 3, 'center');
+    ctx.fillStyle = '#f7d98a'; ctx.font = '400 40px "Bebas Neue", sans-serif';
+    spaced(ctx, qLabel(st) + (hasClock(st) ? ' ' + st.clock : ''), sx, y + 198, 2, 'center');
   }else{
-    ctx.fillStyle = '#f2b632'; ctx.font = '400 70px "Bebas Neue", sans-serif';
-    ctx.fillText('SEC KC', sx, y + 125);
-    ctx.fillText('ROW 26', sx, y + 195);
+    ctx.font = '400 54px "Bebas Neue", sans-serif'; ctx.fillStyle = foil(ctx, perf, y, x + w, y + h);
+    spaced(ctx, 'SEC KC', sx, y + 112, 3, 'center');
+    spaced(ctx, 'ROW 26', sx, y + 172, 3, 'center');
   }
+  ctx.fillStyle = 'rgba(245,236,220,.5)'; ctx.font = '700 15px "Courier Prime", monospace';
+  ctx.fillText('No. 1018-1525', sx, y + h - 26);
   ctx.textAlign = 'left';
 }
 
+/* Keepsake print — stacked prints on oxblood, tape, handwritten caption */
 function drawPolaroidFrame(ctx, st, img){
-  ctx.fillStyle = '#c8102e'; ctx.fillRect(0, 0, FW, FH);
-  ctx.strokeStyle = 'rgba(0,0,0,.08)'; ctx.lineWidth = 6;
-  for(let i = -FH; i < FW; i += 26){ ctx.beginPath(); ctx.moveTo(i, FH); ctx.lineTo(i + FH, 0); ctx.stroke(); }
-  ctx.save(); ctx.translate(FW/2, 610); ctx.rotate(-0.025);
-  ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 40; ctx.shadowOffsetY = 12;
-  ctx.fillStyle = '#fbf6ec'; ctx.fillRect(-450, -540, 900, 1100);
+  let g = ctx.createRadialGradient(FW/2, FH*0.42, 80, FW/2, FH*0.5, FH*0.8);
+  g.addColorStop(0, '#a10f26'); g.addColorStop(1, '#3a050d');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, FW, FH);
+  ctx.strokeStyle = 'rgba(255,255,255,.035)'; ctx.lineWidth = 2;
+  for(let i = -FH; i < FW; i += 14){ ctx.beginPath(); ctx.moveTo(i, FH); ctx.lineTo(i + FH, 0); ctx.stroke(); }
+  grain(ctx, 0, 0, FW, FH, .08);
+  const cx = FW/2, cy = 625;
+  // back print
+  ctx.save(); ctx.translate(cx + 14, cy + 6); ctx.rotate(0.06);
+  ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = 30; ctx.shadowOffsetY = 10;
+  ctx.fillStyle = '#ece2cf'; ctx.fillRect(-430, -520, 860, 1060); ctx.restore();
+  // front print
+  ctx.save(); ctx.translate(cx, cy); ctx.rotate(-0.03);
+  ctx.shadowColor = 'rgba(0,0,0,.5)'; ctx.shadowBlur = 50; ctx.shadowOffsetY = 22;
+  ctx.fillStyle = '#fbf7ee'; ctx.fillRect(-440, -530, 880, 1080);
   ctx.shadowColor = 'transparent';
-  coverDraw(ctx, img, -410, -500, 820, 820);
-  ctx.fillStyle = '#1e1614'; ctx.textAlign = 'center';
-  ctx.font = '600 64px "Barlow Condensed", sans-serif';
-  ctx.fillText(st.caption || 'Chiefs Kingdom 🏈', 0, 420, 820);
-  ctx.fillStyle = '#c8102e'; ctx.font = '700 26px "Courier Prime", monospace';
-  ctx.fillText('RED WEEKEND · KANSAS CITY · OCT 2026', 0, 480);
+  grain(ctx, -440, -530, 880, 1080, .06);
+  coverDraw(ctx, img, -400, -490, 800, 800);
+  ctx.strokeStyle = 'rgba(0,0,0,.12)'; ctx.lineWidth = 2; ctx.strokeRect(-400, -490, 800, 800);
+  ctx.fillStyle = '#2a201c'; ctx.textAlign = 'center';
+  ctx.font = '600 76px "Caveat", cursive';
+  ctx.fillText(st.caption || 'Chris & Kat ♥ Arrowhead', 0, 420, 780);
+  ctx.fillStyle = '#a50e26'; ctx.font = '700 21px "Courier Prime", monospace';
+  spaced(ctx, 'KANSAS CITY  ·  10.18.26', 0, 478, 4, 'center');
+  // tape
+  [[-345, -522, -0.32], [345, -522, 0.32]].forEach(([tx, ty, rot]) => {
+    ctx.save(); ctx.translate(tx, ty); ctx.rotate(rot);
+    ctx.fillStyle = 'rgba(250,244,226,.62)'; ctx.fillRect(-80, -22, 160, 44);
+    ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 1; ctx.strokeRect(-80, -22, 160, 44);
+    ctx.restore();
+  });
   ctx.restore();
-  ctx.textAlign = 'center'; ctx.fillStyle = '#f2b632'; ctx.font = '400 72px "Bebas Neue", sans-serif';
-  ctx.fillText('★  RED FRIDAY  ★', FW/2, FH - 70);
+  // foil wordmark
+  ctx.font = '400 50px "Bebas Neue", sans-serif'; ctx.fillStyle = foil(ctx, FW/2 - 200, 0, FW/2 + 200, 0);
+  const tw = spaced(ctx, 'RED WEEKEND', FW/2, FH - 70, 10, 'center');
+  ctx.fillRect(FW/2 - tw/2 - 150, FH - 88, 110, 2); ctx.fillRect(FW/2 + tw/2 + 40, FH - 88, 110, 2);
   ctx.textAlign = 'left';
 }
 
