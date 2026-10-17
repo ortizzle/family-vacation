@@ -1,5 +1,5 @@
 /* Red Weekend service worker — cache-first so the app works in the stadium with no signal. */
-const CACHE = 'kc26-v6';
+const CACHE = 'kc26-v7';
 const ASSETS = [
   './',
   './index.html',
