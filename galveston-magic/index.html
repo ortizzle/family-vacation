@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1a30">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Galveston & the Magic</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1a30; --navy2:#12284a; --navy3:#1b3660;
+  --cream:#f3e9d2; --dim:#c9bfa8;
+  --brass:#c9a24b; --brass-lt:#e6c878; --brass-dk:#8a6d2b;
+  --coral:#ff8a70; --teal:#5fd0c5;
+  --c:#e6c878; --a:#7fc4c9; --m:#ff9d8a; --s:#b5d77e;
+  --blood:#7a1220; --blood-lt:#d86a78; --ivory:#f4ecec;
+  --thunder:#3a5fd0;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--navy);color:var(--cream);font-family:'Josefin Sans',system-ui,sans-serif;font-weight:300;-webkit-text-size-adjust:100%}
+body{padding-bottom:calc(84px + env(safe-area-inset-bottom));overflow-x:hidden}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+header{position:relative;text-align:center;padding:calc(16px + env(safe-area-inset-top)) 16px 18px;overflow:hidden;
+  background:linear-gradient(180deg,var(--navy3),var(--navy));border-bottom:1px solid var(--brass-dk)}
+header svg{position:absolute;left:50%;top:-10px;transform:translateX(-50%);width:520px;height:260px;opacity:.26;pointer-events:none}
+.kicker{position:relative;letter-spacing:.34em;font-size:11px;color:var(--teal);text-transform:uppercase;margin-top:4px}
+h1{position:relative;font-family:'Poiret One',serif;font-weight:400;font-size:36px;line-height:1.05;margin:8px 0 6px;
+  background:linear-gradient(180deg,#f6e3a6,var(--brass) 55%,var(--brass-dk));-webkit-background-clip:text;background-clip:text;color:transparent}
+.rule{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--brass);font-size:12px;letter-spacing:.24em}
+.rule::before,.rule::after{content:"";height:1px;width:44px;background:linear-gradient(90deg,transparent,var(--brass))}
+.rule::after{transform:scaleX(-1)}
+.count{position:relative;display:flex;justify-content:center;gap:10px;margin-top:14px}
+.count div{min-width:64px;padding:8px 6px 6px;border:1px solid var(--brass-dk);background:rgba(11,26,48,.7);border-radius:10px}
+.count b{display:block;font-family:'Poiret One';font-size:28px;color:var(--brass-lt);font-weight:400}
+.count span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.count-label{position:relative;margin-top:8px;font-size:13px;color:var(--dim)}
+h2.sec{font-family:'Poiret One';font-weight:400;font-size:28px;color:var(--brass-lt);margin:20px 0 4px}
+p.lead{margin:0 0 14px;font-size:15px;line-height:1.5;color:var(--dim)}
+.card{border:1px solid var(--brass-dk);border-radius:14px;padding:14px 16px;margin:12px 0;background:linear-gradient(135deg,rgba(201,162,75,.12),transparent 60%),var(--navy2)}
+.card h3{font-family:'Poiret One';font-weight:400;font-size:22px;margin:0 0 4px;color:var(--brass-lt)}
+.card p{margin:4px 0;font-size:15px;line-height:1.5;color:var(--dim)}
+.card.tap{display:block;width:100%;text-align:left;min-height:64px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{min-height:84px;border:1px solid var(--brass-dk);border-radius:14px;background:var(--navy2);padding:12px;text-align:left}
+.tile i{font-style:normal;font-size:24px;display:block;margin-bottom:4px}
+.tile b{font-weight:600;font-size:15px;display:block}
+.tile span{font-size:12px;color:var(--dim)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;min-height:44px;padding:0 14px;border:1px solid var(--brass-dk);background:transparent;color:var(--cream);
+  font-size:14px;display:flex;align-items:center;gap:8px;border-radius:22px}
+.chip.on{background:var(--brass);color:var(--navy);font-weight:600;border-color:var(--brass-lt)}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:0 0 auto}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:10px 0 12px;position:sticky;top:0;background:var(--navy);z-index:5;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 62px;min-height:60px;border:1px solid var(--brass-dk);background:var(--navy2);color:var(--dim);border-radius:12px;position:relative}
+.tab small{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.tab b{font-family:'Poiret One';font-size:20px;font-weight:400}
+.tab.on{border-color:var(--brass-lt);color:var(--brass-lt);box-shadow:inset 0 -3px 0 var(--brass)}
+.tab.today::after{content:"";position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--coral)}
+.phase{display:inline-block;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
+.item{display:grid;grid-template-columns:78px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid rgba(201,162,75,.22)}
+.time{font-family:'Poiret One';font-size:17px;color:var(--brass-lt);line-height:1.15}
+.time small{display:block;font-family:'Josefin Sans';font-size:10px;letter-spacing:.12em;color:var(--dim);margin-top:3px}
+.item h4{margin:0 0 4px;font-size:16px;font-weight:600}
+.item p{margin:0;font-size:14px;line-height:1.45;color:var(--dim)}
+.item.anchor h4{color:var(--brass-lt)}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px}
+.tag{font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--brass-dk);color:var(--brass-lt);border-radius:10px}
+.tag.opt{border-color:var(--teal);color:var(--teal)}
+.warn{border:1px solid var(--coral);border-radius:12px;padding:10px 12px;margin:12px 0;font-size:14px;line-height:1.45;color:#ffd5cb;background:rgba(255,138,112,.08)}
+.empty{font-size:14px;color:var(--dim);text-align:center;margin:18px 0}
+.acc{border:1px solid var(--brass-dk);border-radius:14px;margin:10px 0;background:var(--navy2);overflow:hidden}
+.acc>button{width:100%;min-height:56px;background:none;border:0;text-align:left;padding:0 16px;font-size:17px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.acc>button span{color:var(--brass-lt);font-size:13px;font-weight:400}
+.acc .body{padding:0 16px 14px}
+.check{display:flex;align-items:flex-start;gap:12px;min-height:44px;padding:8px 0;width:100%;background:none;border:0;text-align:left;border-bottom:1px solid rgba(201,162,75,.15);font-size:15px;line-height:1.4}
+.check .box{flex:0 0 24px;height:24px;border:1px solid var(--brass);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--navy);font-weight:600;margin-top:1px}
+.check.on .box{background:var(--brass-lt)}
+.check.on .lbl{color:var(--dim);text-decoration:line-through}
+.sub{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin:14px 0 4px}
+.btn{min-height:48px;padding:0 18px;border-radius:12px;border:1px solid var(--brass-lt);background:var(--brass);color:var(--navy);font-weight:600}
+.btn.ghost{background:transparent;color:var(--brass-lt)}
+.btn.sm{min-height:44px;padding:0 12px;font-size:14px}
+.row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.row input,.row select{flex:1 1 140px;min-width:0;min-height:48px;background:#081424;border:1px solid var(--brass-dk);color:#fff;font-size:16px;padding:0 12px;border-radius:12px}
+.msg{min-height:20px;font-size:14px;margin-top:8px;color:var(--coral)}
+/* Book */
+.book{border:1px solid #a0303f;border-radius:16px;background:linear-gradient(160deg,#2a0a10,#14060a);padding:16px;margin:12px 0}
+.book.th{border-color:var(--thunder);background:linear-gradient(160deg,#0c1a44,#060b1c)}
+.book .kick{font-size:10px;letter-spacing:.3em;color:#e9c9c9;text-transform:uppercase}
+.book h3{font-family:'Poiret One';font-weight:400;font-size:24px;margin:4px 0 2px;color:var(--ivory)}
+.book p,.book li{font-size:15px;line-height:1.5;color:#e2ccce;margin:6px 0}
+.book.th p,.book.th li{color:#cfd8f5}
+.book ul{padding-left:20px;margin:6px 0}
+.book .q{color:#fff;font-weight:400}
+.book .row input{background:#0d0406;border-color:#a0303f}
+.book.th .row input{background:#050a1a;border-color:var(--thunder)}
+.book .btn{background:var(--blood);border-color:var(--blood-lt);color:#fff}
+.book.th .btn{background:var(--thunder);border-color:#8aa4ff}
+.book .btn.ghost{background:transparent;color:var(--ivory)}
+.bar{height:10px;border-radius:5px;background:#3a1218;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blood-lt),#f4c3c9)}
+.opt{display:block;width:100%;min-height:44px;margin:6px 0;padding:8px 12px;border-radius:10px;border:1px solid #6b2a33;background:transparent;text-align:left;font-size:15px;color:#f1e3e4}
+.opt.right{background:#1f5a3a;border-color:#5fd09a}
+.opt.wrong{background:#5a1f1f;border-color:var(--coral)}
+.plain .opt{border-color:var(--brass-dk);color:var(--cream)}
+.rl{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.rl .t{flex:1;min-width:0;font-size:15px;line-height:1.35;color:#fff;overflow-wrap:anywhere}
+.rl .t small{display:block;color:#e2ccce;font-size:12px}
+.bingo{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.bingo button{aspect-ratio:1;border:1px solid var(--brass-dk);border-radius:10px;background:var(--navy2);font-size:11px;line-height:1.2;padding:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.bingo button i{font-style:normal;font-size:22px}
+.bingo button.on{background:var(--brass);color:var(--navy);font-weight:600}
+.scard{border:2px solid var(--brass-lt);border-radius:16px;padding:18px;text-align:center;margin-top:12px}
+.scard b{font-family:'Poiret One';font-size:26px;font-weight:400;display:block}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:rgba(11,26,48,.96);border-top:1px solid var(--brass-dk);
+  padding-bottom:env(safe-area-inset-bottom);z-index:20;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+nav button{flex:1;min-height:60px;background:none;border:0;color:var(--dim);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+nav button i{display:block;font-style:normal;font-size:20px;margin-bottom:2px}
+nav button.on{color:var(--brass-lt)}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--cream);color:var(--navy);
+  padding:10px 16px;font-size:14px;font-weight:600;opacity:0;transition:opacity .25s;pointer-events:none;border-radius:12px;max-width:90vw;z-index:50;text-align:center}
+.toast.show{opacity:1}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px}
+.modal-box{background:var(--navy2);border:1px solid var(--brass);border-radius:16px;padding:22px;max-width:90vw;width:340px}
+.modal-box h3{font-family:'Poiret One';font-weight:400;font-size:24px;margin:0 0 8px;color:var(--brass-lt)}
+.modal-box p{margin:0;font-size:15px;line-height:1.5}
+.modal-buttons{display:flex;gap:12px;margin-top:20px}
+.modal-buttons button{flex:1}
+.confetti{position:fixed;top:-30px;font-size:22px;pointer-events:none;z-index:60;animation:fall 1.8s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.2}}
+.seg{display:flex;gap:6px;margin:10px 0 2px}
+.seg button{flex:1;min-height:44px;border:1px solid var(--brass-dk);border-radius:12px;background:transparent;font-size:14px;color:var(--cream)}
+.seg button.on{background:var(--teal);border-color:var(--teal);color:var(--navy);font-weight:600}
+.mapbox{border:1px solid var(--brass-dk);border-radius:14px;background:#081424;overflow:hidden;margin:10px 0}
+.mapbox svg{display:block;width:100%;height:auto;touch-action:manipulation}
+.mapbox g.zoom{transition:transform .6s ease;transform-origin:0 0}
+.mapbox text{font-family:'Josefin Sans',sans-serif;fill:var(--cream);pointer-events:none}
+.mapbox .stop{cursor:pointer}
+a.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:14px}
+.lst{padding-left:20px;margin:4px 0}
+.lst li{font-size:14px;line-height:1.45;margin:4px 0;color:var(--dim)}
+.qcard{border:1px solid var(--brass);border-radius:14px;padding:14px;background:#0d2140;margin-top:8px}
+.qcard .qq{font-size:18px;line-height:1.4;color:#fff;font-weight:400;margin:0 0 8px}
+.qbar{height:12px;border-radius:6px;background:#0a1730;overflow:hidden;margin:6px 0 2px;border:1px solid var(--brass-dk)}
+.qbar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--brass-lt));transition:width .4s}
+.mnum{display:flex;flex-direction:column;align-items:center;gap:12px;padding:10px 0 14px}
+.mnum .dg{display:flex;flex-direction:column;align-items:center;gap:5px;min-height:20px}
+.mnum .dots{display:flex;gap:8px}.mnum .dots i{width:14px;height:14px;border-radius:50%;background:var(--brass-lt);display:block}
+.mnum .barx{width:86px;height:10px;border-radius:5px;background:var(--brass-lt)}
+.scr{font-family:'Poiret One';font-size:30px;letter-spacing:.2em;color:var(--brass-lt);text-align:center;margin:6px 0}
+.lc{padding:10px 0;border-bottom:1px solid rgba(201,162,75,.15)}
+.lc b{font-weight:600;color:var(--brass-lt);display:block;margin-bottom:2px}
+.lc p{margin:0;font-size:15px;line-height:1.5;color:var(--dim)}
+.foot{font-size:12px;color:var(--dim);text-align:center;margin:22px 0 8px;line-height:1.5}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+'use strict';
+
+/* ---------- canonical helpers (family-app-standards) ---------- */
+const AZ={tz:'America/Phoenix',
+  dateKey(d){return new Intl.DateTimeFormat('en-CA',{timeZone:this.tz}).format(d);},
+  daysBetween(a,b){return Math.round((new Date(b+'T12:00:00')-new Date(a+'T12:00:00'))/86400000);}};
+const Store={ns:'gm26_',
+  get(k,f=null){try{const r=localStorage.getItem(this.ns+k);return r===null?f:JSON.parse(r);}catch(e){return f;}},
+  set(k,v){try{localStorage.setItem(this.ns+k,JSON.stringify(v));return true;}catch(e){return false;}}};
+const SIM=(function(){try{const m=/[?&]simdate=(\d{4}-\d{2}-\d{2})/.exec(location.search);return m?m[1]:null;}catch(e){return null;}})();
+function tripNow(){return SIM?new Date(SIM+'T19:00:00Z'):new Date();}
+function tripToday(){return SIM||AZ.dateKey(new Date());}
+
+function h(tag,props,...kids){const e=document.createElement(tag);
+  if(props)for(const k in props){const v=props[k];
+    if(k==='class')e.className=v;else if(k==='text')e.textContent=v;else if(k==='on'){for(const ev in v)e.addEventListener(ev,v[ev]);}
+    else if(k==='style')e.style.cssText=v;else e.setAttribute(k,v);}
+  kids.forEach(c=>{if(c==null||c===false)return;e.appendChild(typeof c==='string'?document.createTextNode(c):c);});return e;}
+function clear(e){while(e.firstChild)e.removeChild(e.firstChild);}
+function showModal({title,message,confirmText='OK',cancelText=null,onConfirm=null}){
+  const overlay=h('div',{class:'modal-overlay'});const box=h('div',{class:'modal-box'});
+  const row=h('div',{class:'modal-buttons'});
+  if(cancelText)row.appendChild(h('button',{class:'btn ghost',type:'button',text:cancelText,on:{click:()=>overlay.remove()}}));
+  row.appendChild(h('button',{class:'btn',type:'button',text:confirmText,on:{click:()=>{overlay.remove();if(onConfirm)onConfirm();}}}));
+  box.append(h('h3',{text:title}),h('p',{text:message}),row);overlay.appendChild(box);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove();});document.body.appendChild(overlay);}
+let toastEl,toastT;
+function toast(t){toastEl.textContent=t;toastEl.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('show'),2400);}
+function confetti(set){const em=set||['✨','⭐','🎉','⚓','💛'];for(let i=0;i<18;i++){const s=h('span',{class:'confetti',text:em[i%em.length]});
+  s.style.left=(Math.random()*96)+'vw';s.style.animationDelay=(Math.random()*.5)+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),2600);}}
+function save(k,v){if(!Store.set(k,v))toast('Could not save on this device');}
+
+/* ---------- data: families ---------- */
+const FAMS={c:{name:'Chris & Kat',who:'Chris, Kat, Sedona, River',color:'var(--c)'},a:{name:"Amy's",who:'Amy, Justin, Ava, Emma',color:'var(--a)'},
+  m:{name:"Melissa's",who:'Melissa, Jonathan, Rhett, Byron',color:'var(--m)'},s:{name:"Shay's",who:'Shay, Tyler, Parker, Teagan',color:'var(--s)'}};
+const ALL='cams';
+const DIN=['5:45 PM','Ship','Dinner, Main Dining','Everyone together. Seating can be changed on board.',ALL,'Dinner','a'];
+const SHOW=['8:15 PM','Ship','Evening show','Walt Disney Theatre, everyone.',ALL,'Show','a'];
+
+/* [time, zone, title, detail, parties, tag, flag]  flag: a=booked anchor, o=option */
+const DAYS=[
+{date:'2026-11-19',dow:'Thu',md:'19',phase:'The Drive',title:'The Long Haul East',blurb:'Chandler to the Gulf in one push: about 1,200 miles and 21 hours with stops. Times are estimates.',items:[
+ ['12:00 PM','AZ','Wheels up from Chandler','Full tank, cooler loaded, Scythe queued up. I-10 east the whole way.','c','Depart','a'],
+ ['1:45 PM','AZ','Tucson Costco top-off','Optional splash of gas at mile 115. Skip it if the tank is happy.','c','Fuel','o'],
+ ['7:00 PM','El Paso','El Paso Costco: gas, then dinner','Mile 430. Fill up first because Costco pumps close in the evening. Last warehouse fuel until Houston.','c','Fuel'],
+ ['12:15 AM','Texas','Fort Stockton fuel','Mile 665. Clocks jump an hour ahead in West Texas. Good spot for a driver swap.','c','Fuel']],
+ notes:['Check the El Paso Costco gas closing time before you leave. If you are running late, any big-brand station off I-10 works.']},
+{date:'2026-11-20',dow:'Fri',md:'20',phase:'The Drive → The Ship',title:'Gulf by Morning, Sea by Night',blurb:'Sunrise in Hill Country, breakfast on the island, and the ship by afternoon.',items:[
+ ['5:00 AM','Texas','San Antonio 24-hour fuel','Mile 980. Costco is closed at this hour, so use any open station on I-10.','c','Fuel'],
+ ['6:00 AM','Texas',"Buc-ee's, Luling",'Open around the clock. Clean restrooms, breakfast tacos, and a leg stretch before Houston traffic.','c','Rest'],
+ ['10:00 AM','Texas','Arrive Galveston','Breakfast near the Strand, then prepaid port parking.','c','Arrive'],
+ ['12:00 PM','Texas','Port arrival time','Check in at the cruise terminal. Travel documents and port arrival form in hand.','c','Ship','a'],
+ ['3:00 PM','Ship','All aboard','Every family must be on the ship.',ALL,'Ship','a'],
+ ['4:00 PM','Ship','Disney Magic sails','Sail-away party on deck as Galveston slips behind.',ALL,'Ship','a'],
+ DIN,SHOW],
+ notes:['Booked for the whole cruise: Rainforest spa passes (Chris and Kat, Amy, Melissa and Jonathan, Shay) and unlimited photo packages (Amy, Melissa, Shay).']},
+{date:'2026-11-21',dow:'Sat',md:'21',phase:'The Cruise',title:'Sea Day',blurb:'A full day at sea. Sleep in, find the soft-serve, and catch up on chapters.',items:[
+ ['10:00 AM','Ship','100-minute facial','Senses Spa. Kat.','c','Spa','a'],
+ ['10:30 AM','Ship','50-minute facial','Senses Spa. Melissa.','m','Spa','a'],
+ ['10:30 AM','Ship','Royal Indulgence','Senses Spa until 12:15. Shay.','s','Spa','a'],
+ ['12:00 PM','Ship','Palo Brunch','Until 1:30. Chris and Kat.','c','Dining','a'],
+ ['1:00 PM','Ship','Beer tasting (21+)','Until 2:00. Justin, Melissa and Jonathan, Tyler.','ams','Tasting','a'],
+ ['1:00 PM','Ship','Bibbidi Bobbidi Boutique',"Parker and Teagan at 1:00, Rhett and Byron at 1:30.",'ms','Kids','a'],
+ ['5:00 PM','Ship','Mixology (21+)','Until 6:00. Chris and Kat.','c','Tasting','a'],
+ DIN,SHOW],
+ notes:['Mixology ends at 6:00 and dinner is listed at 5:45. Plan to join dinner a few minutes late.']},
+{date:'2026-11-22',dow:'Sun',md:'22',phase:'The Cruise',title:'Cozumel, Mexico',blurb:'Port day. Three families head ashore and the Ortiz crew gets a quiet ship.',items:[
+ ['11:15 AM','Ship','All ashore','Time subject to change.',ALL,'Port','a'],
+ ['11:15 AM','Ship','Ship day for the Ortiz crew','Nothing booked on purpose. Short pool lines, empty slides, and reading time.','c','Chill'],
+ ['11:15 AM','Ship','KUZA Beach family day (CZ121)','All-inclusive beach pass until 4:15. Amy, Justin, Ava, Emma.','a','Excursion','a'],
+ ['11:30 AM','Ship','Adventure park zipline and snorkel (CZ115)','Until 3:30. Melissa, Jonathan, Rhett, Byron.','m','Excursion','a'],
+ ['11:45 AM','Ship','Dolphin encounter (CZ26)','Dolphinaris, all inclusive, until 3:15. Shay, Tyler, Parker, Teagan.','s','Excursion','a'],
+ DIN,
+ ['6:00 PM','Ship','All aboard','Time subject to change.',ALL,'Port','a'],
+ ['6:30 PM','Ship','Palo Dinner','Until 8:00. Melissa and Jonathan.','m','Dining','a'],
+ SHOW],
+ notes:['Dinner is listed at 5:45 but all aboard is not until 6:00. Check the seating on board.']},
+{date:'2026-11-23',dow:'Mon',md:'23',phase:'The Cruise',title:'Progreso, Mexico',blurb:'The big one: Chichen Itza and a cenote swim with Amy’s family.',items:[
+ ['10:30 AM','Ship','All ashore','Time subject to change.',ALL,'Port','a'],
+ ['10:45 AM','Ship','VIP Chichen Itza and Cenote Ikil with lunch (PGO21)','Until 5:45. The Ortiz crew and Amy’s family ride together.','ca','Excursion','a'],
+ ['11:00 AM','Ship','Hidden World snorkel and Mayan outback (PGO08)','Until 6:00.','m','Excursion','a'],
+ DIN,
+ ['6:00 PM','Ship','All aboard','Time subject to change.',ALL,'Port','a'],
+ SHOW],
+ notes:['Chichen Itza is due back at 5:45, about 15 minutes before all aboard. Disney excursions are protected if the tour runs late, but dinner will need a later seating.','Melissa’s tour ends right at all aboard. Shay’s family has nothing booked in Progreso.']},
+{date:'2026-11-24',dow:'Tue',md:'24',phase:'The Cruise',title:'Sea Day',blurb:'Last full day on board. Pack tonight so the morning is easy.',items:[
+ ['9:15 AM','Ship','Royal Gathering','Until 9:30. Amy’s and Shay’s families.','as','Kids','a'],
+ ['10:30 AM','Ship','Palo Brunch','Until noon. Shay and Tyler.','s','Dining','a'],
+ ['1:00 PM','Ship','Champagne tasting (21+)','Until 2:00. Chris and Kat, Melissa and Jonathan.','cm','Tasting','a'],
+ DIN,
+ ['6:30 PM','Ship','Palo Dinner','Until 8:00. Chris and Kat.','c','Dining','a'],
+ SHOW],
+ notes:['Palo Dinner at 6:30 overlaps the 5:45 main dining time for Chris and Kat. Confirm the plan for Sedona and River that night.']},
+{date:'2026-11-25',dow:'Wed',md:'25',phase:'Houston',title:'Back on Land',blurb:'Off the ship early, then north to the Spring home base by way of rockets and groceries.',items:[
+ ['7:30 AM','Texas','Debarkation begins','Time subject to change. Grab the car from port parking.',ALL,'Port','a'],
+ ['10:00 AM','Texas','Space Center Houston','NASA’s visitor center, between Galveston and Houston. Plan three to four hours.','c','Option','o'],
+ ['2:30 PM','Texas','Costco run','The Woodlands or Tomball warehouse, both close to Spring. Buy everything for Thursday now.','c','Groceries'],
+ ['4:00 PM','Texas','Settle in at the Spring house','Unpack, laundry, early night.','c','Home base']],
+ notes:['Easy out: skip the Space Center and go straight to Costco and the house.','Costco is closed on Thanksgiving Day, so today is the grocery day.']},
+{date:'2026-11-26',dow:'Thu',md:'26',phase:'Houston',title:'Thanksgiving',blurb:'A slow day at the house. Cook, eat, nap, repeat.',items:[
+ ['Morning','Texas','Cook together','Everyone gets one dish to own.','c','Home base'],
+ ['Afternoon','Texas','Thanksgiving dinner','Then a walk, a game, or a few chapters.','c','Feast','a'],
+ ['5:30 PM','Texas','Houston Zoo Lights','Open 5:30 to 10:30. Timed tickets, online only. About 45 minutes from Spring.','c','Option','o']],
+ notes:['Zoo Lights is still a maybe. If you go, buy timed tickets ahead.']},
+{date:'2026-11-27',dow:'Fri',md:'27',phase:'Houston',title:'Renaissance Festival',blurb:'Turkey legs the day after turkey. Celtic Christmas weekend at the Texas Renaissance Festival.',items:[
+ ['9:00 AM','Texas','Drive to Todd Mission','About an hour from Spring.','c','Drive'],
+ ['10:00 AM','Texas','Texas Renaissance Festival','Jousting, glassblowers, and shows all day. Tickets are date-specific, so buy ahead.','c','Festival'],
+ ['Evening','Texas','Dinner near Spring','See Eats in the Guide for picks.','c','Dinner','o']],notes:[]},
+{date:'2026-11-28',dow:'Sat',md:'28',phase:'The Drive Home',title:'Westbound',blurb:'One last Texas morning, then about 1,190 miles home in one push.',items:[
+ ['9:00 AM','Texas','Old Town Spring','Stroll the shops and grab a late breakfast.','c','Stroll','o'],
+ ['11:30 AM','Texas','Fill up and roll out','Top off at the Costco near Spring before leaving.','c','Fuel'],
+ ['3:00 PM','Texas','San Antonio fuel','About mile 210.','c','Fuel'],
+ ['8:00 PM','Texas','Fort Stockton fuel and dinner','About mile 520.','c','Fuel']],
+ notes:['Times are estimates. Leaving at noon Texas time puts you home around 8 AM Sunday, Arizona time.']},
+{date:'2026-11-29',dow:'Sun',md:'29',phase:'The Drive Home',title:'Home Again',blurb:'The last stretch through New Mexico and southern Arizona.',items:[
+ ['12:30 AM','El Paso','El Paso fuel','About mile 760. Costco will be closed, so use a 24-hour station.','c','Fuel'],
+ ['5:00 AM','AZ','Tucson top-off','Only if needed.','c','Fuel','o'],
+ ['8:00 AM','AZ','Home in Chandler','Unpack the cooler, then everyone naps.','c','Arrive','a']],notes:[]}
+];
+const DEPART=Date.UTC(2026,10,19,19,0,0); // noon Arizona (UTC-7, no DST)
+
+/* ---------- data: guide ---------- */
+const PREP=[['Before we go',['Download Scythe to a phone for offline listening','Finish Disney online check-in and the port arrival form','Gather travel documents for all four of us','Prepay parking on the Port of Galveston site','Confirm the cruise terminal on the port arrival form','Check tires, oil, and wiper fluid on the Ascent','Download offline maps for West Texas (long dead zones)','Buy Texas Renaissance Festival tickets for Fri Nov 27','Decide on Zoo Lights and buy timed tickets if yes','Install this app on each kid’s phone (Share, then Add to Home Screen)']],
+ ['Morning of Nov 19',['Fill the tank','Load the cooler and snack bin','Pillows and blankets within reach','Chargers plugged in','Wheels up at noon']]];
+const PACK=[['Car kit',['Pillows and blankets','Cooler with drinks and sandwiches','Snack bin','Phone chargers and a car adapter','Headphones','Trash bags and wipes','Flashlight','Paper towels']],
+ ['Cruise bag',['Swimsuits (two each)','Sunscreen and hats','Lanyards for room keys','Something festive for Very Merrytime nights','Nice outfit for Palo (Chris and Kat)','Motion sickness bands or tablets','Water shoes for the cenote','Small day bag for port days','Refillable water bottles']],
+ ['Documents',['Travel documents for each person','Cruise reservation and port arrival form','Parking confirmation','Excursion tickets','Car insurance and registration']],
+ ['Houston days',['Warm layer for evenings','Comfortable walking shoes','Reusable grocery bags','A favorite Thanksgiving recipe']]];
+const TIPS=['Pack your swimsuit in your carry-on. Your suitcase may not reach the room until dinner.','Bring one hoodie for the car. Dad likes the air cold at night to stay awake.','Charge everything before noon on Thursday.','Download shows and music at home. West Texas has almost no signal.','Pick your reading spot on the ship on day one.','Leave room in your bag for one souvenir.'];
+const EATS=[['Sunflower Bakery & Cafe','Galveston · breakfast','Local favorite before boarding. Needs a short drive and gets busy, so check hours.'],
+ ['Tremont House cafe','Galveston · breakfast','A few blocks from the terminal. Known for waffles. Check hours.'],
+ ['Wunsche Bros. Cafe','Old Town Spring · $$ · 4.7 on OpenTable','A Texas landmark since 1902. Burgers and whiskey cake. The kid pick.'],
+ ['The Republic Grille','Spring · $$ · 4.8 on OpenTable','The splurge: chicken-fried steak and Texas quail.'],
+ ['Cyclone Anaya’s','Houston area · Tex-Mex','A Houston Tex-Mex family name since 1966.'],
+ ['Buc-ee’s, Luling','I-10 · open 24 hours','Breakfast tacos, brisket, and Beaver Nuggets for the last leg.']];
+const LOGI=['Drive: about 1,200 miles on I-10. The Ascent goes about 350 miles on a tank, so fuel at El Paso, Fort Stockton, and San Antonio.','Costco pumps close in the evening. Only El Paso lines up with Costco hours on the way out.','Port parking: prepay online. Budget about $120 to $180 for six days.','Time zones: Arizona and El Paso share a clock in November. West Texas onward is one hour ahead.','Groceries: The Woodlands or Tomball Costco on Wednesday. Costco is closed Thanksgiving Day.','Home base is in Spring, north of Houston. The address stays out of this app because the site is public.'];
+
+/* ---------- data: games ---------- */
+const TRIVIA=[
+ ['Which Texas city saw the events that Juneteenth celebrates, back in 1865?',['Galveston','Austin','Dallas','El Paso'],0,'Union troops brought news of freedom to Galveston on June 19, 1865.'],
+ ['After the hurricane of 1900, what did Galveston build to protect itself?',['A lighthouse','A seawall','A canal','A second island'],1,'The storm was the deadliest natural disaster in US history. The seawall followed.'],
+ ['The pier at Progreso is famous for being what?',['The oldest in Mexico','Made of coral','The longest in the world','Painted pink'],2,'It runs roughly five miles out into the Gulf because the water is so shallow.'],
+ ['El Castillo at Chichen Itza has a total of how many steps, counting the top platform?',['100','365','500','52'],1,'One for each day of the year.'],
+ ['What is a cenote?',['A Mayan ball court','A kind of taco','A natural sinkhole filled with water','A jungle bird'],2,'The Yucatan has thousands of them.'],
+ ['When did the Disney Magic make its maiden voyage?',['1988','1998','2008','2018'],1,'July 30, 1998. It was Disney Cruise Line’s first ship.'],
+ ['What is the nickname of Texas?',['The Lone Star State','The Big Sky State','The Sunshine State','The Golden State'],0,'Look for the single star on the flag.'],
+ ['What is the capital of Texas?',['Houston','Dallas','San Antonio','Austin'],3,'Houston is the biggest city, but Austin is the capital.'],
+ ['What is the Texas state flower?',['Rose','Bluebonnet','Sunflower','Saguaro blossom'],1,'They cover the roadsides every spring.'],
+ ['About how many miles of I-10 are inside Texas?',['About 280','About 480','About 880','About 1,500'],2,'More than two thirds of our whole drive is in Texas.'],
+ ['Which famous mission is in San Antonio?',['The Alamo','Mission Control','San Xavier','Mission Impossible'],0,'We pass through San Antonio before dawn.'],
+ ['Before it became a US state, Texas was what?',['Part of Canada','Its own country','A US territory only','An island'],1,'The Republic of Texas lasted from 1836 to 1845.'],
+ ['What animal is the Buc-ee’s mascot?',['Armadillo','Longhorn','Beaver','Roadrunner'],2,'Bucky the Beaver.'],
+ ['What river forms the border between Texas and Mexico at El Paso?',['Colorado River','Rio Grande','Pecos River','Red River'],1,'We will be close to it at dinner time on day one.'],
+ ['What does Arizona skip that most states do twice a year?',['Changing clocks','Elections','School breaks','State fairs'],0,'No daylight saving time, which is why El Paso matches our clock in November.'],
+ ['Which state do we cross between Arizona and Texas?',['Nevada','Oklahoma','New Mexico','Colorado'],2,'About 165 miles of it on I-10.'],
+ ['Where was Mission Control for the Apollo moon landings?',['Florida','Houston','Washington, DC','California'],1,'At Johnson Space Center, next door to Space Center Houston.'],
+ ['Cozumel is what kind of place?',['A mountain town','An island','A desert','A river port'],1,'It sits off the coast of the Yucatan peninsula.'],
+ ['What is the Texas state bird?',['Mockingbird','Bald eagle','Cactus wren','Pelican'],0,'Arizona’s is the cactus wren.'],
+ ['Which ancient people built Chichen Itza?',['The Aztec','The Inca','The Maya','The Olmec'],2,'It was named one of the New Seven Wonders of the World in 2007.'],
+ ['Who led the Texas army to victory and has a big city named after him?',['Davy Crockett','Sam Houston','Stephen F. Austin','Jim Bowie'],1,'He was also the first elected president of the Republic of Texas.'],
+ ['The battle that won Texas its independence was fought near today’s Houston. Its name?',['The Alamo','San Jacinto','Gettysburg','Goliad'],1,'April 1836, a few weeks after the Alamo fell.'],
+ ['What is the Texas state tree?',['Pecan','Oak','Palm','Mesquite'],0,'Pecan pie is a Texas Thanksgiving classic.'],
+ ['Where does Texas rank in size among the 50 states?',['First','Second','Third','Fifth'],1,'Only Alaska is bigger.']];
+const MAYAQ=[
+ ['The great pyramid at Chichen Itza is a temple to which feathered serpent?',['Kukulkan','Zeus','Anubis','Quetzal the Parrot'],0,'Look for serpent heads at the base of the north stairs.'],
+ ['On the spring and fall equinox, what appears on the pyramid’s staircase?',['A rainbow','A serpent made of light and shadow','A waterfall','Fireflies'],1,'The corner of the pyramid casts triangles that look like a snake sliding down.'],
+ ['Maya math counts in groups of what?',['10','12','20','100'],2,'Fingers and toes. Try the Number Decoder game.'],
+ ['What bean did the Maya use as money and turn into a drink?',['Coffee','Vanilla','Cacao','Black beans'],2,'It is where chocolate comes from.'],
+ ['What was the ball in the Maya ball game made of?',['Stone','Rubber','Leather','Wood'],1,'Solid rubber, and heavy. Players used their hips.'],
+ ['El Caracol, the round building at Chichen Itza, was used for what?',['Watching the sky','Storing corn','Keeping animals','Swimming'],0,'Its windows line up with the movements of Venus.'],
+ ['What do you hear if you clap in front of El Castillo’s stairs?',['Nothing','Thunder','An echo like a bird’s chirp','A bell'],2,'Many say it sounds like the quetzal, a sacred bird. Try it.'],
+ ['Each of El Castillo’s four stairways has how many steps?',['52','91','100','365'],1,'Four times 91 is 364. Add the top platform and you get 365.'],
+ ['Why does the Yucatan have so many cenotes?',['Volcanoes','The ground is limestone with rivers running underneath','People dug them','Earthquakes'],1,'There are almost no rivers on the surface. The water is underground.'],
+ ['What does a zero look like in Maya numbers?',['A circle','A shell','A star','An empty box'],1,'The Maya were among the first people anywhere to write zero.'],
+ ['The Great Ball Court at Chichen Itza is famous for being what?',['The smallest','Underground','The largest in the ancient Americas','Made of gold'],2,'A whisper at one end can be heard at the other.'],
+ ['What hit the Earth near today’s Progreso about 66 million years ago?',['A comet of ice','The asteroid linked to the end of the dinosaurs','A piece of the Moon','Nothing'],1,'The Chicxulub crater is buried under the coast where our ship docks.']];
+const TF=[
+ ['Texas is the biggest state in the US.',['True','False'],1,'Alaska is bigger. Texas is second.'],
+ ['Galveston was once the largest city in Texas.',['True','False'],0,'In the 1870s and 1880s, before Houston and Dallas grew past it.'],
+ ['Visitors can climb to the top of El Castillo.',['True','False'],1,'Climbing has been closed since 2006 to protect the pyramid.'],
+ ['The Maya had a symbol for zero.',['True','False'],0,'A shell.'],
+ ['Maya people still live in the Yucatan today.',['True','False'],0,'Millions do, and many speak Mayan languages. Your guide may be one of them.'],
+ ['The Alamo is in Houston.',['True','False'],1,'It is in San Antonio.'],
+ ['Interstate 10 runs all the way from California to Florida.',['True','False'],0,'Santa Monica to Jacksonville.'],
+ ['A cenote is a pool that people dug.',['True','False'],1,'Cenotes are natural sinkholes in limestone.'],
+ ['The Disney Magic is the newest Disney ship.',['True','False'],1,'It is the oldest. It first sailed in 1998.'],
+ ['Cozumel is an island.',['True','False'],0,'You reach it by boat or plane.'],
+ ['Juneteenth began in Galveston.',['True','False'],0,'June 19, 1865.'],
+ ['Arizona changes its clocks twice a year.',['True','False'],1,'Most of Arizona never changes its clocks.']];
+const WORDS=[['GALVESTON','Where the ship leaves from'],['CENOTE','A natural swimming hole'],['ALAMO','Remember the ___'],['COZUMEL','An island port'],['SEAWALL','Galveston built one'],['PYRAMID','El Castillo is one'],
+ ['BLUEBONNET','Texas state flower'],['KUKULKAN','Feathered serpent'],['PROGRESO','Longest pier'],['ARMADILLO','Armored Texas critter'],['RAPUNZEL','Her table is on deck 3'],['JUNETEENTH','June 19, 1865']];
+const LEARN=[
+ ['🤠 Texas in ten minutes',[
+  ['Six flags','Six nations have flown their flag over Texas: Spain, France, Mexico, the Republic of Texas, the Confederacy, and the United States.'],
+  ['A country of its own','Texas broke away from Mexico in 1836. The Alamo, in San Antonio, fell that March. Weeks later Sam Houston’s army won at San Jacinto, near today’s Houston. Texas stayed its own country until 1845, when it became the 28th state.'],
+  ['Big','Texas is the second-largest state, after Alaska. Interstate 10 runs about 880 miles across it, which is most of our drive. The capital is Austin. The biggest city is Houston.'],
+  ['Symbols','The Lone Star flag gives the state its nickname. The flower is the bluebonnet, the bird is the mockingbird, and the tree is the pecan.'],
+  ['Galveston','Galveston sits on a barrier island and was once the largest city in Texas. On June 19, 1865, Union soldiers arrived with the news that enslaved people were free. That day is Juneteenth. In 1900 a hurricane killed thousands, the deadliest natural disaster in US history. The city answered by building a seawall and raising the ground under its buildings.'],
+  ['The road','At El Paso the Rio Grande is the border with Mexico. West Texas is Chihuahuan Desert, with speed limits up to 80 mph. Clocks jump an hour ahead before Fort Stockton.'],
+  ['Space City','Mission Control for the Apollo moon landings was at Johnson Space Center in Houston. Space Center Houston is its visitor center.'],
+  ['Buc-ee’s','A Texas chain that began in 1982. The Luling store on our route has 120 gas pumps. The mascot is a beaver.']]],
+ ['🗿 The Maya and Chichen Itza',[
+  ['Who were the Maya?','A civilization of city-states across southern Mexico and Central America. Their great age of city building ran from about 250 to 900 AD. Chichen Itza was at its height a little later, roughly 900 to 1200. The Maya never vanished. Millions live in the region today and speak Mayan languages.'],
+  ['Math and sky','The Maya counted in twenties using dots for ones, bars for fives, and a shell for zero. They ran two calendars at once, one of 365 days and one of 260, and tracked Venus closely.'],
+  ['El Castillo','The big pyramid is a temple to Kukulkan, the feathered serpent. It has four stairways of 91 steps. With the top platform that makes 365. On the equinoxes the afternoon sun draws a snake of light down the north stairs. Clap at the base and the echo chirps. Nobody may climb it.'],
+  ['What else to spot','The Great Ball Court, the largest in the ancient Americas, with stone rings high on the walls. El Caracol, the round observatory. The Temple of the Warriors and its forest of columns. A platform carved with rows of skulls. The Sacred Cenote, a short walk north.'],
+  ['Cenotes','The Yucatan is a slab of limestone with almost no rivers on top. Rain sinks through and flows underground. Where the roof caves in you get a cenote. The Maya treated them as water sources and as doorways to the underworld.'],
+  ['The dinosaur connection','About 66 million years ago an asteroid struck right here. The Chicxulub crater is buried under the coast, and the town it is named for is a few miles from the Progreso pier. A ring of cenotes traces the crater’s edge.'],
+  ['Taste it','Corn, beans, squash, chili, and cacao come from this part of the world. If lunch has cochinita pibil, slow-roasted pork, that is the Yucatan’s signature dish.']]],
+ ['🎬 Apocalypto: movie and history',[
+  ['What it gets right','The actors speak Yucatec Maya, a living language you may hear on the tour. The jade, body paint, and the sheer size of the city give a fair feel for how grand Maya cities looked.'],
+  ['Where it stretches','The film squeezes centuries together. The great Classic cities had faded about 600 years before Spanish ships arrived. Sacrifice on that scale is closer to what was written about the Aztecs. Many scholars also felt it shows the Maya mostly as violent and leaves out their math, writing, and astronomy.'],
+  ['Ask your guide','Do you speak Maya at home? How did people get water here? What do the carvings on the ball court show? Why did the city empty out?']]],
+ ['🚢 Know your ship',[
+  ['The Disney Magic','Disney’s first cruise ship, sailing since 1998. It was built in Italy in two halves about 100 miles apart and then joined.'],
+  ['Three Mickeys and a Goofy','Sorcerer Mickey is on the bow. Helmsman Mickey stands in the atrium in bronze. Goofy hangs off the stern with a paintbrush. The colors of the ship are Mickey’s colors.'],
+  ['The horn','It plays the first seven notes of When You Wish Upon a Star.'],
+  ['Dinner','You rotate through Animator’s Palate, Lumiere’s, and Rapunzel’s Royal Table. Your servers follow you. Rapunzel’s exists only on the Magic.']]]];
+const EXC={
+ PGO21:{t:'Chichen Itza and Cenote Ikkil',who:'Ortiz crew and Amy’s family · Mon 10:45 to 5:45',
+  facts:['About 7 hours door to door on your booking','Lunch included','Disney’s page lists no height or weight limits'],
+  expect:['A long bus ride, about two hours each way. Good time for a nap, trivia, or a chapter.','A guided walk through the ruins. It is hot, bright, and mostly without shade.','Souvenir sellers line the paths. A polite no thank you works.','A swim at Cenote Ik Kil. You walk down a long stone stairway to deep, cool water with vines hanging overhead. Expect to rinse off first and wear a life jacket.','A buffet lunch.'],
+  bring:['Hat, sunglasses, and sunscreen','Water bottle','Swimsuit under your clothes, plus a towel','Water shoes or sandals with grip','A few small bills for tips and souvenirs','Room key and photo ID for adults']},
+ CZ121:{t:'KUZA Beach family day',who:'Amy’s family · Sun 11:15 to 4:15',
+  facts:['About 5 hours','All ages','Activity level: moderate','All-inclusive package with beach access and water sports'],
+  expect:['A beach park day with food and drinks in the package.','Another cruise line describes the park as about 30 minutes from the port.','The waterpark and zipline there are sold as separate tours, so they may cost extra.'],bring:['Swimsuit and towel','Sunscreen and a hat','A little cash for tips']},
+ CZ115:{t:'Adventure park zipline and snorkeling',who:'Melissa’s family · Sun 11:30 to 3:30',
+  facts:['About 4 hours','Ages 6 and up','Activity level: active','At Islands Beach Club'],
+  expect:['Zip lines, a high ropes course, and suspension bridges come first.','Then snorkeling in the Caribbean.','Leftover time is for the beach and pool.'],bring:['Shoes that strap on for the ropes course','Swimsuit and towel','Sunscreen']},
+ CZ26:{t:'Dolphin encounter at Dolphinaris',who:'Shay’s family · Sun 11:45 to 3:15',
+  facts:['All-inclusive','Under 18 must be with an adult'],
+  expect:['Time in the water with dolphins and a trainer.','A swim in Serenity Cove afterward.','Disney’s page mentions time to shop in Cozumel after.'],bring:['Swimsuit and towel','No jewelry in the water','Sunscreen for afterward']},
+ PGO08:{t:'Hidden World snorkel and Mayan outback',who:'Melissa’s family · Mon 11:00 to 6:00',
+  facts:['6 to 6.5 hours','Ages 8 and up','Activity level: active'],
+  expect:['Visits to two underground cenotes, with snorkeling.','It is scheduled to end at 6:00, the same time as all aboard. Disney tours are covered if they run late.'],bring:['Swimsuit and towel','Water shoes','Bug spray and sunscreen']}};
+const SPRING=[['Eat',[['CorkScrew BBQ','Old Town Spring. Michelin-recognized Texas barbecue. It sells out, so go early and check which days it is open.'],['Wunsche Bros. Cafe','Old Town Spring. A 1902 landmark with burgers and whiskey cake. The kid pick.'],['The Republic Grille','Chicken-fried steak and Texas quail. The sit-down splurge.'],['Cyclone Anaya’s','Tex-Mex from a Houston family name since 1966.']]],
+ ['Visit',[['Old Town Spring','403 Main St. A few blocks of old storefronts turned into shops, galleries, and cafes. Evening ghost walks too.'],['Mercer Botanic Gardens','22306 Aldine Westfield Rd, Humble. More than 300 acres of gardens and trails. A good morning-after-Thanksgiving walk.'],['TGR Exotics Wildlife Park','A small wildlife park that locals recommend for kids. Check tour times.'],['Atkinson Farms','Farm stand with produce and a play area.'],['The Woodlands Waterway','A walkable canal district north of Spring.'],['Texas Renaissance Festival','Friday’s plan. About an hour northwest in Todd Mission.']]]];
+const CATS=['Gas','Food','Groceries','Ship','Excursions','Fun','Lodging','Other'];
+const BINGO=[['🌵','Saguaro'],['🚂','Freight train'],['🌬️','Wind turbines'],['🤠','Texas flag'],['🌪️','Dust devil'],['🛢️','Oil pumpjack'],['🦫','Buc-ee’s billboard'],['🐄','Cows'],
+ ['🪧','Welcome to New Mexico'],['⭐','Welcome to Texas'],['8️⃣','80 mph sign'],['🌅','Sunset'],['🐎','Horse trailer'],['🚛','Truck with 18 wheels, counted'],['🌙','Moon'],['🌄','Sunrise']];
+const HUNT=['A hidden Mickey somewhere on the ship','A towel animal in the stateroom','The ship’s horn playing a tune','A character in a holiday outfit','Soft-serve before lunch','A lifeboat number higher than 10','The ship’s bell','A sunset at sea','A flag from Mexico','Someone from all four families in one photo'];
+
+/* ---------- data: maps ---------- */
+const mapsUrl=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+const I10=[[-111.84,33.30],[-111.6,32.9],[-110.95,32.19],[-110.3,32.0],[-109.05,32.25],[-108.7,32.35],[-107.76,32.27],[-106.77,32.31],[-106.42,31.78],[-105.4,31.1],[-104.83,31.04],[-103.8,31.0],[-102.88,30.89],[-101.2,30.71],[-100.64,30.57],[-99.77,30.49],[-99.14,30.05],[-98.49,29.42],[-97.96,29.57],[-97.65,29.68],[-96.54,29.70],[-95.37,29.76],[-94.80,29.30]];
+const PLACES={
+ chandler:{n:'Chandler',at:[-111.84,33.30],plain:{e:'Wheels up at noon on Thursday, Nov 19. Leave with a full tank.',w:'Home, about 8 AM Sunday, Nov 29.'}},
+ tucson:{n:'Tucson',at:[-110.95,32.19],exit:'Exit 263B · Kino Pkwy',when:{e:'Thu about 1:45 PM · mile 115 · optional',w:'Sun about 5:00 AM · optional'},
+  ramp:{e:'Take 263B and turn left onto Kino Parkway. Costco is about a third of a mile up on the left. Come back down Kino for the I-10 east ramp.',w:'Costco pumps open at 6 AM, so this early use the Circle K or Chevron by the same exit.'},
+  gas:['Costco Gasoline, 1650 E Tucson Marketplace Blvd (weekdays 6 AM to 10 PM)','Circle K, 3450 S Kino Pkwy','Chevron, 1999 E Ajo Way'],food:['In-N-Out Burger','Chipotle','Culver’s','Dutch Bros Coffee','Costco food court'],q:'Costco Gasoline 1650 E Tucson Marketplace Blvd Tucson AZ',near:'I-10 and Kino Pkwy Tucson AZ'},
+ elpaso:{n:'El Paso',at:[-106.42,31.78],exit:'Around exits 24 to 26 · Gateway Blvd',when:{e:'Thu about 7:00 PM · mile 430 · gas, then dinner',w:'Sun about 12:30 AM · mile 760'},
+  ramp:{e:'Costco sits on Gateway Blvd West, which is the westbound frontage road. Heading east you exit, cross under the freeway, and double back along the frontage road. Let Maps pick the exact exit.',w:'Heading west, Gateway Blvd West is on your side of the freeway. Costco and Sam’s pumps are closed at this hour, so pick a station Maps shows as open.'},
+  gas:['Costco Gasoline, 6101 Gateway Blvd W (weekdays 6 AM to 10 PM)','Sam’s Club fuel, 7001 Gateway Blvd W at exit 26 (6 AM to 10 PM)','Circle K, 7008 Gateway Blvd E'],food:['Costco food court','Chipotle','Five Guys','P.F. Chang’s','Village Inn'],q:'Costco Gasoline 6101 Gateway Blvd W El Paso TX',near:'Cielo Vista Mall El Paso TX'},
+ fortstockton:{n:'Fort Stockton',at:[-102.88,30.89],exit:'Exit 259',when:{e:'Fri about 12:15 AM Texas time · mile 665',w:'Sat about 8:00 PM · mile 520 · fuel and dinner'},
+  ramp:{e:'Take exit 259. Flying J and Valero are a quarter mile to the right. Chevron and Burger King are to the left. Rejoin I-10 east at the same interchange.',w:'Take exit 259. Flying J and Valero are to the left, Chevron to the right. For a sit-down dinner, Dickinson Blvd in town has the most choices.'},
+  gas:['Flying J, 2571 N Front St (open 24 hours)','Valero, 2576 N Front St','Chevron, 2874 N State Hwy 18','Walmart fuel at exit 257'],food:['Subway and Cinnabon inside Flying J','Burger King','Taqueria Guadalajara','McDonald’s and Dairy Queen on Dickinson Blvd','K-Bob’s Steakhouse'],q:'Flying J 2571 N Front St Fort Stockton TX',near:'Fort Stockton TX'},
+ sanantonio:{n:'San Antonio',at:[-98.49,29.42],exit:'No fixed exit',when:{e:'Fri about 5:00 AM · mile 980',w:'Sat about 3:00 PM · mile 210'},
+  ramp:{e:'Costco is closed before dawn. Pick a bright 24-hour station right beside I-10 before the city or on the east side.',w:'Costco pumps are open in the afternoon. Search for the Costco closest to I-10 on the northwest side.'},
+  gas:['Any 24-hour station beside I-10','Costco Gasoline on the way home'],food:['Eastbound: save your appetite, Buc-ee’s is about an hour ahead','Westbound: Whataburger is a Texas rite of passage'],q:'gas station I-10 San Antonio TX',near:'I-10 San Antonio TX'},
+ luling:{n:'Buc-ee’s Luling',at:[-97.65,29.68],exit:'Exit 632 · US 183',when:{e:'Fri about 6:00 AM · mile 1,035 · breakfast and rest'},
+  ramp:{e:'Take exit 632. Buc-ee’s is on the right, about a fifth of a mile. You cannot miss the sign. Rejoin I-10 east from the same exit.'},
+  gas:['Buc-ee’s, 10070 I-10 (120 pumps, open 24 hours)'],food:['Chopped brisket sandwiches','Breakfast tacos','Beaver Nuggets','Fudge counter'],q:'Buc-ee\'s 10070 I-10 Luling TX',near:'Buc-ee\'s Luling TX'},
+ galveston:{n:'Galveston',at:[-94.80,29.30],plain:{e:'Port of Galveston, about 10 AM Friday. Breakfast near the Strand, then prepaid parking and the ship.',w:''},q:'Port of Galveston cruise terminal'},
+ spring:{n:'Spring',at:[-95.42,30.08],plain:{e:'',w:'Home base. Fill up at The Woodlands or Tomball Costco, then roll out around noon on Saturday, Nov 28.'},q:'Costco Gasoline The Woodlands TX'}};
+const ROUTES={e:['chandler','tucson','elpaso','fortstockton','sanantonio','luling','galveston'],w:['spring','sanantonio','fortstockton','elpaso','tucson','chandler']};
+const COAST=[[-88.5,30.6],[-90,29.2],[-91.5,29.5],[-93.8,29.7],[-94.8,29.3],[-96.4,28.4],[-97.3,27.6],[-97.2,25.9],[-97.8,24.0],[-97.8,22.2],[-97.2,20.8],[-96.1,19.2],[-95.0,18.6],[-94.4,18.15],[-92.7,18.6],[-91.8,18.7],[-90.7,19.4],[-90.5,20.7],[-90.0,21.1],[-88.8,21.4],[-87.1,21.6],[-86.8,21.1],[-87.4,20.2],[-87.5,19.3],[-87.8,18.5],[-88.2,17.4]];
+const PORTS={
+ galveston:{n:'Galveston',at:[-94.80,29.30],lab:[10,-10],days:['2026-11-20','2026-11-25'],fact:'Galveston sits on a barrier island. The ship sails Friday at 4 PM and returns Wednesday at 7:30 AM.'},
+ cozumel:{n:'Cozumel',at:[-86.95,20.45],lab:[-12,26,'end'],days:['2026-11-22'],fact:'An island off the Yucatan coast, ringed by reefs. Ashore 11:15 AM, all aboard 6:00 PM.'},
+ progreso:{n:'Progreso',at:[-89.66,21.28],lab:[0,-14,'middle'],days:['2026-11-23'],fact:'The ship docks at the end of a pier about five miles long. Chichen Itza is inland from here. Ashore 10:30 AM, all aboard 6:00 PM.'}};
+const SAIL=[[-94.80,29.30],[-93.6,27.0],[-90.5,24.0],[-87.6,22.6],[-86.2,21.6],[-86.4,20.7],[-86.95,20.45],[-86.4,20.9],[-86.3,21.7],[-87.8,22.2],[-89.66,21.28],[-90.6,23.0],[-92.6,26.2],[-94.80,29.30]];
+const DINE=[
+ ['Animator’s Palate','Deck 4, aft · rotation','The room starts in black and white and fills with color as dinner goes on.',[
+  ['Starters',['Smoked salmon tartare','Sliced Serrano ham','Black truffle pasta purses','Baked tomato and goat cheese tart','Butternut squash soup','Baked potato and cheddar soup','Watermelon, orange, and jicama salad','Iceberg wedge']],
+  ['Mains',['Ginger-teriyaki beef tenderloin','Grilled sirloin steak','Lemon-thyme chicken breast','Dijon-herb pork chop','Grilled tuna steak','Pennette Bolognese','Black bean chipotle cakes','Sesame halloumi parcel','Jumbo shrimp salad']],
+  ['Desserts',['Cookies ’n cream sundae','Key lime pie','Chocolate walnut cake','Apple crumble rice pudding','Chocolate beetroot cake']]]],
+ ['Lumiere’s','Deck 3, midship · rotation','A Beauty and the Beast ballroom with French-leaning food. The quietest of the three, with no show.',[
+  ['Starters',['Burrata','Dill and Meyer lemon shrimp','Escargot gratinee','Duck confit pastilla','French onion soup','Potato leek soup','Farmhouse salad','Fennel, pear, and tatsoi salad']],
+  ['Mains',['Carved beef tenderloin','Herb-crusted rack of lamb','Grilled sirloin steak','Roasted chicken breast','Oven-baked salmon','Ahi tuna Nicoise','Tortiglioni pasta','Wild mushroom stuffed pasta','Moroccan-spiced kabocha squash']],
+  ['Desserts',['Grand Marnier souffle','Tahitian vanilla creme brulee','Opera cake','Strawberry shortcake sundae','Coconut tapioca pudding']]]],
+ ['Rapunzel’s Royal Table','Deck 3, aft · rotation','Only on the Magic. Rapunzel and Flynn sing through dinner and the night ends with a parade.',[
+  ['What to know',['German-inspired menu','Live show during dinner, so it is louder and longer','Tavern thugs visit the tables']]],'I could not confirm the current dish list for this one.'],
+ ['Palo','Deck 10, aft · adults only · extra charge','Northern Italian. Chris and Kat have brunch Sat at noon and dinner Tue at 6:30. Dinner changed in late October 2026: it is now ordered and priced dish by dish.',[
+  ['Brunch · $55 per person, set price',['Starter board: seafood or cured meats and cheese','Soups: tomato basil, celery','Waffles and pancakes: strawberry, apple cinnamon, buttermilk, blueberry','Eggs: Benedict, Florentine, frittatas, omelets','From the oven: prosciutto calzone, Margherita, goat cheese, and spicy sausage flatbreads','Mains: eggplant rollatini, pennette, artichoke ravioli, red snapper, Parmesan chicken, lasagna, veal saltimbocca, sirloin steak','Desserts: chocolate fondant, limoncello almond torte, raspberry chocolate tart, tiramisu, pistachio cake, panna cotta','Includes a mimosa, Bellini, or prosecco, plus soda, coffee, and tea']],
+  ['Dinner starters',['Tomato burrata caprese $16','Baby arugula $12','Fennel and citrus salad $12','Palo antipasto $25','Yellowfin crudo $14','Fried calamari and shrimp $17','Cioppino soup $18']],
+  ['Dinner pasta and pizza',['Agnolotti $16','Potato gnocchi $16','Paccheri $18','Pappardelle $26','Prosciutto and burrata pizza $17','Tomato, mozzarella, and basil pizza $16']],
+  ['Dinner mains',['Dover sole $36','Jumbo scallops $33','Chilean sea bass $40','Roasted chicken $28','Osso buco $32','Portobello mushroom $21','Lamb rack $33','Beef tenderloin $30 or $44','NY sirloin $40','Porterhouse $80','Wagyu strip loin from $30','Sides $6 each']],
+  ['Dinner desserts',['Chocolate souffle $15','Limoncello souffle $15','Panna cotta $10','Tiramisu $9','Gelato $8','Ricotta cheesecake $8','Cheese plate $12']]],'Dinner prices are from a menu published in late October 2026. Drinks and tip are extra. Platinum and Pearl Castaway Club members get a $55 credit toward dinner.'],
+ ['Cabanas','Deck 9, aft · buffet','Breakfast and lunch buffet. A good first stop on boarding day.',[['What to know',['Open seating','Breakfast and lunch are buffet style']]]],
+ ['Quick bites','Deck 9, by the pools · included','For between meals.',[
+  ['Where',['Pinocchio’s Pizzeria: cheese, pepperoni, veggie, Hawaiian slices','Duck-in Diner: burgers, hot dogs, shawarma','Daisy’s De-Lites: lighter food','Eye Scream: self-serve soft-serve','Frozone Treats: smoothies (extra charge)']]]]];
+const NIGHTS=[['2026-11-20','Fri'],['2026-11-21','Sat'],['2026-11-22','Sun'],['2026-11-23','Mon'],['2026-11-24','Tue']];
+const ROOMS=['Not set','Animator’s Palate','Lumiere’s','Rapunzel’s Royal Table'];
+const DISNEY=[
+ ['Which statue greets you in the Disney Magic’s atrium?',['Helmsman Mickey','Ariel','Donald Duck','Cinderella'],0,'A bronze Mickey at a ship’s wheel, at the foot of the grand staircase.'],
+ ['Who hangs off the back of the Disney Magic, painting the ship?',['Dumbo','Goofy','Pluto','Stitch'],1,'Look for him on the stern from the dock.'],
+ ['Which Mickey is painted on the bow of the Magic?',['Steamboat Willie','Sorcerer Mickey','Captain Mickey','Band Leader Mickey'],1,'The same Mickey as in Fantasia.'],
+ ['The ship’s horn plays the first notes of which song?',['Let It Go','A Whole New World','When You Wish Upon a Star','Under the Sea'],2,'Seven notes. Listen at sail-away.'],
+ ['The Disney Magic was built in two halves in which country?',['Germany','Italy','Japan','Finland'],1,'The bow and stern were built about 100 miles apart, then joined.'],
+ ['Which restaurant is found only on the Disney Magic?',['Animator’s Palate','Cabanas','Rapunzel’s Royal Table','Palo'],2,'It is themed to Tangled.'],
+ ['What happens to the room during dinner at Animator’s Palate?',['It spins','It turns from black and white to color','It fills with bubbles','It gets dark'],1,'Even the servers’ outfits change.'],
+ ['What was the name of Mickey’s first cartoon with sound, in 1928?',['Steamboat Willie','Plane Crazy','Fantasia','The Band Concert'],0,'It is why Mickey’s birthday is November 18. That is the day before we leave.'],
+ ['What was Disney’s first full-length animated movie?',['Pinocchio','Bambi','Snow White and the Seven Dwarfs','Cinderella'],2,'Released in 1937.'],
+ ['Before Mickey, Walt Disney drew a lucky rabbit named what?',['Roger','Oswald','Thumper','Peter'],1,'Oswald the Lucky Rabbit.'],
+ ['What is the name of Rapunzel’s kingdom?',['Arendelle','Corona','Agrabah','Atlantica'],1,'The floating lanterns are for her birthday.'],
+ ['What kind of object is Lumiere?',['A clock','A teapot','A candelabra','A feather duster'],2,'His restaurant is on deck 3.'],
+ ['What is the name of Goofy’s son?',['Max','Morty','Louie','Chip'],0,'Star of A Goofy Movie.'],
+ ['In what year did Disneyland open?',['1945','1955','1965','1971'],1,'July 17, 1955, in Anaheim. We have driven there on one tank.'],
+ ['What colors are Disney ships painted to match?',['Donald’s sailor suit','Mickey’s colors','Cinderella’s gown','The Disney castle'],1,'Black hull, white decks, yellow trim, red funnels.'],
+ ['Who was the Disney Magic’s godmother at its christening?',['Patricia Disney','Minnie Mouse','Julie Andrews','Tinker Bell'],0,'She was part of the Disney family.']];
+
+/* ---------- data: book club ---------- */
+function rot(s){return s.replace(/[a-z]/g,c=>String.fromCharCode((c.charCodeAt(0)-97+13)%26+97));}
+const A=s=>rot(s).split(',');
+const MASTER=A('ohprrf');
+const READERS=A('puevf,xng,frqban,evire,qnq,zbz');
+const INTRO={beats:['Scythe is set far in the future. Disease, aging, and even accidents have been beaten. Nobody dies unless a scythe chooses them.','A giant, kind computer called the Thunderhead runs the world, and runs it well. The one thing it may not touch is the Scythedom.','Scythes are the only people allowed to end a life. They call it gleaning. They wear robes, carry a ring, and follow ten commandments.','Two teenagers who never wanted the job are about to be asked to learn it.'],
+ people:[['Citra Terranova','Sharp, stubborn, says what she thinks.'],['Rowan Damisch','The overlooked middle kid who notices everyone else.'],['Scythe Faraday','An old-school scythe in an ivory robe.'],['The Thunderhead','The cloud that grew up. Listens to everyone.']],
+ words:[['Glean','What scythes do. It is permanent.'],['Deadish','Dead, but about to be revived. It happens a lot.'],['Splat','To jump off something tall for fun, knowing you will be revived.'],['Immunity','A year of safety from gleaning, given by a scythe’s ring.'],['Conclave','The big meeting of scythes, three times a year.']],
+ ask:['If nobody could die, what would people stop being afraid of? What would they stop caring about?','What kind of person should get the job nobody should want?']};
+/* each: range, title, question, answers, beats[5], talk[2], quiz[3] */
+const B1=[
+{r:'1 to 5',t:'Robe and Ring',q:'What color armband does an apprentice scythe wear?',a:A('terra,terna'),
+ beats:['1. A scythe drops in on the Terranova family for dinner, and Citra refuses to be polite about it.','2. Rowan sits with a classmate at school during the worst moment of the boy’s life, and pays for it afterward.','3. A mystery invitation to the opera turns into a job offer neither teen wants.','4. Both move into the scythe’s small house and learn the rules: armbands on, no romance.','5. Their first gleaning as witnesses. The woman tells them she is only ninety-six.'],
+ talk:['Faraday says he picked them because they do not want the job. Does that make sense to you?','Rowan stayed with Kohl when no one else would. What did it cost him at school?'],
+ quiz:[['Who ends up with a year of immunity after the dinner visit?',['Citra','Citra’s mother','Her brother Ben','The neighbor'],1],['Where does Rowan first see Scythe Faraday at work?',['At his school','At a mall','On a train','At the opera'],0],['Where does Faraday meet both teens to make his offer?',['A library','A diner first','The opera','His house'],2]]},
+{r:'6 to 10',t:'Killcraft',q:'A scythe in a jeweled robe spares one young girl at a mall food court. What is her first name?',a:A('rfzr,rfzrr,rfznl,rmzr,rfznr,rmznl,rfzvr'),
+ beats:['6. A very different kind of scythe boards an airplane with his friends.','7. Training begins: history, poisons, weapons, and a martial art. Citra goes to a family wedding and feels the distance.','8. Rowan is made to choose, and Faraday carries the choice out at a river.','9. A fourth-grader hides under a counter and meets the scythe from the plane.','10. Old friends look at Rowan differently now. Sparring with Citra gets complicated.'],
+ talk:['Goddard and Faraday have the same job. List three ways they do it differently.','Why do you think Faraday makes his apprentices attend the funerals?'],
+ quiz:[['What stands out about Scythe Goddard’s robe?',['It is plain black','It is blue and covered in jewels','It is made of leather','It glows'],1],['Which fighting style do the apprentices train in?',['Fencing','Black Widow Bokator','Sumo','Archery'],1],['How many people does Faraday expect himself to glean each week?',['One','Five','Twenty','Fifty'],1]]},
+{r:'11 to 15',t:'Conclave',q:'The scythes gather for conclave in a city named after a balance point. ___ City.',a:A('shypehz,shypehzpvgl,shypebz,shyxehz'),
+ beats:['11. A gleaning goes wrong and Faraday is hurt. Citra tries on something she should not.','12. Cramming for conclave. Citra admits something about Rowan out loud.','13. A train ride to the capitol, a roll call of names, and a first look at the High Blade.','14. A test question trips Citra up, and a cruel new rule is added to the apprenticeship.','15. The ride home is silent. Then it is not.'],
+ talk:['The new rule changes everything between Citra and Rowan. What would you do in their place?','Why did Citra’s test answer count as a failure?'],
+ quiz:[['What happens when Citra tries on Faraday’s ring?',['It fits perfectly','It freezes her finger','It glows red','It falls off'],1],['Who is the High Blade of MidMerica?',['Faraday','Curie','Xenocrates','Goddard'],2],['What is the new stipulation?',['Both apprentices get rings','Training is doubled','The winner must glean the loser','Faraday must retire'],2]]},
+{r:'16 to 20',t:'Two Houses',q:'Citra’s new mentor lives in a house built over a waterfall. What is the mentor’s scythe name?',a:A('phevr,pheel,phel,xhevr,znevrphevr,pheevr,phev'),
+ beats:['16. Goddard and his crew help themselves to a rich man’s estate.','17. A knock at midnight brings terrible news, and the apprentices are split up.','18. Citra arrives at her new home angry, and is served a strange dinner.','19. Citra faces something she did as a little kid, and starts planning a search.','20. Rowan is the guest of honor at a party he does not want.'],
+ talk:['Citra went back to apologize after many years. Why does Curie care that she did?','Rowan’s new home is fancy and fun. Why is that dangerous for him?'],
+ quiz:[['After the midnight visit, where do the apprentices go?',['Home to their families','Both to Curie','Citra to Curie, Rowan to Goddard','Both to Xenocrates'],2],['Whose estate has Goddard taken over?',['Maxim Easley’s','Faraday’s','Tyger’s','Xenocrates’'],0],['What did young Citra do to Rhonda Flowers?',['Stole her bike','Pushed her in front of a truck','Told a lie about her','Broke her arm in sports'],1]]},
+{r:'21 to 25',t:'Old Guard, New Order',q:'At the Tonist monastery, Citra strikes a giant two-pronged object. What kind of fork is it?',a:A('ghavat,ghavatsbex,ovqrag,sbex,nghavatsbex'),
+ beats:['21. Rowan’s training turns brutal. One junior scythe shows him a little kindness.','22. Citra and Curie visit people who worship sound, and one of them turns down a gift.','23. Citra digs through the Thunderhead’s memory for clues about Faraday’s last day.','24. Goddard’s drills get worse, and Rowan draws a line before the last target.','25. A gleaning at a laboratory. Rowan quietly points some people toward a stairwell.'],
+ talk:['Rowan is getting very good at something he hates. Can you be good at a thing and still be good?','Why would a Tonist say no to immunity?'],
+ quiz:[['What does Citra search for clues?',['Faraday’s journal','The Thunderhead’s backbrain','A newspaper archive','Curie’s desk'],1],['Who brings Rowan soup after the wine cellar?',['Esme','Rand','Volta','Chomsky'],2],['What does Goddard hand Rowan after the lab?',['A new robe','His ring, to hold','A sword','A letter'],1]]},
+{r:'26 to 30',t:'The Fall',q:'While Citra is deadish, someone who is not supposed to speak to scythes speaks to her. Who?',a:A('guhaqreurnq,gurguhaqreurnq,guhaqreurq,guhaqre'),
+ beats:['26. Card games with Esme, a scythe who cries, and a secret about whose daughter Esme is.','27. Harvest Conclave. Rowan tries to lose a match and Citra will not let him.','28. A party where Goddard shows the High Blade who is really in charge.','29. Citra is accused of something she did not do, and takes the only way out she can find.','30. Between dying and waking, Citra hears a voice and is given a name.'],
+ talk:['Rowan did something awful to Citra in the match. Why might it have been the kind choice?','The Thunderhead found a way to help without breaking its own rule. Was that fair play?'],
+ quiz:[['Esme is the secret daughter of whom?',['Goddard','Xenocrates','Faraday','Curie'],1],['What was Rowan trying to do in the Bokator match?',['Win fast','Lose on purpose','Get disqualified','Hurt Goddard'],1],['How does Citra get away from the High Blade?',['She hides in a train','She jumps from a very tall building','Curie rescues her by car','She bribes a guard'],1]]},
+{r:'31 to 35',t:'Fugitive',q:'Citra travels a long way to find a man named Gerald Van Der Gans. What is his real name?',a:A('snenqnl,fplgursnenqnl,zvpunrysnenqnl,snenjnl,sneenqnl,snenqrl'),
+ beats:['31. Citra wakes up far from home, learns who the forged journal was really about, and gets an address.','32. A long trip north in disguise, with help from a friendly scythe on a train.','33. Citra finds her man on a beach and gets the surprise of the book so far.','34. Rowan’s training count passes two thousand, and a harvest festival ends in fire.','35. On the last day of the year, Goddard picks a target, and Rowan stands at the gate.'],
+ talk:['Was the big secret in chapter 33 fair to Citra and Rowan? What would you say to him?','Rowan keeps finding small ways to save people. Is that enough?'],
+ quiz:[['What disguise does Citra travel in?',['A scythe’s robe','A Tonist pilgrim','A school uniform','A BladeGuard uniform'],1],['Which scythe protects Citra on the way through Amazonia?',['Possuelo','Mandela','Volta','Rand'],0],['What does Rowan do at the compound gate?',['Locks it','Lets people escape','Sets it on fire','Walks away'],1]]},
+{r:'36 to 40',t:'Scythehood',q:'What scythe name does Citra choose?',a:A('nanfgnfvn,fplgurnanfgnfvn,narfgnfvn,nanfgnmvn,nanfgnpvn,naanfgnfvn'),
+ beats:['36. Volta reaches his limit. Rowan finally acts, and nothing is left standing.','37. The High Blade asks questions. Rowan has good answers and one useful hint.','38. The final test asks each apprentice for the hardest thing yet.','39. Winter Conclave. One gleaning method is banned and everyone waits for six o’clock.','40. A ring, a new name, a punch, and a getaway car.'],
+ talk:['Citra found a loophole with one punch. Explain how it worked.','Is Rowan a hero, a criminal, or both at the end?'],
+ quiz:[['Which gleaning method is banned at Winter Conclave?',['Poison','Fire','Blades','Water'],1],['What does the new scythe do instead of gleaning Rowan?',['Hides him','Punches him, which grants immunity','Gives him her ring','Refuses the job'],1],['The closing rumors are about a scythe called what?',['Scythe Shadow','Scythe Lucifer','Scythe Nobody','Scythe Phoenix'],1]]}];
+const B2=[
+{r:'Part 1 · chapters 1 to 7',t:'Nothing If Not Powerful',q:'Rowan hunts corrupt scythes in a black robe. What scythe name does he go by?',a:A('yhpvsre,fplguryhpvsre,yhfvsre,yhpvcure'),
+ beats:['A year has passed. Rowan is doing a job nobody gave him.','Scythe Anastasia gleans in her own way: a month’s warning, and the person chooses how.','Citra and Rowan meet in secret, and she shares what happened while she was deadish.','Tyger heads to Texas for a job that sounds too good.'],
+ talk:['Anastasia gives people a month’s notice. Kind, or cruel?','Is what Rowan is doing justice?']},
+{r:'Part 2 · chapters 8 to 14',t:'Harm’s Way',q:'A student throws himself in front of a car to save two scythes. What is his first name?',a:A('terlfba,tenlfba,tenl,terl,terlfbagbyyvire'),
+ beats:['A new character is handed a hint and a choice by someone who works for the Thunderhead.','He saves two scythes and loses everything for it.','A scythe in a red robe starts investigating.','In Texas, Tyger trains hard for a promise.'],
+ talk:['The Thunderhead cannot break its rules, so it lets a person choose. Is that using him?']},
+{r:'Part 3 · chapters 15 to 23',t:'Enemies Within Enemies',q:'Faraday studies old journals in a great library. In which city?',a:A('nyrknaqevn,nyrknaqen,nyrknaqern,nyrknaqven'),
+ beats:['Faraday goes looking for something the founding scythes hid.','Anastasia volunteers to be bait.','Greyson builds a new, rougher identity and falls in with a dangerous friend.','Rowan gets answers from the High Blade about his father.'],
+ talk:['Greyson has to pretend to be bad to do good. How long can someone keep that up?']},
+{r:'Part 4 · chapters 24 to 29',t:'Cry Havoc',q:'After the theater, Greyson finds shelter with which group?',a:A('gbavfgf,gbavfg,gurgbavfgf,gbarfgf,zbanfgrel,gbavfgzbanfgrel'),
+ beats:['A plot against scythes comes together at a theater.','Greyson makes a choice with an ax.','Proof of his secret mission disappears.','Rowan walks into a trap in San Antonio and meets an old enemy in a new way.'],
+ talk:['Nobody will ever know what Greyson did. Does that change whether it was worth doing?']},
+{r:'Part 5 · chapters 30 to 38',t:'Circumstances Beyond',q:'An inquest is called on the scythes’ floating island city. What is it called?',a:A('raqhen,raqben,vaqhen,raqheen'),
+ beats:['Faraday and Munira close in on a blank spot on the map.','Winter Conclave brings a shocking nomination for High Blade.','Anastasia finds a loophole and forces an inquest.','Greyson asks for a sign and gets one.'],
+ talk:['Anastasia wins with rules, not weapons. Where else have loopholes mattered in this story?']},
+{r:'Part 6 · chapters 39 to 47',t:'Endura and Nod',q:'Tonists have a name for the Thunderhead’s long cry at the end. The Great ___.',a:A('erfbanapr,terngerfbanapr,erfbarapr,erfbanafr'),
+ beats:['The Grandslayers rule.','Someone decides that if he cannot win, nobody will.','Curie makes a last choice for the two people she loves most.','The Thunderhead speaks to exactly one person.'],
+ talk:['Why did the Thunderhead do what it did to everyone but one?','What do you want to happen in book three?']}];
+const WHO=[['I wear ivory and believe gleaning should be done with compassion.','Faraday'],['My robe is blue and sparkles with jewels.','Goddard'],['My house sits over a waterfall.','Curie'],['I splat off buildings for fun.','Tyger'],
+ ['I see almost everything, but I may not speak to scythes.','The Thunderhead'],['I chose the name Anastasia.','Citra'],['I stayed with a classmate when no one else would.','Rowan'],['I brought soup when it was needed.','Volta'],['I am High Blade of MidMerica.','Xenocrates'],['I hid under a food court counter.','Esme']];
+
+/* ---------- state ---------- */
+const S={tab:'home',fam:Store.get('fam','all'),day:null,open:{},qs:{},gv:'play',view:'days',dir:'e',stop:null,port:null};
+let BOOK=Store.get('book',{});
+function lev(a,b){const m=[];for(let i=0;i<=a.length;i++){m[i]=[i];}for(let j=1;j<=b.length;j++)m[0][j]=j;
+  for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return m[a.length][b.length];}
+function norm(s){return String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'').replace(/^(the)?(honorable)?(scythe)?(?=.{3})/,'');}
+function matches(input,answers){const n=norm(input);if(!n)return false;if(MASTER.indexOf(n)>=0)return true;
+  return answers.some(a=>a===n||(a.length>=5&&lev(a,n)<=(a.length>=8?2:1)));}
+function b1Done(){return B1.filter((_,i)=>BOOK['a'+i]).length;}
+function b2Done(){return B2.filter((_,i)=>BOOK['b'+i]).length;}
+
+/* ---------- shell ---------- */
+const app=document.getElementById('app');
+const view=h('div');app.appendChild(view);
+const NAV=[['home','🧭','Home'],['trip','🗓️','Trip'],['book','📕','Book'],['games','🎲','Games'],['guide','🧳','Guide']];
+const nav=h('nav');app.appendChild(nav);
+toastEl=h('div',{class:'toast'});app.appendChild(toastEl);
+function go(tab){S.tab=tab;render();window.scrollTo(0,0);}
+function renderNav(){clear(nav);NAV.forEach(n=>nav.appendChild(h('button',{type:'button',class:S.tab===n[0]?'on':'',on:{click:()=>go(n[0])}},h('i',{text:n[1]}),n[2])));}
+function render(){clear(view);renderNav();({home:Home,trip:Trip,book:Book,games:Games,guide:Guide})[S.tab]();}
+
+function todayIndex(){const t=tripToday();return DAYS.findIndex(d=>d.date===t);}
+function sunburst(){const NS='http://www.w3.org/2000/svg';const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 520 260');svg.setAttribute('aria-hidden','true');
+  for(let i=0;i<=24;i++){const ang=Math.PI*(i/24),r=i%2?230:260,ln=document.createElementNS(NS,'line');
+    ln.setAttribute('x1',260);ln.setAttribute('y1',250);ln.setAttribute('x2',260-Math.cos(ang)*r);ln.setAttribute('y2',250-Math.sin(ang)*r);
+    ln.setAttribute('stroke','#c9a24b');ln.setAttribute('stroke-width',i%2?1:2);svg.appendChild(ln);}
+  [60,110,160].forEach(r=>{const c=document.createElementNS(NS,'path');c.setAttribute('d','M'+(260-r)+' 250 A'+r+' '+r+' 0 0 1 '+(260+r)+' 250');c.setAttribute('fill','none');c.setAttribute('stroke','#c9a24b');svg.appendChild(c);});
+  return svg;}
+
+/* ---------- Home ---------- */
+let tickT;
+function Home(){
+  const cells={};const count=h('div',{class:'count'});
+  ['Days','Hours','Min'].forEach(l=>{const b=h('b',{text:'--'});cells[l]=b;count.appendChild(h('div',null,b,h('span',{text:l})));});
+  const label=h('div',{class:'count-label',text:'until wheels up'});
+  const header=h('header',null,sunburst(),h('div',{class:'kicker',text:'The Ortiz Family Presents'}),h('h1',{text:'Galveston & the Magic'}),
+    h('div',{class:'rule',text:'NOV 19 – 29, 2026'}),count,label);
+  view.appendChild(header);
+  function tick(){const ms=DEPART-tripNow().getTime();const ti=todayIndex();
+    if(ms>0){const m=Math.floor(ms/60000);cells.Days.textContent=Math.floor(m/1440);cells.Hours.textContent=Math.floor(m%1440/60);cells.Min.textContent=m%60;return;}
+    count.style.display='none';
+    label.textContent=ti>=0?('Day '+(ti+1)+' of '+DAYS.length+' · '+DAYS[ti].phase):'Home again. What a trip.';}
+  clearInterval(tickT);tick();tickT=setInterval(tick,30000);
+  const w=h('div',{class:'wrap'});view.appendChild(w);
+  const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
+  w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.day=d.date;go('trip');}}},
+    h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
+  const done=b1Done();
+  const tiles=h('div',{class:'grid2'});
+  [['book','📕','Book Club',BOOK.intro?(done+' of 8 unlocked'):'Scythe · enter your name'],['games','🎲','Learn & Play','Study cards, six games'],['guide','🧳','Pack & Prep','Budget, menus, home base'],['trip','🗺️','Days & Maps','Road map, cruise map',1]]
+    .forEach(t=>tiles.appendChild(h('button',{type:'button',class:'tile',on:{click:()=>{if(t[4])S.view='road';go(t[0]);}}},h('i',{text:t[1]}),h('b',{text:t[2]}),h('span',{text:t[3]}))));
+  w.appendChild(tiles);
+  w.appendChild(h('h2',{class:'sec',text:'The Crew'}));
+  Object.keys(FAMS).forEach(k=>w.appendChild(h('div',{class:'card',style:'display:flex;gap:12px;align-items:center'},
+    h('span',{class:'dot',style:'background:'+FAMS[k].color+';width:14px;height:14px'}),h('div',null,h('b',{text:FAMS[k].name,style:'font-weight:600'}),h('p',{text:FAMS[k].who})))));
+  w.appendChild(h('p',{class:'foot',text:'Cruise plans pulled from the Disney reservation page on Nov 11, 2026. Times can change. Works offline once opened.'}));
+}
+
+/* ---------- Trip ---------- */
+function Trip(){
+  if(!S.day){const ti=todayIndex();S.day=DAYS[ti>=0?ti:0].date;}
+  const w=h('div',{class:'wrap'});view.appendChild(w);
+  w.appendChild(h('h2',{class:'sec',text:'The Voyage'}));
+  const seg=h('div',{class:'seg'});w.appendChild(seg);
+  [['days','🗓️ Days'],['road','🚙 Road map'],['cruise','⚓ Cruise map']].forEach(v=>seg.appendChild(h('button',{type:'button',class:S.view===v[0]?'on':'',text:v[1],on:{click:()=>{S.view=v[0];render();}}})));
+  if(S.view==='road'){RoadMap(w);return;}
+  if(S.view==='cruise'){CruiseMap(w);return;}
+  const rotn=Store.get('rotation',{});
+  const chips=h('div',{class:'chips'});w.appendChild(chips);
+  [['all','Everyone']].concat(Object.keys(FAMS).map(k=>[k,FAMS[k].name])).forEach(p=>{
+    const b=h('button',{type:'button',class:'chip'+(S.fam===p[0]?' on':''),on:{click:()=>{S.fam=p[0];save('fam',S.fam);render();}}});
+    if(p[0]!=='all')b.appendChild(h('span',{class:'dot',style:'background:'+FAMS[p[0]].color}));
+    b.appendChild(document.createTextNode(p[1]));chips.appendChild(b);});
+  const tabs=h('div',{class:'tabs'});w.appendChild(tabs);const t=tripToday();let onTab;
+  DAYS.forEach(d=>{const b=h('button',{type:'button',class:'tab'+(S.day===d.date?' on':'')+(d.date===t?' today':''),on:{click:()=>{S.day=d.date;render();}}},h('small',{text:d.dow}),h('b',{text:d.md}));
+    if(S.day===d.date)onTab=b;tabs.appendChild(b);});
+  if(onTab)setTimeout(()=>{tabs.scrollLeft=Math.max(0,onTab.offsetLeft-tabs.clientWidth/2+31);},0);
+  const d=DAYS.find(x=>x.date===S.day);
+  w.appendChild(h('div',{class:'card'},h('span',{class:'phase',text:d.phase}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
+  let shown=0;
+  d.items.forEach(it=>{if(S.fam!=='all'&&it[4].indexOf(S.fam)<0)return;shown++;
+    const meta=h('div',{class:'meta'},h('span',{class:'tag'+(it[6]==='o'?' opt':''),text:it[6]==='o'?'Optional':it[5]}));
+    it[4].split('').forEach(k=>meta.appendChild(h('span',{class:'dot',style:'background:'+FAMS[k].color,title:FAMS[k].name})));
+    const xc=/\(([A-Z]+\d+)\)/.exec(it[2]);if(xc&&EXC[xc[1]])meta.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'What to expect',on:{click:()=>{S.gv='learn';S.open.exc=true;go('games');}}}));
+    if(it[5]==='Dinner'&&d.phase.indexOf('Cruise')>=0||it[5]==='Dinner'&&d.date==='2026-11-20')meta.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'Menus',on:{click:()=>{S.open.dine=true;go('guide');}}}));
+    w.appendChild(h('div',{class:'item'+(it[6]==='a'?' anchor':'')},h('div',{class:'time'},it[0],h('small',{text:it[1]+(it[1]==='Ship'?' time':it[1]==='AZ'?' time':'')})),
+      h('div',null,h('h4',{text:(it[6]==='a'?'⚓ ':'')+(it[5]==='Dinner'&&rotn[d.date]?'Dinner at '+rotn[d.date]:it[2])}),h('p',{text:it[3]}),meta)));});
+  if(!shown)w.appendChild(h('p',{class:'empty',text:FAMS[S.fam].name+' family has nothing on the books this day.'}));
+  (d.notes||[]).forEach(n=>w.appendChild(h('div',{class:'warn',text:'⚠️ '+n})));
+  w.appendChild(h('p',{class:'foot',text:'⚓ marks a booked plan. Dots show which families are in.'}));
+}
+
+/* ---------- Maps ---------- */
+const NS='http://www.w3.org/2000/svg';
+function sv(tag,attrs,txt){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;return e;}
+function mapShell(W,H,focus,zoomBy){const svg=sv('svg',{viewBox:'0 0 '+W+' '+H,role:'img'});const g=sv('g',{class:'zoom'});svg.appendChild(g);
+  const set=f=>{g.style.transform=f?'translate('+(W/2-f[0]*zoomBy)+'px,'+(H/2-f[1]*zoomBy)+'px) scale('+zoomBy+')':'translate(0px,0px) scale(1)';};
+  set(null);if(focus)setTimeout(()=>set(focus),30);return {svg,g};}
+function pin(g,xy,label,lab,on,num,click){const grp=sv('g',{class:'stop',tabindex:'0',role:'button','aria-label':label});
+  grp.appendChild(sv('circle',{cx:xy[0],cy:xy[1],r:22,fill:'transparent'}));
+  grp.appendChild(sv('circle',{cx:xy[0],cy:xy[1],r:on?10:8,fill:on?'#ff8a70':'#e6c878',stroke:'#0b1a30','stroke-width':2}));
+  if(num!=null)grp.appendChild(sv('text',{x:xy[0],y:xy[1]+3.5,'text-anchor':'middle','font-size':10,'font-weight':600,style:'fill:#0b1a30'},String(num)));
+  grp.appendChild(sv('text',{x:xy[0]+lab[0],y:xy[1]+lab[1],'font-size':on?12:11,'text-anchor':lab[2]||'start'},label));
+  grp.addEventListener('click',click);grp.addEventListener('keydown',e=>{if(e.key==='Enter')click();});g.appendChild(grp);}
+function linkRow(parent,links){const r=h('div',{class:'row'});links.forEach(l=>r.appendChild(h('a',{class:'btn ghost sm',href:l[1],target:'_blank',rel:'noopener',text:l[0]})));parent.appendChild(r);}
+function bullets(parent,title,arr){parent.appendChild(h('div',{class:'sub',text:title}));const ul=h('ul',{class:'lst'});arr.forEach(t=>ul.appendChild(h('li',{text:t})));parent.appendChild(ul);}
+function RoadMap(w){
+  const P=ll=>[(ll[0]+112.6)*30+10,(34.0-ll[1])*36+12];const dir=S.dir;
+  const seg=h('div',{class:'seg'});w.appendChild(seg);
+  [['e','East · Nov 19–20'],['w','Home · Nov 28–29']].forEach(v=>seg.appendChild(h('button',{type:'button',class:dir===v[0]?'on':'',text:v[1],on:{click:()=>{S.dir=v[0];S.stop=null;render();}}})));
+  const ids=ROUTES[dir];const cur=S.stop&&ids.indexOf(S.stop)>=0?PLACES[S.stop]:null;
+  const m=mapShell(560,210,cur?P(cur.at):null,2.4);
+  [[-109.05,'AZ','NM'],[-106.55,'NM','TX']].forEach(b=>{const x=P([b[0],0])[0];m.g.appendChild(sv('line',{x1:x,y1:6,x2:x,y2:204,stroke:'#33507a','stroke-dasharray':'3 5'}));
+    m.g.appendChild(sv('text',{x:x-8,y:200,'font-size':10,'text-anchor':'end',style:'fill:#5f7fae'},b[1]));m.g.appendChild(sv('text',{x:x+8,y:200,'font-size':10,style:'fill:#5f7fae'},b[2]));});
+  let line=I10.map(P);if(dir==='w')line=line.slice(0,-1).concat([P(PLACES.spring.at)]);
+  m.g.appendChild(sv('polyline',{points:line.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#c9a24b','stroke-width':3,'stroke-linejoin':'round','stroke-linecap':'round'}));
+  m.g.appendChild(sv('text',{x:300,y:60,'font-size':10,style:'fill:#5f7fae','letter-spacing':3},'INTERSTATE 10'));
+  const LAB={chandler:[12,-8],tucson:[12,14],elpaso:[-6,-14,'middle'],fortstockton:[0,-14,'middle'],sanantonio:[-8,20,'middle'],luling:[0,-14,'middle'],galveston:[-4,22,'end'],spring:[-6,-14,'end']};
+  ids.forEach((id,i)=>pin(m.g,P(PLACES[id].at),PLACES[id].n,LAB[id],S.stop===id,i+1,()=>{S.stop=S.stop===id?null:id;render();}));
+  w.appendChild(h('div',{class:'mapbox'},m.svg));
+  if(!cur){w.appendChild(h('p',{class:'lead',text:'Tap a stop to zoom in. You will see the exit, how to get off and back on, gas, and food nearby.'}));
+    w.appendChild(h('p',{class:'foot',text:'This is a hand-drawn route sketch so it works with no signal. Buttons inside each stop open live maps when you are online.'}));return;}
+  const card=h('div',{class:'card'});w.appendChild(card);
+  card.appendChild(h('span',{class:'phase',text:'Stop '+(ids.indexOf(S.stop)+1)+' of '+ids.length+(cur.exit?' · '+cur.exit:'')}));card.appendChild(h('h3',{text:cur.n}));
+  if(cur.plain){card.appendChild(h('p',{text:cur.plain[dir]}));}
+  else{card.appendChild(h('p',{text:cur.when[dir]}));card.appendChild(h('div',{class:'sub',text:'Off and back on'}));card.appendChild(h('p',{text:cur.ramp[dir]}));
+    bullets(card,'Gas',cur.gas);bullets(card,'Food nearby',cur.food);
+    card.appendChild(h('div',{class:'sub',text:'Live when you have signal'}));
+    linkRow(card,[['Directions',mapsUrl(cur.q)],['Gas prices now',mapsUrl('gas stations near '+cur.near)],['Restaurants',mapsUrl('restaurants near '+cur.near)]]);
+    card.appendChild(h('p',{style:'font-size:12px',text:'Gas prices change daily, so they are not stored in the app. The Gas prices button shows today’s numbers.'}));}
+  if(cur.plain&&cur.q)linkRow(card,[['Open in Maps',mapsUrl(cur.q)]]);
+  card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'Zoom back out',on:{click:()=>{S.stop=null;render();}}})));
+}
+function CruiseMap(w){
+  const P=ll=>[(ll[0]+99)*38,(31-ll[1])*33];const cur=S.port?PORTS[S.port]:null;
+  const m=mapShell(520,460,cur?P(cur.at):null,2);
+  const land=COAST.map(P);const poly=[[520,-10],[-10,-10],[-10,470]].concat([[P(COAST[COAST.length-1])[0],470]]).concat(land.slice().reverse());
+  m.g.appendChild(sv('polygon',{points:poly.concat([[P(COAST[0])[0],-10]]).map(p=>p.join(',')).join(' '),fill:'#17355e',stroke:'#33507a'}));
+  m.g.appendChild(sv('ellipse',{cx:P([-86.93,20.42])[0],cy:P([-86.93,20.42])[1],rx:5,ry:9,fill:'#17355e',stroke:'#5fd0c5'}));
+  m.g.appendChild(sv('polyline',{points:SAIL.map(P).map(p=>p.join(',')).join(' '),fill:'none',stroke:'#5fd0c5','stroke-width':2,'stroke-dasharray':'6 6','stroke-linejoin':'round'}));
+  [['TEXAS',[-98.6,30.3]],['MEXICO',[-98.8,22.6]],['YUCATAN',[-90.4,19.2]],['GULF OF MEXICO',[-93.6,24.6]]].forEach(t=>{const p=P(t[1]);m.g.appendChild(sv('text',{x:p[0],y:p[1],'font-size':11,'letter-spacing':3,style:'fill:#5f7fae'},t[0]));});
+  [['Sea day · Sat',[-90.5,24.0],'2026-11-21',[12,4]],['Sea day · Tue',[-92.6,26.2],'2026-11-24',[-12,-10,'end']]].forEach(t=>pin(m.g,P(t[1]),t[0],t[3],false,null,()=>{S.day=t[2];S.view='days';S.port=null;render();window.scrollTo(0,0);}));
+  Object.keys(PORTS).forEach(id=>pin(m.g,P(PORTS[id].at),PORTS[id].n,PORTS[id].lab,S.port===id,null,()=>{S.port=S.port===id?null:id;render();}));
+  w.appendChild(h('div',{class:'mapbox'},m.svg));
+  if(!cur){w.appendChild(h('p',{class:'lead',text:'Galveston to Cozumel, back to Progreso, and home. Tap a port to zoom in and see who is doing what, or tap a sea day to jump to that day.'}));return;}
+  const card=h('div',{class:'card'});w.appendChild(card);card.appendChild(h('h3',{text:cur.n}));card.appendChild(h('p',{text:cur.fact}));
+  cur.days.forEach(date=>{const d=DAYS.find(x=>x.date===date);card.appendChild(h('div',{class:'sub',text:d.dow+' Nov '+d.md}));const ul=h('ul',{class:'lst'});
+    d.items.filter(it=>['Excursion','Chill','Port','Ship'].indexOf(it[5])>=0).forEach(it=>ul.appendChild(h('li',{text:it[0]+' · '+it[2]+(it[4]===ALL?'':' ('+it[4].split('').map(k=>FAMS[k].name).join(', ')+')')})));card.appendChild(ul);
+    card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'See the full day',on:{click:()=>{S.day=date;S.view='days';render();window.scrollTo(0,0);}}})));});
+  card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'Zoom back out',on:{click:()=>{S.port=null;render();}}})));
+}
+
+/* ---------- reusable bits ---------- */
+function accordion(parent,id,title,countText,build){
+  const acc=h('div',{class:'acc'});const body=h('div',{class:'body'});
+  const btn=h('button',{type:'button',on:{click:()=>{S.open[id]=!S.open[id];render();}}},title,h('span',{text:(countText?countText+'  ':'')+(S.open[id]?'▲':'▼')}));
+  acc.appendChild(btn);if(S.open[id]){build(body);acc.appendChild(body);}parent.appendChild(acc);}
+function checklist(body,key,groups){const st=Store.get(key,{});
+  groups.forEach((g,gi)=>{if(g[0])body.appendChild(h('div',{class:'sub',text:g[0]}));
+    g[1].forEach((txt,i)=>{const id=gi+'-'+i;const row=h('button',{type:'button',class:'check'+(st[id]?' on':''),on:{click:()=>{st[id]=!st[id];save(key,st);
+        row.classList.toggle('on',!!st[id]);box.textContent=st[id]?'✓':'';}}});
+      const box=h('span',{class:'box',text:st[id]?'✓':''});row.append(box,h('span',{class:'lbl',text:txt}));body.appendChild(row);});});}
+function countDone(key,groups){const st=Store.get(key,{});let n=0,t=0;groups.forEach((g,gi)=>g[1].forEach((_,i)=>{t++;if(st[gi+'-'+i])n++;}));return n+'/'+t;}
+function quizBlock(parent,key,qs,plain){const st=Store.get(key,{});
+  qs.forEach((q,qi)=>{parent.appendChild(h('p',{class:'q',text:(qi+1)+'. '+q[0]}));const btns=[];
+    const paint=()=>btns.forEach((b,oi)=>{b.className='opt'+(st[qi]!=null&&oi===q[2]?' right':'')+(st[qi]===oi&&oi!==q[2]?' wrong':'');});
+    q[1].forEach((o,oi)=>{const b=h('button',{type:'button',class:'opt',text:o,on:{click:()=>{if(st[qi]!=null)return;st[qi]=oi;save(key,st);paint();
+        if(q[3])note.textContent=q[3];if(oi===q[2])confetti(['⭐','✨']);}}});btns.push(b);parent.appendChild(b);});
+    const note=h('p',{text:st[qi]!=null&&q[3]?q[3]:''});parent.appendChild(note);paint();});}
+
+/* ---------- Guide ---------- */
+function Guide(){
+  const w=h('div',{class:'wrap'});view.appendChild(w);
+  w.appendChild(h('h2',{class:'sec',text:'Pack & Prep'}));w.appendChild(h('p',{class:'lead',text:'Tick things off as you go. Each phone keeps its own list.'}));
+  accordion(w,'prep','✅ Things to prep',countDone('prep',PREP),b=>checklist(b,'prep',PREP));
+  accordion(w,'pack','🧳 Packing list',countDone('pack',PACK),b=>checklist(b,'pack',PACK));
+  accordion(w,'tips','💡 Packing tips for kids','',b=>{const ul=h('ul',{style:'padding-left:20px;margin:0'});TIPS.forEach(t=>ul.appendChild(h('li',{text:t,style:'font-size:15px;line-height:1.5;margin:6px 0;color:var(--dim)'})));b.appendChild(ul);});
+  accordion(w,'dine','🛳️ Ship dining and menus','',b=>{const rot=Store.get('rotation',{});
+    b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0 0 6px',text:'Tap any restaurant to see its menu. You do not need to set anything first.'}));
+    DINE.forEach((e,i)=>{const open=S.open['d'+i];const box=h('div',{style:'border-bottom:1px solid rgba(201,162,75,.15)'});
+      box.appendChild(h('button',{type:'button',class:'check',style:'border:0;justify-content:space-between',on:{click:()=>{S.open['d'+i]=!open;render();}}},h('span',null,h('b',{text:e[0],style:'font-weight:600;display:block'}),h('span',{class:'sub',style:'margin:0',text:e[1]})),h('span',{style:'color:var(--brass-lt)',text:open?'▲':'Menu ▼'})));
+      if(open){box.appendChild(h('p',{text:e[2],style:'margin:0 0 6px;font-size:14px;line-height:1.45;color:var(--dim)'}));
+        e[3].forEach(sec=>{box.appendChild(h('div',{class:'sub',text:sec[0]}));const ul=h('ul',{class:'lst'});sec[1].forEach(t=>ul.appendChild(h('li',{text:t})));box.appendChild(ul);});
+        if(e[4])box.appendChild(h('p',{text:e[4],style:'margin:6px 0 10px;font-size:12px;color:var(--dim)'}));}
+      b.appendChild(box);});
+    b.appendChild(h('div',{class:'sub',text:'Our dinner rotation (optional)'}));
+    b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0',text:'The order is printed on your room key. Set it here and each day will name that night’s restaurant.'}));
+    NIGHTS.forEach(n=>{const sel=h('select',{'aria-label':'Restaurant for '+n[1]});ROOMS.forEach((r,i)=>{const o=h('option',{text:r});if((rot[n[0]]||'')===(i?r:''))o.selected=true;sel.appendChild(o);});
+      sel.addEventListener('change',()=>{if(sel.selectedIndex)rot[n[0]]=sel.value;else delete rot[n[0]];save('rotation',rot);});
+      b.appendChild(h('div',{class:'row',style:'align-items:center'},h('span',{style:'flex:0 0 44px;font-weight:600',text:n[1]}),sel));});
+    b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Rotation menus are from Disney’s May 2026 refresh. Special nights can swap in a themed menu, so check the Navigator app on board.'}));});
+  accordion(w,'home','🏡 Spring home base','',b=>{const hn=Store.get('house',{});
+    b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0 0 4px',text:'House details you type here stay on this phone only. They are never part of the public site.'}));
+    [['addr','Address'],['checkin','Check-in and check-out'],['door','Door code'],['wifi','Wi-Fi name and password'],['notes','House notes (parking, trash, host contact)']].forEach(f=>{
+      const inp=h('input',{type:'text',maxlength:'200',placeholder:f[1],'aria-label':f[1],value:hn[f[0]]||''});
+      inp.addEventListener('change',()=>{hn[f[0]]=inp.value.trim();save('house',hn);toast('Saved on this phone');});b.appendChild(h('div',{class:'row'},inp));});
+    if(hn.addr)linkRow(b,[['Directions to the house',mapsUrl(hn.addr)]]);
+    SPRING.forEach(sec=>{b.appendChild(h('div',{class:'sub',text:sec[0]+' nearby'}));sec[1].forEach(e=>b.appendChild(h('div',{class:'lc'},h('b',{text:e[0]}),h('p',{text:e[1]}))));});
+    linkRow(b,[['Restaurants near Spring',mapsUrl('restaurants near Spring TX 77388')],['Things to do',mapsUrl('things to do near Spring TX 77388')]]);});
+  const bud=Store.get('budget',{total:0,items:[]});const spent=bud.items.reduce((a,x)=>a+x.amt,0);const money=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  accordion(w,'budget','💵 Trip budget',bud.total?money(Math.max(0,bud.total-spent))+' left':money(spent)+' spent',b=>{
+    const tot=h('input',{type:'text',inputmode:'decimal',placeholder:'Trip budget in dollars','aria-label':'Trip budget',value:bud.total?String(bud.total):''});
+    tot.addEventListener('change',()=>{const v=parseFloat(tot.value.replace(/[^0-9.]/g,''));bud.total=isFinite(v)&&v>0?v:0;save('budget',bud);render();});
+    b.appendChild(h('div',{class:'row',style:'align-items:center'},h('span',{style:'flex:0 0 64px;font-weight:600',text:'Budget'}),tot));
+    if(bud.total){b.appendChild(h('div',{class:'qbar'},h('i',{style:'width:'+Math.min(100,spent/bud.total*100)+'%'+(spent>bud.total?';background:var(--coral)':'')})));
+      b.appendChild(h('p',{style:'margin:2px 0 0;font-size:14px;color:'+(spent>bud.total?'var(--coral)':'var(--dim)'),text:money(spent)+' spent of '+money(bud.total)+(spent>bud.total?' · over by '+money(spent-bud.total):' · '+money(bud.total-spent)+' left')}));}
+    b.appendChild(h('div',{class:'sub',text:'Add an expense'}));
+    const amt=h('input',{type:'text',inputmode:'decimal',placeholder:'Amount','aria-label':'Amount'});const cat=h('select',{'aria-label':'Category'});CATS.forEach(c=>cat.appendChild(h('option',{text:c})));
+    const note=h('input',{type:'text',maxlength:'60',placeholder:'What was it?','aria-label':'What was it'});
+    const add=()=>{const v=parseFloat(amt.value.replace(/[^0-9.]/g,''));if(!isFinite(v)||v<=0){toast('Enter an amount first');return;}
+      bud.items.push({id:Date.now(),amt:Math.round(v*100)/100,cat:cat.value,note:note.value.trim(),day:tripToday()});save('budget',bud);render();};
+    note.addEventListener('keydown',e=>{if(e.key==='Enter')add();});
+    b.appendChild(h('div',{class:'row'},amt,cat));b.appendChild(h('div',{class:'row'},note,h('button',{type:'button',class:'btn',text:'Add',on:{click:add}})));
+    if(bud.items.length){b.appendChild(h('div',{class:'sub',text:'By category'}));const by={};bud.items.forEach(x=>{by[x.cat]=(by[x.cat]||0)+x.amt;});
+      CATS.filter(c=>by[c]).forEach(c=>b.appendChild(h('div',{style:'display:flex;justify-content:space-between;font-size:15px;padding:4px 0'},h('span',{text:c}),h('span',{style:'color:var(--brass-lt)',text:money(by[c])}))));
+      b.appendChild(h('div',{class:'sub',text:'Every expense'}));
+      bud.items.slice().reverse().forEach(x=>b.appendChild(h('div',{class:'rl',style:'border-color:rgba(201,162,75,.15)'},h('div',{class:'t',style:'color:var(--cream)'},money(x.amt)+' · '+x.cat,h('small',{style:'color:var(--dim)',text:(x.note?x.note+' · ':'')+x.day.slice(5).replace('-','/')})),
+        h('button',{type:'button',class:'btn ghost sm','aria-label':'Remove expense',text:'✕',on:{click:()=>showModal({title:'Remove this expense?',message:money(x.amt)+' · '+x.cat+(x.note?' · '+x.note:''),confirmText:'Remove',cancelText:'Keep',onConfirm:()=>{bud.items=bud.items.filter(y=>y.id!==x.id);save('budget',bud);render();}})}}))));}
+    b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Saved on this phone only. Each phone keeps its own list, so pick one phone to be the ledger.'}));});
+  accordion(w,'eats','🍽️ Eats on land','',b=>EATS.forEach(e=>b.appendChild(h('div',{style:'padding:8px 0;border-bottom:1px solid rgba(201,162,75,.15)'},h('b',{text:e[0],style:'font-weight:600'}),h('div',{class:'sub',style:'margin:2px 0',text:e[1]}),h('p',{text:e[2],style:'margin:0;font-size:14px;line-height:1.45;color:var(--dim)'})))));
+  accordion(w,'logi','🚙 Road and port notes','',b=>{const ul=h('ul',{style:'padding-left:20px;margin:0'});LOGI.forEach(t=>ul.appendChild(h('li',{text:t,style:'font-size:15px;line-height:1.5;margin:6px 0;color:var(--dim)'})));b.appendChild(ul);});
+}
+
+/* ---------- Games: Learn & Play ---------- */
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function mayaNum(n){const digs=[];do{digs.unshift(n%20);n=Math.floor(n/20);}while(n>0);const box=h('div',{class:'mnum'});
+  digs.forEach(d=>{const dg=h('div',{class:'dg'});if(d===0)dg.appendChild(h('span',{text:'🐚',style:'font-size:26px'}));
+    else{if(d%5){const dots=h('div',{class:'dots'});for(let i=0;i<d%5;i++)dots.appendChild(h('i'));dg.appendChild(dots);}for(let i=0;i<Math.floor(d/5);i++)dg.appendChild(h('div',{class:'barx'}));}
+    box.appendChild(dg);});return box;}
+const QUESTS={
+ texas:{t:'⭐ Texas & Gulf Trivia',n:8,names:['Greenhorn','Trail Boss','Lone Star Legend'],qs:TRIVIA},
+ maya:{t:'🗿 Maya Explorer',n:6,names:['Traveler','Stargazer'],qs:MAYAQ},
+ disney:{t:'✨ Disney Trivia',n:8,names:['Stowaway','First Mate'],qs:DISNEY},
+ tf:{t:'👍 True or False',n:6,names:['Round one','Round two'],qs:TF},
+ nums:{t:'🔢 Maya Number Decoder',n:8,names:['Dots and bars','Into the twenties'],gen:lvl=>{const lo=lvl?20:1,hi=lvl?99:19;const pool=[];for(let i=lo;i<=hi;i++)pool.push(i);
+   return shuffle(pool).slice(0,8).map(n=>{const o=new Set([n]);const d=[1,-1,5,-5,20,-20,2,-2,10];for(const x of shuffle(d)){if(o.size>=4)break;if(n+x>=0)o.add(n+x);}const opts=shuffle([...o]);return {num:n,opts:opts.map(String),c:opts.indexOf(n),ex:'Dots are ones, bars are fives. A higher row counts twenties.'};});}},
+ scramble:{t:'🔤 Word Scramble',n:6,names:['Warm-up','Tricky'],words:WORDS}};
+function quest(b,id){const Q=QUESTS[id],L=Q.names.length;let st=Store.get('quest_'+id,{lvl:0,right:{}});
+  const restart=()=>{save('quest_'+id,{lvl:0,right:{}});delete S.qs[id];render();};
+  if(st.lvl>=L){b.appendChild(h('div',{class:'qcard',style:'text-align:center'},h('p',{class:'qq',text:'🏆 Every level cleared!'}),h('button',{type:'button',class:'btn',text:'Play again',on:{click:restart}})));return;}
+  if(!S.qs[id]){let qs;if(Q.gen){qs=Q.gen(st.lvl);st.right={};}
+    else if(Q.words){qs=Q.words.slice(st.lvl*Q.n,(st.lvl+1)*Q.n).map(wd=>{let sc=wd[0];for(let k=0;k<8&&sc===wd[0];k++)sc=shuffle(wd[0].split('')).join('');return {scr:sc,hint:wd[1],ans:wd[0]};});}
+    else qs=Q.qs.slice(st.lvl*Q.n,(st.lvl+1)*Q.n);
+    S.qs[id]={qs,queue:qs.map((_,i)=>i).filter(i=>!st.right[i]),pick:null};}
+  const ss=S.qs[id],total=ss.qs.length,got=total-ss.queue.length+(ss.pick&&ss.pick.ok?1:0);
+  b.appendChild(h('div',{class:'sub',style:'margin-top:0',text:'Level '+(st.lvl+1)+' of '+L+' · '+Q.names[st.lvl]}));
+  b.appendChild(h('div',{class:'qbar'},h('i',{style:'width:'+(Math.min(got,total)/total*100)+'%'})));
+  b.appendChild(h('div',{style:'font-size:12px;color:var(--dim)',text:Math.min(got,total)+' of '+total+' correct'}));
+  const card=h('div',{class:'qcard'});b.appendChild(card);
+  if(!ss.queue.length){const last=st.lvl+1>=L;card.style.textAlign='center';
+    card.appendChild(h('p',{class:'qq',text:'🎉 Level '+(st.lvl+1)+' complete!'}));
+    card.appendChild(h('p',{style:'margin:0 0 10px;color:var(--dim)',text:last?'That was the last level.':'New questions are unlocked: '+Q.names[st.lvl+1]+'.'}));
+    card.appendChild(h('button',{type:'button',class:'btn',text:last?'Finish':'Start level '+(st.lvl+2),on:{click:()=>{save('quest_'+id,{lvl:st.lvl+1,right:{}});delete S.qs[id];if(last)confetti();render();}}}));return;}
+  const qi=ss.queue[0],q=ss.qs[qi];const text=Array.isArray(q)?q[0]:q.num!=null?'Which number is this?':'Unscramble it: '+q.hint;
+  card.appendChild(h('p',{class:'qq',text:text}));
+  if(q.num!=null)card.appendChild(mayaNum(q.num));
+  if(q.scr)card.appendChild(h('div',{class:'scr',text:q.scr}));
+  const answer=ok=>{ss.pick={ok:ok};if(ok){st.right[qi]=true;if(!Q.gen)save('quest_'+id,st);confetti(['⭐','✨']);}render();};
+  if(q.scr){if(!ss.pick){const inp=h('input',{type:'text',autocomplete:'off',autocapitalize:'characters',autocorrect:'off',spellcheck:'false',placeholder:'Your answer','aria-label':'Your answer'});
+      const tryIt=()=>{if(!inp.value.trim())return;answer(inp.value.toUpperCase().replace(/[^A-Z]/g,'')===q.ans);};inp.addEventListener('keydown',e=>{if(e.key==='Enter')tryIt();});
+      card.appendChild(h('div',{class:'row'},inp,h('button',{type:'button',class:'btn',text:'Check',on:{click:tryIt}})));}}
+  else{const opts=Array.isArray(q)?q[1]:q.opts,c=Array.isArray(q)?q[2]:q.c;
+    opts.forEach((o,oi)=>card.appendChild(h('button',{type:'button',class:'opt'+(ss.pick&&oi===c?' right':'')+(ss.pick&&ss.pick.oi===oi&&oi!==c?' wrong':''),text:o,on:{click:()=>{if(ss.pick)return;ss.pick={oi:oi};answer(oi===c);ss.pick.oi=oi;}}})));}
+  if(ss.pick){const ex=Array.isArray(q)?q[3]:q.scr?'The word is '+q.ans+'.':q.ex;
+    card.appendChild(h('p',{style:'margin:10px 0;color:'+(ss.pick.ok?'var(--teal)':'var(--coral)'),text:(ss.pick.ok?'Correct! ':'Not this time. It comes back around. ')+(ex||'')}));
+    card.appendChild(h('button',{type:'button',class:'btn',text:'Next',on:{click:()=>{ss.queue.shift();if(!ss.pick.ok)ss.queue.push(qi);ss.pick=null;render();}}}));}
+  b.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'Start over',style:'margin-top:10px',on:{click:()=>showModal({title:'Start over?',message:'This resets this game to level 1 on this phone.',confirmText:'Reset',cancelText:'Keep',onConfirm:restart})}}));
+}
+function Games(){
+  const w=h('div',{class:'wrap plain'});view.appendChild(w);
+  w.appendChild(h('h2',{class:'sec',text:'Learn & Play'}));
+  const seg=h('div',{class:'seg'});w.appendChild(seg);
+  [['learn','📚 Learn'],['play','🎲 Play']].forEach(v=>seg.appendChild(h('button',{type:'button',class:S.gv===v[0]?'on':'',text:v[1],on:{click:()=>{S.gv=v[0];render();}}})));
+  if(S.gv==='learn'){
+    w.appendChild(h('p',{class:'lead',text:'Read up here first. Every trivia answer is somewhere in these cards.'}));
+    LEARN.forEach((sec,i)=>accordion(w,'l'+i,sec[0],'',b=>sec[1].forEach(c=>b.appendChild(h('div',{class:'lc'},h('b',{text:c[0]}),h('p',{text:c[1]}))))));
+    accordion(w,'exc','🧭 Excursions: what to expect','',b=>{Object.keys(EXC).forEach(k=>{const x=EXC[k];const box=h('div',{class:'lc'});box.append(h('b',{text:x.t+' ('+k+')'}),h('p',{text:x.who}));bullets(box,'From Disney’s listing',x.facts);
+        bullets(box,'What to expect',x.expect);bullets(box,'Bring',x.bring);b.appendChild(box);});
+      b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Disney’s public pages give only the basics. The what-to-expect notes are how these tours usually run. Your ticket has the final word on meeting time, place, and rules.'}));});
+    return;}
+  w.appendChild(h('p',{class:'lead',text:'One card at a time. Miss one and it comes back. Clear a level to unlock new questions.'}));
+  Object.keys(QUESTS).forEach(id=>{const Q=QUESTS[id];const st=Store.get('quest_'+id,{lvl:0});
+    accordion(w,'g_'+id,Q.t,st.lvl>=Q.names.length?'🏆':'Lv '+(st.lvl+1)+'/'+Q.names.length,b=>quest(b,id));});
+  const bg=Store.get('bingo',{});
+  accordion(w,'bingo','🚙 I-10 Road Bingo',Object.keys(bg).filter(k=>bg[k]).length+'/16',b=>{const g=h('div',{class:'bingo'});
+    BINGO.forEach((c,i)=>{const btn=h('button',{type:'button',class:bg[i]?'on':'',on:{click:()=>{bg[i]=!bg[i];save('bingo',bg);btn.classList.toggle('on',!!bg[i]);
+        const lines=[[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15],[0,4,8,12],[1,5,9,13],[2,6,10,14],[3,7,11,15],[0,5,10,15],[3,6,9,12]];
+        if(bg[i]&&lines.some(l=>l.indexOf(i)>=0&&l.every(x=>bg[x]))){confetti();toast('Bingo!');}}}},h('i',{text:c[0]}),c[1]);g.appendChild(btn);});b.appendChild(g);});
+  accordion(w,'hunt','⚓ Ship Scavenger Hunt',countDone('hunt',[['',HUNT]]),b=>checklist(b,'hunt',[['',HUNT]]));
+  w.appendChild(h('p',{class:'foot',text:'Scythe games live in the Book tab and open when the last chapter is unlocked.'}));
+}
+
+/* ---------- Book ---------- */
+function gate(parent,cls,id,g,num){
+  const card=h('div',{class:'book'+cls});parent.appendChild(card);
+  card.appendChild(h('div',{class:'kick',text:(BOOK[id]?'🔓 ':'🔒 ')+(cls?g.r:'Chapters '+g.r)}));card.appendChild(h('h3',{text:g.t}));
+  if(BOOK[id]){
+    const open=S.open[id];
+    card.appendChild(h('button',{type:'button',class:'btn ghost sm',text:open?'Close':'Open the breakdown',on:{click:()=>{S.open[id]=!open;render();}}}));
+    if(!open)return;
+    const ul=h('ul');g.beats.forEach(t=>ul.appendChild(h('li',{text:t})));card.appendChild(ul);
+    card.appendChild(h('div',{class:'sub',text:'Talk about it'}));g.talk.forEach(t=>card.appendChild(h('p',{text:'💬 '+t})));
+    if(g.quiz){card.appendChild(h('div',{class:'sub',text:'Quick quiz'}));quizBlock(card,'q_'+id,g.quiz);}
+    return;}
+  if(!S.open['q'+id]){card.appendChild(h('p',{text:'Finish these chapters, then come back for the question.'}));
+    card.appendChild(h('button',{type:'button',class:'btn sm',text:'Show the question',on:{click:()=>{S.open['q'+id]=true;render();}}}));return;}
+  card.appendChild(h('p',{class:'q',text:g.q}));
+  const inp=h('input',{type:'text',autocomplete:'off',autocapitalize:'off',autocorrect:'off',spellcheck:'false',placeholder:'Type the code','aria-label':'Code for '+g.t});
+  const msg=h('div',{class:'msg'});
+  const tryIt=()=>{if(matches(inp.value,g.a)){BOOK[id]=true;save('book',BOOK);S.open[id]=true;confetti(['📕','✨','🗡️','⭐']);render();
+      const all=cls?b2Done()===B2.length:b1Done()===B1.length;toast(all?'Book complete!':'Unlocked!');}
+    else msg.textContent='Not quite. Listen again and try once more.';};
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')tryIt();});
+  card.appendChild(h('div',{class:'row'},inp,h('button',{type:'button',class:'btn',text:'Unlock',on:{click:tryIt}})));card.appendChild(msg);
+}
+function Book(){
+  const w=h('div',{class:'wrap'});view.appendChild(w);
+  w.appendChild(h('h2',{class:'sec',text:'Road Trip Book Club'}));
+  if(!BOOK.intro){
+    const card=h('div',{class:'book'});w.appendChild(card);
+    card.append(h('div',{class:'kick',text:'Book one · Arc of a Scythe'}),h('h3',{text:'Scythe'}),h('p',{text:'By Neal Shusterman. We listen together in the car, five chapters at a time.'}),
+      h('p',{class:'q',text:'🔒 First unlock: who is reading? Type your first name.'}));
+    const inp=h('input',{type:'text',autocomplete:'off',autocapitalize:'words',placeholder:'Your name','aria-label':'Your first name'});const msg=h('div',{class:'msg'});
+    const tryIt=()=>{const n=norm(inp.value);if(READERS.indexOf(n)>=0||MASTER.indexOf(n)>=0){BOOK.intro=true;const raw=inp.value.trim();BOOK.reader=MASTER.indexOf(n)>=0?'Reader':raw.charAt(0).toUpperCase()+raw.slice(1).toLowerCase();
+        save('book',BOOK);S.open.intro=true;confetti(['📕','✨']);render();}else msg.textContent='That name is not on the family roster.';};
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')tryIt();});
+    card.appendChild(h('div',{class:'row'},inp,h('button',{type:'button',class:'btn',text:'Begin',on:{click:tryIt}})));card.appendChild(msg);
+    return;}
+  const done=b1Done();
+  const top=h('div',{class:'book'});w.appendChild(top);
+  top.append(h('div',{class:'kick',text:'Apprentice '+(BOOK.reader||'Reader')}),h('h3',{text:'Scythe'}),h('div',{class:'bar'},h('i',{style:'width:'+(done/8*100)+'%'})),
+    h('p',{text:done+' of 8 sections unlocked. Each code is the answer to a question about the chapters you just heard.'}));
+  // Intro (no spoilers)
+  const intro=h('div',{class:'book'});w.appendChild(intro);
+  intro.append(h('div',{class:'kick',text:'🔓 Before you press play'}),h('h3',{text:'Welcome to the Post-Mortal Age'}));
+  intro.appendChild(h('button',{type:'button',class:'btn ghost sm',text:S.open.intro?'Close':'Open the intro',on:{click:()=>{S.open.intro=!S.open.intro;render();}}}));
+  if(S.open.intro){INTRO.beats.forEach(t=>intro.appendChild(h('p',{text:t})));
+    intro.appendChild(h('div',{class:'sub',text:'Who you will meet first'}));INTRO.people.forEach(p=>intro.appendChild(h('p',null,h('b',{text:p[0]+'. ',style:'font-weight:600;color:#fff'}),p[1])));
+    intro.appendChild(h('div',{class:'sub',text:'Words to know'}));INTRO.words.forEach(p=>intro.appendChild(h('p',null,h('b',{text:p[0]+': ',style:'font-weight:600;color:#fff'}),p[1])));
+    intro.appendChild(h('div',{class:'sub',text:'Think about before chapter one'}));INTRO.ask.forEach(t=>intro.appendChild(h('p',{text:'💬 '+t})));}
+  B1.forEach((g,i)=>gate(w,'','a'+i,g,i));
+  if(done===B1.length){Finale(w);
+    const d2=b2Done();const t2=h('div',{class:'book th'});w.appendChild(t2);
+    t2.append(h('div',{class:'kick',text:'Bonus · book two'}),h('h3',{text:'Thunderhead'}),h('p',{text:'You finished Scythe, so the sequel is open. It unlocks by part: six parts, six codes. '+d2+' of 6 so far.'}));
+    B2.forEach((g,i)=>gate(w,' th','b'+i,g,i));}
+  ReadingList(w);
+}
+function Finale(w){
+  const f=h('div',{class:'book'});w.appendChild(f);
+  f.append(h('div',{class:'kick',text:'🏆 Finale unlocked'}),h('h3',{text:'Scythe Games'}));
+  accordion(f,'who','Who am I?','',b=>quizBlock(b,'who',WHO.map((q,i)=>{const names=WHO.map(x=>x[1]);const opts=[q[1],names[(i+3)%10],names[(i+6)%10],names[(i+8)%10]];
+    const rotn=i%4;const o=opts.slice(rotn).concat(opts.slice(0,rotn));return [q[0],o,o.indexOf(q[1])];})));
+  accordion(f,'robe','Design your scythe','',b=>{
+    const sc=Store.get('scythe',{name:'',color:'Midnight blue',way:'With a month’s warning'});
+    b.appendChild(h('p',{text:'Every scythe takes the name of a person from history and picks a robe. No black allowed.'}));
+    const name=h('input',{type:'text',maxlength:'30',placeholder:'Your patron historic name',value:sc.name,'aria-label':'Patron name'});
+    const color=h('select',{'aria-label':'Robe color'});['Midnight blue','Emerald','Sunrise orange','Lavender','Turquoise','Crimson','Silver'].forEach(c=>{const o=h('option',{text:c});if(c===sc.color)o.selected=true;color.appendChild(o);});
+    const way=h('select',{'aria-label':'How you glean'});['With a month’s warning','Only after dinner and conversation','By random numbers, to be fair','As rarely as the quota allows'].forEach(c=>{const o=h('option',{text:c});if(c===sc.way)o.selected=true;way.appendChild(o);});
+    b.appendChild(h('div',{class:'row'},name));b.appendChild(h('div',{class:'row'},color,way));
+    const out=h('div');const draw=()=>{clear(out);if(!sc.name)return;out.appendChild(h('div',{class:'scard'},h('span',{class:'kick',text:'Honorable Scythe'}),h('b',{text:sc.name}),h('p',{text:sc.color+' robe. Gleans '+sc.way.charAt(0).toLowerCase()+sc.way.slice(1)+'.'})));};
+    b.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn',text:'Ordain me',on:{click:()=>{sc.name=name.value.trim();sc.color=color.value;sc.way=way.value;if(!sc.name){toast('Pick a name first');return;}save('scythe',sc);draw();confetti(['🗡️','✨']);}}})));
+    b.appendChild(out);draw();});
+}
+function ReadingList(w){
+  const list=Store.get('reading',[]);const STAT=['Planning','Reading','Finished'];
+  const card=h('div',{class:'book',style:'border-color:var(--brass);background:var(--navy2)'});w.appendChild(card);
+  card.append(h('div',{class:'kick',style:'color:var(--teal)',text:'My trip reading list'}),h('h3',{text:'Other Books'}),h('p',{text:'Add anything else you are reading or plan to read on the trip. Tap the status to change it.'}));
+  if(!list.length)card.appendChild(h('p',{text:'Nothing here yet. Add your first book.'}));
+  list.forEach((bk,i)=>card.appendChild(h('div',{class:'rl'},h('div',{class:'t'},bk.title,h('small',{text:bk.who||''})),
+    h('button',{type:'button',class:'btn ghost sm',text:STAT[bk.s]+(bk.s===2?' ✓':''),on:{click:()=>{bk.s=(bk.s+1)%3;save('reading',list);if(bk.s===2)confetti(['📚','⭐']);render();}}}),
+    h('button',{type:'button',class:'btn ghost sm','aria-label':'Remove '+bk.title,text:'✕',on:{click:()=>showModal({title:'Remove this book?',message:bk.title,confirmText:'Remove',cancelText:'Keep',onConfirm:()=>{list.splice(i,1);save('reading',list);render();}})}}))));
+  const title=h('input',{type:'text',maxlength:'80',placeholder:'Book title','aria-label':'Book title'});
+  const who=h('input',{type:'text',maxlength:'20',placeholder:'Who is reading',value:BOOK.reader&&BOOK.reader!=='Reader'?BOOK.reader:'','aria-label':'Who is reading'});
+  const add=()=>{const t=title.value.trim();if(!t){toast('Type a title first');return;}list.push({title:t,who:who.value.trim(),s:0});save('reading',list);render();};
+  title.addEventListener('keydown',e=>{if(e.key==='Enter')add();});
+  card.appendChild(h('div',{class:'row'},title,who));card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn',text:'Add book',on:{click:add}})));
+}
+
+render();
+if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
+})();
+</script>
+</body>
+</html>
