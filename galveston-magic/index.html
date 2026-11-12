@@ -291,7 +291,7 @@ const DAYS=[
 const DEPART=Date.UTC(2026,10,19,19,0,0); // noon Arizona (UTC-7, no DST)
 
 /* ---------- data: guide ---------- */
-const PREP=[['Before we go',['Download Scythe to a phone for offline listening','Finish Disney online check-in and the port arrival form','Gather travel documents for all four of us','Prepay parking on the Port of Galveston site','Confirm the cruise terminal on the port arrival form','Check tires, oil, and wiper fluid on the Ascent','Download offline maps for West Texas (long dead zones)','Buy Texas Renaissance Festival tickets for Fri Nov 27','Decide on Zoo Lights and buy timed tickets if yes','Install this app on each kid’s phone (Share, then Add to Home Screen)']],
+const PREP=[['Before we go',['Download Scythe to a phone for offline listening','Finish Disney online check-in and the port arrival form','Gather travel documents for all four of us','Prepay parking on the Port of Galveston site','Confirm the cruise terminal on the port arrival form','Check tires, oil, and wiper fluid on the Ascent','Download offline maps for West Texas (long dead zones)','Buy Texas Renaissance Festival tickets for Fri Nov 27','Decide on Zoo Lights and buy timed tickets if yes','Install this app on each phone (Android Chrome: menu, then Install app. iPhone Safari: Share, then Add to Home Screen)']],
  ['Morning of Nov 19',['Fill the tank','Load the cooler and snack bin','Pillows and blankets within reach','Chargers plugged in','Wheels up at noon']]];
 const PACK=[['Car kit',['Pillows and blankets','Cooler with drinks and sandwiches','Snack bin','Phone chargers and a car adapter','Headphones','Trash bags and wipes','Flashlight','Paper towels']],
  ['Cruise bag',['Swimsuits (two each)','Sunscreen and hats','Lanyards for room keys','Something festive for Very Merrytime nights','Nice outfit for Palo (Chris and Kat)','Motion sickness bands or tablets','Water shoes for the cenote','Small day bag for port days','One sealed bottle of wine or sparkling per adult, 750 ml, in the carry-on','Refillable water bottles']],
@@ -600,6 +600,64 @@ function sunburst(){const NS='http://www.w3.org/2000/svg';const svg=document.cre
 
 /* ---------- Home ---------- */
 let tickT;
+/* ---------- location: foreground only, kept in memory, never sent anywhere ---------- */
+const GEO={on:Store.get('geo',false),pos:null,err:'',watch:null,host:null};
+const STOPR={chandler:10,tucson:8,elpaso:10,fortstockton:6,sanantonio:15,luling:5,galveston:10,spring:12};
+const HOT=[['Costco, The Woodlands',30.176,-95.47,'Groceries',4],['Costco, Tomball',30.082,-95.603,'Groceries',4],['Old Town Spring',30.0799,-95.4172,'Food',2],['Space Center Houston',29.5518,-95.0976,'Fun',3],['Houston Zoo',29.7148,-95.3908,'Fun',2],['Texas Renaissance Festival',30.2686,-95.8222,'Fun',3],['Galveston cruise terminal',29.3153,-94.8,'Other',3]];
+const rad=d=>d*Math.PI/180;
+function miBetween(a,b,c,d){const R=3958.8,dl=rad(c-a),dn=rad(d-b);const x=Math.sin(dl/2)**2+Math.cos(rad(a))*Math.cos(rad(c))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(x));}
+function routeLL(dir){return dir==='w'?I10.slice(0,-1).concat([PLACES.spring.at]):I10;}
+function snap(line,lon,lat){const k=Math.cos(rad(lat))*69.17;const X=p=>p[0]*k,Y=p=>p[1]*69.0;const px=lon*k,py=lat*69.0;let tot=0;const cum=[0];
+  for(let i=1;i<line.length;i++){tot+=Math.hypot(X(line[i])-X(line[i-1]),Y(line[i])-Y(line[i-1]));cum.push(tot);}
+  let best={d:1e9,s:0,at:line[0]};
+  for(let i=1;i<line.length;i++){const ax=X(line[i-1]),ay=Y(line[i-1]),dx=X(line[i])-ax,dy=Y(line[i])-ay;const L2=dx*dx+dy*dy;
+    let t=L2?((px-ax)*dx+(py-ay)*dy)/L2:0;t=Math.max(0,Math.min(1,t));const d=Math.hypot(px-(ax+t*dx),py-(ay+t*dy));
+    if(d<best.d)best={d,s:cum[i-1]+t*Math.sqrt(L2),at:[line[i-1][0]+t*(line[i][0]-line[i-1][0]),line[i-1][1]+t*(line[i][1]-line[i-1][1])]};}
+  return {f:best.s/tot,d:best.d,at:best.at};}
+function whereAmI(){const p=GEO.pos;if(!p)return null;
+  const dir=tripToday()<'2026-11-25'?'e':'w';const ids=ROUTES[dir],line=routeLL(dir),mi=MILES[dir];
+  const me=snap(line,p.lon,p.lat);const out={dir,off:me.d,at:me.at,near:[],hot:[]};
+  ids.forEach(id=>{const q=PLACES[id].at;if(miBetween(p.lat,p.lon,q[1],q[0])<=STOPR[id])out.near.push(id);});
+  HOT.forEach(x=>{if(miBetween(p.lat,p.lon,x[1],x[2])<=x[4])out.hot.push(x);});
+  out.nearest=HOT.map(x=>[x[0],miBetween(p.lat,p.lon,x[1],x[2])]).sort((a,b)=>a[1]-b[1])[0];
+  if(me.d<=25){let fs=ids.map(id=>snap(line,PLACES[id].at[0],PLACES[id].at[1]).f);const flip=fs[0]>fs[fs.length-1];const f=flip?1-me.f:me.f;if(flip)fs=fs.map(v=>1-v);
+    let i=0;while(i<ids.length-2&&f>fs[i+1])i++;const t=Math.max(0,Math.min(1,(f-fs[i])/((fs[i+1]-fs[i])||1)));
+    out.mile=Math.round(mi[ids[i]]+t*(mi[ids[i+1]]-mi[ids[i]]));out.tot=mi[ids[ids.length-1]];
+    const nx=ids.filter(id=>mi[id]>out.mile)[0];if(nx){out.next=nx;out.nextMi=mi[nx]-out.mile;}}
+  return out;}
+function geoPaint(){if(GEO.host&&document.body.contains(GEO.host))geoCard(GEO.host);}
+function geoStart(){if(!GEO.on||GEO.watch!=null)return;
+  if(!navigator.geolocation){GEO.err='This browser cannot share location.';return;}
+  try{GEO.watch=navigator.geolocation.watchPosition(p=>{GEO.pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()};GEO.err='';geoPaint();},
+    e=>{GEO.err=e.code===1?'Location is blocked. Allow it for this site in the browser settings, then tap Try again.':'Still looking for a GPS signal. A spot near a window helps.';geoPaint();},{enableHighAccuracy:true,maximumAge:15000,timeout:30000});}
+  catch(e){GEO.err='Location did not start.';}}
+function geoStop(){if(GEO.watch!=null){try{navigator.geolocation.clearWatch(GEO.watch);}catch(e){}GEO.watch=null;}}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&GEO.on){geoStop();geoStart();}});
+function goBudget(cat){S.open.budget=true;S.pendCat=cat;go('guide');setTimeout(()=>{const e=document.querySelector('.acc[data-id="budget"]');if(e)e.scrollIntoView({behavior:'smooth',block:'start'});},60);}
+function goGas(dir,id){S.view='road';S.dir=dir;S.stop=id;go('trip');}
+function eta(mi){const m=Math.round(mi/65*60);return m<60?m+' min':Math.floor(m/60)+' hr '+(m%60)+' min';}
+function geoCard(host){clear(host);GEO.host=host;
+  const card=h('div',{class:'card'});host.appendChild(card);card.appendChild(h('span',{class:'phase',text:'Location'}));
+  if(!GEO.on){card.appendChild(h('h3',{text:'📍 Show where we are'}));
+    card.appendChild(h('p',{text:'Uses this phone’s location only while the app is open. It stays on the phone and is never sent anywhere.'}));
+    card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn',text:'Turn on location',on:{click:()=>{GEO.on=true;save('geo',true);geoStart();geoCard(host);}}})));return;}
+  const off=h('button',{type:'button',class:'btn ghost sm',text:'Turn off',on:{click:()=>{GEO.on=false;save('geo',false);geoStop();GEO.pos=null;GEO.err='';geoCard(host);}}});
+  if(!GEO.pos){card.appendChild(h('h3',{text:'📍 Finding you…'}));card.appendChild(h('p',{text:GEO.err||'Waiting for the first GPS fix.'}));
+    card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'Try again',on:{click:()=>{geoStop();geoStart();geoCard(host);}}}),off));return;}
+  const w=whereAmI();
+  if(w.mile!=null){card.appendChild(h('h3',{text:'📍 Mile '+w.mile.toLocaleString('en-US')+' of '+w.tot.toLocaleString('en-US')}));
+    card.appendChild(h('p',{text:w.next?w.nextMi+' mi to '+PLACES[w.next].n+' · about '+eta(w.nextMi)+' at 65 mph':'You are at the end of the route.'}));}
+  else{card.appendChild(h('h3',{text:'📍 Off the road route'}));card.appendChild(h('p',{text:w.nearest?Math.round(w.nearest[1])+' mi from '+w.nearest[0]+'.':'Not near the planned stops.'}));}
+  w.near.forEach(id=>{const box=h('div',{style:'margin-top:10px;padding:10px 12px;border:1px solid var(--brass);border-radius:12px'},h('b',{text:'Near '+PLACES[id].n}));
+    const row=h('div',{class:'row',style:'flex-wrap:wrap'});
+    if(GASAVG_BY[id])row.appendChild(h('button',{type:'button',class:'btn sm',text:'⛽ Log gas price',on:{click:()=>goGas(w.dir,id)}}));
+    row.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'💵 Add expense',on:{click:()=>goBudget('Gas')}}));box.appendChild(row);card.appendChild(box);});
+  w.hot.forEach(x=>{const box=h('div',{style:'margin-top:10px;padding:10px 12px;border:1px solid var(--brass);border-radius:12px'},h('b',{text:'Near '+x[0]}));
+    box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'💵 Add expense ('+x[3]+')',on:{click:()=>goBudget(x[3])}})));card.appendChild(box);});
+  const age=Math.max(0,Math.round((Date.now()-GEO.pos.t)/1000));
+  card.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Accurate to about '+Math.round(GEO.pos.acc*3.281)+' ft · updated '+(age<10?'just now':age+' sec ago')+'. Miles are along I-10, so they are approximate.'}));
+  card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Open the road map',on:{click:()=>{S.view='road';S.dir=w.dir;S.stop=null;go('trip');}}}),off));}
+
 function Home(){
   const cells={};const count=h('div',{class:'count'});
   ['Days','Hours','Min'].forEach(l=>{const b=h('b',{text:'--'});cells[l]=b;count.appendChild(h('div',null,b,h('span',{text:l})));});
@@ -618,6 +676,7 @@ function Home(){
     h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
   if(ti>=0&&d.items.some(i=>i[5]==='Fuel'))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.view='road';S.dir=(d.date<'2026-11-25')?'e':'w';S.stop=null;go('trip');}}},
     h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log the gas price at each stop'}),h('p',{text:'Tap to open the road map, pick the stop, and type what the pump says.'})));
+  const gh=h('div');w.appendChild(gh);geoCard(gh);if(GEO.on)geoStart();
   const done=b1Done();
   const tiles=h('div',{class:'grid2'});
   [['book','📕','Book Club',BOOK.intro?(done+' of 8 unlocked'):'Scythe · enter your name'],['games','🎲','Learn & Play','Study cards, six games'],['guide','🧳','Pack & Prep','Budget, menus, home base'],['trip','🗺️','Days & Maps','Road map, cruise map',1]]
@@ -691,6 +750,9 @@ function RoadMap(w){
   m.g.appendChild(sv('text',{x:300,y:60,'font-size':10,style:'fill:#5f7fae','letter-spacing':3},'INTERSTATE 10'));
   const LAB={chandler:[12,-8],tucson:[12,14],elpaso:[-6,-14,'middle'],fortstockton:[0,-14,'middle'],sanantonio:[-8,20,'middle'],luling:[0,-14,'middle'],galveston:[-4,22,'end'],spring:[-6,-14,'end']};
   ids.forEach((id,i)=>pin(m.g,P(PLACES[id].at),PLACES[id].n,LAB[id],S.stop===id,i+1,()=>{S.stop=S.stop===id?null:id;render();}));
+  if(GEO.on&&GEO.pos){const me=whereAmI();if(me&&me.dir===dir&&me.off<=25){const q=P(me.at);
+    m.g.appendChild(sv('circle',{cx:q[0],cy:q[1],r:13,fill:'rgba(79,195,247,.25)'}));m.g.appendChild(sv('circle',{cx:q[0],cy:q[1],r:6,fill:'#4fc3f7',stroke:'#fff','stroke-width':2}));
+    m.g.appendChild(sv('text',{x:q[0],y:q[1]-12,'font-size':10,'text-anchor':'middle',style:'fill:#bfe9fb'},'You'));}}
   w.appendChild(h('div',{class:'mapbox'},m.svg));
   const milesCard=()=>{const mi=MILES[dir];const tot=mi[ids[ids.length-1]];const mc=h('div',{class:'card'});
     mc.appendChild(h('span',{class:'phase',text:'Miles'}));mc.appendChild(h('h3',{text:tot.toLocaleString('en-US')+' miles, '+(ids.length-1)+' legs'}));
@@ -751,7 +813,7 @@ function CruiseMap(w){
 
 /* ---------- reusable bits ---------- */
 function accordion(parent,id,title,countText,build){
-  const acc=h('div',{class:'acc'});const body=h('div',{class:'body'});
+  const acc=h('div',{class:'acc','data-id':id});const body=h('div',{class:'body'});
   const btn=h('button',{type:'button',on:{click:()=>{S.open[id]=!S.open[id];render();}}},title,h('span',{text:(countText?countText+'  ':'')+(S.open[id]?'▲':'▼')}));
   acc.appendChild(btn);if(S.open[id]){build(body);acc.appendChild(body);}parent.appendChild(acc);}
 function checklist(body,key,groups){const st=Store.get(key,{});
@@ -830,7 +892,7 @@ function Guide(){
     if(ks.length>1)b.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:6px 0 0',text:'Average paid: $'+(ks.reduce((a,k)=>a+gl[k].p,0)/ks.length).toFixed(2)}));
     linkRow(b,[['AAA live prices','https://gasprices.aaa.com/'],['GasBuddy','https://www.gasbuddy.com/']]);
     b.appendChild(h('div',{class:'sub',text:'A buzz when you stop'}));
-    b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0',text:'An app on the home screen cannot ring your phone, so use iPhone Reminders: New Reminder, tap the location icon, choose Arriving, and pick the station. Title it Log gas price. On fuel days this app also shows a Fuel day card on the home screen.'}));});
+    b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0',text:'An app on the home screen cannot ring your phone when it is closed. Android: Google Tasks and Keep dropped location reminders, so use the free Tasks.org app (add a task, choose a location, notify on arrive) or the Reminder app on a Samsung. iPhone: Reminders, tap the location icon, choose Arriving. Title it Log gas price and pick the stop. With the app open, the home screen also offers the log button when you are near a stop.'}));});
   const bud=Store.get('budget',{total:0,items:[]});const spent=bud.items.reduce((a,x)=>a+x.amt,0);const money=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
   accordion(w,'budget','💵 Trip budget',bud.total?money(Math.max(0,bud.total-spent))+' left':money(spent)+' spent',b=>{
     const tot=h('input',{type:'text',inputmode:'decimal',placeholder:'Trip budget in dollars','aria-label':'Trip budget',value:bud.total?String(bud.total):''});
@@ -839,7 +901,7 @@ function Guide(){
     if(bud.total){b.appendChild(h('div',{class:'qbar'},h('i',{style:'width:'+Math.min(100,spent/bud.total*100)+'%'+(spent>bud.total?';background:var(--coral)':'')})));
       b.appendChild(h('p',{style:'margin:2px 0 0;font-size:14px;color:'+(spent>bud.total?'var(--coral)':'var(--dim)'),text:money(spent)+' spent of '+money(bud.total)+(spent>bud.total?' · over by '+money(spent-bud.total):' · '+money(bud.total-spent)+' left')}));}
     b.appendChild(h('div',{class:'sub',text:'Add an expense'}));
-    const amt=h('input',{type:'text',inputmode:'decimal',placeholder:'Amount','aria-label':'Amount'});const cat=h('select',{'aria-label':'Category'});CATS.forEach(c=>cat.appendChild(h('option',{text:c})));
+    const amt=h('input',{type:'text',inputmode:'decimal',placeholder:'Amount','aria-label':'Amount'});const cat=h('select',{'aria-label':'Category'});CATS.forEach(c=>cat.appendChild(h('option',{text:c})));if(S.pendCat&&CATS.indexOf(S.pendCat)>=0){cat.value=S.pendCat;}S.pendCat=null;
     const note=h('input',{type:'text',maxlength:'60',placeholder:'What was it?','aria-label':'What was it'});
     const add=()=>{const v=parseFloat(amt.value.replace(/[^0-9.]/g,''));if(!isFinite(v)||v<=0){toast('Enter an amount first');return;}
       bud.items.push({id:Date.now(),amt:Math.round(v*100)/100,cat:cat.value,note:note.value.trim(),day:tripToday()});save('budget',bud);render();};
