@@ -404,6 +404,26 @@ const EXC={
   expect:['Visits to two underground cenotes, with snorkeling.','It is scheduled to end at 6:00, the same time as all aboard. Disney tours are covered if they run late.'],bring:['Swimsuit and towel','Water shoes','Bug spray and sunscreen']}};
 const SPRING=[['Eat',[['CorkScrew BBQ','Old Town Spring. Michelin-recognized Texas barbecue. It sells out, so go early and check which days it is open.'],['Wunsche Bros. Cafe','Old Town Spring. A 1902 landmark with burgers and whiskey cake. The kid pick.'],['The Republic Grille','Chicken-fried steak and Texas quail. The sit-down splurge.'],['Cyclone Anaya’s','Tex-Mex from a Houston family name since 1966.']]],
  ['Visit',[['Old Town Spring','403 Main St. A few blocks of old storefronts turned into shops, galleries, and cafes. Evening ghost walks too.'],['Mercer Botanic Gardens','22306 Aldine Westfield Rd, Humble. More than 300 acres of gardens and trails. A good morning-after-Thanksgiving walk.'],['TGR Exotics Wildlife Park','A small wildlife park that locals recommend for kids. Check tour times.'],['Atkinson Farms','Farm stand with produce and a play area.'],['The Woodlands Waterway','A walkable canal district north of Spring.'],['Texas Renaissance Festival','Friday’s plan. About an hour northwest in Todd Mission.']]]];
+
+/* ---------- data: Houston drives and gas ---------- */
+const HOUSE='HOUSE';
+const LEGS=[['Wed Nov 25 · Back on land',[
+ ['Cruise terminal to Space Center Houston','Port of Galveston cruise terminal','Space Center Houston, 1601 NASA Pkwy, Houston TX','35 mi','45 to 55 min','About halfway to Houston, straight up I-45.'],
+ ['Space Center to Costco, The Woodlands','Space Center Houston, 1601 NASA Pkwy, Houston TX','Costco, 8185 Highway 242, Conroe TX 77385','55 mi','1 hr 10 min to 1 hr 30 min','The day before Thanksgiving is a heavy traffic day. Add 30 minutes.'],
+ ['Costco to the house',null,HOUSE,'17 mi','25 to 35 min','Costco The Woodlands is the one with the gas station.'],
+ ['Easy out: terminal to Costco, Tomball','Port of Galveston cruise terminal','Costco, 27000 Tomball Pkwy, Tomball TX 77375','75 mi','1 hr 30 min to 2 hr','Skips the Space Center. Tomball is the closer Costco to the house.']]],
+ ['Thu Nov 26 · Thanksgiving',[
+ ['House to Houston Zoo Lights (optional)',HOUSE,'Houston Zoo, 6200 Hermann Park Dr, Houston TX 77030','35 mi','45 to 60 min','Open 5:30 to 10:30 PM. Timed tickets are sold online only.']]],
+ ['Fri Nov 27 · Renaissance Festival',[
+ ['House to Texas Renaissance Festival',HOUSE,'Texas Renaissance Festival, 21778 FM 1774, Todd Mission TX 77363','45 mi','1 hr to 1 hr 20 min','Festival traffic can back up for miles. Leave early and ask Maps to route you in from the north.'],
+ ['Festival to the house','Texas Renaissance Festival, 21778 FM 1774, Todd Mission TX 77363',HOUSE,'45 mi','1 hr to 1 hr 30 min','Expect a slow crawl out of the lot. A snack in the car helps.']]],
+ ['Sat Nov 28 · Heading home',[
+ ['House to Old Town Spring',HOUSE,'Old Town Spring, 403 Main St, Spring TX 77373','6 mi','12 to 20 min','Park near Main Street and walk.'],
+ ['Old Town Spring to Costco, Tomball (fuel)','Old Town Spring, 403 Main St, Spring TX 77373','Costco Gasoline, 27000 Tomball Pkwy, Tomball TX 77375','18 mi','25 to 35 min','Fill up before the long push west.']]]];
+const GASAVG=[['U.S. average','$4.10','AAA, Nov 5'],['Texas statewide','$3.58','AAA, Nov 5'],['New Mexico','$4.05','AAA, Nov 3'],['Phoenix area','$4.28','AAA Arizona, Nov 6'],
+ ['Houston','about $3.50','Estimate. Houston usually sits at or just under the Texas average.'],['El Paso','about $3.90','Estimate. It is usually the priciest big Texas metro.'],
+ ['Costco gas','20 to 30¢ less','Tomball Costco was $3.30 on Jul 22 when AAA Texas was about $3.55.']];
+const GASAVG_BY={chandler:['about $4.28','Phoenix area, AAA Nov 6'],tucson:['about $4.20','estimate'],elpaso:['about $3.90','estimate'],fortstockton:['about $3.70','estimate'],sanantonio:['about $3.50','estimate'],luling:['about $3.45','estimate, Buc-ee’s usually runs low'],spring:['about $3.50, Costco 20 to 30¢ less','estimate']};
 const CATS=['Gas','Food','Groceries','Ship','Excursions','Fun','Lodging','Other'];
 const BINGO=[['🌵','Saguaro'],['🚂','Freight train'],['🌬️','Wind turbines'],['🤠','Texas flag'],['🌪️','Dust devil'],['🛢️','Oil pumpjack'],['🦫','Buc-ee’s billboard'],['🐄','Cows'],
  ['🪧','Welcome to New Mexico'],['⭐','Welcome to Texas'],['8️⃣','80 mph sign'],['🌅','Sunset'],['🐎','Horse trailer'],['🚛','Truck with 18 wheels, counted'],['🌙','Moon'],['🌄','Sunrise']];
@@ -590,6 +610,8 @@ function Home(){
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
   w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.day=d.date;go('trip');}}},
     h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
+  if(ti>=0&&d.items.some(i=>i[5]==='Fuel'))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.view='road';S.dir=(d.date<'2026-11-25')?'e':'w';S.stop=null;go('trip');}}},
+    h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log the gas price at each stop'}),h('p',{text:'Tap to open the road map, pick the stop, and type what the pump says.'})));
   const done=b1Done();
   const tiles=h('div',{class:'grid2'});
   [['book','📕','Book Club',BOOK.intro?(done+' of 8 unlocked'):'Scythe · enter your name'],['games','🎲','Learn & Play','Study cards, six games'],['guide','🧳','Pack & Prep','Budget, menus, home base'],['trip','🗺️','Days & Maps','Road map, cruise map',1]]
@@ -674,6 +696,16 @@ function RoadMap(w){
     linkRow(card,[['Directions',mapsUrl(cur.q)],['Gas prices now',mapsUrl('gas stations near '+cur.near)],['Restaurants',mapsUrl('restaurants near '+cur.near)]]);
     card.appendChild(h('p',{style:'font-size:12px',text:'Gas prices change daily, so they are not stored in the app. The Gas prices button shows today’s numbers.'}));}
   if(cur.plain&&cur.q)linkRow(card,[['Open in Maps',mapsUrl(cur.q)]]);
+  const GA=GASAVG_BY[S.stop];
+  if(GA){const gk=dir+'-'+S.stop;const gl0=Store.get('gas',{});card.appendChild(h('div',{class:'sub',text:'⛽ Gas price log'}));
+    card.appendChild(h('p',{style:'margin:0 0 6px;font-size:14px;color:var(--dim)',text:'Typical regular here: '+GA[0]+' ('+GA[1]+'). Type the real price when you pull in.'}));
+    const inp=h('input',{type:'text',inputmode:'decimal',placeholder:'Price per gallon, like 3.49','aria-label':'Price per gallon',value:gl0[gk]?String(gl0[gk].p):''});
+    const stt=h('p',{style:'font-size:13px;color:var(--brass-lt);margin:4px 0 0',text:gl0[gk]?'Logged $'+gl0[gk].p.toFixed(2)+' on '+gl0[gk].d:''});
+    const logIt=()=>{const v=parseFloat(inp.value.replace(/[^0-9.]/g,''));if(!isFinite(v)||v<1||v>10){toast('Enter a price like 3.49');return;}
+      const g2=Store.get('gas',{});const hm=new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,hour:'numeric',minute:'2-digit'}).format(tripNow());
+      g2[gk]={p:v,d:tripToday().slice(5).replace('-','/')+' '+hm};save('gas',g2);stt.textContent='Logged $'+v.toFixed(2)+' on '+g2[gk].d;toast('Logged $'+v.toFixed(2));};
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')logIt();});
+    card.appendChild(h('div',{class:'row'},inp,h('button',{type:'button',class:'btn sm',text:'Log it',on:{click:logIt}})));card.appendChild(stt);}
   card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'Zoom back out',on:{click:()=>{S.stop=null;render();}}})));
 }
 function CruiseMap(w){
@@ -736,12 +768,37 @@ function Guide(){
     b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Rotation menus are from Disney’s May 2026 refresh. Special nights can swap in a themed menu, so check the Navigator app on board.'}));});
   accordion(w,'home','🏡 Spring home base','',b=>{const hn=Store.get('house',{});
     b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0 0 4px',text:'House details you type here stay on this phone only. They are never part of the public site.'}));
+    const st=h('p',{style:'font-size:13px;color:var(--brass-lt);margin:8px 0 4px'});
+    const upd=()=>{st.textContent='Searches below look around: '+(Store.get('house',{}).addr?'the address you saved':'Spring, TX 77388. Save the address above for exact results.');};upd();
     [['addr','Address'],['checkin','Check-in and check-out'],['door','Door code'],['wifi','Wi-Fi name and password'],['notes','House notes (parking, trash, host contact)']].forEach(f=>{
       const inp=h('input',{type:'text',maxlength:'200',placeholder:f[1],'aria-label':f[1],value:hn[f[0]]||''});
-      inp.addEventListener('change',()=>{hn[f[0]]=inp.value.trim();save('house',hn);toast('Saved on this phone');});b.appendChild(h('div',{class:'row'},inp));});
+      inp.addEventListener('change',()=>{hn[f[0]]=inp.value.trim();save('house',hn);upd();toast('Saved on this phone');});b.appendChild(h('div',{class:'row'},inp));});
     if(hn.addr)linkRow(b,[['Directions to the house',mapsUrl(hn.addr)]]);
+    b.appendChild(h('div',{class:'sub',text:'Search around the house'}));b.appendChild(st);
+    const around=(label,q)=>h('button',{type:'button',class:'btn ghost sm',text:label,on:{click:()=>window.open(mapsUrl(q+' near '+((Store.get('house',{}).addr||'').trim()||'Spring, TX 77388')),'_blank','noopener')}});
+    const aw=h('div',{class:'row',style:'flex-wrap:wrap'});
+    [['🍴 Dinner','restaurants'],['🥞 Breakfast','breakfast'],['☕ Coffee','coffee shops'],['🎈 Kid fun','things to do with kids'],['🌳 Parks','parks and trails'],['🛒 Groceries','grocery store'],['⛽ Gas','gas station'],['💊 Pharmacy','pharmacy']].forEach(x=>aw.appendChild(around(x[0],x[1])));b.appendChild(aw);
+    linkRow(b,[['📍 Near me right now',mapsUrl('restaurants near me')]]);
     SPRING.forEach(sec=>{b.appendChild(h('div',{class:'sub',text:sec[0]+' nearby'}));sec[1].forEach(e=>b.appendChild(h('div',{class:'lc'},h('b',{text:e[0]}),h('p',{text:e[1]}))));});
-    linkRow(b,[['Restaurants near Spring',mapsUrl('restaurants near Spring TX 77388')],['Things to do',mapsUrl('things to do near Spring TX 77388')]]);});
+  });
+  accordion(w,'drives','🧭 Houston drives',' ',b=>{
+    b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0 0 4px',text:'Typical drive times on an ordinary day. Tap Directions for live traffic. Times shift a lot on holiday weekends.'}));
+    const addr=()=>((Store.get('house',{}).addr||'').trim()||'Spring, TX 77388');
+    const dirs=(a,z)=>'https://www.google.com/maps/dir/?api=1&travelmode=driving'+(a?'&origin='+encodeURIComponent(a===HOUSE?addr():a):'')+'&destination='+encodeURIComponent(z===HOUSE?addr():z);
+    LEGS.forEach(day=>{b.appendChild(h('div',{class:'sub',text:day[0]}));
+      day[1].forEach(l=>b.appendChild(h('div',{class:'lc'},h('b',{text:l[0]}),h('p',{style:'color:var(--brass-lt)',text:l[4]+' · about '+l[3]}),h('p',{text:l[5]}),
+        h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Directions',on:{click:()=>window.open(dirs(l[1],l[2]),'_blank','noopener')}})))));});
+    b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'The house stands in for the address you saved in Spring home base. Without one, directions use Spring, TX 77388.'}));});
+  accordion(w,'gas','⛽ Gas prices and log',' ',b=>{
+    b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0 0 4px',text:'Average regular prices as of Nov 5 and 6. They move, so we will refresh them the day before we leave and check the real price at each pump.'}));
+    GASAVG.forEach(r=>b.appendChild(h('div',{class:'rl',style:'border-color:rgba(201,162,75,.15)'},h('div',{class:'t',style:'color:var(--cream)'},r[0]+' · '+r[1],h('small',{style:'color:var(--dim)',text:r[2]})))));
+    b.appendChild(h('div',{class:'sub',text:'What we actually paid'}));const gl=Store.get('gas',{});const ks=Object.keys(gl);
+    if(!ks.length)b.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:0',text:'Nothing logged yet. Open the road map, tap a stop, and log the price.'}));
+    ks.forEach(k=>{const pr=k.split('-');b.appendChild(h('div',{style:'display:flex;justify-content:space-between;font-size:15px;padding:4px 0'},h('span',{text:(PLACES[pr[1]]?PLACES[pr[1]].n:pr[1])+' ('+(pr[0]==='e'?'east':'home')+') · '+gl[k].d}),h('span',{style:'color:var(--brass-lt)',text:'$'+gl[k].p.toFixed(2)})));});
+    if(ks.length>1)b.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:6px 0 0',text:'Average paid: $'+(ks.reduce((a,k)=>a+gl[k].p,0)/ks.length).toFixed(2)}));
+    linkRow(b,[['AAA live prices','https://gasprices.aaa.com/'],['GasBuddy','https://www.gasbuddy.com/']]);
+    b.appendChild(h('div',{class:'sub',text:'A buzz when you stop'}));
+    b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0',text:'An app on the home screen cannot ring your phone, so use iPhone Reminders: New Reminder, tap the location icon, choose Arriving, and pick the station. Title it Log gas price. On fuel days this app also shows a Fuel day card on the home screen.'}));});
   const bud=Store.get('budget',{total:0,items:[]});const spent=bud.items.reduce((a,x)=>a+x.amt,0);const money=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
   accordion(w,'budget','💵 Trip budget',bud.total?money(Math.max(0,bud.total-spent))+' left':money(spent)+' spent',b=>{
     const tot=h('input',{type:'text',inputmode:'decimal',placeholder:'Trip budget in dollars','aria-label':'Trip budget',value:bud.total?String(bud.total):''});
