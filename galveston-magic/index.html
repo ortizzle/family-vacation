@@ -202,8 +202,8 @@ function confetti(set){const em=set||['✨','⭐','🎉','⚓','💛'];for(let i
 function save(k,v){if(!Store.set(k,v))toast('Could not save on this device');}
 
 /* ---------- data: families ---------- */
-const FAMS={c:{name:'Chris & Kat',who:'Chris, Kat, Sedona, River',color:'var(--c)'},a:{name:"Amy's",who:'Amy, Justin, Ava, Emma',color:'var(--a)'},
-  m:{name:"Melissa's",who:'Melissa, Jonathan, Rhett, Byron',color:'var(--m)'},s:{name:"Shay's",who:'Shay, Tyler, Parker, Teagan',color:'var(--s)'}};
+const FAMS={c:{name:'Chris & Kat',color:'var(--c)'},a:{name:"Amy's",color:'var(--a)'},
+  m:{name:"Melissa's",color:'var(--m)'},s:{name:"Shay's",color:'var(--s)'}};
 const ALL='cams';
 const DIN=['5:45 PM','Ship','Dinner, Main Dining','Everyone together. Seating can be changed on board.',ALL,'Dinner','a'];
 const SHOW=['8:15 PM','Ship','Evening show','Walt Disney Theatre, everyone.',ALL,'Show','a'];
@@ -683,9 +683,9 @@ function Home(){
     .forEach(t=>tiles.appendChild(h('button',{type:'button',class:'tile',on:{click:()=>{if(t[4])S.view='road';go(t[0]);}}},h('i',{text:t[1]}),h('b',{text:t[2]}),h('span',{text:t[3]}))));
   w.appendChild(tiles);
   const bar=h('div');w.appendChild(bar);if(window.FamilyDrive)FamilyDrive.bar(bar);
-  w.appendChild(h('h2',{class:'sec',text:'The Crew'}));
-  Object.keys(FAMS).forEach(k=>w.appendChild(h('div',{class:'card',style:'display:flex;gap:12px;align-items:center'},
-    h('span',{class:'dot',style:'background:'+FAMS[k].color+';width:14px;height:14px'}),h('div',null,h('b',{text:FAMS[k].name,style:'font-weight:600'}),h('p',{text:FAMS[k].who})))));
+  const leg=h('div',{class:'chips',style:'justify-content:center;flex-wrap:wrap;overflow:visible;margin-top:18px'});
+  Object.keys(FAMS).forEach(k=>leg.appendChild(h('span',{class:'chip',style:'cursor:default'},h('span',{class:'dot',style:'background:'+FAMS[k].color}),document.createTextNode(FAMS[k].name))));
+  w.appendChild(leg);
   w.appendChild(h('p',{class:'foot',text:'Cruise plans pulled from the Disney reservation page on Nov 11, 2026. Times can change. Works offline once opened.'}));
 }
 
