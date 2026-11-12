@@ -210,7 +210,7 @@ const SHOW=['8:15 PM','Ship','Evening show','Walt Disney Theatre, everyone.',ALL
 const DAYS=[
 {date:'2026-11-19',dow:'Thu',md:'19',phase:'The Drive',title:'The Long Haul East',blurb:'Chandler to the Gulf in one push: about 1,200 miles and 21 hours with stops. Times are estimates.',items:[
  ['12:00 PM','AZ','Wheels up from Chandler','Full tank, cooler loaded, Scythe queued up. I-10 east the whole way.','c','Depart','a'],
- ['1:45 PM','AZ','Tucson Costco top-off','Optional splash of gas at mile 115. Skip it if the tank is happy.','c','Fuel','o'],
+ ['1:45 PM','AZ','Tucson Costco fuel','Mile 115. Fuel here or nearby: Tucson to El Paso is 315 miles, close to a full tank.','c','Fuel'],
  ['7:00 PM','El Paso','El Paso Costco: gas, then dinner','Mile 430. Fill up first because Costco pumps close in the evening. Last warehouse fuel until Houston.','c','Fuel'],
  ['12:15 AM','Texas','Fort Stockton fuel','Mile 665. Clocks jump an hour ahead in West Texas. Good spot for a driver swap.','c','Fuel']],
  notes:['Check the El Paso Costco gas closing time before you leave. If you are running late, any big-brand station off I-10 works.']},
@@ -283,13 +283,13 @@ const DAYS=[
  notes:['Times are estimates. Leaving at noon Texas time puts you home around 8 AM Sunday, Arizona time.']},
 {date:'2026-11-29',dow:'Sun',md:'29',phase:'The Drive Home',title:'Home Again',blurb:'The last stretch through New Mexico and southern Arizona.',items:[
  ['12:30 AM','El Paso','El Paso fuel','About mile 760. Costco will be closed, so use a 24-hour station.','c','Fuel'],
- ['5:00 AM','AZ','Tucson top-off','Only if needed.','c','Fuel','o'],
+ ['5:00 AM','AZ','Tucson fuel','El Paso to Tucson is 315 miles and home is 115 more, so fuel here or earlier.','c','Fuel'],
  ['8:00 AM','AZ','Home in Chandler','Unpack the cooler, then everyone naps.','c','Arrive','a']],notes:[]}
 ];
 const DEPART=Date.UTC(2026,10,19,19,0,0); // noon Arizona (UTC-7, no DST)
 
 /* ---------- data: guide ---------- */
-const PREP=[['Before we go',['Download Scythe to a phone for offline listening','Finish Disney online check-in and the port arrival form','Gather travel documents for all four of us','Prepay parking on the Port of Galveston site','Confirm the cruise terminal on the port arrival form','Check tires, oil, and wiper fluid on the Ascent','Download offline maps for West Texas (long dead zones)','Buy Texas Renaissance Festival tickets for Fri Nov 27','Decide on Zoo Lights and buy timed tickets if yes','Install this app on each kid’s phone (Share, then Add to Home Screen)']],
+const PREP=[['Before we go',['Download Scythe to a phone for offline listening','Finish Disney online check-in and the port arrival form','Gather travel documents for all four of us','Prepay parking on the Port of Galveston site','Confirm the cruise terminal on the port arrival form','Check tires, oil, and wiper fluid on the Ascent','Download offline maps for West Texas (long dead zones)','Buy Texas Renaissance Festival tickets for Fri Nov 27','Decide on Zoo Lights and buy timed tickets if yes','Each adult packs one unopened wine or sparkling bottle (750 ml max) in the carry-on, not the checked bag','Install this app on each kid’s phone (Share, then Add to Home Screen)']],
  ['Morning of Nov 19',['Fill the tank','Load the cooler and snack bin','Pillows and blankets within reach','Chargers plugged in','Wheels up at noon']]];
 const PACK=[['Car kit',['Pillows and blankets','Cooler with drinks and sandwiches','Snack bin','Phone chargers and a car adapter','Headphones','Trash bags and wipes','Flashlight','Paper towels']],
  ['Cruise bag',['Swimsuits (two each)','Sunscreen and hats','Lanyards for room keys','Something festive for Very Merrytime nights','Nice outfit for Palo (Chris and Kat)','Motion sickness bands or tablets','Water shoes for the cenote','Small day bag for port days','Refillable water bottles']],
@@ -420,6 +420,8 @@ const LEGS=[['Wed Nov 25 · Back on land',[
  ['Sat Nov 28 · Heading home',[
  ['House to Old Town Spring',HOUSE,'Old Town Spring, 403 Main St, Spring TX 77373','6 mi','12 to 20 min','Park near Main Street and walk.'],
  ['Old Town Spring to Costco, Tomball (fuel)','Old Town Spring, 403 Main St, Spring TX 77373','Costco Gasoline, 27000 Tomball Pkwy, Tomball TX 77375','18 mi','25 to 35 min','Fill up before the long push west.']]]];
+const MILES={e:{chandler:0,tucson:115,elpaso:430,fortstockton:665,sanantonio:980,luling:1035,galveston:1200},w:{spring:0,sanantonio:210,fortstockton:520,elpaso:760,tucson:1075,chandler:1190}};
+const RANGE=350;
 const GASAVG=[['U.S. average','$4.10','AAA, Nov 5'],['Texas statewide','$3.58','AAA, Nov 5'],['New Mexico','$4.05','AAA, Nov 3'],['Phoenix area','$4.28','AAA Arizona, Nov 6'],
  ['Houston','about $3.50','Estimate. Houston usually sits at or just under the Texas average.'],['El Paso','about $3.90','Estimate. It is usually the priciest big Texas metro.'],
  ['Costco gas','20 to 30¢ less','Tomball Costco was $3.30 on Jul 22 when AAA Texas was about $3.55.']];
@@ -434,7 +436,7 @@ const mapsUrl=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURICom
 const I10=[[-111.84,33.30],[-111.6,32.9],[-110.95,32.19],[-110.3,32.0],[-109.05,32.25],[-108.7,32.35],[-107.76,32.27],[-106.77,32.31],[-106.42,31.78],[-105.4,31.1],[-104.83,31.04],[-103.8,31.0],[-102.88,30.89],[-101.2,30.71],[-100.64,30.57],[-99.77,30.49],[-99.14,30.05],[-98.49,29.42],[-97.96,29.57],[-97.65,29.68],[-96.54,29.70],[-95.37,29.76],[-94.80,29.30]];
 const PLACES={
  chandler:{n:'Chandler',at:[-111.84,33.30],plain:{e:'Wheels up at noon on Thursday, Nov 19. Leave with a full tank.',w:'Home, about 8 AM Sunday, Nov 29.'}},
- tucson:{n:'Tucson',at:[-110.95,32.19],exit:'Exit 263B · Kino Pkwy',when:{e:'Thu about 1:45 PM · mile 115 · optional',w:'Sun about 5:00 AM · optional'},
+ tucson:{n:'Tucson',at:[-110.95,32.19],exit:'Exit 263B · Kino Pkwy',when:{e:'Thu about 1:45 PM · mile 115 · fuel here or nearby',w:'Sun about 5:00 AM · mile 1,075 · fuel here or earlier'},
   ramp:{e:'Take 263B and turn left onto Kino Parkway. Costco is about a third of a mile up on the left. Come back down Kino for the I-10 east ramp.',w:'Costco pumps open at 6 AM, so this early use the Circle K or Chevron by the same exit.'},
   gas:['Costco Gasoline, 1650 E Tucson Marketplace Blvd (weekdays 6 AM to 10 PM)','Circle K, 3450 S Kino Pkwy','Chevron, 1999 E Ajo Way'],food:['In-N-Out Burger','Chipotle','Culver’s','Dutch Bros Coffee','Costco food court'],q:'Costco Gasoline 1650 E Tucson Marketplace Blvd Tucson AZ',near:'I-10 and Kino Pkwy Tucson AZ'},
  elpaso:{n:'El Paso',at:[-106.42,31.78],exit:'Around exits 24 to 26 · Gateway Blvd',when:{e:'Thu about 7:00 PM · mile 430 · gas, then dinner',w:'Sun about 12:30 AM · mile 760'},
@@ -457,6 +459,8 @@ const PORTS={
  galveston:{n:'Galveston',at:[-94.80,29.30],lab:[10,-10],days:['2026-11-20','2026-11-25'],fact:'Galveston sits on a barrier island. The ship sails Friday at 4 PM and returns Wednesday at 7:30 AM.'},
  cozumel:{n:'Cozumel',at:[-86.95,20.45],lab:[-12,26,'end'],days:['2026-11-22'],fact:'An island off the Yucatan coast, ringed by reefs. Ashore 11:15 AM, all aboard 6:00 PM.'},
  progreso:{n:'Progreso',at:[-89.66,21.28],lab:[0,-14,'middle'],days:['2026-11-23'],fact:'The ship docks at the end of a pier about five miles long. Chichen Itza is inland from here. Ashore 10:30 AM, all aboard 6:00 PM.'}};
+const SEAS={sea1:{n:'Sea day · Sat',at:[-90.5,24.0],lab:[12,4],days:['2026-11-21'],sea:1,fact:'A full day in the Gulf of Mexico. No port today, so the ship is the destination.'},
+ sea2:{n:'Sea day · Tue',at:[-92.6,26.2],lab:[-12,-10,'end'],days:['2026-11-24'],sea:1,fact:'The last full day at sea on the way back to Galveston. Pack tonight so Wednesday morning is easy.'}};
 const SAIL=[[-94.80,29.30],[-93.6,27.0],[-90.5,24.0],[-87.6,22.6],[-86.2,21.6],[-86.4,20.7],[-86.95,20.45],[-86.4,20.9],[-86.3,21.7],[-87.8,22.2],[-89.66,21.28],[-90.6,23.0],[-92.6,26.2],[-94.80,29.30]];
 const DINE=[
  ['Animator’s Palate','Deck 4, aft · rotation','The room starts in black and white and fills with color as dinner goes on.',[
@@ -685,10 +689,24 @@ function RoadMap(w){
   const LAB={chandler:[12,-8],tucson:[12,14],elpaso:[-6,-14,'middle'],fortstockton:[0,-14,'middle'],sanantonio:[-8,20,'middle'],luling:[0,-14,'middle'],galveston:[-4,22,'end'],spring:[-6,-14,'end']};
   ids.forEach((id,i)=>pin(m.g,P(PLACES[id].at),PLACES[id].n,LAB[id],S.stop===id,i+1,()=>{S.stop=S.stop===id?null:id;render();}));
   w.appendChild(h('div',{class:'mapbox'},m.svg));
+  const milesCard=()=>{const mi=MILES[dir];const tot=mi[ids[ids.length-1]];const mc=h('div',{class:'card'});
+    mc.appendChild(h('span',{class:'phase',text:'Miles'}));mc.appendChild(h('h3',{text:tot.toLocaleString('en-US')+' miles, '+(ids.length-1)+' legs'}));
+    let longest=0;ids.slice(1).forEach((id,i)=>{const leg=mi[id]-mi[ids[i]];if(leg>longest)longest=leg;
+      const hot=leg>=300;
+      mc.appendChild(h('div',{style:'padding:6px 0;border-bottom:1px solid rgba(201,162,75,.15)'},
+        h('div',{style:'display:flex;justify-content:space-between;font-size:15px'},h('span',{text:PLACES[ids[i]].n+' to '+PLACES[id].n}),h('b',{style:'font-weight:600;color:'+(hot?'var(--coral)':'var(--brass-lt)'),text:leg+' mi'})),
+        h('div',{class:'qbar',style:'margin:4px 0 2px'},h('i',{style:'width:'+Math.min(100,leg/RANGE*100)+'%'+(hot?';background:var(--coral)':'')})),
+        h('div',{style:'font-size:12px;color:var(--dim)',text:'Mile '+mi[id].toLocaleString('en-US')+' of '+tot.toLocaleString('en-US')+(hot?' · close to a full tank, so fill up before this leg':'')})));});
+    mc.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:8px 0 0',text:'Bars show each leg against a tank of about '+RANGE+' miles (18 gallons at about 20 mpg). Longest leg: '+longest+' miles. Miles are approximate along I-10.'}));
+    w.appendChild(mc);};
   if(!cur){w.appendChild(h('p',{class:'lead',text:'Tap a stop to zoom in. You will see the exit, how to get off and back on, gas, and food nearby.'}));
-    w.appendChild(h('p',{class:'foot',text:'This is a hand-drawn route sketch so it works with no signal. Buttons inside each stop open live maps when you are online.'}));return;}
+    w.appendChild(h('p',{class:'foot',text:'This is a hand-drawn route sketch so it works with no signal. Buttons inside each stop open live maps when you are online.'}));milesCard();return;}
   const card=h('div',{class:'card'});w.appendChild(card);
   card.appendChild(h('span',{class:'phase',text:'Stop '+(ids.indexOf(S.stop)+1)+' of '+ids.length+(cur.exit?' · '+cur.exit:'')}));card.appendChild(h('h3',{text:cur.n}));
+  {const mi=MILES[dir],ix=ids.indexOf(S.stop);const bits=['Mile '+mi[S.stop]+' from '+PLACES[ids[0]].n];
+    if(ix>0)bits.push((mi[S.stop]-mi[ids[ix-1]])+' mi since '+PLACES[ids[ix-1]].n);
+    if(ix<ids.length-1)bits.push((mi[ids[ix+1]]-mi[S.stop])+' mi to '+PLACES[ids[ix+1]].n);
+    card.appendChild(h('p',{style:'color:var(--brass-lt);font-size:14px;margin:0 0 6px',text:bits.join(' · ')}));}
   if(cur.plain){card.appendChild(h('p',{text:cur.plain[dir]}));}
   else{card.appendChild(h('p',{text:cur.when[dir]}));card.appendChild(h('div',{class:'sub',text:'Off and back on'}));card.appendChild(h('p',{text:cur.ramp[dir]}));
     bullets(card,'Gas',cur.gas);bullets(card,'Food nearby',cur.food);
@@ -707,22 +725,23 @@ function RoadMap(w){
     inp.addEventListener('keydown',e=>{if(e.key==='Enter')logIt();});
     card.appendChild(h('div',{class:'row'},inp,h('button',{type:'button',class:'btn sm',text:'Log it',on:{click:logIt}})));card.appendChild(stt);}
   card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'Zoom back out',on:{click:()=>{S.stop=null;render();}}})));
+  milesCard();
 }
 function CruiseMap(w){
-  const P=ll=>[(ll[0]+99)*38,(31-ll[1])*33];const cur=S.port?PORTS[S.port]:null;
+  const P=ll=>[(ll[0]+99)*38,(31-ll[1])*33];const cur=S.port?(PORTS[S.port]||SEAS[S.port]):null;
   const m=mapShell(520,460,cur?P(cur.at):null,2);
   const land=COAST.map(P);const poly=[[520,-10],[-10,-10],[-10,470]].concat([[P(COAST[COAST.length-1])[0],470]]).concat(land.slice().reverse());
   m.g.appendChild(sv('polygon',{points:poly.concat([[P(COAST[0])[0],-10]]).map(p=>p.join(',')).join(' '),fill:'#17355e',stroke:'#33507a'}));
   m.g.appendChild(sv('ellipse',{cx:P([-86.93,20.42])[0],cy:P([-86.93,20.42])[1],rx:5,ry:9,fill:'#17355e',stroke:'#5fd0c5'}));
   m.g.appendChild(sv('polyline',{points:SAIL.map(P).map(p=>p.join(',')).join(' '),fill:'none',stroke:'#5fd0c5','stroke-width':2,'stroke-dasharray':'6 6','stroke-linejoin':'round'}));
   [['TEXAS',[-98.6,30.3]],['MEXICO',[-98.8,22.6]],['YUCATAN',[-90.4,19.2]],['GULF OF MEXICO',[-93.6,24.6]]].forEach(t=>{const p=P(t[1]);m.g.appendChild(sv('text',{x:p[0],y:p[1],'font-size':11,'letter-spacing':3,style:'fill:#5f7fae'},t[0]));});
-  [['Sea day · Sat',[-90.5,24.0],'2026-11-21',[12,4]],['Sea day · Tue',[-92.6,26.2],'2026-11-24',[-12,-10,'end']]].forEach(t=>pin(m.g,P(t[1]),t[0],t[3],false,null,()=>{S.day=t[2];S.view='days';S.port=null;render();window.scrollTo(0,0);}));
-  Object.keys(PORTS).forEach(id=>pin(m.g,P(PORTS[id].at),PORTS[id].n,PORTS[id].lab,S.port===id,null,()=>{S.port=S.port===id?null:id;render();}));
+  const ALLPTS=Object.assign({},SEAS,PORTS);
+  Object.keys(ALLPTS).forEach(id=>pin(m.g,P(ALLPTS[id].at),ALLPTS[id].n,ALLPTS[id].lab,S.port===id,null,()=>{S.port=S.port===id?null:id;render();}));
   w.appendChild(h('div',{class:'mapbox'},m.svg));
-  if(!cur){w.appendChild(h('p',{class:'lead',text:'Galveston to Cozumel, back to Progreso, and home. Tap a port to zoom in and see who is doing what, or tap a sea day to jump to that day.'}));return;}
+  if(!cur){w.appendChild(h('p',{class:'lead',text:'Galveston to Cozumel, back to Progreso, and home. Tap a port or a sea day to zoom in and see the plan for that day.'}));return;}
   const card=h('div',{class:'card'});w.appendChild(card);card.appendChild(h('h3',{text:cur.n}));card.appendChild(h('p',{text:cur.fact}));
   cur.days.forEach(date=>{const d=DAYS.find(x=>x.date===date);card.appendChild(h('div',{class:'sub',text:d.dow+' Nov '+d.md}));const ul=h('ul',{class:'lst'});
-    d.items.filter(it=>['Excursion','Chill','Port','Ship'].indexOf(it[5])>=0).forEach(it=>ul.appendChild(h('li',{text:it[0]+' · '+it[2]+(it[4]===ALL?'':' ('+it[4].split('').map(k=>FAMS[k].name).join(', ')+')')})));card.appendChild(ul);
+    d.items.filter(it=>cur.sea||['Excursion','Chill','Port','Ship'].indexOf(it[5])>=0).forEach(it=>ul.appendChild(h('li',{text:it[0]+' · '+it[2]+(it[4]===ALL?'':' ('+it[4].split('').map(k=>FAMS[k].name).join(', ')+')')})));card.appendChild(ul);
     card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'See the full day',on:{click:()=>{S.day=date;S.view='days';render();window.scrollTo(0,0);}}})));});
   card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'Zoom back out',on:{click:()=>{S.port=null;render();}}})));
 }
@@ -781,6 +800,13 @@ function Guide(){
     linkRow(b,[['📍 Near me right now',mapsUrl('restaurants near me')]]);
     SPRING.forEach(sec=>{b.appendChild(h('div',{class:'sub',text:sec[0]+' nearby'}));sec[1].forEach(e=>b.appendChild(h('div',{class:'lc'},h('b',{text:e[0]}),h('p',{text:e[1]}))));});
   });
+  accordion(w,'wine','🍷 Bringing wine aboard',' ',b=>{
+    [['One bottle per adult','Each guest 21 or older may bring one unopened bottle of wine or sparkling wine, 750 ml at most. Six beers (12 oz or smaller) is the alternative, not an add-on. That is one bottle for each of the eight adults in our four families.'],
+     ['Carry-on only','Pack it in a carry-on bag. Alcohol found in checked luggage is removed and not returned.'],
+     ['Where to drink it','In your stateroom or on the verandah, free. In a main dining room the corkage fee is $20 a bottle. Not in lounges or other public areas.'],
+     ['Port and shop purchases','Wine or beer bought in port or onboard is held by the ship until the end of the cruise, so the old extra bottle per port is gone.'],
+     ['Packing','Original sealed bottle only. Opened or partly used bottles are not allowed. Wrap it in clothes so it survives the trip.']].forEach(r=>b.appendChild(h('div',{class:'lc'},h('b',{text:r[0]}),h('p',{text:r[1]}))));
+    b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:8px 0 0',text:'Rule change took effect on sailings from June 3, 2026 (it used to be two bottles and a $29 corkage fee). Confirm in your Disney reservation before packing.'}));});
   accordion(w,'drives','🧭 Houston drives',' ',b=>{
     b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0 0 4px',text:'Typical drive times on an ordinary day. Tap Directions for live traffic. Times shift a lot on holiday weekends.'}));
     const addr=()=>((Store.get('house',{}).addr||'').trim()||'Spring, TX 77388');

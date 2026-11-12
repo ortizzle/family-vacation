@@ -1,5 +1,5 @@
 /* Galveston & the Magic service worker: cache-first so the app works at sea and in West Texas. */
-const CACHE = 'gm26-v5';
+const CACHE = 'gm26-v6';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', (e) => {
