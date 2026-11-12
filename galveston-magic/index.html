@@ -161,6 +161,34 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .lc b{font-weight:600;color:var(--brass-lt);display:block;margin-bottom:2px}
 .lc p{margin:0;font-size:15px;line-height:1.5;color:var(--dim)}
 .foot{font-size:12px;color:var(--dim);text-align:center;margin:22px 0 8px;line-height:1.5}
+
+/* ---------- Day Deck (light mode) ---------- */
+.daybtn{position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid var(--brass-dk);background:rgba(11,26,48,.45);font-size:19px;padding:0;line-height:1}
+body.day{--navy:#f4edda;--navy2:#fffdf2;--navy3:#efe5c8;--cream:#1c2d4d;--dim:#53617d;
+  --brass:#a07c2c;--brass-lt:#8a6a22;--brass-dk:#c2a768;--coral:#b4452c;--teal:#176e67;
+  --c:#a07c2c;--a:#17808a;--m:#c25537;--s:#5a7f24;background:var(--navy);color:var(--cream)}
+body.day .daybtn{background:rgba(255,253,242,.6)}
+body.day h1{background:linear-gradient(180deg,#8a6a22,#6e5316 60%,#4f3a0c);-webkit-background-clip:text;background-clip:text}
+body.day header svg{opacity:.5}
+body.day .count div{background:rgba(255,253,242,.75)}
+body.day .count b{color:#6e5316}
+body.day .card,body.day .tile,body.day .acc{box-shadow:0 1px 3px rgba(60,45,10,.12)}
+body.day nav{background:rgba(244,237,218,.96)}
+body.day .row input,body.day .row select{background:#fffdf2;color:var(--cream)}
+body.day .book .row input{color:#fff}
+body.day .warn{color:#8a2f16;background:rgba(180,69,44,.08)}
+body.day .rl .t{color:var(--cream)}
+body.day .rl .t small{color:var(--dim)}
+body.day .book .rl .t{color:#fff}
+body.day .book .rl .t small{color:#e2ccce}
+body.day .qcard{background:#fffdf2}
+body.day .qcard .qq{color:var(--cream)}
+body.day .qbar{background:#e4d9b8}
+body.day .opt.right,body.day .opt.wrong{color:#f1e3e4}
+body.day .mapbox text{fill:#f3e9d2}
+body.day .item{border-bottom-color:rgba(160,124,44,.3)}
+body.day .lc,body.day .check{border-bottom-color:rgba(160,124,44,.22)}
+body.day .modal-overlay{background:rgba(30,22,5,.45)}
 </style>
 </head>
 <body>
@@ -178,6 +206,10 @@ const AZ={tz:'America/Phoenix',
 const Store={ns:'gm26_',
   get(k,f=null){try{const r=localStorage.getItem(this.ns+k);return r===null?f:JSON.parse(r);}catch(e){return f;}},
   set(k,v){try{localStorage.setItem(this.ns+k,JSON.stringify(v));return true;}catch(e){return false;}}};
+function applyDayMode(on){document.body.classList.toggle('day',!!on);
+  document.documentElement.style.background=on?'#f4edda':'';
+  const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',on?'#f4edda':'#0b1a30');}
+applyDayMode(Store.get('daymode',false));
 const SIM=(function(){try{const m=/[?&]simdate=(\d{4}-\d{2}-\d{2})/.exec(location.search);return m?m[1]:null;}catch(e){return null;}})();
 function tripNow(){return SIM?new Date(SIM+'T19:00:00Z'):new Date();}
 function tripToday(){return SIM||AZ.dateKey(new Date());}
@@ -662,7 +694,9 @@ function Home(){
   const cells={};const count=h('div',{class:'count'});
   ['Days','Hours','Min'].forEach(l=>{const b=h('b',{text:'--'});cells[l]=b;count.appendChild(h('div',null,b,h('span',{text:l})));});
   const label=h('div',{class:'count-label',text:'until wheels up'});
-  const header=h('header',null,sunburst(),h('div',{class:'kicker',text:'The Ortiz Family Presents'}),h('h1',{text:'Galveston & the Magic'}),
+  const dayBtn=h('button',{type:'button',class:'daybtn','aria-label':'Switch between night and day look',text:Store.get('daymode',false)?'🌙':'☀️',
+    on:{click:()=>{const on=!Store.get('daymode',false);Store.set('daymode',on);applyDayMode(on);dayBtn.textContent=on?'🌙':'☀️';}}});
+  const header=h('header',null,sunburst(),dayBtn,h('div',{class:'kicker',text:'The Ortiz Family Presents'}),h('h1',{text:'Galveston & the Magic'}),
     h('div',{class:'rule',text:'NOV 19 – 29, 2026'}),count,label);
   view.appendChild(header);
   function tick(){const ms=DEPART-tripNow().getTime();const ti=todayIndex();
@@ -683,9 +717,6 @@ function Home(){
     .forEach(t=>tiles.appendChild(h('button',{type:'button',class:'tile',on:{click:()=>{if(t[4])S.view='road';go(t[0]);}}},h('i',{text:t[1]}),h('b',{text:t[2]}),h('span',{text:t[3]}))));
   w.appendChild(tiles);
   const bar=h('div');w.appendChild(bar);if(window.FamilyDrive)FamilyDrive.bar(bar);
-  const leg=h('div',{class:'chips',style:'justify-content:center;flex-wrap:wrap;overflow:visible;margin-top:18px'});
-  Object.keys(FAMS).forEach(k=>leg.appendChild(h('span',{class:'chip',style:'cursor:default'},h('span',{class:'dot',style:'background:'+FAMS[k].color}),document.createTextNode(FAMS[k].name))));
-  w.appendChild(leg);
   w.appendChild(h('p',{class:'foot',text:'Cruise plans pulled from the Disney reservation page on Nov 11, 2026. Times can change. Works offline once opened.'}));
 }
 
