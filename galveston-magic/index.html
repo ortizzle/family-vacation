@@ -165,6 +165,8 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 </head>
 <body>
 <div id="app"></div>
+<script src="ortiz-drive.js"></script>
+<script src="../fv-drive.js"></script>
 <script>
 (function(){
 'use strict';
@@ -289,10 +291,10 @@ const DAYS=[
 const DEPART=Date.UTC(2026,10,19,19,0,0); // noon Arizona (UTC-7, no DST)
 
 /* ---------- data: guide ---------- */
-const PREP=[['Before we go',['Download Scythe to a phone for offline listening','Finish Disney online check-in and the port arrival form','Gather travel documents for all four of us','Prepay parking on the Port of Galveston site','Confirm the cruise terminal on the port arrival form','Check tires, oil, and wiper fluid on the Ascent','Download offline maps for West Texas (long dead zones)','Buy Texas Renaissance Festival tickets for Fri Nov 27','Decide on Zoo Lights and buy timed tickets if yes','Each adult packs one unopened wine or sparkling bottle (750 ml max) in the carry-on, not the checked bag','Install this app on each kid’s phone (Share, then Add to Home Screen)']],
+const PREP=[['Before we go',['Download Scythe to a phone for offline listening','Finish Disney online check-in and the port arrival form','Gather travel documents for all four of us','Prepay parking on the Port of Galveston site','Confirm the cruise terminal on the port arrival form','Check tires, oil, and wiper fluid on the Ascent','Download offline maps for West Texas (long dead zones)','Buy Texas Renaissance Festival tickets for Fri Nov 27','Decide on Zoo Lights and buy timed tickets if yes','Install this app on each kid’s phone (Share, then Add to Home Screen)']],
  ['Morning of Nov 19',['Fill the tank','Load the cooler and snack bin','Pillows and blankets within reach','Chargers plugged in','Wheels up at noon']]];
 const PACK=[['Car kit',['Pillows and blankets','Cooler with drinks and sandwiches','Snack bin','Phone chargers and a car adapter','Headphones','Trash bags and wipes','Flashlight','Paper towels']],
- ['Cruise bag',['Swimsuits (two each)','Sunscreen and hats','Lanyards for room keys','Something festive for Very Merrytime nights','Nice outfit for Palo (Chris and Kat)','Motion sickness bands or tablets','Water shoes for the cenote','Small day bag for port days','Refillable water bottles']],
+ ['Cruise bag',['Swimsuits (two each)','Sunscreen and hats','Lanyards for room keys','Something festive for Very Merrytime nights','Nice outfit for Palo (Chris and Kat)','Motion sickness bands or tablets','Water shoes for the cenote','Small day bag for port days','One sealed bottle of wine or sparkling per adult, 750 ml, in the carry-on','Refillable water bottles']],
  ['Documents',['Travel documents for each person','Cruise reservation and port arrival form','Parking confirmation','Excursion tickets','Car insurance and registration']],
  ['Houston days',['Warm layer for evenings','Comfortable walking shoes','Reusable grocery bags','A favorite Thanksgiving recipe']]];
 const TIPS=['Pack your swimsuit in your carry-on. Your suitcase may not reach the room until dinner.','Bring one hoodie for the car. Dad likes the air cold at night to stay awake.','Charge everything before noon on Thursday.','Download shows and music at home. West Texas has almost no signal.','Pick your reading spot on the ship on day one.','Leave room in your bag for one souvenir.'];
@@ -621,6 +623,7 @@ function Home(){
   [['book','📕','Book Club',BOOK.intro?(done+' of 8 unlocked'):'Scythe · enter your name'],['games','🎲','Learn & Play','Study cards, six games'],['guide','🧳','Pack & Prep','Budget, menus, home base'],['trip','🗺️','Days & Maps','Road map, cruise map',1]]
     .forEach(t=>tiles.appendChild(h('button',{type:'button',class:'tile',on:{click:()=>{if(t[4])S.view='road';go(t[0]);}}},h('i',{text:t[1]}),h('b',{text:t[2]}),h('span',{text:t[3]}))));
   w.appendChild(tiles);
+  const bar=h('div');w.appendChild(bar);if(window.FamilyDrive)FamilyDrive.bar(bar);
   w.appendChild(h('h2',{class:'sec',text:'The Crew'}));
   Object.keys(FAMS).forEach(k=>w.appendChild(h('div',{class:'card',style:'display:flex;gap:12px;align-items:center'},
     h('span',{class:'dot',style:'background:'+FAMS[k].color+';width:14px;height:14px'}),h('div',null,h('b',{text:FAMS[k].name,style:'font-weight:600'}),h('p',{text:FAMS[k].who})))));
@@ -800,6 +803,9 @@ function Guide(){
     linkRow(b,[['📍 Near me right now',mapsUrl('restaurants near me')]]);
     SPRING.forEach(sec=>{b.appendChild(h('div',{class:'sub',text:sec[0]+' nearby'}));sec[1].forEach(e=>b.appendChild(h('div',{class:'lc'},h('b',{text:e[0]}),h('p',{text:e[1]}))));});
   });
+  accordion(w,'backup','☁ Backup to Google Drive',' ',b=>{const host=h('div');b.appendChild(host);
+    if(window.FamilyDrive)FamilyDrive.card(host,{title:false,text:'Saves this phone’s gas log, budget, quiz progress, book unlocks and notes into one dated file in your Drive. Door code and Wi-Fi details are left out on purpose. Needs a connection once to connect.'});
+    else host.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:0',text:'Backup loads when you are online. Open the app with a signal and try again.'}));});
   accordion(w,'wine','🍷 Bringing wine aboard',' ',b=>{
     [['One bottle per adult','Each guest 21 or older may bring one unopened bottle of wine or sparkling wine, 750 ml at most. Six beers (12 oz or smaller) is the alternative, not an add-on. That is one bottle for each of the eight adults in our four families.'],
      ['Carry-on only','Pack it in a carry-on bag. Alcohol found in checked luggage is removed and not returned.'],
@@ -1004,6 +1010,7 @@ function ReadingList(w){
   card.appendChild(h('div',{class:'row'},title,who));card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn',text:'Add book',on:{click:add}})));
 }
 
+if(window.FamilyDrive)FamilyDrive.start({toast});
 render();
 if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
 })();

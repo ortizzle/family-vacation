@@ -19,9 +19,10 @@
     { id: 'san-diego-2026', label: 'San Diego', re: /^sd26_/ },
     { id: 'canyon-light-2026', label: 'Canyon Light', re: /^pg26-/ },
     { id: 'asia-2027', label: 'Asia', re: /^aa27_/ },
-    { id: 'kc-chiefs-2026', label: 'KC Chiefs', re: /^kc26-/ }
+    { id: 'kc-chiefs-2026', label: 'KC Chiefs', re: /^kc26-/ },
+    { id: 'galveston-2026', label: 'Galveston', re: /^gm26_/ }
   ];
-  var SKIP = /^aa27_ui_|^kc26-ui-|^ak26-weather$|key|token|secret|password|passcode/i;
+  var SKIP = /^aa27_ui_|^kc26-ui-|^ak26-weather$|^gm26_house$|key|token|secret|password|passcode/i;
 
   function collect() {
     var out = { app: 'family-vacation', trips: {} };
