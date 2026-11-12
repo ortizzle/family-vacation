@@ -163,11 +163,9 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .foot{font-size:12px;color:var(--dim);text-align:center;margin:22px 0 8px;line-height:1.5}
 
 /* ---------- Day Deck (light mode) ---------- */
-.daybtn{position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid var(--brass-dk);background:rgba(11,26,48,.45);font-size:19px;padding:0;line-height:1}
 body.day{--navy:#f4edda;--navy2:#fffdf2;--navy3:#efe5c8;--cream:#1c2d4d;--dim:#53617d;
   --brass:#a07c2c;--brass-lt:#8a6a22;--brass-dk:#c2a768;--coral:#b4452c;--teal:#176e67;
   --c:#a07c2c;--a:#17808a;--m:#c25537;--s:#5a7f24;background:var(--navy);color:var(--cream)}
-body.day .daybtn{background:rgba(255,253,242,.6)}
 body.day h1{background:linear-gradient(180deg,#8a6a22,#6e5316 60%,#4f3a0c);-webkit-background-clip:text;background-clip:text}
 body.day header svg{opacity:.5}
 body.day .count div{background:rgba(255,253,242,.75)}
@@ -694,9 +692,7 @@ function Home(){
   const cells={};const count=h('div',{class:'count'});
   ['Days','Hours','Min'].forEach(l=>{const b=h('b',{text:'--'});cells[l]=b;count.appendChild(h('div',null,b,h('span',{text:l})));});
   const label=h('div',{class:'count-label',text:'until wheels up'});
-  const dayBtn=h('button',{type:'button',class:'daybtn','aria-label':'Switch between night and day look',text:Store.get('daymode',false)?'🌙':'☀️',
-    on:{click:()=>{const on=!Store.get('daymode',false);Store.set('daymode',on);applyDayMode(on);dayBtn.textContent=on?'🌙':'☀️';}}});
-  const header=h('header',null,sunburst(),dayBtn,h('div',{class:'kicker',text:'The Ortiz Family Presents'}),h('h1',{text:'Galveston & the Magic'}),
+  const header=h('header',null,sunburst(),h('div',{class:'kicker',text:'The Ortiz Family Presents'}),h('h1',{text:'Galveston & the Magic'}),
     h('div',{class:'rule',text:'NOV 19 – 29, 2026'}),count,label);
   view.appendChild(header);
   function tick(){const ms=DEPART-tripNow().getTime();const ti=todayIndex();
@@ -946,6 +942,12 @@ function Guide(){
     b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Saved on this phone only. Each phone keeps its own list, so pick one phone to be the ledger.'}));});
   accordion(w,'eats','🍽️ Eats on land','',b=>EATS.forEach(e=>b.appendChild(h('div',{style:'padding:8px 0;border-bottom:1px solid rgba(201,162,75,.15)'},h('b',{text:e[0],style:'font-weight:600'}),h('div',{class:'sub',style:'margin:2px 0',text:e[1]}),h('p',{text:e[2],style:'margin:0;font-size:14px;line-height:1.45;color:var(--dim)'})))));
   accordion(w,'logi','🚙 Road and port notes','',b=>{const ul=h('ul',{style:'padding-left:20px;margin:0'});LOGI.forEach(t=>ul.appendChild(h('li',{text:t,style:'font-size:15px;line-height:1.5;margin:6px 0;color:var(--dim)'})));b.appendChild(ul);});
+  accordion(w,'settings','⚙️ Settings',' ',b=>{
+    b.appendChild(h('div',{class:'sub',text:'Look'}));
+    const seg=h('div',{class:'seg'});b.appendChild(seg);const day=Store.get('daymode',false);
+    [['night','🌙 Night',false],['day','☀️ Day',true]].forEach(o=>seg.appendChild(h('button',{type:'button',class:day===o[2]?'on':'',text:o[1],
+      on:{click:()=>{Store.set('daymode',o[2]);applyDayMode(o[2]);render();}}})));
+    b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:10px 0 0',text:'Night is the default. Day uses a cream page that is easier to read in bright sun. Each phone keeps its own choice.'}));});
 }
 
 /* ---------- Games: Learn & Play ---------- */
