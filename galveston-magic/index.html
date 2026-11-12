@@ -663,8 +663,8 @@ function geoStart(){if(!GEO.on||GEO.watch!=null)return;
   catch(e){GEO.err='Location did not start.';}}
 function geoStop(){if(GEO.watch!=null){try{navigator.geolocation.clearWatch(GEO.watch);}catch(e){}GEO.watch=null;}}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&GEO.on){geoStop();geoStart();}});
-function goBudget(cat){S.open.budget=true;S.pendCat=cat;go('guide');setTimeout(()=>{const e=document.querySelector('.acc[data-id="budget"]');if(e)e.scrollIntoView({behavior:'smooth',block:'start'});},60);}
-function goGas(dir,id){S.view='road';S.dir=dir;S.stop=id;go('trip');}
+function goBudget(cat,note){S.open.budget=true;S.pendCat=cat;S.pendNote=note||'';go('guide');setTimeout(()=>{const e=document.querySelector('.acc[data-id="budget"]');if(e)e.scrollIntoView({behavior:'smooth',block:'start'});},60);}
+function gasNote(id){return PLACES[id]?'Gas, '+PLACES[id].n:'Gas';}
 function eta(mi){const m=Math.round(mi/65*60);return m<60?m+' min':Math.floor(m/60)+' hr '+(m%60)+' min';}
 function geoCard(host){clear(host);GEO.host=host;
   const card=h('div',{class:'card'});host.appendChild(card);card.appendChild(h('span',{class:'phase',text:'Location'}));
@@ -680,10 +680,10 @@ function geoCard(host){clear(host);GEO.host=host;
   else{card.appendChild(h('h3',{text:'📍 Off the road route'}));card.appendChild(h('p',{text:w.nearest?Math.round(w.nearest[1])+' mi from '+w.nearest[0]+'.':'Not near the planned stops.'}));}
   w.near.forEach(id=>{const box=h('div',{style:'margin-top:10px;padding:10px 12px;border:1px solid var(--brass);border-radius:12px'},h('b',{text:'Near '+PLACES[id].n}));
     const row=h('div',{class:'row',style:'flex-wrap:wrap'});
-    if(GASAVG_BY[id])row.appendChild(h('button',{type:'button',class:'btn sm',text:'⛽ Log gas price',on:{click:()=>goGas(w.dir,id)}}));
-    row.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'💵 Add expense',on:{click:()=>goBudget('Gas')}}));box.appendChild(row);card.appendChild(box);});
+    if(GASAVG_BY[id])row.appendChild(h('button',{type:'button',class:'btn sm',text:'⛽ Log gas spend',on:{click:()=>goBudget('Gas',gasNote(id))}}));
+    row.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'💵 Add expense',on:{click:()=>goBudget(GASAVG_BY[id]?'Food':'Other',PLACES[id].n)}}));box.appendChild(row);card.appendChild(box);});
   w.hot.forEach(x=>{const box=h('div',{style:'margin-top:10px;padding:10px 12px;border:1px solid var(--brass);border-radius:12px'},h('b',{text:'Near '+x[0]}));
-    box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'💵 Add expense ('+x[3]+')',on:{click:()=>goBudget(x[3])}})));card.appendChild(box);});
+    box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'💵 Add expense ('+x[3]+')',on:{click:()=>goBudget(x[3],x[0])}})));card.appendChild(box);});
   const age=Math.max(0,Math.round((Date.now()-GEO.pos.t)/1000));
   card.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Accurate to about '+Math.round(GEO.pos.acc*3.281)+' ft · updated '+(age<10?'just now':age+' sec ago')+'. Miles are along I-10, so they are approximate.'}));
   card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Open the road map',on:{click:()=>{S.view='road';S.dir=w.dir;S.stop=null;go('trip');}}}),off));}
@@ -704,8 +704,8 @@ function Home(){
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
   w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.day=d.date;go('trip');}}},
     h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
-  if(ti>=0&&d.items.some(i=>i[5]==='Fuel'))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.view='road';S.dir=(d.date<'2026-11-25')?'e':'w';S.stop=null;go('trip');}}},
-    h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log the gas price at each stop'}),h('p',{text:'Tap to open the road map, pick the stop, and type what the pump says.'})));
+  if(ti>=0&&d.items.some(i=>i[5]==='Fuel'))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{let n='Gas';if(GEO.on&&GEO.pos){const w0=whereAmI();if(w0.near.length)n=gasNote(w0.near[0]);}goBudget('Gas',n);}}},
+    h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log gas at each stop'}),h('p',{text:'Tap to open the budget with Gas picked. With location on, the stop is filled in for you. Add what the pump charged.'})));
   const gh=h('div');w.appendChild(gh);geoCard(gh);if(GEO.on)geoStart();
   const done=b1Done();
   const tiles=h('div',{class:'grid2'});
@@ -807,15 +807,9 @@ function RoadMap(w){
     card.appendChild(h('p',{style:'font-size:12px',text:'Gas prices change daily, so they are not stored in the app. The Gas prices button shows today’s numbers.'}));}
   if(cur.plain&&cur.q)linkRow(card,[['Open in Maps',mapsUrl(cur.q)]]);
   const GA=GASAVG_BY[S.stop];
-  if(GA){const gk=dir+'-'+S.stop;const gl0=Store.get('gas',{});card.appendChild(h('div',{class:'sub',text:'⛽ Gas price log'}));
-    card.appendChild(h('p',{style:'margin:0 0 6px;font-size:14px;color:var(--dim)',text:'Typical regular here: '+GA[0]+' ('+GA[1]+'). Type the real price when you pull in.'}));
-    const inp=h('input',{type:'text',inputmode:'decimal',placeholder:'Price per gallon, like 3.49','aria-label':'Price per gallon',value:gl0[gk]?String(gl0[gk].p):''});
-    const stt=h('p',{style:'font-size:13px;color:var(--brass-lt);margin:4px 0 0',text:gl0[gk]?'Logged $'+gl0[gk].p.toFixed(2)+' on '+gl0[gk].d:''});
-    const logIt=()=>{const v=parseFloat(inp.value.replace(/[^0-9.]/g,''));if(!isFinite(v)||v<1||v>10){toast('Enter a price like 3.49');return;}
-      const g2=Store.get('gas',{});const hm=new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,hour:'numeric',minute:'2-digit'}).format(tripNow());
-      g2[gk]={p:v,d:tripToday().slice(5).replace('-','/')+' '+hm};save('gas',g2);stt.textContent='Logged $'+v.toFixed(2)+' on '+g2[gk].d;toast('Logged $'+v.toFixed(2));};
-    inp.addEventListener('keydown',e=>{if(e.key==='Enter')logIt();});
-    card.appendChild(h('div',{class:'row'},inp,h('button',{type:'button',class:'btn sm',text:'Log it',on:{click:logIt}})));card.appendChild(stt);}
+  if(GA){card.appendChild(h('div',{class:'sub',text:'⛽ Gas stop'}));
+    card.appendChild(h('p',{style:'margin:0 0 6px;font-size:14px;color:var(--dim)',text:'Typical regular here: '+GA[0]+' ('+GA[1]+'). The price changes daily, so log what you actually spent.'}));
+    card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'💵 Log gas spend here',on:{click:()=>goBudget('Gas',gasNote(S.stop))}})));}
   card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'Zoom back out',on:{click:()=>{S.stop=null;render();}}})));
   milesCard();
 }
@@ -913,13 +907,13 @@ function Guide(){
   accordion(w,'gas','⛽ Gas prices and log',' ',b=>{
     b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0 0 4px',text:'Average regular prices as of Nov 5 and 6. They move, so we will refresh them the day before we leave and check the real price at each pump.'}));
     GASAVG.forEach(r=>b.appendChild(h('div',{class:'rl',style:'border-color:rgba(201,162,75,.15)'},h('div',{class:'t',style:'color:var(--cream)'},r[0]+' · '+r[1],h('small',{style:'color:var(--dim)',text:r[2]})))));
-    b.appendChild(h('div',{class:'sub',text:'What we actually paid'}));const gl=Store.get('gas',{});const ks=Object.keys(gl);
-    if(!ks.length)b.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:0',text:'Nothing logged yet. Open the road map, tap a stop, and log the price.'}));
-    ks.forEach(k=>{const pr=k.split('-');b.appendChild(h('div',{style:'display:flex;justify-content:space-between;font-size:15px;padding:4px 0'},h('span',{text:(PLACES[pr[1]]?PLACES[pr[1]].n:pr[1])+' ('+(pr[0]==='e'?'east':'home')+') · '+gl[k].d}),h('span',{style:'color:var(--brass-lt)',text:'$'+gl[k].p.toFixed(2)})));});
-    if(ks.length>1)b.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:6px 0 0',text:'Average paid: $'+(ks.reduce((a,k)=>a+gl[k].p,0)/ks.length).toFixed(2)}));
+    b.appendChild(h('div',{class:'sub',text:'Gas in the budget'}));const gb=Store.get('budget',{total:0,items:[]}).items.filter(x=>x.cat==='Gas');
+    if(!gb.length)b.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:0',text:'Nothing logged yet. Tap the Fuel day card on Home, or a stop on the road map, to add a gas expense.'}));
+    gb.forEach(x=>b.appendChild(h('div',{style:'display:flex;justify-content:space-between;font-size:15px;padding:4px 0'},h('span',{text:(x.note||'Gas')+' · '+x.day.slice(5).replace('-','/')}),h('span',{style:'color:var(--brass-lt)',text:'$'+x.amt.toFixed(2)}))));
+    if(gb.length>1)b.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:6px 0 0',text:'Total on gas: $'+gb.reduce((a,x)=>a+x.amt,0).toFixed(2)}));
     linkRow(b,[['AAA live prices','https://gasprices.aaa.com/'],['GasBuddy','https://www.gasbuddy.com/']]);
     b.appendChild(h('div',{class:'sub',text:'A buzz when you stop'}));
-    b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0',text:'An app on the home screen cannot ring your phone when it is closed. Android: Google Tasks and Keep dropped location reminders, so use the free Tasks.org app (add a task, choose a location, notify on arrive) or the Reminder app on a Samsung. iPhone: Reminders, tap the location icon, choose Arriving. Title it Log gas price and pick the stop. With the app open, the home screen also offers the log button when you are near a stop.'}));});
+    b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0',text:'An app on the home screen cannot ring your phone when it is closed. Android: Google Tasks and Keep dropped location reminders, so use the free Tasks.org app (add a task, choose a location, notify on arrive) or the Reminder app on a Samsung. iPhone: Reminders, tap the location icon, choose Arriving. Title it Log gas spend and pick the stop. With the app open, the home screen also offers a gas button when you are near a stop.'}));});
   const bud=Store.get('budget',{total:0,items:[]});const spent=bud.items.reduce((a,x)=>a+x.amt,0);const money=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
   accordion(w,'budget','💵 Trip budget',bud.total?money(Math.max(0,bud.total-spent))+' left':money(spent)+' spent',b=>{
     const tot=h('input',{type:'text',inputmode:'decimal',placeholder:'Trip budget in dollars','aria-label':'Trip budget',value:bud.total?String(bud.total):''});
@@ -929,7 +923,7 @@ function Guide(){
       b.appendChild(h('p',{style:'margin:2px 0 0;font-size:14px;color:'+(spent>bud.total?'var(--coral)':'var(--dim)'),text:money(spent)+' spent of '+money(bud.total)+(spent>bud.total?' · over by '+money(spent-bud.total):' · '+money(bud.total-spent)+' left')}));}
     b.appendChild(h('div',{class:'sub',text:'Add an expense'}));
     const amt=h('input',{type:'text',inputmode:'decimal',placeholder:'Amount','aria-label':'Amount'});const cat=h('select',{'aria-label':'Category'});CATS.forEach(c=>cat.appendChild(h('option',{text:c})));if(S.pendCat&&CATS.indexOf(S.pendCat)>=0){cat.value=S.pendCat;}S.pendCat=null;
-    const note=h('input',{type:'text',maxlength:'60',placeholder:'What was it?','aria-label':'What was it'});
+    const note=h('input',{type:'text',maxlength:'60',placeholder:'What was it?','aria-label':'What was it'});if(S.pendNote){note.value=S.pendNote.slice(0,60);}S.pendNote=null;
     const add=()=>{const v=parseFloat(amt.value.replace(/[^0-9.]/g,''));if(!isFinite(v)||v<=0){toast('Enter an amount first');return;}
       bud.items.push({id:Date.now(),amt:Math.round(v*100)/100,cat:cat.value,note:note.value.trim(),day:tripToday()});save('budget',bud);render();};
     note.addEventListener('keydown',e=>{if(e.key==='Enter')add();});
