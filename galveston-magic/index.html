@@ -249,7 +249,7 @@ const DAYS=[
 {date:'2026-11-20',dow:'Fri',md:'20',phase:'The Drive → The Ship',title:'Gulf by Morning, Sea by Night',blurb:'Sunrise in Hill Country, breakfast on the island, and the ship by afternoon.',items:[
  ['5:00 AM','Texas','San Antonio 24-hour fuel','Mile 980. Costco is closed at this hour, so use any open station on I-10.','c','Fuel'],
  ['6:00 AM','Texas',"Buc-ee's, Luling",'Open around the clock. Clean restrooms, breakfast tacos, and a leg stretch before Houston traffic.','c','Rest'],
- ['10:00 AM','Texas','Arrive Galveston','Breakfast near the Strand, then prepaid port parking.','c','Arrive'],
+ ['10:00 AM','Texas','Arrive at SMP Garage','150 Rosenberg St. Breakfast near the Strand, then park here for the cruise and walk to the terminal.','c','Arrive'],
  ['12:00 PM','Texas','Port arrival time','Check in at the cruise terminal. Travel documents and port arrival form in hand.','c','Ship','a'],
  ['3:00 PM','Ship','All aboard','Every family must be on the ship.',ALL,'Ship','a'],
  ['4:00 PM','Ship','Disney Magic sails','Sail-away party on deck as Galveston slips behind.',ALL,'Ship','a'],
@@ -293,7 +293,7 @@ const DAYS=[
  SHOW],
  notes:['Palo Dinner at 6:30 overlaps the 5:45 main dining time for Chris and Kat. Confirm the plan for Sedona and River that night.']},
 {date:'2026-11-25',dow:'Wed',md:'25',phase:'Houston',title:'Back on Land',blurb:'Off the ship early, then north to the Spring home base by way of rockets and groceries.',items:[
- ['7:30 AM','Texas','Debarkation begins','Time subject to change. Grab the car from port parking.',ALL,'Port','a'],
+ ['7:30 AM','Texas','Debarkation begins','Time subject to change. Grab the car from SMP Garage, 150 Rosenberg St.',ALL,'Port','a'],
  ['10:00 AM','Texas','Space Center Houston','NASA’s visitor center, between Galveston and Houston. Plan three to four hours.','c','Option','o'],
  ['2:30 PM','Texas','Costco run','The Woodlands or Tomball warehouse, both close to Spring. Buy everything for Thursday now.','c','Groceries'],
  ['4:00 PM','Texas','Settle in at the Spring house','Unpack, laundry, early night.','c','Home base']],
@@ -321,7 +321,7 @@ const DAYS=[
 const DEPART=Date.UTC(2026,10,19,19,0,0); // noon Arizona (UTC-7, no DST)
 
 /* ---------- data: guide ---------- */
-const PREP=[['Before we go',['Download Scythe to a phone for offline listening','Finish Disney online check-in and the port arrival form','Gather travel documents for all four of us','Prepay parking on the Port of Galveston site','Confirm the cruise terminal on the port arrival form','Check tires, oil, and wiper fluid on the Ascent','Download offline maps for West Texas (long dead zones)','Buy Texas Renaissance Festival tickets for Fri Nov 27','Decide on Zoo Lights and buy timed tickets if yes','Install this app on each phone (Android Chrome: menu, then Install app. iPhone Safari: Share, then Add to Home Screen)']],
+const PREP=[['Before we go',['Download Scythe to a phone for offline listening','Finish Disney online check-in and the port arrival form','Gather travel documents for all four of us','Prepay SMP Garage parking on the Port of Galveston site','Confirm the cruise terminal on the port arrival form','Check tires, oil, and wiper fluid on the Ascent','Download offline maps for West Texas (long dead zones)','Buy Texas Renaissance Festival tickets for Fri Nov 27','Decide on Zoo Lights and buy timed tickets if yes','Install this app on each phone (Android Chrome: menu, then Install app. iPhone Safari: Share, then Add to Home Screen)']],
  ['Morning of Nov 19',['Fill the tank','Load the cooler and snack bin','Pillows and blankets within reach','Chargers plugged in','Wheels up at noon']]];
 const PACK=[['Car kit',['Pillows and blankets','Cooler with drinks and sandwiches','Snack bin','Phone chargers and a car adapter','Headphones','Trash bags and wipes','Flashlight','Paper towels']],
  ['Cruise bag',['Swimsuits (two each)','Sunscreen and hats','Lanyards for room keys','Something festive for Very Merrytime nights','Nice outfit for Palo (Chris and Kat)','Motion sickness bands or tablets','Water shoes for the cenote','Small day bag for port days','One sealed bottle of wine or sparkling per adult, 750 ml, in the carry-on','Refillable water bottles']],
@@ -440,10 +440,10 @@ const SPRING=[['Eat',[['CorkScrew BBQ','Old Town Spring. Michelin-recognized Tex
 /* ---------- data: Houston drives and gas ---------- */
 const HOUSE='HOUSE';
 const LEGS=[['Wed Nov 25 · Back on land',[
- ['Cruise terminal to Space Center Houston','Port of Galveston cruise terminal','Space Center Houston, 1601 NASA Pkwy, Houston TX','35 mi','45 to 55 min','About halfway to Houston, straight up I-45.'],
+ ['SMP Garage to Space Center Houston','SMP Garage, 150 Rosenberg St, Galveston TX 77550','Space Center Houston, 1601 NASA Pkwy, Houston TX','35 mi','45 to 55 min','About halfway to Houston, straight up I-45.'],
  ['Space Center to Costco, The Woodlands','Space Center Houston, 1601 NASA Pkwy, Houston TX','Costco, 8185 Highway 242, Conroe TX 77385','55 mi','1 hr 10 min to 1 hr 30 min','The day before Thanksgiving is a heavy traffic day. Add 30 minutes.'],
  ['Costco to the house',null,HOUSE,'17 mi','25 to 35 min','Costco The Woodlands is the one with the gas station.'],
- ['Easy out: terminal to Costco, Tomball','Port of Galveston cruise terminal','Costco, 27000 Tomball Pkwy, Tomball TX 77375','75 mi','1 hr 30 min to 2 hr','Skips the Space Center. Tomball is the closer Costco to the house.']]],
+ ['Easy out: SMP Garage to Costco, Tomball','SMP Garage, 150 Rosenberg St, Galveston TX 77550','Costco, 27000 Tomball Pkwy, Tomball TX 77375','75 mi','1 hr 30 min to 2 hr','Skips the Space Center. Tomball is the closer Costco to the house.']]],
  ['Thu Nov 26 · Thanksgiving',[
  ['House to Houston Zoo Lights (optional)',HOUSE,'Houston Zoo, 6200 Hermann Park Dr, Houston TX 77030','35 mi','45 to 60 min','Open 5:30 to 10:30 PM. Timed tickets are sold online only.']]],
  ['Fri Nov 27 · Renaissance Festival',[
@@ -483,7 +483,7 @@ const PLACES={
  luling:{n:'Buc-ee’s Luling',at:[-97.65,29.68],exit:'Exit 632 · US 183',when:{e:'Fri about 6:00 AM · mile 1,035 · breakfast and rest'},
   ramp:{e:'Take exit 632. Buc-ee’s is on the right, about a fifth of a mile. You cannot miss the sign. Rejoin I-10 east from the same exit.'},
   gas:['Buc-ee’s, 10070 I-10 (120 pumps, open 24 hours)'],food:['Chopped brisket sandwiches','Breakfast tacos','Beaver Nuggets','Fudge counter'],q:'Buc-ee\'s 10070 I-10 Luling TX',near:'Buc-ee\'s Luling TX'},
- galveston:{n:'Galveston',at:[-94.80,29.30],plain:{e:'Port of Galveston, about 10 AM Friday. Breakfast near the Strand, then prepaid parking and the ship.',w:''},q:'Port of Galveston cruise terminal'},
+ galveston:{n:'SMP Garage',at:[-94.80,29.30],plain:{e:'SMP Garage, 150 Rosenberg St (25th St), about 10 AM Friday. This is the port’s own garage, a walk from the cruise terminals with no shuttle. Breakfast near the Strand first, then park and board. The car stays here until we are back on Wednesday.',w:''},q:'SMP Garage 150 Rosenberg St Galveston TX 77550'},
  spring:{n:'Spring',at:[-95.42,30.08],plain:{e:'',w:'Home base. Fill up at The Woodlands or Tomball Costco, then roll out around noon on Saturday, Nov 28.'},q:'Costco Gasoline The Woodlands TX'}};
 const ROUTES={e:['chandler','tucson','elpaso','fortstockton','sanantonio','luling','galveston'],w:['spring','sanantonio','fortstockton','elpaso','tucson','chandler']};
 const COAST=[[-88.5,30.6],[-90,29.2],[-91.5,29.5],[-93.8,29.7],[-94.8,29.3],[-96.4,28.4],[-97.3,27.6],[-97.2,25.9],[-97.8,24.0],[-97.8,22.2],[-97.2,20.8],[-96.1,19.2],[-95.0,18.6],[-94.4,18.15],[-92.7,18.6],[-91.8,18.7],[-90.7,19.4],[-90.5,20.7],[-90.0,21.1],[-88.8,21.4],[-87.1,21.6],[-86.8,21.1],[-87.4,20.2],[-87.5,19.3],[-87.8,18.5],[-88.2,17.4]];
