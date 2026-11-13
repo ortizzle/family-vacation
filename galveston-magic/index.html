@@ -298,9 +298,9 @@ const DAYS=[
  ['2:30 PM','Texas','Costco run','The Woodlands or Tomball warehouse, both close to Spring. Buy everything for Thursday now.','c','Groceries'],
  ['4:00 PM','Texas','Settle in at the Spring house','Unpack, laundry, early night.','c','Home base']],
  notes:['Easy out: skip the Space Center and go straight to Costco and the house.','Costco is closed on Thanksgiving Day, so today is the grocery day.']},
-{date:'2026-11-26',dow:'Thu',md:'26',phase:'Houston',title:'Thanksgiving',blurb:'A slow day at the house. Cook, eat, nap, repeat.',items:[
+{date:'2026-11-26',dow:'Thu',md:'26',phase:'Houston',title:'Thanksgiving',blurb:'A slow morning at the house, then dinner with Kat’s relatives.',items:[
  ['Morning','Texas','Cook together','Everyone gets one dish to own.','c','Home base'],
- ['Afternoon','Texas','Thanksgiving dinner','Then a walk, a game, or a few chapters.','c','Feast','a'],
+ ['Afternoon','Texas','Thanksgiving dinner with Kat’s relatives','Directions are under Houston drives. Then a walk, a game, or a few chapters.','c','Feast','a'],
  ['5:30 PM','Texas','Houston Zoo Lights','Open 5:30 to 10:30. Timed tickets, online only. About 45 minutes from Spring.','c','Option','o']],
  notes:['Zoo Lights is still a maybe. If you go, buy timed tickets ahead.']},
 {date:'2026-11-27',dow:'Fri',md:'27',phase:'Houston',title:'Renaissance Festival',blurb:'Turkey legs the day after turkey. Celtic Christmas weekend at the Texas Renaissance Festival.',items:[
@@ -438,13 +438,15 @@ const SPRING=[['Eat',[['CorkScrew BBQ','Old Town Spring. Michelin-recognized Tex
  ['Visit',[['Old Town Spring','403 Main St. A few blocks of old storefronts turned into shops, galleries, and cafes. Evening ghost walks too.'],['Mercer Botanic Gardens','22306 Aldine Westfield Rd, Humble. More than 300 acres of gardens and trails. A good morning-after-Thanksgiving walk.'],['TGR Exotics Wildlife Park','A small wildlife park that locals recommend for kids. Check tour times.'],['Atkinson Farms','Farm stand with produce and a play area.'],['The Woodlands Waterway','A walkable canal district north of Spring.'],['Texas Renaissance Festival','Friday’s plan. About an hour northwest in Todd Mission.']]]];
 
 /* ---------- data: Houston drives and gas ---------- */
-const HOUSE='HOUSE';
+const HOUSE='HOUSE',HOST='HOST';
 const LEGS=[['Wed Nov 25 · Back on land',[
  ['SMP Garage to Space Center Houston','SMP Garage, 150 Rosenberg St, Galveston TX 77550','Space Center Houston, 1601 NASA Pkwy, Houston TX','35 mi','45 to 55 min','About halfway to Houston, straight up I-45.'],
  ['Space Center to Costco, The Woodlands','Space Center Houston, 1601 NASA Pkwy, Houston TX','Costco, 8185 Highway 242, Conroe TX 77385','55 mi','1 hr 10 min to 1 hr 30 min','The day before Thanksgiving is a heavy traffic day. Add 30 minutes.'],
  ['Costco to the house',null,HOUSE,'17 mi','25 to 35 min','Costco The Woodlands is the one with the gas station.'],
  ['Easy out: SMP Garage to Costco, Tomball','SMP Garage, 150 Rosenberg St, Galveston TX 77550','Costco, 27000 Tomball Pkwy, Tomball TX 77375','75 mi','1 hr 30 min to 2 hr','Skips the Space Center. Tomball is the closer Costco to the house.']]],
  ['Thu Nov 26 · Thanksgiving',[
+ ['House to Thanksgiving dinner',HOUSE,HOST,'','Check Maps for live traffic','Kat’s relatives are hosting. Save their address in Spring home base and this fills in.'],
+ ['Thanksgiving dinner to the house',HOST,HOUSE,'','Check Maps for live traffic','Holiday evening roads are usually quiet.'],
  ['House to Houston Zoo Lights (optional)',HOUSE,'Houston Zoo, 6200 Hermann Park Dr, Houston TX 77030','35 mi','45 to 60 min','Open 5:30 to 10:30 PM. Timed tickets are sold online only.']]],
  ['Fri Nov 27 · Renaissance Festival',[
  ['House to Texas Renaissance Festival',HOUSE,'Texas Renaissance Festival, 21778 FM 1774, Todd Mission TX 77363','45 mi','1 hr to 1 hr 20 min','Festival traffic can back up for miles. Leave early and ask Maps to route you in from the north.'],
@@ -875,7 +877,7 @@ function Guide(){
     b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0 0 4px',text:'House details you type here stay on this phone only. They are never part of the public site.'}));
     const st=h('p',{style:'font-size:13px;color:var(--brass-lt);margin:8px 0 4px'});
     const upd=()=>{st.textContent='Searches below look around: '+(Store.get('house',{}).addr?'the address you saved':'Spring, TX 77388. Save the address above for exact results.');};upd();
-    [['addr','Address'],['checkin','Check-in and check-out'],['door','Door code'],['wifi','Wi-Fi name and password'],['notes','House notes (parking, trash, host contact)']].forEach(f=>{
+    [['addr','Address'],['host','Thanksgiving dinner address'],['checkin','Check-in and check-out'],['door','Door code'],['wifi','Wi-Fi name and password'],['notes','House notes (parking, trash, host contact)']].forEach(f=>{
       const inp=h('input',{type:'text',maxlength:'200',placeholder:f[1],'aria-label':f[1],value:hn[f[0]]||''});
       inp.addEventListener('change',()=>{hn[f[0]]=inp.value.trim();save('house',hn);upd();toast('Saved on this phone');});b.appendChild(h('div',{class:'row'},inp));});
     if(hn.addr)linkRow(b,[['Directions to the house',mapsUrl(hn.addr)]]);
@@ -899,11 +901,13 @@ function Guide(){
   accordion(w,'drives','🧭 Houston drives',' ',b=>{
     b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0 0 4px',text:'Typical drive times on an ordinary day. Tap Directions for live traffic. Times shift a lot on holiday weekends.'}));
     const addr=()=>((Store.get('house',{}).addr||'').trim()||'Spring, TX 77388');
-    const dirs=(a,z)=>'https://www.google.com/maps/dir/?api=1&travelmode=driving'+(a?'&origin='+encodeURIComponent(a===HOUSE?addr():a):'')+'&destination='+encodeURIComponent(z===HOUSE?addr():z);
+    const hostA=()=>((Store.get('house',{}).host||'').trim()||'Spring, TX 77386');
+    const rs=x=>x===HOUSE?addr():x===HOST?hostA():x;
+    const dirs=(a,z)=>'https://www.google.com/maps/dir/?api=1&travelmode=driving'+(a?'&origin='+encodeURIComponent(rs(a)):'')+'&destination='+encodeURIComponent(rs(z));
     LEGS.forEach(day=>{b.appendChild(h('div',{class:'sub',text:day[0]}));
-      day[1].forEach(l=>b.appendChild(h('div',{class:'lc'},h('b',{text:l[0]}),h('p',{style:'color:var(--brass-lt)',text:l[4]+' · about '+l[3]}),h('p',{text:l[5]}),
+      day[1].forEach(l=>b.appendChild(h('div',{class:'lc'},h('b',{text:l[0]}),h('p',{style:'color:var(--brass-lt)',text:l[3]?l[4]+' · about '+l[3]:l[4]}),h('p',{text:l[5]}),
         h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Directions',on:{click:()=>window.open(dirs(l[1],l[2]),'_blank','noopener')}})))));});
-    b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'The house stands in for the address you saved in Spring home base. Without one, directions use Spring, TX 77388.'}));});
+    b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'The house stands in for the address you saved in Spring home base. Without one, directions use Spring, TX 77388. Dinner directions use the Thanksgiving dinner address, or Spring, TX 77386 if none is saved.'}));});
   accordion(w,'gas','⛽ Gas prices and log',' ',b=>{
     b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0 0 4px',text:'Average regular prices as of Nov 5 and 6. They move, so we will refresh them the day before we leave and check the real price at each pump.'}));
     GASAVG.forEach(r=>b.appendChild(h('div',{class:'rl',style:'border-color:rgba(201,162,75,.15)'},h('div',{class:'t',style:'color:var(--cream)'},r[0]+' · '+r[1],h('small',{style:'color:var(--dim)',text:r[2]})))));

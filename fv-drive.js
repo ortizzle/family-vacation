@@ -22,7 +22,7 @@
     { id: 'kc-chiefs-2026', label: 'KC Chiefs', re: /^kc26-/ },
     { id: 'galveston-2026', label: 'Galveston', re: /^gm26_/ }
   ];
-  var SKIP = /^aa27_ui_|^kc26-ui-|^ak26-weather$|^gm26_house$|^gm26_daymode$|key|token|secret|password|passcode/i;
+  var SKIP = /^aa27_ui_|^kc26-ui-|^ak26-weather$|^gm26_house$|key|token|secret|password|passcode/i;
 
   function collect() {
     var out = { app: 'family-vacation', trips: {} };
