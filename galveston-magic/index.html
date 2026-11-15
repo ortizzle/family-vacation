@@ -165,6 +165,7 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 /* ---------- Day Deck (light mode) ---------- */
 textarea.kin{display:block;width:100%;min-height:76px;margin-top:4px;background:#081424;border:1px solid var(--brass-dk);color:#fff;font-size:16px;padding:10px 12px;border-radius:12px;font-family:inherit;line-height:1.4;resize:vertical}
 .moods{display:flex;gap:6px}.moods button{flex:1;min-height:52px;font-size:24px;border:1px solid var(--brass-dk);border-radius:12px;background:transparent}.moods button.on{background:var(--brass);border-color:var(--brass-lt)}
+.fr-pick{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center}.fr-pick input{position:absolute;inset:0;opacity:0;font-size:16px;cursor:pointer}
 .tab.done::before{content:"✓";position:absolute;top:4px;left:7px;font-size:11px;color:var(--teal)}
 canvas.pc{width:100%;height:auto;border-radius:12px;border:1px solid var(--brass-dk);display:block;margin:12px 0 4px}
 .whatif{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
@@ -613,7 +614,7 @@ const WHO=[['I wear ivory and believe gleaning should be done with compassion.',
  ['I see almost everything, but I may not speak to scythes.','The Thunderhead'],['I chose the name Anastasia.','Citra'],['I stayed with a classmate when no one else would.','Rowan'],['I brought soup when it was needed.','Volta'],['I am High Blade of MidMerica.','Xenocrates'],['I hid under a food court counter.','Esme']];
 
 /* ---------- state ---------- */
-const S={tab:'home',fam:Store.get('fam','all'),day:null,open:{},qs:{},gv:'play',view:'days',dir:'e',stop:null,port:null,kday:null};
+const S={tab:'home',fam:Store.get('fam','all'),day:null,open:{},qs:{},gv:'play',view:'days',dir:'e',stop:null,port:null,kday:null,kview:'journal'};
 let BOOK=Store.get('book',{});
 function lev(a,b){const m=[];for(let i=0;i<=a.length;i++){m[i]=[i];}for(let j=1;j<=b.length;j++)m[0][j]=j;
   for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return m[a.length][b.length];}
@@ -731,9 +732,9 @@ function Home(){
     .forEach(t=>tiles.appendChild(h('button',{type:'button',class:'tile',on:{click:()=>{if(t[4])S.view='road';go(t[0]);}}},h('i',{text:t[1]}),h('b',{text:t[2]}),h('span',{text:t[3]}))));
   w.appendChild(tiles);
   {const jn=jDone(Store.get('journal',{}));
-  w.appendChild(h('button',{type:'button',class:'card tap','data-id':'home-keep',on:{click:()=>{S.kday=null;go('keep');}}},
-    h('span',{class:'phase',text:ti>=0?'Tonight':'Keepsake'}),h('h3',{text:'📓 Keepsake'}),
-    h('p',{text:(ti>=0?'Add today’s best moment, favorite meal, and funniest thing. ':'Journal each day, build a postcard, and keep the trip story. ')+jn+' of '+DAYS.length+' days journaled.'})));}
+  w.appendChild(h('button',{type:'button',class:'card tap','data-id':'home-keep',on:{click:()=>{S.kday=null;S.kview='journal';go('keep');}}},
+    h('span',{class:'phase',text:ti>=0?'Tonight':'Keepsake'}),h('h3',{text:'📓 Keepsake and photo frames'}),
+    h('p',{text:(ti>=0?'Add today’s best moment, favorite meal, and funniest thing. ':'Journal each day, frame your photos, and keep the trip story. ')+jn+' of '+DAYS.length+' days journaled.'})));}
   const bar=h('div');w.appendChild(bar);if(window.FamilyDrive)FamilyDrive.bar(bar);
   w.appendChild(h('p',{class:'foot',text:'Cruise plans pulled from the Disney reservation page on Nov 11, 2026. Times can change. Works offline once opened.'}));
 }
@@ -1010,6 +1011,9 @@ function Keep(){
   w.appendChild(h('div',{class:'row',style:'margin-top:14px'},h('button',{type:'button',class:'btn ghost sm',text:'← Home',on:{click:()=>go('home')}})));
   w.appendChild(h('h2',{class:'sec',text:'Keepsake'}));
   w.appendChild(h('p',{class:'lead',text:'A few lines each day turn into a postcard and a trip story. Everything stays on this phone and is included in your Drive backup.'}));
+  const kseg=h('div',{class:'seg'});w.appendChild(kseg);
+  [['journal','📓 Journal'],['frames','📸 Photo frames']].forEach(v=>kseg.appendChild(h('button',{type:'button',class:S.kview===v[0]?'on':'',text:v[1],on:{click:()=>{S.kview=v[0];render();}}})));
+  if(S.kview==='frames'){Frames(w);return;}
   const stats=h('div',{class:'grid2','data-id':'kstats'});w.appendChild(stats);
   const today=tripToday();
   if(!S.kday){const j0=Store.get('journal',{});S.kday=DAYS.some(d=>d.date===today)?today:((DAYS.slice().reverse().find(d=>jFilled(j0[d.date]))||DAYS[0]).date);}
@@ -1070,6 +1074,123 @@ function Keep(){
       c.appendChild(h('h3',{text:(e.mood!=null?MOODE[e.mood]+' ':'')+d.title}));
       [['moment','⭐'],['meal','🍽️'],['funny','😂']].forEach(f=>{if(e[f[0]])c.appendChild(h('p',{text:f[1]+' '+e[f[0]]}));});mem.appendChild(c);});}
   fill();
+}
+
+/* ---------- photo frames (the photo stays in memory only; nothing is saved or backed up) ---------- */
+const FRW=1080,FRH={post:1350,story:1920};let FRIMG=null;
+const FR_THEMES=[['road','Road trip'],['cruise','Cruise'],['thanks','Thanksgiving']];
+const CRUISE_DAYS=[['2026-11-20','Sail Away · Galveston'],['2026-11-21','Day at Sea'],['2026-11-22','Cozumel, Mexico'],['2026-11-23','Progreso, Mexico'],['2026-11-24','Day at Sea'],['2026-11-25','Back in Galveston']];
+const STATEOF={chandler:'AZ',tucson:'AZ',elpaso:'TX',fortstockton:'TX',sanantonio:'TX',luling:'TX',galveston:'TX',spring:'TX'};
+const FR_DEF={road:'',cruise:'',thanks:'Grateful for this crew'};
+function frRR(g,x,y,w,hh,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+hh,r);g.arcTo(x+w,y+hh,x,y+hh,r);g.arcTo(x,y+hh,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
+function frCover(g,img,x,y,w,hh,ph,msg){
+  if(!img){const gr=g.createLinearGradient(x,y,x+w,y+hh);gr.addColorStop(0,ph[0]);gr.addColorStop(1,ph[1]);g.fillStyle=gr;g.fillRect(x,y,w,hh);
+    g.fillStyle='rgba(255,255,255,.55)';g.textAlign='center';g.font='400 46px "Josefin Sans",sans-serif';g.fillText(msg||'Add your photo',x+w/2,y+hh/2);return;}
+  const r=Math.max(w/img.naturalWidth,hh/img.naturalHeight),sw=w/r,sh=hh/r;
+  g.drawImage(img,(img.naturalWidth-sw)/2,(img.naturalHeight-sh)/2,sw,sh,x,y,w,hh);}
+function frSpaced(g,t,x,y,sp,align){const chars=[...t];const wd=chars.reduce((a,c)=>a+g.measureText(c).width,0)+sp*(chars.length-1);
+  let cx=align==='center'?x-wd/2:align==='right'?x-wd:x;const prev=g.textAlign;g.textAlign='left';chars.forEach(c=>{g.fillText(c,cx,y);cx+=g.measureText(c).width+sp;});g.textAlign=prev;return wd;}
+function frShadow(g,fn){g.save();g.shadowColor='rgba(0,0,0,.65)';g.shadowBlur=16;g.shadowOffsetY=3;fn();g.restore();}
+function frFit(g,t,wt,px,maxW,fam){while(px>26){g.font=wt+' '+px+'px '+(fam||'"Josefin Sans",sans-serif');if(g.measureText(t).width<=maxW)break;px-=2;}return px;}
+function frLines(g,t,maxW,maxLines){const words=String(t).split(/\s+/);let line='';const lines=[];
+  words.forEach(wd=>{const test=line?line+' '+wd:wd;if(g.measureText(test).width>maxW&&line){lines.push(line);line=wd;}else line=test;});if(line)lines.push(line);
+  if(lines.length>maxLines){lines.length=maxLines;lines[maxLines-1]=lines[maxLines-1].replace(/\s*\S*$/,'')+'…';}return lines;}
+function frShield(g,x,y,w,hh,num){g.save();g.beginPath();
+  g.moveTo(x+w*.08,y+hh*.14);g.quadraticCurveTo(x+w*.5,y-hh*.04,x+w*.92,y+hh*.14);g.lineTo(x+w*.97,y+hh*.62);
+  g.quadraticCurveTo(x+w*.9,y+hh*.86,x+w*.5,y+hh);g.quadraticCurveTo(x+w*.1,y+hh*.86,x+w*.03,y+hh*.62);g.closePath();
+  g.fillStyle='#0b3a8f';g.fill();g.save();g.clip();g.fillStyle='#c8202f';g.fillRect(x,y-6,w,hh*.3);g.restore();
+  g.lineWidth=5;g.strokeStyle='#fff';g.stroke();g.fillStyle='#fff';g.textAlign='center';g.font='600 '+Math.round(hh*.4)+'px "Josefin Sans",sans-serif';g.fillText(num,x+w/2,y+hh*.74);g.restore();}
+function roadInfo(st){const v=String(st.place||'');if(!v||v==='custom')return {name:(st.custom||'On the road').toUpperCase(),l2:'',l3:''};
+  const dir=v[0],id=v.slice(2),ids=ROUTES[dir],i=ids.indexOf(id),mi=MILES[dir],tot=mi[ids[ids.length-1]];const nx=ids[i+1];
+  return {name:PLACES[id].n.toUpperCase(),l2:STATEOF[id]+' · Mile '+mi[id].toLocaleString('en-US')+' of '+tot.toLocaleString('en-US'),
+    l3:nx?('Next: '+PLACES[nx].n+' · '+(mi[nx]-mi[id])+' mi'):(dir==='e'?'Next: the ship':'Home sweet home')};}
+function frRoad(g,st,img,H,sT,sB){
+  frCover(g,img,0,0,FRW,H,['#16355f','#0b1a30']);
+  let gr=g.createLinearGradient(0,H-sB-680,0,H);gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(0,0,0,.62)');g.fillStyle=gr;g.fillRect(0,H-sB-680,FRW,680+sB);
+  gr=g.createLinearGradient(0,0,0,sT+270);gr.addColorStop(0,'rgba(0,0,0,.5)');gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(0,0,FRW,sT+270);
+  frShield(g,56,sT+50,128,150,'10');
+  g.fillStyle='#fff';g.textAlign='left';
+  frShadow(g,()=>{g.font='600 30px "Josefin Sans",sans-serif';frSpaced(g,'I-10 ROAD TRIP',212,sT+112,6,'left');g.font='400 30px "Josefin Sans",sans-serif';g.fillText('Chandler to the Gulf and back',212,sT+158);});
+  const info=roadInfo(st),sh=info.l2?300:190,sx=48,sw=FRW-96,sy=H-sB-60-sh;
+  g.fillStyle='#0b6b3a';frRR(g,sx,sy,sw,sh,26);g.fill();g.strokeStyle='#fff';g.lineWidth=7;frRR(g,sx+14,sy+14,sw-28,sh-28,18);g.stroke();
+  g.fillStyle='#fff';g.textAlign='left';const tx=sx+58;
+  const px=frFit(g,info.name,'600',72,sw-116);g.fillText(info.name,tx,sy+(info.l2?112:sy*0+Math.round(sh/2)+px*.35));
+  if(info.l2){g.font='400 38px "Josefin Sans",sans-serif';g.fillText(info.l2,tx,sy+170);g.fillStyle='#d4f0c4';g.font='400 34px "Josefin Sans",sans-serif';g.fillText(info.l3,tx,sy+232);}
+  const cap=(st.caption||FR_DEF.road).trim();
+  if(cap){g.font='600 56px "Josefin Sans",sans-serif';g.fillStyle='#fff';g.textAlign='left';const ls=frLines(g,cap,FRW-130,2);
+    frShadow(g,()=>ls.forEach((l,i)=>g.fillText(l,60,sy-52-(ls.length-1-i)*68)));}}
+function frArch(g,x,yt,w,yb){const r=w/2;g.beginPath();g.moveTo(x,yb);g.lineTo(x,yt+r);g.arc(x+r,yt+r,r,Math.PI,0);g.lineTo(x+w,yb);g.closePath();}
+function frCruise(g,st,img,H,sT,sB){
+  let gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#0b1a30');gr.addColorStop(1,'#17386a');g.fillStyle=gr;g.fillRect(0,0,FRW,H);
+  g.save();g.strokeStyle='#e0b960';g.globalAlpha=.13;g.lineWidth=2;const ox=FRW/2,oy=H-sB-250;
+  for(let i=0;i<=28;i++){const a=Math.PI*i/28;g.beginPath();g.moveTo(ox,oy);g.lineTo(ox-Math.cos(a)*1800,oy-Math.sin(a)*1800);g.stroke();}g.restore();
+  g.textAlign='center';g.fillStyle='#e0b960';g.font='600 26px "Josefin Sans",sans-serif';frSpaced(g,'THE ORTIZ FAMILY AT SEA',FRW/2,sT+80,9,'center');
+  g.fillStyle='#f3e9d2';g.font='84px "Poiret One",Georgia,serif';g.fillText('Disney Magic',FRW/2,sT+168);
+  const x=110,w=860,yt=sT+212,yb=H-sB-250;
+  g.save();frArch(g,x,yt,w,yb);g.clip();frCover(g,img,x,yt,w,yb-yt,['#1f4f86','#0b1a30']);g.restore();
+  g.strokeStyle='#e0b960';g.lineWidth=8;frArch(g,x,yt,w,yb);g.stroke();g.lineWidth=2;frArch(g,x-24,yt-24,w+48,yb+24);g.stroke();
+  const d=CRUISE_DAYS.find(c=>c[0]===st.cday)||CRUISE_DAYS[1],dd=DAYS.find(q=>q.date===d[0]);
+  const py=yb+58,ph=156;const fg=g.createLinearGradient(x,py,x+w,py+ph);[[0,'#a77a28'],[.25,'#f7dd92'],[.5,'#c4923a'],[.75,'#fde9ad'],[1,'#a97d2c']].forEach(c=>fg.addColorStop(c[0],c[1]));
+  g.fillStyle=fg;frRR(g,x,py,w,ph,16);g.fill();
+  g.fillStyle='#0b1a30';g.textAlign='center';const l1=d[1].toUpperCase();g.font='600 38px "Josefin Sans",sans-serif';const px=frFit(g,l1,'600',38,w-80);
+  frSpaced(g,l1,FRW/2,py+66,4,'center');
+  const cap=(st.caption||FR_DEF.cruise).trim()||(dd?dd.dow+' Nov '+dd.md+', 2026':'');g.font='400 36px "Josefin Sans",sans-serif';frFit(g,cap,'400',36,w-80);g.fillText(cap,FRW/2,py+118);}
+function frThanks(g,st,img,H,sT,sB){
+  let gr=g.createLinearGradient(0,0,FRW,H);gr.addColorStop(0,'#d6b283');gr.addColorStop(1,'#b48650');g.fillStyle=gr;g.fillRect(0,0,FRW,H);
+  gr=g.createRadialGradient(FRW/2,H/2,H*.25,FRW/2,H/2,H*.75);gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(60,35,10,.28)');g.fillStyle=gr;g.fillRect(0,0,FRW,H);
+  const P0=[-10,sT+52],P1=[FRW/2,sT+170],P2=[FRW+10,sT+52];const bz=t=>[(1-t)*(1-t)*P0[0]+2*(1-t)*t*P1[0]+t*t*P2[0],(1-t)*(1-t)*P0[1]+2*(1-t)*t*P1[1]+t*t*P2[1]];
+  g.strokeStyle='#5a3b20';g.lineWidth=4;g.beginPath();g.moveTo(P0[0],P0[1]);g.quadraticCurveTo(P1[0],P1[1],P2[0],P2[1]);g.stroke();
+  const cols=['#a8422b','#d9822b','#e6b54a','#6f7d3a','#7a2e2a'];
+  for(let i=0;i<11;i++){const p=bz((i+.5)/11);g.save();g.shadowColor='rgba(0,0,0,.25)';g.shadowBlur=8;g.shadowOffsetY=3;g.fillStyle=cols[i%5];g.beginPath();g.moveTo(p[0]-32,p[1]);g.lineTo(p[0]+32,p[1]);g.lineTo(p[0],p[1]+92);g.closePath();g.fill();g.restore();}
+  const pw=860,pt=sT+270,pb=H-sB-70,ph=pb-pt,cx=FRW/2,cy=pt+ph/2;
+  g.save();g.translate(cx,cy);g.rotate(-0.03);g.translate(-pw/2,-ph/2);
+  g.save();g.shadowColor='rgba(40,20,0,.45)';g.shadowBlur=36;g.shadowOffsetY=14;g.fillStyle='#fbf6ea';g.fillRect(0,0,pw,ph);g.restore();
+  const m=40,ih=ph-m-250;g.save();g.beginPath();g.rect(m,m,pw-2*m,ih);g.clip();frCover(g,img,m,m,pw-2*m,ih,['#c98a4b','#7a2e2a']);g.restore();
+  g.textAlign='center';g.fillStyle='#a8422b';g.font='600 28px "Josefin Sans",sans-serif';frSpaced(g,'GIVING THANKS',pw/2,ph-176,10,'center');
+  const cap=(st.caption||FR_DEF.thanks).trim();g.fillStyle='#3d2616';const px=frFit(g,cap,'600',50,pw-110);g.fillText(cap,pw/2,ph-112);
+  g.fillStyle='#7a5c44';g.font='400 28px "Josefin Sans",sans-serif';g.fillText('Spring, Texas · Thursday, November 26, 2026',pw/2,ph-56);
+  g.fillStyle='rgba(235,220,170,.8)';[[70,-4,-.35],[pw-70,-4,.35]].forEach(t=>{g.save();g.translate(t[0],t[1]);g.rotate(t[2]);g.fillRect(-95,-28,190,56);g.restore();});
+  g.restore();}
+function frDraw(cv,st){const H=FRH[st.size]||1350;if(cv.width!==FRW)cv.width=FRW;if(cv.height!==H)cv.height=H;const g=cv.getContext('2d');g.clearRect(0,0,FRW,H);
+  g.textBaseline='alphabetic';g.textAlign='left';const sT=H>1500?230:0,sB=H>1500?230:0;
+  const v=Object.assign({},st,{caption:st['c_'+st.theme]||''});({road:frRoad,cruise:frCruise,thanks:frThanks}[st.theme]||frRoad)(g,v,FRIMG,H,sT,sB);}
+function Frames(w){
+  const card=h('div',{class:'card','data-id':'frames'});w.appendChild(card);
+  card.appendChild(h('span',{class:'phase',text:'Photo frames'}));card.appendChild(h('h3',{text:'📸 Trip frames'}));
+  card.appendChild(h('p',{text:'Add a photo, pick a frame, then save or share it. Road trip stamps your spot on I-10, Cruise sets it in an ocean-liner window, and Thanksgiving pins it to a kraft-paper table.'}));
+  const tdy=tripToday();const st=Object.assign({theme:'road',size:'post',place:'e:tucson',custom:'',caption:'',cday:CRUISE_DAYS.some(c=>c[0]===tdy)?tdy:'2026-11-21'},Store.get('frames',{}));
+  const sv=()=>save('frames',st);
+  const themes=h('div',{class:'seg'});card.appendChild(themes);
+  FR_THEMES.forEach(t=>themes.appendChild(h('button',{type:'button',class:st.theme===t[0]?'on':'',text:t[1],on:{click:()=>{st.theme=t[0];sv();[...themes.children].forEach((b,i)=>b.classList.toggle('on',FR_THEMES[i][0]===t[0]));fields();draw();}}})));
+  const sizes=h('div',{class:'seg'});card.appendChild(sizes);
+  [['post','Post · 4:5'],['story','Story · 9:16']].forEach(s=>sizes.appendChild(h('button',{type:'button',class:st.size===s[0]?'on':'',text:s[1],on:{click:()=>{st.size=s[0];sv();[...sizes.children].forEach((b,i)=>b.classList.toggle('on',i===(s[0]==='post'?0:1)));draw();}}})));
+  const cv=h('canvas',{class:'pc','aria-label':'Frame preview'});cv.width=FRW;cv.height=FRH[st.size]||1350;card.appendChild(cv);
+  const acts=h('div',{class:'row'});card.appendChild(acts);
+  const inp=h('input',{type:'file',accept:'image/*','aria-label':'Choose a photo'});const pick=h('label',{class:'btn fr-pick'},h('span',{text:FRIMG?'📷 Change photo':'📷 Add photo'}),inp);acts.appendChild(pick);
+  inp.addEventListener('change',()=>{const f=inp.files&&inp.files[0];if(!f)return;const url=URL.createObjectURL(f);const im=new Image();
+    im.onload=()=>{FRIMG=im;pick.firstChild.textContent='📷 Change photo';draw();};im.onerror=()=>toast('Could not open that photo');im.src=url;});
+  const out=h('button',{type:'button',class:'btn ghost',text:'⬇ Save or share',on:{click:()=>{
+    if(!FRIMG){toast('Add a photo first');return;}
+    cv.toBlob(b=>{if(!b){toast('Could not make the image');return;}const name='galveston-frame-'+st.theme+'-'+st.size+'-'+Date.now()+'.jpg';const file=new File([b],name,{type:'image/jpeg'});
+      if(navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file],title:'Galveston & the Magic'}).catch(()=>{});}
+      else{const a=h('a',{href:URL.createObjectURL(b),download:name});document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Frame saved');}},'image/jpeg',.92);}}});acts.appendChild(out);
+  const fx=h('div');card.appendChild(fx);
+  function fields(){clear(fx);
+    if(st.theme==='road'){const sel=h('select',{'aria-label':'Where are we',style:'flex:1 1 100%'});
+      [['e','East · Nov 19–20'],['w','Home · Nov 28–29']].forEach(g0=>{const og=h('optgroup',{label:g0[1]});ROUTES[g0[0]].forEach(id=>{const o=h('option',{value:g0[0]+':'+id,text:PLACES[id].n});if(st.place===g0[0]+':'+id)o.selected=true;og.appendChild(o);});sel.appendChild(og);});
+      const oc=h('option',{value:'custom',text:'Somewhere else'});if(st.place==='custom')oc.selected=true;sel.appendChild(oc);
+      const cu=h('input',{type:'text',maxlength:'28','aria-label':'Place name',placeholder:'Place name',value:st.custom||'',style:'flex:1 1 100%;display:'+(st.place==='custom'?'block':'none')});
+      sel.addEventListener('change',()=>{st.place=sel.value;sv();cu.style.display=st.place==='custom'?'block':'none';draw();});
+      cu.addEventListener('input',()=>{st.custom=cu.value;sv();draw();});fx.appendChild(h('div',{class:'row'},sel,cu));}
+    if(st.theme==='cruise'){const sel=h('select',{'aria-label':'Cruise day',style:'flex:1 1 100%'});
+      CRUISE_DAYS.forEach((c,i)=>{const dd=DAYS.find(q=>q.date===c[0]);const o=h('option',{value:c[0],text:'Day '+(i+1)+' · '+dd.dow+' Nov '+dd.md+' · '+c[1]});if(st.cday===c[0])o.selected=true;sel.appendChild(o);});
+      sel.addEventListener('change',()=>{st.cday=sel.value;sv();draw();});fx.appendChild(h('div',{class:'row'},sel));}
+    const cap=h('input',{type:'text',maxlength:'44','aria-label':'Caption',placeholder:st.theme==='thanks'?'Grateful for this crew':(st.theme==='cruise'?'Caption (blank shows the date)':'Caption'),value:st['c_'+st.theme]||'',style:'flex:1 1 100%'});
+    cap.addEventListener('input',()=>{st['c_'+st.theme]=cap.value;sv();draw();});fx.appendChild(h('div',{class:'row'},cap));}
+  fields();
+  card.appendChild(h('p',{style:'font-size:12px;margin:12px 0 0',text:'🔒 Your photo never leaves this phone. It is not saved in the app or backed up. Tap Save or share, then choose Save image to put it in Photos.'}));
+  let pend=false;function draw(){if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;frDraw(cv,st);});}
+  draw();if(document.fonts&&document.fonts.load)Promise.all(['84px "Poiret One"','600 30px "Josefin Sans"','400 30px "Josefin Sans"'].map(f=>document.fonts.load(f))).then(draw).catch(()=>{});
 }
 
 /* ---------- Guide ---------- */
