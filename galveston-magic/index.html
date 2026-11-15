@@ -1119,18 +1119,23 @@ function frRoad(g,st,img,H,sT,sB){
   const cap=(st.caption||FR_DEF.road).trim();
   if(cap){g.font='600 56px "Josefin Sans",sans-serif';g.fillStyle='#fff';g.textAlign='left';const ls=frLines(g,cap,FRW-130,2);
     frShadow(g,()=>ls.forEach((l,i)=>g.fillText(l,60,sy-52-(ls.length-1-i)*68)));}}
-function frArch(g,x,yt,w,yb){const r=w/2;g.beginPath();g.moveTo(x,yb);g.lineTo(x,yt+r);g.arc(x+r,yt+r,r,Math.PI,0);g.lineTo(x+w,yb);g.closePath();}
 function frCruise(g,st,img,H,sT,sB){
   let gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#0b1a30');gr.addColorStop(1,'#17386a');g.fillStyle=gr;g.fillRect(0,0,FRW,H);
-  g.save();g.strokeStyle='#e0b960';g.globalAlpha=.13;g.lineWidth=2;const ox=FRW/2,oy=H-sB-250;
-  for(let i=0;i<=28;i++){const a=Math.PI*i/28;g.beginPath();g.moveTo(ox,oy);g.lineTo(ox-Math.cos(a)*1800,oy-Math.sin(a)*1800);g.stroke();}g.restore();
+  const yt=sT+212,yb=H-sB-250,cx=FRW/2,cy=(yt+yb)/2,R=Math.min(450,(yb-yt)/2-8),rw=48,r=R-rw;
+  g.save();g.strokeStyle='#e0b960';g.globalAlpha=.13;g.lineWidth=2;
+  for(let i=0;i<=28;i++){const a=Math.PI*2*i/28;g.beginPath();g.moveTo(cx,cy);g.lineTo(cx+Math.cos(a)*1800,cy+Math.sin(a)*1800);g.stroke();}g.restore();
   g.textAlign='center';g.fillStyle='#e0b960';g.font='600 26px "Josefin Sans",sans-serif';frSpaced(g,'THE ORTIZ FAMILY AT SEA',FRW/2,sT+80,9,'center');
   g.fillStyle='#f3e9d2';g.font='84px "Poiret One",Georgia,serif';g.fillText('Disney Magic',FRW/2,sT+168);
-  const x=110,w=860,yt=sT+212,yb=H-sB-250;
-  g.save();frArch(g,x,yt,w,yb);g.clip();frCover(g,img,x,yt,w,yb-yt,['#1f4f86','#0b1a30']);g.restore();
-  g.strokeStyle='#e0b960';g.lineWidth=8;frArch(g,x,yt,w,yb);g.stroke();g.lineWidth=2;frArch(g,x-24,yt-24,w+48,yb+24);g.stroke();
+  g.save();g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.clip();frCover(g,img,cx-r,cy-r,2*r,2*r,['#1f4f86','#0b1a30']);g.restore();
+  const rg=g.createLinearGradient(cx-R,cy-R,cx+R,cy+R);[[0,'#a77a28'],[.22,'#f7dd92'],[.5,'#c4923a'],[.74,'#fde9ad'],[1,'#a97d2c']].forEach(c=>rg.addColorStop(c[0],c[1]));
+  g.save();g.shadowColor='rgba(0,0,0,.45)';g.shadowBlur=30;g.shadowOffsetY=10;g.beginPath();g.arc(cx,cy,R,0,Math.PI*2);g.arc(cx,cy,r,0,Math.PI*2,true);g.fillStyle=rg;g.fill('evenodd');g.restore();
+  g.strokeStyle='rgba(60,40,5,.55)';g.lineWidth=4;g.beginPath();g.arc(cx,cy,R,0,Math.PI*2);g.stroke();g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.stroke();
+  g.strokeStyle='rgba(0,0,0,.28)';g.lineWidth=14;g.beginPath();g.arc(cx,cy,r-7,0,Math.PI*2);g.stroke();
+  for(let i=0;i<12;i++){const a=Math.PI*2*(i+.5)/12,bx=cx+Math.cos(a)*(R-rw/2),by=cy+Math.sin(a)*(R-rw/2);
+    g.fillStyle='#8a6420';g.beginPath();g.arc(bx,by,10,0,Math.PI*2);g.fill();g.fillStyle='#fde9ad';g.beginPath();g.arc(bx-2.5,by-2.5,4.5,0,Math.PI*2);g.fill();}
+  const x=110,w=860;
   const d=CRUISE_DAYS.find(c=>c[0]===st.cday)||CRUISE_DAYS[1],dd=DAYS.find(q=>q.date===d[0]);
-  const py=yb+58,ph=156;const fg=g.createLinearGradient(x,py,x+w,py+ph);[[0,'#a77a28'],[.25,'#f7dd92'],[.5,'#c4923a'],[.75,'#fde9ad'],[1,'#a97d2c']].forEach(c=>fg.addColorStop(c[0],c[1]));
+  const py=H-sB-192,ph=156;const fg=g.createLinearGradient(x,py,x+w,py+ph);[[0,'#a77a28'],[.25,'#f7dd92'],[.5,'#c4923a'],[.75,'#fde9ad'],[1,'#a97d2c']].forEach(c=>fg.addColorStop(c[0],c[1]));
   g.fillStyle=fg;frRR(g,x,py,w,ph,16);g.fill();
   g.fillStyle='#0b1a30';g.textAlign='center';const l1=d[1].toUpperCase();g.font='600 38px "Josefin Sans",sans-serif';const px=frFit(g,l1,'600',38,w-80);
   frSpaced(g,l1,FRW/2,py+66,4,'center');
@@ -1157,7 +1162,7 @@ function frDraw(cv,st){const H=FRH[st.size]||1350;if(cv.width!==FRW)cv.width=FRW
 function Frames(w){
   const card=h('div',{class:'card','data-id':'frames'});w.appendChild(card);
   card.appendChild(h('span',{class:'phase',text:'Photo frames'}));card.appendChild(h('h3',{text:'📸 Trip frames'}));
-  card.appendChild(h('p',{text:'Add a photo, pick a frame, then save or share it. Road trip stamps your spot on I-10, Cruise sets it in an ocean-liner window, and Thanksgiving pins it to a kraft-paper table.'}));
+  card.appendChild(h('p',{text:'Add a photo, pick a frame, then save or share it. Road trip stamps your spot on I-10, Cruise sets it in a brass porthole, and Thanksgiving pins it to a kraft-paper table.'}));
   const tdy=tripToday();const st=Object.assign({theme:'road',size:'post',place:'e:tucson',custom:'',caption:'',cday:CRUISE_DAYS.some(c=>c[0]===tdy)?tdy:'2026-11-21'},Store.get('frames',{}));
   const sv=()=>save('frames',st);
   const themes=h('div',{class:'seg'});card.appendChild(themes);
