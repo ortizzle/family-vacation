@@ -175,6 +175,17 @@ canvas.pc{width:100%;height:auto;border-radius:12px;border:1px solid var(--brass
 .pill.ok{color:var(--teal);border-color:var(--teal)}.pill.tight{color:var(--brass-lt);border-color:var(--brass-lt)}.pill.late{color:var(--coral);border-color:var(--coral)}
 .card input[type=time],.card select{min-height:48px;background:#081424;border:1px solid var(--brass-dk);color:#fff;font-size:16px;padding:0 12px;border-radius:12px;font-family:inherit}
 body.day textarea.kin,body.day .card input[type=time],body.day .card select,body.day .modal-box textarea{background:#fffdf2;color:var(--cream)}
+
+.pk{padding:12px 0;border-bottom:1px solid rgba(201,162,75,.18)}
+.pk.sel{background:rgba(201,162,75,.10);margin:0 -10px;padding:12px 10px;border-radius:12px}
+.pk .nm{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--brass-lt);font-size:16px}
+.pk .no{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--brass);color:var(--navy);font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.pk .meta{font-size:13px;color:var(--dim);margin:2px 0 6px}
+.pk p{margin:4px 0;font-size:14px;line-height:1.5;color:var(--dim)}
+.pk p b{color:var(--cream);font-weight:600}
+.tgchip{display:inline-block;margin:4px 0;padding:3px 10px;border-radius:12px;font-size:12px;border:1px solid var(--brass-dk)}
+.tgchip.tg-open{color:var(--teal);border-color:var(--teal)}.tgchip.tg-closed{color:var(--coral);border-color:var(--coral)}.tgchip.tg-check{color:var(--brass-lt);border-color:var(--brass-lt)}
+.pmap{margin:8px 0}
 body.day{--navy:#f4edda;--navy2:#fffdf2;--navy3:#efe5c8;--cream:#1c2d4d;--dim:#53617d;
   --brass:#a07c2c;--brass-lt:#8a6a22;--brass-dk:#c2a768;--coral:#b4452c;--teal:#176e67;
   --c:#a07c2c;--a:#17808a;--m:#c25537;--s:#5a7f24;background:var(--navy);color:var(--cream)}
@@ -340,12 +351,6 @@ const PACK=[['Car kit',['Pillows and blankets','Cooler with drinks and sandwiche
  ['Documents',['Travel documents for each person','Cruise reservation and port arrival form','Parking confirmation','Excursion tickets','Car insurance and registration']],
  ['Houston days',['Warm layer for evenings','Comfortable walking shoes','Reusable grocery bags','A favorite Thanksgiving recipe']]];
 const TIPS=['Pack your swimsuit in your carry-on. Your suitcase may not reach the room until dinner.','Bring one hoodie for the car. Dad likes the air cold at night to stay awake.','Charge everything before noon on Thursday.','Download shows and music at home. West Texas has almost no signal.','Pick your reading spot on the ship on day one.','Leave room in your bag for one souvenir.'];
-const EATS=[['Sunflower Bakery & Cafe','Galveston · breakfast','Local favorite before boarding. Needs a short drive and gets busy, so check hours.'],
- ['Tremont House cafe','Galveston · breakfast','A few blocks from the terminal. Known for waffles. Check hours.'],
- ['Wunsche Bros. Cafe','Old Town Spring · $$ · 4.7 on OpenTable','A Texas landmark since 1902. Burgers and whiskey cake. The kid pick.'],
- ['The Republic Grille','Spring · $$ · 4.8 on OpenTable','The splurge: chicken-fried steak and Texas quail.'],
- ['Cyclone Anaya’s','Houston area · Tex-Mex','A Houston Tex-Mex family name since 1966.'],
- ['Buc-ee’s, Luling','I-10 · open 24 hours','Breakfast tacos, brisket, and Beaver Nuggets for the last leg.']];
 const LOGI=['Drive: about 1,200 miles on I-10. The Ascent goes about 350 miles on a tank, so fuel at El Paso, Fort Stockton, and San Antonio.','Costco pumps close in the evening. Only El Paso lines up with Costco hours on the way out.','Port parking: prepay online. Budget about $120 to $180 for six days.','Time zones: Arizona and El Paso share a clock in November. West Texas onward is one hour ahead.','Groceries: The Woodlands or Tomball Costco on Wednesday. Costco is closed Thanksgiving Day.','Home base is in Spring, north of Houston. The address stays out of this app because the site is public.'];
 
 /* ---------- data: games ---------- */
@@ -446,8 +451,99 @@ const EXC={
  PGO08:{t:'Hidden World snorkel and Mayan outback',who:'Melissa’s family · Mon 11:00 to 6:00',
   facts:['6 to 6.5 hours','Ages 8 and up','Activity level: active'],
   expect:['Visits to two underground cenotes, with snorkeling.','It is scheduled to end at 6:00, the same time as all aboard. Disney tours are covered if they run late.'],bring:['Swimsuit and towel','Water shoes','Bug spray and sunscreen']}};
-const SPRING=[['Eat',[['CorkScrew BBQ','Old Town Spring. Michelin-recognized Texas barbecue. It sells out, so go early and check which days it is open.'],['Wunsche Bros. Cafe','Old Town Spring. A 1902 landmark with burgers and whiskey cake. The kid pick.'],['The Republic Grille','Chicken-fried steak and Texas quail. The sit-down splurge.'],['Cyclone Anaya’s','Tex-Mex from a Houston family name since 1966.']]],
- ['Visit',[['Old Town Spring','403 Main St. A few blocks of old storefronts turned into shops, galleries, and cafes. Evening ghost walks too.'],['Mercer Botanic Gardens','22306 Aldine Westfield Rd, Humble. More than 300 acres of gardens and trails. A good morning-after-Thanksgiving walk.'],['TGR Exotics Wildlife Park','A small wildlife park that locals recommend for kids. Check tour times.'],['Atkinson Farms','Farm stand with produce and a play area.'],['The Woodlands Waterway','A walkable canal district north of Spring.'],['Texas Renaissance Festival','Friday’s plan. About an hour northwest in Todd Mission.']]]];
+
+
+/* ---------- data: place picks (Google ratings and hours checked Nov 15, 2026) ---------- */
+const PICKS=[
+{id:'sunflower',g:'gal',n:'The Sunflower Bakery & Cafe',k:'Breakfast and bakery',pr:'$',r:[4.6,6220],ll:[29.3070,-94.7830],a:'512 14th St, Galveston, TX',p:'+1 409-763-5500',kid:1,
+ why:'The breakfast people choose when they have a morning in Galveston. Real cooked breakfasts plus a full bakery case, with a covered patio.',
+ ord:'Crab cake eggs Benedict, pancakes with strawberry butter, a latte in a big mug.',hrs:'Closed Tuesday. Other days 7 AM to 5 PM.',tg:'na',tgn:'Open Fri Nov 20 and Wed Nov 25. Expect a wait of 20 minutes or more at breakfast.'},
+{id:'leeland',g:'gal',n:'Leeland House',k:'Breakfast and brunch',pr:'$',r:[4.5,525],ll:[29.3039,-94.7989],a:'2711 Market St, Galveston, TX',p:'+1 409-497-2047',kid:1,
+ why:'A calmer, off-the-path backup when the Sunflower line is long. Order at the bar and sit inside or out.',
+ ord:'Biscuits and gravy, steak and eggs, the crispy cauliflower.',hrs:'Closed Monday and Tuesday. Wed to Sat 8 AM to 9 PM. Sun 8 AM to 3 PM.',tg:'na',tgn:'Open Fri Nov 20 and Wed Nov 25.'},
+{id:'sharkshack',g:'gal',n:'Shark Shack',k:'Seafood on The Strand',pr:'$',r:[4.6,2652],ll:[29.3069,-94.7957],a:'2402 The Strand, Galveston, TX',p:'+1 409-497-2006',kid:1,
+ why:'Fast, friendly, and easy on a budget, right on the walkable part of The Strand. Good for a pre-cruise lunch with kids.',
+ ord:'Fried shrimp, fish tacos, jambalaya pasta.',hrs:'Closed Monday. Tue to Thu 11 AM to 8:30 PM. Fri and Sat 11 AM to 10 PM. Sun 11 AM to 8:30 PM.',tg:'na',tgn:'Open Fri Nov 20 and Wed Nov 25.'},
+{id:'coastal',g:'gal',n:'Coastal Grill',k:'Casual seafood and burgers',pr:'$',r:[4.6,1296],ll:[29.3082,-94.7895],a:'1827 The Strand, Galveston, TX',p:'+1 409-765-5386',kid:1,
+ why:'A wide menu, so even picky eaters in a group of four families find something. Quick service and large portions.',
+ ord:'Beer-battered fish and chips, lobster rolls, burgers.',hrs:'Closed Sunday. Mon to Sat 11 AM to 9 PM.',tg:'na',tgn:'Open Fri Nov 20 and Wed Nov 25. Closed Sundays.'},
+{id:'katies',g:'gal',n:'Katie’s Seafood House',k:'Waterfront seafood',pr:'$$',r:[4.5,7900],ll:[29.3100,-94.7913],a:'2000 Wharf Rd, Galveston, TX',p:'+1 409-765-5688',kid:1,
+ why:'Fresh Gulf fish at the harbor with a patio. Portions are big enough for leftovers. A 45-minute wait is common at dinner, so go early.',
+ ord:'Bam bam shrimp to share, grouper picante, red snapper.',hrs:'Daily 11 AM to 9 PM.',tg:'na',tgn:'Open Fri Nov 20 and Wed Nov 25.'},
+{id:'wharf',g:'gal',n:'Fisherman’s Wharf',k:'Harbor-view seafood',pr:'$$',r:[4.5,9124],ll:[29.3090,-94.7936],a:'2200 Harborside Dr, Galveston, TX',p:'+1 409-765-5708',kid:1,
+ why:'Tables over the water where you can watch large ships. They validate parking. Reserve at peak times.',
+ ord:'French Quarter oysters, shrimp and sausage gumbo, parmesan-crusted redfish.',hrs:'Mon to Thu 11 AM to 9 PM. Fri and Sat 11 AM to 10 PM. Sun 11 AM to 9 PM.',tg:'na',tgn:'Open Fri Nov 20 and Wed Nov 25.'},
+{id:'gaidos',g:'gal',n:'Gaido’s',k:'Galveston institution',pr:'$$',r:[4.4,8150],ll:[29.2794,-94.8046],a:'3828 Seawall Blvd, Galveston, TX',p:'+1 409-761-5500',kid:0,
+ why:'A family-run seafood house with a long history on the Seawall. The best dress-up dinner for the last night in town. Reservations help.',
+ ord:'The fish specials, crab-stuffed shrimp, ceviche, pecan pie.',hrs:'Mon to Thu 11 AM to 9 PM. Fri and Sat 11 AM to 10 PM. Sun 11 AM to 9 PM.',tg:'na',tgn:'Open Fri Nov 20 and Wed Nov 25.'},
+{id:'toujouse',g:'gal',n:'Toujouse (Tremont House)',k:'Hotel bar and snacks',pr:'$',r:[4.8,16],ll:[29.3063,-94.7948],a:'2300 Ship Mechanic Row St, Galveston, TX',p:'',kid:0,
+ why:'The bar inside the historic Tremont House, a few blocks from the terminal. Quiet for an adult cocktail while the kids rest. Only 16 reviews so far, so treat the rating lightly.',
+ ord:'Honey and feta pizza, mini Reubens, a lavender French 75.',hrs:'Sun to Thu 12 PM to 11 PM. Fri and Sat 12 PM to 12 AM.',tg:'na',tgn:'Open Fri Nov 20 and Wed Nov 25.'},
+{id:'bucees',g:'road',n:'Buc-ee’s, Luling',k:'Road trip stop',pr:'$',r:[4.1,3118],ll:[29.6505,-97.5940],a:'10070 I-10, Luling, TX',p:'+1 979-238-6390',kid:1,
+ why:'The last big stop before Houston. Cleanest restrooms on I-10 and cheap gas.',
+ ord:'Brisket sandwich, breakfast tacos, Beaver Nuggets.',hrs:'Open 24 hours.',tg:'open',tgn:'Open 24 hours, including holidays.'},
+{id:'corkscrew',g:'spring',n:'CorkScrew BBQ',k:'Michelin-starred barbecue',pr:'$$',r:[4.7,4637],ll:[30.0807,-95.4199],a:'26608 Keith St, Spring, TX',p:'+1 281-330-2178',kid:1,site:'https://www.corkscreworders.com/',
+ why:'One Michelin star (2024) for Texas barbecue in a small Old Town Spring spot. It sells out most days, so go when it opens or order ahead online.',
+ ord:'Brisket and sausage first. The sides are as good as the meat. Beef rib if it is still there.',hrs:'Wed to Sat 11 AM to 4 PM, or until sold out. Closed Sun to Tue.',tg:'check',tgn:'Thanksgiving Day is likely closed. Fri Nov 27 and Sat Nov 28 follow the usual hours, but expect a line before 11. Check the website for holiday notes.'},
+{id:'wunsche',g:'spring',n:'Wunsche Bros. Cafe & Saloon',k:'Historic Texas cafe',pr:'$$',r:[4.9,22370],ll:[30.0791,-95.4176],a:'103 Midway St, Spring, TX',p:'+1 281-350-2233',kid:1,
+ why:'A 1902 railroad-era building with huge portions and live music. It is the easy yes for a mixed group, and Old Town Spring is steps away.',
+ ord:'Chicken-fried steak with white gravy, the pork chop, fried green tomatoes, burger with a fried egg.',hrs:'Mon to Thu 11 AM to 9 PM. Fri and Sat 11 AM to 10 PM. Sun 11 AM to 9 PM.',tg:'check',tgn:'Call about Thanksgiving Day hours. Normal hours otherwise.'},
+{id:'loose',g:'spring',n:'Loose Caboose',k:'Burgers and live music',pr:'$',r:[4.4,953],ll:[30.0789,-95.4186],a:'26403 Preston Ave, Spring, TX',p:'+1 281-288-1733',kid:1,
+ why:'A quirky Old Town Spring spot with a patio and lots to look at. Cheaper than Wunsche, and good for a quick kid lunch.',
+ ord:'The Caboose Burger, loaded fries, hot dogs. Skip the crawfish according to some reviewers.',hrs:'Closed Monday. Tue to Thu 11 AM to 7 PM. Fri 11 AM to 9 PM. Sat 11 AM to 10 PM. Sun 11 AM to 8 PM.',tg:'check',tgn:'Check before going on Thanksgiving Day.'},
+{id:'kono',g:'spring',n:'Kono’s Northshore',k:'Hawaiian breakfast and plates',pr:'$',r:[4.7,93],ll:[30.0781,-95.4210],a:'419 Gentry St #201, Spring, TX',p:'+1 832-447-4239',kid:1,
+ why:'A change from biscuits and gravy. Small and new, so the rating comes from only 93 reviews. Opens early on Fri to Sun.',
+ ord:'Hawaiian bowl with pulled pork, pork sliders, guava or POG juice.',hrs:'Mon to Thu 9 AM to 2 PM. Fri and Sat 8 AM to 7 PM. Sun 8 AM to 6 PM.',tg:'check',tgn:'Check before going on Thanksgiving Day.'},
+{id:'noes',g:'spring',n:'Noe’s Cafe',k:'Breakfast and coffee',pr:'$',r:[4.3,1295],ll:[30.0836,-95.4485],a:'2120 Spring Stuebner Rd Ste 610, Spring, TX',p:'+1 281-656-9999',kid:1,
+ why:'The kid-friendly breakfast pick near the house area. Sweet and savory both, with real coffee drinks.',
+ ord:'Waffle flight, chicken and waffles, chilaquiles.',hrs:'Mon to Thu 7 AM to 3 PM. Fri to Sun 7 AM to 5 PM.',tg:'check',tgn:'Check before going on Thanksgiving Day.'},
+{id:'breakfastplace',g:'spring',n:'The Breakfast Place',k:'Breakfast',pr:'$',r:[4.4,1299],ll:[30.0363,-95.4861],a:'18127 Kuykendahl Rd, Spring, TX',p:'+1 281-251-6464',kid:1,
+ why:'Simple, good, and busy on Sunday mornings. One reviewer put the cost near $17 per person, so it is not the cheapest.',
+ ord:'French toast is the pick several reviewers repeat.',hrs:'Daily 7 AM to 2 PM.',tg:'check',tgn:'Check before going on Thanksgiving Day.'},
+{id:'republic',g:'spring',n:'The Republic Grille',k:'Sit-down Texas dinner',pr:'$$',r:[4.6,1435],ll:[30.1062,-95.3890],a:'3486 Discovery Creek Blvd, Spring, TX',p:'+1 281-719-2001',kid:0,
+ why:'The nicer dinner of the Spring list. Reviews are mostly warm, with a few notes about slow service on busy nights.',
+ ord:'Chicken Woodlands (the dish most reviewers name), Carolina shrimp and grits.',hrs:'Mon and Tue 4 to 8 PM. Wed to Sat 11 AM to 9 PM. Sun 11 AM to 8 PM.',tg:'check',tgn:'Check before going on Thanksgiving Day.'},
+{id:'cyclone',g:'spring',n:'Cyclone Anaya’s (Woodlands)',k:'Tex-Mex',pr:'$$',r:[4.8,8755],ll:[30.1600,-95.4590],a:'20 Waterway Ave #120, The Woodlands, TX',p:'+1 281-419-5771',kid:1,
+ why:'Lively Tex-Mex on the Waterway, so you can walk the canal before or after. Happy hour tacos are a bargain.',
+ ord:'Tableside guacamole, beef fajitas, tamales, street tacos at happy hour.',hrs:'Mon to Thu 11 AM to 10 PM. Fri 11 AM to 11 PM. Sat 10 AM to 11 PM. Sun 10 AM to 9 PM.',tg:'check',tgn:'Check before going on Thanksgiving Day.'},
+{id:'oldtown',g:'spring',n:'Old Town Spring',k:'Shops, galleries, cafes',pr:'Free',r:[4.7,3342],ll:[30.0794,-95.4232],a:'606 Spring Cypress Rd, Spring, TX',p:'+1 281-288-8177',kid:1,
+ why:'A walkable village of antique shops, candy and gift stores, and a love-lock tree. Nearly every food stop above is within a few blocks.',
+ ord:'Park once, then walk. Go on Friday or Saturday when the shops are open.',hrs:'Shops vary. Typically Tue to Sat 10 AM to 5 PM, Sun 12 to 5 PM. Many close Monday.',tg:'check',tgn:'Most shops are likely closed on Thanksgiving Day. The Saturday after is Small Business Saturday, and the holiday lights usually come on around then.'},
+{id:'mercer',g:'spring',n:'Mercer Botanic Gardens',k:'Gardens and trails',pr:'Free',r:[4.7,4797],ll:[30.0380,-95.3812],a:'22306 Aldine Westfield Rd, Humble, TX',p:'+1 713-274-4160',kid:1,
+ why:'A calm morning-after-Thanksgiving walk. Free entry, shaded paths, and a cactus house indoors if it rains.',
+ ord:'Walk the garden loop. Restrooms are toward the front.',hrs:'Daily 8 AM to 5 PM.',tg:'check',tgn:'A Harris County park. Call to confirm Thanksgiving Day hours.'},
+{id:'tgr',g:'spring',n:'TGR Exotics Wildlife Park',k:'Guided animal tours',pr:'$$',r:[4.3,392],ll:[30.0861,-95.5011],a:'22115 Sherrod Ln, Spring, TX',p:'+1 713-408-4942',kid:1,
+ why:'Small guided tours with close animal encounters, not a walk-up zoo. Reviewers say the private tour is the one worth booking, a month ahead if you can.',
+ ord:'Book a guided tour in advance. Sloth and reptile encounters are offered.',hrs:'By reservation only. Check booking times.',tg:'check',tgn:'Book ahead. Holiday tour times are not published.'},
+{id:'atkinson',g:'spring',n:'Atkinson Farms',k:'Farm market',pr:'$',r:[4.3,603],ll:[30.0606,-95.4652],a:'3217 Spring Cypress Rd, Spring, TX',p:'+1 832-381-8202',kid:1,
+ why:'A farm market with a playground and animals. The famous strawberry picking is a spring activity, so expect the market and play area in November.',
+ ord:'Fresh produce and a stop for the kids.',hrs:'Mon to Fri 10 AM to 5 PM. Sat 10 AM to 4 PM. Sun 10 AM to 1:30 PM.',tg:'check',tgn:'Likely closed Thanksgiving Day. Check before going.'},
+{id:'waterway',g:'spring',n:'The Woodlands Waterway',k:'Walkable canal district',pr:'Free',r:[4.9,451],ll:[30.1600,-95.4612],a:'21 Waterway Ave, The Woodlands, TX',p:'',kid:1,
+ why:'Bridges, fountains, a canal, and restaurants all within a short walk. Better after dark, when it is lit.',
+ ord:'Park, walk the canal, and eat on the way back.',hrs:'Open public space. Shops and restaurants keep their own hours.',tg:'open',tgn:'The walkway is open every day. Individual businesses may close.'},
+{id:'wafflehouse',g:'spring',n:'Waffle House (Louetta Rd)',k:'24-hour fallback',pr:'$',r:[4.2,1077],ll:[30.0445,-95.4819],a:'4420 Louetta Rd, Spring, TX',p:'+1 346-305-9794',kid:1,
+ why:'Your guaranteed open breakfast if everything else is closed or the plans change.',
+ ord:'Waffles, hash browns, grits.',hrs:'Open 24 hours.',tg:'open',tgn:'Open 24 hours.'},
+{id:'dennys',g:'spring',n:'Denny’s (I-45)',k:'24-hour fallback',pr:'$',r:[4.1,3195],ll:[30.0543,-95.4332],a:'20015 Interstate 45 N, Spring, TX',p:'+1 281-350-6184',kid:1,
+ why:'A second all-night option right on I-45, with a large menu for picky eaters.',
+ ord:'Breakfast any time.',hrs:'Open 24 hours.',tg:'open',tgn:'Open 24 hours.'},
+{id:'heb',g:'spring',n:'H-E-B (FM 2920)',k:'Groceries',pr:'',r:[4.6,5408],ll:[30.0686,-95.4499],a:'2121 Farm to Market 2920, Spring, TX',p:'+1 281-907-7900',kid:0,
+ why:'The store for the host-gift run, snacks, and anything forgotten. The bakery does custom cakes with notice.',
+ ord:'Go Wednesday, not Thursday.',hrs:'Daily 6 AM to 11 PM.',tg:'open',tgn:'In 2025, H-E-B stayed open 6 AM to noon on Thanksgiving Day, and the pharmacy was closed. Confirm 2026 hours.'},
+{id:'costco',g:'spring',n:'Costco gas (Conroe)',k:'Cheaper fuel',pr:'',r:[4.7,524],ll:[30.2097,-95.4554],a:'8185 TX-242, Conroe, TX',p:'+1 936-703-2295',kid:0,
+ why:'The cheapest fill-up before the drive home. Members only, and Costco pumps take Visa.',
+ ord:'Fill up Friday or Saturday before leaving.',hrs:'Mon to Fri 6 AM to 10 PM. Sat 6 AM to 8:30 PM. Sun 6 AM to 7:30 PM.',tg:'closed',tgn:'Costco has been closed on Thanksgiving Day in past years.'},
+{id:'sch',g:'day',n:'Space Center Houston',k:'NASA museum and tram tour',pr:'$$$',r:[4.6,54908],ll:[29.5518,-95.0981],a:'1601 E NASA Pkwy, Houston, TX',p:'+1 281-244-2100',kid:1,site:'https://spacecenter.org/hours',
+ why:'Real spacecraft, Mission Control, and a tram tour of NASA grounds. It is the best Wednesday option on the way back from Galveston. Plan three to four hours.',
+ ord:'Do the tram tour first, then the exhibit halls.',hrs:'Typically 10 AM to 5 PM daily. Hours change on holidays.',tg:'closed',tgn:'Closed on Thanksgiving Day in 2025. It reopened Friday at 9 AM with Galaxy Lights in the evening. Confirm 2026 on the hours page.'},
+{id:'zoo',g:'day',n:'Houston Zoo and Zoo Lights',k:'Zoo and holiday lights',pr:'$$',r:[4.6,44495],ll:[29.7158,-95.3903],a:'6200 Hermann Park Dr, Houston, TX',p:'+1 713-533-6500',kid:1,site:'https://www.houstonzoo.org/events/txu-energy-presents-zoo-lights',
+ why:'The zoo by day, or Zoo Lights at night. Zoo Lights runs Nov 19, 2026 to Jan 3, 2027 from 5:30 PM, last entry 9:30 PM. Tickets are sold online only, timed, from about $29.95. Children 2 and under are free.',
+ ord:'Buy timed Zoo Lights tickets in advance. The zoo says they are not sold at the gate.',hrs:'Zoo: daily 9 AM to 4 PM. Zoo Lights: nightly 5:30 to 10:30 PM.',tg:'open',tgn:'Zoo Lights is closed only Dec 9 and Christmas Eve, so it is open Thanksgiving night. Only worth it if it does not cut into dinner at Kat’s relatives.'},
+{id:'trf',g:'day',n:'Texas Renaissance Festival',k:'Friday Nov 27 plan',pr:'$$$',r:[4.5,740],ll:[30.2562,-95.8297],a:'21778 FM 1774, Todd Mission, TX',p:'+1 281-356-2178',kid:1,site:'https://www.texrenfest.com/tickets',
+ why:'The closing weekend is Celtic Christmas (Nov 27 to 29), and Friday is a bonus open day. Plan a full day: jousting, birds of prey, and food.',
+ ord:'Buy date-specific tickets online. Check the performer list, because some shows are adults-only.',hrs:'Fri Nov 27: 9 AM to 8 PM. No entry after 7 PM.',tg:'na',tgn:'Open Fri Nov 27. Kids 12 and under are free on Sundays only, so Friday is full price.'}
+];
+const PGROUPS=[['all','All'],['gal','Galveston'],['spring','Spring area'],['day','Day trips'],['kid','Kid picks'],['tg','Open Thanksgiving']];
 
 /* ---------- data: Houston drives and gas ---------- */
 const HOUSE='HOUSE',HOST='HOST';
@@ -776,11 +872,11 @@ function sv(tag,attrs,txt){const e=document.createElementNS(NS,tag);for(const k 
 function mapShell(W,H,focus,zoomBy){const svg=sv('svg',{viewBox:'0 0 '+W+' '+H,role:'img'});const g=sv('g',{class:'zoom'});svg.appendChild(g);
   const set=f=>{g.style.transform=f?'translate('+(W/2-f[0]*zoomBy)+'px,'+(H/2-f[1]*zoomBy)+'px) scale('+zoomBy+')':'translate(0px,0px) scale(1)';};
   set(null);if(focus)setTimeout(()=>set(focus),30);return {svg,g};}
-function pin(g,xy,label,lab,on,num,click){const grp=sv('g',{class:'stop',tabindex:'0',role:'button','aria-label':label});
+function pin(g,xy,label,lab,on,num,click,hideText){const grp=sv('g',{class:'stop',tabindex:'0',role:'button','aria-label':label});
   grp.appendChild(sv('circle',{cx:xy[0],cy:xy[1],r:22,fill:'transparent'}));
   grp.appendChild(sv('circle',{cx:xy[0],cy:xy[1],r:on?10:8,fill:on?'#ff8a70':'#e6c878',stroke:'#0b1a30','stroke-width':2}));
   if(num!=null)grp.appendChild(sv('text',{x:xy[0],y:xy[1]+3.5,'text-anchor':'middle','font-size':10,'font-weight':600,style:'fill:#0b1a30'},String(num)));
-  grp.appendChild(sv('text',{x:xy[0]+lab[0],y:xy[1]+lab[1],'font-size':on?12:11,'text-anchor':lab[2]||'start'},label));
+  if(!hideText)grp.appendChild(sv('text',{x:xy[0]+lab[0],y:xy[1]+lab[1],'font-size':on?12:11,'text-anchor':lab[2]||'start'},label));
   grp.addEventListener('click',click);grp.addEventListener('keydown',e=>{if(e.key==='Enter')click();});g.appendChild(grp);}
 function linkRow(parent,links){const r=h('div',{class:'row'});links.forEach(l=>r.appendChild(h('a',{class:'btn ghost sm',href:l[1],target:'_blank',rel:'noopener',text:l[0]})));parent.appendChild(r);}
 function bullets(parent,title,arr){parent.appendChild(h('div',{class:'sub',text:title}));const ul=h('ul',{class:'lst'});arr.forEach(t=>ul.appendChild(h('li',{text:t})));parent.appendChild(ul);}
@@ -1219,6 +1315,63 @@ function Frames(w){
   draw();if(document.fonts&&document.fonts.load)Promise.all(['84px "Poiret One"','600 30px "Josefin Sans"','400 30px "Josefin Sans"'].map(f=>document.fonts.load(f))).then(draw).catch(()=>{});
 }
 
+
+/* ---------- Places ---------- */
+function pkPass(p,f){return f==='all'||p.g===f||(f==='kid'&&p.kid)||(f==='tg'&&p.tg==='open')||(f==='gal'&&0);}
+function pkProject(list,g){
+  const B=g==='gal'?{x0:-94.84,x1:-94.76,y0:29.33,y1:29.26,W:360,H:300}:{x0:-95.54,x1:-95.36,y0:30.17,y1:30.03,W:360,H:300};
+  const pts=list.map(p=>[(p.ll[1]-B.x0)/(B.x1-B.x0)*B.W,(p.ll[0]-B.y0)/(B.y1-B.y0)*B.H]);
+  for(let it=0;it<40;it++)for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+    const dx=pts[j][0]-pts[i][0],dy=pts[j][1]-pts[i][1];const d=Math.sqrt(dx*dx+dy*dy)||0.01;
+    if(d<30){const m=(30-d)/2,ux=dx/d||0.7,uy=dy/d||0.7;pts[i][0]-=ux*m;pts[i][1]-=uy*m;pts[j][0]+=ux*m;pts[j][1]+=uy*m;}}
+  pts.forEach(q=>{q[0]=Math.max(14,Math.min(B.W-14,q[0]));q[1]=Math.max(14,Math.min(B.H-14,q[1]));});
+  return {B,pts};}
+function PickMap(parent,list,g){
+  const {B,pts}=pkProject(list,g);const m=mapShell(B.W,B.H,null,1);
+  const X=lon=>(lon-B.x0)/(B.x1-B.x0)*B.W,Y=lat=>(lat-B.y0)/(B.y1-B.y0)*B.H;
+  if(g==='gal'){
+    m.g.appendChild(sv('rect',{x:-50,y:-50,width:B.W+100,height:B.H+100,fill:'#0c2d57'}));
+    const gulf=lon=>29.274+0.85*(lon+94.805),bay=lon=>29.312+0.55*(lon+94.79);
+    const pl=[[-94.845,gulf(-94.845)],[-94.755,gulf(-94.755)],[-94.755,bay(-94.755)],[-94.845,bay(-94.845)]].map(c=>X(c[0])+','+Y(c[1])).join(' ');
+    m.g.appendChild(sv('polygon',{points:pl,fill:'#7b5b39',stroke:'#d4b27a','stroke-width':1.6,'stroke-linejoin':'round'}));
+    m.g.appendChild(sv('text',{x:260,y:288,'font-size':11,style:'fill:#7fa8dc'},'Gulf of Mexico'));
+    m.g.appendChild(sv('text',{x:14,y:22,'font-size':11,style:'fill:#7fa8dc'},'Galveston Harbor'));
+    m.g.appendChild(sv('text',{x:W2(B),y:Y(29.295),'font-size':10,style:'fill:#f0dcb4'},'Seawall'));
+  }else{
+    m.g.appendChild(sv('rect',{x:-50,y:-50,width:B.W+100,height:B.H+100,fill:'#7b5b39'}));
+    m.g.appendChild(sv('text',{x:X(-95.435),y:Y(30.092),'font-size':10,style:'fill:#f0dcb4'},'Old Town Spring'));
+    m.g.appendChild(sv('text',{x:X(-95.50),y:Y(30.168),'font-size':10,style:'fill:#f0dcb4'},'The Woodlands'));
+  }
+  list.forEach((p,i)=>pin(m.g,pts[i],p.n,[12,4],S.pk===p.id,i+1,()=>{S.pk=p.id;render();setTimeout(()=>{const e=document.querySelector('.pk.sel');if(e&&e.scrollIntoView)e.scrollIntoView({block:'center',behavior:'smooth'});},60);},S.pk!==p.id));
+  parent.appendChild(h('div',{class:'mapbox pmap'},m.svg));
+  parent.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:2px 0 6px',text:'Schematic map. Tap a pin to see its name and jump to its card. Pins are nudged apart so they do not overlap. Tap Map on a card for the real location.'}));}
+function W2(B){return 20;}
+function Picks(b){
+  const f=S.pf||'all';
+  const chips=h('div',{class:'chips'});
+  PGROUPS.forEach(g=>chips.appendChild(h('button',{type:'button',class:'chip'+(f===g[0]?' on':''),text:g[1],on:{click:()=>{S.pf=g[0];S.pk=null;render();}}})));
+  b.appendChild(chips);
+  let list=PICKS.filter(p=>f==='gal'?p.g==='gal':f==='spring'?p.g==='spring':f==='day'?p.g==='day':pkPass(p,f));
+  if(f==='gal'||f==='spring')PickMap(b,list,f);
+  else b.appendChild(h('p',{style:'font-size:13px;color:var(--dim);margin:6px 0',text:'Pick Galveston or Spring area to see a map of the pins.'}));
+  list.forEach((p,i)=>{
+    const card=h('div',{class:'pk'+(S.pk===p.id?' sel':'')});
+    card.appendChild(h('div',{class:'nm'},(f==='gal'||f==='spring')?h('span',{class:'no',text:String(i+1)}):null,h('span',{text:p.n})));
+    const rt='★ '+p.r[0].toFixed(1)+' on Google ('+p.r[1].toLocaleString('en-US')+' reviews)';
+    card.appendChild(h('div',{class:'meta',text:[p.k,p.pr,rt].filter(Boolean).join(' · ')}));
+    card.appendChild(h('p',{text:p.why}));
+    card.appendChild(h('p',null,h('b',{text:'Try: '}),p.ord));
+    card.appendChild(h('p',null,h('b',{text:'Hours: '}),p.hrs));
+    const lab=p.tg==='open'?'Open Thanksgiving Day':p.tg==='closed'?'Closed Thanksgiving Day':p.tg==='check'?'Thanksgiving Day: check first':'Trip dates';
+    card.appendChild(h('span',{class:'tgchip tg-'+p.tg,text:lab}));
+    card.appendChild(h('p',{text:p.tgn}));
+    const links=[['📍 Map',mapsUrl(p.n+' '+p.a)]];
+    links.push(p.site?['🌐 Website',p.site]:['🔎 Search the web','https://www.google.com/search?q='+encodeURIComponent(p.n+' '+p.a.split(',').slice(-2).join(' '))]);
+    if(p.p)links.push(['📞 Call','tel:'+p.p.replace(/[^+\d]/g,'')]);
+    linkRow(card,links);
+    b.appendChild(card);});
+  b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Ratings and hours are from Google, checked Nov 15, 2026. Holiday hours change, so call or check the website the day before. Official sites are linked for Space Center Houston, Zoo Lights, the Renaissance Festival, and CorkScrew. Others open a web search.'}));}
+
 /* ---------- Guide ---------- */
 function Guide(){
   const w=h('div',{class:'wrap'});view.appendChild(w);
@@ -1253,7 +1406,8 @@ function Guide(){
     const aw=h('div',{class:'row',style:'flex-wrap:wrap'});
     [['🍴 Dinner','restaurants'],['🥞 Breakfast','breakfast'],['☕ Coffee','coffee shops'],['🎈 Kid fun','things to do with kids'],['🌳 Parks','parks and trails'],['🛒 Groceries','grocery store'],['⛽ Gas','gas station'],['💊 Pharmacy','pharmacy']].forEach(x=>aw.appendChild(around(x[0],x[1])));b.appendChild(aw);
     linkRow(b,[['📍 Near me right now',mapsUrl('restaurants near me')]]);
-    SPRING.forEach(sec=>{b.appendChild(h('div',{class:'sub',text:sec[0]+' nearby'}));sec[1].forEach(e=>b.appendChild(h('div',{class:'lc'},h('b',{text:e[0]}),h('p',{text:e[1]}))));});
+    b.appendChild(h('div',{class:'sub',text:'Eat and visit nearby'}));
+    b.appendChild(h('button',{type:'button',class:'btn',text:'See the Spring area picks',on:{click:()=>{S.pf='spring';S.pk=null;S.open.places=true;render();}}}));
   });
   accordion(w,'backup','☁ Backup to Google Drive',' ',b=>{const host=h('div');b.appendChild(host);
     if(window.FamilyDrive)FamilyDrive.card(host,{title:false,text:'Saves this phone’s gas log, budget, quiz progress, book unlocks and notes into one dated file in your Drive. Door code and Wi-Fi details are left out on purpose. Needs a connection once to connect.'});
@@ -1305,7 +1459,7 @@ function Guide(){
       bud.items.slice().reverse().forEach(x=>b.appendChild(h('div',{class:'rl',style:'border-color:rgba(201,162,75,.15)'},h('div',{class:'t',style:'color:var(--cream)'},money(x.amt)+' · '+x.cat,h('small',{style:'color:var(--dim)',text:(x.note?x.note+' · ':'')+x.day.slice(5).replace('-','/')})),
         h('button',{type:'button',class:'btn ghost sm','aria-label':'Remove expense',text:'✕',on:{click:()=>showModal({title:'Remove this expense?',message:money(x.amt)+' · '+x.cat+(x.note?' · '+x.note:''),confirmText:'Remove',cancelText:'Keep',onConfirm:()=>{bud.items=bud.items.filter(y=>y.id!==x.id);save('budget',bud);render();}})}}))));}
     b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Saved on this phone only. Each phone keeps its own list, so pick one phone to be the ledger.'}));});
-  accordion(w,'eats','🍽️ Eats on land','',b=>EATS.forEach(e=>b.appendChild(h('div',{style:'padding:8px 0;border-bottom:1px solid rgba(201,162,75,.15)'},h('b',{text:e[0],style:'font-weight:600'}),h('div',{class:'sub',style:'margin:2px 0',text:e[1]}),h('p',{text:e[2],style:'margin:0;font-size:14px;line-height:1.45;color:var(--dim)'})))));
+  accordion(w,'places','📍 Places to eat and visit',PICKS.length+' picks',b=>Picks(b));
   accordion(w,'logi','🚙 Road and port notes','',b=>{const ul=h('ul',{style:'padding-left:20px;margin:0'});LOGI.forEach(t=>ul.appendChild(h('li',{text:t,style:'font-size:15px;line-height:1.5;margin:6px 0;color:var(--dim)'})));b.appendChild(ul);});
   accordion(w,'settings','⚙️ Settings',' ',b=>{
     b.appendChild(h('div',{class:'sub',text:'Look'}));
