@@ -718,11 +718,6 @@ function Home(){
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
   w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.day=d.date;go('trip');}}},
     h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
-  const tt=tripToday();
-  if(tt<='2026-11-20'||(tt>='2026-11-26'&&tt<='2026-11-29')){const de=tt<'2026-11-21'?'e':'w';
-    w.appendChild(h('button',{type:'button',class:'card tap','data-id':'home-timing',on:{click:()=>{S.view='road';S.dir=de;S.stop=null;go('trip');}}},
-      h('span',{class:'phase',text:'Road timing'}),h('h3',{text:'⏱️ When do we get there?'}),
-      h('p',{text:de==='e'?'Pick a departure time and see every stop, plus the latest you can leave and still make the ship.':'Pick a departure time and see when you reach each stop and Chandler.'})));}
   if(ti>=0&&d.items.some(i=>i[5]==='Fuel'))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{let n='Gas';if(GEO.on&&GEO.pos){const w0=whereAmI();if(w0.near.length)n=gasNote(w0.near[0]);}goBudget('Gas',n);}}},
     h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log gas at each stop'}),h('p',{text:'Tap to open the budget with Gas picked. With location on, the stop is filled in for you. Add what the pump charged.'})));
   const gh=h('div');w.appendChild(gh);geoCard(gh);if(GEO.on)geoStart();
@@ -842,10 +837,11 @@ function CruiseMap(w){
   const P=ll=>[(ll[0]+99)*38,(31-ll[1])*33];const cur=S.port?(PORTS[S.port]||SEAS[S.port]):null;
   const m=mapShell(520,460,cur?P(cur.at):null,2);
   const land=COAST.map(P);const poly=[[520,-10],[-10,-10],[-10,470]].concat([[P(COAST[COAST.length-1])[0],470]]).concat(land.slice().reverse());
-  m.g.appendChild(sv('polygon',{points:poly.concat([[P(COAST[0])[0],-10]]).map(p=>p.join(',')).join(' '),fill:'#17355e',stroke:'#33507a'}));
-  m.g.appendChild(sv('ellipse',{cx:P([-86.93,20.42])[0],cy:P([-86.93,20.42])[1],rx:5,ry:9,fill:'#17355e',stroke:'#5fd0c5'}));
+  m.g.appendChild(sv('rect',{x:-200,y:-200,width:1000,height:900,fill:'#0c2d57'}));
+  m.g.appendChild(sv('polygon',{points:poly.concat([[P(COAST[0])[0],-10]]).map(p=>p.join(',')).join(' '),fill:'#7b5b39',stroke:'#d4b27a','stroke-width':1.6,'stroke-linejoin':'round'}));
+  m.g.appendChild(sv('ellipse',{cx:P([-86.93,20.42])[0],cy:P([-86.93,20.42])[1],rx:5,ry:9,fill:'#7b5b39',stroke:'#d4b27a','stroke-width':1.4}));
   m.g.appendChild(sv('polyline',{points:SAIL.map(P).map(p=>p.join(',')).join(' '),fill:'none',stroke:'#5fd0c5','stroke-width':2,'stroke-dasharray':'6 6','stroke-linejoin':'round'}));
-  [['TEXAS',[-98.6,30.3]],['MEXICO',[-98.8,22.6]],['YUCATAN',[-90.4,19.2]],['GULF OF MEXICO',[-93.6,24.6]]].forEach(t=>{const p=P(t[1]);m.g.appendChild(sv('text',{x:p[0],y:p[1],'font-size':11,'letter-spacing':3,style:'fill:#5f7fae'},t[0]));});
+  [['TEXAS',[-98.6,30.3],'#f0dcb4'],['MEXICO',[-98.8,22.6],'#f0dcb4'],['YUCATAN',[-90.4,19.2],'#f0dcb4'],['GULF OF MEXICO',[-93.6,24.6],'#7fa8dc']].forEach(t=>{const p=P(t[1]);m.g.appendChild(sv('text',{x:p[0],y:p[1],'font-size':11,'letter-spacing':3,style:'fill:'+t[2]},t[0]));});
   const ALLPTS=Object.assign({},SEAS,PORTS);
   Object.keys(ALLPTS).forEach(id=>pin(m.g,P(ALLPTS[id].at),ALLPTS[id].n,ALLPTS[id].lab,S.port===id,null,()=>{S.port=S.port===id?null:id;render();}));
   w.appendChild(h('div',{class:'mapbox'},m.svg));
@@ -890,45 +886,68 @@ function rushPen(dir,leg,t,drive,off){let add=0;RUSH[dir].forEach(r=>{if(r[0]!==
   const hr=d.getUTCHours()+d.getUTCMinutes()/60;r[2].forEach(w=>{if(hr>=w[0]&&hr<w[1])add+=w[2];});});return add;}
 function depMs(dir,hhmm){const T=TIMING[dir],p=String(hhmm||'12:00').split(':');return Date.UTC(T.base[0],T.base[1],T.base[2],+p[0]||0,+p[1]||0)-T.dayOff*3600000;}
 function tgtMs(hhmm){const p=String(hhmm||'12:00').split(':');return Date.UTC(2026,10,20,+p[0]||0,+p[1]||0)+6*3600000;}
-function roadFC(dir,dep,pace,log){const ids=ROUTES[dir],T=TIMING[dir],P=PACE[pace]||PACE.p;let k=-1;
+function brMin(drive,br){return br==='1'?Math.floor(drive/120)*15:0;}
+function roadFC(dir,dep,pace,log,br,now){const ids=ROUTES[dir],T=TIMING[dir],P=PACE[pace]||PACE.p;let k=-1;
   if(log)ids.forEach((id,i)=>{if(log[id])k=i;});
   const rows=ids.map(id=>({id}));let t,i0;
   if(k>=0){ids.forEach((id,i)=>{if(i<=k&&log[id]){rows[i].act=true;rows[i].arr=log[id];}});
     t=log[ids[k]];if(k>0&&k<ids.length-1){rows[k].stop=Math.round(T.stop[k]*P.s);t+=rows[k].stop*60000;}rows[k].leave=t;i0=k;}
   else{t=dep;rows[0].arr=dep;rows[0].leave=dep;i0=0;}
-  for(let i=i0;i<ids.length-1;i++){const drive=Math.round(T.drive[i]*P.d);const rush=rushPen(dir,i,t,drive,TZO[ids[i]]);
-    t+=(drive+rush)*60000;const r=rows[i+1];r.arr=t;r.drive=drive;r.rush=rush;
+  for(let i=i0;i<ids.length-1;i++){const drive=Math.round(T.drive[i]*P.d);const rush=rushPen(dir,i,t,drive,TZO[ids[i]]);const bk=brMin(drive,br);
+    let ex=0;if(k>=0&&i===k){ex=(log._x&&log._x[k])||0;if(log._b&&log._b.k===k)ex+=Math.max(0,Math.round(((now||t)-log._b.start)/60000));}
+    t+=(drive+rush+bk+ex)*60000;const r=rows[i+1];r.arr=t;r.drive=drive;r.rush=rush;r.brk=bk;r.extra=ex;
     r.stop=i+1<ids.length-1?Math.round(T.stop[i+1]*P.s):0;t+=r.stop*60000;r.leave=t;}
   return rows;}
 function fmtT(ms,off,bd){const d=new Date(ms+off*3600000);let hr=d.getUTCHours();const mi=d.getUTCMinutes(),ap=hr>=12?'PM':'AM';hr=hr%12||12;
   return (d.getUTCDate()!==bd?DOW[d.getUTCDay()]+' ':'')+hr+':'+String(mi).padStart(2,'0')+' '+ap;}
 function fmtDur(m){m=Math.max(0,Math.round(m));const hh=Math.floor(m/60),mm=m%60;return hh?hh+' h'+(mm?' '+mm+' m':''):mm+' m';}
 function fmtHM(s){const p=String(s).split(':');let hr=+p[0];const ap=hr>=12?'PM':'AM';hr=hr%12||12;return hr+(+p[1]?':'+p[1]:'')+' '+ap;}
-function roadPlan(){return Object.assign({e:'12:00',w:'11:30',p:'p',t:'12:00'},Store.get('roadplan',{}));}
+function roadPlan(){return Object.assign({e:'12:00',w:'11:30',p:'p',t:'12:00',br:'0'},Store.get('roadplan',{}));}
 function setPlan(k,v){const p=roadPlan();p[k]=v;save('roadplan',p);render();}
-function logStop(dir,id,on){const a=Store.get('roadlog',{});a[dir]=a[dir]||{};if(on)a[dir][id]=tripNow().getTime();else delete a[dir][id];save('roadlog',a);render();}
+let rdT;
+function logMut(dir,fn){const a=Store.get('roadlog',{});a[dir]=a[dir]||{};fn(a[dir]);save('roadlog',a);render();}
+function logStop(dir,id,on){logMut(dir,l=>{if(on){l[id]=tripNow().getTime();delete l._b;}else delete l[id];});}
+function startBreak(dir,k){logMut(dir,l=>{l._b={k:k,start:tripNow().getTime()};});}
+function endBreak(dir){logMut(dir,l=>{if(l._b){const m=Math.max(1,Math.round((tripNow().getTime()-l._b.start)/60000));l._x=l._x||{};l._x[l._b.k]=(l._x[l._b.k]||0)+m;delete l._b;}});}
+function addExtra(dir,k,m){logMut(dir,l=>{l._x=l._x||{};l._x[k]=(l._x[k]||0)+m;});}
+function clearExtra(dir,k){logMut(dir,l=>{if(l._x)delete l._x[k];});}
 function portStatus(arr,tgt){const d=(arr-tgt)/60000;return d<=0?['ok','On time']:d<=90?['tight','Tight']:['late','Late'];}
-function latestDep(pace,hhmm){const tgt=tgtMs(hhmm),base=Date.UTC(2026,10,19,0,0)+7*3600000;
-  for(let m=34*60;m>=0;m-=5){const dep=base+m*60000;const rows=roadFC('e',dep,pace,null);if(rows[rows.length-1].arr<=tgt)return dep;}return null;}
+function latestDep(pace,hhmm,br){const tgt=tgtMs(hhmm),base=Date.UTC(2026,10,19,0,0)+7*3600000;
+  for(let m=34*60;m>=0;m-=5){const dep=base+m*60000;const rows=roadFC('e',dep,pace,null,br);if(rows[rows.length-1].arr<=tgt)return dep;}return null;}
+function pacePhrase(d){return d>=5?fmtDur(d)+' behind plan':d<=-5?fmtDur(-d)+' ahead of plan':'right on plan';}
 function Timing(w,dir){
   const P=roadPlan(),ids=ROUTES[dir],isE=dir==='e',T=TIMING[dir],bd=T.base[2];
-  const log=(Store.get('roadlog',{})[dir])||{};const k=ids.map(id=>!!log[id]).lastIndexOf(true);const hasLog=k>=0;
-  const dep=depMs(dir,P[dir]);const rows=roadFC(dir,dep,P.p,hasLog?log:null);const last=rows[rows.length-1];
-  const tgt=isE?tgtMs(P.t):null;const st=isE?portStatus(last.arr,tgt):null;
-  const card=h('div',{class:'card','data-id':'timing'});w.appendChild(card);
-  card.appendChild(h('span',{class:'phase',text:'Timing'}));card.appendChild(h('h3',{text:'⏱️ When we get there'}));
-  card.appendChild(h('p',{text:hasLog?'Forecast restarted from your last check-in. Keep tapping We are here and it keeps adjusting.':'Pick when you leave and every stop below updates. On the road, tap We are here at each stop and the rest re-forecasts from that moment.'}));
+  const log=(Store.get('roadlog',{})[dir])||{};const k=ids.map(id=>!!log[id]).lastIndexOf(true);const hasLog=k>=0;const now=tripNow().getTime();
+  const dep=depMs(dir,P[dir]);const base=roadFC(dir,dep,P.p,null,P.br);const rows=roadFC(dir,dep,P.p,hasLog?log:null,P.br,now);
+  const last=rows[rows.length-1];const dd=Math.round((last.arr-base[base.length-1].arr)/60000);
+  const tgt=isE?tgtMs(P.t):null;const st=isE?portStatus(last.arr,tgt):null;const breakOn=hasLog&&log._b&&log._b.k===k&&k<ids.length-1;
+  clearInterval(rdT);if(breakOn&&S.open.timing)rdT=setInterval(()=>{if(S.tab==='trip'&&S.view==='road'&&S.open.timing)render();else clearInterval(rdT);},60000);
+  if(S.open.timing===undefined)S.open.timing=hasLog;
+  accordion(w,'timing','⏱️ When do we get there?',fmtT(last.arr,TZO[last.id],bd)+(hasLog?' · '+(dd>=5?dd+' min behind':dd<=-5?(-dd)+' min ahead':'on plan'):''),body=>{
+  body.appendChild(h('p',{style:'margin:0 0 4px',text:hasLog?'Forecast restarted from your last check-in. Keep tapping We are here and it keeps adjusting against the plan.':'Pick when you leave and every stop below updates. On the road, tap We are here at each stop and the rest re-forecasts from that moment.'}));
   if(!hasLog){
     const inp=h('input',{type:'time',value:P[dir],'aria-label':'Departure time',on:{change:e=>{if(e.target.value)setPlan(dir,e.target.value);}}});
-    card.appendChild(h('div',{class:'row'},h('span',{style:'align-self:center;font-size:14px;color:var(--dim);flex:0 0 auto',text:'Leave '+PLACES[ids[0]].n+' at'}),inp));
+    body.appendChild(h('div',{class:'row'},h('span',{style:'align-self:center;font-size:14px;color:var(--dim);flex:0 0 auto',text:'Leave '+PLACES[ids[0]].n+' at'}),inp));
   }else{
-    card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Clear check-ins',on:{click:()=>{const a=Store.get('roadlog',{});a[dir]={};save('roadlog',a);render();}}})));}
-  const seg=h('div',{class:'seg'});card.appendChild(seg);
+    body.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Clear check-ins',on:{click:()=>{const a=Store.get('roadlog',{});a[dir]={};save('roadlog',a);render();}}})));
+    if(k<ids.length-1){const bx=h('div',{class:'row'});body.appendChild(bx);
+      if(breakOn){const em=Math.max(0,Math.round((now-log._b.start)/60000));
+        bx.appendChild(h('span',{'data-id':'break-live',style:'align-self:center;font-size:14px;color:var(--coral);flex:1 1 150px',text:'☕ On a break · '+em+' min so far'}));
+        bx.appendChild(h('button',{type:'button',class:'btn sm',text:'Back on the road',on:{click:()=>endBreak(dir)}}));}
+      else{bx.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'☕ Start a break',on:{click:()=>startBreak(dir,k)}}));
+        [10,20].forEach(m=>bx.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'+'+m+' min',on:{click:()=>addExtra(dir,k,m)}})));}
+      if(log._x&&log._x[k])body.appendChild(h('div',{class:'row'},h('span',{'data-id':'extra-note',style:'align-self:center;font-size:13px;color:var(--dim);flex:1 1 150px',text:'Extra stops since '+PLACES[ids[k]].n+': '+log._x[k]+' min'}),h('button',{type:'button',class:'btn ghost sm',text:'Reset',on:{click:()=>clearExtra(dir,k)}})));}
+  }
+  const seg=h('div',{class:'seg'});body.appendChild(seg);
   Object.keys(PACE).forEach(p=>seg.appendChild(h('button',{type:'button',class:P.p===p?'on':'',text:PACE[p].n,on:{click:()=>setPlan('p',p)}})));
-  card.appendChild(h('p',{style:'font-size:13px',text:PACE[P.p].t}));
-  const sum=h('div',{style:'margin:12px 0 2px;text-align:center'});card.appendChild(sum);
+  body.appendChild(h('p',{style:'font-size:13px;margin:4px 0',text:PACE[P.p].t}));
+  const bs=h('div',{class:'seg'});body.appendChild(bs);
+  [['0','No planned breaks'],['1','Break every 2 h']].forEach(b=>bs.appendChild(h('button',{type:'button',class:P.br===b[0]?'on':'',text:b[1],on:{click:()=>setPlan('br',b[0])}})));
+  body.appendChild(h('p',{style:'font-size:13px;margin:4px 0',text:P.br==='1'?'Adds 15 minutes for every 2 hours of driving on a leg, for restrooms, snacks, and leg stretches.':'Only the fuel and meal stops are planned. Turn on breaks to add rest stops.'}));
+  const sum=h('div',{style:'margin:12px 0 2px;text-align:center'});body.appendChild(sum);
   sum.appendChild(h('div',{style:'font-size:13px;color:var(--dim)',text:isE?'Estimated arrival at SMP Garage':'Estimated arrival in Chandler'}));
   sum.appendChild(h('div',{class:'scr','data-id':'eta',style:'font-size:28px;letter-spacing:.06em',text:fmtT(last.arr,TZO[last.id],bd)+(isE?' Texas time':' Arizona time')}));
+  if(hasLog)sum.appendChild(h('p',{'data-id':'vs-plan',style:'font-size:14px;margin:4px 0 0;color:'+(dd>=5?'var(--coral)':'var(--teal)'),text:'Plan was '+fmtT(base[base.length-1].arr,TZO[last.id],bd)+'. You are '+pacePhrase(dd)+'.'}));
   if(isE){const d=Math.round((last.arr-tgt)/60000);
     sum.appendChild(h('span',{class:'pill '+st[0],text:st[1]}));
     let msg;if(st[0]==='ok')msg='That is '+fmtDur(-d)+' before the '+fmtHM(P.t)+' port arrival target.';
@@ -938,35 +957,37 @@ function Timing(w,dir){
     sum.appendChild(h('p',{style:'font-size:14px;margin:6px 0 0',text:msg}));}
   if(!hasLog)sum.appendChild(h('p',{style:'font-size:13px;margin:4px 0 0',text:fmtDur((last.arr-dep)/60000)+' door to door, '+MILES[dir][ids[ids.length-1]].toLocaleString('en-US')+' miles.'}));
   if(isE&&!hasLog){
-    card.appendChild(h('div',{class:'row'},h('span',{style:'align-self:center;font-size:14px;color:var(--dim);flex:0 0 auto',text:'Port arrival target'}),
+    body.appendChild(h('div',{class:'row'},h('span',{style:'align-self:center;font-size:14px;color:var(--dim);flex:0 0 auto',text:'Port arrival target'}),
       h('input',{type:'time',value:P.t,'aria-label':'Port arrival target',on:{change:e=>{if(e.target.value)setPlan('t',e.target.value);}}})));
-    const ld=latestDep(P.p,P.t);
+    const ld=latestDep(P.p,P.t,P.br);
     if(ld){const loc=new Date(ld-7*3600000);const hhmm=String(loc.getUTCHours()).padStart(2,'0')+':'+String(loc.getUTCMinutes()).padStart(2,'0');
-      card.appendChild(h('p',{'data-id':'latest',text:'Latest you can leave Chandler and still arrive by '+fmtHM(P.t)+' Friday: '+fmtT(ld,-7,19)+' Arizona time, at this pace.'}));
-      card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Use that time',on:{click:()=>setPlan('e',hhmm)}})));}
-    else card.appendChild(h('p',{class:'warn',text:'No Thursday departure reaches the port by that target at this pace.'}));}
+      body.appendChild(h('p',{'data-id':'latest',text:'Latest you can leave Chandler and still arrive by '+fmtHM(P.t)+' Friday: '+fmtT(ld,-7,19)+' Arizona time, at this pace.'}));
+      body.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Use that time',on:{click:()=>setPlan('e',hhmm)}})));}
+    else body.appendChild(h('p',{class:'warn',text:'No Thursday departure reaches the port by that target at this pace.'}));}
   if(!hasLog){
-    card.appendChild(h('div',{class:'sub',text:'What if we leave at'}));
+    body.appendChild(h('div',{class:'sub',text:'What if we leave at'}));
     const opts=isE?['08:00','10:00','12:00','14:00','16:00','18:00']:['09:00','11:00','12:00','13:00','15:00','17:00'];
-    const g=h('div',{class:'whatif'});card.appendChild(g);
-    opts.forEach(o=>{const fr=roadFC(dir,depMs(dir,o),P.p,null),l=fr[fr.length-1];const s=isE?portStatus(l.arr,tgt)[0]:'';
-      g.appendChild(h('button',{type:'button',class:'chip'+(P[dir]===o?' on':''),on:{click:()=>setPlan(dir,o)}},h('b',{text:fmtHM(o)}),h('span',{class:s,text:(isE?'Port ':'Home ')+fmtT(l.arr,TZO[l.id],bd)})));});}
-  card.appendChild(h('div',{class:'sub',text:'Stop by stop'}));
-  rows.forEach((r,i)=>{const pl=PLACES[r.id],off=TZO[r.id];const lc=h('div',{class:'lc'});card.appendChild(lc);
+    const g=h('div',{class:'whatif'});body.appendChild(g);
+    opts.forEach(o=>{const fr=roadFC(dir,depMs(dir,o),P.p,null,P.br),l=fr[fr.length-1];const s2=isE?portStatus(l.arr,tgt)[0]:'';
+      g.appendChild(h('button',{type:'button',class:'chip'+(P[dir]===o?' on':''),on:{click:()=>setPlan(dir,o)}},h('b',{text:fmtHM(o)}),h('span',{class:s2,text:(isE?'Port ':'Home ')+fmtT(l.arr,TZO[l.id],bd)})));});}
+  body.appendChild(h('div',{class:'sub',text:'Stop by stop'}));
+  rows.forEach((r,i)=>{const pl=PLACES[r.id],off=TZO[r.id];const lc=h('div',{class:'lc'});body.appendChild(lc);
     const main=r.arr!=null?fmtT(r.arr,off,bd):'passed';
     lc.appendChild(h('div',{style:'display:flex;justify-content:space-between;gap:8px;align-items:baseline'},h('b',{text:(i+1)+'. '+pl.n}),h('b',{'data-t':r.id,style:'text-align:right;flex:0 0 auto',text:main})));
-    const bits=[];if(i>0&&r.drive!=null)bits.push('Drive '+fmtDur(r.drive)+(r.rush?' (+'+r.rush+' min for traffic)':''));
+    const dv=r.arr!=null&&base[i].arr!=null?Math.round((r.arr-base[i].arr)/60000):0;
+    const bits=[];if(i>0&&r.drive!=null&&!r.act)bits.push('Drive '+fmtDur(r.drive)+(r.rush?' (+'+r.rush+' min for traffic)':'')+(r.brk?' + '+r.brk+' min of breaks':'')+(r.extra?' + '+r.extra+' min of extra stops':''));
     if(r.stop)bits.push('stop '+r.stop+' min, back on the road '+fmtT(r.leave,off,bd));
     if(i===0&&!hasLog)bits.push('Start');
+    if(hasLog&&!r.act&&r.arr!=null)bits.push(pacePhrase(dv));
     if(bits.length)lc.appendChild(h('p',{text:bits.join(' · ')}));
     if(r.arr!=null)lc.appendChild(h('p',{style:'font-size:12px',text:(off===-7?'Arizona time':'Texas time')+(off!==-7?' · '+fmtT(r.arr,-7,bd)+' in Arizona':'')}));
     if(r.arr!=null&&!r.act&&(r.id==='elpaso'||r.id==='tucson')){const lh=new Date(r.arr+off*3600000);const hr=lh.getUTCHours()+lh.getUTCMinutes()/60;
       if(hr>=20.5||hr<5)lc.appendChild(h('p',{style:'font-size:13px;color:var(--coral)',text:'Costco pumps are likely closed by then. Any big-brand station off I-10 works. Check hours first.'}));}
-    if(r.act)lc.appendChild(h('div',{class:'row'},h('span',{style:'align-self:center;font-size:13px;color:var(--teal)',text:'✓ '+(i===0?'Left ':'Arrived ')+fmtT(r.arr,off,bd)}),h('button',{type:'button',class:'btn ghost sm',text:'Undo',on:{click:()=>logStop(dir,r.id,false)}})));
+    if(r.act)lc.appendChild(h('div',{class:'row'},h('span',{style:'align-self:center;font-size:13px;color:'+(dv>=5?'var(--coral)':'var(--teal)'),text:'✓ '+(i===0?'Left ':'Arrived ')+fmtT(r.arr,off,bd)+(i>0||dv?' · '+pacePhrase(dv):'')}),h('button',{type:'button',class:'btn ghost sm',text:'Undo',on:{click:()=>logStop(dir,r.id,false)}})));
     else if(i>k&&i<=k+2)lc.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm','data-log':r.id,text:i===0?'We just left':(i===ids.length-1?'We made it':'We are here'),on:{click:()=>logStop(dir,r.id,true)}})));});
-  card.appendChild(h('p',{style:'font-size:12px;margin:10px 0 0',text:'Built from about '+Math.round(T.drive.reduce((a,b)=>a+b,0)/60)+' hours of highway driving plus stops. Weekday rush hour is added for Phoenix, San Antonio, and Houston. Live traffic in Maps beats this once you are on the road. Arizona stays on one clock, and Texas is one hour ahead.'}));
+  body.appendChild(h('p',{style:'font-size:12px;margin:10px 0 0',text:'Built from about '+Math.round(T.drive.reduce((a,b)=>a+b,0)/60)+' hours of highway driving plus stops. Weekday rush hour is added for Phoenix, San Antonio, and Houston. Live traffic in Maps beats this once you are on the road. Arizona stays on one clock, and Texas is one hour ahead.'}));
+  });
 }
-
 /* ---------- keepsake ---------- */
 const MOODE=['😴','😐','🙂','😄','🤩'],MOODN=['Slow','Okay','Good','Great','Best'];
 const PCS=[{n:'Ocean liner',bg:['#0b1a30','#15305a'],ink:'#f3e9d2',acc:'#e0b960',dim:'#9fb4d3'},
