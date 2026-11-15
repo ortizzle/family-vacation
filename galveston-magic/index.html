@@ -186,6 +186,14 @@ body.day textarea.kin,body.day .card input[type=time],body.day .card select,body
 .tgchip{display:inline-block;margin:4px 0;padding:3px 10px;border-radius:12px;font-size:12px;border:1px solid var(--brass-dk)}
 .tgchip.tg-open{color:var(--teal);border-color:var(--teal)}.tgchip.tg-closed{color:var(--coral);border-color:var(--coral)}.tgchip.tg-check{color:var(--brass-lt);border-color:var(--brass-lt)}
 .pmap{margin:8px 0}
+
+.wx{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid rgba(201,162,75,.15)}
+.wx:first-of-type{border-top:0}
+.wx .ic{font-size:28px;flex:0 0 36px;text-align:center}
+.wx .pl{flex:1;font-size:15px;color:var(--cream);line-height:1.3}.wx .pl small{display:block;font-size:12px;color:var(--dim)}
+.wx .tp{text-align:right;font-size:15px;color:var(--brass-lt);font-weight:600}.wx .tp small{display:block;font-weight:400;font-size:12px;color:var(--dim)}
+.mini{display:block;width:100%;text-align:left;padding:10px 0;border:0;border-top:1px solid rgba(201,162,75,.15);background:transparent;color:var(--cream);font-size:15px;min-height:44px}
+.mini:first-of-type{border-top:0}.mini small{display:block;color:var(--dim);font-size:13px}
 body.day{--navy:#f4edda;--navy2:#fffdf2;--navy3:#efe5c8;--cream:#1c2d4d;--dim:#53617d;
   --brass:#a07c2c;--brass-lt:#8a6a22;--brass-dk:#c2a768;--coral:#b4452c;--teal:#176e67;
   --c:#a07c2c;--a:#17808a;--m:#c25537;--s:#5a7f24;background:var(--navy);color:var(--cream)}
@@ -816,6 +824,7 @@ function Home(){
     h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
   if(ti>=0&&d.items.some(i=>i[5]==='Fuel'))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{let n='Gas';if(GEO.on&&GEO.pos){const w0=whereAmI();if(w0.near.length)n=gasNote(w0.near[0]);}goBudget('Gas',n);}}},
     h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log gas at each stop'}),h('p',{text:'Tap to open the budget with Gas picked. With location on, the stop is filled in for you. Add what the pump charged.'})));
+  HomeExtras(w);
   const gh=h('div');w.appendChild(gh);geoCard(gh);if(GEO.on)geoStart();
   const done=b1Done();
   const tiles=h('div',{class:'grid2'});
@@ -828,6 +837,63 @@ function Home(){
     h('p',{text:(ti>=0?'Add today’s best moment, favorite meal, and funniest thing. ':'Journal each day, frame your photos, and keep the trip story. ')+jn+' of '+DAYS.length+' days journaled.'})));}
   const bar=h('div');w.appendChild(bar);if(window.FamilyDrive)FamilyDrive.bar(bar);
   w.appendChild(h('p',{class:'foot',text:'Cruise plans pulled from the Disney reservation page on Nov 11, 2026. Times can change. Works offline once opened.'}));
+}
+
+
+/* ---------- Home extras: weather, picks, reminders ---------- */
+const WXL={'2026-11-19':['El Paso, TX',31.76,-106.49],'2026-11-20':['Galveston, TX',29.30,-94.79],'2026-11-21':['At sea, Gulf of Mexico',25.8,-91.0],'2026-11-22':['Cozumel, Mexico',20.42,-86.92],'2026-11-23':['Progreso, Mexico',21.28,-89.66],'2026-11-24':['At sea, Gulf of Mexico',26.0,-92.0],'2026-11-25':['Houston, TX',29.76,-95.37],'2026-11-26':['Spring, TX',30.08,-95.42],'2026-11-27':['Todd Mission, TX',30.26,-95.83],'2026-11-28':['San Antonio, TX',29.42,-98.49],'2026-11-29':['Chandler, AZ',33.30,-111.84]};
+const WXHOME=['Chandler, AZ',33.30,-111.84];
+const WCODE=c=>c===0?['☀️','Clear']:c<=2?['🌤️','Partly cloudy']:c===3?['☁️','Cloudy']:c<=48?['🌫️','Fog']:c<=57?['🌦️','Drizzle']:c<=67?['🌧️','Rain']:c<=77?['🌨️','Snow']:c<=82?['🌧️','Showers']:['⛈️','Storms'];
+function wxRows(){const ti=todayIndex();
+  if(ti<0){if(tripToday()>DAYS[DAYS.length-1].date)return [];return [[WXHOME[0],WXHOME[1],WXHOME[2],'2026-11-19'],[WXL['2026-11-20'][0],WXL['2026-11-20'][1],WXL['2026-11-20'][2],'2026-11-20']];}
+  const out=[];const a=DAYS[ti].date;out.push([WXL[a][0],WXL[a][1],WXL[a][2],a]);
+  if(ti+1<DAYS.length){const b=DAYS[ti+1].date;out.push([WXL[b][0],WXL[b][1],WXL[b][2],b]);}
+  return out;}
+function wxPaint(row,r,data){clear(row);
+  const dayIdx=data&&data.daily?data.daily.time.indexOf(r[3]):-1;
+  const dd=DAYS.find(x=>x.date===r[3]);const lab=(dd?dd.dow+' Nov '+dd.md:r[3]);
+  row.appendChild(h('div',{class:'ic',text:dayIdx>=0?WCODE(data.daily.weather_code[dayIdx])[0]:'🌡️'}));
+  row.appendChild(h('div',{class:'pl'},r[0],h('small',{text:lab+(dayIdx>=0?' · '+WCODE(data.daily.weather_code[dayIdx])[1]:'')})));
+  if(dayIdx>=0)row.appendChild(h('div',{class:'tp'},Math.round(data.daily.temperature_2m_max[dayIdx])+'°/'+Math.round(data.daily.temperature_2m_min[dayIdx])+'°',h('small',{text:(data.daily.precipitation_probability_max[dayIdx]!=null?data.daily.precipitation_probability_max[dayIdx]+'% rain':'')})));
+  else row.appendChild(h('div',{class:'tp'},'—',h('small',{text:'needs signal'})));}
+function WeatherCard(w){const rows=wxRows();if(!rows.length)return;
+  const card=h('div',{class:'card'});card.appendChild(h('span',{class:'phase',text:'Weather'}));
+  const note=h('p',{style:'font-size:12px;color:var(--dim);margin:6px 0 0',text:''});
+  const cache=Store.get('wx',{});const els=[];
+  rows.forEach(r=>{const key=r[1]+','+r[2];const row=h('div',{class:'wx'});card.appendChild(row);els.push(row);wxPaint(row,r,cache[key]&&cache[key].d);});
+  card.appendChild(note);w.appendChild(card);
+  const ts=Object.values(cache).map(c=>c.t).filter(Boolean);
+  const setNote=t=>{note.textContent=t?'Forecast from Open-Meteo, updated '+new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(t))+' Arizona time.':'Forecast loads when the phone has signal and is saved for offline.';};
+  setNote(ts.length?Math.min.apply(null,ts):0);
+  rows.forEach((r,i)=>{const key=r[1]+','+r[2];const c=cache[key];if(c&&Date.now()-c.t<3*3600000)return;
+    const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);
+    fetch('https://api.open-meteo.com/v1/forecast?latitude='+r[1]+'&longitude='+r[2]+'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&timezone=auto&forecast_days=16',{signal:ctl.signal})
+      .then(x=>x.ok?x.json():Promise.reject()).then(d=>{const cc=Store.get('wx',{});cc[key]={t:Date.now(),d:d};Store.set('wx',cc);wxPaint(els[i],r,d);setNote(Date.now());}).catch(()=>{});});}
+const PICKDAY={'2026-11-19':['bucees','wafflehouse'],'2026-11-20':['sunflower','leeland','sharkshack'],'2026-11-25':['sch','katies','gaidos'],'2026-11-26':['wafflehouse','heb','zoo'],'2026-11-27':['trf','corkscrew','oldtown'],'2026-11-28':['corkscrew','mercer','costco'],'2026-11-29':['bucees']};
+function openPick(id){S.pf='all';S.pk=id;S.open.places=true;go('guide');setTimeout(()=>{const e=document.querySelector('.pk.sel');if(e&&e.scrollIntoView)e.scrollIntoView({block:'center'});},80);}
+function nextUp(d){const now=AZ.dateKey(tripNow())===d.date?new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,hour:'numeric',minute:'2-digit',hour12:false}).format(tripNow()):null;
+  if(!now)return null;const nm=(x=>{const m=x.split(':');return (+m[0]%24)*60+(+m[1]);})(now);let prev=-1,add=0;
+  for(const it of d.items){const m=/^(\d+):(\d+) (AM|PM)/.exec(it[0]);if(!m)continue;let mins=(+m[1]%12)*60+(+m[2])+(m[3]==='PM'?720:0);if(it[1]==='Texas')mins-=60;mins+=add;if(prev>=0&&mins+add<prev-600){add+=1440;mins+=1440;}prev=mins;if(mins>nm)return it;}
+  return null;}
+function HomeExtras(w){
+  WeatherCard(w);
+  const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
+  const nx=ti>=0?nextUp(d):null;
+  if(ti>=0){const c=h('button',{type:'button',class:'card tap',on:{click:()=>{S.day=d.date;go('trip');}}},h('span',{class:'phase',text:'Next up'}));
+    if(nx){c.appendChild(h('h3',{text:nx[2]}));c.appendChild(h('p',{text:nx[0]+' ('+nx[1]+' time). '+nx[3]}));}else{c.appendChild(h('h3',{text:'Nothing else on today’s plan'}));c.appendChild(h('p',{text:'Open today to add a note or check tomorrow.'}));}
+    w.appendChild(c);}
+  const ids=PICKDAY[d.date]||[];const picks=ids.map(i=>PICKS.find(p=>p.id===i)).filter(Boolean);
+  const card=h('div',{class:'card'});card.appendChild(h('span',{class:'phase',text:ti>=0?'Of interest today':'Of interest · first days'}));
+  if(picks.length){picks.forEach(p=>card.appendChild(h('button',{type:'button',class:'mini',on:{click:()=>openPick(p.id)}},p.n,h('small',{text:p.k+' · ★ '+p.r[0].toFixed(1)+' · '+(p.tg==='open'?'Open Thanksgiving Day':p.hrs.split('.')[0])})))); }
+  else card.appendChild(h('p',{text:'A ship day. Dining, shows, and the scavenger hunt are in the day plan. Land picks return on Wed Nov 25.'}));
+  const fi=(ti>=0?ti:0)%TRIVIA.length;const fq=TRIVIA[fi];
+  if(fq&&fq[3])card.appendChild(h('button',{type:'button',class:'mini',on:{click:()=>go('games')}},'Did you know?',h('small',{text:fq[3]})));
+  w.appendChild(card);
+  const gi=PACK.findIndex(g=>g[0]==='Documents');
+  if(gi>=0){const st=Store.get('pack',{});const left=PACK[gi][1].filter((_,i)=>!st[gi+'-'+i]);
+    if(left.length&&(ti<0||ti<=1)){const c=h('button',{type:'button',class:'card tap',on:{click:()=>{S.open.pack=true;go('guide');}}},h('span',{class:'phase',text:'Reminders'}),h('h3',{text:'Documents still to check'}));
+      const ul=h('ul',{style:'margin:4px 0 0;padding-left:20px'});left.forEach(t=>ul.appendChild(h('li',{text:t,style:'font-size:15px;color:var(--dim);margin:3px 0'})));c.appendChild(ul);
+      c.appendChild(h('p',{text:'Tap to open the packing list and tick them off. Finish the port arrival form and prepay parking before you leave.'}));w.appendChild(c);}}
 }
 
 /* ---------- Trip ---------- */
