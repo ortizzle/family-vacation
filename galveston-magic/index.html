@@ -194,6 +194,7 @@ body.day textarea.kin,body.day .card input[type=time],body.day .card select,body
 .wx .tp{text-align:right;font-size:15px;color:var(--brass-lt);font-weight:600}.wx .tp small{display:block;font-weight:400;font-size:12px;color:var(--dim)}
 .mini{display:block;width:100%;text-align:left;padding:10px 0;border:0;border-top:1px solid rgba(201,162,75,.15);background:transparent;color:var(--cream);font-size:15px;min-height:44px}
 .mini:first-of-type{border-top:0}.mini small{display:block;color:var(--dim);font-size:13px}
+.rm{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid rgba(201,162,75,.15)}.rm:first-of-type{border-top:0}.rm button.t{flex:1;text-align:left;background:transparent;border:0;color:var(--cream);font-size:15px;min-height:44px;line-height:1.35}.rm.done button.t{text-decoration:line-through;color:var(--dim)}
 body.day{--navy:#f4edda;--navy2:#fffdf2;--navy3:#efe5c8;--cream:#1c2d4d;--dim:#53617d;
   --brass:#a07c2c;--brass-lt:#8a6a22;--brass-dk:#c2a768;--coral:#b4452c;--teal:#176e67;
   --c:#a07c2c;--a:#17808a;--m:#c25537;--s:#5a7f24;background:var(--navy);color:var(--cream)}
@@ -875,6 +876,20 @@ function nextUp(d){const now=AZ.dateKey(tripNow())===d.date?new Intl.DateTimeFor
   if(!now)return null;const nm=(x=>{const m=x.split(':');return (+m[0]%24)*60+(+m[1]);})(now);let prev=-1,add=0;
   for(const it of d.items){const m=/^(\d+):(\d+) (AM|PM)/.exec(it[0]);if(!m)continue;let mins=(+m[1]%12)*60+(+m[2])+(m[3]==='PM'?720:0);if(it[1]==='Texas')mins-=60;mins+=add;if(prev>=0&&mins+add<prev-600){add+=1440;mins+=1440;}prev=mins;if(mins>nm)return it;}
   return null;}
+
+function MyReminders(w){
+  const card=h('div',{class:'card','data-id':'myrem'});card.appendChild(h('span',{class:'phase',text:'My reminders'}));
+  const list=h('div');card.appendChild(list);
+  const paint=()=>{clear(list);const arr=Store.get('myrem',[]);
+    if(!arr.length)list.appendChild(h('p',{text:'Nothing yet. Add a note like “call the Airbnb host” or “buy host gift.”'}));
+    arr.forEach((r,i)=>{const row=h('div',{class:'rm'+(r.done?' done':'')},
+      h('button',{type:'button',class:'t',text:(r.done?'✓ ':'○ ')+r.t,'aria-label':(r.done?'Mark not done: ':'Mark done: ')+r.t,on:{click:()=>{arr[i].done=!arr[i].done;save('myrem',arr);paint();}}}),
+      h('button',{type:'button',class:'btn ghost sm','aria-label':'Remove reminder: '+r.t,text:'✕',on:{click:()=>{arr.splice(i,1);save('myrem',arr);paint();}}}));list.appendChild(row);});};
+  const inp=h('input',{type:'text',maxlength:'120',placeholder:'Add a reminder','aria-label':'Add a reminder'});
+  const add=()=>{const t=inp.value.trim();if(!t)return;const arr=Store.get('myrem',[]);arr.push({t:t,done:false});save('myrem',arr);inp.value='';paint();};
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')add();});
+  card.appendChild(h('div',{class:'row'},inp,h('button',{type:'button',class:'btn',text:'Add',on:{click:add}})));
+  paint();w.appendChild(card);}
 function HomeExtras(w){
   WeatherCard(w);
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
@@ -894,6 +909,7 @@ function HomeExtras(w){
     if(left.length&&(ti<0||ti<=1)){const c=h('button',{type:'button',class:'card tap',on:{click:()=>{S.open.pack=true;go('guide');}}},h('span',{class:'phase',text:'Reminders'}),h('h3',{text:'Documents still to check'}));
       const ul=h('ul',{style:'margin:4px 0 0;padding-left:20px'});left.forEach(t=>ul.appendChild(h('li',{text:t,style:'font-size:15px;color:var(--dim);margin:3px 0'})));c.appendChild(ul);
       c.appendChild(h('p',{text:'Tap to open the packing list and tick them off. Finish the port arrival form and prepay parking before you leave.'}));w.appendChild(c);}}
+  MyReminders(w);
 }
 
 /* ---------- Trip ---------- */
