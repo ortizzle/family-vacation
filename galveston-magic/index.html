@@ -163,6 +163,17 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .foot{font-size:12px;color:var(--dim);text-align:center;margin:22px 0 8px;line-height:1.5}
 
 /* ---------- Day Deck (light mode) ---------- */
+textarea.kin{display:block;width:100%;min-height:76px;margin-top:4px;background:#081424;border:1px solid var(--brass-dk);color:#fff;font-size:16px;padding:10px 12px;border-radius:12px;font-family:inherit;line-height:1.4;resize:vertical}
+.moods{display:flex;gap:6px}.moods button{flex:1;min-height:52px;font-size:24px;border:1px solid var(--brass-dk);border-radius:12px;background:transparent}.moods button.on{background:var(--brass);border-color:var(--brass-lt)}
+.tab.done::before{content:"✓";position:absolute;top:4px;left:7px;font-size:11px;color:var(--teal)}
+canvas.pc{width:100%;height:auto;border-radius:12px;border:1px solid var(--brass-dk);display:block;margin:12px 0 4px}
+.whatif{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.whatif .chip{display:block;height:auto;min-height:56px;padding:8px 6px;text-align:center;line-height:1.3;font-size:13px}.whatif .chip b{display:block;font-weight:600;font-size:14px}
+.whatif .chip:not(.on) .ok{color:var(--teal)}.whatif .chip:not(.on) .tight{color:var(--brass-lt)}.whatif .chip:not(.on) .late{color:var(--coral)}
+.pill{display:inline-block;margin-top:6px;padding:3px 12px;border-radius:12px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--brass-dk)}
+.pill.ok{color:var(--teal);border-color:var(--teal)}.pill.tight{color:var(--brass-lt);border-color:var(--brass-lt)}.pill.late{color:var(--coral);border-color:var(--coral)}
+.card input[type=time],.card select{min-height:48px;background:#081424;border:1px solid var(--brass-dk);color:#fff;font-size:16px;padding:0 12px;border-radius:12px;font-family:inherit}
+body.day textarea.kin,body.day .card input[type=time],body.day .card select,body.day .modal-box textarea{background:#fffdf2;color:var(--cream)}
 body.day{--navy:#f4edda;--navy2:#fffdf2;--navy3:#efe5c8;--cream:#1c2d4d;--dim:#53617d;
   --brass:#a07c2c;--brass-lt:#8a6a22;--brass-dk:#c2a768;--coral:#b4452c;--teal:#176e67;
   --c:#a07c2c;--a:#17808a;--m:#c25537;--s:#5a7f24;background:var(--navy);color:var(--cream)}
@@ -245,7 +256,7 @@ const DAYS=[
  ['1:45 PM','AZ','Tucson Costco fuel','Mile 115. Fuel here or nearby: Tucson to El Paso is 315 miles, close to a full tank.','c','Fuel'],
  ['7:00 PM','El Paso','El Paso Costco: gas, then dinner','Mile 430. Fill up first because Costco pumps close in the evening. Last warehouse fuel until Houston.','c','Fuel'],
  ['12:15 AM','Texas','Fort Stockton fuel','Mile 665. Clocks jump an hour ahead in West Texas. Good spot for a driver swap.','c','Fuel']],
- notes:['Check the El Paso Costco gas closing time before you leave. If you are running late, any big-brand station off I-10 works.']},
+ notes:['Leaving at noon with Friday-morning Houston traffic puts you at the port around 11 AM. Road map → Timing shows every stop for any departure time.','Check the El Paso Costco gas closing time before you leave. If you are running late, any big-brand station off I-10 works.']},
 {date:'2026-11-20',dow:'Fri',md:'20',phase:'The Drive → The Ship',title:'Gulf by Morning, Sea by Night',blurb:'Sunrise in Hill Country, breakfast on the island, and the ship by afternoon.',items:[
  ['5:00 AM','Texas','San Antonio 24-hour fuel','Mile 980. Costco is closed at this hour, so use any open station on I-10.','c','Fuel'],
  ['6:00 AM','Texas',"Buc-ee's, Luling",'Open around the clock. Clean restrooms, breakfast tacos, and a leg stretch before Houston traffic.','c','Rest'],
@@ -602,7 +613,7 @@ const WHO=[['I wear ivory and believe gleaning should be done with compassion.',
  ['I see almost everything, but I may not speak to scythes.','The Thunderhead'],['I chose the name Anastasia.','Citra'],['I stayed with a classmate when no one else would.','Rowan'],['I brought soup when it was needed.','Volta'],['I am High Blade of MidMerica.','Xenocrates'],['I hid under a food court counter.','Esme']];
 
 /* ---------- state ---------- */
-const S={tab:'home',fam:Store.get('fam','all'),day:null,open:{},qs:{},gv:'play',view:'days',dir:'e',stop:null,port:null};
+const S={tab:'home',fam:Store.get('fam','all'),day:null,open:{},qs:{},gv:'play',view:'days',dir:'e',stop:null,port:null,kday:null};
 let BOOK=Store.get('book',{});
 function lev(a,b){const m=[];for(let i=0;i<=a.length;i++){m[i]=[i];}for(let j=1;j<=b.length;j++)m[0][j]=j;
   for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return m[a.length][b.length];}
@@ -620,7 +631,7 @@ const nav=h('nav');app.appendChild(nav);
 toastEl=h('div',{class:'toast'});app.appendChild(toastEl);
 function go(tab){S.tab=tab;render();window.scrollTo(0,0);}
 function renderNav(){clear(nav);NAV.forEach(n=>nav.appendChild(h('button',{type:'button',class:S.tab===n[0]?'on':'',on:{click:()=>go(n[0])}},h('i',{text:n[1]}),n[2])));}
-function render(){clear(view);renderNav();({home:Home,trip:Trip,book:Book,games:Games,guide:Guide})[S.tab]();}
+function render(){clear(view);renderNav();({home:Home,trip:Trip,book:Book,games:Games,guide:Guide,keep:Keep})[S.tab]();}
 
 function todayIndex(){const t=tripToday();return DAYS.findIndex(d=>d.date===t);}
 function sunburst(){const NS='http://www.w3.org/2000/svg';const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 520 260');svg.setAttribute('aria-hidden','true');
@@ -706,6 +717,11 @@ function Home(){
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
   w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.day=d.date;go('trip');}}},
     h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
+  const tt=tripToday();
+  if(tt<='2026-11-20'||(tt>='2026-11-26'&&tt<='2026-11-29')){const de=tt<'2026-11-21'?'e':'w';
+    w.appendChild(h('button',{type:'button',class:'card tap','data-id':'home-timing',on:{click:()=>{S.view='road';S.dir=de;S.stop=null;go('trip');}}},
+      h('span',{class:'phase',text:'Road timing'}),h('h3',{text:'⏱️ When do we get there?'}),
+      h('p',{text:de==='e'?'Pick a departure time and see every stop, plus the latest you can leave and still make the ship.':'Pick a departure time and see when you reach each stop and Chandler.'})));}
   if(ti>=0&&d.items.some(i=>i[5]==='Fuel'))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{let n='Gas';if(GEO.on&&GEO.pos){const w0=whereAmI();if(w0.near.length)n=gasNote(w0.near[0]);}goBudget('Gas',n);}}},
     h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log gas at each stop'}),h('p',{text:'Tap to open the budget with Gas picked. With location on, the stop is filled in for you. Add what the pump charged.'})));
   const gh=h('div');w.appendChild(gh);geoCard(gh);if(GEO.on)geoStart();
@@ -714,6 +730,10 @@ function Home(){
   [['book','📕','Book Club',BOOK.intro?(done+' of 8 unlocked'):'Scythe · enter your name'],['games','🎲','Learn & Play','Study cards, six games'],['guide','🧳','Pack & Prep','Budget, menus, home base'],['trip','🗺️','Days & Maps','Road map, cruise map',1]]
     .forEach(t=>tiles.appendChild(h('button',{type:'button',class:'tile',on:{click:()=>{if(t[4])S.view='road';go(t[0]);}}},h('i',{text:t[1]}),h('b',{text:t[2]}),h('span',{text:t[3]}))));
   w.appendChild(tiles);
+  {const jn=jDone(Store.get('journal',{}));
+  w.appendChild(h('button',{type:'button',class:'card tap','data-id':'home-keep',on:{click:()=>{S.kday=null;go('keep');}}},
+    h('span',{class:'phase',text:ti>=0?'Tonight':'Keepsake'}),h('h3',{text:'📓 Keepsake'}),
+    h('p',{text:(ti>=0?'Add today’s best moment, favorite meal, and funniest thing. ':'Journal each day, build a postcard, and keep the trip story. ')+jn+' of '+DAYS.length+' days journaled.'})));}
   const bar=h('div');w.appendChild(bar);if(window.FamilyDrive)FamilyDrive.bar(bar);
   w.appendChild(h('p',{class:'foot',text:'Cruise plans pulled from the Disney reservation page on Nov 11, 2026. Times can change. Works offline once opened.'}));
 }
@@ -739,6 +759,8 @@ function Trip(){
   if(onTab)setTimeout(()=>{tabs.scrollLeft=Math.max(0,onTab.offsetLeft-tabs.clientWidth/2+31);},0);
   const d=DAYS.find(x=>x.date===S.day);
   w.appendChild(h('div',{class:'card'},h('span',{class:'phase',text:d.phase}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
+  if(/^The Drive/.test(d.phase))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.view='road';S.dir=d.date<'2026-11-25'?'e':'w';S.stop=null;render();}}},
+    h('b',{text:'⏱️ Road timing'}),h('p',{text:'See when you reach each stop for any departure time.'})));
   let shown=0;
   d.items.forEach(it=>{if(S.fam!=='all'&&it[4].indexOf(S.fam)<0)return;shown++;
     const meta=h('div',{class:'meta'},h('span',{class:'tag'+(it[6]==='o'?' opt':''),text:it[6]==='o'?'Optional':it[5]}));
@@ -794,7 +816,7 @@ function RoadMap(w){
     mc.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:8px 0 0',text:'Bars show each leg against a tank of about '+RANGE+' miles (18 gallons at about 20 mpg). Longest leg: '+longest+' miles. Miles are approximate along I-10.'}));
     w.appendChild(mc);};
   if(!cur){w.appendChild(h('p',{class:'lead',text:'Tap a stop to zoom in. You will see the exit, how to get off and back on, gas, and food nearby.'}));
-    w.appendChild(h('p',{class:'foot',text:'This is a hand-drawn route sketch so it works with no signal. Buttons inside each stop open live maps when you are online.'}));milesCard();return;}
+    w.appendChild(h('p',{class:'foot',text:'This is a hand-drawn route sketch so it works with no signal. Buttons inside each stop open live maps when you are online.'}));Timing(w,dir);milesCard();return;}
   const card=h('div',{class:'card'});w.appendChild(card);
   card.appendChild(h('span',{class:'phase',text:'Stop '+(ids.indexOf(S.stop)+1)+' of '+ids.length+(cur.exit?' · '+cur.exit:'')}));card.appendChild(h('h3',{text:cur.n}));
   {const mi=MILES[dir],ix=ids.indexOf(S.stop);const bits=['Mile '+mi[S.stop]+' from '+PLACES[ids[0]].n];
@@ -851,6 +873,204 @@ function quizBlock(parent,key,qs,plain){const st=Store.get(key,{});
     q[1].forEach((o,oi)=>{const b=h('button',{type:'button',class:'opt',text:o,on:{click:()=>{if(st[qi]!=null)return;st[qi]=oi;save(key,st);paint();
         if(q[3])note.textContent=q[3];if(oi===q[2])confetti(['⭐','✨']);}}});btns.push(b);parent.appendChild(b);});
     const note=h('p',{text:st[qi]!=null&&q[3]?q[3]:''});parent.appendChild(note);paint();});}
+
+/* ---------- road timing forecast ---------- */
+const TZO={chandler:-7,tucson:-7,elpaso:-7,fortstockton:-6,sanantonio:-6,luling:-6,galveston:-6,spring:-6};
+const TIMING={
+  e:{drive:[110,280,205,270,55,165],stop:[0,20,45,20,15,25,0],base:[2026,10,19],dayOff:-7},
+  w:{drive:[200,275,215,280,110],stop:[0,20,45,20,15,0],base:[2026,10,28],dayOff:-6}};
+const PACE={q:{d:1,s:.7,n:'Quick',t:'Short stops, no extra cushion.'},p:{d:1.06,s:1,n:'Planned',t:'Matches the day plans, with a little cushion for slowdowns.'},e:{d:1.12,s:1.5,n:'Easy',t:'Longer stops and a bigger cushion.'}};
+const RUSH={e:[[0,.05,[[6.5,9,20],[15,18.5,25]]],[3,.92,[[6.5,9,25],[15.5,18.5,30]]],[5,.6,[[6.5,9.5,40],[15.5,19,45]]]],
+  w:[[0,.05,[[6.5,9.5,40],[15.5,19,45]]],[4,.9,[[6.5,9,20],[15,18.5,25]]]]};
+const DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const ALLABOARD=Date.UTC(2026,10,20,15,0)+6*3600000;
+function rushPen(dir,leg,t,drive,off){let add=0;RUSH[dir].forEach(r=>{if(r[0]!==leg)return;
+  const d=new Date(t+drive*60000*r[1]+off*3600000);const dw=d.getUTCDay();if(dw===0||dw===6)return;
+  const hr=d.getUTCHours()+d.getUTCMinutes()/60;r[2].forEach(w=>{if(hr>=w[0]&&hr<w[1])add+=w[2];});});return add;}
+function depMs(dir,hhmm){const T=TIMING[dir],p=String(hhmm||'12:00').split(':');return Date.UTC(T.base[0],T.base[1],T.base[2],+p[0]||0,+p[1]||0)-T.dayOff*3600000;}
+function tgtMs(hhmm){const p=String(hhmm||'12:00').split(':');return Date.UTC(2026,10,20,+p[0]||0,+p[1]||0)+6*3600000;}
+function roadFC(dir,dep,pace,log){const ids=ROUTES[dir],T=TIMING[dir],P=PACE[pace]||PACE.p;let k=-1;
+  if(log)ids.forEach((id,i)=>{if(log[id])k=i;});
+  const rows=ids.map(id=>({id}));let t,i0;
+  if(k>=0){ids.forEach((id,i)=>{if(i<=k&&log[id]){rows[i].act=true;rows[i].arr=log[id];}});
+    t=log[ids[k]];if(k>0&&k<ids.length-1){rows[k].stop=Math.round(T.stop[k]*P.s);t+=rows[k].stop*60000;}rows[k].leave=t;i0=k;}
+  else{t=dep;rows[0].arr=dep;rows[0].leave=dep;i0=0;}
+  for(let i=i0;i<ids.length-1;i++){const drive=Math.round(T.drive[i]*P.d);const rush=rushPen(dir,i,t,drive,TZO[ids[i]]);
+    t+=(drive+rush)*60000;const r=rows[i+1];r.arr=t;r.drive=drive;r.rush=rush;
+    r.stop=i+1<ids.length-1?Math.round(T.stop[i+1]*P.s):0;t+=r.stop*60000;r.leave=t;}
+  return rows;}
+function fmtT(ms,off,bd){const d=new Date(ms+off*3600000);let hr=d.getUTCHours();const mi=d.getUTCMinutes(),ap=hr>=12?'PM':'AM';hr=hr%12||12;
+  return (d.getUTCDate()!==bd?DOW[d.getUTCDay()]+' ':'')+hr+':'+String(mi).padStart(2,'0')+' '+ap;}
+function fmtDur(m){m=Math.max(0,Math.round(m));const hh=Math.floor(m/60),mm=m%60;return hh?hh+' h'+(mm?' '+mm+' m':''):mm+' m';}
+function fmtHM(s){const p=String(s).split(':');let hr=+p[0];const ap=hr>=12?'PM':'AM';hr=hr%12||12;return hr+(+p[1]?':'+p[1]:'')+' '+ap;}
+function roadPlan(){return Object.assign({e:'12:00',w:'11:30',p:'p',t:'12:00'},Store.get('roadplan',{}));}
+function setPlan(k,v){const p=roadPlan();p[k]=v;save('roadplan',p);render();}
+function logStop(dir,id,on){const a=Store.get('roadlog',{});a[dir]=a[dir]||{};if(on)a[dir][id]=tripNow().getTime();else delete a[dir][id];save('roadlog',a);render();}
+function portStatus(arr,tgt){const d=(arr-tgt)/60000;return d<=0?['ok','On time']:d<=90?['tight','Tight']:['late','Late'];}
+function latestDep(pace,hhmm){const tgt=tgtMs(hhmm),base=Date.UTC(2026,10,19,0,0)+7*3600000;
+  for(let m=34*60;m>=0;m-=5){const dep=base+m*60000;const rows=roadFC('e',dep,pace,null);if(rows[rows.length-1].arr<=tgt)return dep;}return null;}
+function Timing(w,dir){
+  const P=roadPlan(),ids=ROUTES[dir],isE=dir==='e',T=TIMING[dir],bd=T.base[2];
+  const log=(Store.get('roadlog',{})[dir])||{};const k=ids.map(id=>!!log[id]).lastIndexOf(true);const hasLog=k>=0;
+  const dep=depMs(dir,P[dir]);const rows=roadFC(dir,dep,P.p,hasLog?log:null);const last=rows[rows.length-1];
+  const tgt=isE?tgtMs(P.t):null;const st=isE?portStatus(last.arr,tgt):null;
+  const card=h('div',{class:'card','data-id':'timing'});w.appendChild(card);
+  card.appendChild(h('span',{class:'phase',text:'Timing'}));card.appendChild(h('h3',{text:'⏱️ When we get there'}));
+  card.appendChild(h('p',{text:hasLog?'Forecast restarted from your last check-in. Keep tapping We are here and it keeps adjusting.':'Pick when you leave and every stop below updates. On the road, tap We are here at each stop and the rest re-forecasts from that moment.'}));
+  if(!hasLog){
+    const inp=h('input',{type:'time',value:P[dir],'aria-label':'Departure time',on:{change:e=>{if(e.target.value)setPlan(dir,e.target.value);}}});
+    card.appendChild(h('div',{class:'row'},h('span',{style:'align-self:center;font-size:14px;color:var(--dim);flex:0 0 auto',text:'Leave '+PLACES[ids[0]].n+' at'}),inp));
+  }else{
+    card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Clear check-ins',on:{click:()=>{const a=Store.get('roadlog',{});a[dir]={};save('roadlog',a);render();}}})));}
+  const seg=h('div',{class:'seg'});card.appendChild(seg);
+  Object.keys(PACE).forEach(p=>seg.appendChild(h('button',{type:'button',class:P.p===p?'on':'',text:PACE[p].n,on:{click:()=>setPlan('p',p)}})));
+  card.appendChild(h('p',{style:'font-size:13px',text:PACE[P.p].t}));
+  const sum=h('div',{style:'margin:12px 0 2px;text-align:center'});card.appendChild(sum);
+  sum.appendChild(h('div',{style:'font-size:13px;color:var(--dim)',text:isE?'Estimated arrival at SMP Garage':'Estimated arrival in Chandler'}));
+  sum.appendChild(h('div',{class:'scr','data-id':'eta',style:'font-size:28px;letter-spacing:.06em',text:fmtT(last.arr,TZO[last.id],bd)+(isE?' Texas time':' Arizona time')}));
+  if(isE){const d=Math.round((last.arr-tgt)/60000);
+    sum.appendChild(h('span',{class:'pill '+st[0],text:st[1]}));
+    let msg;if(st[0]==='ok')msg='That is '+fmtDur(-d)+' before the '+fmtHM(P.t)+' port arrival target.';
+    else if(last.arr>ALLABOARD)msg='That is after all aboard (3:00 PM). Leave earlier or call the port.';
+    else if(st[0]==='tight')msg='That is '+fmtDur(d)+' after the target. Parking and check-in take about an hour, and all aboard is 3:00 PM.';
+    else msg='That is '+fmtDur(d)+' after the target, close to the 3:00 PM all aboard. Leave earlier if you can.';
+    sum.appendChild(h('p',{style:'font-size:14px;margin:6px 0 0',text:msg}));}
+  if(!hasLog)sum.appendChild(h('p',{style:'font-size:13px;margin:4px 0 0',text:fmtDur((last.arr-dep)/60000)+' door to door, '+MILES[dir][ids[ids.length-1]].toLocaleString('en-US')+' miles.'}));
+  if(isE&&!hasLog){
+    card.appendChild(h('div',{class:'row'},h('span',{style:'align-self:center;font-size:14px;color:var(--dim);flex:0 0 auto',text:'Port arrival target'}),
+      h('input',{type:'time',value:P.t,'aria-label':'Port arrival target',on:{change:e=>{if(e.target.value)setPlan('t',e.target.value);}}})));
+    const ld=latestDep(P.p,P.t);
+    if(ld){const loc=new Date(ld-7*3600000);const hhmm=String(loc.getUTCHours()).padStart(2,'0')+':'+String(loc.getUTCMinutes()).padStart(2,'0');
+      card.appendChild(h('p',{'data-id':'latest',text:'Latest you can leave Chandler and still arrive by '+fmtHM(P.t)+' Friday: '+fmtT(ld,-7,19)+' Arizona time, at this pace.'}));
+      card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Use that time',on:{click:()=>setPlan('e',hhmm)}})));}
+    else card.appendChild(h('p',{class:'warn',text:'No Thursday departure reaches the port by that target at this pace.'}));}
+  if(!hasLog){
+    card.appendChild(h('div',{class:'sub',text:'What if we leave at'}));
+    const opts=isE?['08:00','10:00','12:00','14:00','16:00','18:00']:['09:00','11:00','12:00','13:00','15:00','17:00'];
+    const g=h('div',{class:'whatif'});card.appendChild(g);
+    opts.forEach(o=>{const fr=roadFC(dir,depMs(dir,o),P.p,null),l=fr[fr.length-1];const s=isE?portStatus(l.arr,tgt)[0]:'';
+      g.appendChild(h('button',{type:'button',class:'chip'+(P[dir]===o?' on':''),on:{click:()=>setPlan(dir,o)}},h('b',{text:fmtHM(o)}),h('span',{class:s,text:(isE?'Port ':'Home ')+fmtT(l.arr,TZO[l.id],bd)})));});}
+  card.appendChild(h('div',{class:'sub',text:'Stop by stop'}));
+  rows.forEach((r,i)=>{const pl=PLACES[r.id],off=TZO[r.id];const lc=h('div',{class:'lc'});card.appendChild(lc);
+    const main=r.arr!=null?fmtT(r.arr,off,bd):'passed';
+    lc.appendChild(h('div',{style:'display:flex;justify-content:space-between;gap:8px;align-items:baseline'},h('b',{text:(i+1)+'. '+pl.n}),h('b',{'data-t':r.id,style:'text-align:right;flex:0 0 auto',text:main})));
+    const bits=[];if(i>0&&r.drive!=null)bits.push('Drive '+fmtDur(r.drive)+(r.rush?' (+'+r.rush+' min for traffic)':''));
+    if(r.stop)bits.push('stop '+r.stop+' min, back on the road '+fmtT(r.leave,off,bd));
+    if(i===0&&!hasLog)bits.push('Start');
+    if(bits.length)lc.appendChild(h('p',{text:bits.join(' · ')}));
+    if(r.arr!=null)lc.appendChild(h('p',{style:'font-size:12px',text:(off===-7?'Arizona time':'Texas time')+(off!==-7?' · '+fmtT(r.arr,-7,bd)+' in Arizona':'')}));
+    if(r.arr!=null&&!r.act&&(r.id==='elpaso'||r.id==='tucson')){const lh=new Date(r.arr+off*3600000);const hr=lh.getUTCHours()+lh.getUTCMinutes()/60;
+      if(hr>=20.5||hr<5)lc.appendChild(h('p',{style:'font-size:13px;color:var(--coral)',text:'Costco pumps are likely closed by then. Any big-brand station off I-10 works. Check hours first.'}));}
+    if(r.act)lc.appendChild(h('div',{class:'row'},h('span',{style:'align-self:center;font-size:13px;color:var(--teal)',text:'✓ '+(i===0?'Left ':'Arrived ')+fmtT(r.arr,off,bd)}),h('button',{type:'button',class:'btn ghost sm',text:'Undo',on:{click:()=>logStop(dir,r.id,false)}})));
+    else if(i>k&&i<=k+2)lc.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm','data-log':r.id,text:i===0?'We just left':(i===ids.length-1?'We made it':'We are here'),on:{click:()=>logStop(dir,r.id,true)}})));});
+  card.appendChild(h('p',{style:'font-size:12px;margin:10px 0 0',text:'Built from about '+Math.round(T.drive.reduce((a,b)=>a+b,0)/60)+' hours of highway driving plus stops. Weekday rush hour is added for Phoenix, San Antonio, and Houston. Live traffic in Maps beats this once you are on the road. Arizona stays on one clock, and Texas is one hour ahead.'}));
+}
+
+/* ---------- keepsake ---------- */
+const MOODE=['😴','😐','🙂','😄','🤩'],MOODN=['Slow','Okay','Good','Great','Best'];
+const PCS=[{n:'Ocean liner',bg:['#0b1a30','#15305a'],ink:'#f3e9d2',acc:'#e0b960',dim:'#9fb4d3'},
+  {n:'Gulf sunset',bg:['#1b2f5c','#b8527a','#ffb35c'],ink:'#fff7ea',acc:'#ffe3a3',dim:'#ffe9d6'},
+  {n:'Cream deco',bg:['#f4edda','#efe5c8'],ink:'#1c2d4d',acc:'#a07c2c',dim:'#53617d'}];
+function jFilled(e){return !!(e&&(e.moment||e.meal||e.funny||(e.mood!=null)));}
+function jDone(j){return DAYS.filter(d=>jFilled(j[d.date])).length;}
+function bestDay(j){let b=null,m=-1;DAYS.forEach(d=>{const e=j[d.date];if(e&&e.mood!=null&&e.mood>m){m=e.mood;b=d;}});return b;}
+function wrapText(g,txt,x,y,maxW,lh,maxLines){const words=String(txt).split(/\s+/);let line='';const lines=[];
+  words.forEach(wd=>{const test=line?line+' '+wd:wd;if(g.measureText(test).width>maxW&&line){lines.push(line);line=wd;}else line=test;});if(line)lines.push(line);
+  let out=lines;if(lines.length>maxLines){out=lines.slice(0,maxLines);out[maxLines-1]=out[maxLines-1].replace(/\s*\S*$/,'')+'…';}
+  out.forEach((l,i)=>g.fillText(l,x,y+i*lh));return out.length;}
+function drawCard(cv,o){const W=1200,H=800;cv.width=W;cv.height=H;const g=cv.getContext('2d');const C=PCS[o.s]||PCS[0];
+  const gr=g.createLinearGradient(0,0,0,H);C.bg.forEach((c,i)=>gr.addColorStop(C.bg.length>1?i/(C.bg.length-1):0,c));g.fillStyle=gr;g.fillRect(0,0,W,H);
+  g.save();g.strokeStyle=C.acc;g.globalAlpha=.13;g.lineWidth=2;
+  for(let i=0;i<=24;i++){const a=Math.PI*i/24;g.beginPath();g.moveTo(W/2,H+20);g.lineTo(W/2-Math.cos(a)*1100,H+20-Math.sin(a)*1100);g.stroke();}g.restore();
+  g.strokeStyle=C.acc;g.lineWidth=4;g.strokeRect(36,36,W-72,H-72);g.lineWidth=1.5;g.strokeRect(52,52,W-104,H-104);
+  g.textAlign='center';g.textBaseline='alphabetic';
+  g.fillStyle=C.dim;g.font='600 26px "Josefin Sans",sans-serif';if('letterSpacing' in g)g.letterSpacing='8px';g.fillText('THE ORTIZ FAMILY',W/2,122);if('letterSpacing' in g)g.letterSpacing='0px';
+  g.fillStyle=C.ink;g.font='86px "Poiret One",Georgia,serif';g.fillText('Galveston & the Magic',W/2,222);
+  g.strokeStyle=C.acc;g.lineWidth=2;g.beginPath();g.moveTo(W/2-180,262);g.lineTo(W/2-18,262);g.moveTo(W/2+18,262);g.lineTo(W/2+180,262);g.stroke();
+  g.fillStyle=C.acc;g.beginPath();g.moveTo(W/2,250);g.lineTo(W/2+12,262);g.lineTo(W/2,274);g.lineTo(W/2-12,262);g.closePath();g.fill();
+  const d=DAYS[o.day]||DAYS[0];
+  g.fillStyle=C.acc;g.font='600 34px "Josefin Sans",sans-serif';
+  wrapText(g,'Day '+(o.day+1)+' · '+d.dow+' Nov '+d.md+' · '+d.title,W/2,336,980,44,2);
+  g.fillStyle=C.ink;g.font='400 46px "Josefin Sans",sans-serif';
+  const n=wrapText(g,o.cap||'Wish you were here.',W/2,438,920,64,4);
+  if(o.mood!=null){g.font='64px sans-serif';g.fillText(MOODE[o.mood],W/2,438+n*64+30);}
+  g.fillStyle=C.dim;g.font='400 28px "Josefin Sans",sans-serif';g.fillText('Disney Magic · Nov 19 to 29, 2026',W/2,H-96);}
+function textModal(title,txt){const overlay=h('div',{class:'modal-overlay'});const box=h('div',{class:'modal-box'});
+  const ta=h('textarea',{class:'kin',readonly:'readonly','aria-label':title,style:'min-height:220px'});ta.value=txt;
+  box.append(h('h3',{text:title}),h('p',{text:'Select all, copy, and paste it wherever you like.'}),ta,
+    h('div',{class:'modal-buttons'},h('button',{class:'btn',type:'button',text:'Done',on:{click:()=>overlay.remove()}})));
+  overlay.appendChild(box);overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove();});document.body.appendChild(overlay);ta.focus();ta.select();}
+function tripStory(){const j=Store.get('journal',{});const out=['Galveston & the Magic · Nov 19 to 29, 2026','The Ortiz Family',''];
+  DAYS.forEach(d=>{const e=j[d.date];if(!jFilled(e))return;out.push(d.dow+' Nov '+d.md+' · '+d.title+(e.mood!=null?' '+MOODE[e.mood]:''));
+    if(e.moment)out.push('⭐ '+e.moment);if(e.meal)out.push('🍽️ '+e.meal);if(e.funny)out.push('😂 '+e.funny);out.push('');});
+  const nt=Store.get('tripnote','');if(nt)out.push('Trip note: '+nt);
+  if(out.length<=3&&!nt)out.push('No entries yet.');return out.join('\n').trim();}
+function Keep(){
+  const w=h('div',{class:'wrap'});view.appendChild(w);
+  w.appendChild(h('div',{class:'row',style:'margin-top:14px'},h('button',{type:'button',class:'btn ghost sm',text:'← Home',on:{click:()=>go('home')}})));
+  w.appendChild(h('h2',{class:'sec',text:'Keepsake'}));
+  w.appendChild(h('p',{class:'lead',text:'A few lines each day turn into a postcard and a trip story. Everything stays on this phone and is included in your Drive backup.'}));
+  const stats=h('div',{class:'grid2','data-id':'kstats'});w.appendChild(stats);
+  const today=tripToday();
+  if(!S.kday){const j0=Store.get('journal',{});S.kday=DAYS.some(d=>d.date===today)?today:((DAYS.slice().reverse().find(d=>jFilled(j0[d.date]))||DAYS[0]).date);}
+  const kd=S.kday;const tabs=h('div',{class:'tabs',style:'position:static'});w.appendChild(tabs);const tabBtn={};
+  DAYS.forEach(d=>{const b=h('button',{type:'button',class:'tab'+(kd===d.date?' on':'')+(d.date===today?' today':''),'aria-label':d.dow+' Nov '+d.md,on:{click:()=>{S.kday=d.date;render();}}},h('small',{text:d.dow}),h('b',{text:d.md}));tabBtn[d.date]=b;tabs.appendChild(b);});
+  setTimeout(()=>{const b=tabBtn[kd];if(b)tabs.scrollLeft=Math.max(0,b.offsetLeft-tabs.clientWidth/2+31);},0);
+  const day=DAYS.find(d=>d.date===kd),di=DAYS.indexOf(day);
+  const form=h('div',{class:'card'});w.appendChild(form);
+  form.appendChild(h('span',{class:'phase',text:'Day '+(di+1)+' of '+DAYS.length+' · '+day.phase}));form.appendChild(h('h3',{text:day.title}));
+  const e0=Store.get('journal',{})[kd]||{};
+  form.appendChild(h('div',{class:'sub',text:'How was the day?'}));
+  const moods=h('div',{class:'moods'});form.appendChild(moods);
+  MOODE.forEach((m,i)=>moods.appendChild(h('button',{type:'button','aria-label':MOODN[i],class:e0.mood===i?'on':'',text:m,on:{click:()=>{
+    const jj=Store.get('journal',{});const cur=Object.assign({},jj[kd]);cur.mood=cur.mood===i?null:i;jj[kd]=cur;save('journal',jj);
+    [...moods.children].forEach((b,bi)=>b.classList.toggle('on',cur.mood===bi));fill();}}})));
+  const saved=h('p',{style:'font-size:12px;margin:8px 0 0',text:''});let ft;
+  [['moment','⭐ Best moment','What was the highlight today?'],['meal','🍽️ Favorite meal','Where, and what did you order?'],['funny','😂 Funniest thing','Something someone said or did']].forEach(f=>{
+    form.appendChild(h('div',{class:'sub',text:f[1]}));
+    const ta=h('textarea',{class:'kin','aria-label':f[1],placeholder:f[2],maxlength:'400','data-f':f[0]});ta.value=e0[f[0]]||'';
+    ta.addEventListener('input',()=>{const jj=Store.get('journal',{});jj[kd]=Object.assign({},jj[kd]);jj[kd][f[0]]=ta.value;save('journal',jj);saved.textContent='Saved on this phone';clearTimeout(ft);ft=setTimeout(fill,350);});
+    form.appendChild(ta);});
+  form.appendChild(saved);
+  w.appendChild(h('h2',{class:'sec',style:'font-size:22px',text:'Memories so far'}));
+  const mem=h('div',{'data-id':'kmem'});w.appendChild(mem);
+  w.appendChild(h('h2',{class:'sec',style:'font-size:22px',text:'Postcard'}));
+  const pcard=h('div',{class:'card'});w.appendChild(pcard);
+  const PS=Object.assign({s:0,day:kd,cap:''},Store.get('postcard',{}));if(!DAYS.some(d=>d.date===PS.day))PS.day=kd;
+  const sg=h('div',{class:'seg'});pcard.appendChild(sg);
+  PCS.forEach((c,i)=>sg.appendChild(h('button',{type:'button',class:PS.s===i?'on':'',text:c.n,on:{click:()=>{PS.s=i;save('postcard',PS);[...sg.children].forEach((b,bi)=>b.classList.toggle('on',bi===i));paint();}}})));
+  const sel=h('select',{'aria-label':'Postcard day'});DAYS.forEach(d=>{const o=h('option',{value:d.date,text:d.dow+' Nov '+d.md+' · '+d.title});if(d.date===PS.day)o.selected=true;sel.appendChild(o);});
+  const cap=h('input',{type:'text',maxlength:'140','aria-label':'Postcard caption',placeholder:'Caption (blank uses that day’s best moment)',value:PS.cap||''});
+  sel.style.flex='1 1 100%';cap.style.flex='1 1 100%';pcard.appendChild(h('div',{class:'row'},sel,cap));
+  const cv=h('canvas',{class:'pc','aria-label':'Postcard preview'});pcard.appendChild(cv);
+  function spec(){const j=Store.get('journal',{});const idx=Math.max(0,DAYS.findIndex(d=>d.date===PS.day));const e=j[DAYS[idx].date]||{};
+    return {s:PS.s,day:idx,cap:(PS.cap||'').trim()||(e.moment||'').trim(),mood:e.mood!=null?e.mood:null};}
+  function paint(){drawCard(cv,spec());}
+  sel.addEventListener('change',()=>{PS.day=sel.value;save('postcard',PS);paint();});
+  cap.addEventListener('input',()=>{PS.cap=cap.value;save('postcard',PS);paint();});
+  paint();if(document.fonts&&document.fonts.load){Promise.all([document.fonts.load('40px "Poiret One"'),document.fonts.load('600 30px "Josefin Sans"'),document.fonts.load('400 30px "Josefin Sans"')]).then(paint).catch(()=>{});}
+  const pr=h('div',{class:'row'});pcard.appendChild(pr);
+  pr.appendChild(h('button',{type:'button',class:'btn',text:'Save postcard',on:{click:()=>{cv.toBlob(b=>{if(!b){toast('Could not make the image');return;}
+    const a=h('a',{href:URL.createObjectURL(b),download:'galveston-postcard-'+PS.day+'.png'});document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Postcard saved');},'image/png');}}}));
+  try{const tf=new File([''],'t.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[tf]}))
+    pr.appendChild(h('button',{type:'button',class:'btn ghost',text:'Share',on:{click:()=>{cv.toBlob(b=>{if(!b)return;const f=new File([b],'galveston-postcard.png',{type:'image/png'});navigator.share({files:[f],title:'Galveston & the Magic'}).catch(()=>{});},'image/png');}}}));}catch(err){}
+  w.appendChild(h('h2',{class:'sec',style:'font-size:22px',text:'Trip note'}));
+  const nc=h('div',{class:'card'});w.appendChild(nc);
+  const nta=h('textarea',{class:'kin','aria-label':'Trip note',placeholder:'Anything you want to remember about this trip.',style:'min-height:110px'});nta.value=Store.get('tripnote','');
+  nta.addEventListener('input',()=>save('tripnote',nta.value));nc.appendChild(nta);
+  nc.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost',text:'Copy the trip story',on:{click:()=>{const t=tripStory();
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(()=>toast('Trip story copied')).catch(()=>textModal('Trip story',t));else textModal('Trip story',t);}}})));
+  function fill(){clear(stats);const j=Store.get('journal',{}),bg=Store.get('bingo',{}),bd=bestDay(j);
+    [['📓',jDone(j)+'/'+DAYS.length,'days journaled'],['🚙',Object.keys(bg).filter(k=>bg[k]).length+'/16','road bingo found'],['🧭','2,390','road miles planned'],['⭐',bd?bd.title:'Pick a mood','best day so far']]
+      .forEach(s=>stats.appendChild(h('div',{class:'tile'},h('i',{text:s[0]}),h('b',{text:s[1]}),h('span',{text:s[2]}))));
+    DAYS.forEach(d=>tabBtn[d.date].classList.toggle('done',jFilled(j[d.date])));
+    clear(mem);const items=DAYS.filter(d=>jFilled(j[d.date]));
+    if(!items.length){mem.appendChild(h('p',{class:'empty',text:'No memories yet. Add the first one above.'}));return;}
+    items.forEach(d=>{const e=j[d.date];const c=h('div',{class:'card'});c.appendChild(h('span',{class:'phase',text:d.dow+' Nov '+d.md}));
+      c.appendChild(h('h3',{text:(e.mood!=null?MOODE[e.mood]+' ':'')+d.title}));
+      [['moment','⭐'],['meal','🍽️'],['funny','😂']].forEach(f=>{if(e[f[0]])c.appendChild(h('p',{text:f[1]+' '+e[f[0]]}));});mem.appendChild(c);});}
+  fill();
+}
 
 /* ---------- Guide ---------- */
 function Guide(){
