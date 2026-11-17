@@ -850,13 +850,15 @@ function wxRows(){const ti=todayIndex();
   const out=[];const a=DAYS[ti].date;out.push([WXL[a][0],WXL[a][1],WXL[a][2],a]);
   if(ti+1<DAYS.length){const b=DAYS[ti+1].date;out.push([WXL[b][0],WXL[b][1],WXL[b][2],b]);}
   return out;}
-function wxPaint(row,r,data){clear(row);
+function wxPaint(row,r,data,sub){clear(row);
   const dayIdx=data&&data.daily?data.daily.time.indexOf(r[3]):-1;
-  const dd=DAYS.find(x=>x.date===r[3]);const lab=(dd?dd.dow+' Nov '+dd.md:r[3]);
+  const dd=DAYS.find(x=>x.date===r[3]);let lab=sub!=null?sub:(dd?dd.dow+' Nov '+dd.md:r[3]);
+  const wind=dayIdx>=0&&data.daily.wind_speed_10m_max?data.daily.wind_speed_10m_max[dayIdx]:null;
+  const wtxt=sub!=null&&wind!=null?' · wind '+Math.round(wind)+' mph':'';
   row.appendChild(h('div',{class:'ic',text:dayIdx>=0?WCODE(data.daily.weather_code[dayIdx])[0]:'🌡️'}));
-  row.appendChild(h('div',{class:'pl'},r[0],h('small',{text:lab+(dayIdx>=0?' · '+WCODE(data.daily.weather_code[dayIdx])[1]:'')})));
+  row.appendChild(h('div',{class:'pl'},r[0],h('small',{text:lab+(dayIdx>=0?(lab?' · ':'')+WCODE(data.daily.weather_code[dayIdx])[1]+wtxt:'')})));
   if(dayIdx>=0)row.appendChild(h('div',{class:'tp'},Math.round(data.daily.temperature_2m_max[dayIdx])+'°/'+Math.round(data.daily.temperature_2m_min[dayIdx])+'°',h('small',{text:(data.daily.precipitation_probability_max[dayIdx]!=null?data.daily.precipitation_probability_max[dayIdx]+'% rain':'')})));
-  else row.appendChild(h('div',{class:'tp'},'—',h('small',{text:'needs signal'})));}
+  else row.appendChild(h('div',{class:'tp'},'—',h('small',{text:r[3]<tripToday()?'past':'needs signal'})));}
 function WeatherCard(w){const rows=wxRows();if(!rows.length)return;
   const card=h('div',{class:'card'});card.appendChild(h('span',{class:'phase',text:'Weather'}));
   const note=h('p',{style:'font-size:12px;color:var(--dim);margin:6px 0 0',text:''});
@@ -866,10 +868,28 @@ function WeatherCard(w){const rows=wxRows();if(!rows.length)return;
   const ts=Object.values(cache).map(c=>c.t).filter(Boolean);
   const setNote=t=>{note.textContent=t?'Forecast from Open-Meteo, updated '+new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(t))+' Arizona time.':'Forecast loads when the phone has signal and is saved for offline.';};
   setNote(ts.length?Math.min.apply(null,ts):0);
-  rows.forEach((r,i)=>{const key=r[1]+','+r[2];const c=cache[key];if(c&&Date.now()-c.t<3*3600000)return;
+  wxLoad(rows,els,setNote);}
+function wxLoad(rows,els,setNote){const cache=Store.get('wx',{});
+  rows.forEach((r,i)=>{const key=r[1]+','+r[2];const c=cache[key];if(c&&Date.now()-c.t<3*3600000&&c.d&&c.d.daily&&c.d.daily.wind_speed_10m_max)return;
     const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);
-    fetch('https://api.open-meteo.com/v1/forecast?latitude='+r[1]+'&longitude='+r[2]+'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&timezone=auto&forecast_days=16',{signal:ctl.signal})
-      .then(x=>x.ok?x.json():Promise.reject()).then(d=>{const cc=Store.get('wx',{});cc[key]={t:Date.now(),d:d};Store.set('wx',cc);wxPaint(els[i],r,d);setNote(Date.now());}).catch(()=>{});});}
+    fetch('https://api.open-meteo.com/v1/forecast?latitude='+r[1]+'&longitude='+r[2]+'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=auto&forecast_days=16',{signal:ctl.signal})
+      .then(x=>x.ok?x.json():Promise.reject()).then(d=>{const cc=Store.get('wx',{});cc[key]={t:Date.now(),d:d};Store.set('wx',cc);wxPaint(els[i],r,d,r[4]);setNote(Date.now());}).catch(()=>{});});}
+/* Per-day forecast on the Trip → Days view. Drive days show each leg of the route. */
+const WXDAY={'2026-11-19':[['Chandler, AZ',33.30,-111.84,'Noon departure'],['El Paso, TX',31.76,-106.49,'Dinner stop'],['Fort Stockton, TX',30.89,-102.88,'Overnight drive']],
+ '2026-11-20':[['San Antonio, TX',29.42,-98.49,'Early morning'],['Galveston, TX',29.30,-94.79,'Embark and sail-away']],
+ '2026-11-25':[['Galveston, TX',29.30,-94.79,'Disembark'],['Houston, TX',29.76,-95.37,'Afternoon']],
+ '2026-11-28':[['Spring, TX',30.08,-95.42,'Morning'],['San Antonio, TX',29.42,-98.49,'Afternoon'],['Fort Stockton, TX',30.89,-102.88,'Evening']],
+ '2026-11-29':[['El Paso, TX',31.76,-106.49,'Overnight'],['Chandler, AZ',33.30,-111.84,'Home']]};
+function DayWeather(w,d){const list=WXDAY[d.date]||(WXL[d.date]?[[WXL[d.date][0],WXL[d.date][1],WXL[d.date][2],'']]:[]);if(!list.length)return;
+  const rows=list.map(x=>[x[0],x[1],x[2],d.date,x[3]]);
+  const card=h('div',{class:'card'});card.appendChild(h('span',{class:'phase',text:'Weather'}));
+  const cache=Store.get('wx',{});const els=[];
+  rows.forEach(r=>{const row=h('div',{class:'wx'});card.appendChild(row);els.push(row);const c=cache[r[1]+','+r[2]];wxPaint(row,r,c&&c.d,r[4]);});
+  const note=h('p',{style:'font-size:12px;color:var(--dim);margin:6px 0 0'});card.appendChild(note);w.appendChild(card);
+  const ts=rows.map(r=>cache[r[1]+','+r[2]]).filter(Boolean).map(c=>c.t);
+  const setNote=t=>{note.textContent=t?'Open-Meteo forecast, updated '+new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(t))+' Arizona time.':'Forecast loads when the phone has signal and is saved for offline.';};
+  setNote(ts.length?Math.min.apply(null,ts):0);
+  if(d.date>=tripToday())wxLoad(rows,els,setNote);}
 const PICKDAY={'2026-11-19':['bucees','wafflehouse'],'2026-11-20':['sunflower','leeland','sharkshack'],'2026-11-25':['sch','katies','gaidos'],'2026-11-26':['wafflehouse','heb','zoo'],'2026-11-27':['trf','corkscrew','oldtown'],'2026-11-28':['corkscrew','mercer','costco'],'2026-11-29':['bucees']};
 function openPick(id){S.pf='all';S.pk=id;S.open.places=true;go('guide');setTimeout(()=>{const e=document.querySelector('.pk.sel');if(e&&e.scrollIntoView)e.scrollIntoView({block:'center'});},80);}
 function nextUp(d){const now=AZ.dateKey(tripNow())===d.date?new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,hour:'numeric',minute:'2-digit',hour12:false}).format(tripNow()):null;
@@ -933,6 +953,7 @@ function Trip(){
   if(onTab)setTimeout(()=>{tabs.scrollLeft=Math.max(0,onTab.offsetLeft-tabs.clientWidth/2+31);},0);
   const d=DAYS.find(x=>x.date===S.day);
   w.appendChild(h('div',{class:'card'},h('span',{class:'phase',text:d.phase}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
+  DayWeather(w,d);
   if(/^The Drive/.test(d.phase))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.view='road';S.dir=d.date<'2026-11-25'?'e':'w';S.stop=null;render();}}},
     h('b',{text:'⏱️ Road timing'}),h('p',{text:'See when you reach each stop for any departure time.'})));
   let shown=0;
