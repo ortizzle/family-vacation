@@ -192,6 +192,29 @@ body.day textarea.kin,body.day .card input[type=time],body.day .card select,body
 .wx .ic{font-size:28px;flex:0 0 36px;text-align:center}
 .wx .pl{flex:1;font-size:15px;color:var(--cream);line-height:1.3}.wx .pl small{display:block;font-size:12px;color:var(--dim)}
 .wx .tp{text-align:right;font-size:15px;color:var(--brass-lt);font-weight:600}.wx .tp small{display:block;font-weight:400;font-size:12px;color:var(--dim)}
+.wxcard{padding-top:12px;padding-bottom:12px}
+.wxhead{display:block;width:100%;background:none;border:0;text-align:left;padding:0;min-height:44px;position:relative;color:inherit;font:inherit}
+.wxsum{font-size:15px;color:var(--cream);margin-top:4px;padding-right:26px;line-height:1.4}
+.wxchev{position:absolute;right:0;top:2px;color:var(--brass-lt);font-size:13px}
+.wxnote{font-size:12px;color:var(--dim);margin:8px 0 0}
+.wxh{display:flex;gap:6px;overflow-x:auto;padding:4px 0 2px;-webkit-overflow-scrolling:touch}
+.wxhc{flex:0 0 48px;text-align:center;border:1px solid rgba(201,162,75,.2);border-radius:10px;padding:6px 0}
+.wxhc small{display:block;font-size:11px;color:var(--dim)}.wxhc b{display:block;font-size:20px;font-weight:400}.wxhc span{display:block;font-size:14px;color:var(--brass-lt)}.wxhc .rn{color:var(--teal)}
+.rp h3.behind{color:var(--coral)}.rp h3.ahead{color:var(--teal)}
+.rpbar{position:relative;height:14px;border-radius:7px;background:#0a1730;border:1px solid var(--brass-dk);margin:10px 0 4px}
+.rpbar i{display:block;height:100%;border-radius:7px;background:linear-gradient(90deg,var(--teal),var(--brass-lt))}
+.rpbar .tick{position:absolute;top:-5px;width:3px;height:22px;margin-left:-1px;background:var(--cream);border-radius:2px}
+.rplab{display:flex;justify-content:space-between;font-size:12px;color:var(--dim)}.rplab .pl{color:var(--cream)}
+.rpsub{font-size:14px;color:var(--dim);margin:8px 0 4px}
+.rpt{margin:8px 0 4px;font-size:14px}
+.rpr{display:grid;grid-template-columns:minmax(0,1.2fr) auto auto minmax(44px,.7fr);gap:8px;font-size:13px;padding:7px 0;border-top:1px solid rgba(201,162,75,.15);align-items:baseline}
+.rpr.hd{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);border-top:0}
+.rpr span:nth-child(n+2){text-align:right;white-space:nowrap}.rpr.did span:first-child{color:var(--brass-lt)}.rpr.next{background:rgba(79,195,247,.07)}
+.rpr .eta{color:var(--dim);font-style:italic}.rp .ok{color:var(--teal)}.rp .late{color:var(--coral)}.rp .early{color:var(--teal)}
+.rpleg{padding:6px 0}.rplt{display:flex;justify-content:space-between;font-size:14px}.rplt b{font-weight:600}
+.rplb{height:6px;border-radius:3px;background:#0a1730;margin:3px 0}.rplb i{display:block;height:100%;border-radius:3px}.rplb .p{background:var(--brass-dk)}.rplb .a{background:var(--teal)}.rplb .a.late{background:var(--coral)}
+.rpleg small{font-size:12px;color:var(--dim)}
+body.day .rpbar,body.day .rplb{background:#e4d9b8}
 .mini{display:block;width:100%;text-align:left;padding:10px 0;border:0;border-top:1px solid rgba(201,162,75,.15);background:transparent;color:var(--cream);font-size:15px;min-height:44px}
 .mini:first-of-type{border-top:0}.mini small{display:block;color:var(--dim);font-size:13px}
 .rm{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid rgba(201,162,75,.15)}.rm:first-of-type{border-top:0}.rm button.t{flex:1;text-align:left;background:transparent;border:0;color:var(--cream);font-size:15px;min-height:44px;line-height:1.35}.rm.done button.t{text-decoration:line-through;color:var(--dim)}
@@ -874,22 +897,133 @@ function wxLoad(rows,els,setNote){const cache=Store.get('wx',{});
     const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);
     fetch('https://api.open-meteo.com/v1/forecast?latitude='+r[1]+'&longitude='+r[2]+'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=auto&forecast_days=16',{signal:ctl.signal})
       .then(x=>x.ok?x.json():Promise.reject()).then(d=>{const cc=Store.get('wx',{});cc[key]={t:Date.now(),d:d};Store.set('wx',cc);wxPaint(els[i],r,d,r[4]);setNote(Date.now());}).catch(()=>{});});}
-/* Per-day forecast on the Trip → Days view. Drive days show each leg of the route. */
-const WXDAY={'2026-11-19':[['Chandler, AZ',33.30,-111.84,'Noon departure'],['El Paso, TX',31.76,-106.49,'Dinner stop'],['Fort Stockton, TX',30.89,-102.88,'Overnight drive']],
- '2026-11-20':[['San Antonio, TX',29.42,-98.49,'Early morning'],['Galveston, TX',29.30,-94.79,'Embark and sail-away']],
- '2026-11-25':[['Galveston, TX',29.30,-94.79,'Disembark'],['Houston, TX',29.76,-95.37,'Afternoon']],
- '2026-11-28':[['Spring, TX',30.08,-95.42,'Morning'],['San Antonio, TX',29.42,-98.49,'Afternoon'],['Fort Stockton, TX',30.89,-102.88,'Evening']],
- '2026-11-29':[['El Paso, TX',31.76,-106.49,'Overnight'],['Chandler, AZ',33.30,-111.84,'Home']]};
-function DayWeather(w,d){const list=WXDAY[d.date]||(WXL[d.date]?[[WXL[d.date][0],WXL[d.date][1],WXL[d.date][2],'']]:[]);if(!list.length)return;
-  const rows=list.map(x=>[x[0],x[1],x[2],d.date,x[3]]);
-  const card=h('div',{class:'card'});card.appendChild(h('span',{class:'phase',text:'Weather'}));
-  const cache=Store.get('wx',{});const els=[];
-  rows.forEach(r=>{const row=h('div',{class:'wx'});card.appendChild(row);els.push(row);const c=cache[r[1]+','+r[2]];wxPaint(row,r,c&&c.d,r[4]);});
-  const note=h('p',{style:'font-size:12px;color:var(--dim);margin:6px 0 0'});card.appendChild(note);w.appendChild(card);
-  const ts=rows.map(r=>cache[r[1]+','+r[2]]).filter(Boolean).map(c=>c.t);
-  const setNote=t=>{note.textContent=t?'Open-Meteo forecast, updated '+new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(t))+' Arizona time.':'Forecast loads when the phone has signal and is saved for offline.';};
-  setNote(ts.length?Math.min.apply(null,ts):0);
-  if(d.date>=tripToday())wxLoad(rows,els,setNote);}
+/* Per-day forecast on the Trip → Days view: a one-line summary that taps open.
+   Drive days show each stop at the time you are forecast to reach it (follows Road timing + check-ins).
+   Port days add an hour-by-hour strip for the hours ashore. */
+const WXDAY={'2026-11-25':[['Galveston, TX',29.30,-94.79,'Disembark'],['Houston, TX',29.76,-95.37,'Afternoon']]};
+const RDAY={'2026-11-19':['e',['chandler','tucson','elpaso','fortstockton']],'2026-11-20':['e',['sanantonio','luling','galveston']],
+ '2026-11-28':['w',['spring','sanantonio','fortstockton']],'2026-11-29':['w',['elpaso','tucson','chandler']]};
+const PORTHRS={'2026-11-22':[11,18,'Ashore 11:15 AM to all aboard 6:00 PM'],'2026-11-23':[10,18,'Ashore 10:30 AM to all aboard 6:00 PM']};
+const SHIPOFF=-6;/* ship time = US Central in late November */
+function wxhLoad(pts,done){
+  const cache=Store.get('wxh',{});
+  pts.forEach(pt=>{const key=pt[0]+','+pt[1];const c=cache[key];if(c&&Date.now()-c.t<3*3600000)return;
+    const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);
+    fetch('https://api.open-meteo.com/v1/forecast?latitude='+pt[0]+'&longitude='+pt[1]+'&hourly=weather_code,temperature_2m,precipitation_probability,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=GMT&forecast_days=16',{signal:ctl.signal})
+      .then(x=>x.ok?x.json():Promise.reject()).then(d=>{const hr=d.hourly,o={};
+        hr.time.forEach((t,i)=>{if(t>='2026-11-19'&&t<'2026-11-31')o[t.slice(5,13)]=[hr.weather_code[i],hr.temperature_2m[i],hr.precipitation_probability[i],hr.wind_speed_10m[i]];});
+        const cc=Store.get('wxh',{});cc[key]={t:Date.now(),h:o};Store.set('wxh',cc);done();}).catch(()=>{});});}
+function wxhAt(lat,lon,ms){const c=Store.get('wxh',{})[lat+','+lon];if(!c)return null;return c.h[new Date(ms+30*60000).toISOString().slice(5,13)]||null;}
+function wxDaily(lat,lon,date){const c=Store.get('wx',{})[lat+','+lon];const dl=c&&c.d&&c.d.daily;if(!dl)return null;const i=dl.time.indexOf(date);if(i<0)return null;
+  return {code:dl.weather_code[i],hi:dl.temperature_2m_max[i],lo:dl.temperature_2m_min[i],rain:dl.precipitation_probability_max[i],wind:dl.wind_speed_10m_max?dl.wind_speed_10m_max[i]:null};}
+function roadNow(dir){const P=roadPlan(),log=(Store.get('roadlog',{})[dir])||{};const ids=ROUTES[dir];const hasLog=ids.some(id=>log[id]);
+  return {P,log,ids,hasLog,rows:roadFC(dir,depMs(dir,P[dir]),P.p,hasLog?log:null,P.br,tripNow().getTime())};}
+function hrLabel(ms,off){const d=new Date(ms+off*3600000);let hr=d.getUTCHours();const ap=hr>=12?'p':'a';hr=hr%12||12;return hr+ap;}
+function DayWeather(w,d){
+  const rd=RDAY[d.date],port=PORTHRS[d.date];
+  const list=WXDAY[d.date]||(WXL[d.date]?[[WXL[d.date][0],WXL[d.date][1],WXL[d.date][2],'']]:[]);
+  if(!rd&&!list.length)return;
+  const key='wx'+d.date;if(S.open[key]===undefined)S.open[key]=d.date===tripToday();
+  const card=h('div',{class:'card wxcard'});w.appendChild(card);
+  const live=d.date>=tripToday();
+  function paint(){clear(card);const open=!!S.open[key];
+    const head=h('button',{type:'button',class:'wxhead','aria-expanded':String(open),on:{click:()=>{S.open[key]=!S.open[key];paint();}}});card.appendChild(head);
+    head.appendChild(h('span',{class:'phase',text:'Weather'}));
+    const sumEl=h('div',{class:'wxsum'});head.appendChild(sumEl);head.appendChild(h('span',{class:'wxchev',text:open?'▲':'▼'}));
+    let rn=null;
+    if(rd){rn=roadNow(rd[0]);const ids=rn.ids;
+      const pts=rd[1].map(id=>{const r=rn.rows[ids.indexOf(id)],pl=PLACES[id];return {id,pl,r,wx:r&&r.arr!=null?wxhAt(pl.at[1],pl.at[0],r.arr):null};});
+      const got=pts.filter(x=>x.wx);
+      if(got.length){const f=got[0],l=got[got.length-1];const maxR=Math.max.apply(null,got.map(x=>x.wx[2]||0));
+        sumEl.textContent=WCODE(f.wx[0])[0]+' '+f.pl.n+' '+Math.round(f.wx[1])+'° → '+WCODE(l.wx[0])[0]+' '+l.pl.n+' '+Math.round(l.wx[1])+'° · rain up to '+maxR+'%';}
+      else sumEl.textContent=live?'Weather at each stop, timed to when you get there. Needs signal once.':'Road day weather';
+      if(open){card.appendChild(h('div',{class:'sub',text:'At each stop, when you get there'}));
+        pts.forEach(x=>{const off=TZO[x.id],row=h('div',{class:'wx'});card.appendChild(row);
+          row.appendChild(h('div',{class:'ic',text:x.wx?WCODE(x.wx[0])[0]:'🌡️'}));
+          const when=!x.r||x.r.arr==null?'Already passed':(x.r.act?'Arrived ':'ETA ')+fmtT(x.r.arr,off,+d.md)+(off===-7?' AZ':' TX');
+          row.appendChild(h('div',{class:'pl'},x.pl.n,h('small',{text:when+(x.wx?' · '+WCODE(x.wx[0])[1]+' · wind '+Math.round(x.wx[3])+' mph':'')})));
+          row.appendChild(x.wx?h('div',{class:'tp'},Math.round(x.wx[1])+'°',h('small',{text:x.wx[2]+'% rain'})):h('div',{class:'tp'},'—',h('small',{text:live?'needs signal':''})));});
+        card.appendChild(h('p',{class:'wxnote',text:'Times follow Road timing ('+(rn.hasLog?'re-forecast from your check-ins':'leaving '+fmtHM(rn.P[rd[0]])+', '+PACE[rn.P.p].n.toLowerCase()+' pace')+'). Change the departure there and these update.'}));
+        card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'⏱️ Road timing',on:{click:()=>{S.view='road';S.dir=rd[0];S.stop=null;S.open.timing=true;render();}}})));}
+    }else{
+      const dl=list.map(x=>wxDaily(x[1],x[2],d.date));const f=dl[0];
+      if(f)sumEl.textContent=WCODE(f.code)[0]+' '+(list.length>1?list[0][0].split(',')[0]+' ':'')+Math.round(f.hi)+'°/'+Math.round(f.lo)+'° · '+(f.rain!=null?f.rain+'% rain':'')+(f.wind!=null?' · wind '+Math.round(f.wind)+' mph':'');
+      else sumEl.textContent=live?list[0][0]+' · needs signal once':list[0][0];
+      if(open){const cache=Store.get('wx',{});list.forEach(x=>{const r=[x[0],x[1],x[2],d.date,x[3]];const row=h('div',{class:'wx'});card.appendChild(row);const c=cache[x[1]+','+x[2]];wxPaint(row,r,c&&c.d,x[3]);});
+        if(port){const lat=list[0][1],lon=list[0][2];const yr=2026,mo=10,dy=+d.md;
+          card.appendChild(h('div',{class:'sub',text:'Ashore, hour by hour (ship time)'}));
+          const strip=h('div',{class:'wxh'});card.appendChild(strip);let any=false;
+          for(let hh=port[0];hh<=port[1];hh++){const ms=Date.UTC(yr,mo,dy,hh)-SHIPOFF*3600000;const v=wxhAt(lat,lon,ms);if(v)any=true;
+            strip.appendChild(h('div',{class:'wxhc'},h('small',{text:hrLabel(ms,SHIPOFF)}),h('b',{text:v?WCODE(v[0])[0]:'·'}),h('span',{text:v?Math.round(v[1])+'°':'—'}),h('small',{class:'rn',text:v?v[2]+'%':''})));}
+          card.appendChild(h('p',{class:'wxnote',text:port[2]+'. '+(any?'Rain chance under each hour.':'Hourly forecast loads with signal.')}));}}
+    }
+    if(open){const ts=[];const wc=Store.get('wx',{}),hc=Store.get('wxh',{});
+      list.forEach(x=>{const c=wc[x[1]+','+x[2]];if(c)ts.push(c.t);});
+      (rd?rd[1].map(id=>PLACES[id].at):port?[[list[0][2],list[0][1]]]:[]).forEach(a=>{const c=hc[a[1]+','+a[0]];if(c)ts.push(c.t);});
+      card.appendChild(h('p',{class:'wxnote',text:ts.length?'Open-Meteo, updated '+new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(Math.min.apply(null,ts)))+' Arizona time. Saved for offline.':'Forecast loads when the phone has signal and is saved for offline.'}));}
+  }
+  paint();
+  if(!live)return;
+  const again=()=>{if(card.isConnected)paint();};
+  if(rd)wxhLoad(rd[1].map(id=>[PLACES[id].at[1],PLACES[id].at[0]]),again);
+  else{wxLoad(list.map(x=>[x[0],x[1],x[2],d.date,x[3]]),list.map(()=>h('div')),again);
+    if(port)wxhLoad([[list[0][1],list[0][2]]],again);}}
+
+/* ---------- Road: planned vs actual ---------- */
+function rpMileAt(ids,mi,times,ms){/* linear position along the route for a set of stop times */
+  if(ms<=times[0])return 0;for(let i=0;i<ids.length-1;i++){const a=times[i],b=times[i+1];if(a==null||b==null)continue;
+    if(ms<b){const f=Math.max(0,Math.min(1,(ms-a)/(b-a)));return mi[ids[i]]+f*(mi[ids[i+1]]-mi[ids[i]]);}}
+  return mi[ids[ids.length-1]];}
+function dPhrase(m){return Math.abs(m)<5?'on plan':(m>0?'+':'−')+fmtDur(Math.abs(m));}
+function RoadProgress(w,dir,compact){
+  const rn=roadNow(dir),ids=rn.ids,mi=MILES[dir],tot=mi[ids[ids.length-1]],log=rn.log,T=TIMING[dir],bd=T.base[2];
+  const plan=rn.hasLog&&log._pl?log._pl:roadFC(dir,depMs(dir,rn.P[dir]),rn.P.p,null,rn.P.br).map(r=>r.arr);
+  const now=tripNow().getTime(),rows=rn.rows;const k=ids.map(id=>!!log[id]).lastIndexOf(true);
+  const done=k===ids.length-1;
+  const card=h('div',{class:'card rp'});w.appendChild(card);
+  card.appendChild(h('span',{class:'phase',text:'Planned vs actual · '+(dir==='e'?'Eastbound':'Homebound')}));
+  const lastDelta=k>=0?Math.round((log[ids[k]]-plan[k])/60000):0;
+  const etaEnd=rows[rows.length-1].arr,endDelta=Math.round((etaEnd-plan[plan.length-1])/60000);
+  let title,sub;
+  if(!rn.hasLog){title='Not on the road yet';sub='Plan: leave '+PLACES[ids[0]].n+' '+fmtT(plan[0],TZO[ids[0]],bd-1)+', arrive '+PLACES[ids[ids.length-1]].n+' '+fmtT(plan[plan.length-1],TZO[ids[ids.length-1]],bd-1)+'. Tap Check in as you go and this tracks you against the plan.';}
+  else if(done){title='Made it · '+(Math.abs(lastDelta)<5?'right on plan':fmtDur(Math.abs(lastDelta))+(lastDelta>0?' behind plan':' ahead of plan'));
+    const f0=ids.findIndex(x=>log[x]);sub=(f0===0?'Door to door ':'From '+PLACES[ids[f0]].n+': ')+fmtDur((log[ids[k]]-log[ids[f0]])/60000)+' vs '+fmtDur((plan[k]-plan[f0])/60000)+' planned.';}
+  else{title=Math.abs(lastDelta)<5?'Right on plan':fmtDur(Math.abs(lastDelta))+(lastDelta>0?' behind plan':' ahead of plan');
+    sub='Last check-in: '+PLACES[ids[k]].n+' at '+fmtT(log[ids[k]],TZO[ids[k]],bd)+'. Forecast: '+PLACES[ids[ids.length-1]].n+' about '+fmtT(etaEnd,TZO[ids[ids.length-1]],bd)+' ('+dPhrase(endDelta)+').';}
+  card.appendChild(h('h3',{class:Math.abs(lastDelta)<5||!rn.hasLog?'':lastDelta>0?'behind':'ahead',text:title}));
+  /* progress bar: fill = where you are, tick = where the plan says you'd be */
+  const actTimes=rows.map((r,i)=>r.act?log[ids[i]]:r.arr);
+  const actMile=!rn.hasLog?0:done?tot:Math.min(rpMileAt(ids,mi,actTimes,now),k+1<ids.length?mi[ids[k+1]]:tot);
+  const planMile=rpMileAt(ids,mi,plan,now);
+  const bar=h('div',{class:'rpbar'},h('i',{style:'width:'+(actMile/tot*100).toFixed(1)+'%'}),h('b',{class:'tick',style:'left:'+(planMile/tot*100).toFixed(1)+'%',title:'Plan'}));
+  card.appendChild(bar);
+  card.appendChild(h('div',{class:'rplab'},h('span',{text:rn.hasLog?'About mile '+Math.round(actMile).toLocaleString('en-US')+' of '+tot.toLocaleString('en-US'):'0 of '+tot.toLocaleString('en-US')+' miles'}),h('span',{class:'pl',text:'▏plan: mile '+Math.round(planMile).toLocaleString('en-US')})));
+  card.appendChild(h('p',{class:'rpsub',text:sub}));
+  /* stop table */
+  const tb=h('div',{class:'rpt'});card.appendChild(tb);
+  tb.appendChild(h('div',{class:'rpr hd'},h('span',{text:'Stop'}),h('span',{text:'Plan'}),h('span',{text:'Actual'}),h('span',{text:'±'})));
+  ids.forEach((id,i)=>{const off=TZO[id],r=rows[i];if(compact&&rn.hasLog&&!done&&(i<k-1||i>k+2))return;
+    const pT=fmtT(plan[i],off,bd);const act=r.act?log[id]:null;const dm=act!=null?Math.round((act-plan[i])/60000):null;
+    const row=h('div',{class:'rpr'+(act!=null?' did':'')+(i===k+1&&rn.hasLog&&!done?' next':'')});
+    row.append(h('span',{text:PLACES[id].n}),h('span',{text:pT}),
+      h('span',{class:act!=null?'':'eta',text:act!=null?fmtT(act,off,bd):r.arr!=null?'~'+fmtT(r.arr,off,bd):'—'}),
+      h('span',{class:dm==null?'eta':Math.abs(dm)<5?'ok':dm>0?'late':'early',text:dm==null?(r.arr!=null&&rn.hasLog?dPhrase(Math.round((r.arr-plan[i])/60000)):''):dPhrase(dm)}));
+    tb.appendChild(row);});
+  /* completed legs */
+  if(!compact&&k>0){card.appendChild(h('div',{class:'sub',text:'Legs so far (drive plus stop)'}));let worst=null;
+    for(let i=0;i<k;i++){if(!log[ids[i]]||!log[ids[i+1]])continue;const pm=Math.round((plan[i+1]-plan[i])/60000),am=Math.round((log[ids[i+1]]-log[ids[i]])/60000),dd=am-pm;
+      if(!worst||dd>worst[1])worst=[i,dd];
+      const mx=Math.max(pm,am);
+      card.appendChild(h('div',{class:'rpleg'},h('div',{class:'rplt'},h('span',{text:PLACES[ids[i]].n+' → '+PLACES[ids[i+1]].n}),h('b',{class:Math.abs(dd)<5?'ok':dd>0?'late':'early',text:dPhrase(dd)})),
+        h('div',{class:'rplb'},h('i',{class:'p',style:'width:'+(pm/mx*100)+'%'})),h('div',{class:'rplb'},h('i',{class:'a'+(dd>=5?' late':''),style:'width:'+(am/mx*100)+'%'})),
+        h('small',{text:'Plan '+fmtDur(pm)+' · actual '+fmtDur(am)})));}
+    if(worst&&worst[1]>=10)card.appendChild(h('p',{class:'rpsub',text:'Biggest slowdown so far: '+PLACES[ids[worst[0]]].n+' → '+PLACES[ids[worst[0]+1]].n+' ('+fmtDur(worst[1])+' over).'}));}
+  /* actions */
+  const act=h('div',{class:'row'});card.appendChild(act);
+  if(!done){const nx=k+1;act.appendChild(h('button',{type:'button',class:'btn sm',text:nx===0?'✓ We just left '+PLACES[ids[0]].n:nx===ids.length-1?'✓ We made it':'✓ Check in at '+PLACES[ids[nx]].n,on:{click:()=>logStop(dir,ids[nx],true)}}));}
+  if(compact||S.view!=='road')act.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'Road timing',on:{click:()=>{S.tab='trip';S.view='road';S.dir=dir;S.stop=null;S.open.timing=true;render();}}}));
+  if(rn.hasLog)card.appendChild(h('p',{class:'wxnote',text:'The plan was locked in at your first check-in so it stays a fair yardstick. Clear check-ins in Road timing to start over.'}));
+}
 const PICKDAY={'2026-11-19':['bucees','wafflehouse'],'2026-11-20':['sunflower','leeland','sharkshack'],'2026-11-25':['sch','katies','gaidos'],'2026-11-26':['wafflehouse','heb','zoo'],'2026-11-27':['trf','corkscrew','oldtown'],'2026-11-28':['corkscrew','mercer','costco'],'2026-11-29':['bucees']};
 function openPick(id){S.pf='all';S.pk=id;S.open.places=true;go('guide');setTimeout(()=>{const e=document.querySelector('.pk.sel');if(e&&e.scrollIntoView)e.scrollIntoView({block:'center'});},80);}
 function nextUp(d){const now=AZ.dateKey(tripNow())===d.date?new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,hour:'numeric',minute:'2-digit',hour12:false}).format(tripNow()):null;
@@ -912,6 +1046,7 @@ function MyReminders(w){
   paint();w.appendChild(card);}
 function HomeExtras(w){
   WeatherCard(w);
+  {const rd=RDAY[tripToday()];if(rd)RoadProgress(w,rd[0],true);}
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
   const nx=ti>=0?nextUp(d):null;
   if(ti>=0){const c=h('button',{type:'button',class:'card tap',on:{click:()=>{S.day=d.date;go('trip');}}},h('span',{class:'phase',text:'Next up'}));
@@ -956,6 +1091,7 @@ function Trip(){
   DayWeather(w,d);
   if(/^The Drive/.test(d.phase))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.view='road';S.dir=d.date<'2026-11-25'?'e':'w';S.stop=null;render();}}},
     h('b',{text:'⏱️ Road timing'}),h('p',{text:'See when you reach each stop for any departure time.'})));
+  if(RDAY[d.date])RoadProgress(w,RDAY[d.date][0],true);
   let shown=0;
   d.items.forEach(it=>{if(S.fam!=='all'&&it[4].indexOf(S.fam)<0)return;shown++;
     const meta=h('div',{class:'meta'},h('span',{class:'tag'+(it[6]==='o'?' opt':''),text:it[6]==='o'?'Optional':it[5]}));
@@ -1011,7 +1147,7 @@ function RoadMap(w){
     mc.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:8px 0 0',text:'Bars show each leg against a tank of about '+RANGE+' miles (18 gallons at about 20 mpg). Longest leg: '+longest+' miles. Miles are approximate along I-10.'}));
     w.appendChild(mc);};
   if(!cur){w.appendChild(h('p',{class:'lead',text:'Tap a stop to zoom in. You will see the exit, how to get off and back on, gas, and food nearby.'}));
-    w.appendChild(h('p',{class:'foot',text:'This is a hand-drawn route sketch so it works with no signal. Buttons inside each stop open live maps when you are online.'}));Timing(w,dir);milesCard();return;}
+    w.appendChild(h('p',{class:'foot',text:'This is a hand-drawn route sketch so it works with no signal. Buttons inside each stop open live maps when you are online.'}));RoadProgress(w,dir,false);Timing(w,dir);milesCard();return;}
   const card=h('div',{class:'card'});w.appendChild(card);
   card.appendChild(h('span',{class:'phase',text:'Stop '+(ids.indexOf(S.stop)+1)+' of '+ids.length+(cur.exit?' · '+cur.exit:'')}));card.appendChild(h('h3',{text:cur.n}));
   {const mi=MILES[dir],ix=ids.indexOf(S.stop);const bits=['Mile '+mi[S.stop]+' from '+PLACES[ids[0]].n];
@@ -1105,7 +1241,8 @@ function roadPlan(){return Object.assign({e:'12:00',w:'11:30',p:'p',t:'12:00',br
 function setPlan(k,v){const p=roadPlan();p[k]=v;save('roadplan',p);render();}
 let rdT;
 function logMut(dir,fn){const a=Store.get('roadlog',{});a[dir]=a[dir]||{};fn(a[dir]);save('roadlog',a);render();}
-function logStop(dir,id,on){logMut(dir,l=>{if(on){l[id]=tripNow().getTime();delete l._b;}else delete l[id];});}
+function logStop(dir,id,on){logMut(dir,l=>{if(on){if(!ROUTES[dir].some(x=>l[x])){const P=roadPlan();l._pl=roadFC(dir,depMs(dir,P[dir]),P.p,null,P.br).map(r=>r.arr);}
+  l[id]=tripNow().getTime();delete l._b;}else{delete l[id];if(!ROUTES[dir].some(x=>l[x]))delete l._pl;}});}
 function startBreak(dir,k){logMut(dir,l=>{l._b={k:k,start:tripNow().getTime()};});}
 function endBreak(dir){logMut(dir,l=>{if(l._b){const m=Math.max(1,Math.round((tripNow().getTime()-l._b.start)/60000));l._x=l._x||{};l._x[l._b.k]=(l._x[l._b.k]||0)+m;delete l._b;}});}
 function addExtra(dir,k,m){logMut(dir,l=>{l._x=l._x||{};l._x[k]=(l._x[k]||0)+m;});}
@@ -1117,7 +1254,7 @@ function pacePhrase(d){return d>=5?fmtDur(d)+' behind plan':d<=-5?fmtDur(-d)+' a
 function Timing(w,dir){
   const P=roadPlan(),ids=ROUTES[dir],isE=dir==='e',T=TIMING[dir],bd=T.base[2];
   const log=(Store.get('roadlog',{})[dir])||{};const k=ids.map(id=>!!log[id]).lastIndexOf(true);const hasLog=k>=0;const now=tripNow().getTime();
-  const dep=depMs(dir,P[dir]);const base=roadFC(dir,dep,P.p,null,P.br);const rows=roadFC(dir,dep,P.p,hasLog?log:null,P.br,now);
+  const dep=depMs(dir,P[dir]);const base=hasLog&&log._pl?log._pl.map(a=>({arr:a})):roadFC(dir,dep,P.p,null,P.br);const rows=roadFC(dir,dep,P.p,hasLog?log:null,P.br,now);
   const last=rows[rows.length-1];const dd=Math.round((last.arr-base[base.length-1].arr)/60000);
   const tgt=isE?tgtMs(P.t):null;const st=isE?portStatus(last.arr,tgt):null;const breakOn=hasLog&&log._b&&log._b.k===k&&k<ids.length-1;
   clearInterval(rdT);if(breakOn&&S.open.timing)rdT=setInterval(()=>{if(S.tab==='trip'&&S.view==='road'&&S.open.timing)render();else clearInterval(rdT);},60000);
