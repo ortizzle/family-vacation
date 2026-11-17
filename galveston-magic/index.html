@@ -214,6 +214,10 @@ body.day textarea.kin,body.day .card input[type=time],body.day .card select,body
 .rpleg{padding:6px 0}.rplt{display:flex;justify-content:space-between;font-size:14px}.rplt b{font-weight:600}
 .rplb{height:6px;border-radius:3px;background:#0a1730;margin:3px 0}.rplb i{display:block;height:100%;border-radius:3px}.rplb .p{background:var(--brass-dk)}.rplb .a{background:var(--teal)}.rplb .a.late{background:var(--coral)}
 .rpleg small{font-size:12px;color:var(--dim)}
+.gpsask{position:fixed;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:60;background:var(--navy2);border:1px solid var(--teal);border-radius:16px;padding:12px 14px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.gpsask b{display:block;font-size:16px;color:var(--cream)}.gpsask small{display:block;font-size:13px;color:var(--dim);margin:4px 0 2px}
+.gpsrow{align-items:center}.gpsrow span{flex:1 1 180px;font-size:13px;color:var(--dim)}
+.rcg{margin:8px 0}
 body.day .rpbar,body.day .rplb{background:#e4d9b8}
 .mini{display:block;width:100%;text-align:left;padding:10px 0;border:0;border-top:1px solid rgba(201,162,75,.15);background:transparent;color:var(--cream);font-size:15px;min-height:44px}
 .mini:first-of-type{border-top:0}.mini small{display:block;color:var(--dim);font-size:13px}
@@ -800,7 +804,7 @@ function whereAmI(){const p=GEO.pos;if(!p)return null;
 function geoPaint(){if(GEO.host&&document.body.contains(GEO.host))geoCard(GEO.host);}
 function geoStart(){if(!GEO.on||GEO.watch!=null)return;
   if(!navigator.geolocation){GEO.err='This browser cannot share location.';return;}
-  try{GEO.watch=navigator.geolocation.watchPosition(p=>{GEO.pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()};GEO.err='';geoPaint();},
+  try{GEO.watch=navigator.geolocation.watchPosition(p=>{GEO.pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()};GEO.err='';geoPaint();gpsCheck();},
     e=>{GEO.err=e.code===1?'Location is blocked. Allow it for this site in the browser settings, then tap Try again.':'Still looking for a GPS signal. A spot near a window helps.';geoPaint();},{enableHighAccuracy:true,maximumAge:15000,timeout:30000});}
   catch(e){GEO.err='Location did not start.';}}
 function geoStop(){if(GEO.watch!=null){try{navigator.geolocation.clearWatch(GEO.watch);}catch(e){}GEO.watch=null;}}
@@ -1022,8 +1026,67 @@ function RoadProgress(w,dir,compact){
   const act=h('div',{class:'row'});card.appendChild(act);
   if(!done){const nx=k+1;act.appendChild(h('button',{type:'button',class:'btn sm',text:nx===0?'✓ We just left '+PLACES[ids[0]].n:nx===ids.length-1?'✓ We made it':'✓ Check in at '+PLACES[ids[nx]].n,on:{click:()=>logStop(dir,ids[nx],true)}}));}
   if(compact||S.view!=='road')act.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'Road timing',on:{click:()=>{S.tab='trip';S.view='road';S.dir=dir;S.stop=null;S.open.timing=true;render();}}}));
+  if(!done&&RDAY[tripToday()]&&RDAY[tripToday()][0]===dir){const on=GEO.on&&Store.get('gpsck',true)!==false;
+    if(on)geoStart();
+    card.appendChild(h('div',{class:'row gpsrow'},h('span',{text:on?'📍 GPS check-ins on. Keep the app open and it offers to check you in at each stop.':'📍 Let GPS spot each stop and offer the check-in for you.'}),
+      h('button',{type:'button',class:'btn ghost sm',text:on?'Turn off':'Turn on',on:{click:()=>{if(on){save('gpsck',false);}else{save('gpsck',true);if(!GEO.on){GEO.on=true;save('geo',true);}geoStart();}render();}}})));}
   if(rn.hasLog)card.appendChild(h('p',{class:'wxnote',text:'The plan was locked in at your first check-in so it stays a fair yardstick. Clear check-ins in Road timing to start over.'}));
 }
+
+/* ---------- GPS check-ins: offer (never auto-log) a check-in when the phone reaches the next stop ---------- */
+const GCK={seen:{},snooze:{},el:null,cur:null};
+function gpsCheck(){if(!GEO.on||!GEO.pos||Store.get('gpsck',true)===false)return;
+  const rd=RDAY[tripToday()];if(!rd)return;const dir=rd[0],ids=ROUTES[dir];
+  const log=(Store.get('roadlog',{})[dir])||{};const k=ids.map(id=>!!log[id]).lastIndexOf(true);
+  if(k===ids.length-1){gpsHide();return;}
+  const p=GEO.pos,now=tripNow().getTime(),wh=whereAmI();let ask=null;
+  if(k<0){const s0=ids[0],q=PLACES[s0].at;const d=miBetween(p.lat,p.lon,q[1],q[0]);
+    if(d>STOPR[s0]&&wh&&wh.mile!=null&&wh.mile>0&&wh.mile<200){const t=now-Math.round(wh.mile/60*60)*60000;
+      ask={id:s0,t,title:'Looks like you left '+PLACES[s0].n,sub:'About mile '+wh.mile+'. Log the departure at about '+fmtT(t,TZO[s0],0).replace(/^\w+ /,'')+'?',btn:'Log departure'};}}
+  else for(let j=k+1;j<=Math.min(k+2,ids.length-1);j++){const id=ids[j];
+    if(wh&&wh.near.indexOf(id)>=0){if(!GCK.seen[id])GCK.seen[id]=now;
+      ask={id,t:GCK.seen[id],title:'Looks like you’re at '+PLACES[id].n,sub:'Arrived about '+fmtT(GCK.seen[id],TZO[id],0).replace(/^\w+ /,'')+(j>k+1?'. You skipped checking in at '+PLACES[ids[k+1]].n+'.':'.')+' Check in?',btn:j===ids.length-1?'We made it':'Check in'};break;}}
+  if(!ask||(GCK.snooze[ask.id]&&GCK.snooze[ask.id]>now)){if(!ask)gpsHide();return;}
+  if(GCK.cur===ask.id&&GCK.el)return;
+  gpsHide();GCK.cur=ask.id;
+  const el=h('div',{class:'gpsask',role:'dialog','aria-live':'polite'},h('b',{text:'📍 '+ask.title}),h('small',{text:ask.sub}),
+    h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'✓ '+ask.btn,on:{click:()=>{gpsHide();logStop(dir,ask.id,true,ask.t);toast(PLACES[ask.id].n+' logged');confetti(['🚙','⭐','✨']);}}}),
+      h('button',{type:'button',class:'btn ghost sm',text:'Not yet',on:{click:()=>{GCK.snooze[ask.id]=now+20*60000;gpsHide();}}})));
+  GCK.el=el;app.appendChild(el);}
+function gpsHide(){if(GCK.el){GCK.el.remove();GCK.el=null;}GCK.cur=null;}
+if(GEO.on&&RDAY[tripToday()])geoStart();
+
+/* ---------- Road trip recap (Keepsake + trip story) ---------- */
+function roadRecap(dir){const ids=ROUTES[dir],mi=MILES[dir],log=(Store.get('roadlog',{})[dir])||{};
+  const idx=ids.map((id,i)=>log[id]?i:-1).filter(i=>i>=0);if(idx.length<2)return null;
+  const f=idx[0],k=idx[idx.length-1],plan=log._pl||roadFC(dir,depMs(dir,roadPlan()[dir]),roadPlan().p,null,roadPlan().br).map(r=>r.arr);
+  const actM=Math.round((log[ids[k]]-log[ids[f]])/60000),planM=Math.round((plan[k]-plan[f])/60000),miles=mi[ids[k]]-mi[ids[f]];
+  const legs=[];for(let i=f;i<k;i++){if(!log[ids[i]]||!log[ids[i+1]])continue;const pm=Math.round((plan[i+1]-plan[i])/60000),am=Math.round((log[ids[i+1]]-log[ids[i]])/60000);
+    legs.push({a:ids[i],b:ids[i+1],pm,am,dd:am-pm,mph:Math.round((mi[ids[i+1]]-mi[ids[i]])/(am/60))});}
+  const sl=legs.slice().sort((x,y)=>y.dd-x.dd);const extra=Object.values(log._x||{}).reduce((a,b)=>a+b,0);
+  return {dir,ids,f,k,done:k===ids.length-1&&f===0,actM,planM,miles,mph:actM?Math.round(miles/(actM/60)):0,endDelta:Math.round((log[ids[k]]-plan[k])/60000),
+    legs,slow:sl[0],fast:sl[sl.length-1],extra,checks:idx.length,from:PLACES[ids[f]].n,to:PLACES[ids[k]].n};}
+function recapLines(r){const out=[(r.dir==='e'?'Eastbound':'Homebound')+': '+r.from+' → '+r.to+(r.done?'':' (so far)'),
+  r.miles.toLocaleString('en-US')+' miles in '+fmtDur(r.actM)+' (plan '+fmtDur(r.planM)+'), about '+r.mph+' mph average',
+  'Finished '+(Math.abs(r.endDelta)<5?'right on plan':fmtDur(Math.abs(r.endDelta))+(r.endDelta>0?' behind plan':' ahead of plan'))];
+  if(r.slow&&r.slow.dd>=5)out.push('Slowest leg: '+PLACES[r.slow.a].n+' → '+PLACES[r.slow.b].n+' (+'+fmtDur(r.slow.dd)+')');
+  if(r.fast&&r.fast.dd<=-5)out.push('Best leg: '+PLACES[r.fast.a].n+' → '+PLACES[r.fast.b].n+' ('+fmtDur(-r.fast.dd)+' ahead)');
+  if(r.extra)out.push('Extra stops and breaks: '+fmtDur(r.extra));return out;}
+function RoadRecap(w){const rs=['e','w'].map(roadRecap).filter(Boolean);
+  w.appendChild(h('h2',{class:'sec',style:'font-size:22px',text:'Road trip recap'}));
+  if(!rs.length){w.appendChild(h('p',{class:'empty',text:'Check in at stops on the drive (Trip → Road map, or let GPS offer it) and your road trip recap builds here.'}));return;}
+  rs.forEach(r=>{const c=h('div',{class:'card rp'});w.appendChild(c);
+    c.appendChild(h('span',{class:'phase',text:(r.dir==='e'?'Eastbound · Nov 19–20':'Homebound · Nov 28–29')+(r.done?'':' · in progress')}));
+    c.appendChild(h('h3',{text:r.from+' → '+r.to}));
+    const g=h('div',{class:'grid2 rcg'});c.appendChild(g);
+    [['⏱️',fmtDur(r.actM),'on the road · plan '+fmtDur(r.planM)],['🛣️',r.miles.toLocaleString('en-US'),'miles'],['🚙',r.mph+' mph','average, stops included'],
+     [Math.abs(r.endDelta)<5?'🎯':r.endDelta>0?'🐢':'🐇',Math.abs(r.endDelta)<5?'On plan':(r.endDelta>0?'+':'−')+fmtDur(Math.abs(r.endDelta)),r.endDelta>0?'behind plan':'vs plan']]
+      .forEach(t=>g.appendChild(h('div',{class:'tile'},h('i',{text:t[0]}),h('b',{text:t[1]}),h('span',{text:t[2]}))));
+    recapLines(r).slice(3).forEach(t=>c.appendChild(h('p',{class:'rpsub',text:t})));
+    if(r.legs.length){c.appendChild(h('div',{class:'sub',text:'Every leg, plan vs actual'}));
+      r.legs.forEach(l=>{const mx=Math.max(l.pm,l.am);c.appendChild(h('div',{class:'rpleg'},h('div',{class:'rplt'},h('span',{text:PLACES[l.a].n+' → '+PLACES[l.b].n}),h('b',{class:Math.abs(l.dd)<5?'ok':l.dd>0?'late':'early',text:dPhrase(l.dd)})),
+        h('div',{class:'rplb'},h('i',{class:'p',style:'width:'+(l.pm/mx*100)+'%'})),h('div',{class:'rplb'},h('i',{class:'a'+(l.dd>=5?' late':''),style:'width:'+(l.am/mx*100)+'%'})),
+        h('small',{text:'Plan '+fmtDur(l.pm)+' · actual '+fmtDur(l.am)+' · '+l.mph+' mph'})));});}});}
 const PICKDAY={'2026-11-19':['bucees','wafflehouse'],'2026-11-20':['sunflower','leeland','sharkshack'],'2026-11-25':['sch','katies','gaidos'],'2026-11-26':['wafflehouse','heb','zoo'],'2026-11-27':['trf','corkscrew','oldtown'],'2026-11-28':['corkscrew','mercer','costco'],'2026-11-29':['bucees']};
 function openPick(id){S.pf='all';S.pk=id;S.open.places=true;go('guide');setTimeout(()=>{const e=document.querySelector('.pk.sel');if(e&&e.scrollIntoView)e.scrollIntoView({block:'center'});},80);}
 function nextUp(d){const now=AZ.dateKey(tripNow())===d.date?new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,hour:'numeric',minute:'2-digit',hour12:false}).format(tripNow()):null;
@@ -1241,8 +1304,8 @@ function roadPlan(){return Object.assign({e:'12:00',w:'11:30',p:'p',t:'12:00',br
 function setPlan(k,v){const p=roadPlan();p[k]=v;save('roadplan',p);render();}
 let rdT;
 function logMut(dir,fn){const a=Store.get('roadlog',{});a[dir]=a[dir]||{};fn(a[dir]);save('roadlog',a);render();}
-function logStop(dir,id,on){logMut(dir,l=>{if(on){if(!ROUTES[dir].some(x=>l[x])){const P=roadPlan();l._pl=roadFC(dir,depMs(dir,P[dir]),P.p,null,P.br).map(r=>r.arr);}
-  l[id]=tripNow().getTime();delete l._b;}else{delete l[id];if(!ROUTES[dir].some(x=>l[x]))delete l._pl;}});}
+function logStop(dir,id,on,at){logMut(dir,l=>{if(on){if(!ROUTES[dir].some(x=>l[x])){const P=roadPlan();l._pl=roadFC(dir,depMs(dir,P[dir]),P.p,null,P.br).map(r=>r.arr);}
+  l[id]=at||tripNow().getTime();delete l._b;}else{delete l[id];if(!ROUTES[dir].some(x=>l[x]))delete l._pl;}});}
 function startBreak(dir,k){logMut(dir,l=>{l._b={k:k,start:tripNow().getTime()};});}
 function endBreak(dir){logMut(dir,l=>{if(l._b){const m=Math.max(1,Math.round((tripNow().getTime()-l._b.start)/60000));l._x=l._x||{};l._x[l._b.k]=(l._x[l._b.k]||0)+m;delete l._b;}});}
 function addExtra(dir,k,m){logMut(dir,l=>{l._x=l._x||{};l._x[k]=(l._x[k]||0)+m;});}
@@ -1361,6 +1424,7 @@ function textModal(title,txt){const overlay=h('div',{class:'modal-overlay'});con
 function tripStory(){const j=Store.get('journal',{});const out=['Galveston & the Magic · Nov 19 to 29, 2026','The Ortiz Family',''];
   DAYS.forEach(d=>{const e=j[d.date];if(!jFilled(e))return;out.push(d.dow+' Nov '+d.md+' · '+d.title+(e.mood!=null?' '+MOODE[e.mood]:''));
     if(e.moment)out.push('⭐ '+e.moment);if(e.meal)out.push('🍽️ '+e.meal);if(e.funny)out.push('😂 '+e.funny);out.push('');});
+  ['e','w'].map(roadRecap).filter(Boolean).forEach(r=>{out.push('🚙 '+recapLines(r).join('\n'));out.push('');});
   const nt=Store.get('tripnote','');if(nt)out.push('Trip note: '+nt);
   if(out.length<=3&&!nt)out.push('No entries yet.');return out.join('\n').trim();}
 function Keep(){
@@ -1393,6 +1457,7 @@ function Keep(){
     ta.addEventListener('input',()=>{const jj=Store.get('journal',{});jj[kd]=Object.assign({},jj[kd]);jj[kd][f[0]]=ta.value;save('journal',jj);saved.textContent='Saved on this phone';clearTimeout(ft);ft=setTimeout(fill,350);});
     form.appendChild(ta);});
   form.appendChild(saved);
+  RoadRecap(w);
   w.appendChild(h('h2',{class:'sec',style:'font-size:22px',text:'Memories so far'}));
   const mem=h('div',{'data-id':'kmem'});w.appendChild(mem);
   w.appendChild(h('h2',{class:'sec',style:'font-size:22px',text:'Postcard'}));
