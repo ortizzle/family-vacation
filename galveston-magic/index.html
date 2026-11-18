@@ -1808,11 +1808,12 @@ function Frames(w){
   const load=el=>{const f=el.files&&el.files[0];if(!f)return;const url=URL.createObjectURL(f);const im=new Image();
     im.onload=()=>{FRIMG=im;Object.assign(FRADJ,{z:1,x:0,y:0,b:1});pick.firstChild.textContent='📷 Change photo';adjUI();draw();};im.onerror=()=>toast('Could not open that photo');im.src=url;el.value='';};
   inp.addEventListener('change',()=>load(inp));cam.addEventListener('change',()=>load(cam));
-  const out=h('button',{type:'button',class:'btn ghost',text:'⬇ Save or share',on:{click:()=>{
-    if(!FRIMG){toast('Add a photo first');return;}
-    cv.toBlob(b=>{if(!b){toast('Could not make the image');return;}const name='galveston-frame-'+st.theme+'-'+st.size+'-'+Date.now()+'.jpg';const file=new File([b],name,{type:'image/jpeg'});
-      if(navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file],title:'Galveston & the Magic'}).catch(()=>{});}
-      else{const a=h('a',{href:URL.createObjectURL(b),download:name});document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Frame saved');}},'image/jpeg',.92);}}});acts.appendChild(out);
+  const frBlob=fn=>{if(!FRIMG){toast('Add a photo first');return;}cv.toBlob(b=>{if(!b){toast('Could not make the image');return;}fn(b,'galveston-frame-'+st.theme+'-'+st.size+'-'+Date.now()+'.jpg');},'image/jpeg',.92);};
+  const acts2=h('div',{class:'row'});
+  acts2.appendChild(h('button',{type:'button',class:'btn',text:'⬇ Save to phone',on:{click:()=>frBlob((b,name)=>{const a=h('a',{href:URL.createObjectURL(b),download:name});document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Saved to Downloads');})}}));
+  try{if(navigator.canShare&&navigator.canShare({files:[new File([''],'t.jpg',{type:'image/jpeg'})]}))
+    acts2.appendChild(h('button',{type:'button',class:'btn ghost',text:'↗ Share',on:{click:()=>frBlob((b,name)=>{navigator.share({files:[new File([b],name,{type:'image/jpeg'})],title:'Galveston & the Magic'}).catch(()=>{});})}}));}catch(err){}
+  card.insertBefore(acts2,acts.nextSibling);
   const fx=h('div');card.appendChild(fx);
   function fields(){clear(fx);
     if(st.theme==='road'){const sel=h('select',{'aria-label':'Where are we',style:'flex:1 1 100%'});
@@ -1827,7 +1828,7 @@ function Frames(w){
     const cap=h('input',{type:'text',maxlength:'44','aria-label':'Caption',placeholder:st.theme==='thanks'?'Grateful for this crew':(st.theme==='cruise'?'Caption (blank shows the date)':'Caption'),value:st['c_'+st.theme]||'',style:'flex:1 1 100%'});
     cap.addEventListener('input',()=>{st['c_'+st.theme]=cap.value;sv();draw();});fx.appendChild(h('div',{class:'row'},cap));}
   fields();
-  const adj=h('div',{class:'fradj'});card.insertBefore(adj,acts.nextSibling);
+  const adj=h('div',{class:'fradj'});card.insertBefore(adj,acts2.nextSibling);
   function adjUI(){clear(adj);cv.style.touchAction=FRIMG?'none':'';if(!FRIMG)return;
     adj.appendChild(h('p',{style:'font-size:13px;color:var(--dim);margin:6px 0 2px',text:'Drag the photo to move it. Pinch or use the slider to zoom.'}));
     const sl=(lab,k,mn,mx,stp,fmt)=>{const out=h('span',{class:'fv',text:fmt(FRADJ[k])});const r=h('input',{type:'range',min:mn,max:mx,step:stp,value:String(FRADJ[k]),'aria-label':lab});
@@ -1844,7 +1845,7 @@ function Frames(w){
     if(FRADJ._sx>0)FRADJ.x=Math.max(-1,Math.min(1,FRADJ.x+dx/FRADJ._sx));if(FRADJ._sy>0)FRADJ.y=Math.max(-1,Math.min(1,FRADJ.y+dy/FRADJ._sy));draw();});
   const up=e=>{pts.delete(e.pointerId);if(pts.size<2)pinch=null;};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
   adjUI();
-  card.appendChild(h('p',{style:'font-size:12px;margin:12px 0 0',text:'🔒 Your photo never leaves this phone. It is not saved in the app or backed up. Tap Save or share, then choose Save image to put it in Photos.'}));
+  card.appendChild(h('p',{style:'font-size:12px;margin:12px 0 0',text:'🔒 Your photo never leaves this phone. It is not saved in the app or backed up. Save to phone puts it in Downloads, where Google Photos shows it under Library › Download. Share sends it straight to Messages, WhatsApp or Google Photos.'}));
   let pend=false;function draw(){if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;frDraw(cv,st);});}
   draw();if(document.fonts&&document.fonts.load)Promise.all(['84px "Poiret One"','600 30px "Josefin Sans"','400 30px "Josefin Sans"'].map(f=>document.fonts.load(f))).then(draw).catch(()=>{});
 }
