@@ -140,6 +140,8 @@ body.day .sheet input[type=text]{background:#fffdf2;color:var(--cream)}
 .sheet .pk{border-bottom:0;padding-top:4px}.sheet .pk .nm{font-size:19px;padding-right:40px}
 @keyframes shup{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
 body.day .sheet-ov{background:rgba(30,22,5,.4)}
+.fradj .frsl{display:flex;align-items:center;gap:10px;min-height:44px;font-size:14px;color:var(--cream)}
+.fradj .frsl>span:first-child{flex:0 0 112px}.fradj .frsl input{flex:1;accent-color:var(--brass)}.fradj .fv{flex:0 0 46px;text-align:right;color:var(--brass-lt);font-size:13px}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px}
 .modal-box{background:var(--navy2);border:1px solid var(--brass);border-radius:16px;padding:22px;max-width:90vw;width:340px}
 .modal-box h3{font-family:'Poiret One';font-weight:400;font-size:24px;margin:0 0 8px;color:var(--brass-lt)}
@@ -1703,6 +1705,7 @@ function Keep(){
 
 /* ---------- photo frames (the photo stays in memory only; nothing is saved or backed up) ---------- */
 const FRW=1080,FRH={post:1350,story:1920};let FRIMG=null;
+const FRADJ={z:1,x:0,y:0,b:1,_sx:0,_sy:0};/* photo zoom, pan (-1..1), brightness; in memory only, like the photo */
 const FR_THEMES=[['road','Road trip'],['cruise','Cruise'],['thanks','Thanksgiving']];
 const CRUISE_DAYS=[['2026-11-20','Sail Away · Galveston'],['2026-11-21','Day at Sea'],['2026-11-22','Cozumel, Mexico'],['2026-11-23','Progreso, Mexico'],['2026-11-24','Day at Sea'],['2026-11-25','Back in Galveston']];
 const STATEOF={chandler:'AZ',tucson:'AZ',elpaso:'TX',fortstockton:'TX',sanantonio:'TX',luling:'TX',galveston:'TX',spring:'TX'};
@@ -1711,8 +1714,12 @@ function frRR(g,x,y,w,hh,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+hh
 function frCover(g,img,x,y,w,hh,ph,msg){
   if(!img){const gr=g.createLinearGradient(x,y,x+w,y+hh);gr.addColorStop(0,ph[0]);gr.addColorStop(1,ph[1]);g.fillStyle=gr;g.fillRect(x,y,w,hh);
     g.fillStyle='rgba(255,255,255,.55)';g.textAlign='center';g.font='400 46px "Josefin Sans",sans-serif';g.fillText(msg||'Add your photo',x+w/2,y+hh/2);return;}
-  const r=Math.max(w/img.naturalWidth,hh/img.naturalHeight),sw=w/r,sh=hh/r;
-  g.drawImage(img,(img.naturalWidth-sw)/2,(img.naturalHeight-sh)/2,sw,sh,x,y,w,hh);}
+  const A=FRADJ,nw=img.naturalWidth,nh=img.naturalHeight,r=Math.max(w/nw,hh/nh)*A.z,sw=w/r,sh=hh/r;
+  A._sx=(nw*r-w)/2;A._sy=(nh*r-hh)/2;
+  const sx=(nw-sw)/2*(1-A.x),sy=(nh-sh)/2*(1-A.y);
+  const useF=A.b!==1&&typeof g.filter==='string';if(useF)g.filter='brightness('+A.b+')';
+  g.drawImage(img,sx,sy,sw,sh,x,y,w,hh);if(useF)g.filter='none';
+  else if(A.b!==1){g.save();g.fillStyle=A.b>1?'rgba(255,255,255,'+((A.b-1)*.45)+')':'rgba(0,0,0,'+((1-A.b)*.7)+')';g.fillRect(x,y,w,hh);g.restore();}}
 function frSpaced(g,t,x,y,sp,align){const chars=[...t];const wd=chars.reduce((a,c)=>a+g.measureText(c).width,0)+sp*(chars.length-1);
   let cx=align==='center'?x-wd/2:align==='right'?x-wd:x;const prev=g.textAlign;g.textAlign='left';chars.forEach(c=>{g.fillText(c,cx,y);cx+=g.measureText(c).width+sp;});g.textAlign=prev;return wd;}
 function frShadow(g,fn){g.save();g.shadowColor='rgba(0,0,0,.65)';g.shadowBlur=16;g.shadowOffsetY=3;fn();g.restore();}
@@ -1797,8 +1804,10 @@ function Frames(w){
   const cv=h('canvas',{class:'pc','aria-label':'Frame preview'});cv.width=FRW;cv.height=FRH[st.size]||1350;card.appendChild(cv);
   const acts=h('div',{class:'row'});card.appendChild(acts);
   const inp=h('input',{type:'file',accept:'image/*','aria-label':'Choose a photo'});const pick=h('label',{class:'btn fr-pick'},h('span',{text:FRIMG?'📷 Change photo':'📷 Add photo'}),inp);acts.appendChild(pick);
-  inp.addEventListener('change',()=>{const f=inp.files&&inp.files[0];if(!f)return;const url=URL.createObjectURL(f);const im=new Image();
-    im.onload=()=>{FRIMG=im;pick.firstChild.textContent='📷 Change photo';draw();};im.onerror=()=>toast('Could not open that photo');im.src=url;});
+  const cam=h('input',{type:'file',accept:'image/*',capture:'environment','aria-label':'Take a photo'});acts.appendChild(h('label',{class:'btn ghost fr-pick'},h('span',{text:'📸 Take photo'}),cam));
+  const load=el=>{const f=el.files&&el.files[0];if(!f)return;const url=URL.createObjectURL(f);const im=new Image();
+    im.onload=()=>{FRIMG=im;Object.assign(FRADJ,{z:1,x:0,y:0,b:1});pick.firstChild.textContent='📷 Change photo';adjUI();draw();};im.onerror=()=>toast('Could not open that photo');im.src=url;el.value='';};
+  inp.addEventListener('change',()=>load(inp));cam.addEventListener('change',()=>load(cam));
   const out=h('button',{type:'button',class:'btn ghost',text:'⬇ Save or share',on:{click:()=>{
     if(!FRIMG){toast('Add a photo first');return;}
     cv.toBlob(b=>{if(!b){toast('Could not make the image');return;}const name='galveston-frame-'+st.theme+'-'+st.size+'-'+Date.now()+'.jpg';const file=new File([b],name,{type:'image/jpeg'});
@@ -1818,6 +1827,23 @@ function Frames(w){
     const cap=h('input',{type:'text',maxlength:'44','aria-label':'Caption',placeholder:st.theme==='thanks'?'Grateful for this crew':(st.theme==='cruise'?'Caption (blank shows the date)':'Caption'),value:st['c_'+st.theme]||'',style:'flex:1 1 100%'});
     cap.addEventListener('input',()=>{st['c_'+st.theme]=cap.value;sv();draw();});fx.appendChild(h('div',{class:'row'},cap));}
   fields();
+  const adj=h('div',{class:'fradj'});card.insertBefore(adj,acts.nextSibling);
+  function adjUI(){clear(adj);cv.style.touchAction=FRIMG?'none':'';if(!FRIMG)return;
+    adj.appendChild(h('p',{style:'font-size:13px;color:var(--dim);margin:6px 0 2px',text:'Drag the photo to move it. Pinch or use the slider to zoom.'}));
+    const sl=(lab,k,mn,mx,stp,fmt)=>{const out=h('span',{class:'fv',text:fmt(FRADJ[k])});const r=h('input',{type:'range',min:mn,max:mx,step:stp,value:String(FRADJ[k]),'aria-label':lab});
+      r.addEventListener('input',()=>{FRADJ[k]=+r.value;out.textContent=fmt(FRADJ[k]);if(k==='z'){FRADJ.x=Math.max(-1,Math.min(1,FRADJ.x));}draw();});
+      adj.appendChild(h('label',{class:'frsl'},h('span',{text:lab}),r,out));return r;};
+    zs=sl('🔍 Zoom','z',1,4,0.01,v=>v.toFixed(1)+'×');sl('☀️ Brightness','b',0.6,1.5,0.01,v=>Math.round(v*100)+'%');
+    adj.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'↺ Reset photo',on:{click:()=>{Object.assign(FRADJ,{z:1,x:0,y:0,b:1});adjUI();draw();}}})));}
+  let zs=null;const pts=new Map();let pinch=null;
+  cv.addEventListener('pointerdown',e=>{if(!FRIMG)return;cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);
+    if(pts.size===2){const [a,b]=[...pts.values()];pinch={d:Math.hypot(a[0]-b[0],a[1]-b[1]),z:FRADJ.z};}});
+  cv.addEventListener('pointermove',e=>{if(!FRIMG||!pts.has(e.pointerId))return;const prev=pts.get(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);
+    if(pts.size>=2&&pinch){const [a,b]=[...pts.values()];FRADJ.z=Math.max(1,Math.min(4,pinch.z*Math.hypot(a[0]-b[0],a[1]-b[1])/(pinch.d||1)));if(zs){zs.value=String(FRADJ.z);zs.nextSibling.textContent=FRADJ.z.toFixed(1)+'×';}draw();return;}
+    const k=cv.width/cv.clientWidth,dx=(e.clientX-prev[0])*k,dy=(e.clientY-prev[1])*k;
+    if(FRADJ._sx>0)FRADJ.x=Math.max(-1,Math.min(1,FRADJ.x+dx/FRADJ._sx));if(FRADJ._sy>0)FRADJ.y=Math.max(-1,Math.min(1,FRADJ.y+dy/FRADJ._sy));draw();});
+  const up=e=>{pts.delete(e.pointerId);if(pts.size<2)pinch=null;};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  adjUI();
   card.appendChild(h('p',{style:'font-size:12px;margin:12px 0 0',text:'🔒 Your photo never leaves this phone. It is not saved in the app or backed up. Tap Save or share, then choose Save image to put it in Photos.'}));
   let pend=false;function draw(){if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;frDraw(cv,st);});}
   draw();if(document.fonts&&document.fonts.load)Promise.all(['84px "Poiret One"','600 30px "Josefin Sans"','400 30px "Josefin Sans"'].map(f=>document.fonts.load(f))).then(draw).catch(()=>{});
