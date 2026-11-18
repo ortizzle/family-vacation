@@ -303,9 +303,9 @@ const DAYS=[
 {date:'2026-11-19',dow:'Thu',md:'19',phase:'The Drive',title:'The Long Haul East',blurb:'Chandler to the Gulf in one push: about 1,200 miles and 21 hours with stops. Times are estimates.',items:[
  ['12:00 PM','AZ','Wheels up from Chandler','Full tank, cooler loaded, Scythe queued up. I-10 east the whole way.','c','Depart','a'],
  ['1:45 PM','AZ','Tucson Costco fuel','Mile 115. Fuel here or nearby: Tucson to El Paso is 315 miles, close to a full tank.','c','Fuel'],
- ['7:00 PM','El Paso','El Paso Costco: gas, then dinner','Mile 430. Fill up first because Costco pumps close in the evening. Last warehouse fuel until Houston.','c','Fuel'],
+ ['7:00 PM','El Paso','El Paso Costco: gas, then dinner','Mile 430. Costco pumps are open until 10 PM on weekdays. Fill up first, then dinner.','c','Fuel'],
  ['12:15 AM','Texas','Fort Stockton fuel','Mile 665. Clocks jump an hour ahead in West Texas. Good spot for a driver swap.','c','Fuel']],
- notes:['Leaving at noon with Friday-morning Houston traffic puts you at the port around 11 AM. Road map → Timing shows every stop for any departure time.','Check the El Paso Costco gas closing time before you leave. If you are running late, any big-brand station off I-10 works.']},
+ notes:['Leaving at noon with Friday-morning Houston traffic puts you at the port around 11 AM. Road map → Timing shows every stop for any departure time.','El Paso Costco pumps are open 6 AM to 10 PM on Thursday. If you will get there after about 9:30 PM, any big-brand station off I-10 works.']},
 {date:'2026-11-20',dow:'Fri',md:'20',phase:'The Drive → The Ship',title:'Gulf by Morning, Sea by Night',blurb:'Sunrise in Hill Country, breakfast on the island, and the ship by afternoon.',items:[
  ['5:00 AM','Texas','San Antonio 24-hour fuel','Mile 980. Costco is closed at this hour, so use any open station on I-10.','c','Fuel'],
  ['6:00 AM','Texas',"Buc-ee's, Luling",'Open around the clock. Clean restrooms, breakfast tacos, and a leg stretch before Houston traffic.','c','Rest'],
@@ -390,7 +390,7 @@ const PACK=[['Car kit',['Pillows and blankets','Cooler with drinks and sandwiche
  ['Documents',['Travel documents for each person','Cruise reservation and port arrival form','Parking confirmation','Excursion tickets','Car insurance and registration']],
  ['Houston days',['Warm layer for evenings','Comfortable walking shoes','Reusable grocery bags','A favorite Thanksgiving recipe']]];
 const TIPS=['Pack your swimsuit in your carry-on. Your suitcase may not reach the room until dinner.','Bring one hoodie for the car. Dad likes the air cold at night to stay awake.','Charge everything before noon on Thursday.','Download shows and music at home. West Texas has almost no signal.','Pick your reading spot on the ship on day one.','Leave room in your bag for one souvenir.'];
-const LOGI=['Drive: about 1,200 miles on I-10. The Ascent goes about 350 miles on a tank, so fuel at El Paso, Fort Stockton, and San Antonio.','Costco pumps close in the evening. Only El Paso lines up with Costco hours on the way out.','Port parking: prepay online. Budget about $120 to $180 for six days.','Time zones: Arizona and El Paso share a clock in November. West Texas onward is one hour ahead.','Groceries: The Woodlands or Tomball Costco on Wednesday. Costco is closed Thanksgiving Day.','Home base is in Spring, north of Houston. The address stays out of this app because the site is public.'];
+const LOGI=['Drive: about 1,200 miles on I-10. The Ascent goes about 350 miles on a tank, so fuel at El Paso, Fort Stockton, and San Antonio.','Costco pumps: 6 AM to 10 PM weekdays, 8:30 PM Saturday, 7:30 PM Sunday. Eastbound, Tucson and El Paso fit; San Antonio fits if you get there after 6 AM Friday. Westbound, only Spring and San Antonio fit.','Port parking: prepay online. Budget about $120 to $180 for six days.','Time zones: Arizona and El Paso share a clock in November. West Texas onward is one hour ahead.','Groceries: The Woodlands or Tomball Costco on Wednesday. Costco is closed Thanksgiving Day.','Home base is in Spring, north of Houston. The address stays out of this app because the site is public.'];
 
 /* ---------- data: games ---------- */
 const TRIVIA=[
@@ -626,9 +626,9 @@ const PLACES={
  fortstockton:{n:'Fort Stockton',at:[-102.88,30.89],exit:'Exit 259',when:{e:'Fri about 12:15 AM Texas time · mile 665',w:'Sat about 8:00 PM · mile 520 · fuel and dinner'},
   ramp:{e:'Take exit 259. Flying J and Valero are a quarter mile to the right. Chevron and Burger King are to the left. Rejoin I-10 east at the same interchange.',w:'Take exit 259. Flying J and Valero are to the left, Chevron to the right. For a sit-down dinner, Dickinson Blvd in town has the most choices.'},
   gas:['Flying J, 2571 N Front St (open 24 hours)','Valero, 2576 N Front St','Chevron, 2874 N State Hwy 18','Walmart fuel at exit 257'],food:['Subway and Cinnabon inside Flying J','Burger King','Taqueria Guadalajara','McDonald’s and Dairy Queen on Dickinson Blvd','K-Bob’s Steakhouse'],q:'Flying J 2571 N Front St Fort Stockton TX',near:'Fort Stockton TX'},
- sanantonio:{n:'San Antonio',at:[-98.49,29.42],exit:'No fixed exit',when:{e:'Fri about 5:00 AM · mile 980',w:'Sat about 3:00 PM · mile 210'},
-  ramp:{e:'Costco is closed before dawn. Pick a bright 24-hour station right beside I-10 before the city or on the east side.',w:'Costco pumps are open in the afternoon. Search for the Costco closest to I-10 on the northwest side.'},
-  gas:['Any 24-hour station beside I-10','Costco Gasoline on the way home'],food:['Eastbound: save your appetite, Buc-ee’s is about an hour ahead','Westbound: Whataburger is a Texas rite of passage'],q:'gas station I-10 San Antonio TX',near:'I-10 San Antonio TX'},
+ sanantonio:{n:'San Antonio',at:[-98.49,29.42],exit:'No fixed exit',when:{e:'Fri about 5:45 AM with a noon start · mile 980',w:'Sat about 3:00 PM · mile 210'},
+  ramp:{e:'Costco pumps open at 6 AM. Before then, pick a bright 24-hour station right beside I-10. After 6, exit at UTSA Blvd for Costco NW San Antonio on the northwest side, before downtown.',w:'Costco pumps are open until 8:30 PM on Saturday. Exit at UTSA Blvd for Costco NW San Antonio, just off I-10 on the northwest side.'},
+  gas:['Costco Gasoline, 5611 UTSA Blvd (Mon to Fri 6 AM to 10 PM, Sat to 8:30 PM)','Any 24-hour station beside I-10 before 6 AM'],food:['Eastbound: save your appetite, Buc-ee’s is about an hour ahead','Westbound: Whataburger is a Texas rite of passage'],q:'gas station I-10 San Antonio TX',near:'I-10 San Antonio TX'},
  luling:{n:'Buc-ee’s Luling',at:[-97.65,29.68],exit:'Exit 632 · US 183',when:{e:'Fri about 6:00 AM · mile 1,035 · breakfast and rest'},
   ramp:{e:'Take exit 632. Buc-ee’s is on the right, about a fifth of a mile. You cannot miss the sign. Rejoin I-10 east from the same exit.'},
   gas:['Buc-ee’s, 10070 I-10 (120 pumps, open 24 hours)'],food:['Chopped brisket sandwiches','Breakfast tacos','Beaver Nuggets','Fudge counter'],q:'Buc-ee\'s 10070 I-10 Luling TX',near:'Buc-ee\'s Luling TX'},
@@ -936,8 +936,11 @@ function driveItems(d){const m=DRIVEITEMS[d.date];if(!m)return {items:d.items,no
   const notes=(d.notes||[]).slice();
   if(d.date==='2026-11-19'){const last=rn.rows[rn.rows.length-1],st=portStatus(last.arr,tgtMs(rn.P.t));const ld=latestDep(rn.P.p,rn.P.t,rn.P.br);
     notes[0]='Leaving '+fmtT(depMs('e',rn.P.e),-7,0).replace(/^\w+ /,'')+' puts you at SMP Garage about '+fmtT(last.arr,-6,0)+' Texas time'+(st[0]==='ok'?', ahead of the '+fmtHM(rn.P.t)+' port arrival target.':st[0]==='tight'?'. That is a little past the '+fmtHM(rn.P.t)+' target, still well before 3:00 PM all aboard.':'. That is cutting it close to 3:00 PM all aboard.')+(ld?' Latest departure for the target at this pace: '+fmtT(ld,-7,0).replace(/^\w+ /,'')+'.':'');
-    const ep=rn.rows[ids.indexOf('elpaso')];if(ep&&ep.arr!=null){const lh=new Date(ep.arr+TZO.elpaso*3600000);const hr=lh.getUTCHours()+lh.getUTCMinutes()/60;
-      if(hr>=20.5||hr<5)notes[1]='At this departure you reach El Paso around '+fmtT(ep.arr,-7,19)+', likely after the Costco pumps close. Plan on a big-brand station off I-10 instead.';}}
+    const ep=rn.rows[ids.indexOf('elpaso')];if(ep&&ep.arr!=null){const cm=costcoMsg(ep.arr,TZO.elpaso);
+      notes[1]='You reach the El Paso Costco around '+fmtT(ep.arr,-7,19)+'. '+cm[1]+(cm[0]==='ok'?' Fill up before dinner.':'')+' Gas station: (915) 774-5203.';}}
+  if(m[0]==='e'&&d.date==='2026-11-20'){const sa=rn.rows[ids.indexOf('sanantonio')];if(sa&&sa.arr!=null){const c=costcoGas(sa.arr,TZO.sanantonio);
+    items[0]=items[0].slice();items[0][2]=c.open?'San Antonio Costco fuel':'San Antonio 24-hour fuel';
+    items[0][3]=c.open?'Mile 965. Costco pumps open at 6 AM, and you get here after that. Costco NW San Antonio, 5611 UTSA Blvd, is just off I-10 before downtown.':'Mile 980. Costco pumps open at 6 AM, so use any open 24-hour station on I-10.';}}
   const note=rn.hasLog?'⏱️ Drive times re-forecast from your check-ins (✓ = logged).':'⏱️ Drive times follow Road timing: leaving '+PLACES[ids[0]].n+' at '+fmtHM(rn.P[m[0]])+', '+PACE[rn.P.p].n.toLowerCase()+' pace'+(rn.P.br==='1'?', breaks every 2 h':'')+'.';
   return {items,notes,note};}
 
@@ -1373,6 +1376,14 @@ function startBreak(dir,k){logMut(dir,l=>{l._b={k:k,start:tripNow().getTime()};}
 function endBreak(dir){logMut(dir,l=>{if(l._b){const m=Math.max(1,Math.round((tripNow().getTime()-l._b.start)/60000));l._x=l._x||{};l._x[l._b.k]=(l._x[l._b.k]||0)+m;delete l._b;}});}
 function addExtra(dir,k,m){logMut(dir,l=>{l._x=l._x||{};l._x[k]=(l._x[k]||0)+m;});}
 function clearExtra(dir,k){logMut(dir,l=>{if(l._x)delete l._x[k];});}
+/* Costco gas pumps (Costco warehouse pages, Nov 2026): Mon–Fri 6 AM–10 PM, Sat 6 AM–8:30 PM, Sun 6 AM–7:30 PM. */
+function costcoGas(ms,off){const d=new Date(ms+off*3600000),dw=d.getUTCDay(),hr=d.getUTCHours()+d.getUTCMinutes()/60;
+  const close=dw===6?20.5:dw===0?19.5:22,ct=dw===6?'8:30 PM':dw===0?'7:30 PM':'10 PM';
+  return {open:hr>=6&&hr<close,early:hr<6,left:Math.round((close-hr)*60),ct,day:DOW[dw]};}
+function costcoMsg(ms,off){const c=costcoGas(ms,off);if(c.early)return ['late','Costco pumps open at 6 AM, so use a 24-hour station at this hour.'];
+  if(!c.open)return ['late','Costco pumps close at '+c.ct+' on '+c.day+', so they will be closed. Use a big-brand station off I-10.'];
+  if(c.left<=45)return ['tight','Costco pumps close at '+c.ct+' on '+c.day+'. Only about '+c.left+' minutes of cushion, so check before you count on it.'];
+  return ['ok','Costco pumps are open until '+c.ct+' on '+c.day+'.'];}
 function portStatus(arr,tgt){const d=(arr-tgt)/60000;return d<=0?['ok','On time']:d<=90?['tight','Tight']:['late','Late'];}
 function latestDep(pace,hhmm,br){const tgt=tgtMs(hhmm),base=Date.UTC(2026,10,19,0,0)+7*3600000;
   for(let m=34*60;m>=0;m-=5){const dep=base+m*60000;const rows=roadFC('e',dep,pace,null,br);if(rows[rows.length-1].arr<=tgt)return dep;}return null;}
@@ -1443,8 +1454,8 @@ function Timing(w,dir){
     if(hasLog&&!r.act&&r.arr!=null)bits.push(pacePhrase(dv));
     if(bits.length)lc.appendChild(h('p',{text:bits.join(' · ')}));
     if(r.arr!=null)lc.appendChild(h('p',{style:'font-size:12px',text:(off===-7?'Arizona time':'Texas time')+(off!==-7?' · '+fmtT(r.arr,-7,bd)+' in Arizona':'')}));
-    if(r.arr!=null&&!r.act&&(r.id==='elpaso'||r.id==='tucson')){const lh=new Date(r.arr+off*3600000);const hr=lh.getUTCHours()+lh.getUTCMinutes()/60;
-      if(hr>=20.5||hr<5)lc.appendChild(h('p',{style:'font-size:13px;color:var(--coral)',text:'Costco pumps are likely closed by then. Any big-brand station off I-10 works. Check hours first.'}));}
+    if(r.arr!=null&&!r.act&&(r.id==='elpaso'||r.id==='tucson'||r.id==='sanantonio')){const cm=costcoMsg(r.arr,off);
+      if(cm[0]!=='ok'||r.id==='sanantonio')lc.appendChild(h('p',{style:'font-size:13px;color:'+(cm[0]==='ok'?'var(--teal)':cm[0]==='tight'?'var(--brass-lt)':'var(--coral)'),text:'⛽ '+cm[1]+(r.id==='sanantonio'&&cm[0]!=='late'?' Costco NW San Antonio, 5611 UTSA Blvd, is just off I-10.':'')}));}
     if(r.act)lc.appendChild(h('div',{class:'row'},h('span',{style:'align-self:center;font-size:13px;color:'+(dv>=5?'var(--coral)':'var(--teal)'),text:'✓ '+(i===0?'Left ':'Arrived ')+fmtT(r.arr,off,bd)+(i>0||dv?' · '+pacePhrase(dv):'')}),h('button',{type:'button',class:'btn ghost sm',text:'Undo',on:{click:()=>logStop(dir,r.id,false)}})));
     else if(i>k&&i<=k+2)lc.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm','data-log':r.id,text:i===0?'We just left':(i===ids.length-1?'We made it':'We are here'),on:{click:()=>logStop(dir,r.id,true)}})));});
   body.appendChild(h('p',{style:'font-size:12px;margin:10px 0 0',text:'Built from about '+Math.round(T.drive.reduce((a,b)=>a+b,0)/60)+' hours of highway driving plus stops. Weekday rush hour is added for Phoenix, San Antonio, and Houston. Live traffic in Maps beats this once you are on the road. Arizona stays on one clock, and Texas is one hour ahead.'}));
