@@ -926,6 +926,21 @@ function wxDaily(lat,lon,date){const c=Store.get('wx',{})[lat+','+lon];const dl=
 function roadNow(dir){const P=roadPlan(),log=(Store.get('roadlog',{})[dir])||{};const ids=ROUTES[dir];const hasLog=ids.some(id=>log[id]);
   return {P,log,ids,hasLog,rows:roadFC(dir,depMs(dir,P[dir]),P.p,hasLog?log:null,P.br,tripNow().getTime())};}
 function hrLabel(ms,off){const d=new Date(ms+off*3600000);let hr=d.getUTCHours();const ap=hr>=12?'p':'a';hr=hr%12||12;return hr+ap;}
+/* Drive-day plan times follow Road timing (planned departure + check-ins) instead of fixed text. */
+const DRIVEITEMS={'2026-11-19':['e',{0:'chandler',1:'tucson',2:'elpaso',3:'fortstockton'}],'2026-11-20':['e',{0:'sanantonio',1:'luling',2:'galveston'}],
+ '2026-11-28':['w',{1:'spring',2:'sanantonio',3:'fortstockton'}],'2026-11-29':['w',{0:'elpaso',1:'tucson',2:'chandler'}]};
+function driveItems(d){const m=DRIVEITEMS[d.date];if(!m)return {items:d.items,notes:d.notes||[],note:''};
+  const rn=roadNow(m[0]),ids=rn.ids,bd=+d.md;
+  const items=d.items.map((it,i)=>{const id=m[1][i];if(!id)return it;const r=rn.rows[ids.indexOf(id)];if(!r||r.arr==null)return it;
+    const c=it.slice();const t=fmtT(r.arr,TZO[id],bd);c[0]=(r.act?'✓ ':'')+t;c[1]=TZO[id]===-7?'AZ':'Texas';return c;});
+  const notes=(d.notes||[]).slice();
+  if(d.date==='2026-11-19'){const last=rn.rows[rn.rows.length-1],st=portStatus(last.arr,tgtMs(rn.P.t));const ld=latestDep(rn.P.p,rn.P.t,rn.P.br);
+    notes[0]='Leaving '+fmtT(depMs('e',rn.P.e),-7,0).replace(/^\w+ /,'')+' puts you at SMP Garage about '+fmtT(last.arr,-6,0)+' Texas time'+(st[0]==='ok'?', ahead of the '+fmtHM(rn.P.t)+' port arrival target.':st[0]==='tight'?'. That is a little past the '+fmtHM(rn.P.t)+' target, still well before 3:00 PM all aboard.':'. That is cutting it close to 3:00 PM all aboard.')+(ld?' Latest departure for the target at this pace: '+fmtT(ld,-7,0).replace(/^\w+ /,'')+'.':'');
+    const ep=rn.rows[ids.indexOf('elpaso')];if(ep&&ep.arr!=null){const lh=new Date(ep.arr+TZO.elpaso*3600000);const hr=lh.getUTCHours()+lh.getUTCMinutes()/60;
+      if(hr>=20.5||hr<5)notes[1]='At this departure you reach El Paso around '+fmtT(ep.arr,-7,19)+', likely after the Costco pumps close. Plan on a big-brand station off I-10 instead.';}}
+  const note=rn.hasLog?'⏱️ Drive times re-forecast from your check-ins (✓ = logged).':'⏱️ Drive times follow Road timing: leaving '+PLACES[ids[0]].n+' at '+fmtHM(rn.P[m[0]])+', '+PACE[rn.P.p].n.toLowerCase()+' pace'+(rn.P.br==='1'?', breaks every 2 h':'')+'.';
+  return {items,notes,note};}
+
 function DayWeather(w,d){
   const rd=RDAY[d.date],port=PORTHRS[d.date];
   const list=WXDAY[d.date]||(WXL[d.date]?[[WXL[d.date][0],WXL[d.date][1],WXL[d.date][2],'']]:[]);
@@ -1202,8 +1217,8 @@ function Trip(){
   if(/^The Drive/.test(d.phase))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.view='road';S.dir=d.date<'2026-11-25'?'e':'w';S.stop=null;render();}}},
     h('b',{text:'⏱️ Road timing'}),h('p',{text:'See when you reach each stop for any departure time.'})));
   if(RDAY[d.date])RoadProgress(w,RDAY[d.date][0],true);
-  let shown=0;
-  d.items.forEach(it=>{if(S.fam!=='all'&&it[4].indexOf(S.fam)<0)return;shown++;
+  let shown=0;const live=driveItems(d);
+  live.items.forEach(it=>{if(S.fam!=='all'&&it[4].indexOf(S.fam)<0)return;shown++;
     const meta=h('div',{class:'meta'},h('span',{class:'tag'+(it[6]==='o'?' opt':''),text:it[6]==='o'?'Optional':it[5]}));
     it[4].split('').forEach(k=>meta.appendChild(h('span',{class:'dot',style:'background:'+FAMS[k].color,title:FAMS[k].name})));
     const xc=/\(([A-Z]+\d+)\)/.exec(it[2]);if(xc&&EXC[xc[1]])meta.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'What to expect',on:{click:()=>{S.gv='learn';S.open.exc=true;go('games');}}}));
@@ -1211,7 +1226,8 @@ function Trip(){
     w.appendChild(h('div',{class:'item'+(it[6]==='a'?' anchor':'')},h('div',{class:'time'},it[0],h('small',{text:it[1]+(it[1]==='Ship'?' time':it[1]==='AZ'?' time':'')})),
       h('div',null,h('h4',{text:(it[6]==='a'?'⚓ ':'')+(it[5]==='Dinner'&&rotn[d.date]?'Dinner at '+rotn[d.date]:it[2])}),h('p',{text:it[3]}),meta)));});
   if(!shown)w.appendChild(h('p',{class:'empty',text:FAMS[S.fam].name+' family has nothing on the books this day.'}));
-  (d.notes||[]).forEach(n=>w.appendChild(h('div',{class:'warn',text:'⚠️ '+n})));
+  if(live.note)w.appendChild(h('p',{class:'foot',style:'margin-top:6px',text:live.note}));
+  live.notes.forEach(n=>w.appendChild(h('div',{class:'warn',text:'⚠️ '+n})));
   w.appendChild(h('p',{class:'foot',text:'⚓ marks a booked plan. Dots show which families are in.'}));
 }
 
