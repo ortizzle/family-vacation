@@ -804,7 +804,7 @@ function whereAmI(){const p=GEO.pos;if(!p)return null;
     out.mile=Math.round(mi[ids[i]]+t*(mi[ids[i+1]]-mi[ids[i]]));out.tot=mi[ids[ids.length-1]];
     const nx=ids.filter(id=>mi[id]>out.mile)[0];if(nx){out.next=nx;out.nextMi=mi[nx]-out.mile;}}
   return out;}
-function geoPaint(){if(GEO.host&&document.body.contains(GEO.host))geoCard(GEO.host);}
+function geoPaint(){if(GEO.host&&document.body.contains(GEO.host))geoCard(GEO.host);interestPaint();}
 function geoStart(){if(!GEO.on||GEO.watch!=null)return;
   if(!navigator.geolocation){GEO.err='This browser cannot share location.';return;}
   try{GEO.watch=navigator.geolocation.watchPosition(p=>{GEO.pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()};GEO.err='';geoPaint();gpsCheck();},
@@ -1172,6 +1172,41 @@ function MyReminders(w){
   inp.addEventListener('keydown',e=>{if(e.key==='Enter')add();});
   card.appendChild(h('div',{class:'row'},inp,h('button',{type:'button',class:'btn',text:'Add',on:{click:add}})));
   paint();w.appendChild(card);}
+/* "Of interest": where you are (GPS) first, then what is coming up next. */
+function pickLine(p,extra){return h('button',{type:'button',class:'mini',on:{click:()=>openPick(p.id)}},p.n,h('small',{text:(extra?extra+' · ':'')+p.k+' · ★ '+p.r[0].toFixed(1)+' · '+(p.tg==='open'&&tripToday()==='2026-11-26'?'Open Thanksgiving Day':p.hrs.split('.')[0])}));}
+function localHour(){const t=tripToday(),off=t>='2026-11-20'&&t<='2026-11-28'?-6:-7;const d=new Date(tripNow().getTime()+off*3600000);return d.getUTCHours()+d.getUTCMinutes()/60;}
+function InterestCard(host){clear(host);GEO.iAt=GEO.pos?[GEO.pos.lat,GEO.pos.lon,Date.now()]:null;
+  const ti=todayIndex(),today=tripToday();const card=h('div',{class:'card'});host.appendChild(card);
+  const ph=h('span',{class:'phase'});card.appendChild(ph);let shown=0;
+  const wh=GEO.on&&GEO.pos?whereAmI():null;const rd=RDAY[today];
+  /* 1. On the road: the next stops ahead */
+  if(rd&&wh&&wh.mile!=null&&wh.dir===rd[0]){const rn=roadNow(rd[0]),ids=rn.ids,mi=MILES[rd[0]];
+    ph.textContent='Up ahead on I-10';
+    ids.filter(id=>mi[id]>wh.mile+1).slice(0,2).forEach(id=>{const r=rn.rows[ids.indexOf(id)],pl=PLACES[id],off=TZO[id];
+      const dm=mi[id]-wh.mile,eta=tripNow().getTime()+dm/62*3600000;const bits=[dm+' mi','about '+fmtT(eta,off,0).replace(/^\w+ /,'')];
+      if(GASAVG_BY[id]&&(id==='tucson'||id==='elpaso'||id==='sanantonio'||id==='spring'))bits.push(costcoGas(eta,off).open?'Costco gas open':'Costco gas closed');
+      const tag=rd[0]==='e'?'Eastbound: ':'Westbound: ';const fd=(pl.food||[]).filter(f=>!/^(East|West)bound: /.test(f)||f.indexOf(tag)===0).map(f=>f.replace(/^(East|West)bound: /,''));
+      if(fd.length)bits.push(fd.slice(0,2).join(', '));
+      card.appendChild(h('button',{type:'button',class:'mini',on:{click:()=>{S.tab='trip';S.view='road';S.dir=rd[0];S.stop=id;render();window.scrollTo(0,0);}}},pl.n,h('small',{text:bits.join(' · ')})));shown++;});
+    const bp=PICKS.find(p=>p.id==='bucees');
+    if(bp&&rd[0]==='e'&&wh.mile<mi.luling)card.appendChild(pickLine(bp,(mi.luling-wh.mile)+' mi'));}
+  /* 2. GPS on and off the highway: closest picks */
+  if(!shown&&wh){const near=PICKS.filter(p=>p.ll).map(p=>[p,miBetween(GEO.pos.lat,GEO.pos.lon,p.ll[0],p.ll[1])]).filter(x=>x[1]<=20).sort((a,b)=>a[1]-b[1]).slice(0,4);
+    if(near.length){ph.textContent='Near you';near.forEach(x=>{card.appendChild(pickLine(x[0],(x[1]<1?'under a mile':x[1].toFixed(x[1]<10?1:0)+' mi')));shown++;});}}
+  /* 3. Today's picks, then the next days that have land picks */
+  if(!shown){const start=ti>=0?ti:0;const late=ti>=0&&localHour()>=16;const groups=[];
+    for(let i=start;i<DAYS.length&&groups.length<2;i++){const dd=DAYS[i];const ps=(PICKDAY[dd.date]||[]).map(id=>PICKS.find(p=>p.id===id)).filter(Boolean);
+      if(!ps.length)continue;if(i===ti&&late&&groups.length===0){groups.push([dd,ps.slice(-1),'Tonight']);continue;}groups.push([dd,ps,i===ti?'Today':dd.dow+' Nov '+dd.md]);
+      if(i===ti&&!late)break;}
+    ph.textContent=ti<0?'Of interest · first days':groups.length&&groups[0][2]==='Today'?'Of interest today':'Of interest · coming up';
+    if(ti>=0&&!(PICKDAY[today]||[]).length)card.appendChild(h('p',{style:'margin:4px 0',text:'A ship day. Dining, shows, and the scavenger hunt are in the day plan. Here is what is next on land.'}));
+    groups.forEach(g=>{if(groups.length>1||g[2]!=='Today')card.appendChild(h('div',{class:'sub',text:g[2]}));g[1].forEach(p=>{card.appendChild(pickLine(p));shown++;});});}
+  if(GEO.on&&!GEO.pos&&rd)card.appendChild(h('p',{class:'wxnote',text:'📍 Waiting for GPS. Once it has a fix, this shows what is just ahead.'}));
+  const fi=(ti>=0?ti:0)%TRIVIA.length;const fq=TRIVIA[fi];
+  if(fq&&fq[3])card.appendChild(h('button',{type:'button',class:'mini',on:{click:()=>go('games')}},'Did you know?',h('small',{text:fq[3]})));}
+/* repaint when the phone has moved about a mile or a few minutes have passed */
+function interestPaint(){const H=GEO.ihost;if(!H||!document.body.contains(H)||!GEO.pos)return;const a=GEO.iAt;
+  if(a&&miBetween(a[0],a[1],GEO.pos.lat,GEO.pos.lon)<1&&Date.now()-a[2]<180000)return;InterestCard(H);}
 function HomeExtras(w){
   WeatherCard(w);
   {const rd=RDAY[tripToday()];if(rd)RoadProgress(w,rd[0],true);}
@@ -1180,13 +1215,7 @@ function HomeExtras(w){
   if(ti>=0){const c=h('button',{type:'button',class:'card tap',on:{click:()=>{S.day=d.date;go('trip');}}},h('span',{class:'phase',text:'Next up'}));
     if(nx){c.appendChild(h('h3',{text:nx[2]}));c.appendChild(h('p',{text:nx[0]+' ('+nx[1]+' time). '+nx[3]}));}else{c.appendChild(h('h3',{text:'Nothing else on today’s plan'}));c.appendChild(h('p',{text:'Open today to add a note or check tomorrow.'}));}
     w.appendChild(c);}
-  const ids=PICKDAY[d.date]||[];const picks=ids.map(i=>PICKS.find(p=>p.id===i)).filter(Boolean);
-  const card=h('div',{class:'card'});card.appendChild(h('span',{class:'phase',text:ti>=0?'Of interest today':'Of interest · first days'}));
-  if(picks.length){picks.forEach(p=>card.appendChild(h('button',{type:'button',class:'mini',on:{click:()=>openPick(p.id)}},p.n,h('small',{text:p.k+' · ★ '+p.r[0].toFixed(1)+' · '+(p.tg==='open'?'Open Thanksgiving Day':p.hrs.split('.')[0])})))); }
-  else card.appendChild(h('p',{text:'A ship day. Dining, shows, and the scavenger hunt are in the day plan. Land picks return on Wed Nov 25.'}));
-  const fi=(ti>=0?ti:0)%TRIVIA.length;const fq=TRIVIA[fi];
-  if(fq&&fq[3])card.appendChild(h('button',{type:'button',class:'mini',on:{click:()=>go('games')}},'Did you know?',h('small',{text:fq[3]})));
-  w.appendChild(card);
+  const ih=h('div');w.appendChild(ih);GEO.ihost=ih;InterestCard(ih);
   const gi=PACK.findIndex(g=>g[0]==='Documents');
   if(gi>=0){const st=Store.get('pack',{});const left=PACK[gi][1].filter((_,i)=>!st[gi+'-'+i]);
     if(left.length&&(ti<0||ti<=1)){const c=h('button',{type:'button',class:'card tap',on:{click:()=>{S.open.pack=true;go('guide');}}},h('span',{class:'phase',text:'Reminders'}),h('h3',{text:'Documents still to check'}));
