@@ -378,7 +378,9 @@ const DAYS=[
  ['5:00 AM','AZ','Tucson fuel','El Paso to Tucson is 315 miles and home is 115 more, so fuel here or earlier.','c','Fuel'],
  ['8:00 AM','AZ','Home in Chandler','Unpack the cooler, then everyone naps.','c','Arrive','a']],notes:[]}
 ];
-const DEPART=Date.UTC(2026,10,19,19,0,0); // noon Arizona (UTC-7, no DST)
+const DEPART=Date.UTC(2026,10,19,19,0,0); // default: noon Arizona (UTC-7, no DST)
+/* Countdown follows the departure planned in Road timing; a logged departure ends it. */
+function departMs(){const l=(Store.get('roadlog',{}).e)||{};if(l.chandler)return l.chandler;const t=roadPlan().e;return t?depMs('e',t):DEPART;}
 
 /* ---------- data: guide ---------- */
 const PREP=[['Before we go',['Download Scythe to a phone for offline listening','Finish Disney online check-in and the port arrival form','Gather travel documents for all four of us','Prepay SMP Garage parking on the Port of Galveston site','Confirm the cruise terminal on the port arrival form','Check tires, oil, and wiper fluid on the Ascent','Download offline maps for West Texas (long dead zones)','Buy Texas Renaissance Festival tickets for Fri Nov 27','Decide on Zoo Lights and buy timed tickets if yes','Install this app on each phone (Android Chrome: menu, then Install app. iPhone Safari: Share, then Add to Home Screen)']],
@@ -838,11 +840,11 @@ function geoCard(host){clear(host);GEO.host=host;
 function Home(){
   const cells={};const count=h('div',{class:'count'});
   ['Days','Hours','Min'].forEach(l=>{const b=h('b',{text:'--'});cells[l]=b;count.appendChild(h('div',null,b,h('span',{text:l})));});
-  const label=h('div',{class:'count-label',text:'until wheels up'});
+  const label=h('div',{class:'count-label',text:'until wheels up · Thu '+fmtT(departMs(),-7,0).replace(/^\w+ /,'')+' AZ'});
   const header=h('header',null,sunburst(),h('div',{class:'kicker',text:'The Ortiz Family Presents'}),h('h1',{text:'Galveston & the Magic'}),
     h('div',{class:'rule',text:'NOV 19 – 29, 2026'}),count,label);
   view.appendChild(header);
-  function tick(){const ms=DEPART-tripNow().getTime();const ti=todayIndex();
+  function tick(){const ms=departMs()-tripNow().getTime();const ti=todayIndex();
     if(ms>0){const m=Math.floor(ms/60000);cells.Days.textContent=Math.floor(m/1440);cells.Hours.textContent=Math.floor(m%1440/60);cells.Min.textContent=m%60;return;}
     count.style.display='none';
     label.textContent=ti>=0?('Day '+(ti+1)+' of '+DAYS.length+' · '+DAYS[ti].phase):'Home again. What a trip.';}
