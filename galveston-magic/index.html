@@ -133,6 +133,10 @@ nav button.on{color:var(--brass-lt)}
 .sheet{position:relative;width:100%;max-width:560px;max-height:86vh;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--navy2);border:1px solid var(--brass);border-bottom:0;border-radius:20px 20px 0 0;padding:14px 18px calc(18px + env(safe-area-inset-bottom));animation:shup .22s ease-out}
 .sheet-grab{width:44px;height:5px;border-radius:3px;background:var(--brass-dk);margin:0 auto 8px}
 .sheet-x{position:absolute;top:8px;right:8px;width:44px;height:44px;border:0;background:none;color:var(--brass-lt);font-size:20px}
+.sheet input[type=text]{display:block;width:100%;min-height:48px;background:#081424;border:1px solid var(--brass-dk);color:#fff;font-size:16px;padding:0 12px;border-radius:12px;margin:8px 0}
+body.day .sheet input[type=text]{background:#fffdf2;color:var(--cream)}
+.bigamt{font-size:28px!important;text-align:center;width:100%;margin:6px 0 8px}
+.sheet .item.nextup{background:rgba(79,195,247,.08);border-radius:10px}
 .sheet .pk{border-bottom:0;padding-top:4px}.sheet .pk .nm{font-size:19px;padding-right:40px}
 @keyframes shup{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
 body.day .sheet-ov{background:rgba(30,22,5,.4)}
@@ -832,7 +836,8 @@ function geoStart(){if(!GEO.on||GEO.watch!=null||GEO.poll)return;
   ask();}
 function geoStop(){if(GEO.watch!=null){try{navigator.geolocation.clearWatch(GEO.watch);}catch(e){}GEO.watch=null;}GEO.poll=false;clearTimeout(GEO.timer);GEO.timer=null;}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&GEO.on){geoStop();geoStart();}});
-function goBudget(cat,note){S.open.budget=true;S.pendCat=cat;S.pendNote=note||'';go('guide');setTimeout(()=>{const e=document.querySelector('.acc[data-id="budget"]');if(e)e.scrollIntoView({behavior:'smooth',block:'start'});},60);}
+function goBudget(cat,note){expenseSheet(cat,note);}
+function goBudgetGuide(cat,note){S.open.budget=true;S.pendCat=cat;S.pendNote=note||'';go('guide');setTimeout(()=>{const e=document.querySelector('.acc[data-id="budget"]');if(e)e.scrollIntoView({behavior:'smooth',block:'start'});},60);}
 function gasNote(id){return PLACES[id]?'Gas, '+PLACES[id].n:'Gas';}
 function eta(mi){const m=Math.round(mi/65*60);return m<60?m+' min':Math.floor(m/60)+' hr '+(m%60)+' min';}
 function geoCard(host){clear(host);GEO.host=host;
@@ -874,10 +879,10 @@ function Home(){
   clearInterval(tickT);tick();tickT=setInterval(tick,30000);
   const w=h('div',{class:'wrap'});view.appendChild(w);
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
-  w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{S.day=d.date;go('trip');}}},
+  w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>daySheet(d.date)}},
     h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
   if(ti>=0&&d.items.some(i=>i[5]==='Fuel'))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{let n='Gas';if(GEO.on&&GEO.pos){const w0=whereAmI();if(w0.near.length)n=gasNote(w0.near[0]);}goBudget('Gas',n);}}},
-    h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log gas at each stop'}),h('p',{text:'Tap to open the budget with Gas picked. With location on, the stop is filled in for you. Add what the pump charged.'})));
+    h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log gas at each stop'}),h('p',{text:'Tap to log what the pump charged, right here. With location on, the stop is filled in for you.'})));
   HomeExtras(w);
   const gh=h('div');w.appendChild(gh);geoCard(gh);if(GEO.on)geoStart();
   const done=b1Done();
@@ -1213,13 +1218,54 @@ function stopDetail(card,id,dir){const cur=PLACES[id],ids=ROUTES[dir];
   const GA=GASAVG_BY[id];
   if(GA){card.appendChild(h('div',{class:'sub',text:'⛽ Gas stop'}));
     card.appendChild(h('p',{style:'margin:0 0 6px;font-size:14px;color:var(--dim)',text:'Typical regular here: '+GA[0]+' ('+GA[1]+'). The price changes daily, so log what you actually spent.'}));
-    card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'💵 Log gas spend here',on:{click:()=>{const c=document.querySelector('.sheet-ov');if(c){c.remove();document.body.style.overflow='';}goBudget('Gas',gasNote(id));}}})));}}
+    card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'💵 Log gas spend here',on:{click:()=>{const c=document.querySelector('.sheet-ov');if(c){c.remove();document.body.style.overflow='';}expenseSheet('Gas',gasNote(id),id);}}})));}}
 function stopSheet(id,dir){sheet((box,close)=>{stopDetail(box,id,dir);
   const log=(Store.get('roadlog',{})[dir])||{},ids=ROUTES[dir];const k=ids.map(x=>!!log[x]).lastIndexOf(true),ix=ids.indexOf(id);
   const row=h('div',{class:'row'});box.appendChild(row);
   if(log[id])row.appendChild(h('span',{style:'align-self:center;color:var(--teal);font-size:14px',text:'✓ Checked in '+fmtT(log[id],TZO[id],0).replace(/^\w+ /,'')}));
   else if(ix>k&&ix<=k+2)row.appendChild(h('button',{type:'button',class:'btn sm',text:ix===0?'✓ We just left':'✓ Check in here',on:{click:()=>{close();logStop(dir,id,true);toast(PLACES[id].n+' logged');}}}));
   row.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'🗺️ Road map',on:{click:()=>{close();S.tab='trip';S.view='road';S.dir=dir;S.stop=id;render();window.scrollTo(0,0);}}}));});}
+/* ---------- quick sheets on Home ---------- */
+function expenseSheet(cat,note,stopId){sheet((box,close)=>{
+  const bud=Store.get('budget',{total:0,items:[]});let c=CATS.indexOf(cat)>=0?cat:'Other';
+  box.appendChild(h('span',{class:'phase',text:'Add an expense'}));box.appendChild(h('h3',{text:c==='Gas'?'⛽ Log gas':'💵 Log a purchase'}));
+  const sid=stopId||(note&&ROUTES.e.concat(ROUTES.w).find(id=>PLACES[id]&&note.indexOf(PLACES[id].n)>=0));
+  if(c==='Gas'&&sid&&GASAVG_BY[sid])box.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:0 0 6px',text:'Typical regular near '+PLACES[sid].n+': '+GASAVG_BY[sid][0]+'.'}));
+  const amt=h('input',{type:'text',inputmode:'decimal',placeholder:'$0.00','aria-label':'Amount',class:'bigamt'});box.appendChild(amt);
+  const chips=h('div',{class:'chips',style:'flex-wrap:wrap'});box.appendChild(chips);
+  const paint=()=>[...chips.children].forEach(b=>b.classList.toggle('on',b.textContent===c));
+  CATS.forEach(k=>chips.appendChild(h('button',{type:'button',class:'chip',text:k,on:{click:()=>{c=k;paint();}}})));paint();
+  const nt=h('input',{type:'text',maxlength:'60',placeholder:'What was it?','aria-label':'What was it'});nt.value=(note||'').slice(0,60);box.appendChild(nt);
+  const add=()=>{const v=parseFloat(amt.value.replace(/[^0-9.]/g,''));if(!isFinite(v)||v<=0){toast('Enter an amount first');amt.focus();return;}
+    const b2=Store.get('budget',{total:0,items:[]});b2.items.push({id:Date.now(),amt:Math.round(v*100)/100,cat:c,note:nt.value.trim(),day:tripToday()});save('budget',b2);
+    const spent=b2.items.reduce((a,x)=>a+x.amt,0);close();toast('$'+v.toFixed(2)+' · '+c+' added'+(b2.total?' · $'+Math.max(0,b2.total-spent).toFixed(0)+' left':''));render();};
+  nt.addEventListener('keydown',e=>{if(e.key==='Enter')add();});amt.addEventListener('keydown',e=>{if(e.key==='Enter')add();});
+  box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn',text:'Add',on:{click:add}}),h('button',{type:'button',class:'btn ghost sm',text:'Full budget',on:{click:()=>{close();goBudgetGuide(c,nt.value);}}})));
+  if(bud.total){const spent=bud.items.reduce((a,x)=>a+x.amt,0);box.appendChild(h('p',{class:'wxnote',text:'$'+spent.toFixed(2)+' spent of $'+bud.total.toFixed(0)+' so far.'}));}
+  setTimeout(()=>amt.focus(),250);});}
+function daySheet(date,hi){const d=DAYS.find(x=>x.date===date);if(!d)return;sheet((box,close)=>{
+  box.appendChild(h('span',{class:'phase',text:d.dow+' Nov '+d.md+' · '+d.phase}));box.appendChild(h('h3',{text:d.title}));box.appendChild(h('p',{style:'margin:0 0 6px',text:d.blurb}));
+  const live=driveItems(d),rotn=Store.get('rotation',{});
+  live.items.forEach(it=>{const on=hi&&it[2]===hi[2];
+    box.appendChild(h('div',{class:'item'+(it[6]==='a'?' anchor':'')+(on?' nextup':'')},h('div',{class:'time'},it[0],h('small',{text:it[1]+(it[1]==='Ship'||it[1]==='AZ'?' time':'')})),
+      h('div',null,h('h4',{text:(on?'▶ ':'')+(it[6]==='a'?'⚓ ':'')+(it[5]==='Dinner'&&rotn[d.date]?'Dinner at '+rotn[d.date]:it[2])}),h('p',{text:it[3]}))));});
+  if(live.note)box.appendChild(h('p',{class:'wxnote',text:live.note}));
+  live.notes.forEach(n=>box.appendChild(h('div',{class:'warn',text:'⚠️ '+n})));
+  box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Open in Trip (weather, maps, families)',on:{click:()=>{close();S.day=d.date;S.view='days';go('trip');}}})));});}
+function docsSheet(){const gi=PACK.findIndex(g=>g[0]==='Documents');if(gi<0)return;sheet((box,close)=>{
+  box.appendChild(h('span',{class:'phase',text:'Reminders'}));box.appendChild(h('h3',{text:'Documents'}));
+  const st=Store.get('pack',{});
+  PACK[gi][1].forEach((txt,i)=>{const id=gi+'-'+i;const box2=h('span',{class:'box',text:st[id]?'✓':''});
+    const row=h('button',{type:'button',class:'check'+(st[id]?' on':''),on:{click:()=>{const s2=Store.get('pack',{});s2[id]=!s2[id];save('pack',s2);row.classList.toggle('on',!!s2[id]);box2.textContent=s2[id]?'✓':'';}}},box2,h('span',{class:'lbl',text:txt}));box.appendChild(row);});
+  box.appendChild(h('p',{class:'wxnote',text:'Finish the port arrival form and prepay parking before you leave.'}));
+  box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn',text:'Done',on:{click:()=>{close();render();}}}),h('button',{type:'button',class:'btn ghost sm',text:'Full packing list',on:{click:()=>{close();S.open.pack=true;go('guide');}}})));});}
+function triviaSheet(i){const q=TRIVIA[i];if(!q)return;sheet((box,close)=>{
+  box.appendChild(h('span',{class:'phase',text:'Did you know?'}));box.appendChild(h('h3',{style:'font-size:20px',text:q[0]}));
+  const note=h('p',{text:''});let done=false;
+  q[1].forEach((o,oi)=>{const b=h('button',{type:'button',class:'opt',text:o,on:{click:()=>{if(done)return;done=true;
+    [...box.querySelectorAll('.opt')].forEach((x,xi)=>{if(xi===q[2])x.classList.add('right');else if(xi===oi)x.classList.add('wrong');});note.textContent=q[3];if(oi===q[2])confetti(['⭐','✨']);}}});box.appendChild(b);});
+  box.appendChild(note);
+  box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'More games',on:{click:()=>{close();go('games');}}})));});}
 function openPick(id){const p=PICKS.find(x=>x.id===id);if(p){sheet((box,close)=>{box.appendChild(pickDetail(p,null,false));
   box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'All places in Guide',on:{click:()=>{close();openPickGuide(id);}}})));});return;}openPickGuide(id);}
 function openPickGuide(id){S.pf='all';S.pk=id;S.open.places=true;go('guide');setTimeout(()=>{const e=document.querySelector('.pk.sel');if(e&&e.scrollIntoView)e.scrollIntoView({block:'center'});},80);}
@@ -1272,7 +1318,7 @@ function InterestCard(host){clear(host);GEO.iAt=GEO.pos?[GEO.pos.lat,GEO.pos.lon
     groups.forEach(g=>{if(groups.length>1||g[2]!=='Today')card.appendChild(h('div',{class:'sub',text:g[2]}));g[1].forEach(p=>{card.appendChild(pickLine(p));shown++;});});}
   if(GEO.on&&!GEO.pos&&rd)card.appendChild(h('p',{class:'wxnote',text:'📍 Waiting for GPS. Once it has a fix, this shows what is just ahead.'}));
   const fi=(ti>=0?ti:0)%TRIVIA.length;const fq=TRIVIA[fi];
-  if(fq&&fq[3])card.appendChild(h('button',{type:'button',class:'mini',on:{click:()=>go('games')}},'Did you know?',h('small',{text:fq[3]})));}
+  if(fq&&fq[3])card.appendChild(h('button',{type:'button',class:'mini',on:{click:()=>triviaSheet(fi)}},'Did you know?',h('small',{text:fq[3]})));}
 /* repaint when the phone has moved about a mile or a few minutes have passed */
 function interestPaint(){const H=GEO.ihost;if(!H||!document.body.contains(H)||!GEO.pos)return;const a=GEO.iAt;
   if(a&&miBetween(a[0],a[1],GEO.pos.lat,GEO.pos.lon)<1&&Date.now()-a[2]<180000)return;InterestCard(H);}
@@ -1281,15 +1327,15 @@ function HomeExtras(w){
   {const rd=RDAY[tripToday()];if(rd)RoadProgress(w,rd[0],true);}
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
   const nx=ti>=0?nextUp(d):null;
-  if(ti>=0){const c=h('button',{type:'button',class:'card tap',on:{click:()=>{S.day=d.date;go('trip');}}},h('span',{class:'phase',text:'Next up'}));
+  if(ti>=0){const c=h('button',{type:'button',class:'card tap',on:{click:()=>daySheet(d.date,nx)}},h('span',{class:'phase',text:'Next up'}));
     if(nx){c.appendChild(h('h3',{text:nx[2]}));c.appendChild(h('p',{text:nx[0]+' ('+nx[1]+' time). '+nx[3]}));}else{c.appendChild(h('h3',{text:'Nothing else on today’s plan'}));c.appendChild(h('p',{text:'Open today to add a note or check tomorrow.'}));}
     w.appendChild(c);}
   const ih=h('div');w.appendChild(ih);GEO.ihost=ih;InterestCard(ih);
   const gi=PACK.findIndex(g=>g[0]==='Documents');
   if(gi>=0){const st=Store.get('pack',{});const left=PACK[gi][1].filter((_,i)=>!st[gi+'-'+i]);
-    if(left.length&&(ti<0||ti<=1)){const c=h('button',{type:'button',class:'card tap',on:{click:()=>{S.open.pack=true;go('guide');}}},h('span',{class:'phase',text:'Reminders'}),h('h3',{text:'Documents still to check'}));
+    if(left.length&&(ti<0||ti<=1)){const c=h('button',{type:'button',class:'card tap',on:{click:()=>docsSheet()}},h('span',{class:'phase',text:'Reminders'}),h('h3',{text:'Documents still to check'}));
       const ul=h('ul',{style:'margin:4px 0 0;padding-left:20px'});left.forEach(t=>ul.appendChild(h('li',{text:t,style:'font-size:15px;color:var(--dim);margin:3px 0'})));c.appendChild(ul);
-      c.appendChild(h('p',{text:'Tap to open the packing list and tick them off. Finish the port arrival form and prepay parking before you leave.'}));w.appendChild(c);}}
+      c.appendChild(h('p',{text:'Tap to tick them off. Finish the port arrival form and prepay parking before you leave.'}));w.appendChild(c);}}
   MyReminders(w);
 }
 
