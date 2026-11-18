@@ -805,12 +805,25 @@ function whereAmI(){const p=GEO.pos;if(!p)return null;
     const nx=ids.filter(id=>mi[id]>out.mile)[0];if(nx){out.next=nx;out.nextMi=mi[nx]-out.mile;}}
   return out;}
 function geoPaint(){if(GEO.host&&document.body.contains(GEO.host))geoCard(GEO.host);interestPaint();}
-function geoStart(){if(!GEO.on||GEO.watch!=null)return;
+/* Battery saver (default): low-power location, polled on a schedule that tightens near the next stop.
+   On a long highway stretch it checks every 10 minutes; within 20 miles of a stop, every minute.
+   Precise mode (toggle on the location card) keeps the old continuous high-accuracy GPS. */
+function geoFix(p){GEO.pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()};GEO.err='';geoPaint();gpsCheck();}
+function geoErr(e){GEO.err=e.code===1?'Location is blocked. Allow it for this site in the browser settings, then tap Try again.':'Still looking for a location fix. A spot near a window helps.';geoPaint();}
+function geoGap(){/* minutes until the next check */
+  if(!GEO.pos)return 1;const rd=RDAY[tripToday()];const wh=whereAmI();
+  if(!rd||!wh||wh.mile==null||wh.dir!==rd[0])return 3;
+  if(wh.near.length)return 1;
+  const d=wh.nextMi!=null?wh.nextMi:0;return d>60?10:d>20?3:1;}
+function geoStart(){if(!GEO.on||GEO.watch!=null||GEO.poll)return;
   if(!navigator.geolocation){GEO.err='This browser cannot share location.';return;}
-  try{GEO.watch=navigator.geolocation.watchPosition(p=>{GEO.pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()};GEO.err='';geoPaint();gpsCheck();},
-    e=>{GEO.err=e.code===1?'Location is blocked. Allow it for this site in the browser settings, then tap Try again.':'Still looking for a GPS signal. A spot near a window helps.';geoPaint();},{enableHighAccuracy:true,maximumAge:15000,timeout:30000});}
-  catch(e){GEO.err='Location did not start.';}}
-function geoStop(){if(GEO.watch!=null){try{navigator.geolocation.clearWatch(GEO.watch);}catch(e){}GEO.watch=null;}}
+  if(Store.get('geoprecise',false)){
+    try{GEO.watch=navigator.geolocation.watchPosition(geoFix,geoErr,{enableHighAccuracy:true,maximumAge:15000,timeout:30000});}catch(e){GEO.err='Location did not start.';}return;}
+  GEO.poll=true;
+  const sched=()=>{if(!GEO.poll)return;clearTimeout(GEO.timer);GEO.gap=geoGap();GEO.next=Date.now()+GEO.gap*60000;GEO.timer=setTimeout(ask,GEO.gap*60000);};
+  const ask=()=>{if(!GEO.poll)return;try{navigator.geolocation.getCurrentPosition(p=>{GEO.pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()};sched();geoFix(p);},e=>{geoErr(e);sched();},{enableHighAccuracy:false,maximumAge:60000,timeout:30000});}catch(e){GEO.err='Location did not start.';sched();}};
+  ask();}
+function geoStop(){if(GEO.watch!=null){try{navigator.geolocation.clearWatch(GEO.watch);}catch(e){}GEO.watch=null;}GEO.poll=false;clearTimeout(GEO.timer);GEO.timer=null;}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&GEO.on){geoStop();geoStart();}});
 function goBudget(cat,note){S.open.budget=true;S.pendCat=cat;S.pendNote=note||'';go('guide');setTimeout(()=>{const e=document.querySelector('.acc[data-id="budget"]');if(e)e.scrollIntoView({behavior:'smooth',block:'start'});},60);}
 function gasNote(id){return PLACES[id]?'Gas, '+PLACES[id].n:'Gas';}
@@ -835,6 +848,9 @@ function geoCard(host){clear(host);GEO.host=host;
     box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'💵 Add expense ('+x[3]+')',on:{click:()=>goBudget(x[3],x[0])}})));card.appendChild(box);});
   const age=Math.max(0,Math.round((Date.now()-GEO.pos.t)/1000));
   card.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Accurate to about '+Math.round(GEO.pos.acc*3.281)+' ft · updated '+(age<10?'just now':age+' sec ago')+'. Miles are along I-10, so they are approximate.'}));
+  {const pr=Store.get('geoprecise',false);
+    card.appendChild(h('div',{class:'row gpsrow'},h('span',{text:pr?'🎯 Precise: GPS runs nonstop while the app is open. Uses more battery.':'🔋 Battery saver: checks every '+(GEO.gap||1)+' min right now. Every 10 min on long stretches, every minute near a stop.'}),
+      h('button',{type:'button',class:'btn ghost sm',text:pr?'Battery saver':'Precise',on:{click:()=>{save('geoprecise',!pr);geoStop();geoStart();geoCard(host);}}})));}
   card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Open the road map',on:{click:()=>{S.view='road';S.dir=w.dir;S.stop=null;go('trip');}}}),off));}
 
 function Home(){
