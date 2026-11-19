@@ -151,6 +151,7 @@ body.day .sheet-ov{background:rgba(30,22,5,.4)}
 .dirbtn{flex:0 0 auto;white-space:nowrap}
 .budpre{white-space:pre-wrap;font:inherit;font-size:13px;line-height:1.5;color:var(--dim);background:rgba(0,0,0,.18);border-radius:10px;padding:8px 10px;margin:8px 0}
 .budshared{margin-top:12px;padding:10px 12px;border:1px solid var(--teal);border-radius:12px}.budshared h3{margin:2px 0}
+.card.hot{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal) inset}
 .budhero{text-align:center;padding:10px 12px 8px;margin:6px 0 8px;border:1px solid var(--teal);border-radius:14px;background:rgba(79,195,247,.06)}
 .budhero small{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
 .budhero b{display:block;font-family:'Poiret One',serif;font-weight:400;font-size:40px;line-height:1.15;color:var(--brass-lt)}
@@ -295,8 +296,9 @@ function applyDayMode(on){document.body.classList.toggle('day',!!on);
   document.documentElement.style.background=on?'#f4edda':'';
   const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',on?'#f4edda':'#0b1a30');}
 applyDayMode(Store.get('daymode',false));
-const SIM=(function(){try{const m=/[?&]simdate=(\d{4}-\d{2}-\d{2})/.exec(location.search);return m?m[1]:null;}catch(e){return null;}})();
-function tripNow(){return SIM?new Date(SIM+'T19:00:00Z'):new Date();}
+const SIMT=(function(){try{const m=/[?&]simdate=(\d{4}-\d{2}-\d{2})(?:T(\d{2}):(\d{2}))?/.exec(location.search);return m?{d:m[1],h:m[2]!=null?+m[2]:12,m:m[3]!=null?+m[3]:0}:null;}catch(e){return null;}})();
+const SIM=SIMT?SIMT.d:null;/* simdate time is Arizona time; default noon */
+function tripNow(){if(!SIMT)return new Date();const p=SIMT.d.split('-');return new Date(Date.UTC(+p[0],+p[1]-1,+p[2],SIMT.h+7,SIMT.m));}
 function tripToday(){return SIM||AZ.dateKey(new Date());}
 
 function h(tag,props,...kids){const e=document.createElement(tag);
@@ -945,23 +947,25 @@ function Home(){
   clearInterval(tickT);tick();tickT=setInterval(tick,30000);
   const w=h('div',{class:'wrap'});view.appendChild(w);
   QuickStrip(w);
-  {const t=tripToday();if((t==='2026-11-19'||t==='2026-11-20')&&tripNow().getTime()<Date.UTC(2026,10,20,21,0))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:portSheet}},h('span',{class:'phase',text:'Port arrival · Fri Nov 20'}),h('h3',{text:'🎟️ 12:30 to 12:45 PM · Group 11'}),h('p',{text:'Tap to show your form and QR codes at the terminal. Assembly station F.'})));}
-  const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
-  w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>daySheet(d.date)}},
-    h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
-  if(ti>=0&&d.items.some(i=>i[5]==='Fuel'))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{let n='Gas';if(GEO.on&&GEO.pos){const w0=whereAmI();if(w0.near.length)n=gasNote(w0.near[0]);}goBudget('Gas',n);}}},
-    h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log gas at each stop'}),h('p',{text:'Tap to log what the pump charged, right here. With location on, the stop is filled in for you.'})));
-  HomeExtras(w);
-  const gh=h('div');w.appendChild(gh);geoCard(gh);if(GEO.on)geoStart();
-  const done=b1Done();
-  const tiles=h('div',{class:'grid2'});
-  [['book','📕','Book Club',BOOK.intro?(done+' of 8 unlocked'):'Scythe · enter your name'],['games','🎲','Learn & Play','Study cards, six games'],['guide','🧳','Guide','Budget, places, menus, packing'],['trip','🗺️','Days & Maps','Road map, cruise map',1]]
-    .forEach(t=>tiles.appendChild(h('button',{type:'button',class:'tile',on:{click:()=>{if(t[4])S.view='road';go(t[0]);}}},h('i',{text:t[1]}),h('b',{text:t[2]}),h('span',{text:t[3]}))));
-  w.appendChild(tiles);
-  {const jn=jDone(Store.get('journal',{}));
-  w.appendChild(h('button',{type:'button',class:'card tap','data-id':'home-keep',on:{click:()=>{S.kday=null;S.kview='journal';go('keep');}}},
-    h('span',{class:'phase',text:ti>=0?'Tonight':'Keepsake'}),h('h3',{text:'📓 Keepsake and photo frames'}),
-    h('p',{text:(ti>=0?'Add today’s best moment, favorite meal, and funniest thing. ':'Journal each day, frame your photos, and keep the trip story. ')+jn+' of '+DAYS.length+' days journaled.'})));}
+  const ti=todayIndex();const d=DAYS[ti>=0?ti:0];const ph=homePhase();const B={};
+  const blk=(k,fn)=>{const host=h('div',{'data-home':k});fn(host);if(host.childNodes.length)B[k]=host;};
+  blk('port',x=>{if(ph.port)x.appendChild(h('button',{type:'button',class:'card tap hot',on:{click:portSheet}},h('span',{class:'phase',text:'Port arrival · now'}),h('h3',{text:'🎟️ 12:30 to 12:45 PM · Group 11'}),h('p',{text:'Tap to show your form and QR codes at the terminal. Passports in hand. Assembly station F.'})));});
+  blk('today',x=>x.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>daySheet(d.date)}},
+    h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb}))));
+  blk('fuel',x=>{if(ph.k==='drive'&&d.items.some(i=>i[5]==='Fuel'))x.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{let n='Gas';if(GEO.on&&GEO.pos){const w0=whereAmI();if(w0.near.length)n=gasNote(w0.near[0]);}goBudget('Gas',n);}}},
+    h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log gas at each stop'}),h('p',{text:'Tap to log what the pump charged, right here. With location on, the stop is filled in for you.'})));});
+  HomeExtras(blk,ph);
+  blk('geo',x=>{geoCard(x);if(GEO.on)geoStart();});
+  blk('keep',x=>{const jn=jDone(Store.get('journal',{}));
+    x.appendChild(h('button',{type:'button',class:'card tap','data-id':'home-keep',on:{click:()=>{S.kday=null;S.kview='journal';go('keep');}}},
+      h('span',{class:'phase',text:ti>=0?'Tonight':'Keepsake'}),h('h3',{text:'📓 Keepsake and photo frames'}),
+      h('p',{text:(ti>=0?'Add today’s best moment, favorite meal, and funniest thing. ':'Journal each day, frame your photos, and keep the trip story. ')+jn+' of '+DAYS.length+' days journaled.'})));});
+  blk('tiles',x=>{const done=b1Done();const tiles=h('div',{class:'grid2'});
+    [['book','📕','Book Club',BOOK.intro?(done+' of 8 unlocked'):'Scythe · enter your name'],['games','🎲','Learn & Play','Study cards, six games'],['guide','🧳','Guide','Budget, places, menus, packing'],['trip','🗺️','Days & Maps','Road map, cruise map',1]]
+      .forEach(t=>tiles.appendChild(h('button',{type:'button',class:'tile',on:{click:()=>{if(t[4])S.view='road';go(t[0]);}}},h('i',{text:t[1]}),h('b',{text:t[2]}),h('span',{text:t[3]}))));x.appendChild(tiles);});
+  const order=HOMEORDER[ph.k].slice();
+  if(ph.evening){const i=order.indexOf('keep');if(i>=0){order.splice(i,1);const j=order.indexOf('next');order.splice(j>=0?j+1:1,0,'keep');}}
+  order.concat(Object.keys(B).filter(k=>order.indexOf(k)<0)).forEach(k=>{if(B[k])w.appendChild(B[k]);});
   const bar=h('div');w.appendChild(bar);if(window.FamilyDrive)FamilyDrive.bar(bar);
   w.appendChild(h('p',{class:'foot',text:'Cruise plans pulled from the Disney reservation page on Nov 11, 2026. Times can change. Works offline once opened.'}));
 }
@@ -1476,22 +1480,42 @@ function InterestCard(host){clear(host);GEO.iAt=GEO.pos?[GEO.pos.lat,GEO.pos.lon
 /* repaint when the phone has moved about a mile or a few minutes have passed */
 function interestPaint(){const H=GEO.ihost;if(!H||!document.body.contains(H)||!GEO.pos)return;const a=GEO.iAt;
   if(a&&miBetween(a[0],a[1],GEO.pos.lat,GEO.pos.lon)<1&&Date.now()-a[2]<180000)return;InterestCard(H);}
-function HomeExtras(w){
-  WeatherCard(w);
-  {const rd=RDAY[tripToday()];if(rd)RoadProgress(w,rd[0],true);}
+function HomeExtras(blk,ph){
+  blk('weather',x=>WeatherCard(x));
+  blk('road',x=>{const rd=RDAY[tripToday()];if(rd&&(ph.k==='drive'||ph.k==='port'))RoadProgress(x,rd[0],true);});
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
   const nx=ti>=0?nextUp(d):null;
-  if(ti>=0){const c=h('button',{type:'button',class:'card tap',on:{click:()=>daySheet(d.date,nx)}},h('span',{class:'phase',text:'Next up'}));
+  blk('next',x=>{if(ti>=0){const c=h('button',{type:'button',class:'card tap',on:{click:()=>daySheet(d.date,nx)}},h('span',{class:'phase',text:'Next up'}));
     if(nx){c.appendChild(h('h3',{text:nx[2]}));c.appendChild(h('p',{text:nx[0]+' ('+nx[1]+' time). '+nx[3]}));}else{c.appendChild(h('h3',{text:'Nothing else on today’s plan'}));c.appendChild(h('p',{text:'Open today to add a note or check tomorrow.'}));}
-    w.appendChild(c);}
-  const ih=h('div');w.appendChild(ih);GEO.ihost=ih;InterestCard(ih);
-  const gi=PACK.findIndex(g=>g[0]==='Documents');
-  if(gi>=0){const st=Store.get('pack',{});const left=PACK[gi][1].filter((_,i)=>!st[gi+'-'+i]);
-    if(left.length&&(ti<0||ti<=1)){const c=h('button',{type:'button',class:'card tap',on:{click:()=>docsSheet()}},h('span',{class:'phase',text:'Reminders'}),h('h3',{text:'Documents still to check'}));
-      const ul=h('ul',{style:'margin:4px 0 0;padding-left:20px'});left.forEach(t=>ul.appendChild(h('li',{text:t,style:'font-size:15px;color:var(--dim);margin:3px 0'})));c.appendChild(ul);
-      c.appendChild(h('p',{text:'Tap to tick them off. Finish the port arrival form and prepay parking before you leave.'}));w.appendChild(c);}}
-  MyReminders(w);
+    x.appendChild(c);}});
+  blk('interest',x=>{GEO.ihost=x;InterestCard(x);});
+  blk('docs',x=>{const gi=PACK.findIndex(g=>g[0]==='Documents');if(gi<0||ph.k!=='pre')return;const st=Store.get('pack',{});const left=PACK[gi][1].filter((_,i)=>!st[gi+'-'+i]);if(!left.length)return;
+    const c=h('button',{type:'button',class:'card tap hot',on:{click:()=>docsSheet()}},h('span',{class:'phase',text:'Before wheels up'}),h('h3',{text:'Documents still to check'}));
+    const ul=h('ul',{style:'margin:4px 0 0;padding-left:20px'});left.forEach(t=>ul.appendChild(h('li',{text:t,style:'font-size:15px;color:var(--dim);margin:3px 0'})));c.appendChild(ul);
+    c.appendChild(h('p',{text:'Tap to tick them off. Passports go in the car, not a suitcase.'}));x.appendChild(c);});
+  blk('remind',x=>MyReminders(x));
 }
+/* Home arrangement by trip phase: things that need a tap or change often go first. */
+const HOMEORDER={pre:['docs','today','weather','next','interest','remind','keep','tiles','geo'],
+  drive:['road','next','interest','fuel','weather','today','geo','remind','keep','tiles'],
+  port:['port','next','weather','today','road','interest','remind','keep','geo','tiles'],
+  ship:['next','today','interest','weather','keep','remind','tiles','geo'],
+  land:['next','interest','today','weather','remind','keep','geo','tiles'],
+  done:['keep','today','tiles','remind','geo']};
+function homePhase(){const now=tripNow().getTime(),t=tripToday();
+  const lh=(off)=>{const d=new Date(now+off*3600000);return d.getUTCHours()+d.getUTCMinutes()/60;};
+  const off=t>='2026-11-20'&&t<='2026-11-28'?-6:-7;const evening=lh(off)>=19;
+  const ALLABOARD_MS=Date.UTC(2026,10,20,21,0);
+  if(now<departMs())return {k:'pre',evening};
+  if(t==='2026-11-19'||(t==='2026-11-20'&&now<ALLABOARD_MS)){
+    const log=(Store.get('roadlog',{}).e)||{};let near=!!log.galveston||now>=Date.UTC(2026,10,20,16,0);
+    if(!near){const rn=roadNow('e');const last=rn.rows[rn.rows.length-1];if(t==='2026-11-20'&&last.arr!=null&&last.arr-now<2*3600000)near=true;
+      if(GEO.on&&GEO.pos&&miBetween(GEO.pos.lat,GEO.pos.lon,29.30,-94.80)<=90)near=true;}
+    return near?{k:'port',port:true,evening}:{k:'drive',evening};}
+  if(t<='2026-11-24'||(t==='2026-11-25'&&lh(-6)<9))return {k:'ship',evening};
+  if(t<='2026-11-27')return {k:'land',evening};
+  if(t==='2026-11-28'||t==='2026-11-29'){const log=(Store.get('roadlog',{}).w)||{};if(t==='2026-11-28'&&!ROUTES.w.some(id=>log[id])&&lh(-6)<11)return {k:'land',evening};return log.chandler?{k:'done',evening}:{k:'drive',evening};}
+  return {k:'done',evening};}
 
 /* ---------- Trip ---------- */
 function Trip(){
