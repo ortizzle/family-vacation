@@ -145,6 +145,8 @@ body.day .sheet-ov{background:rgba(30,22,5,.4)}
 .qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0 4px}
 .qa button{min-height:78px;border:1px solid var(--brass-dk);border-radius:14px;background:var(--navy2);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 2px;font:inherit}
 .qa i{font-style:normal;font-size:26px}.qa b{font-size:12px;font-weight:600;letter-spacing:.02em}.qa small{font-size:10px;color:var(--teal);line-height:1.1;text-align:center}
+.pfacts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 4px}.pfacts div{border:1px solid var(--brass-dk);border-radius:12px;padding:8px 10px}.pfacts small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}.pfacts b{font-weight:600;font-size:15px}
+.pafrow{padding:8px 0;border-bottom:1px solid rgba(201,162,75,.15)}.pafimg{display:block;width:100%;border-radius:10px;background:#fff;margin:4px 0}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px}
 .modal-box{background:var(--navy2);border:1px solid var(--brass);border-radius:16px;padding:22px;max-width:90vw;width:340px}
 .modal-box h3{font-family:'Poiret One';font-weight:400;font-size:24px;margin:0 0 8px;color:var(--brass-lt)}
@@ -319,14 +321,15 @@ const DAYS=[
 {date:'2026-11-19',dow:'Thu',md:'19',phase:'The Drive',title:'The Long Haul East',blurb:'Chandler to the Gulf in one push: about 1,200 miles and 21 hours with stops. Times are estimates.',items:[
  ['12:00 PM','AZ','Wheels up from Chandler','Full tank, cooler loaded, Scythe queued up. I-10 east the whole way.','c','Depart','a'],
  ['1:45 PM','AZ','Tucson Costco fuel','Mile 115. Fuel here or nearby: Tucson to El Paso is 315 miles, close to a full tank.','c','Fuel'],
- ['7:00 PM','El Paso','El Paso Costco: gas, then dinner','Mile 430. Costco pumps are open until 10 PM on weekdays. Fill up first, then dinner.','c','Fuel'],
+ ['7:00 PM','El Paso','El Paso Costco: gas, then dinner','Mile 430. Costco Gasoline, 6101 Gateway Blvd W. Pumps are open until 10 PM on weekdays. Fill up first, then dinner a mile away.','c','Fuel'],
+ ['7:30 PM','El Paso','Dinner at Chick-fil-A (Kat’s pick)','Airway & Edgemere, 1300 Airway Blvd, about a mile from Costco. Drive-thru or dine in. Open until 10 PM Monday to Saturday, closed Sunday.','c','Food'],
  ['12:15 AM','Texas','Fort Stockton fuel','Mile 665. Clocks jump an hour ahead in West Texas. Good spot for a driver swap.','c','Fuel']],
  notes:['Leaving at noon with Friday-morning Houston traffic puts you at the port around 11 AM. Road map → Timing shows every stop for any departure time.','El Paso Costco pumps are open 6 AM to 10 PM on Thursday. If you will get there after about 9:30 PM, any big-brand station off I-10 works.']},
 {date:'2026-11-20',dow:'Fri',md:'20',phase:'The Drive → The Ship',title:'Gulf by Morning, Sea by Night',blurb:'Sunrise in Hill Country, breakfast on the island, and the ship by afternoon.',items:[
  ['5:00 AM','Texas','San Antonio 24-hour fuel','Mile 980. Costco is closed at this hour, so use any open station on I-10.','c','Fuel'],
  ['6:00 AM','Texas',"Buc-ee's, Luling",'Open around the clock. Clean restrooms, breakfast tacos, and a leg stretch before Houston traffic.','c','Rest'],
  ['10:00 AM','Texas','Arrive at SMP Garage','150 Rosenberg St. Breakfast near the Strand, then park here for the cruise and walk to the terminal.','c','Arrive'],
- ['12:00 PM','Texas','Port arrival time','Check in at the cruise terminal. Travel documents and port arrival form in hand.','c','Ship','a'],
+ ['12:30 PM','Texas','Port arrival window, 12:30 to 12:45','Cruise terminal, 2702 Harborside Drive. Boarding group 11, assembly station F. Arriving early can mean a wait with little shade or seating. Passports and the port arrival form in hand, not in checked bags.','c','Ship','a'],
  ['3:00 PM','Ship','All aboard','Every family must be on the ship.',ALL,'Ship','a'],
  ['4:00 PM','Ship','Disney Magic sails','Sail-away party on deck as Galveston slips behind.',ALL,'Ship','a'],
  DIN,SHOW],
@@ -650,7 +653,7 @@ const PLACES={
   gas:['Costco Gasoline, 1650 E Tucson Marketplace Blvd (weekdays 6 AM to 10 PM)','Circle K, 3450 S Kino Pkwy','Chevron, 1999 E Ajo Way'],food:['In-N-Out Burger','Chipotle','Culver’s','Dutch Bros Coffee','Costco food court'],q:'Costco Gasoline 1650 E Tucson Marketplace Blvd Tucson AZ',near:'I-10 and Kino Pkwy Tucson AZ'},
  elpaso:{n:'El Paso',at:[-106.42,31.78],exit:'Around exits 24 to 26 · Gateway Blvd',when:{e:'Thu about 7:00 PM · mile 430 · gas, then dinner',w:'Sun about 12:30 AM · mile 760'},
   ramp:{e:'Costco sits on Gateway Blvd West, which is the westbound frontage road. Heading east you exit, cross under the freeway, and double back along the frontage road. Let Maps pick the exact exit.',w:'Heading west, Gateway Blvd West is on your side of the freeway. Costco and Sam’s pumps are closed at this hour, so pick a station Maps shows as open.'},
-  gas:['Costco Gasoline, 6101 Gateway Blvd W (weekdays 6 AM to 10 PM)','Sam’s Club fuel, 7001 Gateway Blvd W at exit 26 (6 AM to 10 PM)','Circle K, 7008 Gateway Blvd E'],food:['Costco food court','Chipotle','Five Guys','P.F. Chang’s','Village Inn'],q:'Costco Gasoline 6101 Gateway Blvd W El Paso TX',near:'Cielo Vista Mall El Paso TX'},
+  gas:['Costco Gasoline, 6101 Gateway Blvd W (weekdays 6 AM to 10 PM)','Sam’s Club fuel, 7001 Gateway Blvd W at exit 26 (6 AM to 10 PM)','Circle K, 7008 Gateway Blvd E'],food:['Chick-fil-A, 1300 Airway Blvd (Kat’s pick, drive-thru, to 10 PM, closed Sun)','Costco food court','Chipotle','Five Guys','P.F. Chang’s','Village Inn'],q:'Costco Gasoline 6101 Gateway Blvd W El Paso TX',near:'Cielo Vista Mall El Paso TX'},
  fortstockton:{n:'Fort Stockton',at:[-102.88,30.89],exit:'Exit 259',when:{e:'Fri about 12:15 AM Texas time · mile 665',w:'Sat about 8:00 PM · mile 520 · fuel and dinner'},
   ramp:{e:'Take exit 259. Flying J and Valero are a quarter mile to the right. Chevron and Burger King are to the left. Rejoin I-10 east at the same interchange.',w:'Take exit 259. Flying J and Valero are to the left, Chevron to the right. For a sit-down dinner, Dickinson Blvd in town has the most choices.'},
   gas:['Flying J, 2571 N Front St (open 24 hours)','Valero, 2576 N Front St','Chevron, 2874 N State Hwy 18','Walmart fuel at exit 257'],food:['Subway and Cinnabon inside Flying J','Burger King','Taqueria Guadalajara','McDonald’s and Dairy Queen on Dickinson Blvd','K-Bob’s Steakhouse'],q:'Flying J 2571 N Front St Fort Stockton TX',near:'Fort Stockton TX'},
@@ -899,9 +902,9 @@ function guidePlan(){const t=tripToday();
   if(t>='2026-11-21'&&t<='2026-11-24')return ['cruise',['dine','budget','places','pack','logi','wine','gas','drives','home','prep','tips','backup','settings']];
   if(t>='2026-11-25'&&t<='2026-11-27')return ['houston',['places','budget','drives','home','gas','dine','pack','logi','prep','wine','tips','backup','settings']];
   if(t>='2026-11-28')return ['home',['budget','gas','places','logi','home','drives','pack','dine','prep','wine','tips','backup','settings']];
-  if(t>='2026-11-19')return ['road',['budget','gas','places','logi','dine','pack','prep','wine','drives','home','tips','backup','settings']];
-  return ['prep',['prep','pack','budget','places','dine','gas','logi','wine','drives','home','tips','backup','settings']];}
-const GUIDEQ={budget:['💵','Budget'],gas:['⛽','Gas'],places:['📍','Places'],dine:['🛳️','Dining'],pack:['🧳','Packing'],prep:['✅','Prep'],drives:['🧭','Drives'],home:['🏡','House'],logi:['🚙','Road notes']};
+  if(t>='2026-11-19')return ['road',[...(t==='2026-11-19'||t==='2026-11-20'?['port']:[]),'budget','gas','places','logi','dine','pack','prep','wine','drives','home','tips','backup','settings']];
+  return ['prep',['prep','pack','port','budget','places','dine','gas','logi','wine','drives','home','tips','backup','settings']];}
+const GUIDEQ={port:['🎟️','Port form'],budget:['💵','Budget'],gas:['⛽','Gas'],places:['📍','Places'],dine:['🛳️','Dining'],pack:['🧳','Packing'],prep:['✅','Prep'],drives:['🧭','Drives'],home:['🏡','House'],logi:['🚙','Road notes']};
 function guideOrder(w){const plan=guidePlan()[1];const accs=[...w.querySelectorAll(':scope > .acc')];
   plan.forEach(id=>{const a=accs.find(x=>x.dataset.id===id);if(a)w.appendChild(a);});
   accs.filter(a=>plan.indexOf(a.dataset.id)<0).forEach(a=>w.appendChild(a));
@@ -922,6 +925,7 @@ function Home(){
   clearInterval(tickT);tick();tickT=setInterval(tick,30000);
   const w=h('div',{class:'wrap'});view.appendChild(w);
   QuickStrip(w);
+  {const t=tripToday();if((t==='2026-11-19'||t==='2026-11-20')&&tripNow().getTime()<Date.UTC(2026,10,20,21,0))w.appendChild(h('button',{type:'button',class:'card tap',on:{click:portSheet}},h('span',{class:'phase',text:'Port arrival · Fri Nov 20'}),h('h3',{text:'🎟️ 12:30 to 12:45 PM · Group 11'}),h('p',{text:'Tap to show your form and QR codes at the terminal. Assembly station F.'})));}
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
   w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>daySheet(d.date)}},
     h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
@@ -999,15 +1003,18 @@ function roadNow(dir){const P=roadPlan(),log=(Store.get('roadlog',{})[dir])||{};
   return {P,log,ids,hasLog,rows:roadFC(dir,depMs(dir,P[dir]),P.p,hasLog?log:null,P.br,tripNow().getTime())};}
 function hrLabel(ms,off){const d=new Date(ms+off*3600000);let hr=d.getUTCHours();const ap=hr>=12?'p':'a';hr=hr%12||12;return hr+ap;}
 /* Drive-day plan times follow Road timing (planned departure + check-ins) instead of fixed text. */
-const DRIVEITEMS={'2026-11-19':['e',{0:'chandler',1:'tucson',2:'elpaso',3:'fortstockton'}],'2026-11-20':['e',{0:'sanantonio',1:'luling',2:'galveston'}],
+const DRIVEITEMS={'2026-11-19':['e',{0:'chandler',1:'tucson',2:'elpaso',3:'elpaso+25',4:'fortstockton'}],'2026-11-20':['e',{0:'sanantonio',1:'luling',2:'galveston'}],
  '2026-11-28':['w',{1:'spring',2:'sanantonio',3:'fortstockton'}],'2026-11-29':['w',{0:'elpaso',1:'tucson',2:'chandler'}]};
 function driveItems(d){const m=DRIVEITEMS[d.date];if(!m)return {items:d.items,notes:d.notes||[],note:''};
   const rn=roadNow(m[0]),ids=rn.ids,bd=+d.md;
-  const items=d.items.map((it,i)=>{const id=m[1][i];if(!id)return it;const r=rn.rows[ids.indexOf(id)];if(!r||r.arr==null)return it;
-    const c=it.slice();const t=fmtT(r.arr,TZO[id],bd);c[0]=(r.act?'✓ ':'')+t;c[1]=TZO[id]===-7?'AZ':'Texas';return c;});
+  const items=d.items.map((it,i)=>{const key=m[1][i];if(!key)return it;const id=key.split('+')[0],add=+(key.split('+')[1]||0);const r=rn.rows[ids.indexOf(id)];if(!r||r.arr==null)return it;
+    const c=it.slice();const at=r.arr+add*60000;c[0]=(r.act&&!add?'✓ ':'')+fmtT(at,TZO[id],bd);c[1]=TZO[id]===-7?'AZ':'Texas';
+    if(add&&/Chick-fil-A/.test(c[2])){const lh=new Date(at+TZO[id]*3600000),hr=lh.getUTCHours()+lh.getUTCMinutes()/60;
+      if(hr>=21.75||hr<6.5)c[3]+=' At this pace you get there near or after closing, so plan on Costco’s food court or a 24-hour spot instead.';else if(hr>=21)c[3]+=' Closing is near at this pace, so the drive-thru is the safe bet.';}
+    return c;});
   const notes=(d.notes||[]).slice();
   if(d.date==='2026-11-19'){const last=rn.rows[rn.rows.length-1],st=portStatus(last.arr,tgtMs(rn.P.t));const ld=latestDep(rn.P.p,rn.P.t,rn.P.br);
-    notes[0]='Leaving '+fmtT(depMs('e',rn.P.e),-7,0).replace(/^\w+ /,'')+' puts you at SMP Garage about '+fmtT(last.arr,-6,0)+' Texas time'+(st[0]==='ok'?', ahead of the '+fmtHM(rn.P.t)+' port arrival target.':st[0]==='tight'?'. That is a little past the '+fmtHM(rn.P.t)+' target, still well before 3:00 PM all aboard.':'. That is cutting it close to 3:00 PM all aboard.')+(ld?' Latest departure for the target at this pace: '+fmtT(ld,-7,0).replace(/^\w+ /,'')+'.':'');
+    notes[0]='Leaving '+fmtT(depMs('e',rn.P.e),-7,0).replace(/^\w+ /,'')+' puts you at SMP Garage about '+fmtT(last.arr,-6,0)+' Texas time'+(st[0]==='ok'?', ahead of the '+fmtHM(rn.P.t)+' port arrival target.':(last.arr-tgtMs(rn.P.t))<=15*60000&&rn.P.t==='12:30'?', inside your 12:30 to 12:45 port arrival window. Parking and the walk to the terminal add a little time.':st[0]==='tight'?'. That is a little past the '+fmtHM(rn.P.t)+' target, still well before 3:00 PM all aboard.':'. That is cutting it close to 3:00 PM all aboard.')+(ld?' Latest departure for the target at this pace: '+fmtT(ld,-7,0).replace(/^\w+ /,'')+'.':'');
     const ep=rn.rows[ids.indexOf('elpaso')];if(ep&&ep.arr!=null){const cm=costcoMsg(ep.arr,TZO.elpaso);
       notes[1]='You reach the El Paso Costco around '+fmtT(ep.arr,-7,19)+'. '+cm[1]+(cm[0]==='ok'?' Fill up before dinner.':'')+' Gas station: (915) 774-5203.';}}
   if(m[0]==='e'&&d.date==='2026-11-20'){const sa=rn.rows[ids.indexOf('sanantonio')];if(sa&&sa.arr!=null){const c=costcoGas(sa.arr,TZO.sanantonio);
@@ -1310,6 +1317,36 @@ function triviaSheet(i){const q=TRIVIA[i];if(!q)return;sheet((box,close)=>{
     [...box.querySelectorAll('.opt')].forEach((x,xi)=>{if(xi===q[2])x.classList.add('right');else if(xi===oi)x.classList.add('wrong');});note.textContent=q[3];if(oi===q[2])confetti(['⭐','✨']);}}});box.appendChild(b);});
   box.appendChild(note);
   box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'More games',on:{click:()=>{close();go('games');}}})));});}
+/* ---------- Port arrival form: kept only on this phone (IndexedDB), never in the app's public code ---------- */
+const PAF={db:null};
+function pafDB(){return new Promise((ok,no)=>{if(PAF.db)return ok(PAF.db);try{const r=indexedDB.open('gm26_private',1);
+  r.onupgradeneeded=()=>r.result.createObjectStore('files',{keyPath:'id'});r.onsuccess=()=>{PAF.db=r.result;ok(PAF.db);};r.onerror=()=>no(r.error);}catch(e){no(e);}});}
+function pafAll(){return pafDB().then(db=>new Promise((ok,no)=>{const q=db.transaction('files').objectStore('files').getAll();q.onsuccess=()=>ok(q.result||[]);q.onerror=()=>no(q.error);}));}
+function pafPut(rec){return pafDB().then(db=>new Promise((ok,no)=>{const t=db.transaction('files','readwrite');t.objectStore('files').put(rec);t.oncomplete=ok;t.onerror=()=>no(t.error);}));}
+function pafDel(id){return pafDB().then(db=>new Promise((ok,no)=>{const t=db.transaction('files','readwrite');t.objectStore('files').delete(id);t.oncomplete=ok;t.onerror=()=>no(t.error);}));}
+const PORTFACTS=[['Arrive','Fri Nov 20, 12:30 to 12:45 PM'],['Terminal','2702 Harborside Drive, Galveston'],['Boarding group','11'],['Assembly station','F']];
+function portSheet(){sheet((box,close)=>{
+  box.appendChild(h('span',{class:'phase',text:'Disney Magic · Galveston'}));box.appendChild(h('h3',{text:'🎟️ Port arrival'}));
+  const g=h('div',{class:'pfacts'});PORTFACTS.forEach(f=>g.appendChild(h('div',null,h('small',{text:f[0]}),h('b',{text:f[1]}))));box.appendChild(g);
+  linkRow(box,[['📍 Terminal in Maps',mapsUrl('Galveston Cruise Terminal 2702 Harborside Drive Galveston TX')]]);
+  box.appendChild(h('div',{class:'sub',text:'My form and QR codes'}));
+  const list=h('div');box.appendChild(list);
+  const inp=h('input',{type:'file',accept:'application/pdf,image/*','aria-label':'Add port arrival form'});
+  box.appendChild(h('div',{class:'row'},h('label',{class:'btn fr-pick'},h('span',{text:'➕ Add form (PDF or screenshot)'}),inp)));
+  box.appendChild(h('p',{class:'wxnote',text:'🔒 Saved only on this phone, inside the app. It is never uploaded or put in the app’s code. A screenshot of the QR codes scans fastest at the terminal: turn your screen brightness up.'}));
+  box.appendChild(h('div',{class:'sub',text:'Before you get there'}));
+  const ul=h('ul',{class:'lst'});['Passports or proof of citizenship for everyone, in hand, never in checked bags.','Passports should be valid for 6 months after the cruise ends.','Check Disney’s prohibited items and alcohol policy before packing the car.','Tell your card company you will be out of the country.'].forEach(t=>ul.appendChild(h('li',{text:t})));box.appendChild(ul);
+  function paint(){clear(list);pafAll().then(fs=>{clear(list);
+    if(!fs.length){list.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:4px 0',text:'Nothing saved yet. Add the PDF from your email or a screenshot of the QR page.'}));return;}
+    fs.sort((a,b)=>a.t-b.t).forEach(f=>{const url=URL.createObjectURL(f.blob);const row=h('div',{class:'pafrow'});
+      if(/^image\//.test(f.type))row.appendChild(h('img',{src:url,alt:f.name,class:'pafimg'}));
+      const acts=h('div',{class:'row'});row.appendChild(acts);
+      acts.appendChild(h('a',{class:'btn sm',href:url,target:'_blank',rel:'noopener',text:/pdf/.test(f.type)?'📄 Open PDF':'⤢ Full screen'}));
+      acts.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'Remove',on:{click:()=>showModal({title:'Remove this file?',message:f.name,confirmText:'Remove',cancelText:'Keep',onConfirm:()=>{pafDel(f.id).then(paint);}})}}));
+      row.appendChild(h('small',{style:'display:block;color:var(--dim);font-size:12px',text:f.name}));list.appendChild(row);});}).catch(()=>{list.appendChild(h('p',{class:'warn',text:'This browser blocked on-phone storage, so the form cannot be saved here. Keep the PDF in your email or Files app.'}));});}
+  inp.addEventListener('change',()=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;if(f.size>15e6){toast('That file is too big');return;}
+    pafPut({id:'f'+Date.now(),name:f.name||'Port arrival form',type:f.type||'application/pdf',blob:f,t:Date.now()}).then(()=>{toast('Saved on this phone');paint();}).catch(()=>toast('Could not save on this phone'));});
+  paint();});}
 function openPick(id){const p=PICKS.find(x=>x.id===id);if(p){sheet((box,close)=>{box.appendChild(pickDetail(p,null,false));
   box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'All places in Guide',on:{click:()=>{close();openPickGuide(id);}}})));});return;}openPickGuide(id);}
 function openPickGuide(id){S.pf='all';S.pk=id;S.open.places=true;go('guide');setTimeout(()=>{const e=document.querySelector('.pk.sel');if(e&&e.scrollIntoView)e.scrollIntoView({block:'center'});},80);}
@@ -1413,6 +1450,7 @@ function Trip(){
     const meta=h('div',{class:'meta'},h('span',{class:'tag'+(it[6]==='o'?' opt':''),text:it[6]==='o'?'Optional':it[5]}));
     it[4].split('').forEach(k=>meta.appendChild(h('span',{class:'dot',style:'background:'+FAMS[k].color,title:FAMS[k].name})));
     const xc=/\(([A-Z]+\d+)\)/.exec(it[2]);if(xc&&EXC[xc[1]])meta.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'What to expect',on:{click:()=>{S.gv='learn';S.open.exc=true;go('games');}}}));
+    if(/Port arrival window/.test(it[2]))meta.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'🎟️ My form',on:{click:portSheet}}));
     if(it[5]==='Dinner'&&d.phase.indexOf('Cruise')>=0||it[5]==='Dinner'&&d.date==='2026-11-20')meta.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'Menus',on:{click:()=>{S.open.dine=true;go('guide');}}}));
     w.appendChild(h('div',{class:'item'+(it[6]==='a'?' anchor':'')},h('div',{class:'time'},it[0],h('small',{text:it[1]+(it[1]==='Ship'?' time':it[1]==='AZ'?' time':'')})),
       h('div',null,h('h4',{text:(it[6]==='a'?'⚓ ':'')+(it[5]==='Dinner'&&rotn[d.date]?'Dinner at '+rotn[d.date]:it[2])}),h('p',{text:it[3]}),meta)));});
@@ -1539,7 +1577,8 @@ function fmtT(ms,off,bd){const d=new Date(ms+off*3600000);let hr=d.getUTCHours()
   return (d.getUTCDate()!==bd?DOW[d.getUTCDay()]+' ':'')+hr+':'+String(mi).padStart(2,'0')+' '+ap;}
 function fmtDur(m){m=Math.max(0,Math.round(m));const hh=Math.floor(m/60),mm=m%60;return hh?hh+' h'+(mm?' '+mm+' m':''):mm+' m';}
 function fmtHM(s){const p=String(s).split(':');let hr=+p[0];const ap=hr>=12?'PM':'AM';hr=hr%12||12;return hr+(+p[1]?':'+p[1]:'')+' '+ap;}
-function roadPlan(){return Object.assign({e:'12:00',w:'11:30',p:'p',t:'12:00',br:'0'},Store.get('roadplan',{}));}
+function roadPlan(){const sv=Store.get('roadplan',{});if(sv.tv!==2){sv.t='12:30';sv.tv=2;Store.set('roadplan',sv);}/* port arrival window from the Disney form: 12:30 to 12:45 PM */
+  return Object.assign({e:'12:00',w:'11:30',p:'p',t:'12:30',br:'0'},sv);}
 function setPlan(k,v){const p=roadPlan();p[k]=v;save('roadplan',p);render();}
 let rdT;
 function logMut(dir,fn){const a=Store.get('roadlog',{});a[dir]=a[dir]||{};fn(a[dir]);save('roadlog',a);render();}
@@ -2003,6 +2042,7 @@ function Guide(){
     b.appendChild(h('div',{class:'sub',text:'A buzz when you stop'}));
     b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:0',text:'An app on the home screen cannot ring your phone when it is closed. Android: Google Tasks and Keep dropped location reminders, so use the free Tasks.org app (add a task, choose a location, notify on arrive) or the Reminder app on a Samsung. iPhone: Reminders, tap the location icon, choose Arriving. Title it Log gas spend and pick the stop. With the app open, the home screen also offers a gas button when you are near a stop.'}));});
   const bud=Store.get('budget',{total:0,items:[]});const spent=bud.items.reduce((a,x)=>a+x.amt,0);const money=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  accordion(w,'port','🎟️ Port arrival form','Fri 12:30',b=>{b.appendChild(h('p',{style:'margin:0 0 8px',text:'Arrive Fri Nov 20, 12:30 to 12:45 PM · boarding group 11 · assembly station F · 2702 Harborside Drive.'}));b.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'🎟️ Open my form',on:{click:portSheet}})));});
   accordion(w,'budget','💵 Trip budget',bud.total?money(Math.max(0,bud.total-spent))+' left':money(spent)+' spent',b=>{
     const tot=h('input',{type:'text',inputmode:'decimal',placeholder:'Trip budget in dollars','aria-label':'Trip budget',value:bud.total?String(bud.total):''});
     tot.addEventListener('change',()=>{const v=parseFloat(tot.value.replace(/[^0-9.]/g,''));bud.total=isFinite(v)&&v>0?v:0;save('budget',bud);render();});
