@@ -142,6 +142,9 @@ body.day .sheet input[type=text]{background:#fffdf2;color:var(--cream)}
 body.day .sheet-ov{background:rgba(30,22,5,.4)}
 .fradj .frsl{display:flex;align-items:center;gap:10px;min-height:44px;font-size:14px;color:var(--cream)}
 .fradj .frsl>span:first-child{flex:0 0 112px}.fradj .frsl input{flex:1;accent-color:var(--brass)}.fradj .fv{flex:0 0 46px;text-align:right;color:var(--brass-lt);font-size:13px}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0 4px}
+.qa button{min-height:78px;border:1px solid var(--brass-dk);border-radius:14px;background:var(--navy2);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 2px;font:inherit}
+.qa i{font-style:normal;font-size:26px}.qa b{font-size:12px;font-weight:600;letter-spacing:.02em}.qa small{font-size:10px;color:var(--teal);line-height:1.1;text-align:center}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px}
 .modal-box{background:var(--navy2);border:1px solid var(--brass);border-radius:16px;padding:22px;max-width:90vw;width:340px}
 .modal-box h3{font-family:'Poiret One';font-weight:400;font-size:24px;margin:0 0 8px;color:var(--brass-lt)}
@@ -879,6 +882,32 @@ function geoCard(host){clear(host);GEO.host=host;
       h('button',{type:'button',class:'btn ghost sm',text:pr?'Battery saver':'Precise',on:{click:()=>{save('geoprecise',!pr);geoStop();geoStart();geoCard(host);}}})));}
   card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Open the road map',on:{click:()=>{S.view='road';S.dir=w.dir;S.stop=null;go('trip');}}}),off));}
 
+/* ---------- quick-access strip (Home) ---------- */
+function QuickStrip(w){const t=tripToday(),road=!!RDAY[t],cruise=t>='2026-11-21'&&t<='2026-11-24';
+  const bud=Store.get('budget',{total:0,items:[]}),spent=bud.items.reduce((a,x)=>a+x.amt,0);
+  const bg=Store.get('bingo',{}),hunt=countDone('hunt',[['',HUNT]]);
+  const learn=t==='2026-11-23'||t==='2026-11-22'?'Maya Qs':cruise?'Hunt '+hunt:road||t<'2026-11-19'?'Bingo '+Object.keys(bg).filter(k=>bg[k]).length+'/16':'Trivia';
+  const items=[
+    ['📸','Frames',Store.get('frames_made',false)?'Make one':'New',()=>{S.kview='frames';go('keep');}],
+    ['📕','Book Club',BOOK.intro?b1Done()+' of 8':'Start',()=>go('book')],
+    ['🎲','Learn',learn,()=>go('games')],
+    ['💵','Budget',spent?'$'+Math.round(spent).toLocaleString('en-US')+' spent':'Add',()=>expenseSheet(road?'Gas':'Food','')]];
+  const row=h('div',{class:'qa'});items.forEach(x=>row.appendChild(h('button',{type:'button','aria-label':x[1]+', '+x[2],on:{click:x[3]}},h('i',{text:x[0]}),h('b',{text:x[1]}),h('small',{text:x[2]}))));
+  w.appendChild(row);}
+/* ---------- Guide: most-used sections first, by trip phase ---------- */
+function guidePlan(){const t=tripToday();
+  if(t>='2026-11-21'&&t<='2026-11-24')return ['cruise',['dine','budget','places','pack','logi','wine','gas','drives','home','prep','tips','backup','settings']];
+  if(t>='2026-11-25'&&t<='2026-11-27')return ['houston',['places','budget','drives','home','gas','dine','pack','logi','prep','wine','tips','backup','settings']];
+  if(t>='2026-11-28')return ['home',['budget','gas','places','logi','home','drives','pack','dine','prep','wine','tips','backup','settings']];
+  if(t>='2026-11-19')return ['road',['budget','gas','places','logi','dine','pack','prep','wine','drives','home','tips','backup','settings']];
+  return ['prep',['prep','pack','budget','places','dine','gas','logi','wine','drives','home','tips','backup','settings']];}
+const GUIDEQ={budget:['💵','Budget'],gas:['⛽','Gas'],places:['📍','Places'],dine:['🛳️','Dining'],pack:['🧳','Packing'],prep:['✅','Prep'],drives:['🧭','Drives'],home:['🏡','House'],logi:['🚙','Road notes']};
+function guideOrder(w){const plan=guidePlan()[1];const accs=[...w.querySelectorAll(':scope > .acc')];
+  plan.forEach(id=>{const a=accs.find(x=>x.dataset.id===id);if(a)w.appendChild(a);});
+  accs.filter(a=>plan.indexOf(a.dataset.id)<0).forEach(a=>w.appendChild(a));
+  const top=plan.filter(id=>GUIDEQ[id]).slice(0,4);const row=h('div',{class:'qa'});
+  top.forEach(id=>row.appendChild(h('button',{type:'button',on:{click:()=>{S.open[id]=true;render();setTimeout(()=>{const e=document.querySelector('.acc[data-id="'+id+'"]');if(e)e.scrollIntoView({behavior:'smooth',block:'start'});},40);}}},h('i',{text:GUIDEQ[id][0]}),h('b',{text:GUIDEQ[id][1]}))));
+  const first=accs.length?w.querySelector(':scope > .acc'):null;w.insertBefore(row,first);}
 function Home(){
   const cells={};const count=h('div',{class:'count'});
   ['Days','Hours','Min'].forEach(l=>{const b=h('b',{text:'--'});cells[l]=b;count.appendChild(h('div',null,b,h('span',{text:l})));});
@@ -892,6 +921,7 @@ function Home(){
     label.textContent=ti>=0?('Day '+(ti+1)+' of '+DAYS.length+' · '+DAYS[ti].phase):'Home again. What a trip.';}
   clearInterval(tickT);tick();tickT=setInterval(tick,30000);
   const w=h('div',{class:'wrap'});view.appendChild(w);
+  QuickStrip(w);
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];
   w.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>daySheet(d.date)}},
     h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb})));
@@ -901,7 +931,7 @@ function Home(){
   const gh=h('div');w.appendChild(gh);geoCard(gh);if(GEO.on)geoStart();
   const done=b1Done();
   const tiles=h('div',{class:'grid2'});
-  [['book','📕','Book Club',BOOK.intro?(done+' of 8 unlocked'):'Scythe · enter your name'],['games','🎲','Learn & Play','Study cards, six games'],['guide','🧳','Pack & Prep','Budget, menus, home base'],['trip','🗺️','Days & Maps','Road map, cruise map',1]]
+  [['book','📕','Book Club',BOOK.intro?(done+' of 8 unlocked'):'Scythe · enter your name'],['games','🎲','Learn & Play','Study cards, six games'],['guide','🧳','Guide','Budget, places, menus, packing'],['trip','🗺️','Days & Maps','Road map, cruise map',1]]
     .forEach(t=>tiles.appendChild(h('button',{type:'button',class:'tile',on:{click:()=>{if(t[4])S.view='road';go(t[0]);}}},h('i',{text:t[1]}),h('b',{text:t[2]}),h('span',{text:t[3]}))));
   w.appendChild(tiles);
   {const jn=jDone(Store.get('journal',{}));
@@ -1822,9 +1852,9 @@ function Frames(w){
   inp.addEventListener('change',()=>load(inp));cam.addEventListener('change',()=>load(cam));
   const frBlob=fn=>{if(!FRIMG){toast('Add a photo first');return;}cv.toBlob(b=>{if(!b){toast('Could not make the image');return;}fn(b,'galveston-frame-'+st.theme+'-'+st.size+'-'+Date.now()+'.jpg');},'image/jpeg',.92);};
   const acts2=h('div',{class:'row'});
-  acts2.appendChild(h('button',{type:'button',class:'btn',text:'⬇ Save to phone',on:{click:()=>frBlob((b,name)=>{const a=h('a',{href:URL.createObjectURL(b),download:name});document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Saved to Downloads');})}}));
+  acts2.appendChild(h('button',{type:'button',class:'btn',text:'⬇ Save to phone',on:{click:()=>frBlob((b,name)=>{const a=h('a',{href:URL.createObjectURL(b),download:name});document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Saved to Downloads');Store.set('frames_made',true);})}}));
   try{if(navigator.canShare&&navigator.canShare({files:[new File([''],'t.jpg',{type:'image/jpeg'})]}))
-    acts2.appendChild(h('button',{type:'button',class:'btn ghost',text:'↗ Share',on:{click:()=>frBlob((b,name)=>{navigator.share({files:[new File([b],name,{type:'image/jpeg'})],title:'Galveston & the Magic'}).catch(()=>{});})}}));}catch(err){}
+    acts2.appendChild(h('button',{type:'button',class:'btn ghost',text:'↗ Share',on:{click:()=>frBlob((b,name)=>{Store.set('frames_made',true);navigator.share({files:[new File([b],name,{type:'image/jpeg'})],title:'Galveston & the Magic'}).catch(()=>{});})}}));}catch(err){}
   card.insertBefore(acts2,acts.nextSibling);
   const fx=h('div');card.appendChild(fx);
   function fields(){clear(fx);
@@ -1908,7 +1938,7 @@ function Picks(b){
 /* ---------- Guide ---------- */
 function Guide(){
   const w=h('div',{class:'wrap'});view.appendChild(w);
-  w.appendChild(h('h2',{class:'sec',text:'Pack & Prep'}));w.appendChild(h('p',{class:'lead',text:'Tick things off as you go. Each phone keeps its own list.'}));
+  {const ph=guidePlan()[0];w.appendChild(h('h2',{class:'sec',text:'Guide'}));w.appendChild(h('p',{class:'lead',text:({prep:'Getting ready: prep and packing first.',road:'Road days: budget, gas, and stops first.',cruise:'At sea: dining and menus first.',houston:'Houston days: places and drives first.',home:'Heading home: budget and gas first.'})[ph]+' Everything else is below.'}));}
   accordion(w,'prep','✅ Things to prep',countDone('prep',PREP),b=>checklist(b,'prep',PREP));
   accordion(w,'pack','🧳 Packing list',countDone('pack',PACK),b=>checklist(b,'pack',PACK));
   accordion(w,'tips','💡 Packing tips for kids','',b=>{const ul=h('ul',{style:'padding-left:20px;margin:0'});TIPS.forEach(t=>ul.appendChild(h('li',{text:t,style:'font-size:15px;line-height:1.5;margin:6px 0;color:var(--dim)'})));b.appendChild(ul);});
@@ -2000,6 +2030,7 @@ function Guide(){
     [['night','🌙 Night',false],['day','☀️ Day',true]].forEach(o=>seg.appendChild(h('button',{type:'button',class:day===o[2]?'on':'',text:o[1],
       on:{click:()=>{Store.set('daymode',o[2]);applyDayMode(o[2]);render();}}})));
     b.appendChild(h('p',{style:'font-size:14px;line-height:1.45;color:var(--dim);margin:10px 0 0',text:'Night is the default. Day uses a cream page that is easier to read in bright sun. Each phone keeps its own choice.'}));});
+  guideOrder(w);
 }
 
 /* ---------- Games: Learn & Play ---------- */
