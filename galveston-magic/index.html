@@ -149,6 +149,8 @@ body.day .sheet-ov{background:rgba(30,22,5,.4)}
 .pafrow{padding:8px 0;border-bottom:1px solid rgba(201,162,75,.15)}.pafimg{display:block;width:100%;border-radius:10px;background:#fff;margin:4px 0}
 .plrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(201,162,75,.12)}.plrow>div{flex:1;min-width:0}.plrow b{display:block;font-weight:600;font-size:15px;color:var(--cream)}.plrow small{display:block;font-size:12px;color:var(--dim);line-height:1.35}
 .dirbtn{flex:0 0 auto;white-space:nowrap}
+.budpre{white-space:pre-wrap;font:inherit;font-size:13px;line-height:1.5;color:var(--dim);background:rgba(0,0,0,.18);border-radius:10px;padding:8px 10px;margin:8px 0}
+.budshared{margin-top:12px;padding:10px 12px;border:1px solid var(--teal);border-radius:12px}.budshared h3{margin:2px 0}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px}
 .modal-box{background:var(--navy2);border:1px solid var(--brass);border-radius:16px;padding:22px;max-width:90vw;width:340px}
 .modal-box h3{font-family:'Poiret One';font-weight:400;font-size:24px;margin:0 0 8px;color:var(--brass-lt)}
@@ -906,7 +908,7 @@ function QuickStrip(w){const t=tripToday(),road=!!RDAY[t],cruise=t>='2026-11-21'
     ['📸','Frames',Store.get('frames_made',false)?'Make one':'New',()=>{S.kview='frames';go('keep');}],
     ['📕','Book Club',BOOK.intro?b1Done()+' of 8':'Start',()=>go('book')],
     ['🎲','Learn',learn,()=>go('games')],
-    ['💵','Budget',spent?'$'+Math.round(spent).toLocaleString('en-US')+' spent':'Add',()=>expenseSheet(road?'Gas':'Food','')]];
+    ['💵','Budget',spent?'$'+Math.round(spent).toLocaleString('en-US')+' spent':(Store.get('sharedbud',null)?'$'+Math.round(budSummary(Store.get('sharedbud')).spent).toLocaleString('en-US')+' shared':'Add'),()=>expenseSheet(road?'Gas':'Food','')]];
   const row=h('div',{class:'qa'});items.forEach(x=>row.appendChild(h('button',{type:'button','aria-label':x[1]+', '+x[2],on:{click:x[3]}},h('i',{text:x[0]}),h('b',{text:x[1]}),h('small',{text:x[2]}))));
   w.appendChild(row);}
 /* ---------- Guide: most-used sections first, by trip phase ---------- */
@@ -1312,7 +1314,7 @@ function expenseSheet(cat,note,stopId){sheet((box,close)=>{
     const b2=Store.get('budget',{total:0,items:[]});b2.items.push({id:Date.now(),amt:Math.round(v*100)/100,cat:c,note:nt.value.trim(),day:tripToday()});save('budget',b2);
     const spent=b2.items.reduce((a,x)=>a+x.amt,0);close();toast('$'+v.toFixed(2)+' · '+c+' added'+(b2.total?' · $'+Math.max(0,b2.total-spent).toFixed(0)+' left':''));render();};
   nt.addEventListener('keydown',e=>{if(e.key==='Enter')add();});amt.addEventListener('keydown',e=>{if(e.key==='Enter')add();});
-  box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn',text:'Add',on:{click:add}}),h('button',{type:'button',class:'btn ghost sm',text:'Full budget',on:{click:()=>{close();goBudgetGuide(c,nt.value);}}})));
+  box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn',text:'Add',on:{click:add}}),h('button',{type:'button',class:'btn ghost sm',text:'Full budget',on:{click:()=>{close();goBudgetGuide(c,nt.value);}}}),h('button',{type:'button',class:'btn ghost sm',text:'↗ Share',on:{click:()=>{close();shareBudget();}}})));
   if(bud.total){const spent=bud.items.reduce((a,x)=>a+x.amt,0);box.appendChild(h('p',{class:'wxnote',text:'$'+spent.toFixed(2)+' spent of $'+bud.total.toFixed(0)+' so far.'}));}
   setTimeout(()=>amt.focus(),250);});}
 function daySheet(date,hi){const d=DAYS.find(x=>x.date===date);if(!d)return;sheet((box,close)=>{
@@ -1368,6 +1370,46 @@ function portSheet(){sheet((box,close)=>{
   inp.addEventListener('change',()=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;if(f.size>15e6){toast('That file is too big');return;}
     pafPut({id:'f'+Date.now(),name:f.name||'Port arrival form',type:f.type||'application/pdf',blob:f,t:Date.now()}).then(()=>{toast('Saved on this phone');paint();}).catch(()=>toast('Could not save on this phone'));});
   paint();});}
+/* ---------- Budget sharing: a readable summary plus a link that opens the same numbers in the other phone's app.
+   The data rides in the link's #fragment, which browsers never send to a server. ---------- */
+const money2=n=>'$'+(+n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+function b64u(str){return btoa(unescape(encodeURIComponent(str))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
+function unb64u(t){t=t.replace(/-/g,'+').replace(/_/g,'/');while(t.length%4)t+='=';return decodeURIComponent(escape(atob(t)));}
+function budSnap(){const b=Store.get('budget',{total:0,items:[]});return {v:1,ts:Date.now(),by:Store.get('budname',''),total:b.total||0,items:b.items.map(x=>[x.amt,x.cat,(x.note||'').slice(0,40),x.day])};}
+function budSummary(sn){const spent=sn.items.reduce((a,x)=>a+x[0],0),by={};sn.items.forEach(x=>{by[x[1]]=(by[x[1]]||0)+x[0];});
+  const when=new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,weekday:'short',hour:'numeric',minute:'2-digit'}).format(new Date(sn.ts));
+  const L=['💵 Trip budget update'+(sn.by?' from '+sn.by:'')+' · '+when+' AZ'];
+  L.push(sn.total?'Spent '+money2(spent)+' of '+money2(sn.total)+(spent>sn.total?' · over by '+money2(spent-sn.total):' · '+money2(sn.total-spent)+' left'):'Spent so far: '+money2(spent));
+  CATS.filter(c=>by[c]).forEach(c=>L.push('  '+c+': '+money2(by[c])));
+  const last=sn.items.slice(-5).reverse();if(last.length){L.push('Latest:');last.forEach(x=>L.push('  '+money2(x[0])+' · '+x[1]+(x[2]?' · '+x[2]:'')));}
+  return {text:L.join('\n'),spent};}
+function shareBudget(){sheet((box,close)=>{
+  box.appendChild(h('span',{class:'phase',text:'Share the budget'}));box.appendChild(h('h3',{text:'↗ Send an update'}));
+  const nm=h('input',{type:'text',maxlength:'20',placeholder:'Your name (optional)','aria-label':'Your name'});nm.value=Store.get('budname','');box.appendChild(nm);
+  const pre=h('pre',{class:'budpre'});box.appendChild(pre);
+  const build=()=>{Store.set('budname',nm.value.trim());const sn=budSnap();const url=location.href.split('#')[0].split('?')[0]+'#bud='+b64u(JSON.stringify(sn));
+    return {sn,url,text:budSummary(sn).text+'\n\nOpen it in the trip app: '+url};};
+  const paint=()=>{pre.textContent=budSummary(budSnap()).text;};nm.addEventListener('input',()=>{Store.set('budname',nm.value.trim());paint();});paint();
+  const row=h('div',{class:'row'});box.appendChild(row);
+  if(navigator.share)row.appendChild(h('button',{type:'button',class:'btn',text:'↗ Share',on:{click:()=>{const x=build();navigator.share({title:'Trip budget',text:x.text}).then(()=>{close();toast('Budget sent');}).catch(()=>{});}}}));
+  row.appendChild(h('button',{type:'button',class:navigator.share?'btn ghost':'btn',text:'Copy',on:{click:()=>{const x=build();
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(x.text).then(()=>toast('Copied. Paste it into a text to Kat.')).catch(()=>textModal('Budget update',x.text));else textModal('Budget update',x.text);}}}));
+  box.appendChild(h('p',{class:'wxnote',text:'The link opens these numbers in the other phone’s trip app. It is a snapshot, so send a fresh one after new spending. The numbers travel in the message itself, not through any server.'}));});}
+function sharedBudCard(parent,compact){const sb=Store.get('sharedbud',null);if(!sb)return;const sm=budSummary(sb);
+  const when=new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(sb.ts));
+  const c=h('div',{class:'budshared'});parent.appendChild(c);
+  c.appendChild(h('span',{class:'phase',text:'Shared'+(sb.by?' by '+sb.by:'')+' · '+when}));
+  c.appendChild(h('h3',{text:sb.total?money2(Math.max(0,sb.total-sm.spent))+' left of '+money2(sb.total):money2(sm.spent)+' spent'}));
+  if(sb.total){c.appendChild(h('div',{class:'qbar'},h('i',{style:'width:'+Math.min(100,sm.spent/sb.total*100)+'%'+(sm.spent>sb.total?';background:var(--coral)':'')})));c.appendChild(h('p',{style:'margin:2px 0 0;font-size:14px;color:var(--dim)',text:money2(sm.spent)+' spent'}));}
+  if(!compact){const pre=h('pre',{class:'budpre'});pre.textContent=sm.text.split('\n').slice(2).join('\n');c.appendChild(pre);}
+  c.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Clear',on:{click:()=>showModal({title:'Clear the shared budget?',message:'This removes the snapshot from this phone. Your own expenses are not touched.',confirmText:'Clear',cancelText:'Keep',onConfirm:()=>{Store.set('sharedbud',null);localStorage.removeItem('gm26_sharedbud');render();}})}})));}
+function budFromLink(){const m=/#bud=([A-Za-z0-9_-]+)/.exec(location.hash||'');if(!m)return;
+  try{const sn=JSON.parse(unb64u(m[1]));if(!sn||sn.v!==1||!Array.isArray(sn.items))throw 0;
+    const cur=Store.get('sharedbud',null);if(!cur||sn.ts>=cur.ts)Store.set('sharedbud',sn);
+    history.replaceState(null,'',location.href.split('#')[0]);render();
+    setTimeout(()=>sheet(box=>{box.appendChild(h('span',{class:'phase',text:'Budget update received'}));sharedBudCard(box,false);
+      box.appendChild(h('p',{class:'wxnote',text:'Saved in Guide › Trip budget on this phone. A newer link replaces it.'}));}),300);}
+  catch(e){toast('That budget link could not be read');history.replaceState(null,'',location.href.split('#')[0]);}}
 function openPick(id){const p=PICKS.find(x=>x.id===id);if(p){sheet((box,close)=>{box.appendChild(pickDetail(p,null,false));
   box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'All places in Guide',on:{click:()=>{close();openPickGuide(id);}}})));});return;}openPickGuide(id);}
 function openPickGuide(id){S.pf='all';S.pk=id;S.open.places=true;go('guide');setTimeout(()=>{const e=document.querySelector('.pk.sel');if(e&&e.scrollIntoView)e.scrollIntoView({block:'center'});},80);}
@@ -2083,7 +2125,9 @@ function Guide(){
       b.appendChild(h('div',{class:'sub',text:'Every expense'}));
       bud.items.slice().reverse().forEach(x=>b.appendChild(h('div',{class:'rl',style:'border-color:rgba(201,162,75,.15)'},h('div',{class:'t',style:'color:var(--cream)'},money(x.amt)+' · '+x.cat,h('small',{style:'color:var(--dim)',text:(x.note?x.note+' · ':'')+x.day.slice(5).replace('-','/')})),
         h('button',{type:'button',class:'btn ghost sm','aria-label':'Remove expense',text:'✕',on:{click:()=>showModal({title:'Remove this expense?',message:money(x.amt)+' · '+x.cat+(x.note?' · '+x.note:''),confirmText:'Remove',cancelText:'Keep',onConfirm:()=>{bud.items=bud.items.filter(y=>y.id!==x.id);save('budget',bud);render();}})}}))));}
-    b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Saved on this phone only. Each phone keeps its own list, so pick one phone to be the ledger.'}));});
+    b.appendChild(h('div',{class:'row',style:'margin-top:10px'},h('button',{type:'button',class:'btn',text:'↗ Share budget',on:{click:shareBudget}})));
+    sharedBudCard(b,false);
+    b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:10px 0 0',text:'Saved on this phone only. Each phone keeps its own list, so pick one phone to be the ledger and share updates from it.'}));});
   accordion(w,'places','📍 Places to eat and visit',PICKS.length+' picks',b=>Picks(b));
   accordion(w,'logi','🚙 Road and port notes','',b=>{const ul=h('ul',{style:'padding-left:20px;margin:0'});LOGI.forEach(t=>ul.appendChild(h('li',{text:t,style:'font-size:15px;line-height:1.5;margin:6px 0;color:var(--dim)'})));b.appendChild(ul);});
   accordion(w,'settings','⚙️ Settings',' ',b=>{
@@ -2252,6 +2296,8 @@ function ReadingList(w){
 
 if(window.FamilyDrive)FamilyDrive.start({toast});
 render();
+budFromLink();
+window.addEventListener('hashchange',budFromLink);
 if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
 })();
 </script>
