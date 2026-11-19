@@ -151,6 +151,11 @@ body.day .sheet-ov{background:rgba(30,22,5,.4)}
 .dirbtn{flex:0 0 auto;white-space:nowrap}
 .budpre{white-space:pre-wrap;font:inherit;font-size:13px;line-height:1.5;color:var(--dim);background:rgba(0,0,0,.18);border-radius:10px;padding:8px 10px;margin:8px 0}
 .budshared{margin-top:12px;padding:10px 12px;border:1px solid var(--teal);border-radius:12px}.budshared h3{margin:2px 0}
+.budhero{text-align:center;padding:10px 12px 8px;margin:6px 0 8px;border:1px solid var(--teal);border-radius:14px;background:rgba(79,195,247,.06)}
+.budhero small{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
+.budhero b{display:block;font-family:'Poiret One',serif;font-weight:400;font-size:40px;line-height:1.15;color:var(--brass-lt)}
+.budhero span{display:block;font-size:13px;color:var(--dim)}.budhero .qbar{margin:6px 0 4px}
+.budhero.over{border-color:var(--coral)}.budhero.over small,.budhero.over b{color:var(--coral)}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px}
 .modal-box{background:var(--navy2);border:1px solid var(--brass);border-radius:16px;padding:22px;max-width:90vw;width:340px}
 .modal-box h3{font-family:'Poiret One';font-weight:400;font-size:24px;margin:0 0 8px;color:var(--brass-lt)}
@@ -908,7 +913,8 @@ function QuickStrip(w){const t=tripToday(),road=!!RDAY[t],cruise=t>='2026-11-21'
     ['📸','Frames',Store.get('frames_made',false)?'Make one':'New',()=>{S.kview='frames';go('keep');}],
     ['📕','Book Club',BOOK.intro?b1Done()+' of 8':'Start',()=>go('book')],
     ['🎲','Learn',learn,()=>go('games')],
-    ['💵','Budget',spent?'$'+Math.round(spent).toLocaleString('en-US')+' spent':(Store.get('sharedbud',null)?'$'+Math.round(budSummary(Store.get('sharedbud')).spent).toLocaleString('en-US')+' shared':'Add'),()=>expenseSheet(road?'Gas':'Food','')]];
+    ['💵','Budget',(()=>{const r=n=>'$'+Math.round(Math.abs(n)).toLocaleString('en-US');if(bud.total)return spent>bud.total?r(spent-bud.total)+' over':r(bud.total-spent)+' left';if(spent)return r(spent)+' spent';
+      const sb=Store.get('sharedbud',null);if(sb){const sp=budSummary(sb).spent;return sb.total?(sp>sb.total?r(sp-sb.total)+' over':r(sb.total-sp)+' left'):r(sp)+' spent';}return 'Add';})(),()=>expenseSheet(road?'Gas':'Food','')]];
   const row=h('div',{class:'qa'});items.forEach(x=>row.appendChild(h('button',{type:'button','aria-label':x[1]+', '+x[2],on:{click:x[3]}},h('i',{text:x[0]}),h('b',{text:x[1]}),h('small',{text:x[2]}))));
   w.appendChild(row);}
 /* ---------- Guide: most-used sections first, by trip phase ---------- */
@@ -1315,7 +1321,7 @@ function expenseSheet(cat,note,stopId){sheet((box,close)=>{
     const spent=b2.items.reduce((a,x)=>a+x.amt,0);close();toast('$'+v.toFixed(2)+' · '+c+' added'+(b2.total?' · $'+Math.max(0,b2.total-spent).toFixed(0)+' left':''));render();};
   nt.addEventListener('keydown',e=>{if(e.key==='Enter')add();});amt.addEventListener('keydown',e=>{if(e.key==='Enter')add();});
   box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn',text:'Add',on:{click:add}}),h('button',{type:'button',class:'btn ghost sm',text:'Full budget',on:{click:()=>{close();goBudgetGuide(c,nt.value);}}}),h('button',{type:'button',class:'btn ghost sm',text:'↗ Share',on:{click:()=>{close();shareBudget();}}})));
-  if(bud.total){const spent=bud.items.reduce((a,x)=>a+x.amt,0);box.appendChild(h('p',{class:'wxnote',text:'$'+spent.toFixed(2)+' spent of $'+bud.total.toFixed(0)+' so far.'}));}
+  if(bud.total){const spent=bud.items.reduce((a,x)=>a+x.amt,0);box.appendChild(budHero(bud.total-spent,spent,bud.total));}
   setTimeout(()=>amt.focus(),250);});}
 function daySheet(date,hi){const d=DAYS.find(x=>x.date===date);if(!d)return;sheet((box,close)=>{
   box.appendChild(h('span',{class:'phase',text:d.dow+' Nov '+d.md+' · '+d.phase}));box.appendChild(h('h3',{text:d.title}));box.appendChild(h('p',{style:'margin:0 0 6px',text:d.blurb}));
@@ -1376,10 +1382,15 @@ const money2=n=>'$'+(+n).toLocaleString('en-US',{minimumFractionDigits:2,maximum
 function b64u(str){return btoa(unescape(encodeURIComponent(str))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
 function unb64u(t){t=t.replace(/-/g,'+').replace(/_/g,'/');while(t.length%4)t+='=';return decodeURIComponent(escape(atob(t)));}
 function budSnap(){const b=Store.get('budget',{total:0,items:[]});return {v:1,ts:Date.now(),by:Store.get('budname',''),total:b.total||0,items:b.items.map(x=>[x.amt,x.cat,(x.note||'').slice(0,40),x.day])};}
+function budHero(left,spent,total){const over=left<0;const c=h('div',{class:'budhero'+(over?' over':'')});
+  c.appendChild(h('small',{text:over?'Over budget by':'Left to spend'}));c.appendChild(h('b',{text:money2(Math.abs(left))}));
+  if(total)c.appendChild(h('div',{class:'qbar'},h('i',{style:'width:'+Math.min(100,spent/total*100)+'%'+(over?';background:var(--coral)':'')})));
+  c.appendChild(h('span',{text:money2(spent)+' spent so far'}));return c;}
 function budSummary(sn){const spent=sn.items.reduce((a,x)=>a+x[0],0),by={};sn.items.forEach(x=>{by[x[1]]=(by[x[1]]||0)+x[0];});
   const when=new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,weekday:'short',hour:'numeric',minute:'2-digit'}).format(new Date(sn.ts));
   const L=['💵 Trip budget update'+(sn.by?' from '+sn.by:'')+' · '+when+' AZ'];
-  L.push(sn.total?'Spent '+money2(spent)+' of '+money2(sn.total)+(spent>sn.total?' · over by '+money2(spent-sn.total):' · '+money2(sn.total-spent)+' left'):'Spent so far: '+money2(spent));
+  if(sn.total)L.unshift(spent>sn.total?'⚠️ OVER BUDGET BY '+money2(spent-sn.total):'💰 '+money2(sn.total-spent)+' LEFT in the trip budget');
+  L.push('Spent so far: '+money2(spent));
   CATS.filter(c=>by[c]).forEach(c=>L.push('  '+c+': '+money2(by[c])));
   const last=sn.items.slice(-5).reverse();if(last.length){L.push('Latest:');last.forEach(x=>L.push('  '+money2(x[0])+' · '+x[1]+(x[2]?' · '+x[2]:'')));}
   return {text:L.join('\n'),spent};}
@@ -1399,9 +1410,8 @@ function sharedBudCard(parent,compact){const sb=Store.get('sharedbud',null);if(!
   const when=new Intl.DateTimeFormat('en-US',{timeZone:AZ.tz,weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(sb.ts));
   const c=h('div',{class:'budshared'});parent.appendChild(c);
   c.appendChild(h('span',{class:'phase',text:'Shared'+(sb.by?' by '+sb.by:'')+' · '+when}));
-  c.appendChild(h('h3',{text:sb.total?money2(Math.max(0,sb.total-sm.spent))+' left of '+money2(sb.total):money2(sm.spent)+' spent'}));
-  if(sb.total){c.appendChild(h('div',{class:'qbar'},h('i',{style:'width:'+Math.min(100,sm.spent/sb.total*100)+'%'+(sm.spent>sb.total?';background:var(--coral)':'')})));c.appendChild(h('p',{style:'margin:2px 0 0;font-size:14px;color:var(--dim)',text:money2(sm.spent)+' spent'}));}
-  if(!compact){const pre=h('pre',{class:'budpre'});pre.textContent=sm.text.split('\n').slice(2).join('\n');c.appendChild(pre);}
+  if(sb.total)c.appendChild(budHero(sb.total-sm.spent,sm.spent,sb.total));else c.appendChild(h('h3',{text:money2(sm.spent)+' spent'}));
+  if(!compact){const pre=h('pre',{class:'budpre'});pre.textContent=sm.text.split('\n').filter(l=>!/^(💰|⚠️|💵|Spent so far)/.test(l)).join('\n');c.appendChild(pre);}
   c.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Clear',on:{click:()=>showModal({title:'Clear the shared budget?',message:'This removes the snapshot from this phone. Your own expenses are not touched.',confirmText:'Clear',cancelText:'Keep',onConfirm:()=>{Store.set('sharedbud',null);localStorage.removeItem('gm26_sharedbud');render();}})}})));}
 function budFromLink(){const m=/#bud=([A-Za-z0-9_-]+)/.exec(location.hash||'');if(!m)return;
   try{const sn=JSON.parse(unb64u(m[1]));if(!sn||sn.v!==1||!Array.isArray(sn.items))throw 0;
@@ -2109,10 +2119,12 @@ function Guide(){
   accordion(w,'port','🎟️ Port arrival form','Fri 12:30',b=>{b.appendChild(h('p',{style:'margin:0 0 8px',text:'Arrive Fri Nov 20, 12:30 to 12:45 PM · boarding group 11 · assembly station F · 2702 Harborside Drive.'}));b.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn sm',text:'🎟️ Open my form',on:{click:portSheet}})));});
   accordion(w,'budget','💵 Trip budget',bud.total?money(Math.max(0,bud.total-spent))+' left':money(spent)+' spent',b=>{
     const tot=h('input',{type:'text',inputmode:'decimal',placeholder:'Trip budget in dollars','aria-label':'Trip budget',value:bud.total?String(bud.total):''});
-    tot.addEventListener('change',()=>{const v=parseFloat(tot.value.replace(/[^0-9.]/g,''));bud.total=isFinite(v)&&v>0?v:0;save('budget',bud);render();});
-    b.appendChild(h('div',{class:'row',style:'align-items:center'},h('span',{style:'flex:0 0 64px;font-weight:600',text:'Budget'}),tot));
-    if(bud.total){b.appendChild(h('div',{class:'qbar'},h('i',{style:'width:'+Math.min(100,spent/bud.total*100)+'%'+(spent>bud.total?';background:var(--coral)':'')})));
-      b.appendChild(h('p',{style:'margin:2px 0 0;font-size:14px;color:'+(spent>bud.total?'var(--coral)':'var(--dim)'),text:money(spent)+' spent of '+money(bud.total)+(spent>bud.total?' · over by '+money(spent-bud.total):' · '+money(bud.total-spent)+' left')}));}
+    tot.addEventListener('change',()=>{const v=parseFloat(tot.value.replace(/[^0-9.]/g,''));bud.total=isFinite(v)&&v>0?v:0;save('budget',bud);S.editTot=false;render();});
+    const totRow=h('div',{class:'row',style:'align-items:center'},h('span',{style:'flex:0 0 64px;font-weight:600',text:'Budget'}),tot);
+    if(bud.total){b.appendChild(budHero(bud.total-spent,spent,bud.total));
+      totRow.style.display=S.editTot?'':'none';b.appendChild(totRow);
+      if(!S.editTot)b.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Edit budget amount',on:{click:()=>{S.editTot=true;render();}}})));}
+    else b.appendChild(totRow);
     b.appendChild(h('div',{class:'sub',text:'Add an expense'}));
     const amt=h('input',{type:'text',inputmode:'decimal',placeholder:'Amount','aria-label':'Amount'});const cat=h('select',{'aria-label':'Category'});CATS.forEach(c=>cat.appendChild(h('option',{text:c})));if(S.pendCat&&CATS.indexOf(S.pendCat)>=0){cat.value=S.pendCat;}S.pendCat=null;
     const note=h('input',{type:'text',maxlength:'60',placeholder:'What was it?','aria-label':'What was it'});if(S.pendNote){note.value=S.pendNote.slice(0,60);}S.pendNote=null;
