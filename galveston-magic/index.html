@@ -1911,7 +1911,22 @@ function frShield(g,x,y,w,hh,num){g.save();g.beginPath();
   g.quadraticCurveTo(x+w*.9,y+hh*.86,x+w*.5,y+hh);g.quadraticCurveTo(x+w*.1,y+hh*.86,x+w*.03,y+hh*.62);g.closePath();
   g.fillStyle='#0b3a8f';g.fill();g.save();g.clip();g.fillStyle='#c8202f';g.fillRect(x,y-6,w,hh*.3);g.restore();
   g.lineWidth=5;g.strokeStyle='#fff';g.stroke();g.fillStyle='#fff';g.textAlign='center';g.font='600 '+Math.round(hh*.4)+'px "Josefin Sans",sans-serif';g.fillText(num,x+w/2,y+hh*.74);g.restore();}
-function roadInfo(st){const v=String(st.place||'');if(!v||v==='custom')return {name:(st.custom||'On the road').toUpperCase(),l2:'',l3:''};
+/* Towns along the route for the 'Where we are now' frame stamp: [name, state, lat, lon] */
+const TOWNS=[['Chandler','AZ',33.30,-111.84],['Casa Grande','AZ',32.88,-111.76],['Picacho Peak','AZ',32.65,-111.40],['Marana','AZ',32.44,-111.22],['Tucson','AZ',32.22,-110.97],['Vail','AZ',32.05,-110.71],['Benson','AZ',31.97,-110.29],['Willcox','AZ',32.25,-109.83],['Bowie','AZ',32.33,-109.49],['San Simon','AZ',32.27,-109.22],
+ ['AZ–NM state line','AZ / NM',32.27,-109.05],['Lordsburg','NM',32.35,-108.71],['Deming','NM',32.27,-107.76],['Las Cruces','NM',32.32,-106.76],['Anthony','NM / TX',32.00,-106.60],
+ ['El Paso','TX',31.76,-106.45],['Fabens','TX',31.50,-106.16],['Fort Hancock','TX',31.30,-105.85],['Sierra Blanca','TX',31.17,-105.36],['Van Horn','TX',31.04,-104.83],['Kent','TX',31.07,-104.22],['Balmorhea','TX',30.98,-103.74],['Fort Stockton','TX',30.89,-102.88],['Sheffield','TX',30.69,-101.82],['Ozona','TX',30.71,-101.20],['Sonora','TX',30.57,-100.64],['Junction','TX',30.49,-99.77],['Kerrville','TX',30.05,-99.14],['Comfort','TX',29.97,-98.91],['Boerne','TX',29.79,-98.73],
+ ['San Antonio','TX',29.42,-98.49],['Seguin','TX',29.57,-97.96],['Luling','TX',29.68,-97.65],['Flatonia','TX',29.69,-97.11],['Schulenburg','TX',29.68,-96.90],['Columbus','TX',29.71,-96.54],['Sealy','TX',29.78,-96.16],['Katy','TX',29.79,-95.82],['Houston','TX',29.76,-95.37],['League City','TX',29.51,-95.09],['Texas City','TX',29.38,-94.90],['Galveston','TX',29.30,-94.80],['Spring','TX',30.08,-95.42],['The Woodlands','TX',30.17,-95.46]];
+function nearTown(lat,lon){let b=null;TOWNS.forEach(t=>{const d=miBetween(lat,lon,t[2],t[3]);if(!b||d<b.d)b={t,d};});return b;}
+function frLocate(done){const use=p=>{GEO.pos=GEO.pos&&GEO.pos.t>p.t?GEO.pos:p;const nt=nearTown(p.lat,p.lon);const wh=whereAmI();
+    const g={name:(nt.d>8&&!/line/.test(nt.t[0])?'Near ':'')+nt.t[0],state:nt.t[1],dist:Math.round(nt.d),t:Date.now()};
+    if(wh&&wh.mile!=null&&wh.off<=25){g.mile=wh.mile;g.tot=wh.tot;if(wh.next){g.next=PLACES[wh.next].n;g.nextMi=wh.nextMi;}}done(g);};
+  if(GEO.pos&&Date.now()-GEO.pos.t<10*60000)return use(GEO.pos);
+  if(!navigator.geolocation){done(null,'This browser cannot share location.');return;}
+  navigator.geolocation.getCurrentPosition(p=>use({lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()}),
+    e=>done(null,e.code===1?'Location is blocked. Allow it for this site in Chrome settings, then try again.':'Could not get a location fix. Try again near a window.'),{enableHighAccuracy:false,maximumAge:120000,timeout:20000});}
+function roadInfo(st){const v=String(st.place||'');
+  if(v==='gps'){const g=st.gps;if(!g)return {name:'WHERE WE ARE',l2:'',l3:''};
+    return {name:g.name.toUpperCase(),l2:g.state+(g.mile!=null?' · Mile '+g.mile.toLocaleString('en-US')+' of '+g.tot.toLocaleString('en-US'):''),l3:g.next?'Next: '+g.next+' · '+g.nextMi+' mi':''};}if(!v||v==='custom')return {name:(st.custom||'On the road').toUpperCase(),l2:'',l3:''};
   const dir=v[0],id=v.slice(2),ids=ROUTES[dir],i=ids.indexOf(id),mi=MILES[dir],tot=mi[ids[ids.length-1]];const nx=ids[i+1];
   return {name:PLACES[id].n.toUpperCase(),l2:STATEOF[id]+' · Mile '+mi[id].toLocaleString('en-US')+' of '+tot.toLocaleString('en-US'),
     l3:nx?('Next: '+PLACES[nx].n+' · '+(mi[nx]-mi[id])+' mi'):(dir==='e'?'Next: the ship':'Home sweet home')};}
@@ -1974,7 +1989,7 @@ function Frames(w){
   const card=h('div',{class:'card','data-id':'frames'});w.appendChild(card);
   card.appendChild(h('span',{class:'phase',text:'Photo frames'}));card.appendChild(h('h3',{text:'📸 Trip frames'}));
   card.appendChild(h('p',{text:'Add a photo, pick a frame, then save or share it. Road trip stamps your spot on I-10, Cruise sets it in a brass porthole, and Thanksgiving pins it to a kraft-paper table.'}));
-  const tdy=tripToday();const st=Object.assign({theme:'road',size:'post',place:'e:tucson',custom:'',caption:'',cday:CRUISE_DAYS.some(c=>c[0]===tdy)?tdy:'2026-11-21'},Store.get('frames',{}));
+  const tdy=tripToday();const st=Object.assign({theme:'road',size:'post',place:'gps',custom:'',caption:'',cday:CRUISE_DAYS.some(c=>c[0]===tdy)?tdy:'2026-11-21'},Store.get('frames',{}));
   const sv=()=>save('frames',st);
   const themes=h('div',{class:'seg'});card.appendChild(themes);
   FR_THEMES.forEach(t=>themes.appendChild(h('button',{type:'button',class:st.theme===t[0]?'on':'',text:t[1],on:{click:()=>{st.theme=t[0];sv();[...themes.children].forEach((b,i)=>b.classList.toggle('on',FR_THEMES[i][0]===t[0]));fields();draw();}}})));
@@ -1997,10 +2012,16 @@ function Frames(w){
   function fields(){clear(fx);
     if(st.theme==='road'){const sel=h('select',{'aria-label':'Where are we',style:'flex:1 1 100%'});
       [['e','East · Nov 19–20'],['w','Home · Nov 28–29']].forEach(g0=>{const og=h('optgroup',{label:g0[1]});ROUTES[g0[0]].forEach(id=>{const o=h('option',{value:g0[0]+':'+id,text:PLACES[id].n});if(st.place===g0[0]+':'+id)o.selected=true;og.appendChild(o);});sel.appendChild(og);});
+      const og=h('option',{value:'gps',text:'📍 Where we are now'});if(st.place==='gps')og.selected=true;sel.insertBefore(og,sel.firstChild);
       const oc=h('option',{value:'custom',text:'Somewhere else'});if(st.place==='custom')oc.selected=true;sel.appendChild(oc);
+      const gl=h('div',{class:'row gpsrow',style:'display:'+(st.place==='gps'?'flex':'none')});const gtx=h('span',{text:''});
+      const locate=()=>{gtx.textContent='📍 Finding the nearest town…';frLocate((g,err)=>{if(!g){gtx.textContent='📍 '+err;return;}st.gps=g;sv();
+        gtx.textContent='📍 '+g.name+', '+g.state+(g.dist&&!/line/.test(g.name)?' · '+g.dist+' mi from town':'')+(g.mile!=null?' · mile '+g.mile:'');draw();});};
+      gl.append(gtx,h('button',{type:'button',class:'btn ghost sm',text:'↻ Update',on:{click:locate}}));
       const cu=h('input',{type:'text',maxlength:'28','aria-label':'Place name',placeholder:'Place name',value:st.custom||'',style:'flex:1 1 100%;display:'+(st.place==='custom'?'block':'none')});
-      sel.addEventListener('change',()=>{st.place=sel.value;sv();cu.style.display=st.place==='custom'?'block':'none';draw();});
-      cu.addEventListener('input',()=>{st.custom=cu.value;sv();draw();});fx.appendChild(h('div',{class:'row'},sel,cu));}
+      sel.addEventListener('change',()=>{st.place=sel.value;sv();cu.style.display=st.place==='custom'?'block':'none';gl.style.display=st.place==='gps'?'flex':'none';if(st.place==='gps')locate();draw();});
+      cu.addEventListener('input',()=>{st.custom=cu.value;sv();draw();});fx.appendChild(h('div',{class:'row'},sel,cu));fx.appendChild(gl);
+      if(st.place==='gps'){if(st.gps&&Date.now()-st.gps.t<15*60000)gtx.textContent='📍 '+st.gps.name+', '+st.gps.state+(st.gps.mile!=null?' · mile '+st.gps.mile:'');else locate();}}
     if(st.theme==='cruise'){const sel=h('select',{'aria-label':'Cruise day',style:'flex:1 1 100%'});
       CRUISE_DAYS.forEach((c,i)=>{const dd=DAYS.find(q=>q.date===c[0]);const o=h('option',{value:c[0],text:'Day '+(i+1)+' · '+dd.dow+' Nov '+dd.md+' · '+c[1]});if(st.cday===c[0])o.selected=true;sel.appendChild(o);});
       sel.addEventListener('change',()=>{st.cday=sel.value;sv();draw();});fx.appendChild(h('div',{class:'row'},sel));}
