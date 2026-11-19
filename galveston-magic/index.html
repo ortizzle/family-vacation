@@ -147,6 +147,8 @@ body.day .sheet-ov{background:rgba(30,22,5,.4)}
 .qa i{font-style:normal;font-size:26px}.qa b{font-size:12px;font-weight:600;letter-spacing:.02em}.qa small{font-size:10px;color:var(--teal);line-height:1.1;text-align:center}
 .pfacts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 4px}.pfacts div{border:1px solid var(--brass-dk);border-radius:12px;padding:8px 10px}.pfacts small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}.pfacts b{font-weight:600;font-size:15px}
 .pafrow{padding:8px 0;border-bottom:1px solid rgba(201,162,75,.15)}.pafimg{display:block;width:100%;border-radius:10px;background:#fff;margin:4px 0}
+.plrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(201,162,75,.12)}.plrow>div{flex:1;min-width:0}.plrow b{display:block;font-weight:600;font-size:15px;color:var(--cream)}.plrow small{display:block;font-size:12px;color:var(--dim);line-height:1.35}
+.dirbtn{flex:0 0 auto;white-space:nowrap}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px}
 .modal-box{background:var(--navy2);border:1px solid var(--brass);border-radius:16px;padding:22px;max-width:90vw;width:340px}
 .modal-box h3{font-family:'Poiret One';font-weight:400;font-size:24px;margin:0 0 8px;color:var(--brass-lt)}
@@ -645,6 +647,16 @@ const HUNT=['A hidden Mickey somewhere on the ship','A towel animal in the state
 
 /* ---------- data: maps ---------- */
 const mapsUrl=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+const dirUrl=q=>'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(q)+'&travelmode=driving';
+/* Fast food at each road stop: [name, Maps query, note, direction ''|'e'|'w']. Drive-thru and grab-and-go first. */
+const FAST={
+ tucson:[['Costco food court','Costco 1650 E Tucson Marketplace Blvd Tucson AZ','Fastest: hot dogs and pizza right where you fuel','e'],['In-N-Out Burger','In-N-Out Burger near Tucson Marketplace Blvd Tucson AZ','Drive-thru','e'],['Dutch Bros Coffee','Dutch Bros Coffee near I-10 and Kino Pkwy Tucson AZ','Drive-thru coffee and snacks',''],['McDonald’s','McDonald’s near I-10 and Kino Pkwy Tucson AZ','Drive-thru, often open early','w']],
+ elpaso:[['Chick-fil-A · Kat’s pick','Chick-fil-A 1300 Airway Blvd El Paso TX','Drive-thru, about a mile from Costco. Open to 10 PM, closed Sunday','e'],['Costco food court','Costco 6101 Gateway Blvd W El Paso TX','Right where you fuel. Closes with the warehouse, about 8:30 PM','e'],['Whataburger','Whataburger near I-10 and Airway Blvd El Paso TX','Drive-thru, many open 24 hours',''],['McDonald’s','McDonald’s near I-10 and Airway Blvd El Paso TX','Drive-thru','']],
+ fortstockton:[['Flying J grab-and-go','Flying J 2571 N Front St Fort Stockton TX','Open 24 hours. Fastest: hot food and snacks at the pump',''],['Subway inside Flying J','Flying J 2571 N Front St Fort Stockton TX','Same stop, no extra driving',''],['McDonald’s','McDonald’s near I-10 Fort Stockton TX','Drive-thru','']],
+ sanantonio:[['Whataburger','Whataburger near I-10 and UTSA Blvd San Antonio TX','Drive-thru, many open 24 hours. Taquitos for breakfast',''],['Chick-fil-A','Chick-fil-A near I-10 and UTSA Blvd San Antonio TX','Drive-thru, closed Sunday','w'],['Costco food court','Costco 5611 UTSA Blvd San Antonio TX','Right where you fuel','w'],['Or wait for Buc-ee’s','',"About an hour ahead, open 24 hours",'e']],
+ luling:[['Buc-ee’s grab-and-go','Buc-ee\'s 10070 I-10 Luling TX','Brisket sandwiches and breakfast tacos at the counters. Open 24 hours','']]};
+function dirLink(q,label){return h('a',{class:'btn ghost sm dirbtn',href:dirUrl(q),target:'_blank',rel:'noopener',text:label||'🧭 Directions'});}
+function placeRow(name,note,q){const r=h('div',{class:'plrow'},h('div',null,h('b',{text:name}),note?h('small',{text:note}):null));if(q)r.appendChild(dirLink(q));return r;}
 const I10=[[-111.84,33.30],[-111.6,32.9],[-110.95,32.19],[-110.3,32.0],[-109.05,32.25],[-108.7,32.35],[-107.76,32.27],[-106.77,32.31],[-106.42,31.78],[-105.4,31.1],[-104.83,31.04],[-103.8,31.0],[-102.88,30.89],[-101.2,30.71],[-100.64,30.57],[-99.77,30.49],[-99.14,30.05],[-98.49,29.42],[-97.96,29.57],[-97.65,29.68],[-96.54,29.70],[-95.37,29.76],[-94.80,29.30]];
 const PLACES={
  chandler:{n:'Chandler',at:[-111.84,33.30],plain:{e:'Wheels up at noon on Thursday, Nov 19. Leave with a full tank.',w:'Home, about 8 AM Sunday, Nov 29.'}},
@@ -1002,6 +1014,12 @@ function wxDaily(lat,lon,date){const c=Store.get('wx',{})[lat+','+lon];const dl=
 function roadNow(dir){const P=roadPlan(),log=(Store.get('roadlog',{})[dir])||{};const ids=ROUTES[dir];const hasLog=ids.some(id=>log[id]);
   return {P,log,ids,hasLog,rows:roadFC(dir,depMs(dir,P[dir]),P.p,hasLog?log:null,P.br,tripNow().getTime())};}
 function hrLabel(ms,off){const d=new Date(ms+off*3600000);let hr=d.getUTCHours();const ap=hr>=12?'p':'a';hr=hr%12||12;return hr+ap;}
+/* Directions for road-day plan items, by date and item index */
+const DIRQ={'2026-11-19':{1:'Costco Gasoline 1650 E Tucson Marketplace Blvd Tucson AZ',2:'Costco Gasoline 6101 Gateway Blvd W El Paso TX',3:'Chick-fil-A 1300 Airway Blvd El Paso TX',4:'Flying J 2571 N Front St Fort Stockton TX'},
+ '2026-11-20':{0:it=>/Costco/.test(it[2])?'Costco Gasoline 5611 UTSA Blvd San Antonio TX':'gas station near I-10 San Antonio TX',1:'Buc-ee\'s 10070 I-10 Luling TX',2:'SMP Garage 150 Rosenberg St Galveston TX 77550',3:'Galveston Cruise Terminal 2702 Harborside Drive Galveston TX'},
+ '2026-11-28':{0:'Old Town Spring 403 Main St Spring TX',1:'Costco Gasoline 8185 TX-242 Conroe TX',2:'Costco Gasoline 5611 UTSA Blvd San Antonio TX',3:'Flying J 2571 N Front St Fort Stockton TX'},
+ '2026-11-29':{0:'gas station open 24 hours near I-10 El Paso TX',1:'gas station near I-10 and Kino Pkwy Tucson AZ'}};
+function itemDir(date,i,it){const m=DIRQ[date];if(!m||m[i]==null)return null;return typeof m[i]==='function'?m[i](it):m[i];}
 /* Drive-day plan times follow Road timing (planned departure + check-ins) instead of fixed text. */
 const DRIVEITEMS={'2026-11-19':['e',{0:'chandler',1:'tucson',2:'elpaso',3:'elpaso+25',4:'fortstockton'}],'2026-11-20':['e',{0:'sanantonio',1:'luling',2:'galveston'}],
  '2026-11-28':['w',{1:'spring',2:'sanantonio',3:'fortstockton'}],'2026-11-29':['w',{0:'elpaso',1:'tucson',2:'chandler'}]};
@@ -1261,11 +1279,14 @@ function stopDetail(card,id,dir){const cur=PLACES[id],ids=ROUTES[dir];
     card.appendChild(h('p',{style:'color:var(--brass-lt);font-size:14px;margin:0 0 6px',text:bits.join(' · ')}));}
   if(cur.plain){card.appendChild(h('p',{text:cur.plain[dir]}));}
   else{card.appendChild(h('p',{text:cur.when[dir]}));card.appendChild(h('div',{class:'sub',text:'Off and back on'}));card.appendChild(h('p',{text:cur.ramp[dir]}));
-    bullets(card,'Gas',cur.gas);bullets(card,'Food nearby',cur.food);
+    card.appendChild(h('div',{class:'sub',text:'⛽ Gas'}));
+    cur.gas.forEach(g=>{const nm=g.replace(/\s*\(.*\)\s*$/,''),nt=(/\((.*)\)\s*$/.exec(g)||[])[1]||'';card.appendChild(placeRow(nm,nt,/^Any /.test(nm)?'gas station near '+cur.near:nm+', '+(cur.near||cur.n)));});
+    const fast=(FAST[id]||[]).filter(f=>!f[3]||f[3]===dir);
+    if(fast.length){card.appendChild(h('div',{class:'sub',text:'⚡ Fast food'}));fast.forEach(f=>card.appendChild(placeRow(f[0],f[2],f[1])));}
     card.appendChild(h('div',{class:'sub',text:'Live when you have signal'}));
-    linkRow(card,[['Directions',mapsUrl(cur.q)],['Gas prices now',mapsUrl('gas stations near '+cur.near)],['Restaurants',mapsUrl('restaurants near '+cur.near)]]);
+    linkRow(card,[['🧭 Directions',dirUrl(cur.q)],['Gas prices now',mapsUrl('gas stations near '+cur.near)],['Restaurants',mapsUrl('restaurants near '+cur.near)]]);
     card.appendChild(h('p',{style:'font-size:12px',text:'Gas prices change daily, so they are not stored in the app. The Gas prices button shows today’s numbers.'}));}
-  if(cur.plain&&cur.q)linkRow(card,[['Open in Maps',mapsUrl(cur.q)]]);
+  if(cur.plain&&cur.q)linkRow(card,[['🧭 Directions',dirUrl(cur.q)]]);
   const GA=GASAVG_BY[id];
   if(GA){card.appendChild(h('div',{class:'sub',text:'⛽ Gas stop'}));
     card.appendChild(h('p',{style:'margin:0 0 6px;font-size:14px;color:var(--dim)',text:'Typical regular here: '+GA[0]+' ('+GA[1]+'). The price changes daily, so log what you actually spent.'}));
@@ -1297,9 +1318,9 @@ function expenseSheet(cat,note,stopId){sheet((box,close)=>{
 function daySheet(date,hi){const d=DAYS.find(x=>x.date===date);if(!d)return;sheet((box,close)=>{
   box.appendChild(h('span',{class:'phase',text:d.dow+' Nov '+d.md+' · '+d.phase}));box.appendChild(h('h3',{text:d.title}));box.appendChild(h('p',{style:'margin:0 0 6px',text:d.blurb}));
   const live=driveItems(d),rotn=Store.get('rotation',{});
-  live.items.forEach(it=>{const on=hi&&it[2]===hi[2];
+  live.items.forEach((it,ix)=>{const on=hi&&it[2]===hi[2];const dq=itemDir(d.date,ix,it);
     box.appendChild(h('div',{class:'item'+(it[6]==='a'?' anchor':'')+(on?' nextup':'')},h('div',{class:'time'},it[0],h('small',{text:it[1]+(it[1]==='Ship'||it[1]==='AZ'?' time':'')})),
-      h('div',null,h('h4',{text:(on?'▶ ':'')+(it[6]==='a'?'⚓ ':'')+(it[5]==='Dinner'&&rotn[d.date]?'Dinner at '+rotn[d.date]:it[2])}),h('p',{text:it[3]}))));});
+      h('div',null,h('h4',{text:(on?'▶ ':'')+(it[6]==='a'?'⚓ ':'')+(it[5]==='Dinner'&&rotn[d.date]?'Dinner at '+rotn[d.date]:it[2])}),h('p',{text:it[3]}),dq?dirLink(dq):null)));});
   if(live.note)box.appendChild(h('p',{class:'wxnote',text:live.note}));
   live.notes.forEach(n=>box.appendChild(h('div',{class:'warn',text:'⚠️ '+n})));
   box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Open in Trip (weather, maps, families)',on:{click:()=>{close();S.day=d.date;S.view='days';go('trip');}}})));});}
@@ -1381,7 +1402,7 @@ function InterestCard(host){clear(host);GEO.iAt=GEO.pos?[GEO.pos.lat,GEO.pos.lon
     ids.filter(id=>mi[id]>wh.mile+1).slice(0,2).forEach(id=>{const r=rn.rows[ids.indexOf(id)],pl=PLACES[id],off=TZO[id];
       const dm=mi[id]-wh.mile,eta=tripNow().getTime()+dm/62*3600000;const bits=[dm+' mi','about '+fmtT(eta,off,0).replace(/^\w+ /,'')];
       if(GASAVG_BY[id]&&(id==='tucson'||id==='elpaso'||id==='sanantonio'||id==='spring'))bits.push(costcoGas(eta,off).open?'Costco gas open':'Costco gas closed');
-      const tag=rd[0]==='e'?'Eastbound: ':'Westbound: ';const fd=(pl.food||[]).filter(f=>!/^(East|West)bound: /.test(f)||f.indexOf(tag)===0).map(f=>f.replace(/^(East|West)bound: /,''));
+      const fd=(FAST[id]||[]).filter(f=>f[1]&&(!f[3]||f[3]===rd[0])).map(f=>f[0]);
       if(fd.length)bits.push(fd.slice(0,2).join(', '));
       card.appendChild(h('button',{type:'button',class:'mini',on:{click:()=>stopSheet(id,rd[0])}},pl.n,h('small',{text:bits.join(' · ')})));shown++;});
     const bp=PICKS.find(p=>p.id==='bucees');
@@ -1446,10 +1467,11 @@ function Trip(){
     h('b',{text:'⏱️ Road timing'}),h('p',{text:'See when you reach each stop for any departure time.'})));
   if(RDAY[d.date])RoadProgress(w,RDAY[d.date][0],true);
   let shown=0;const live=driveItems(d);
-  live.items.forEach(it=>{if(S.fam!=='all'&&it[4].indexOf(S.fam)<0)return;shown++;
+  live.items.forEach((it,ix)=>{if(S.fam!=='all'&&it[4].indexOf(S.fam)<0)return;shown++;
     const meta=h('div',{class:'meta'},h('span',{class:'tag'+(it[6]==='o'?' opt':''),text:it[6]==='o'?'Optional':it[5]}));
     it[4].split('').forEach(k=>meta.appendChild(h('span',{class:'dot',style:'background:'+FAMS[k].color,title:FAMS[k].name})));
     const xc=/\(([A-Z]+\d+)\)/.exec(it[2]);if(xc&&EXC[xc[1]])meta.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'What to expect',on:{click:()=>{S.gv='learn';S.open.exc=true;go('games');}}}));
+    {const dq=itemDir(d.date,ix,it);if(dq)meta.appendChild(dirLink(dq));}
     if(/Port arrival window/.test(it[2]))meta.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'🎟️ My form',on:{click:portSheet}}));
     if(it[5]==='Dinner'&&d.phase.indexOf('Cruise')>=0||it[5]==='Dinner'&&d.date==='2026-11-20')meta.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'Menus',on:{click:()=>{S.open.dine=true;go('guide');}}}));
     w.appendChild(h('div',{class:'item'+(it[6]==='a'?' anchor':'')},h('div',{class:'time'},it[0],h('small',{text:it[1]+(it[1]==='Ship'?' time':it[1]==='AZ'?' time':'')})),
