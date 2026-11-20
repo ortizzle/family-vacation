@@ -342,7 +342,7 @@ const DAYS=[
 {date:'2026-11-20',dow:'Fri',md:'20',phase:'The Drive → The Ship',title:'Gulf by Morning, Sea by Night',blurb:'Sunrise in Hill Country, breakfast on the island, and the ship by afternoon.',items:[
  ['5:00 AM','Texas','San Antonio 24-hour fuel','Mile 980. Costco is closed at this hour, so use any open station on I-10.','c','Fuel'],
  ['6:00 AM','Texas',"Buc-ee's, Luling",'Open around the clock. Clean restrooms, breakfast tacos, and a leg stretch before Houston traffic.','c','Rest'],
- ['10:00 AM','Texas','Arrive at SMP Garage','150 Rosenberg St. Breakfast near the Strand, then park here for the cruise and walk to the terminal.','c','Arrive'],
+ ['10:00 AM','Texas','Arrive in Galveston','Breakfast near the Strand, then park at SMP Garage, 150 Rosenberg St, and walk to the terminal.','c','Arrive'],
  ['12:30 PM','Texas','Port arrival window, 12:30 to 12:45','Cruise terminal, 2702 Harborside Drive. Boarding group 11, assembly station F. Arriving early can mean a wait with little shade or seating. Passports and the port arrival form in hand, not in checked bags.','c','Ship','a'],
  ['3:00 PM','Ship','All aboard','Every family must be on the ship.',ALL,'Ship','a'],
  ['4:00 PM','Ship','Disney Magic sails','Sail-away party on deck as Galveston slips behind.',ALL,'Ship','a'],
@@ -687,7 +687,7 @@ const PLACES={
  luling:{n:'Buc-ee’s Luling',at:[-97.65,29.68],exit:'Exit 632 · US 183',when:{e:'Fri about 6:00 AM · mile 1,035 · breakfast and rest'},
   ramp:{e:'Take exit 632. Buc-ee’s is on the right, about a fifth of a mile. You cannot miss the sign. Rejoin I-10 east from the same exit.'},
   gas:['Buc-ee’s, 10070 I-10 (120 pumps, open 24 hours)'],food:['Chopped brisket sandwiches','Breakfast tacos','Beaver Nuggets','Fudge counter'],q:'Buc-ee\'s 10070 I-10 Luling TX',near:'Buc-ee\'s Luling TX'},
- galveston:{n:'SMP Garage',at:[-94.80,29.30],plain:{e:'SMP Garage, 150 Rosenberg St (25th St), about 10 AM Friday. This is the port’s own garage, a walk from the cruise terminals with no shuttle. Breakfast near the Strand first, then park and board. The car stays here until we are back on Wednesday.',w:''},q:'SMP Garage 150 Rosenberg St Galveston TX 77550'},
+ galveston:{n:'Galveston',at:[-94.80,29.30],plain:{e:'SMP Garage, 150 Rosenberg St (25th St), about 10 AM Friday. This is the port’s own garage, a walk from the cruise terminals with no shuttle. Breakfast near the Strand first, then park and board. The car stays here until we are back on Wednesday.',w:''},q:'SMP Garage 150 Rosenberg St Galveston TX 77550'},
  spring:{n:'Spring',at:[-95.42,30.08],plain:{e:'',w:'Home base. Fill up at The Woodlands or Tomball Costco, then roll out around noon on Saturday, Nov 28.'},q:'Costco Gasoline The Woodlands TX'}};
 const ROUTES={e:['chandler','tucson','elpaso','fortstockton','sanantonio','luling','galveston'],w:['spring','sanantonio','fortstockton','elpaso','tucson','chandler']};
 const COAST=[[-88.5,30.6],[-90,29.2],[-91.5,29.5],[-93.8,29.7],[-94.8,29.3],[-96.4,28.4],[-97.3,27.6],[-97.2,25.9],[-97.8,24.0],[-97.8,22.2],[-97.2,20.8],[-96.1,19.2],[-95.0,18.6],[-94.4,18.15],[-92.7,18.6],[-91.8,18.7],[-90.7,19.4],[-90.5,20.7],[-90.0,21.1],[-88.8,21.4],[-87.1,21.6],[-86.8,21.1],[-87.4,20.2],[-87.5,19.3],[-87.8,18.5],[-88.2,17.4]];
@@ -1047,7 +1047,7 @@ function driveItems(d){const m=DRIVEITEMS[d.date];if(!m)return {items:d.items,no
     return c;});
   const notes=(d.notes||[]).slice();
   if(d.date==='2026-11-19'){const last=rn.rows[rn.rows.length-1],st=portStatus(last.arr,tgtMs(rn.P.t));const ld=latestDep(rn.P.p,rn.P.t,rn.P.br);
-    notes[0]='Leaving '+fmtT(depMs('e',rn.P.e),-7,0).replace(/^\w+ /,'')+' puts you at SMP Garage about '+fmtT(last.arr,-6,0)+' Texas time'+(st[0]==='ok'?', ahead of the '+fmtHM(rn.P.t)+' port arrival target.':(last.arr-tgtMs(rn.P.t))<=15*60000&&rn.P.t==='12:30'?', inside your 12:30 to 12:45 port arrival window. Parking and the walk to the terminal add a little time.':st[0]==='tight'?'. That is a little past the '+fmtHM(rn.P.t)+' target, still well before 3:00 PM all aboard.':'. That is cutting it close to 3:00 PM all aboard.')+(ld?' Latest departure for the target at this pace: '+fmtT(ld,-7,0).replace(/^\w+ /,'')+'.':'');
+    notes[0]='Leaving '+fmtT(depMs('e',rn.P.e),-7,0).replace(/^\w+ /,'')+' puts you in Galveston about '+fmtT(last.arr,-6,0)+' Texas time'+(st[0]==='ok'?', ahead of the '+fmtHM(rn.P.t)+' port arrival target.':(last.arr-tgtMs(rn.P.t))<=15*60000&&rn.P.t==='12:30'?', inside your 12:30 to 12:45 port arrival window. Parking and the walk to the terminal add a little time.':st[0]==='tight'?'. That is a little past the '+fmtHM(rn.P.t)+' target, still well before 3:00 PM all aboard.':'. That is cutting it close to 3:00 PM all aboard.')+(ld?' Latest departure for the target at this pace: '+fmtT(ld,-7,0).replace(/^\w+ /,'')+'.':'');
     const ep=rn.rows[ids.indexOf('elpaso')];if(ep&&ep.arr!=null){const cm=costcoMsg(ep.arr,TZO.elpaso);
       notes[1]='You reach the El Paso Costco around '+fmtT(ep.arr,-7,19)+'. '+cm[1]+(cm[0]==='ok'?' Fill up before dinner.':'')+' Gas station: (915) 774-5203.';}}
   if(m[0]==='e'&&d.date==='2026-11-20'){const sa=rn.rows[ids.indexOf('sanantonio')];if(sa&&sa.arr!=null){const c=costcoGas(sa.arr,TZO.sanantonio);
@@ -1748,7 +1748,7 @@ function Timing(w,dir){
   [['0','No planned breaks'],['1','Break every 2 h']].forEach(b=>bs.appendChild(h('button',{type:'button',class:P.br===b[0]?'on':'',text:b[1],on:{click:()=>setPlan('br',b[0])}})));
   body.appendChild(h('p',{style:'font-size:13px;margin:4px 0',text:P.br==='1'?'Adds 15 minutes for every 2 hours of driving on a leg, for restrooms, snacks, and leg stretches.':'Only the fuel and meal stops are planned. Turn on breaks to add rest stops.'}));
   const sum=h('div',{style:'margin:12px 0 2px;text-align:center'});body.appendChild(sum);
-  sum.appendChild(h('div',{style:'font-size:13px;color:var(--dim)',text:isE?'Estimated arrival at SMP Garage':'Estimated arrival in Chandler'}));
+  sum.appendChild(h('div',{style:'font-size:13px;color:var(--dim)',text:isE?'Estimated arrival in Galveston':'Estimated arrival in Chandler'}));
   sum.appendChild(h('div',{class:'scr','data-id':'eta',style:'font-size:28px;letter-spacing:.06em',text:fmtT(last.arr,TZO[last.id],bd)+(isE?' Texas time':' Arizona time')}));
   if(hasLog)sum.appendChild(h('p',{'data-id':'vs-plan',style:'font-size:14px;margin:4px 0 0;color:'+(dd>=5?'var(--coral)':'var(--teal)'),text:'Plan was '+fmtT(base[base.length-1].arr,TZO[last.id],bd)+'. You are '+pacePhrase(dd)+'.'}));
   if(isE){const d=Math.round((last.arr-tgt)/60000);
