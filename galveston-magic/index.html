@@ -331,7 +331,7 @@ function save(k,v){if(!Store.set(k,v))toast('Could not save on this device');}
 const FAMS={c:{name:'Chris & Kat',color:'var(--c)'},a:{name:"Amy's",color:'var(--a)'},
   m:{name:"Melissa's",color:'var(--m)'},s:{name:"Shay's",color:'var(--s)'}};
 const ALL='cams';
-const DIN=['5:45 PM','Ship','Dinner, Main Dining','Everyone together. Seating can be changed on board.',ALL,'Dinner','a'];
+const DIN=['5:45 PM','Ship','Dinner, first seating','First seating at 5:45 PM in your rotation restaurant. Everyone together.',ALL,'Dinner','a'];
 const SHOW=['8:15 PM','Ship','Evening show','Walt Disney Theatre, everyone.',ALL,'Show','a'];
 
 /* [time, zone, title, detail, parties, tag, flag]  flag: a=booked anchor, o=option */
@@ -361,7 +361,7 @@ const DAYS=[
  ['1:00 PM','Ship','Bibbidi Bobbidi Boutique',"Parker and Teagan at 1:00, Rhett and Byron at 1:30.",'ms','Kids','a'],
  ['5:00 PM','Ship','Mixology (21+)','Until 6:00. Chris and Kat.','c','Tasting','a'],
  DIN,SHOW],
- notes:['Mixology ends at 6:00 and dinner is listed at 5:45. Plan to join dinner a few minutes late.']},
+ notes:['Mixology ends at 6:00 and first seating is at 5:45. Chris and Kat join dinner a few minutes late; Sedona and River can go in with the group.']},
 {date:'2026-11-22',dow:'Sun',md:'22',phase:'The Cruise',title:'Cozumel, Mexico',blurb:'Port day. Three families head ashore and the Ortiz crew gets a quiet ship.',items:[
  ['11:15 AM','Ship','All ashore','Time subject to change.',ALL,'Port','a'],
  ['11:15 AM','Ship','Ship day for the Ortiz crew','Nothing booked on purpose. Short pool lines, empty slides, and reading time.','c','Chill'],
@@ -372,7 +372,7 @@ const DAYS=[
  ['6:00 PM','Ship','All aboard','Time subject to change.',ALL,'Port','a'],
  ['6:30 PM','Ship','Palo Dinner','Until 8:00. Melissa and Jonathan.','m','Dining','a'],
  SHOW],
- notes:['Dinner is listed at 5:45 but all aboard is not until 6:00. Check the seating on board.']},
+ notes:['First seating is at 5:45 and all aboard is 6:00, so families coming back from shore may join dinner late. The Ortiz crew is on board all day.']},
 {date:'2026-11-23',dow:'Mon',md:'23',phase:'The Cruise',title:'Progreso, Mexico',blurb:'The big one: Chichen Itza and a cenote swim with Amy’s family.',items:[
  ['10:30 AM','Ship','All ashore','Time subject to change.',ALL,'Port','a'],
  ['10:45 AM','Ship','VIP Chichen Itza and Cenote Ikil with lunch (PGO21)','Until 5:45. The Ortiz crew and Amy’s family ride together.','ca','Excursion','a'],
@@ -380,7 +380,7 @@ const DAYS=[
  DIN,
  ['6:00 PM','Ship','All aboard','Time subject to change.',ALL,'Port','a'],
  SHOW],
- notes:['Chichen Itza is due back at 5:45, about 15 minutes before all aboard. Disney excursions are protected if the tour runs late, but dinner will need a later seating.','Melissa’s tour ends right at all aboard. Shay’s family has nothing booked in Progreso.']},
+ notes:['Chichen Itza is due back at 5:45, right when first seating starts and about 15 minutes before all aboard. Disney excursions are protected if the tour runs late. Plan to rinse off and join dinner late, or let your server know at breakfast.','Melissa’s tour ends right at all aboard. Shay’s family has nothing booked in Progreso.']},
 {date:'2026-11-24',dow:'Tue',md:'24',phase:'The Cruise',title:'Sea Day',blurb:'Last full day on board. Pack tonight so the morning is easy.',items:[
  ['9:15 AM','Ship','Royal Gathering','Until 9:30. Amy’s and Shay’s families.','as','Kids','a'],
  ['10:30 AM','Ship','Palo Brunch','Until noon. Shay and Tyler.','s','Dining','a'],
@@ -388,7 +388,7 @@ const DAYS=[
  DIN,
  ['6:30 PM','Ship','Palo Dinner','Until 8:00. Chris and Kat.','c','Dining','a'],
  SHOW],
- notes:['Palo Dinner at 6:30 overlaps the 5:45 main dining time for Chris and Kat. Confirm the plan for Sedona and River that night.']},
+ notes:['Palo Dinner at 6:30 overlaps first seating at 5:45. Sedona and River can eat with the group at 5:45 while Chris and Kat go to Palo. Confirm who sits with them.']},
 {date:'2026-11-25',dow:'Wed',md:'25',phase:'Houston',title:'Back on Land',blurb:'Off the ship early, then north to the Spring home base by way of rockets and groceries.',items:[
  ['7:30 AM','Texas','Debarkation begins','Time subject to change. Grab the car from SMP Garage, 150 Rosenberg St.',ALL,'Port','a'],
  ['10:00 AM','Texas','Space Center Houston','NASA’s visitor center, between Galveston and Houston. Plan three to four hours.','c','Option','o'],
