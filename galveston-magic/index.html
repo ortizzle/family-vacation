@@ -156,6 +156,7 @@ body.day .sheet-ov{background:rgba(30,22,5,.4)}
 .budhero small{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
 .budhero b{display:block;font-family:'Poiret One',serif;font-weight:400;font-size:40px;line-height:1.15;color:var(--brass-lt)}
 .budhero span{display:block;font-size:13px;color:var(--dim)}.budhero .qbar{margin:6px 0 4px}
+.cashhero b{font-size:32px}
 .budhero.over{border-color:var(--coral)}.budhero.over small,.budhero.over b{color:var(--coral)}
 .tiprow{align-items:flex-start}.tiprow small{margin-top:2px}.tiprow.done b{text-decoration:line-through;color:var(--dim)}
 .tipchk{flex:0 0 32px;width:32px;height:32px;min-height:32px;margin-top:2px;border:1px solid var(--brass);border-radius:8px;background:transparent;color:var(--teal);font-size:18px;padding:0}
@@ -1325,9 +1326,10 @@ function expenseSheet(cat,note,stopId,amt0){sheet((box,close)=>{
   const nt=h('input',{type:'text',maxlength:'60',placeholder:'What was it?','aria-label':'What was it'});nt.value=(note||'').slice(0,60);box.appendChild(nt);
   const add=()=>{const v=parseFloat(amt.value.replace(/[^0-9.]/g,''));if(!isFinite(v)||v<=0){toast('Enter an amount first');amt.focus();return;}
     const b2=Store.get('budget',{total:0,items:[]});b2.items.push({id:Date.now(),amt:Math.round(v*100)/100,cat:c,note:nt.value.trim(),day:tripToday()});save('budget',b2);
-    const spent=b2.items.reduce((a,x)=>a+x.amt,0);close();toast('$'+v.toFixed(2)+' · '+c+' added'+(b2.total?' · $'+Math.max(0,b2.total-spent).toFixed(0)+' left':''));render();};
+    const spent=b2.items.reduce((a,x)=>a+x.amt,0);close();const tcx=c==='Tips'?tipCash():null;toast('$'+v.toFixed(2)+' · '+c+' added'+(tcx&&tcx.cash?' · $'+tcx.left.toFixed(0)+' cash left':b2.total?' · $'+Math.max(0,b2.total-spent).toFixed(0)+' left':''));render();};
   nt.addEventListener('keydown',e=>{if(e.key==='Enter')add();});amt.addEventListener('keydown',e=>{if(e.key==='Enter')add();});
   box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn',text:'Add',on:{click:add}}),h('button',{type:'button',class:'btn ghost sm',text:'Full budget',on:{click:()=>{close();goBudgetGuide(c,nt.value);}}}),h('button',{type:'button',class:'btn ghost sm',text:'↗ Share',on:{click:()=>{close();shareBudget();}}})));
+  if(c==='Tips'){const tc=tipCash();if(tc.cash)box.appendChild(h('p',{class:'wxnote',style:'font-size:14px;color:var(--teal)',text:'💵 '+money2(tc.left)+' cash left for tips of '+money2(tc.cash)}));}
   if(bud.total){const spent=bud.items.reduce((a,x)=>a+x.amt,0);box.appendChild(budHero(bud.total-spent,spent,bud.total));}
   setTimeout(()=>amt.focus(),250);});}
 function daySheet(date,hi){const d=DAYS.find(x=>x.date===date);if(!d)return;sheet((box,close)=>{
@@ -1388,7 +1390,7 @@ function portSheet(){sheet((box,close)=>{
 const money2=n=>'$'+(+n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 function b64u(str){return btoa(unescape(encodeURIComponent(str))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
 function unb64u(t){t=t.replace(/-/g,'+').replace(/_/g,'/');while(t.length%4)t+='=';return decodeURIComponent(escape(atob(t)));}
-function budSnap(){const b=Store.get('budget',{total:0,items:[]});return {v:1,ts:Date.now(),by:Store.get('budname',''),total:b.total||0,items:b.items.map(x=>[x.amt,x.cat,(x.note||'').slice(0,40),x.day])};}
+function budSnap(){const b=Store.get('budget',{total:0,items:[]});return {v:1,ts:Date.now(),by:Store.get('budname',''),total:b.total||0,cash:Store.get('tipcash',0)||0,items:b.items.map(x=>[x.amt,x.cat,(x.note||'').slice(0,40),x.day])};}
 function budHero(left,spent,total){const over=left<0;const c=h('div',{class:'budhero'+(over?' over':'')});
   c.appendChild(h('small',{text:over?'Over budget by':'Left to spend'}));c.appendChild(h('b',{text:money2(Math.abs(left))}));
   if(total)c.appendChild(h('div',{class:'qbar'},h('i',{style:'width:'+Math.min(100,spent/total*100)+'%'+(over?';background:var(--coral)':'')})));
@@ -1398,6 +1400,7 @@ function budSummary(sn){const spent=sn.items.reduce((a,x)=>a+x[0],0),by={};sn.it
   const L=['💵 Trip budget update'+(sn.by?' from '+sn.by:'')+' · '+when+' AZ'];
   if(sn.total)L.unshift(spent>sn.total?'⚠️ OVER BUDGET BY '+money2(spent-sn.total):'💰 '+money2(sn.total-spent)+' LEFT in the trip budget');
   L.push('Spent so far: '+money2(spent));
+  if(sn.cash){const tu=sn.items.filter(x=>x[1]==='Tips').reduce((a,x)=>a+x[0],0);L.push('💵 Tip cash: '+money2(sn.cash-tu)+' left of '+money2(sn.cash));}
   CATS.filter(c=>by[c]).forEach(c=>L.push('  '+c+': '+money2(by[c])));
   const last=sn.items.slice(-5).reverse();if(last.length){L.push('Latest:');last.forEach(x=>L.push('  '+money2(x[0])+' · '+x[1]+(x[2]?' · '+x[2]:'')));}
   return {text:L.join('\n'),spent};}
@@ -1418,7 +1421,7 @@ function sharedBudCard(parent,compact){const sb=Store.get('sharedbud',null);if(!
   const c=h('div',{class:'budshared'});parent.appendChild(c);
   c.appendChild(h('span',{class:'phase',text:'Shared'+(sb.by?' by '+sb.by:'')+' · '+when}));
   if(sb.total)c.appendChild(budHero(sb.total-sm.spent,sm.spent,sb.total));else c.appendChild(h('h3',{text:money2(sm.spent)+' spent'}));
-  if(!compact){const pre=h('pre',{class:'budpre'});pre.textContent=sm.text.split('\n').filter(l=>!/^(💰|⚠️|💵|Spent so far)/.test(l)).join('\n');c.appendChild(pre);}
+  if(!compact){const pre=h('pre',{class:'budpre'});pre.textContent=sm.text.split('\n').filter(l=>!/^(💰|⚠️|💵 Trip|Spent so far)/.test(l)).join('\n');c.appendChild(pre);}
   c.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Clear',on:{click:()=>showModal({title:'Clear the shared budget?',message:'This removes the snapshot from this phone. Your own expenses are not touched.',confirmText:'Clear',cancelText:'Keep',onConfirm:()=>{Store.set('sharedbud',null);localStorage.removeItem('gm26_sharedbud');render();}})}})));}
 function budFromLink(){const m=/#bud=([A-Za-z0-9_-]+)/.exec(location.hash||'');if(!m)return;
   try{const sn=JSON.parse(unb64u(m[1]));if(!sn||sn.v!==1||!Array.isArray(sn.items))throw 0;
@@ -1435,9 +1438,18 @@ const TIPPLAN=[
  ['roomsvc','Room service delivery','Any night on board','Room service is free, and a dollar or two in cash for the delivery is customary.',null,'Room service delivery'],
  ['extra','Extra thank-yous for the crew','Last night on board · Tue Nov 24','Optional cash in an envelope for a server or stateroom host who went above and beyond.',null,'Extra thank-you, crew'],
  ['debark','Porters at debarkation','Wed Nov 25 · Galveston','Only if a porter helps with bags on the way off. About $1 to $2 per bag.',null,'Porters, debarkation']];
+function tipCash(){const c=Store.get('tipcash',0)||0;const bud=Store.get('budget',{total:0,items:[]});const used=bud.items.filter(x=>x.cat==='Tips').reduce((a,x)=>a+x.amt,0);return {cash:c,used,left:c-used};}
 function TipsBlock(b){const bud=Store.get('budget',{total:0,items:[]});const items=bud.items.filter(x=>x.cat==='Tips');const tot=items.reduce((a,x)=>a+x.amt,0);
   const done=Store.get('tipsdone',{});
   b.appendChild(h('div',{class:'sub',text:'💵 Cash tips · '+money2(tot)+' so far'}));
+  {const tc=tipCash();
+    if(tc.cash&&!S.editCash){const c=h('div',{class:'budhero cashhero'+(tc.left<0?' over':'')},h('small',{text:tc.left<0?'Tips beyond the cash':'Cash left for tips'}),h('b',{text:money2(Math.abs(tc.left))}),
+        h('div',{class:'qbar'},h('i',{style:'width:'+Math.min(100,tc.used/tc.cash*100)+'%'})),h('span',{text:money2(tc.used)+' tipped of '+money2(tc.cash)+' taken out'}));b.appendChild(c);
+      b.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Change cash amount',on:{click:()=>{S.editCash=true;render();}}})));}
+    else{const inp=h('input',{type:'text',inputmode:'decimal',placeholder:'Cash taken out for tips','aria-label':'Cash taken out for tips',value:tc.cash?String(tc.cash):''});
+      const sv=()=>{const v=parseFloat(inp.value.replace(/[^0-9.]/g,''));save('tipcash',isFinite(v)&&v>0?v:0);S.editCash=false;render();};inp.addEventListener('keydown',e=>{if(e.key==='Enter')sv();});
+      b.appendChild(h('div',{class:'row',style:'align-items:center'},inp,h('button',{type:'button',class:'btn sm',text:'Save',on:{click:sv}})));
+      b.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:2px 0 6px',text:'The cash you take out is not counted as spending. Each tip you log comes off it, so the budget only counts what you actually give.'}));}}
   b.appendChild(h('p',{style:'font-size:13px;color:var(--dim);margin:0 0 4px',text:'Bring small bills, about $100 in ones and fives covers everything below. Not cash: crew gratuities ($16 per guest per night, $320 for the four of you) are charged to your stateroom, and drinks carry an automatic 18%. Restaurant tips stay with the meal.'}));
   TIPPLAN.forEach(t=>{const row=h('div',{class:'plrow tiprow'+(done[t[0]]?' done':'')});
     const chk=h('button',{type:'button',class:'tipchk','aria-label':(done[t[0]]?'Undo ':'Mark done: ')+t[1],text:done[t[0]]?'✓':'',on:{click:()=>{const d2=Store.get('tipsdone',{});d2[t[0]]=!d2[t[0]];save('tipsdone',d2);render();}}});
