@@ -157,6 +157,9 @@ body.day .sheet-ov{background:rgba(30,22,5,.4)}
 .budhero b{display:block;font-family:'Poiret One',serif;font-weight:400;font-size:40px;line-height:1.15;color:var(--brass-lt)}
 .budhero span{display:block;font-size:13px;color:var(--dim)}.budhero .qbar{margin:6px 0 4px}
 .budhero.over{border-color:var(--coral)}.budhero.over small,.budhero.over b{color:var(--coral)}
+.tiprow{align-items:flex-start}.tiprow small{margin-top:2px}.tiprow.done b{text-decoration:line-through;color:var(--dim)}
+.tipchk{flex:0 0 32px;width:32px;height:32px;min-height:32px;margin-top:2px;border:1px solid var(--brass);border-radius:8px;background:transparent;color:var(--teal);font-size:18px;padding:0}
+.tiprow.done .tipchk{background:rgba(79,195,247,.15);border-color:var(--teal)}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px}
 .modal-box{background:var(--navy2);border:1px solid var(--brass);border-radius:16px;padding:22px;max-width:90vw;width:340px}
 .modal-box h3{font-family:'Poiret One';font-weight:400;font-size:24px;margin:0 0 8px;color:var(--brass-lt)}
@@ -649,7 +652,7 @@ const GASAVG=[['U.S. average','$4.10','AAA, Nov 5'],['Texas statewide','$3.58','
  ['Houston','about $3.50','Estimate. Houston usually sits at or just under the Texas average.'],['El Paso','about $3.90','Estimate. It is usually the priciest big Texas metro.'],
  ['Costco gas','20 to 30¢ less','Tomball Costco was $3.30 on Jul 22 when AAA Texas was about $3.55.']];
 const GASAVG_BY={chandler:['about $4.28','Phoenix area, AAA Nov 6'],tucson:['about $4.20','estimate'],elpaso:['about $3.90','estimate'],fortstockton:['about $3.70','estimate'],sanantonio:['about $3.50','estimate'],luling:['about $3.45','estimate, Buc-ee’s usually runs low'],spring:['about $3.50, Costco 20 to 30¢ less','estimate']};
-const CATS=['Gas','Food','Groceries','Ship','Excursions','Fun','Lodging','Other'];
+const CATS=['Gas','Food','Groceries','Ship','Excursions','Tips','Fun','Lodging','Other'];
 const BINGO=[['🌵','Saguaro'],['🚂','Freight train'],['🌬️','Wind turbines'],['🤠','Texas flag'],['🌪️','Dust devil'],['🛢️','Oil pumpjack'],['🦫','Buc-ee’s billboard'],['🐄','Cows'],
  ['🪧','Welcome to New Mexico'],['⭐','Welcome to Texas'],['8️⃣','80 mph sign'],['🌅','Sunset'],['🐎','Horse trailer'],['🚛','Truck with 18 wheels, counted'],['🌙','Moon'],['🌄','Sunrise']];
 const HUNT=['A hidden Mickey somewhere on the ship','A towel animal in the stateroom','The ship’s horn playing a tune','A character in a holiday outfit','Soft-serve before lunch','A lifeboat number higher than 10','The ship’s bell','A sunset at sea','A flag from Mexico','Someone from all four families in one photo'];
@@ -1310,12 +1313,12 @@ function stopSheet(id,dir){sheet((box,close)=>{stopDetail(box,id,dir);
   else if(ix>k&&ix<=k+2)row.appendChild(h('button',{type:'button',class:'btn sm',text:ix===0?'✓ We just left':'✓ Check in here',on:{click:()=>{close();logStop(dir,id,true);toast(PLACES[id].n+' logged');}}}));
   row.appendChild(h('button',{type:'button',class:'btn ghost sm',text:'🗺️ Road map',on:{click:()=>{close();S.tab='trip';S.view='road';S.dir=dir;S.stop=id;render();window.scrollTo(0,0);}}}));});}
 /* ---------- quick sheets on Home ---------- */
-function expenseSheet(cat,note,stopId){sheet((box,close)=>{
+function expenseSheet(cat,note,stopId,amt0){sheet((box,close)=>{
   const bud=Store.get('budget',{total:0,items:[]});let c=CATS.indexOf(cat)>=0?cat:'Other';
-  box.appendChild(h('span',{class:'phase',text:'Add an expense'}));box.appendChild(h('h3',{text:c==='Gas'?'⛽ Log gas':'💵 Log a purchase'}));
+  box.appendChild(h('span',{class:'phase',text:'Add an expense'}));box.appendChild(h('h3',{text:c==='Gas'?'⛽ Log gas':c==='Tips'?'💁 Log a tip':'💵 Log a purchase'}));
   const sid=stopId||(note&&ROUTES.e.concat(ROUTES.w).find(id=>PLACES[id]&&note.indexOf(PLACES[id].n)>=0));
   if(c==='Gas'&&sid&&GASAVG_BY[sid])box.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:0 0 6px',text:'Typical regular near '+PLACES[sid].n+': '+GASAVG_BY[sid][0]+'.'}));
-  const amt=h('input',{type:'text',inputmode:'decimal',placeholder:'$0.00','aria-label':'Amount',class:'bigamt'});box.appendChild(amt);
+  const amt=h('input',{type:'text',inputmode:'decimal',placeholder:'$0.00','aria-label':'Amount',class:'bigamt'});if(amt0)amt.value=String(amt0);box.appendChild(amt);
   const chips=h('div',{class:'chips',style:'flex-wrap:wrap'});box.appendChild(chips);
   const paint=()=>[...chips.children].forEach(b=>b.classList.toggle('on',b.textContent===c));
   CATS.forEach(k=>chips.appendChild(h('button',{type:'button',class:'chip',text:k,on:{click:()=>{c=k;paint();}}})));paint();
@@ -1424,6 +1427,23 @@ function budFromLink(){const m=/#bud=([A-Za-z0-9_-]+)/.exec(location.hash||'');i
     setTimeout(()=>sheet(box=>{box.appendChild(h('span',{class:'phase',text:'Budget update received'}));sharedBudCard(box,false);
       box.appendChild(h('p',{class:'wxnote',text:'Saved in Guide › Trip budget on this phone. A newer link replaces it.'}));}),300);}
   catch(e){toast('That budget link could not be read');history.replaceState(null,'',location.href.split('#')[0]);}}
+/* ---------- Tips plan for this trip (Ortiz stateroom: 4 guests, 5 nights) ---------- */
+const TIPPLAN=[
+ ['porters','Port porters','Fri Nov 20 · Galveston','About $1 to $2 per bag, cash, when they take your luggage at the terminal.',null,'Porters, Galveston'],
+ ['crew','Ship crew gratuities','Charged to your stateroom · or prepay in the app','Disney recommends $16 per guest per night. For 4 guests and 5 nights that is $320. It covers your dining server, assistant server, head server, and stateroom host.',320,'Crew gratuities (4 × 5 nights × $16)'],
+ ['guide','Chichen Itza guide and driver','Mon Nov 23 · Progreso','Not included in the tour price. A common amount is $5 to $10 per person for the guide and a few dollars for the driver, cash.',null,'Chichen Itza guide and driver'],
+ ['extra','Extra thank-yous','Last night on board · Tue Nov 24','Optional cash for a server or host who went above and beyond.',null,'Extra thank-you, crew'],
+ ['road','Sit-down meals on land','Road trip and Houston days','Fast food and drive-thru need no tip. Log restaurant tips here or with the meal under Food.',null,'Restaurant tip']];
+function TipsBlock(b){const bud=Store.get('budget',{total:0,items:[]});const items=bud.items.filter(x=>x.cat==='Tips');const tot=items.reduce((a,x)=>a+x.amt,0);
+  const done=Store.get('tipsdone',{});
+  b.appendChild(h('div',{class:'sub',text:'💁 Tips · '+money2(tot)+' so far'}));
+  b.appendChild(h('p',{style:'font-size:13px;color:var(--dim);margin:0 0 4px',text:'Drinks and Palo wine get an 18% service charge added automatically, so no extra tip is needed there.'}));
+  TIPPLAN.forEach(t=>{const row=h('div',{class:'plrow tiprow'+(done[t[0]]?' done':'')});
+    const chk=h('button',{type:'button',class:'tipchk','aria-label':(done[t[0]]?'Undo ':'Mark done: ')+t[1],text:done[t[0]]?'✓':'',on:{click:()=>{const d2=Store.get('tipsdone',{});d2[t[0]]=!d2[t[0]];save('tipsdone',d2);render();}}});
+    row.append(chk,h('div',null,h('b',{text:t[1]}),h('small',{text:t[2]}),h('small',{text:t[3]})),
+      h('button',{type:'button',class:'btn ghost sm dirbtn',text:t[4]?'+ $'+t[4]:'+ Log',on:{click:()=>{const d2=Store.get('tipsdone',{});if(t[4]){d2[t[0]]=true;save('tipsdone',d2);}expenseSheet('Tips',t[5],null,t[4]);}}}));
+    b.appendChild(row);});
+  if(items.length){items.slice().reverse().slice(0,4).forEach(x=>b.appendChild(h('div',{style:'display:flex;justify-content:space-between;font-size:14px;padding:3px 0;color:var(--dim)'},h('span',{text:x.note||'Tip'}),h('span',{style:'color:var(--brass-lt)',text:money2(x.amt)}))));}}
 function openPick(id){const p=PICKS.find(x=>x.id===id);if(p){sheet((box,close)=>{box.appendChild(pickDetail(p,null,false));
   box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'All places in Guide',on:{click:()=>{close();openPickGuide(id);}}})));});return;}openPickGuide(id);}
 function openPickGuide(id){S.pf='all';S.pk=id;S.open.places=true;go('guide');setTimeout(()=>{const e=document.querySelector('.pk.sel');if(e&&e.scrollIntoView)e.scrollIntoView({block:'center'});},80);}
@@ -2177,6 +2197,7 @@ function Guide(){
       bud.items.push({id:Date.now(),amt:Math.round(v*100)/100,cat:cat.value,note:note.value.trim(),day:tripToday()});save('budget',bud);render();};
     note.addEventListener('keydown',e=>{if(e.key==='Enter')add();});
     b.appendChild(h('div',{class:'row'},amt,cat));b.appendChild(h('div',{class:'row'},note,h('button',{type:'button',class:'btn',text:'Add',on:{click:add}})));
+    TipsBlock(b);
     if(bud.items.length){b.appendChild(h('div',{class:'sub',text:'By category'}));const by={};bud.items.forEach(x=>{by[x.cat]=(by[x.cat]||0)+x.amt;});
       CATS.filter(c=>by[c]).forEach(c=>b.appendChild(h('div',{style:'display:flex;justify-content:space-between;font-size:15px;padding:4px 0'},h('span',{text:c}),h('span',{style:'color:var(--brass-lt)',text:money(by[c])}))));
       b.appendChild(h('div',{class:'sub',text:'Every expense'}));
