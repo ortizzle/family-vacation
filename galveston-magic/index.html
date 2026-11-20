@@ -656,7 +656,7 @@ const GASAVG=[['U.S. average','$4.10','AAA, Nov 5'],['Texas statewide','$3.58','
  ['Houston','about $3.50','Estimate. Houston usually sits at or just under the Texas average.'],['El Paso','about $3.90','Estimate. It is usually the priciest big Texas metro.'],
  ['Costco gas','20 to 30¢ less','Tomball Costco was $3.30 on Jul 22 when AAA Texas was about $3.55.']];
 const GASAVG_BY={chandler:['about $4.28','Phoenix area, AAA Nov 6'],tucson:['about $4.20','estimate'],elpaso:['about $3.90','estimate'],fortstockton:['about $3.70','estimate'],sanantonio:['about $3.50','estimate'],luling:['about $3.45','estimate, Buc-ee’s usually runs low'],spring:['about $3.50, Costco 20 to 30¢ less','estimate']};
-const CATS=['Gas','Food','Groceries','Ship','Excursions','Tips','Fun','Lodging','Other'];
+const CATS=['Gas','Food','Drinks','Groceries','Ship','Excursions','Tips','Fun','Lodging','Other'];
 const BINGO=[['🌵','Saguaro'],['🚂','Freight train'],['🌬️','Wind turbines'],['🤠','Texas flag'],['🌪️','Dust devil'],['🛢️','Oil pumpjack'],['🦫','Buc-ee’s billboard'],['🐄','Cows'],
  ['🪧','Welcome to New Mexico'],['⭐','Welcome to Texas'],['8️⃣','80 mph sign'],['🌅','Sunset'],['🐎','Horse trailer'],['🚛','Truck with 18 wheels, counted'],['🌙','Moon'],['🌄','Sunrise']];
 const HUNT=['A hidden Mickey somewhere on the ship','A towel animal in the stateroom','The ship’s horn playing a tune','A character in a holiday outfit','Soft-serve before lunch','A lifeboat number higher than 10','The ship’s bell','A sunset at sea','A flag from Mexico','Someone from all four families in one photo'];
@@ -1360,13 +1360,14 @@ function stopSheet(id,dir){sheet((box,close)=>{stopDetail(box,id,dir);
 /* ---------- quick sheets on Home ---------- */
 function expenseSheet(cat,note,stopId,amt0){sheet((box,close)=>{
   const bud=Store.get('budget',{total:0,items:[]});let c=CATS.indexOf(cat)>=0?cat:'Other';
-  box.appendChild(h('span',{class:'phase',text:'Add an expense'}));box.appendChild(h('h3',{text:c==='Gas'?'⛽ Log gas':c==='Tips'?'💵 Log a cash tip':'💵 Log a purchase'}));
+  box.appendChild(h('span',{class:'phase',text:'Add an expense'}));const ttl=h('h3',{text:c==='Gas'?'⛽ Log gas':c==='Tips'?'💵 Log a cash tip':c==='Drinks'?'🍹 Log drinks':'💵 Log a purchase'});box.appendChild(ttl);
   const sid=stopId||(note&&ROUTES.e.concat(ROUTES.w).find(id=>PLACES[id]&&note.indexOf(PLACES[id].n)>=0));
   if(c==='Gas'&&sid&&GASAVG_BY[sid])box.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:0 0 6px',text:'Typical regular near '+PLACES[sid].n+': '+GASAVG_BY[sid][0]+'.'}));
   const amt=h('input',{type:'text',inputmode:'decimal',placeholder:'$0.00','aria-label':'Amount',class:'bigamt'});if(amt0)amt.value=String(amt0);box.appendChild(amt);
   const chips=h('div',{class:'chips',style:'flex-wrap:wrap'});box.appendChild(chips);
-  const paint=()=>[...chips.children].forEach(b=>b.classList.toggle('on',b.textContent===c));
-  CATS.forEach(k=>chips.appendChild(h('button',{type:'button',class:'chip',text:k,on:{click:()=>{c=k;paint();}}})));paint();
+  const dh=h('p',{class:'wxnote',style:'margin:0 0 4px'});
+  const paint=()=>{[...chips.children].forEach(b=>b.classList.toggle('on',b.textContent===c));dh.textContent=c==='Drinks'?'🍹 Log the total on the receipt you sign. On the ship the 18% service charge is already in it, so no separate tip.':'';ttl.textContent=c==='Gas'?'⛽ Log gas':c==='Tips'?'💵 Log a cash tip':c==='Drinks'?'🍹 Log drinks':'💵 Log a purchase';};
+  CATS.forEach(k=>chips.appendChild(h('button',{type:'button',class:'chip',text:k,on:{click:()=>{c=k;paint();}}})));box.appendChild(dh);paint();
   const nt=h('input',{type:'text',maxlength:'60',placeholder:'What was it?','aria-label':'What was it'});nt.value=(note||'').slice(0,60);box.appendChild(nt);
   const add=()=>{const v=parseFloat(amt.value.replace(/[^0-9.]/g,''));if(!isFinite(v)||v<=0){toast('Enter an amount first');amt.focus();return;}
     const b2=Store.get('budget',{total:0,items:[]});b2.items.push({id:Date.now(),amt:Math.round(v*100)/100,cat:c,note:nt.value.trim(),day:tripToday()});save('budget',b2);
