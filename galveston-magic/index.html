@@ -161,6 +161,9 @@ body.day .sheet-ov{background:rgba(30,22,5,.4)}
 .tiprow{align-items:flex-start}.tiprow small{margin-top:2px}.tiprow.done b{text-decoration:line-through;color:var(--dim)}
 .tipchk{flex:0 0 32px;width:32px;height:32px;min-height:32px;margin-top:2px;border:1px solid var(--brass);border-radius:8px;background:transparent;color:var(--teal);font-size:18px;padding:0}
 .tiprow.done .tipchk{background:rgba(79,195,247,.15);border-color:var(--teal)}
+.abrow{display:flex;gap:10px;padding:6px 0;border-top:1px solid rgba(201,162,75,.12)}.abrow .abt{flex:0 0 72px;font-size:13px;color:var(--brass-lt);padding-top:2px}
+.abrow b{display:block;font-weight:600;font-size:15px}.abrow small{display:block;font-size:12px;color:var(--dim);line-height:1.35}
+.abrow.past{opacity:.45}.abrow.now{background:rgba(79,195,247,.08);border-radius:8px;margin:0 -6px;padding:6px}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px}
 .modal-box{background:var(--navy2);border:1px solid var(--brass);border-radius:16px;padding:22px;max-width:90vw;width:340px}
 .modal-box h3{font-family:'Poiret One';font-weight:400;font-size:24px;margin:0 0 8px;color:var(--brass-lt)}
@@ -911,7 +914,7 @@ function geoCard(host){clear(host);GEO.host=host;
   card.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Open the road map',on:{click:()=>{S.view='road';S.dir=w.dir;S.stop=null;go('trip');}}}),off));}
 
 /* ---------- quick-access strip (Home) ---------- */
-function QuickStrip(w){const t=tripToday(),road=!!RDAY[t],cruise=t>='2026-11-21'&&t<='2026-11-24';
+function QuickStrip(w){const t=tripToday(),cruise=(t>='2026-11-21'&&t<='2026-11-24')||isAboard(),road=!!RDAY[t]&&!cruise;
   const bud=Store.get('budget',{total:0,items:[]}),spent=bud.items.reduce((a,x)=>a+x.amt,0);
   const bg=Store.get('bingo',{}),hunt=countDone('hunt',[['',HUNT]]);
   const learn=t==='2026-11-23'||t==='2026-11-22'?'Maya Qs':cruise?'Hunt '+hunt:road||t<'2026-11-19'?'Bingo '+Object.keys(bg).filter(k=>bg[k]).length+'/16':'Trivia';
@@ -927,7 +930,7 @@ function QuickStrip(w){const t=tripToday(),road=!!RDAY[t],cruise=t>='2026-11-21'
   w.appendChild(row);}
 /* ---------- Guide: most-used sections first, by trip phase ---------- */
 function guidePlan(){const t=tripToday();
-  if(t>='2026-11-21'&&t<='2026-11-24')return ['cruise',['dine','budget','places','pack','logi','wine','gas','drives','home','prep','tips','backup','settings']];
+  if((t>='2026-11-21'&&t<='2026-11-24')||isAboard())return ['cruise',['dine','budget','places','pack','logi','wine','gas','drives','home','prep','tips','backup','settings']];
   if(t>='2026-11-25'&&t<='2026-11-27')return ['houston',['places','budget','drives','home','gas','dine','pack','logi','prep','wine','tips','backup','settings']];
   if(t>='2026-11-28')return ['home',['budget','gas','places','logi','home','drives','pack','dine','prep','wine','tips','backup','settings']];
   if(t>='2026-11-19')return ['road',[...(t==='2026-11-19'||t==='2026-11-20'?['port']:[]),'budget','gas','places','logi','dine','pack','prep','wine','drives','home','tips','backup','settings']];
@@ -939,6 +942,42 @@ function guideOrder(w){const plan=guidePlan()[1];const accs=[...w.querySelectorA
   const top=plan.filter(id=>GUIDEQ[id]).slice(0,4);const row=h('div',{class:'qa'});
   top.forEach(id=>row.appendChild(h('button',{type:'button',on:{click:()=>{S.open[id]=true;render();setTimeout(()=>{const e=document.querySelector('.acc[data-id="'+id+'"]');if(e)e.scrollIntoView({behavior:'smooth',block:'start'});},40);}}},h('i',{text:GUIDEQ[id][0]}),h('b',{text:GUIDEQ[id][1]}))));
   const first=accs.length?w.querySelector(':scope > .acc'):null;w.insertBefore(row,first);}
+/* ---------- Cruise mode on Home ---------- */
+function isAboard(){const t=tripToday();return t==='2026-11-20'&&(Store.get('aboard',false)||tripNow().getTime()>=Date.UTC(2026,10,20,19,30));}
+function shipNow(){const d=new Date(tripNow().getTime()-6*3600000);return d.getUTCHours()*60+d.getUTCMinutes();}
+function itMin(it){const m=/^(\d+):(\d+) (AM|PM)/.exec(it[0]);if(!m)return null;return (+m[1]%12)*60+(+m[2])+(m[3]==='PM'?720:0);}
+function rotFor(date){return Store.get('rotation',{})[date]||null;}
+function menuSheet(name){const e=DINE.find(x=>x[0]===name);if(!e)return;sheet(box=>{box.appendChild(h('span',{class:'phase',text:e[1]}));box.appendChild(h('h3',{text:e[0]}));
+  box.appendChild(h('p',{style:'font-size:14px;color:var(--dim)',text:e[2]}));e[3].forEach(sec=>{box.appendChild(h('div',{class:'sub',text:sec[0]}));const ul=h('ul',{class:'lst'});sec[1].forEach(t=>ul.appendChild(h('li',{text:t})));box.appendChild(ul);});
+  if(e[4])box.appendChild(h('p',{class:'wxnote',text:e[4]}));});}
+function rotationSheet(){sheet((box,close)=>{const rot=Store.get('rotation',{});
+  box.appendChild(h('span',{class:'phase',text:'Dinner rotation'}));box.appendChild(h('h3',{text:'🍽️ Our restaurants'}));
+  box.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:0 0 6px',text:'Copy the order from your room key or the Navigator app. Each night’s plan and Home will name the restaurant.'}));
+  NIGHTS.forEach(n=>{const dd=DAYS.find(x=>x.date===n[0]);const sel=h('select',{'aria-label':'Restaurant for '+n[1]});ROOMS.forEach((r,i)=>{const o=h('option',{text:r});if((rot[n[0]]||'')===(i?r:''))o.selected=true;sel.appendChild(o);});
+    sel.addEventListener('change',()=>{const r2=Store.get('rotation',{});if(sel.selectedIndex)r2[n[0]]=sel.value;else delete r2[n[0]];save('rotation',r2);});
+    box.appendChild(h('div',{class:'row',style:'align-items:center'},h('span',{style:'flex:0 0 92px;font-weight:600',text:n[1]+' '+(dd?dd.md:'')+(n[0]===tripToday()?' · tonight':'')}),sel));});
+  box.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn',text:'Done',on:{click:()=>{close();render();}}})));});}
+function AboardCard(x){const t=tripToday(),d=DAYS.find(q=>q.date===t);if(!d)return;const nowM=shipNow(),rot=rotFor(t);
+  const items=d.items.filter(it=>it[1]==='Ship'||it[5]==='Port').map(it=>it[5]==='Dinner'&&rot?Object.assign(it.slice(),{2:'Dinner at '+rot}):it);
+  const mine=items.filter(it=>it[4].indexOf('c')>=0),other=items.filter(it=>it[4].indexOf('c')<0);
+  const nx=mine.find(it=>{const m=itMin(it);return m!=null&&m>=nowM-10;});
+  const c=h('div',{class:'card hot'});x.appendChild(c);
+  c.appendChild(h('span',{class:'phase',text:'Today on board · '+d.dow+' Nov '+d.md}));c.appendChild(h('h3',{text:d.title}));
+  mine.forEach(it=>{const m=itMin(it),past=m!=null&&m<nowM-10&&it!==nx,isN=it===nx;
+    c.appendChild(h('div',{class:'abrow'+(past?' past':'')+(isN?' now':'')},h('span',{class:'abt',text:it[0]}),h('span',null,h('b',{text:(isN?'▶ ':'')+it[2]}),it[3]&&!past?h('small',{text:it[3]}):null)));});
+  if(other.length)c.appendChild(h('p',{class:'wxnote',text:'Other families today: '+other.map(it=>it[0]+' '+it[2].replace(/\s*\([A-Z]+\d+\)/,'')).join(' · ')}));
+  (d.notes||[]).slice(0,1).forEach(n=>c.appendChild(h('p',{class:'wxnote',text:'📌 '+n})));
+  c.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost sm',text:'Full day',on:{click:()=>daySheet(t,nx)}})));}
+function DinnerCard(x){const t=tripToday();if(!NIGHTS.some(n=>n[0]===t))return;const d=DAYS.find(q=>q.date===t),rot=rotFor(t);
+  const din=d.items.find(it=>it[5]==='Dinner'),show=d.items.find(it=>it[5]==='Show');const palo=d.items.find(it=>/Palo Dinner/.test(it[2])&&it[4].indexOf('c')>=0);
+  const c=h('div',{class:'card'});x.appendChild(c);c.appendChild(h('span',{class:'phase',text:'Tonight'}));
+  c.appendChild(h('h3',{text:'🍽️ '+(rot||'Dinner')+(din?' · '+din[0]:'')}));
+  if(!rot)c.appendChild(h('p',{style:'margin:0 0 6px',text:'Add your restaurant rotation from the room key and this names tonight’s spot and its menu.'}));
+  if(palo)c.appendChild(h('p',{style:'margin:0 0 6px;color:var(--brass-lt)',text:'🍷 Chris and Kat: Palo at '+palo[0]+'. Plan for Sedona and River.'}));
+  if(show)c.appendChild(h('p',{style:'margin:0 0 6px',text:'🎭 '+show[0]+' · '+show[2]+(show[3]?'. '+show[3]:'')}));
+  const row=h('div',{class:'row'});c.appendChild(row);
+  if(rot&&DINE.some(e=>e[0]===rot))row.appendChild(h('button',{type:'button',class:'btn sm',text:'Tonight’s menu',on:{click:()=>menuSheet(rot)}}));
+  row.appendChild(h('button',{type:'button',class:rot?'btn ghost sm':'btn sm',text:rot?'Change rotation':'Set our rotation',on:{click:rotationSheet}}));}
 function Home(){
   const cells={};const count=h('div',{class:'count'});
   ['Days','Hours','Min'].forEach(l=>{const b=h('b',{text:'--'});cells[l]=b;count.appendChild(h('div',null,b,h('span',{text:l})));});
@@ -955,9 +994,12 @@ function Home(){
   QuickStrip(w);
   const ti=todayIndex();const d=DAYS[ti>=0?ti:0];const ph=homePhase();const B={};
   const blk=(k,fn)=>{const host=h('div',{'data-home':k});fn(host);if(host.childNodes.length)B[k]=host;};
-  blk('port',x=>{if(ph.port)x.appendChild(h('button',{type:'button',class:'card tap hot',on:{click:portSheet}},h('span',{class:'phase',text:'Port arrival · now'}),h('h3',{text:'🎟️ 12:30 to 12:45 PM · Group 11'}),h('p',{text:'Tap to show your form and QR codes at the terminal. Passports in hand. Assembly station F.'})));});
+  blk('port',x=>{if(!ph.port)return;x.appendChild(h('button',{type:'button',class:'card tap hot',on:{click:portSheet}},h('span',{class:'phase',text:'Port arrival · now'}),h('h3',{text:'🎟️ 12:30 to 12:45 PM · Group 11'}),h('p',{text:'Tap to show your form and QR codes at the terminal. Passports in hand. Assembly station F.'})));
+    x.appendChild(h('div',{class:'row',style:'margin:-4px 0 10px'},h('button',{type:'button',class:'btn sm',text:'🛳️ We’re on board',on:{click:()=>{save('aboard',true);toast('Welcome aboard! Cruise mode is on.');render();window.scrollTo(0,0);}}})));});
   blk('today',x=>x.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>daySheet(d.date)}},
     h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb}))));
+  blk('aboard',x=>{if(ph.k==='ship')AboardCard(x);});
+  blk('dinner',x=>{if(ph.k==='ship')DinnerCard(x);});
   blk('fuel',x=>{if(ph.k==='drive'&&d.items.some(i=>i[5]==='Fuel'))x.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{let n='Gas';if(GEO.on&&GEO.pos){const w0=whereAmI();if(w0.near.length)n=gasNote(w0.near[0]);}goBudget('Gas',n);}}},
     h('span',{class:'phase',text:'Fuel day'}),h('h3',{text:'⛽ Log gas at each stop'}),h('p',{text:'Tap to log what the pump charged, right here. With location on, the stop is filled in for you.'})));});
   HomeExtras(blk,ph);
@@ -970,8 +1012,8 @@ function Home(){
     [['book','📕','Book Club',BOOK.intro?(done+' of 8 unlocked'):'Scythe · enter your name'],['games','🎲','Learn & Play','Study cards, six games'],['guide','🧳','Guide','Budget, places, menus, packing'],['trip','🗺️','Days & Maps','Road map, cruise map',1]]
       .forEach(t=>tiles.appendChild(h('button',{type:'button',class:'tile',on:{click:()=>{if(t[4])S.view='road';go(t[0]);}}},h('i',{text:t[1]}),h('b',{text:t[2]}),h('span',{text:t[3]}))));x.appendChild(tiles);});
   const order=HOMEORDER[ph.k].slice();
-  if(ph.evening){const i=order.indexOf('keep');if(i>=0){order.splice(i,1);const j=order.indexOf('next');order.splice(j>=0?j+1:1,0,'keep');}}
-  order.concat(Object.keys(B).filter(k=>order.indexOf(k)<0)).forEach(k=>{if(B[k])w.appendChild(B[k]);});
+  if(ph.evening){const i=order.indexOf('keep');if(i>=0){order.splice(i,1);const j=Math.max(order.indexOf('next'),order.indexOf('dinner'));order.splice(j>=0?j+1:1,0,'keep');}}
+  order.forEach(k=>{if(B[k])w.appendChild(B[k]);});
   const bar=h('div');w.appendChild(bar);if(window.FamilyDrive)FamilyDrive.bar(bar);
   w.appendChild(h('p',{class:'foot',text:'Cruise plans pulled from the Disney reservation page on Nov 11, 2026. Times can change. Works offline once opened.'}));
 }
@@ -1534,7 +1576,7 @@ function HomeExtras(blk,ph){
 const HOMEORDER={pre:['docs','today','weather','next','interest','remind','keep','tiles','geo'],
   drive:['road','next','interest','fuel','weather','today','geo','remind','keep','tiles'],
   port:['port','next','weather','today','road','interest','remind','keep','geo','tiles'],
-  ship:['next','today','interest','weather','keep','remind','tiles','geo'],
+  ship:['aboard','dinner','interest','weather','keep','remind','tiles','geo'],
   land:['next','interest','today','weather','remind','keep','geo','tiles'],
   done:['keep','today','tiles','remind','geo']};
 function homePhase(){const now=tripNow().getTime(),t=tripToday();
@@ -1542,6 +1584,7 @@ function homePhase(){const now=tripNow().getTime(),t=tripToday();
   const off=t>='2026-11-20'&&t<='2026-11-28'?-6:-7;const evening=lh(off)>=19;
   const ALLABOARD_MS=Date.UTC(2026,10,20,21,0);
   if(now<departMs())return {k:'pre',evening};
+  if(isAboard())return {k:'ship',evening};
   if(t==='2026-11-19'||(t==='2026-11-20'&&now<ALLABOARD_MS)){
     const log=(Store.get('roadlog',{}).e)||{};let near=!!log.galveston||now>=Date.UTC(2026,10,20,16,0);
     if(!near){const rn=roadNow('e');const last=rn.rows[rn.rows.length-1];if(t==='2026-11-20'&&last.arr!=null&&last.arr-now<2*3600000)near=true;
