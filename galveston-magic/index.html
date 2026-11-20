@@ -1315,7 +1315,7 @@ function stopSheet(id,dir){sheet((box,close)=>{stopDetail(box,id,dir);
 /* ---------- quick sheets on Home ---------- */
 function expenseSheet(cat,note,stopId,amt0){sheet((box,close)=>{
   const bud=Store.get('budget',{total:0,items:[]});let c=CATS.indexOf(cat)>=0?cat:'Other';
-  box.appendChild(h('span',{class:'phase',text:'Add an expense'}));box.appendChild(h('h3',{text:c==='Gas'?'⛽ Log gas':c==='Tips'?'💁 Log a tip':'💵 Log a purchase'}));
+  box.appendChild(h('span',{class:'phase',text:'Add an expense'}));box.appendChild(h('h3',{text:c==='Gas'?'⛽ Log gas':c==='Tips'?'💵 Log a cash tip':'💵 Log a purchase'}));
   const sid=stopId||(note&&ROUTES.e.concat(ROUTES.w).find(id=>PLACES[id]&&note.indexOf(PLACES[id].n)>=0));
   if(c==='Gas'&&sid&&GASAVG_BY[sid])box.appendChild(h('p',{style:'font-size:14px;color:var(--dim);margin:0 0 6px',text:'Typical regular near '+PLACES[sid].n+': '+GASAVG_BY[sid][0]+'.'}));
   const amt=h('input',{type:'text',inputmode:'decimal',placeholder:'$0.00','aria-label':'Amount',class:'bigamt'});if(amt0)amt.value=String(amt0);box.appendChild(amt);
@@ -1429,19 +1429,20 @@ function budFromLink(){const m=/#bud=([A-Za-z0-9_-]+)/.exec(location.hash||'');i
   catch(e){toast('That budget link could not be read');history.replaceState(null,'',location.href.split('#')[0]);}}
 /* ---------- Tips plan for this trip (Ortiz stateroom: 4 guests, 5 nights) ---------- */
 const TIPPLAN=[
- ['porters','Port porters','Fri Nov 20 · Galveston','About $1 to $2 per bag, cash, when they take your luggage at the terminal.',null,'Porters, Galveston'],
- ['crew','Ship crew gratuities','Charged to your stateroom · or prepay in the app','Disney recommends $16 per guest per night. For 4 guests and 5 nights that is $320. It covers your dining server, assistant server, head server, and stateroom host.',320,'Crew gratuities (4 × 5 nights × $16)'],
- ['guide','Chichen Itza guide and driver','Mon Nov 23 · Progreso','Not included in the tour price. A common amount is $5 to $10 per person for the guide and a few dollars for the driver, cash.',null,'Chichen Itza guide and driver'],
- ['extra','Extra thank-yous','Last night on board · Tue Nov 24','Optional cash for a server or host who went above and beyond.',null,'Extra thank-you, crew'],
- ['road','Sit-down meals on land','Road trip and Houston days','Fast food and drive-thru need no tip. Log restaurant tips here or with the meal under Food.',null,'Restaurant tip']];
+ ['porters','Porters at the terminal','Fri Nov 20 · Galveston','About $1 to $2 per bag when they take your luggage.',null,'Porters, Galveston'],
+ ['guide','Chichen Itza guide','Mon Nov 23 · Progreso','Not included in the tour price. About $5 to $10 per person.',null,'Chichen Itza guide'],
+ ['driver','Chichen Itza bus driver','Mon Nov 23 · Progreso','A few dollars per person at the end of the ride.',null,'Chichen Itza driver'],
+ ['roomsvc','Room service delivery','Any night on board','Room service is free, and a dollar or two in cash for the delivery is customary.',null,'Room service delivery'],
+ ['extra','Extra thank-yous for the crew','Last night on board · Tue Nov 24','Optional cash in an envelope for a server or stateroom host who went above and beyond.',null,'Extra thank-you, crew'],
+ ['debark','Porters at debarkation','Wed Nov 25 · Galveston','Only if a porter helps with bags on the way off. About $1 to $2 per bag.',null,'Porters, debarkation']];
 function TipsBlock(b){const bud=Store.get('budget',{total:0,items:[]});const items=bud.items.filter(x=>x.cat==='Tips');const tot=items.reduce((a,x)=>a+x.amt,0);
   const done=Store.get('tipsdone',{});
-  b.appendChild(h('div',{class:'sub',text:'💁 Tips · '+money2(tot)+' so far'}));
-  b.appendChild(h('p',{style:'font-size:13px;color:var(--dim);margin:0 0 4px',text:'Drinks and Palo wine get an 18% service charge added automatically, so no extra tip is needed there.'}));
+  b.appendChild(h('div',{class:'sub',text:'💵 Cash tips · '+money2(tot)+' so far'}));
+  b.appendChild(h('p',{style:'font-size:13px;color:var(--dim);margin:0 0 4px',text:'Bring small bills, about $100 in ones and fives covers everything below. Not cash: crew gratuities ($16 per guest per night, $320 for the four of you) are charged to your stateroom, and drinks carry an automatic 18%. Restaurant tips stay with the meal.'}));
   TIPPLAN.forEach(t=>{const row=h('div',{class:'plrow tiprow'+(done[t[0]]?' done':'')});
     const chk=h('button',{type:'button',class:'tipchk','aria-label':(done[t[0]]?'Undo ':'Mark done: ')+t[1],text:done[t[0]]?'✓':'',on:{click:()=>{const d2=Store.get('tipsdone',{});d2[t[0]]=!d2[t[0]];save('tipsdone',d2);render();}}});
     row.append(chk,h('div',null,h('b',{text:t[1]}),h('small',{text:t[2]}),h('small',{text:t[3]})),
-      h('button',{type:'button',class:'btn ghost sm dirbtn',text:t[4]?'+ $'+t[4]:'+ Log',on:{click:()=>{const d2=Store.get('tipsdone',{});if(t[4]){d2[t[0]]=true;save('tipsdone',d2);}expenseSheet('Tips',t[5],null,t[4]);}}}));
+      h('button',{type:'button',class:'btn ghost sm dirbtn',text:'+ Log',on:{click:()=>{const d2=Store.get('tipsdone',{});d2[t[0]]=true;save('tipsdone',d2);expenseSheet('Tips',t[5]);}}}));
     b.appendChild(row);});
   if(items.length){items.slice().reverse().slice(0,4).forEach(x=>b.appendChild(h('div',{style:'display:flex;justify-content:space-between;font-size:14px;padding:3px 0;color:var(--dim)'},h('span',{text:x.note||'Tip'}),h('span',{style:'color:var(--brass-lt)',text:money2(x.amt)}))));}}
 function openPick(id){const p=PICKS.find(x=>x.id===id);if(p){sheet((box,close)=>{box.appendChild(pickDetail(p,null,false));
