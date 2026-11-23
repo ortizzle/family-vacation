@@ -919,7 +919,7 @@ function QuickStrip(w){const t=tripToday(),cruise=(t>='2026-11-21'&&t<='2026-11-
   const bg=Store.get('bingo',{}),hunt=countDone('hunt',[['',HUNT]]);
   const learn=t==='2026-11-23'||t==='2026-11-22'?'Maya Qs':cruise?'Hunt '+hunt:road||t<'2026-11-19'?'Bingo '+Object.keys(bg).filter(k=>bg[k]).length+'/16':'Trivia';
   const items=[
-    ['📸','Frames',Store.get('frames_made',false)?'Make one':'New',()=>{S.kview='frames';go('keep');}],
+    ['📸','Frames',t==='2026-11-23'?'🗿 Maya':Store.get('frames_made',false)?'Make one':'New',()=>{S.kview='frames';go('keep');}],
     ['📕','Book Club',BOOK.intro?b1Done()+' of 8':'Start',()=>go('book')],
     ['🎲','Learn',learn,()=>go('games')],
     ['💵','Budget',(()=>{const r=n=>'$'+Math.round(Math.abs(n)).toLocaleString('en-US');if(bud.total)return spent>bud.total?r(spent-bud.total)+' over':r(bud.total-spent)+' left';if(spent)return r(spent)+' spent';
@@ -1964,10 +1964,10 @@ function Keep(){
 /* ---------- photo frames (the photo stays in memory only; nothing is saved or backed up) ---------- */
 const FRW=1080,FRH={post:1350,story:1920};let FRIMG=null;
 const FRADJ={z:1,x:0,y:0,b:1,_sx:0,_sy:0};/* photo zoom, pan (-1..1), brightness; in memory only, like the photo */
-const FR_THEMES=[['road','Road trip'],['cruise','Cruise'],['thanks','Thanksgiving']];
+const FR_THEMES=[['road','Road trip'],['cruise','Cruise'],['maya','🗿 Maya'],['thanks','Thanksgiving']];
 const CRUISE_DAYS=[['2026-11-20','Sail Away · Galveston'],['2026-11-21','Day at Sea'],['2026-11-22','Cozumel, Mexico'],['2026-11-23','Progreso, Mexico'],['2026-11-24','Day at Sea'],['2026-11-25','Back in Galveston']];
 const STATEOF={chandler:'AZ',tucson:'AZ',elpaso:'TX',fortstockton:'TX',sanantonio:'TX',luling:'TX',galveston:'TX',spring:'TX'};
-const FR_DEF={road:'',cruise:'',thanks:'Grateful for this crew'};
+const FR_DEF={road:'',cruise:'',thanks:'Grateful for this crew',maya:''};
 function frRR(g,x,y,w,hh,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+hh,r);g.arcTo(x+w,y+hh,x,y+hh,r);g.arcTo(x,y+hh,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
 function frCover(g,img,x,y,w,hh,ph,msg){
   if(!img){const gr=g.createLinearGradient(x,y,x+w,y+hh);gr.addColorStop(0,ph[0]);gr.addColorStop(1,ph[1]);g.fillStyle=gr;g.fillRect(x,y,w,hh);
@@ -2061,15 +2061,50 @@ function frThanks(g,st,img,H,sT,sB){
   g.fillStyle='#7a5c44';g.font='400 28px "Josefin Sans",sans-serif';g.fillText('Spring, Texas · Thursday, November 26, 2026',pw/2,ph-56);
   g.fillStyle='rgba(235,220,170,.8)';[[70,-4,-.35],[pw-70,-4,.35]].forEach(t=>{g.save();g.translate(t[0],t[1]);g.rotate(t[2]);g.fillRect(-95,-28,190,56);g.restore();});
   g.restore();}
+/* ---------- Maya frame (Chichen Itza day) ---------- */
+function frStepBand(g,y,hh,c1,c2){const u=hh*2;g.save();g.fillStyle=c2;g.fillRect(0,y,FRW,hh);g.fillStyle=c1;
+  for(let x=-u;x<FRW+u;x+=u){const s=hh/3;g.beginPath();g.moveTo(x,y+hh);g.lineTo(x,y+2*s);g.lineTo(x+s,y+2*s);g.lineTo(x+s,y+s);g.lineTo(x+2*s,y+s);g.lineTo(x+2*s,y);g.lineTo(x+u/2+s,y);g.lineTo(x+u/2+s,y+s);g.lineTo(x+u/2+2*s,y+s);g.lineTo(x+u/2+2*s,y+2*s);g.lineTo(x+u/2+3*s,y+2*s);g.lineTo(x+u/2+3*s,y+hh);g.closePath();g.fill();}
+  g.restore();}
+function frCastillo(g,cx,by,w,col,acc){const lv=9,hh=w*.62,th=hh*.78/lv,tw=w*.34;g.save();g.fillStyle=col;
+  for(let i=0;i<lv;i++){const ww=w-(w-tw)*(i/lv);g.fillRect(cx-ww/2,by-(i+1)*th,ww,th-1.5);}
+  const top=by-lv*th;g.fillRect(cx-tw*.42,top-hh*.2,tw*.84,hh*.2);g.fillStyle=acc;g.fillRect(cx-tw*.12,top-hh*.14,tw*.24,hh*.14);
+  g.fillRect(cx-w*.07,by-lv*th,w*.14,lv*th);g.fillStyle=col;for(let i=0;i<lv*2;i++)g.fillRect(cx-w*.07,by-(i+.5)*th/2-1,w*.14,2.5);
+  g.fillStyle=acc;g.beginPath();g.arc(cx-w*.07-8,by-8,9,0,Math.PI*2);g.arc(cx+w*.07+8,by-8,9,0,Math.PI*2);g.fill();g.restore();}
+function frCenote(g,cx,by,w,col,acc){const r=w*.34,cy=by-r-6;g.save();g.fillStyle=col;g.beginPath();g.ellipse(cx,cy,r*1.25,r,0,0,Math.PI*2);g.fill();
+  const gr=g.createLinearGradient(0,cy-r*.3,0,cy+r);gr.addColorStop(0,'#2a8f9e');gr.addColorStop(1,'#13505c');g.fillStyle=gr;g.beginPath();g.ellipse(cx,cy+r*.18,r*.95,r*.7,0,0,Math.PI*2);g.fill();
+  g.strokeStyle=acc;g.lineWidth=3;for(let i=0;i<7;i++){const x=cx-r*.8+i*r*.27,len=r*(.5+((i*37)%5)/7);g.beginPath();g.moveTo(x,cy-r*.95);g.bezierCurveTo(x-8,cy-r*.5,x+8,cy-r*.3,x,cy-r*.95+len);g.stroke();}g.restore();}
+function frMayaNum(g,x,y,n,col){const hi=Math.floor(n/20),lo=n%20;g.save();g.fillStyle=col;
+  const lvl=(v,yy)=>{if(v===0){g.beginPath();g.ellipse(x,yy,16,8,0,0,Math.PI*2);g.lineWidth=3;g.strokeStyle=col;g.stroke();return;}
+    const bars=Math.floor(v/5),dots=v%5;let yb=yy+6;for(let i=0;i<bars;i++){g.fillRect(x-26,yb-i*12,52,8);}const dy=yy-6-(bars?bars*12-12:0)-(bars?8:0);
+    for(let i=0;i<dots;i++){g.beginPath();g.arc(x-(dots-1)*9+i*18,bars?dy:yy,6,0,Math.PI*2);g.fill();}};
+  if(hi)lvl(hi,y-26);lvl(lo,y+18);g.restore();}
+function frMaya(g,st,img,H,sT,sB){
+  let gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#efe3c7');gr.addColorStop(1,'#d3b98d');g.fillStyle=gr;g.fillRect(0,0,FRW,H);
+  let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};g.fillStyle='rgba(120,90,50,.10)';for(let i=0;i<900;i++){g.fillRect(rnd()*FRW,rnd()*H,1+rnd()*3,1+rnd()*3);}
+  const jade='#1f5e4f',terra='#a4492d',ink='#2b2418',ik=st.mplace==='ikkil';
+  frStepBand(g,sT+18,22,jade,'#e7d6b3');
+  g.textAlign='center';g.fillStyle=jade;const title=ik?'CENOTE IK KIL':'CHICHEN ITZA';frFit(g,title,'600',84,FRW-300);frSpaced(g,title,FRW/2,sT+142,ik?8:10,'center');
+  g.fillStyle=terra;g.font='400 28px "Josefin Sans",sans-serif';g.fillText((ik?'Near Chichen Itza · ':'')+'Yucatán, México · Monday, November 23, 2026',FRW/2,sT+192);
+  frMayaNum(g,92,sT+112,23,jade);g.fillStyle='rgba(31,94,79,.85)';g.font='600 15px "Josefin Sans",sans-serif';frSpaced(g,'DAY 23',92,sT+178,2,'center');
+  frMayaNum(g,FRW-92,sT+112,11,jade);frSpaced(g,'MONTH 11',FRW-92,sT+178,2,'center');
+  frStepBand(g,sT+222,22,terra,'#e7d6b3');
+  const m=56,py=sT+266,pb=H-sB-300;g.save();g.fillStyle=jade;g.fillRect(m-8,py-8,FRW-2*m+16,pb-py+16);g.beginPath();g.rect(m,py,FRW-2*m,pb-py);g.clip();frCover(g,img,m,py,FRW-2*m,pb-py,['#7d8f5a','#3b5a3a'],'Add your photo');g.restore();
+  g.strokeStyle='#e0b960';g.lineWidth=2;g.strokeRect(m+10,py+10,FRW-2*m-20,pb-py-20);
+  frStepBand(g,pb+20,22,jade,'#e7d6b3');
+  const fy=pb+58;(ik?frCenote:frCastillo)(g,FRW-200,H-sB-40,300,jade,terra);
+  const cap=(st.caption||'').trim()||(ik?'Swimming in a sacred cenote':'The Ortiz crew at El Castillo');
+  g.textAlign='left';g.fillStyle=ink;const ls=frLines((g.font='600 50px "Josefin Sans",sans-serif',g),cap,FRW-420,2);ls.forEach((l,i)=>g.fillText(l,64,fy+70+i*60));
+  g.fillStyle=terra;g.font='600 22px "Josefin Sans",sans-serif';frSpaced(g,'THE ORTIZ FAMILY · '+(ik?'CENOTE SWIM':'A WONDER OF THE WORLD'),64,H-sB-58,3,'left');}
 function frDraw(cv,st){const H=FRH[st.size]||1350;if(cv.width!==FRW)cv.width=FRW;if(cv.height!==H)cv.height=H;const g=cv.getContext('2d');g.clearRect(0,0,FRW,H);
   g.textBaseline='alphabetic';g.textAlign='left';const sT=H>1500?230:0,sB=H>1500?230:0;
-  const v=Object.assign({},st,{caption:st['c_'+st.theme]||''});({road:frRoad,cruise:frCruise,thanks:frThanks}[st.theme]||frRoad)(g,v,FRIMG,H,sT,sB);}
+  const v=Object.assign({},st,{caption:st['c_'+st.theme]||''});({road:frRoad,cruise:frCruise,thanks:frThanks,maya:frMaya}[st.theme]||frRoad)(g,v,FRIMG,H,sT,sB);}
 function Frames(w){
   const card=h('div',{class:'card','data-id':'frames'});w.appendChild(card);
   card.appendChild(h('span',{class:'phase',text:'Photo frames'}));card.appendChild(h('h3',{text:'📸 Trip frames'}));
   card.appendChild(h('p',{text:'Add a photo, pick a frame, then save or share it. Road trip stamps your spot on I-10, Cruise sets it in a brass porthole, and Thanksgiving pins it to a kraft-paper table.'}));
   const tdy=tripToday();const st=Object.assign({theme:'road',size:'post',place:'gps',custom:'',caption:'',cday:CRUISE_DAYS.some(c=>c[0]===tdy)?tdy:'2026-11-21'},Store.get('frames',{}));
   const sv=()=>save('frames',st);
+  if(tdy==='2026-11-23'&&!st.mayaAuto){st.theme='maya';st.mayaAuto=1;save('frames',st);}
   const themes=h('div',{class:'seg'});card.appendChild(themes);
   FR_THEMES.forEach(t=>themes.appendChild(h('button',{type:'button',class:st.theme===t[0]?'on':'',text:t[1],on:{click:()=>{st.theme=t[0];sv();[...themes.children].forEach((b,i)=>b.classList.toggle('on',FR_THEMES[i][0]===t[0]));fields();draw();}}})));
   const sizes=h('div',{class:'seg'});card.appendChild(sizes);
@@ -2101,10 +2136,11 @@ function Frames(w){
       sel.addEventListener('change',()=>{st.place=sel.value;sv();cu.style.display=st.place==='custom'?'block':'none';gl.style.display=st.place==='gps'?'flex':'none';if(st.place==='gps')locate();draw();});
       cu.addEventListener('input',()=>{st.custom=cu.value;sv();draw();});fx.appendChild(h('div',{class:'row'},sel,cu));fx.appendChild(gl);
       if(st.place==='gps'){if(st.gps&&Date.now()-st.gps.t<15*60000)gtx.textContent='📍 '+st.gps.name+', '+st.gps.state+(st.gps.mile!=null?' · mile '+st.gps.mile:'');else locate();}}
+    if(st.theme==='maya'){const seg2=h('div',{class:'seg'});[['chichen','🗿 Chichen Itza'],['ikkil','💧 Cenote Ik Kil']].forEach(o=>seg2.appendChild(h('button',{type:'button',class:(st.mplace||'chichen')===o[0]?'on':'',text:o[1],on:{click:e=>{st.mplace=o[0];sv();const cur=e.currentTarget;[...seg2.children].forEach(b=>b.classList.toggle('on',b===cur));draw();}}})));fx.appendChild(seg2);}
     if(st.theme==='cruise'){const sel=h('select',{'aria-label':'Cruise day',style:'flex:1 1 100%'});
       CRUISE_DAYS.forEach((c,i)=>{const dd=DAYS.find(q=>q.date===c[0]);const o=h('option',{value:c[0],text:'Day '+(i+1)+' · '+dd.dow+' Nov '+dd.md+' · '+c[1]});if(st.cday===c[0])o.selected=true;sel.appendChild(o);});
       sel.addEventListener('change',()=>{st.cday=sel.value;sv();draw();});fx.appendChild(h('div',{class:'row'},sel));}
-    const cap=h('input',{type:'text',maxlength:'44','aria-label':'Caption',placeholder:st.theme==='thanks'?'Grateful for this crew':(st.theme==='cruise'?'Caption (blank shows the date)':'Caption'),value:st['c_'+st.theme]||'',style:'flex:1 1 100%'});
+    const cap=h('input',{type:'text',maxlength:'44','aria-label':'Caption',placeholder:st.theme==='thanks'?'Grateful for this crew':st.theme==='maya'?'Caption (blank uses a default)':(st.theme==='cruise'?'Caption (blank shows the date)':'Caption'),value:st['c_'+st.theme]||'',style:'flex:1 1 100%'});
     cap.addEventListener('input',()=>{st['c_'+st.theme]=cap.value;sv();draw();});fx.appendChild(h('div',{class:'row'},cap));}
   fields();
   const adj=h('div',{class:'fradj'});card.insertBefore(adj,acts2.nextSibling);
