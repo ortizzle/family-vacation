@@ -431,7 +431,7 @@ const PACK=[['Car kit',['Pillows and blankets','Cooler with drinks and sandwiche
  ['Documents',['Travel documents for each person','Cruise reservation and port arrival form','Parking confirmation','Excursion tickets','Car insurance and registration']],
  ['Houston days',['Warm layer for evenings','Comfortable walking shoes','Reusable grocery bags','A favorite Thanksgiving recipe']]];
 const TIPS=['Pack your swimsuit in your carry-on. Your suitcase may not reach the room until dinner.','Bring one hoodie for the car. Dad likes the air cold at night to stay awake.','Charge everything before noon on Thursday.','Download shows and music at home. West Texas has almost no signal.','Pick your reading spot on the ship on day one.','Leave room in your bag for one souvenir.'];
-const LOGI=['Drive: about 1,200 miles on I-10. The Ascent goes about 350 miles on a tank, so fuel at El Paso, Fort Stockton, and San Antonio.','Costco pumps: 6 AM to 10 PM weekdays, 8:30 PM Saturday, 7:30 PM Sunday. Eastbound, Tucson and El Paso fit; San Antonio fits if you get there after 6 AM Friday. Westbound, only Spring and San Antonio fit.','Port parking: prepay online. Budget about $120 to $180 for six days.','Time zones: Arizona and El Paso share a clock in November. West Texas onward is one hour ahead.','Groceries: The Woodlands or Tomball Costco on Wednesday. Costco is closed Thanksgiving Day.','Home base is in Spring, north of Houston. The address stays out of this app because the site is public.'];
+const LOGI=['Drive: about 1,200 miles east on I-10 and 1,300 home with the White Sands side trip. The Ascent goes about 350 miles on a tank. East: fuel at Tucson, El Paso, Fort Stockton, and San Antonio. Home: San Antonio, Fort Stockton, Las Cruces (fill up full before White Sands), and Tucson.','Costco pumps: 6 AM to 10 PM weekdays, 8:30 PM Saturday, 7:30 PM Sunday. Eastbound, Tucson and El Paso fit; San Antonio fits if you get there after 6 AM Friday. Homebound overnight, only Spring (before 8:30 PM Saturday) and Tucson (until 7:30 PM Sunday) fit.','Port parking: prepay online. Budget about $120 to $180 for six days.','Time zones: Arizona and El Paso share a clock in November. West Texas onward is one hour ahead.','Groceries: The Woodlands or Tomball Costco on Wednesday. Costco is closed Thanksgiving Day.','Home base is in Spring, north of Houston. The address stays out of this app because the site is public.'];
 
 /* ---------- data: games ---------- */
 const TRIVIA=[
@@ -1032,7 +1032,7 @@ function Home(){
 
 
 /* ---------- Home extras: weather, picks, reminders ---------- */
-const WXL={'2026-11-19':['El Paso, TX',31.76,-106.49],'2026-11-20':['Galveston, TX',29.30,-94.79],'2026-11-21':['At sea, Gulf of Mexico',25.8,-91.0],'2026-11-22':['Cozumel, Mexico',20.42,-86.92],'2026-11-23':['Progreso, Mexico',21.28,-89.66],'2026-11-24':['At sea, Gulf of Mexico',26.0,-92.0],'2026-11-25':['Houston, TX',29.76,-95.37],'2026-11-26':['Spring, TX',30.08,-95.42],'2026-11-27':['Todd Mission, TX',30.26,-95.83],'2026-11-28':['San Antonio, TX',29.42,-98.49],'2026-11-29':['Chandler, AZ',33.30,-111.84]};
+const WXL={'2026-11-19':['El Paso, TX',31.76,-106.49],'2026-11-20':['Galveston, TX',29.30,-94.79],'2026-11-21':['At sea, Gulf of Mexico',25.8,-91.0],'2026-11-22':['Cozumel, Mexico',20.42,-86.92],'2026-11-23':['Progreso, Mexico',21.28,-89.66],'2026-11-24':['At sea, Gulf of Mexico',26.0,-92.0],'2026-11-25':['Houston, TX',29.76,-95.37],'2026-11-26':['Spring, TX',30.08,-95.42],'2026-11-27':['Todd Mission, TX',30.26,-95.83],'2026-11-28':['Spring, TX',30.08,-95.42],'2026-11-29':['White Sands, NM',32.78,-106.17]};
 const WXHOME=['Chandler, AZ',33.30,-111.84];
 const WCODE=c=>c===0?['☀️','Clear']:c<=2?['🌤️','Partly cloudy']:c===3?['☁️','Cloudy']:c<=48?['🌫️','Fog']:c<=57?['🌦️','Drizzle']:c<=67?['🌧️','Rain']:c<=77?['🌨️','Snow']:c<=82?['🌧️','Showers']:['⛈️','Storms'];
 function wxRows(){const ti=todayIndex();
@@ -1325,7 +1325,7 @@ function RecapImage(c,r){const key='rcimg';const st=Object.assign({s:0},Store.ge
     const a=h('a',{href:URL.createObjectURL(b),download:nm});document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Recap card saved');},'image/png');}}}));
   try{const tf=new File([''],'t.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[tf]}))
     pr.appendChild(h('button',{type:'button',class:'btn ghost',text:'Share',on:{click:()=>{cv.toBlob(b=>{if(!b)return;navigator.share({files:[new File([b],nm,{type:'image/png'})],title:'Galveston & the Magic'}).catch(()=>{});},'image/png');}}}));}catch(err){}}
-const PICKDAY={'2026-11-19':['bucees','wafflehouse'],'2026-11-20':['sunflower','leeland','sharkshack'],'2026-11-25':['sch','katies','gaidos'],'2026-11-26':['wafflehouse','heb','zoo'],'2026-11-27':['trf','corkscrew','oldtown'],'2026-11-28':['corkscrew','mercer','costco'],'2026-11-29':['bucees']};
+const PICKDAY={'2026-11-19':['bucees','wafflehouse'],'2026-11-20':['sunflower','leeland','sharkshack'],'2026-11-25':['sch','katies','gaidos'],'2026-11-26':['wafflehouse','heb','zoo'],'2026-11-27':['trf','corkscrew','oldtown'],'2026-11-28':['corkscrew','mercer','costco'],'2026-11-29':[]};
 /* ---------- bottom sheet: open a card over the current screen ---------- */
 function sheet(build){const ov=h('div',{class:'sheet-ov',role:'dialog','aria-modal':'true'});const box=h('div',{class:'sheet'});ov.appendChild(box);
   const close=()=>{ov.remove();document.body.style.overflow='';document.removeEventListener('keydown',esc);};const esc=e=>{if(e.key==='Escape')close();};
@@ -1566,7 +1566,8 @@ function InterestCard(host){clear(host);GEO.iAt=GEO.pos?[GEO.pos.lat,GEO.pos.lon
       if(!ps.length)continue;if(i===ti&&late&&groups.length===0){groups.push([dd,ps.slice(-1),'Tonight']);continue;}groups.push([dd,ps,i===ti?'Today':dd.dow+' Nov '+dd.md]);
       if(i===ti&&!late)break;}
     ph.textContent=ti<0?'Of interest · first days':groups.length&&groups[0][2]==='Today'?'Of interest today':'Of interest · coming up';
-    if(ti>=0&&!(PICKDAY[today]||[]).length)card.appendChild(h('p',{style:'margin:4px 0',text:'A ship day. Dining, shows, and the scavenger hunt are in the day plan. Here is what is next on land.'}));
+    if(today==='2026-11-29')card.appendChild(h('p',{style:'margin:4px 0',text:'Road day home: fuel and breakfast in Las Cruces, White Sands in the morning, and El Charro in Tucson with the McHenrys. Turn on location for what is just ahead.'}));
+    else if(ti>=0&&!(PICKDAY[today]||[]).length)card.appendChild(h('p',{style:'margin:4px 0',text:'A ship day. Dining, shows, and the scavenger hunt are in the day plan. Here is what is next on land.'}));
     groups.forEach(g=>{if(groups.length>1||g[2]!=='Today')card.appendChild(h('div',{class:'sub',text:g[2]}));g[1].forEach(p=>{card.appendChild(pickLine(p));shown++;});});}
   if(GEO.on&&!GEO.pos&&rd)card.appendChild(h('p',{class:'wxnote',text:'📍 Waiting for GPS. Once it has a fix, this shows what is just ahead.'}));
   const fi=(ti>=0?ti:0)%TRIVIA.length;const fq=TRIVIA[fi];
@@ -1674,13 +1675,18 @@ function RoadMap(w){
   [['e','East · Nov 19–20'],['w','Home · Nov 28–29']].forEach(v=>seg.appendChild(h('button',{type:'button',class:dir===v[0]?'on':'',text:v[1],on:{click:()=>{S.dir=v[0];S.stop=null;render();}}})));
   const ids=ROUTES[dir];const cur=S.stop&&ids.indexOf(S.stop)>=0?PLACES[S.stop]:null;
   const m=mapShell(560,210,cur?P(cur.at):null,2.4);
-  [[-109.05,'AZ','NM'],[-106.55,'NM','TX']].forEach(b=>{const x=P([b[0],0])[0];m.g.appendChild(sv('line',{x1:x,y1:6,x2:x,y2:204,stroke:'#33507a','stroke-dasharray':'3 5'}));
+  {const tx=[[-106.62,31.0],[-106.62,32.0],[-103.06,32.0],[-103.06,34.0]].map(P);m.g.appendChild(sv('polyline',{points:tx.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#33507a','stroke-dasharray':'3 5'}));}
+  [[-109.05,'AZ','NM',1],[-106.55,'NM','TX',0]].forEach(b=>{const x=P([b[0],0])[0];if(b[3])m.g.appendChild(sv('line',{x1:x,y1:6,x2:x,y2:204,stroke:'#33507a','stroke-dasharray':'3 5'}));
     m.g.appendChild(sv('text',{x:x-8,y:200,'font-size':10,'text-anchor':'end',style:'fill:#5f7fae'},b[1]));m.g.appendChild(sv('text',{x:x+8,y:200,'font-size':10,style:'fill:#5f7fae'},b[2]));});
   let line=I10.map(P);if(dir==='w')line=line.slice(0,-1).concat([P(PLACES.spring.at)]);
   m.g.appendChild(sv('polyline',{points:line.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#c9a24b','stroke-width':3,'stroke-linejoin':'round','stroke-linecap':'round'}));
   m.g.appendChild(sv('text',{x:300,y:60,'font-size':10,style:'fill:#5f7fae','letter-spacing':3},'INTERSTATE 10'));
-  const LAB={lascruces:[-6,18,'end'],whitesands:[0,-14,'middle'],chandler:[12,-8],tucson:[12,14],elpaso:[-6,-14,'middle'],fortstockton:[0,-14,'middle'],sanantonio:[-8,20,'middle'],luling:[0,-14,'middle'],galveston:[-4,22,'end'],spring:[-6,-14,'end']};
-  ids.forEach((id,i)=>pin(m.g,P(PLACES[id].at),PLACES[id].n,LAB[id],S.stop===id,i+1,()=>{S.stop=S.stop===id?null:id;render();}));
+  if(dir==='w'){const dt=[PLACES.lascruces.at,[-106.62,32.38],[-106.47,32.42],[-106.30,32.62]].map(P).concat([[P(PLACES.whitesands.at)[0]+16,P(PLACES.whitesands.at)[1]-12]]);
+    m.g.appendChild(sv('polyline',{points:dt.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#f3ead2','stroke-width':2.5,'stroke-dasharray':'5 4','stroke-linecap':'round'}));
+    const mid=P([-106.20,32.40]);m.g.appendChild(sv('text',{x:mid[0]+10,y:mid[1]+6,'font-size':9,style:'fill:#cdbf95'},'US-70 side trip'));}
+  const LAB={lascruces:[-6,18,'end'],whitesands:[12,4],chandler:[12,-8],tucson:[12,14],elpaso:[-6,-14,'middle'],fortstockton:[0,-14,'middle'],sanantonio:[-8,20,'middle'],luling:[0,-14,'middle'],galveston:[-4,22,'end'],spring:[-6,-14,'end']};
+  const NUDGE={whitesands:[16,-12]};const PX=id=>{const q=P(PLACES[id].at),n=NUDGE[id];return n?[q[0]+n[0],q[1]+n[1]]:q;};
+  ids.forEach((id,i)=>pin(m.g,PX(id),PLACES[id].n,LAB[id],S.stop===id,i+1,()=>{S.stop=S.stop===id?null:id;render();}));
   if(GEO.on&&GEO.pos){const me=whereAmI();if(me&&me.dir===dir&&me.off<=25){const q=P(me.at);
     m.g.appendChild(sv('circle',{cx:q[0],cy:q[1],r:13,fill:'rgba(79,195,247,.25)'}));m.g.appendChild(sv('circle',{cx:q[0],cy:q[1],r:6,fill:'#4fc3f7',stroke:'#fff','stroke-width':2}));
     m.g.appendChild(sv('text',{x:q[0],y:q[1]-12,'font-size':10,'text-anchor':'middle',style:'fill:#bfe9fb'},'You'));}}
@@ -1968,7 +1974,7 @@ function Keep(){
   nc.appendChild(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost',text:'Copy the trip story',on:{click:()=>{const t=tripStory();
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(()=>toast('Trip story copied')).catch(()=>textModal('Trip story',t));else textModal('Trip story',t);}}})));
   function fill(){clear(stats);const j=Store.get('journal',{}),bg=Store.get('bingo',{}),bd=bestDay(j);
-    [['📓',jDone(j)+'/'+DAYS.length,'days journaled'],['🚙',Object.keys(bg).filter(k=>bg[k]).length+'/16','road bingo found'],['🧭','2,390','road miles planned'],['⭐',bd?bd.title:'Pick a mood','best day so far']]
+    [['📓',jDone(j)+'/'+DAYS.length,'days journaled'],['🚙',Object.keys(bg).filter(k=>bg[k]).length+'/16','road bingo found'],['🧭','2,499','road miles planned'],['⭐',bd?bd.title:'Pick a mood','best day so far']]
       .forEach(s=>stats.appendChild(h('div',{class:'tile'},h('i',{text:s[0]}),h('b',{text:s[1]}),h('span',{text:s[2]}))));
     DAYS.forEach(d=>tabBtn[d.date].classList.toggle('done',jFilled(j[d.date])));
     clear(mem);const items=DAYS.filter(d=>jFilled(j[d.date]));
