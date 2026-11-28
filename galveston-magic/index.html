@@ -405,16 +405,19 @@ const DAYS=[
  ['9:00 AM','Texas','Drive to Todd Mission','About an hour from Spring.','c','Drive'],
  ['10:00 AM','Texas','Texas Renaissance Festival','Jousting, glassblowers, and shows all day. Tickets are date-specific, so buy ahead.','c','Festival'],
  ['Evening','Texas','Dinner near Spring','See Eats in the Guide for picks.','c','Dinner','o']],notes:[]},
-{date:'2026-11-28',dow:'Sat',md:'28',phase:'The Drive Home',title:'Westbound',blurb:'One last Texas morning, then about 1,190 miles home in one push.',items:[
+{date:'2026-11-28',dow:'Sat',md:'28',phase:'The Drive Home',title:'Westbound by Night',blurb:'One last Texas day, then an evening start for the overnight run west. White Sands at sunrise, dinner in Tucson.',items:[
  ['9:00 AM','Texas','Old Town Spring','Stroll the shops and grab a late breakfast.','c','Stroll','o'],
- ['11:30 AM','Texas','Fill up and roll out','Top off at the Costco near Spring before leaving.','c','Fuel'],
- ['3:00 PM','Texas','San Antonio fuel','About mile 210.','c','Fuel'],
- ['8:00 PM','Texas','Fort Stockton fuel and dinner','About mile 520.','c','Fuel']],
- notes:['Times are estimates. Leaving at noon Texas time puts you home around 8 AM Sunday, Arizona time.']},
-{date:'2026-11-29',dow:'Sun',md:'29',phase:'The Drive Home',title:'Home Again',blurb:'The last stretch through New Mexico and southern Arizona.',items:[
- ['12:30 AM','El Paso','El Paso fuel','About mile 760. Costco will be closed, so use a 24-hour station.','c','Fuel'],
- ['5:00 AM','AZ','Tucson fuel','El Paso to Tucson is 315 miles and home is 115 more, so fuel here or earlier.','c','Fuel'],
- ['8:00 AM','AZ','Home in Chandler','Unpack the cooler, then everyone naps.','c','Arrive','a']],notes:[]}
+ ['4:30 PM','Texas','Fill up and early dinner','Costco pumps close at 8:30 PM on Saturday, so fill up before dinner. Whoever drives the first night shift should nap this afternoon.','c','Fuel'],
+ ['6:30 PM','Texas','Wheels up from Spring','Overnight drive west. Pajamas on, pillows in, and a driver swap at every fuel stop.','c','Depart','a'],
+ ['9:50 PM','Texas','San Antonio fuel','About mile 210. Costco is closed by now, so use a 24-hour station beside I-10.','c','Fuel']],
+ notes:['Times are estimates and follow Road timing. Change the departure there and every stop through Sunday updates.']},
+{date:'2026-11-29',dow:'Sun',md:'29',phase:'The Drive Home',title:'White Sands and Tucson',blurb:'Morning on the dunes, dinner with the McHenrys around 4:30, and home about 8:30 PM.',items:[
+ ['3:00 AM','Texas','Fort Stockton fuel','About mile 520. The Flying J is open 24 hours. Driver swap.','c','Fuel'],
+ ['5:45 AM','El Paso','El Paso fuel and breakfast','About mile 760. Costco pumps open at 6 AM on Sunday. Whataburger and McDonald’s drive-thrus are open early.','c','Fuel'],
+ ['8:00 AM','NM','White Sands National Park','About an hour and 40 minutes from El Paso by way of Las Cruces and US-70. Dunes Drive, the boardwalk, and sledding on the dunes. Plan about two and a half hours.','c','Fun','a'],
+ ['3:30 PM','AZ','Dinner in Tucson with the McHenrys','About 5 hours from White Sands. Set the time with the McHenrys and adjust White Sands or the departure in Road timing to match.','c','Dinner','a'],
+ ['7:30 PM','AZ','Home in Chandler','Unpack the cooler, then everyone sleeps.','c','Arrive','a']],
+ notes:['White Sands hours change by season, and Dunes Drive can close for up to three hours during missile tests. Check nps.gov/whsa or call 575-479-6124 from El Paso before you head up.','Sunrise is about 6:50 AM, so you reach the dunes in soft morning light, before the sand heats up.']}
 ];
 const DEPART=Date.UTC(2026,10,19,19,0,0); // default: noon Arizona (UTC-7, no DST)
 /* Countdown follows the departure planned in Road timing; a logged departure ends it. */
@@ -651,7 +654,7 @@ const LEGS=[['Wed Nov 25 · Back on land',[
  ['Sat Nov 28 · Heading home',[
  ['House to Old Town Spring',HOUSE,'Old Town Spring, 403 Main St, Spring TX 77373','6 mi','12 to 20 min','Park near Main Street and walk.'],
  ['Old Town Spring to Costco, Tomball (fuel)','Old Town Spring, 403 Main St, Spring TX 77373','Costco Gasoline, 27000 Tomball Pkwy, Tomball TX 77375','18 mi','25 to 35 min','Fill up before the long push west.']]]];
-const MILES={e:{chandler:0,tucson:115,elpaso:430,fortstockton:665,sanantonio:980,luling:1035,galveston:1200},w:{spring:0,sanantonio:210,fortstockton:520,elpaso:760,tucson:1075,chandler:1190}};
+const MILES={e:{chandler:0,tucson:115,elpaso:430,fortstockton:665,sanantonio:980,luling:1035,galveston:1200},w:{spring:0,sanantonio:210,fortstockton:520,elpaso:760,whitesands:857,tucson:1184,chandler:1299}};
 const RANGE=350;
 const GASAVG=[['U.S. average','$4.10','AAA, Nov 5'],['Texas statewide','$3.58','AAA, Nov 5'],['New Mexico','$4.05','AAA, Nov 3'],['Phoenix area','$4.28','AAA Arizona, Nov 6'],
  ['Houston','about $3.50','Estimate. Houston usually sits at or just under the Texas average.'],['El Paso','about $3.90','Estimate. It is usually the priciest big Texas metro.'],
@@ -671,30 +674,34 @@ const FAST={
  elpaso:[['Chick-fil-A · Kat’s pick','Chick-fil-A 1300 Airway Blvd El Paso TX','Drive-thru, about a mile from Costco. Open to 10 PM, closed Sunday','e'],['Costco food court','Costco 6101 Gateway Blvd W El Paso TX','Right where you fuel. Closes with the warehouse, about 8:30 PM','e'],['Whataburger','Whataburger near I-10 and Airway Blvd El Paso TX','Drive-thru, many open 24 hours',''],['McDonald’s','McDonald’s near I-10 and Airway Blvd El Paso TX','Drive-thru','']],
  fortstockton:[['Flying J grab-and-go','Flying J 2571 N Front St Fort Stockton TX','Open 24 hours. Fastest: hot food and snacks at the pump',''],['Subway inside Flying J','Flying J 2571 N Front St Fort Stockton TX','Same stop, no extra driving',''],['McDonald’s','McDonald’s near I-10 Fort Stockton TX','Drive-thru','']],
  sanantonio:[['Whataburger','Whataburger near I-10 and UTSA Blvd San Antonio TX','Drive-thru, many open 24 hours. Taquitos for breakfast',''],['Chick-fil-A','Chick-fil-A near I-10 and UTSA Blvd San Antonio TX','Drive-thru, closed Sunday','w'],['Costco food court','Costco 5611 UTSA Blvd San Antonio TX','Right where you fuel','w'],['Or wait for Buc-ee’s','',"About an hour ahead, open 24 hours",'e']],
+ whitesands:[['Visitor center gift shop','White Sands National Park Visitor Center 19955 US-70 Alamogordo NM','Snacks, water, and saucer sleds with wax. Bring water: there is no shade on the dunes',''],['Breakfast to go in Las Cruces','McDonald’s near I-10 and I-25 Las Cruces NM','Drive-thru on the way up','']],
  luling:[['Buc-ee’s grab-and-go','Buc-ee\'s 10070 I-10 Luling TX','Brisket sandwiches and breakfast tacos at the counters. Open 24 hours','']]};
 function dirLink(q,label){return h('a',{class:'btn ghost sm dirbtn',href:dirUrl(q),target:'_blank',rel:'noopener',text:label||'🧭 Directions'});}
 function placeRow(name,note,q){const r=h('div',{class:'plrow'},h('div',null,h('b',{text:name}),note?h('small',{text:note}):null));if(q)r.appendChild(dirLink(q));return r;}
 const I10=[[-111.84,33.30],[-111.6,32.9],[-110.95,32.19],[-110.3,32.0],[-109.05,32.25],[-108.7,32.35],[-107.76,32.27],[-106.77,32.31],[-106.42,31.78],[-105.4,31.1],[-104.83,31.04],[-103.8,31.0],[-102.88,30.89],[-101.2,30.71],[-100.64,30.57],[-99.77,30.49],[-99.14,30.05],[-98.49,29.42],[-97.96,29.57],[-97.65,29.68],[-96.54,29.70],[-95.37,29.76],[-94.80,29.30]];
 const PLACES={
- chandler:{n:'Chandler',at:[-111.84,33.30],plain:{e:'Wheels up at noon on Thursday, Nov 19. Leave with a full tank.',w:'Home, about 8 AM Sunday, Nov 29.'}},
- tucson:{n:'Tucson',at:[-110.95,32.19],exit:'Exit 263B · Kino Pkwy',when:{e:'Thu about 1:45 PM · mile 115 · fuel here or nearby',w:'Sun about 5:00 AM · mile 1,075 · fuel here or earlier'},
-  ramp:{e:'Take 263B and turn left onto Kino Parkway. Costco is about a third of a mile up on the left. Come back down Kino for the I-10 east ramp.',w:'Costco pumps open at 6 AM, so this early use the Circle K or Chevron by the same exit.'},
+ chandler:{n:'Chandler',at:[-111.84,33.30],plain:{e:'Wheels up at noon on Thursday, Nov 19. Leave with a full tank.',w:'Home, about 8:30 PM Sunday, Nov 29, after dinner with the McHenrys.'}},
+ tucson:{n:'Tucson',at:[-110.95,32.19],exit:'Exit 263B · Kino Pkwy',when:{e:'Thu about 1:45 PM · mile 115 · fuel here or nearby',w:'Sun about 4:30 PM · mile 1,184 · dinner with the McHenrys'},
+  ramp:{e:'Take 263B and turn left onto Kino Parkway. Costco is about a third of a mile up on the left. Come back down Kino for the I-10 east ramp.',w:'Dinner with the McHenrys. Costco Gasoline off Kino Pkwy is open until 7:30 PM on Sunday if you want to top off for the last 115 miles.'},
   gas:['Costco Gasoline, 1650 E Tucson Marketplace Blvd (weekdays 6 AM to 10 PM)','Circle K, 3450 S Kino Pkwy','Chevron, 1999 E Ajo Way'],food:['In-N-Out Burger','Chipotle','Culver’s','Dutch Bros Coffee','Costco food court'],q:'Costco Gasoline 1650 E Tucson Marketplace Blvd Tucson AZ',near:'I-10 and Kino Pkwy Tucson AZ'},
- elpaso:{n:'El Paso',at:[-106.42,31.78],exit:'Around exits 24 to 26 · Gateway Blvd',when:{e:'Thu about 7:00 PM · mile 430 · gas, then dinner',w:'Sun about 12:30 AM · mile 760'},
-  ramp:{e:'Costco sits on Gateway Blvd West, which is the westbound frontage road. Heading east you exit, cross under the freeway, and double back along the frontage road. Let Maps pick the exact exit.',w:'Heading west, Gateway Blvd West is on your side of the freeway. Costco and Sam’s pumps are closed at this hour, so pick a station Maps shows as open.'},
+ elpaso:{n:'El Paso',at:[-106.42,31.78],exit:'Around exits 24 to 26 · Gateway Blvd',when:{e:'Thu about 7:00 PM · mile 430 · gas, then dinner',w:'Sun about 6:30 AM · mile 760 · fuel and breakfast'},
+  ramp:{e:'Costco sits on Gateway Blvd West, which is the westbound frontage road. Heading east you exit, cross under the freeway, and double back along the frontage road. Let Maps pick the exact exit.',w:'Heading west, Gateway Blvd West is on your side of the freeway. Costco pumps open at 6 AM on Sunday, so a few minutes’ wait or any open station works. Fill up here: White Sands is about 100 miles away and there is little fuel near the park.'},
   gas:['Costco Gasoline, 6101 Gateway Blvd W (weekdays 6 AM to 10 PM)','Sam’s Club fuel, 7001 Gateway Blvd W at exit 26 (6 AM to 10 PM)','Circle K, 7008 Gateway Blvd E'],food:['Chick-fil-A, 1300 Airway Blvd (Kat’s pick, drive-thru, to 10 PM, closed Sun)','Costco food court','Chipotle','Five Guys','P.F. Chang’s','Village Inn'],q:'Costco Gasoline 6101 Gateway Blvd W El Paso TX',near:'Cielo Vista Mall El Paso TX'},
- fortstockton:{n:'Fort Stockton',at:[-102.88,30.89],exit:'Exit 259',when:{e:'Fri about 12:15 AM Texas time · mile 665',w:'Sat about 8:00 PM · mile 520 · fuel and dinner'},
+ fortstockton:{n:'Fort Stockton',at:[-102.88,30.89],exit:'Exit 259',when:{e:'Fri about 12:15 AM Texas time · mile 665',w:'Sun about 3:15 AM Texas time · mile 520 · 24-hour Flying J'},
   ramp:{e:'Take exit 259. Flying J and Valero are a quarter mile to the right. Chevron and Burger King are to the left. Rejoin I-10 east at the same interchange.',w:'Take exit 259. Flying J and Valero are to the left, Chevron to the right. For a sit-down dinner, Dickinson Blvd in town has the most choices.'},
   gas:['Flying J, 2571 N Front St (open 24 hours)','Valero, 2576 N Front St','Chevron, 2874 N State Hwy 18','Walmart fuel at exit 257'],food:['Subway and Cinnabon inside Flying J','Burger King','Taqueria Guadalajara','McDonald’s and Dairy Queen on Dickinson Blvd','K-Bob’s Steakhouse'],q:'Flying J 2571 N Front St Fort Stockton TX',near:'Fort Stockton TX'},
- sanantonio:{n:'San Antonio',at:[-98.49,29.42],exit:'No fixed exit',when:{e:'Fri about 5:45 AM with a noon start · mile 980',w:'Sat about 3:00 PM · mile 210'},
-  ramp:{e:'Costco pumps open at 6 AM. Before then, pick a bright 24-hour station right beside I-10. After 6, exit at UTSA Blvd for Costco NW San Antonio on the northwest side, before downtown.',w:'Costco pumps are open until 8:30 PM on Saturday. Exit at UTSA Blvd for Costco NW San Antonio, just off I-10 on the northwest side.'},
+ sanantonio:{n:'San Antonio',at:[-98.49,29.42],exit:'No fixed exit',when:{e:'Fri about 5:45 AM with a noon start · mile 980',w:'Sat about 10:00 PM · mile 210 · 24-hour station'},
+  ramp:{e:'Costco pumps open at 6 AM. Before then, pick a bright 24-hour station right beside I-10. After 6, exit at UTSA Blvd for Costco NW San Antonio on the northwest side, before downtown.',w:'Costco pumps close at 8:30 PM on Saturday, so this late use a bright 24-hour station beside I-10. Whataburger drive-thrus are open late.'},
   gas:['Costco Gasoline, 5611 UTSA Blvd (Mon to Fri 6 AM to 10 PM, Sat to 8:30 PM)','Any 24-hour station beside I-10 before 6 AM'],food:['Eastbound: save your appetite, Buc-ee’s is about an hour ahead','Westbound: Whataburger is a Texas rite of passage'],q:'gas station I-10 San Antonio TX',near:'I-10 San Antonio TX'},
  luling:{n:'Buc-ee’s Luling',at:[-97.65,29.68],exit:'Exit 632 · US 183',when:{e:'Fri about 6:00 AM · mile 1,035 · breakfast and rest'},
   ramp:{e:'Take exit 632. Buc-ee’s is on the right, about a fifth of a mile. You cannot miss the sign. Rejoin I-10 east from the same exit.'},
   gas:['Buc-ee’s, 10070 I-10 (120 pumps, open 24 hours)'],food:['Chopped brisket sandwiches','Breakfast tacos','Beaver Nuggets','Fudge counter'],q:'Buc-ee\'s 10070 I-10 Luling TX',near:'Buc-ee\'s Luling TX'},
  galveston:{n:'Galveston',at:[-94.80,29.30],plain:{e:'SMP Garage, 150 Rosenberg St (25th St), about 10 AM Friday. This is the port’s own garage, a walk from the cruise terminals with no shuttle. Breakfast near the Strand first, then park and board. The car stays here until we are back on Wednesday.',w:''},q:'SMP Garage 150 Rosenberg St Galveston TX 77550'},
- spring:{n:'Spring',at:[-95.42,30.08],plain:{e:'',w:'Home base. Fill up at The Woodlands or Tomball Costco, then roll out around noon on Saturday, Nov 28.'},q:'Costco Gasoline The Woodlands TX'}};
-const ROUTES={e:['chandler','tucson','elpaso','fortstockton','sanantonio','luling','galveston'],w:['spring','sanantonio','fortstockton','elpaso','tucson','chandler']};
+ whitesands:{n:'White Sands',at:[-106.17,32.78],exit:'Via Las Cruces · I-25 north, then US-70 east',when:{w:'Sun about 8:45 AM · mile 857 · dunes and sledding'},
+  ramp:{w:'In Las Cruces leave I-10 for I-25 north, then take US-70 east over San Augustin Pass, about 55 minutes to the park. Come back the same way to rejoin I-10 west. Missile tests can close the road for a few hours, so check before you go.'},
+  gas:['Fill up in El Paso or Las Cruces. There is little fuel near the park'],food:['Visitor center gift shop: snacks and sleds'],q:'White Sands National Park Visitor Center 19955 US-70 Alamogordo NM',near:'White Sands National Park NM'},
+ spring:{n:'Spring',at:[-95.42,30.08],plain:{e:'',w:'Home base. Fill up at the Conroe Costco before 8:30 PM, early dinner, then roll out at 6:30 PM Saturday for the overnight drive.'},q:'Costco Gasoline The Woodlands TX'}};
+const ROUTES={e:['chandler','tucson','elpaso','fortstockton','sanantonio','luling','galveston'],w:['spring','sanantonio','fortstockton','elpaso','whitesands','tucson','chandler']};
 const COAST=[[-88.5,30.6],[-90,29.2],[-91.5,29.5],[-93.8,29.7],[-94.8,29.3],[-96.4,28.4],[-97.3,27.6],[-97.2,25.9],[-97.8,24.0],[-97.8,22.2],[-97.2,20.8],[-96.1,19.2],[-95.0,18.6],[-94.4,18.15],[-92.7,18.6],[-91.8,18.7],[-90.7,19.4],[-90.5,20.7],[-90.0,21.1],[-88.8,21.4],[-87.1,21.6],[-86.8,21.1],[-87.4,20.2],[-87.5,19.3],[-87.8,18.5],[-88.2,17.4]];
 const PORTS={
  galveston:{n:'Galveston',at:[-94.80,29.30],lab:[10,-10],days:['2026-11-20','2026-11-25'],fact:'Galveston sits on a barrier island. The ship sails Friday at 4 PM and returns Wednesday at 7:30 AM.'},
@@ -841,7 +848,7 @@ function sunburst(){const NS='http://www.w3.org/2000/svg';const svg=document.cre
 let tickT;
 /* ---------- location: foreground only, kept in memory, never sent anywhere ---------- */
 const GEO={on:Store.get('geo',false),pos:null,err:'',watch:null,host:null};
-const STOPR={chandler:10,tucson:8,elpaso:10,fortstockton:6,sanantonio:15,luling:5,galveston:10,spring:12};
+const STOPR={whitesands:20,chandler:10,tucson:8,elpaso:10,fortstockton:6,sanantonio:15,luling:5,galveston:10,spring:12};
 const HOT=[['Costco, The Woodlands',30.176,-95.47,'Groceries',4],['Costco, Tomball',30.082,-95.603,'Groceries',4],['Old Town Spring',30.0799,-95.4172,'Food',2],['Space Center Houston',29.5518,-95.0976,'Fun',3],['Houston Zoo',29.7148,-95.3908,'Fun',2],['Texas Renaissance Festival',30.2686,-95.8222,'Fun',3],['Galveston cruise terminal',29.3153,-94.8,'Other',3]];
 const rad=d=>d*Math.PI/180;
 function miBetween(a,b,c,d){const R=3958.8,dl=rad(c-a),dn=rad(d-b);const x=Math.sin(dl/2)**2+Math.cos(rad(a))*Math.cos(rad(c))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(x));}
@@ -1058,7 +1065,7 @@ function wxLoad(rows,els,setNote){const cache=Store.get('wx',{});
    Port days add an hour-by-hour strip for the hours ashore. */
 const WXDAY={'2026-11-25':[['Galveston, TX',29.30,-94.79,'Disembark'],['Houston, TX',29.76,-95.37,'Afternoon']]};
 const RDAY={'2026-11-19':['e',['chandler','tucson','elpaso','fortstockton']],'2026-11-20':['e',['sanantonio','luling','galveston']],
- '2026-11-28':['w',['spring','sanantonio','fortstockton']],'2026-11-29':['w',['elpaso','tucson','chandler']]};
+ '2026-11-28':['w',['spring','sanantonio']],'2026-11-29':['w',['fortstockton','elpaso','whitesands','tucson','chandler']]};
 const PORTHRS={'2026-11-22':[11,18,'Ashore 11:15 AM to all aboard 6:00 PM'],'2026-11-23':[10,18,'Ashore 10:30 AM to all aboard 6:00 PM']};
 const SHIPOFF=-6;/* ship time = US Central in late November */
 function wxhLoad(pts,done){
@@ -1078,12 +1085,12 @@ function hrLabel(ms,off){const d=new Date(ms+off*3600000);let hr=d.getUTCHours()
 /* Directions for road-day plan items, by date and item index */
 const DIRQ={'2026-11-19':{1:'Costco Gasoline 1650 E Tucson Marketplace Blvd Tucson AZ',2:'Costco Gasoline 6101 Gateway Blvd W El Paso TX',3:'Chick-fil-A 1300 Airway Blvd El Paso TX',4:'Flying J 2571 N Front St Fort Stockton TX'},
  '2026-11-20':{0:it=>/Costco/.test(it[2])?'Costco Gasoline 5611 UTSA Blvd San Antonio TX':'gas station near I-10 San Antonio TX',1:'Buc-ee\'s 10070 I-10 Luling TX',2:'SMP Garage 150 Rosenberg St Galveston TX 77550',3:'Galveston Cruise Terminal 2702 Harborside Drive Galveston TX'},
- '2026-11-28':{0:'Old Town Spring 403 Main St Spring TX',1:'Costco Gasoline 8185 TX-242 Conroe TX',2:'Costco Gasoline 5611 UTSA Blvd San Antonio TX',3:'Flying J 2571 N Front St Fort Stockton TX'},
- '2026-11-29':{0:'gas station open 24 hours near I-10 El Paso TX',1:'gas station near I-10 and Kino Pkwy Tucson AZ'}};
+ '2026-11-28':{0:'Old Town Spring 403 Main St Spring TX',1:'Costco Gasoline 8185 TX-242 Conroe TX',3:'gas station open 24 hours near I-10 San Antonio TX'},
+ '2026-11-29':{0:'Flying J 2571 N Front St Fort Stockton TX',1:'Costco Gasoline 6101 Gateway Blvd W El Paso TX',2:'White Sands National Park Visitor Center 19955 US-70 Alamogordo NM',4:'Chandler AZ'}};
 function itemDir(date,i,it){const m=DIRQ[date];if(!m||m[i]==null)return null;return typeof m[i]==='function'?m[i](it):m[i];}
 /* Drive-day plan times follow Road timing (planned departure + check-ins) instead of fixed text. */
 const DRIVEITEMS={'2026-11-19':['e',{0:'chandler',1:'tucson',2:'elpaso',3:'elpaso+25',4:'fortstockton'}],'2026-11-20':['e',{0:'sanantonio',1:'luling',2:'galveston'}],
- '2026-11-28':['w',{1:'spring',2:'sanantonio',3:'fortstockton'}],'2026-11-29':['w',{0:'elpaso',1:'tucson',2:'chandler'}]};
+ '2026-11-28':['w',{2:'spring',3:'sanantonio'}],'2026-11-29':['w',{0:'fortstockton',1:'elpaso',2:'whitesands',3:'tucson',4:'chandler'}]};
 function driveItems(d){const m=DRIVEITEMS[d.date];if(!m)return {items:d.items,notes:d.notes||[],note:''};
   const rn=roadNow(m[0]),ids=rn.ids,bd=+d.md;
   const items=d.items.map((it,i)=>{const key=m[1][i];if(!key)return it;const id=key.split('+')[0],add=+(key.split('+')[1]||0);const r=rn.rows[ids.indexOf(id)];if(!r||r.arr==null)return it;
@@ -1594,7 +1601,7 @@ function homePhase(){const now=tripNow().getTime(),t=tripToday();
     return near?{k:'port',port:true,evening}:{k:'drive',evening};}
   if(t<='2026-11-24'||(t==='2026-11-25'&&lh(-6)<9))return {k:'ship',evening};
   if(t<='2026-11-27')return {k:'land',evening};
-  if(t==='2026-11-28'||t==='2026-11-29'){const log=(Store.get('roadlog',{}).w)||{};if(t==='2026-11-28'&&!ROUTES.w.some(id=>log[id])&&lh(-6)<11)return {k:'land',evening};return log.chandler?{k:'done',evening}:{k:'drive',evening};}
+  if(t==='2026-11-28'||t==='2026-11-29'){const log=(Store.get('roadlog',{}).w)||{};if(log.chandler)return {k:'done',evening};if(!ROUTES.w.some(id=>log[id])&&now<depMs('w',roadPlan().w))return {k:'land',evening};return {k:'drive',evening};}
   return {k:'done',evening};}
 
 /* ---------- Trip ---------- */
@@ -1663,7 +1670,7 @@ function RoadMap(w){
   let line=I10.map(P);if(dir==='w')line=line.slice(0,-1).concat([P(PLACES.spring.at)]);
   m.g.appendChild(sv('polyline',{points:line.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#c9a24b','stroke-width':3,'stroke-linejoin':'round','stroke-linecap':'round'}));
   m.g.appendChild(sv('text',{x:300,y:60,'font-size':10,style:'fill:#5f7fae','letter-spacing':3},'INTERSTATE 10'));
-  const LAB={chandler:[12,-8],tucson:[12,14],elpaso:[-6,-14,'middle'],fortstockton:[0,-14,'middle'],sanantonio:[-8,20,'middle'],luling:[0,-14,'middle'],galveston:[-4,22,'end'],spring:[-6,-14,'end']};
+  const LAB={whitesands:[0,-14,'middle'],chandler:[12,-8],tucson:[12,14],elpaso:[-6,-14,'middle'],fortstockton:[0,-14,'middle'],sanantonio:[-8,20,'middle'],luling:[0,-14,'middle'],galveston:[-4,22,'end'],spring:[-6,-14,'end']};
   ids.forEach((id,i)=>pin(m.g,P(PLACES[id].at),PLACES[id].n,LAB[id],S.stop===id,i+1,()=>{S.stop=S.stop===id?null:id;render();}));
   if(GEO.on&&GEO.pos){const me=whereAmI();if(me&&me.dir===dir&&me.off<=25){const q=P(me.at);
     m.g.appendChild(sv('circle',{cx:q[0],cy:q[1],r:13,fill:'rgba(79,195,247,.25)'}));m.g.appendChild(sv('circle',{cx:q[0],cy:q[1],r:6,fill:'#4fc3f7',stroke:'#fff','stroke-width':2}));
@@ -1725,13 +1732,13 @@ function quizBlock(parent,key,qs,plain){const st=Store.get(key,{});
     const note=h('p',{text:st[qi]!=null&&q[3]?q[3]:''});parent.appendChild(note);paint();});}
 
 /* ---------- road timing forecast ---------- */
-const TZO={chandler:-7,tucson:-7,elpaso:-7,fortstockton:-6,sanantonio:-6,luling:-6,galveston:-6,spring:-6};
+const TZO={whitesands:-7,chandler:-7,tucson:-7,elpaso:-7,fortstockton:-6,sanantonio:-6,luling:-6,galveston:-6,spring:-6};
 const TIMING={
   e:{drive:[110,280,205,270,55,165],stop:[0,20,45,20,15,25,0],base:[2026,10,19],dayOff:-7},
-  w:{drive:[200,275,215,280,110],stop:[0,20,45,20,15,0],base:[2026,10,28],dayOff:-6}};
+  w:{drive:[200,275,215,100,305,110],stop:[0,20,25,30,150,120,0],base:[2026,10,28],dayOff:-6}};
 const PACE={q:{d:1,s:.7,n:'Quick',t:'Short stops, no extra cushion.'},p:{d:1.06,s:1,n:'Planned',t:'Matches the day plans, with a little cushion for slowdowns.'},e:{d:1.12,s:1.5,n:'Easy',t:'Longer stops and a bigger cushion.'}};
 const RUSH={e:[[0,.05,[[6.5,9,20],[15,18.5,25]]],[3,.92,[[6.5,9,25],[15.5,18.5,30]]],[5,.6,[[6.5,9.5,40],[15.5,19,45]]]],
-  w:[[0,.05,[[6.5,9.5,40],[15.5,19,45]]],[4,.9,[[6.5,9,20],[15,18.5,25]]]]};
+  w:[[0,.05,[[6.5,9.5,40],[15.5,19,45]]],[5,.9,[[6.5,9,20],[15,18.5,25]]]]};
 const DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const ALLABOARD=Date.UTC(2026,10,20,15,0)+6*3600000;
 function rushPen(dir,leg,t,drive,off){let add=0;RUSH[dir].forEach(r=>{if(r[0]!==leg)return;
@@ -1756,7 +1763,8 @@ function fmtT(ms,off,bd){const d=new Date(ms+off*3600000);let hr=d.getUTCHours()
 function fmtDur(m){m=Math.max(0,Math.round(m));const hh=Math.floor(m/60),mm=m%60;return hh?hh+' h'+(mm?' '+mm+' m':''):mm+' m';}
 function fmtHM(s){const p=String(s).split(':');let hr=+p[0];const ap=hr>=12?'PM':'AM';hr=hr%12||12;return hr+(+p[1]?':'+p[1]:'')+' '+ap;}
 function roadPlan(){const sv=Store.get('roadplan',{});if(sv.tv!==2){sv.t='12:30';sv.tv=2;Store.set('roadplan',sv);}/* port arrival window from the Disney form: 12:30 to 12:45 PM */
-  return Object.assign({e:'12:00',w:'11:30',p:'p',t:'12:30',br:'0'},sv);}
+  if(sv.tv<3){sv.w='18:30';sv.tv=3;Store.set('roadplan',sv);}/* Kat's plan: leave Spring 6:30 PM Sat */
+  return Object.assign({e:'12:00',w:'18:30',p:'p',t:'12:30',br:'0'},sv);}
 function setPlan(k,v){const p=roadPlan();p[k]=v;save('roadplan',p);render();}
 let rdT;
 function logMut(dir,fn){const a=Store.get('roadlog',{});a[dir]=a[dir]||{};fn(a[dir]);save('roadlog',a);render();}
@@ -1829,7 +1837,7 @@ function Timing(w,dir){
     else body.appendChild(h('p',{class:'warn',text:'No Thursday departure reaches the port by that target at this pace.'}));}
   if(!hasLog){
     body.appendChild(h('div',{class:'sub',text:'What if we leave at'}));
-    const opts=isE?['08:00','10:00','12:00','14:00','16:00','18:00']:['09:00','11:00','12:00','13:00','15:00','17:00'];
+    const opts=isE?['08:00','10:00','12:00','14:00','16:00','18:00']:['16:30','17:30','18:30','19:30','20:30','21:30'];
     const g=h('div',{class:'whatif'});body.appendChild(g);
     opts.forEach(o=>{const fr=roadFC(dir,depMs(dir,o),P.p,null,P.br),l=fr[fr.length-1];const s2=isE?portStatus(l.arr,tgt)[0]:'';
       g.appendChild(h('button',{type:'button',class:'chip'+(P[dir]===o?' on':''),on:{click:()=>setPlan(dir,o)}},h('b',{text:fmtHM(o)}),h('span',{class:s2,text:(isE?'Port ':'Home ')+fmtT(l.arr,TZO[l.id],bd)})));});}
@@ -1967,7 +1975,7 @@ const FRW=1080,FRH={post:1350,story:1920};let FRIMG=null;
 const FRADJ={z:1,x:0,y:0,b:1,_sx:0,_sy:0};/* photo zoom, pan (-1..1), brightness; in memory only, like the photo */
 const FR_THEMES=[['road','🚙 Road trip'],['cruise','⚓ Cruise'],['maya','🗿 Maya'],['houston','🤠 Houston'],['thanks','🦃 Thanks']];
 const CRUISE_DAYS=[['2026-11-20','Sail Away · Galveston'],['2026-11-21','Day at Sea'],['2026-11-22','Cozumel, Mexico'],['2026-11-23','Progreso, Mexico'],['2026-11-24','Day at Sea'],['2026-11-25','Back in Galveston']];
-const STATEOF={chandler:'AZ',tucson:'AZ',elpaso:'TX',fortstockton:'TX',sanantonio:'TX',luling:'TX',galveston:'TX',spring:'TX'};
+const STATEOF={whitesands:'NM',chandler:'AZ',tucson:'AZ',elpaso:'TX',fortstockton:'TX',sanantonio:'TX',luling:'TX',galveston:'TX',spring:'TX'};
 const FR_DEF={road:'',cruise:'',thanks:'Grateful for this crew',maya:'',houston:''};
 function frRR(g,x,y,w,hh,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+hh,r);g.arcTo(x+w,y+hh,x,y+hh,r);g.arcTo(x,y+hh,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
 function frCover(g,img,x,y,w,hh,ph,msg){
@@ -1994,7 +2002,7 @@ function frShield(g,x,y,w,hh,num){g.save();g.beginPath();
 /* Towns along the route for the 'Where we are now' frame stamp: [name, state, lat, lon] */
 const TOWNS=[['Chandler','AZ',33.30,-111.84],['Casa Grande','AZ',32.88,-111.76],['Picacho Peak','AZ',32.65,-111.40],['Marana','AZ',32.44,-111.22],['Tucson','AZ',32.22,-110.97],['Vail','AZ',32.05,-110.71],['Benson','AZ',31.97,-110.29],['Willcox','AZ',32.25,-109.83],['Bowie','AZ',32.33,-109.49],['San Simon','AZ',32.27,-109.22],
  ['AZ–NM state line','AZ / NM',32.27,-109.05],['Lordsburg','NM',32.35,-108.71],['Deming','NM',32.27,-107.76],['Las Cruces','NM',32.32,-106.76],['Anthony','NM / TX',32.00,-106.60],
- ['El Paso','TX',31.76,-106.45],['Fabens','TX',31.50,-106.16],['Fort Hancock','TX',31.30,-105.85],['Sierra Blanca','TX',31.17,-105.36],['Van Horn','TX',31.04,-104.83],['Kent','TX',31.07,-104.22],['Balmorhea','TX',30.98,-103.74],['Fort Stockton','TX',30.89,-102.88],['Sheffield','TX',30.69,-101.82],['Ozona','TX',30.71,-101.20],['Sonora','TX',30.57,-100.64],['Junction','TX',30.49,-99.77],['Kerrville','TX',30.05,-99.14],['Comfort','TX',29.97,-98.91],['Boerne','TX',29.79,-98.73],
+ ['White Sands','NM',32.78,-106.17],['Alamogordo','NM',32.90,-105.96],['El Paso','TX',31.76,-106.45],['Fabens','TX',31.50,-106.16],['Fort Hancock','TX',31.30,-105.85],['Sierra Blanca','TX',31.17,-105.36],['Van Horn','TX',31.04,-104.83],['Kent','TX',31.07,-104.22],['Balmorhea','TX',30.98,-103.74],['Fort Stockton','TX',30.89,-102.88],['Sheffield','TX',30.69,-101.82],['Ozona','TX',30.71,-101.20],['Sonora','TX',30.57,-100.64],['Junction','TX',30.49,-99.77],['Kerrville','TX',30.05,-99.14],['Comfort','TX',29.97,-98.91],['Boerne','TX',29.79,-98.73],
  ['San Antonio','TX',29.42,-98.49],['Seguin','TX',29.57,-97.96],['Luling','TX',29.68,-97.65],['Flatonia','TX',29.69,-97.11],['Schulenburg','TX',29.68,-96.90],['Columbus','TX',29.71,-96.54],['Sealy','TX',29.78,-96.16],['Katy','TX',29.79,-95.82],['Houston','TX',29.76,-95.37],['League City','TX',29.51,-95.09],['Texas City','TX',29.38,-94.90],['Galveston','TX',29.30,-94.80],['Spring','TX',30.08,-95.42],['The Woodlands','TX',30.17,-95.46]];
 function nearTown(lat,lon){let b=null;TOWNS.forEach(t=>{const d=miBetween(lat,lon,t[2],t[3]);if(!b||d<b.d)b={t,d};});return b;}
 function frLocate(done){const use=p=>{GEO.pos=GEO.pos&&GEO.pos.t>p.t?GEO.pos:p;const nt=nearTown(p.lat,p.lon);const wh=whereAmI();
