@@ -678,6 +678,11 @@ const FAST={
  lascruces:[['Whataburger','Whataburger near I-10 and I-25 Las Cruces NM','Drive-thru breakfast taquitos, many open 24 hours',''],['McDonald’s','McDonald’s near I-10 and I-25 Las Cruces NM','Drive-thru',''],['Starbucks','Starbucks near I-10 and I-25 Las Cruces NM','Coffee for the drivers','']],
  whitesands:[['Visitor center gift shop','White Sands National Park Visitor Center 19955 US-70 Alamogordo NM','Snacks, water, and saucer sleds with wax. Bring water: there is no shade on the dunes','']],
  luling:[['Buc-ee’s grab-and-go','Buc-ee\'s 10070 I-10 Luling TX','Brisket sandwiches and breakfast tacos at the counters. Open 24 hours','']]};
+/* Google Maps route with waypoints for the rest of the drive */
+const ROUTEQ={w:{spring:'Spring TX',sanantonio:'San Antonio TX',fortstockton:'Flying J 2571 N Front St Fort Stockton TX',lascruces:'Las Cruces NM',whitesands:'White Sands National Park Visitor Center 19955 US-70 Alamogordo NM',tucson:'El Charro Cafe 311 N Court Ave Tucson AZ',chandler:'Chandler AZ'},
+  e:{chandler:'Chandler AZ',tucson:'Costco Gasoline 1650 E Tucson Marketplace Blvd Tucson AZ',elpaso:'Costco Gasoline 6101 Gateway Blvd W El Paso TX',fortstockton:'Flying J 2571 N Front St Fort Stockton TX',sanantonio:'San Antonio TX',luling:'Buc-ee\'s 10070 I-10 Luling TX',galveston:'SMP Garage 150 Rosenberg St Galveston TX 77550'}};
+function routeUrl(ids,dir){const q=ids.map(id=>ROUTEQ[dir][id]||PLACES[id].n);const dest=q.pop();let u='https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(dest)+'&travelmode=driving';if(q.length)u+='&waypoints='+encodeURIComponent(q.join('|'));return u;}
+function remainingIds(dir){const rn=roadNow(dir),ids=rn.ids,now=tripNow().getTime(),k=ids.map(id=>!!rn.log[id]).lastIndexOf(true);let i=k>=0?k+1:rn.rows.findIndex(r=>r.arr!=null&&r.arr>now);if(i<1)i=1;return ids.slice(i);}
 function dirLink(q,label){return h('a',{class:'btn ghost sm dirbtn',href:dirUrl(q),target:'_blank',rel:'noopener',text:label||'🧭 Directions'});}
 function placeRow(name,note,q){const r=h('div',{class:'plrow'},h('div',null,h('b',{text:name}),note?h('small',{text:note}):null));if(q)r.appendChild(dirLink(q));return r;}
 const I10=[[-111.84,33.30],[-111.6,32.9],[-110.95,32.19],[-110.3,32.0],[-109.05,32.25],[-108.7,32.35],[-107.76,32.27],[-106.77,32.31],[-106.42,31.78],[-105.4,31.1],[-104.83,31.04],[-103.8,31.0],[-102.88,30.89],[-101.2,30.71],[-100.64,30.57],[-99.77,30.49],[-99.14,30.05],[-98.49,29.42],[-97.96,29.57],[-97.65,29.68],[-96.54,29.70],[-95.37,29.76],[-94.80,29.30]];
@@ -1372,6 +1377,9 @@ function stopDetail(card,id,dir){const cur=PLACES[id],ids=ROUTES[dir];
     linkRow(card,[['🧭 Directions',dirUrl(cur.q)],['Gas prices now',mapsUrl('gas stations near '+cur.near)],['Restaurants',mapsUrl('restaurants near '+cur.near)]]);
     card.appendChild(h('p',{style:'font-size:12px',text:'Gas prices change daily, so they are not stored in the app. The Gas prices button shows today’s numbers.'}));}
   if(cur.plain&&cur.q)linkRow(card,[['🧭 Directions',dirUrl(cur.q)]]);
+  if(id==='whitesands'){card.appendChild(h('div',{class:'sub',text:'There and back'}));linkRow(card,[['🧭 To White Sands',dirUrl(ROUTEQ.w.whitesands)],['🧭 Back to I-10 → El Charro, Tucson',dirUrl(ROUTEQ.w.tucson)]]);
+    card.appendChild(h('p',{style:'font-size:12px',text:'Maps will route you back through Las Cruces to I-10 west. About 5 hours to Tucson.'}));}
+  if(id==='lascruces')linkRow(card,[['🧭 On to White Sands',dirUrl(ROUTEQ.w.whitesands)]]);
   const GA=GASAVG_BY[id];
   if(GA){card.appendChild(h('div',{class:'sub',text:'⛽ Gas stop'}));
     card.appendChild(h('p',{style:'margin:0 0 6px;font-size:14px;color:var(--dim)',text:'Typical regular here: '+GA[0]+' ('+GA[1]+'). The price changes daily, so log what you actually spent.'}));
@@ -1710,7 +1718,10 @@ function RoadMap(w){
         h('div',{style:'font-size:12px;color:var(--dim)',text:'Mile '+mi[id].toLocaleString('en-US')+' of '+tot.toLocaleString('en-US')+(hot?' · close to a full tank, so fill up before this leg':'')})));});
     mc.appendChild(h('p',{style:'font-size:12px;color:var(--dim);margin:8px 0 0',text:'Bars show each leg against a tank of about '+RANGE+' miles (18 gallons at about 20 mpg). Longest leg: '+longest+' miles. Miles are approximate along I-10.'}));
     w.appendChild(mc);};
-  if(!cur){w.appendChild(h('p',{class:'lead',text:'Tap a stop to zoom in. You will see the exit, how to get off and back on, gas, and food nearby.'}));
+  if(!cur){const rem=remainingIds(dir);if(rem.length){const nx=rem[0];w.appendChild(h('div',{class:'row'},
+      h('a',{class:'btn sm',href:dirUrl(ROUTEQ[dir][nx]||PLACES[nx].n),target:'_blank',rel:'noopener',text:'🧭 Next: '+PLACES[nx].n}),
+      h('a',{class:'btn ghost sm',href:routeUrl(rem.slice(-9),dir),target:'_blank',rel:'noopener',text:'🗺️ Rest of the route in Maps'})));}
+    w.appendChild(h('p',{class:'lead',text:'Tap a stop to zoom in. You will see the exit, how to get off and back on, gas, and food nearby.'}));
     w.appendChild(h('p',{class:'foot',text:'This is a hand-drawn route sketch so it works with no signal. Buttons inside each stop open live maps when you are online.'}));RoadProgress(w,dir,false);Timing(w,dir);milesCard();return;}
   const card=h('div',{class:'card'});w.appendChild(card);
   stopDetail(card,S.stop,dir);
