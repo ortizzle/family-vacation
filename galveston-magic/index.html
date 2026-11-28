@@ -151,6 +151,7 @@ body.day .sheet-ov{background:rgba(30,22,5,.4)}
 .dirbtn{flex:0 0 auto;white-space:nowrap}
 .budpre{white-space:pre-wrap;font:inherit;font-size:13px;line-height:1.5;color:var(--dim);background:rgba(0,0,0,.18);border-radius:10px;padding:8px 10px;margin:8px 0}
 .budshared{margin-top:12px;padding:10px 12px;border:1px solid var(--teal);border-radius:12px}.budshared h3{margin:2px 0}
+.mapcard{position:relative;border-color:var(--teal)}.mapcard h3{margin-bottom:2px}.mapcard p{margin:0;font-size:14px;color:var(--brass-lt)}.mapgo{position:absolute;right:16px;top:16px;color:var(--teal);font-size:14px;font-weight:600}
 .card.hot{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal) inset}
 .budhero{text-align:center;padding:10px 12px 8px;margin:6px 0 8px;border:1px solid var(--teal);border-radius:14px;background:rgba(79,195,247,.06)}
 .budhero small{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
@@ -1010,6 +1011,14 @@ function Home(){
     x.appendChild(h('div',{class:'row',style:'margin:-4px 0 10px'},h('button',{type:'button',class:'btn sm',text:'🛳️ We’re on board',on:{click:()=>{save('aboard',true);toast('Welcome aboard! Cruise mode is on.');render();window.scrollTo(0,0);}}})));});
   blk('today',x=>x.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>daySheet(d.date)}},
     h('span',{class:'phase',text:ti>=0?'Today':'First up · Thu Nov 19'}),h('h3',{text:d.title}),h('p',{text:d.blurb}))));
+  blk('map',x=>{const rd=RDAY[tripToday()];if(!rd)return;const dir=rd[0],rn=roadNow(dir),ids=rn.ids,now=tripNow().getTime(),k=ids.map(id=>!!rn.log[id]).lastIndexOf(true);
+    let ni=k>=0?k+1:rn.rows.findIndex((r,i)=>r.arr!=null&&r.arr>now);if(ni<0||ni>=ids.length)ni=-1;
+    const last=rn.rows[rn.rows.length-1];const endN=PLACES[ids[ids.length-1]].n;const tt=(ms,id)=>fmtT(ms,TZO[id],0).replace(/^\w+ /,'');
+    let first='';if(ni===0)first='Leave '+PLACES[ids[0]].n+' '+tt(rn.rows[0].arr,ids[0])+' · ';else if(ni>0)first='Next: '+PLACES[ids[ni]].n+' ~'+tt(rn.rows[ni].arr,ids[ni])+' · ';
+    const sub=first+(last.arr!=null?(dir==='w'?'Home':endN)+' ~'+fmtT(last.arr,TZO[last.id],0):'');
+    const open=()=>{S.tab='trip';S.view='road';S.dir=dir;S.stop=null;S.open.timing=true;render();window.scrollTo(0,0);};
+    x.appendChild(h('button',{type:'button',class:'card tap mapcard',on:{click:open}},h('span',{class:'phase',text:dir==='w'?'The drive home':'The drive east'}),
+      h('h3',{text:'🗺️ Road map, timing & stops'}),h('p',{text:sub}),h('span',{class:'mapgo',text:'Open ›'})));});
   blk('aboard',x=>{if(ph.k==='ship')AboardCard(x);});
   blk('dinner',x=>{if(ph.k==='ship')DinnerCard(x);});
   blk('fuel',x=>{if(ph.k==='drive'&&d.items.some(i=>i[5]==='Fuel'))x.appendChild(h('button',{type:'button',class:'card tap',on:{click:()=>{let n='Gas';if(GEO.on&&GEO.pos){const w0=whereAmI();if(w0.near.length)n=gasNote(w0.near[0]);}goBudget('Gas',n);}}},
@@ -1591,11 +1600,11 @@ function HomeExtras(blk,ph){
   blk('remind',x=>MyReminders(x));
 }
 /* Home arrangement by trip phase: things that need a tap or change often go first. */
-const HOMEORDER={pre:['docs','today','weather','next','interest','remind','keep','tiles','geo'],
-  drive:['road','next','interest','fuel','weather','today','geo','remind','keep','tiles'],
+const HOMEORDER={pre:['docs','map','today','weather','next','interest','remind','keep','tiles','geo'],
+  drive:['map','road','next','interest','fuel','weather','today','geo','remind','keep','tiles'],
   port:['port','next','weather','today','road','interest','remind','keep','geo','tiles'],
   ship:['aboard','dinner','interest','weather','keep','remind','tiles','geo'],
-  land:['next','interest','today','weather','remind','keep','geo','tiles'],
+  land:['map','next','interest','today','weather','remind','keep','geo','tiles'],
   done:['keep','today','tiles','remind','geo']};
 function homePhase(){const now=tripNow().getTime(),t=tripToday();
   const lh=(off)=>{const d=new Date(now+off*3600000);return d.getUTCHours()+d.getUTCMinutes()/60;};
