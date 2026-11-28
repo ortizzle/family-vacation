@@ -931,7 +931,7 @@ function QuickStrip(w){const t=tripToday(),cruise=(t>='2026-11-21'&&t<='2026-11-
   const bg=Store.get('bingo',{}),hunt=countDone('hunt',[['',HUNT]]);
   const learn=t==='2026-11-23'||t==='2026-11-22'?'Maya Qs':cruise?'Hunt '+hunt:road||t<'2026-11-19'?'Bingo '+Object.keys(bg).filter(k=>bg[k]).length+'/16':'Trivia';
   const items=[
-    ['📸','Frames',t==='2026-11-23'?'🗿 Maya':t==='2026-11-25'?'🚀 Space':t==='2026-11-27'?'🛡️ Ren Fest':t==='2026-11-26'?'🦃 Thanks':t==='2026-11-28'?'🤠 Houston':Store.get('frames_made',false)?'Make one':'New',()=>{S.kview='frames';go('keep');}],
+    ['📸','Frames',t==='2026-11-23'?'🗿 Maya':t==='2026-11-25'?'🚀 Space':t==='2026-11-27'?'🛡️ Ren Fest':t==='2026-11-26'?'🦃 Thanks':t==='2026-11-28'?'🤠 Houston':t==='2026-11-29'?'🏜️ Sands':Store.get('frames_made',false)?'Make one':'New',()=>{S.kview='frames';go('keep');}],
     ['📕','Book Club',BOOK.intro?b1Done()+' of 8':'Start',()=>go('book')],
     ['🎲','Learn',learn,()=>go('games')],
     ['💵','Budget',(()=>{const r=n=>'$'+Math.round(Math.abs(n)).toLocaleString('en-US');if(bud.total)return spent>bud.total?r(spent-bud.total)+' over':r(bud.total-spent)+' left';if(spent)return r(spent)+' spent';
@@ -1988,10 +1988,10 @@ function Keep(){
 /* ---------- photo frames (the photo stays in memory only; nothing is saved or backed up) ---------- */
 const FRW=1080,FRH={post:1350,story:1920};let FRIMG=null;
 const FRADJ={z:1,x:0,y:0,b:1,_sx:0,_sy:0};/* photo zoom, pan (-1..1), brightness; in memory only, like the photo */
-const FR_THEMES=[['road','🚙 Road trip'],['cruise','⚓ Cruise'],['maya','🗿 Maya'],['houston','🤠 Houston'],['thanks','🦃 Thanks']];
+const FR_THEMES=[['road','🚙 Road trip'],['cruise','⚓ Cruise'],['maya','🗿 Maya'],['houston','🤠 Houston'],['thanks','🦃 Thanks'],['sands','🏜️ White Sands']];
 const CRUISE_DAYS=[['2026-11-20','Sail Away · Galveston'],['2026-11-21','Day at Sea'],['2026-11-22','Cozumel, Mexico'],['2026-11-23','Progreso, Mexico'],['2026-11-24','Day at Sea'],['2026-11-25','Back in Galveston']];
 const STATEOF={lascruces:'NM',whitesands:'NM',chandler:'AZ',tucson:'AZ',elpaso:'TX',fortstockton:'TX',sanantonio:'TX',luling:'TX',galveston:'TX',spring:'TX'};
-const FR_DEF={road:'',cruise:'',thanks:'Grateful for this crew',maya:'',houston:''};
+const FR_DEF={road:'',cruise:'',thanks:'Grateful for this crew',maya:'',houston:'',sands:''};
 function frRR(g,x,y,w,hh,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+hh,r);g.arcTo(x+w,y+hh,x,y+hh,r);g.arcTo(x,y+hh,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
 function frCover(g,img,x,y,w,hh,ph,msg){
   if(!img){const gr=g.createLinearGradient(x,y,x+w,y+hh);gr.addColorStop(0,ph[0]);gr.addColorStop(1,ph[1]);g.fillStyle=gr;g.fillRect(x,y,w,hh);
@@ -2171,9 +2171,30 @@ function frHouston(g,st,img,H,sT,sB){const v=st.hplace||houDefault(),V=HOUV[v];c
   g.save();g.beginPath();g.rect(m,py,FRW-2*m,pb-py);g.clip();frCover(g,img,m,py,FRW-2*m,pb-py,['#c2507a','#2a1b4d']);g.restore();
   frSkyline(g,H-sB+30,'rgba(20,12,40,.92)');g.textAlign='left';g.fillStyle='#fff';g.font='600 50px "Josefin Sans",sans-serif';frShadow(g,()=>frLines(g,cap,FRW-130,2).forEach((l,i)=>g.fillText(l,64,pb+80+i*60)));
   g.fillStyle='#ffe3c4';g.font='600 22px "Josefin Sans",sans-serif';frShadow(g,()=>frSpaced(g,'THE ORTIZ FAMILY · SPACE CITY, USA',64,H-sB-60,4,'left'));}
+/* ---------- White Sands frame ---------- */
+function frDunes(g,y0,H,seed){const L=[['#ffffff','#efe9dd',0],['#f7f3ea','#e4dccb',60],['#fbf8f2','#ddd3c0',120]];
+  L.forEach((l,i)=>{const y=y0+l[2],gr=g.createLinearGradient(0,y-40,0,H);gr.addColorStop(0,l[0]);gr.addColorStop(1,l[1]);g.fillStyle=gr;g.beginPath();g.moveTo(0,H);g.lineTo(0,y+20);
+    const a=(i+seed)%3;g.bezierCurveTo(FRW*(.18+a*.05),y-70,FRW*(.42),y+60,FRW*.6,y);g.bezierCurveTo(FRW*.75,y-40,FRW*(.88-a*.04),y+30,FRW,y-10);g.lineTo(FRW,H);g.closePath();g.fill();
+    g.strokeStyle='rgba(150,140,190,.22)';g.lineWidth=3;g.beginPath();g.moveTo(FRW*.6,y);g.bezierCurveTo(FRW*.66,y+40,FRW*.7,y+90,FRW*.68,y+150);g.stroke();});}
+function frYucca(g,x,by,hh,col){g.save();g.strokeStyle=col;g.fillStyle=col;g.lineCap='round';
+  g.lineWidth=hh*.06;g.beginPath();g.moveTo(x,by);g.quadraticCurveTo(x-hh*.04,by-hh*.3,x+hh*.02,by-hh*.55);g.stroke();
+  const cx=x+hh*.02,cy=by-hh*.55;g.lineWidth=hh*.018;for(let i=0;i<34;i++){const a=-Math.PI*1.12+i*(Math.PI*1.24/33),len=hh*(.17+((i*7)%5)*.018);g.beginPath();g.moveTo(cx,cy);g.lineTo(cx+Math.cos(a)*len,cy+Math.sin(a)*len);g.stroke();}
+  g.lineWidth=hh*.022;g.beginPath();g.moveTo(cx,cy-hh*.1);g.lineTo(cx+hh*.03,cy-hh*.42);g.stroke();
+  for(let i=0;i<9;i++){const yy=cy-hh*.26-i*hh*.018;g.beginPath();g.ellipse(cx+hh*.025+(i%2?hh*.03:-hh*.03),yy,hh*.022,hh*.012,0,0,Math.PI*2);g.fill();}
+  g.restore();}
+function frSands(g,st,img,H,sT,sB){
+  let gr=g.createLinearGradient(0,0,0,H*.55);gr.addColorStop(0,'#7fa9cf');gr.addColorStop(.6,'#c9b8d8');gr.addColorStop(1,'#f6d6c2');g.fillStyle=gr;g.fillRect(0,0,FRW,H);
+  frDunes(g,H-sB-330,H,1);
+  g.textAlign='center';g.fillStyle='#fff';g.font='600 82px "Josefin Sans",sans-serif';frShadow(g,()=>frSpaced(g,'WHITE SANDS',FRW/2,sT+130,14,'center'));
+  g.fillStyle='#fffaf2';g.font='400 28px "Josefin Sans",sans-serif';frShadow(g,()=>g.fillText('National Park · New Mexico · Sunday, November 29, 2026',FRW/2,sT+180));
+  const m=64,py=sT+220,pb=H-sB-380;g.save();g.shadowColor='rgba(60,50,90,.35)';g.shadowBlur=30;g.shadowOffsetY=10;g.fillStyle='#fffdf8';frRR(g,m-12,py-12,FRW-2*m+24,pb-py+24,26);g.fill();g.restore();
+  g.save();frRR(g,m,py,FRW-2*m,pb-py,18);g.clip();frCover(g,img,m,py,FRW-2*m,pb-py,['#e9e2d4','#c9b8d8']);g.restore();
+  frYucca(g,FRW-170,H-sB-40,300,'#5b5470');
+  const cap=(st.caption||'').trim()||'Sledding the dunes';g.textAlign='left';g.fillStyle='#3d4a5c';g.font='600 52px "Josefin Sans",sans-serif';frLines(g,cap,FRW-400,2).forEach((l,i)=>g.fillText(l,64,pb+110+i*62));
+  g.fillStyle='#8a7fa8';g.font='600 22px "Josefin Sans",sans-serif';frSpaced(g,'THE ORTIZ FAMILY · 275 SQUARE MILES OF GYPSUM',64,H-sB-60,3,'left');}
 function frDraw(cv,st){const H=FRH[st.size]||1350;if(cv.width!==FRW)cv.width=FRW;if(cv.height!==H)cv.height=H;const g=cv.getContext('2d');g.clearRect(0,0,FRW,H);
   g.textBaseline='alphabetic';g.textAlign='left';const sT=H>1500?230:0,sB=H>1500?230:0;
-  const v=Object.assign({},st,{caption:st['c_'+st.theme]||''});({road:frRoad,cruise:frCruise,thanks:frThanks,maya:frMaya,houston:frHouston}[st.theme]||frRoad)(g,v,FRIMG,H,sT,sB);}
+  const v=Object.assign({},st,{caption:st['c_'+st.theme]||''});({road:frRoad,cruise:frCruise,thanks:frThanks,maya:frMaya,houston:frHouston,sands:frSands}[st.theme]||frRoad)(g,v,FRIMG,H,sT,sB);}
 function Frames(w){
   const card=h('div',{class:'card','data-id':'frames'});w.appendChild(card);
   card.appendChild(h('span',{class:'phase',text:'Photo frames'}));card.appendChild(h('h3',{text:'📸 Trip frames'}));
@@ -2183,6 +2204,7 @@ function Frames(w){
   if(tdy==='2026-11-23'&&!st.mayaAuto){st.theme='maya';st.mayaAuto=1;save('frames',st);}
   if(['2026-11-25','2026-11-27','2026-11-28'].indexOf(tdy)>=0&&st.houAuto!==tdy){st.theme='houston';st.hplace=houDefault();st.houAuto=tdy;save('frames',st);}
   if(tdy==='2026-11-26'&&st.thxAuto!==tdy){st.theme='thanks';st.thxAuto=tdy;save('frames',st);}
+  if(tdy==='2026-11-29'&&st.sandsAuto!==tdy){st.theme='sands';st.sandsAuto=tdy;save('frames',st);}
   const themes=h('div',{class:'seg segwrap'});card.appendChild(themes);
   FR_THEMES.forEach(t=>themes.appendChild(h('button',{type:'button',class:st.theme===t[0]?'on':'',text:t[1],on:{click:()=>{st.theme=t[0];sv();[...themes.children].forEach((b,i)=>b.classList.toggle('on',FR_THEMES[i][0]===t[0]));fields();draw();}}})));
   const sizes=h('div',{class:'seg'});card.appendChild(sizes);
@@ -2219,7 +2241,7 @@ function Frames(w){
     if(st.theme==='cruise'){const sel=h('select',{'aria-label':'Cruise day',style:'flex:1 1 100%'});
       CRUISE_DAYS.forEach((c,i)=>{const dd=DAYS.find(q=>q.date===c[0]);const o=h('option',{value:c[0],text:'Day '+(i+1)+' · '+dd.dow+' Nov '+dd.md+' · '+c[1]});if(st.cday===c[0])o.selected=true;sel.appendChild(o);});
       sel.addEventListener('change',()=>{st.cday=sel.value;sv();draw();});fx.appendChild(h('div',{class:'row'},sel));}
-    const cap=h('input',{type:'text',maxlength:'44','aria-label':'Caption',placeholder:st.theme==='thanks'?'Grateful for this crew':st.theme==='maya'||st.theme==='houston'?'Caption (blank uses a default)':(st.theme==='cruise'?'Caption (blank shows the date)':'Caption'),value:st['c_'+st.theme]||'',style:'flex:1 1 100%'});
+    const cap=h('input',{type:'text',maxlength:'44','aria-label':'Caption',placeholder:st.theme==='thanks'?'Grateful for this crew':st.theme==='maya'||st.theme==='houston'||st.theme==='sands'?'Caption (blank uses a default)':(st.theme==='cruise'?'Caption (blank shows the date)':'Caption'),value:st['c_'+st.theme]||'',style:'flex:1 1 100%'});
     cap.addEventListener('input',()=>{st['c_'+st.theme]=cap.value;sv();draw();});fx.appendChild(h('div',{class:'row'},cap));}
   fields();
   const adj=h('div',{class:'fradj'});card.insertBefore(adj,acts2.nextSibling);
